@@ -41,13 +41,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
        |                                      |
         --------------------------------------
 
-    Iterate through the apps in "editableAppList"
+    Iterate through the apps in "editable_app_list"
 
      --------
     | Params |
      ------------------------------------------------------------------
     |
-    |     editableAppList: [
+    |     editable_app_list: [
     |     ----------------      base_component_id:  The "baseComponentId" or Type of the
     |                           ------------------  app
     |
@@ -57,7 +57,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     |                      ]
     |
      ------------------------------------------------------------------------------ -->
-    <div    v-for="(item, index) in editableAppList"
+    <div    v-for="(item, index) in editable_app_list"
             v-bind:refresh='refresh'
             v-if="(edit_app == item.base_component_id)"
             v-on:mouseenter="preview_app_loaded = false; preview_app_id = item.base_component_id;previewApp(item.base_component_id)"
@@ -349,7 +349,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              id="downloaded_apps"
              style='offsetleft:200;position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
 
-            <div    v-for="(item, index) in editableAppList"
+            <div    v-for="(item, index) in editable_app_list"
                     v-bind:refresh='refresh'
                     v-bind:id='"appid_" + item.base_component_id'
                     v-on:mouseenter="if (!disableAppSelect) {preview_app_loaded = false; preview_app_id = item.base_component_id;previewApp(item.base_component_id)}"
@@ -589,7 +589,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     hideImportButtons:      false,
                     preview_app_id:         null,
                     preview_app_loaded:     false,
-                    editableAppList:        [],
+                    editable_app_list:      [],
                     appstore_apps:          [],
                     loaded_app:             new Object(),
                     refresh:                0,
@@ -675,7 +675,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     let cid = text.code_id
                     //zzz
                     //debugger
-                    for (let thisApp of mm.editableAppList) {
+                    for (let thisApp of mm.editable_app_list) {
                         if (thisApp.base_component_id == bci) {
                             thisApp.code_id = cid
                             mm.refresh++
@@ -968,7 +968,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
           renameApp: async function(baseComponentId, displayName) {
               let mm = this
-              for (let thisApp of mm.editableAppList) {
+              for (let thisApp of mm.editable_app_list) {
                   if (thisApp) {
                       if (thisApp.base_component_id ==  baseComponentId) {
                           thisApp.displayName = displayName
@@ -982,7 +982,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           addEditableApp: async function(baseComponentId, displayName, other) {
               let mm = this
               if (baseComponentId) {
-                  for (let thisApp of mm.editableAppList) {
+                  for (let thisApp of mm.editable_app_list) {
                       if (thisApp.base_component_id == baseComponentId) {
                           mm.refresh++
                           return
@@ -1008,7 +1008,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   global_component_type_details_cache[baseComponentId]          = null
 
                   //await loadUiComponentsV4(baseComponentId)
-                  mm.editableAppList.push( app  )
+                  mm.editable_app_list.push( app  )
                   mm.refresh++
               }
               return null
