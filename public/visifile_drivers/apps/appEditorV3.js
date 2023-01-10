@@ -2081,7 +2081,6 @@ End of app preview menu
                         if (mm.app_shown) {
                             // if the app has been changed during the save then don't reload the app
                             if (!saveCodeToFile) {
-                            //zzz
                                 await mm.load_new_version_of_edited_app({code: mm.editor_text, runThisApp: true})
 
                             } else {
@@ -2156,11 +2155,13 @@ End of app preview menu
                 //
                 if (mm.app_code_id) {
                     editingAppBaseComponentId                                                 = mm.app_base_component_id
+                    editingAppCodeId                                                          = mm.app_code_id
                     component_loaded[mm.app_base_component_id]                                = false
                     global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]  = false
                     global_component_type_details_cache[mm.app_base_component_id]             = null
 
-                    await this.load_new_version_of_edited_app({baseComponentId: this.app_base_component_id})
+                    await mm.load_new_version_of_edited_app({codeId: editingAppCodeId})
+                    //zzz
 
                 } else if (mm.app_base_component_id) {
                     editingAppBaseComponentId                                                   = mm.app_base_component_id
@@ -2191,7 +2192,6 @@ End of app preview menu
                         //debugger
                         //mm.save_state = "pending"
                         //mm.checkSavedFile()
-                        //zzz
                         await mm.load_new_version_of_edited_app(   {codeId: message.commitId , runThisApp: true} )
                         mm.$root.$emit('message', {
                             type:               "update_app",
