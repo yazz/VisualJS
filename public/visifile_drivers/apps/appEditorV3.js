@@ -871,7 +871,12 @@ End of app preview menu
 
                override_app_editor = editor_component_id
 
-               await mm.load_new_version_of_edited_app( {newApp: true, baseComponentId: this.base_component_id} )
+               await mm.load_new_version_of_edited_app(
+                    {
+                        newApp:             true,
+                        baseComponentId:    this.base_component_id,
+                        codeId:             this.code_id
+                    })
 
            }
            ,
