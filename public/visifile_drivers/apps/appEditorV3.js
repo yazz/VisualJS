@@ -2155,20 +2155,20 @@ End of app preview menu
                 // make sure we load the component for this app
                 //
                 if (mm.app_code_id) {
-                    editingAppBaseComponentId                                                                = this.app_base_component_id
-                    component_loaded[this.app_base_component_id]                                = false
-                    global_loaded_controls_in_currently_edited_app[this.app_base_component_id]  = false
-                    global_component_type_details_cache[this.app_base_component_id]             = null
+                    editingAppBaseComponentId                                                 = mm.app_base_component_id
+                    component_loaded[mm.app_base_component_id]                                = false
+                    global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]  = false
+                    global_component_type_details_cache[mm.app_base_component_id]             = null
 
                     await this.load_new_version_of_edited_app({baseComponentId: this.app_base_component_id})
 
                 } else if (mm.app_base_component_id) {
-                    editingAppBaseComponentId = this.app_base_component_id
-                    component_loaded[this.app_base_component_id]           = false
-                    global_loaded_controls_in_currently_edited_app[this.app_base_component_id]   = false
-                    global_component_type_details_cache[this.app_base_component_id]            = null
+                    editingAppBaseComponentId                                                   = mm.app_base_component_id
+                    component_loaded[mm.app_base_component_id]                                  = false
+                    global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]    = false
+                    global_component_type_details_cache[mm.app_base_component_id]               = null
 
-                    await this.load_new_version_of_edited_app({baseComponentId: this.app_base_component_id})
+                    await mm.load_new_version_of_edited_app({baseComponentId: this.app_base_component_id})
 
                 }
 
