@@ -2594,36 +2594,36 @@ Pushlist
            // start of update all watched vars when a form is activated
            //
            if (!this.design_mode) {
-               for (var componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
-                   var thisComponent = mm.model.forms[this.active_form].components[componentIndex]
-                   var uuid = thisComponent.uuid
+               for (let componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
+                   let thisComponent = mm.model.forms[this.active_form].components[componentIndex]
+                   let uuid = thisComponent.uuid
                    //console.log("UUID: " + JSON.stringify(uuid,null,2))
                    //console.log(this.watchList[uuid])
-                   var ww2 = this.watchList
-                   for (var aaq=0;aaq<ww2.length;aaq++) {
-                       var ww = ww2[aaq]
+                   let ww2 = this.watchList
+                   for (let aaq=0;aaq<ww2.length;aaq++) {
+                       let ww = ww2[aaq]
                    if (ww) {
                        if (ww.from_component_uuid == uuid) {
                                //debugger
                                //console.log(ww)
 
-                               var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                               let fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
                                //console.log("fromc: " + JSON.stringify(fromc,null,2))
 
 
-                               var touuid = ww.to_component_uuid
-                               var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                               let touuid = ww.to_component_uuid
+                               let toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
                                //console.log("toc: " + JSON.stringify(toc,null,2))
 
 
 
                                //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
-                               var vvvvvv = fromc[ww.from_component_property_name]
-                               var toValue = JSON.parse(JSON.stringify(vvvvvv))
+                               let vvvvvv = fromc[ww.from_component_property_name]
+                               let toValue = JSON.parse(JSON.stringify(vvvvvv))
 
                                if (ww.transform_fn) {
                                    try {
-                                       var toValueFn = eval("("+ ww.transform_fn + ")")
+                                       let toValueFn = eval("("+ ww.transform_fn + ")")
                                        toValue = toValueFn(toValue)
                                    } catch (err) {
                                        console.log(err)
