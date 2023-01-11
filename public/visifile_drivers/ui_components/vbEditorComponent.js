@@ -64,7 +64,7 @@ uses_javascript_librararies(["advanced_bundle"])
             v-if='vb_editor_element_id != null'
             v-bind:style='"position:relative;display: flex;" + (editor_locked?"pointer-events: none;opacity: 0.4;":"")'
             v-on:drop="$event.stopPropagation(); dropEditor($event)"
-            v-on:ondragover="$event.stopPropagation();maintainCursor(); allowDropEditor($event)">
+            v-on:ondragover="$event.stopPropagation(); allowDropEditor($event)">
 
 
 
@@ -1723,7 +1723,7 @@ Pushlist
                     <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                     v-on:drop="drop($event)"
                                     v-bind:refresh='refresh'
-                                    v-on:ondragover="$event.stopPropagation();maintainCursor();allowDrop($event)"
+                                    v-on:ondragover="$event.stopPropagation();allowDrop($event)"
                                     v-bind:class='(design_mode?"dotted":"" )'
                                     v-on:click='clickOnMainGrid($event)'
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
@@ -4023,13 +4023,6 @@ ${origCode}
 
      }
      ,
-     maintainCursor: function() {
-        var mm = this
-
-
-
-     }
-     ,
      clickOnMainGrid: async function(event) {
          if (this.design_mode)
              {
@@ -4289,25 +4282,6 @@ ${origCode}
             return null
         }
         ,
-        copyControl: function(controlDetails , props , genNewName) {
-            var mm = this
-
-            var xx = JSON.parse(JSON.stringify(controlDetails))
-
-
-
-
-            var yy = Object.assign(xx , props)
-            if ( isValidObject(genNewName) ) {
-              yy.name = "random_name"
-            }
-
-            return yy
-        }
-        ,
-
-
-
 
         addControl: async function(controlDetails) {
             var mm = this
@@ -7548,7 +7522,6 @@ return {}
             this.text = this.text.substring(0,startIndex) +
 
                 `//** gen_start **//
-                var mm = null
                 var texti = null
                 var designMode = false
                 var runtimeMode = true
