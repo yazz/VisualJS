@@ -10,11 +10,11 @@ uses_javascript_librararies(["advanced_bundle"])
     if (args) {
         texti = args.text
     }
-    var designMode = true
-    var runtimeMode = false
-    var selectProp = null
-    var selectCodeObject = null
-    var selectCodeAction = null
+    let designMode = true
+    let runtimeMode = false
+    let selectProp = null
+    let selectCodeObject = null
+    let selectCodeAction = null
 
     Vue.component("vb_editor_component",
     {
@@ -7523,8 +7523,8 @@ return {}
 
                 `//** gen_start **//
                 let texti = null
-                var designMode = false
-                var runtimeMode = true
+                let designMode = false
+                let runtimeMode = true
                 Vue.component('${this.edited_app_component_id}', {`
 
                 + editorCodeToCopy +
