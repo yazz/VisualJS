@@ -4339,10 +4339,10 @@ ${origCode}
 
          hasMoreDetailsUi: function(formName, componentIndex) {
              let mm = this
-             var component = mm.model.forms[formName].components[componentIndex]
+             let component = mm.model.forms[formName].components[componentIndex]
              if (isValidObject(component.parent)) {
-                 var ccc = mm.model.forms[formName].components
-                 for (var ytr = 0;ytr < ccc.length;ytr++) {
+                 let ccc = mm.model.forms[formName].components
+                 for (let ytr = 0;ytr < ccc.length;ytr++) {
                     if (component.parent == ccc[ytr].name) {
                         if (ccc[ytr].hide_children) {
                             return false
@@ -4362,7 +4362,7 @@ ${origCode}
          ,
         isVisible: function(formName, componentIndex) {
             let mm = this
-            var component = mm.model.forms[formName].components[componentIndex]
+            let component = mm.model.forms[formName].components[componentIndex]
             if (!component) {
                 return false
             }
@@ -4371,8 +4371,8 @@ ${origCode}
             }
 
             if (isValidObject(component.parent)) {
-                var ccc = mm.model.forms[formName].components
-                for (var ytr = 0;ytr < ccc.length;ytr++) {
+                let ccc = mm.model.forms[formName].components
+                for (let ytr = 0;ytr < ccc.length;ytr++) {
                     if (ccc[ytr]) {
                         if (component.parent == ccc[ytr].name) {
                             if (ccc[ytr].hide_children) {
@@ -4389,15 +4389,15 @@ ${origCode}
         ,
         getLeft: function(formName, componentIndex) {
             let mm = this
-            var component = mm.model.forms[formName].components[componentIndex]
+            let component = mm.model.forms[formName].components[componentIndex]
             if (!component) {
                 return 0
             }
-            var left = component.leftX
+            let left = component.leftX
 
             if (isValidObject(component.parent)) {
-                var ccc = mm.model.forms[formName].components
-                for (var ytr = 0;ytr < ccc.length;ytr++){
+                let ccc = mm.model.forms[formName].components
+                for (let ytr = 0;ytr < ccc.length;ytr++){
                    if (component.parent == ccc[ytr].name) {
                        left = left + ccc[ytr].leftX
                        break
@@ -4411,14 +4411,14 @@ ${origCode}
         ,
         getTop: function(formName, componentIndex) {
             let mm = this
-            var component = mm.model.forms[formName].components[componentIndex]
+            let component = mm.model.forms[formName].components[componentIndex]
             if (!component) {
                 return 0
             }
-            var top = component.topY
+            let top = component.topY
             if (isValidObject(component.parent)) {
-                var ccc = mm.model.forms[formName].components
-                for (var ytr = 0;ytr < ccc.length;ytr++){
+                let ccc = mm.model.forms[formName].components
+                for (let ytr = 0;ytr < ccc.length;ytr++){
                    if (component.parent == ccc[ytr].name) {
                        top = top + ccc[ytr].topY
                        break
@@ -4432,9 +4432,9 @@ ${origCode}
         getChildren: function( itemName ) {
 
             let mm = this
-            var ccc = mm.model.forms[mm.active_form].components
-            var chh = []
-            for (var ytr = 0;ytr < ccc.length;ytr++){
+            let ccc = mm.model.forms[mm.active_form].components
+            let chh = []
+            for (let ytr = 0;ytr < ccc.length;ytr++){
                 if (ccc[ytr].parent == itemName) {
                     ccc[ytr].index_in_parent_array = ytr
                     chh.push(ccc[ytr])
@@ -4445,8 +4445,8 @@ ${origCode}
         ,
         previewUpload: function(property) {
             let mm = this;
-            var file    = document.getElementById('image_file').files[0];
-            var reader  = new FileReader();
+            let file    = document.getElementById('image_file').files[0];
+            let reader  = new FileReader();
 
             reader.addEventListener("load", function () {
                 mm.model.forms[mm.active_form].components[mm.active_component_index][property.id] = reader.result
@@ -4461,8 +4461,8 @@ ${origCode}
 
         previewFileUpload: function(property) {
             let mm = this;
-            var file    = document.getElementById('upload_file').files[0];
-            var reader  = new FileReader();
+            let file    = document.getElementById('upload_file').files[0];
+            let reader  = new FileReader();
 
             reader.addEventListener("load", function () {
                 mm.model.forms[mm.active_form].components[mm.active_component_index][property.id] = reader.result
