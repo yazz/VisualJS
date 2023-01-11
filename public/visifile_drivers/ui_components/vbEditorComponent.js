@@ -3832,7 +3832,7 @@ setTimeout(async function(){
           var pushListItem = watchListItem
               //debugger
               var currentPushIndex
-              //var mm                     = this
+              //let mm                     = this
               var currentComponentCurrentPush
               var componentIndex
               var currentComponent       = null
@@ -3960,7 +3960,7 @@ setTimeout(async function(){
 
          ,
          getFormMethod: function(formName, formprop) {
-            var mm = this
+            let mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                 var formDetails = mm.model.forms[formName]
                 var thecode =
@@ -3978,7 +3978,7 @@ ${formprop.fn}
 
          ,
          getAppMethod: function(propDetailsId) {
-            var mm = this
+            let mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 
                 var origCode = mm.model[propDetailsId]
@@ -4009,7 +4009,7 @@ ${origCode}
      }
      ,
      switchCursor: function(event, oldCursor, newCursor) {
-        var mm = this
+        let mm = this
 
         mm.cursorSource              = event.target
         mm.cursorSource.style.cursor = newCursor
@@ -4100,7 +4100,7 @@ ${origCode}
         ,
         addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
 
-            var mm = this
+            let mm = this
 
             //alert(JSON.stringify(data,null,2))
 
@@ -4266,7 +4266,7 @@ ${origCode}
         }
         ,
         selectComponentByName: function(compName) {
-            var mm = this
+            let mm = this
             var parentItemIndex = -1;
             var ccc = mm.model.forms[mm.active_form].components
             for (var ytr = 0;ytr < ccc.length;ytr++) {
@@ -4283,7 +4283,7 @@ ${origCode}
         ,
 
         addControl: async function(controlDetails) {
-            var mm = this
+            let mm = this
 
 
             let newControl = await mm.addComponentV2( 10,
@@ -4309,7 +4309,7 @@ ${origCode}
 
 
         getControlByName: function(controlName) {
-            var mm = this
+            let mm = this
             var control = mm.model.forms.Form_1.components[controlName]
             for (var tt=0;tt<mm.model.forms.Form_1.components.length;tt++) {
                 if (mm.model.forms.Form_1.components[tt].name == controlName) {
@@ -4341,7 +4341,7 @@ ${origCode}
          ,
 
          hasMoreDetailsUi: function(formName, componentIndex) {
-             var mm = this
+             let mm = this
              var component = mm.model.forms[formName].components[componentIndex]
              if (isValidObject(component.parent)) {
                  var ccc = mm.model.forms[formName].components
@@ -4364,7 +4364,7 @@ ${origCode}
          }
          ,
         isVisible: function(formName, componentIndex) {
-            var mm = this
+            let mm = this
             var component = mm.model.forms[formName].components[componentIndex]
             if (!component) {
                 return false
@@ -4391,7 +4391,7 @@ ${origCode}
         }
         ,
         getLeft: function(formName, componentIndex) {
-            var mm = this
+            let mm = this
             var component = mm.model.forms[formName].components[componentIndex]
             if (!component) {
                 return 0
@@ -4413,7 +4413,7 @@ ${origCode}
         }
         ,
         getTop: function(formName, componentIndex) {
-            var mm = this
+            let mm = this
             var component = mm.model.forms[formName].components[componentIndex]
             if (!component) {
                 return 0
@@ -4434,7 +4434,7 @@ ${origCode}
 
         getChildren: function( itemName ) {
 
-            var mm = this
+            let mm = this
             var ccc = mm.model.forms[mm.active_form].components
             var chh = []
             for (var ytr = 0;ytr < ccc.length;ytr++){
@@ -4447,7 +4447,7 @@ ${origCode}
         }
         ,
         previewUpload: function(property) {
-            var mm = this;
+            let mm = this;
             var file    = document.getElementById('image_file').files[0];
             var reader  = new FileReader();
 
@@ -4463,7 +4463,7 @@ ${origCode}
         ,
 
         previewFileUpload: function(property) {
-            var mm = this;
+            let mm = this;
             var file    = document.getElementById('upload_file').files[0];
             var reader  = new FileReader();
 
@@ -4480,7 +4480,7 @@ ${origCode}
 
 
          showHelp: async function(aa) {
-            var mm = this
+            let mm = this
 
 
             if (this.ui_code_editor) {
@@ -4523,7 +4523,7 @@ ${origCode}
             // if the code editor is already open then close it
             //
 
-            var mm = this
+            let mm = this
             mm.gotoDragDropEditor()
 
             if (mm.ui_code_editor) {
@@ -4575,7 +4575,7 @@ ${origCode}
             // if the code editor is already open then close it
             //
 
-            var mm = this
+            let mm = this
             if (mm.ui_code_editor) {
                 if (mm.ui_code_editor.completer) {
                     mm.ui_code_editor.completer.detach()
@@ -4755,7 +4755,7 @@ ${origCode}
         // -----------------------------------------------------
         setupCodeAutocompletions: function() {
 
-            var mm          = this
+            let mm          = this
             var langTools   = ace.require("ace/ext/language_tools");
 
             //
@@ -5126,7 +5126,7 @@ ${origCode}
 
 
         setupCodeEditorSelectors: function(   property_id   ) {
-            var mm = this
+            let mm = this
 
             setTimeout( function() {
 
@@ -5736,7 +5736,7 @@ return {}
          //-------------------------------------------------------------------
          setVBEditorPropertyValue: function(property, val ) {
          //-------------------------------------------------------------------
-            var mm      = this
+            let mm      = this
             var type    = null
 
             mm.showSaveButton()
@@ -5822,7 +5822,7 @@ return {}
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
 
-            var mm      = this
+            let mm      = this
             var val     = null
 
             if (property.type == "Number") {
@@ -5865,7 +5865,7 @@ return {}
          //-------------------------------------------------------------------
          addProperty: function() {
          //-------------------------------------------------------------------
-            var mm = this
+            let mm = this
             mm.add_property = true
             mm.new_property_id = ""
             mm.new_property_name = ""
@@ -5882,7 +5882,7 @@ return {}
          //-------------------------------------------------------------------
          addPropertySave: function() {
          //-------------------------------------------------------------------
-            var mm = this
+            let mm = this
             if ((mm.new_property_name.length == 0) || (mm.new_property_id.length == 0)) {
                 alert("You must enter a property name and ID")
                 return;
@@ -5926,7 +5926,7 @@ return {}
           //-------------------------------------------------------------------
           addPropertyCancel: function() {
           //-------------------------------------------------------------------
-             var mm = this
+             let mm = this
              mm.add_property = false
           }
           ,
@@ -5955,7 +5955,7 @@ return {}
          selectForm: function(formId, showProps) {
          //-------------------------------------------------------------------
 
-             var mm = this
+             let mm = this
 
 
              mm.active_component_index = null
@@ -6005,7 +6005,7 @@ return {}
         //-------------------------------------------------------------------
 
         processControlEvent: async function(  eventMessage  ) {
-            var mm = this
+            let mm = this
 
             let shallIProcessThisEvent = false
             if ((!mm.design_mode) && (mm.model)) {
@@ -6189,7 +6189,7 @@ ${eventMessage.code}
           dropEditor: async function (ev) {
           //-------------------------------------------------------------------
               ev.preventDefault();
-              var mm = this
+              let mm = this
 
               var data2 = ev.dataTransfer.getData("message");
               var data = eval("(" + data2 + ")")
@@ -6249,7 +6249,7 @@ ${eventMessage.code}
          //-------------------------------------------------------------------
          drag: function(ev,message) {
          //-------------------------------------------------------------------
-             var mm = this
+             let mm = this
              var doc = document.documentElement;
              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
              var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
@@ -6268,7 +6268,7 @@ ${eventMessage.code}
 
 
         showComponentDetailedDesignUi: async function(index) {
-           var mm = this
+           let mm = this
            mm.design_mode_pane.type = "control_details_editor"
 
            this.active_component_detail_index = index;
@@ -6282,7 +6282,7 @@ ${eventMessage.code}
 
 
         showComponentDetailedDesignUiByName: async function(compName) {
-            var mm = this
+            let mm = this
             var parentItemIndex = -1;
             var ccc = mm.model.forms[mm.active_form].components
             for (var ytr = 0;ytr < ccc.length;ytr++) {
@@ -6299,7 +6299,7 @@ ${eventMessage.code}
 
 
         clearLinkToProperties: async function() {
-            var mm = this
+            let mm = this
             this.selectedWatchToProperties = []
             this.fromLinkPropertySelected = false
             this.toLinkPropertySelected = false
@@ -6334,7 +6334,7 @@ ${eventMessage.code}
 
         },
         showComponentLinks: async function(index,diretionOfLinks) {
-           var mm = this
+           let mm = this
            mm.design_mode_pane.type = "control_links_editor"
            mm.design_mode_pane.direction = diretionOfLinks
            mm.design_mode_pane.links_type = "form"
@@ -6520,7 +6520,7 @@ ${eventMessage.code}
 
 
          deleteComponent: async function(index) {
-            var mm = this
+            let mm = this
             var thisComponentName = this.model.forms[this.active_form].components[index].name
             this.model.forms[this.active_form].components.splice(index, 1);
             var ccc = mm.model.forms[mm.active_form].components
@@ -6539,7 +6539,7 @@ ${eventMessage.code}
             },400)
          },
          deleteComponentByName: async function(thisComponentName) {
-            var mm = this
+            let mm = this
             //debugger
 
             var promise = new Promise(async function(returnfn) {
@@ -6599,7 +6599,7 @@ ${eventMessage.code}
          //
          //-------------------------------------------------------------------
              ev.preventDefault();
-             var mm = this
+             let mm = this
 
              if (this.oldCursor) {
                     this.cursorSource.style.cursor = this.oldCursor
@@ -6891,7 +6891,7 @@ ${eventMessage.code}
 
          //-------------------------------------------------------------------
          get_default_app_propeties: function() {
-            var mm = this
+            let mm = this
             return [
                 {   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
                      get_fn: function() {
@@ -6910,7 +6910,7 @@ ${eventMessage.code}
 
          //-------------------------------------------------------------------
          getAllAppPropeties: function() {
-            var mm = this
+            let mm = this
             var properties                     = mm.get_default_app_propeties()
 
             if (this.model.app_properties) {
@@ -6929,7 +6929,7 @@ ${eventMessage.code}
          //-------------------------------------------------------------------
 
          select_app: function() {
-            var mm = this
+            let mm = this
 
             this.active_component_index         = null
             this.model.app_selected             = true
@@ -7006,7 +7006,7 @@ ${eventMessage.code}
 
         updatePropertySelector: function() {
 
-            var mm = this
+            let mm = this
 
             //
             // if we are not in edit mode then do nothing
@@ -7306,7 +7306,7 @@ return {}
             if (!this.design_mode) {
                 return
             }
-            var mm = this
+            let mm = this
 
             if (index == null) {
                 return
@@ -7330,7 +7330,7 @@ return {}
          //-------------------------------------------------------------------
          addForm: function() {
          //-------------------------------------------------------------------
-            var mm = this
+            let mm = this
             mm.active_component_index = null
             mm.properties = mm.getFormProperties()
 
@@ -7355,7 +7355,7 @@ return {}
         //-------------------------------------------------------------------
         moveUp: function(   fieldId   ) {
         //-------------------------------------------------------------------
-            var mm = this
+            let mm = this
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.active_form].fields[tt]
@@ -7376,7 +7376,7 @@ return {}
         //-------------------------------------------------------------------
         moveDown: function(   fieldId   ) {
         //-------------------------------------------------------------------
-            var mm = this
+            let mm = this
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.active_form].fields[tt]
@@ -7397,7 +7397,7 @@ return {}
         //-------------------------------------------------------------------
         deleteField: function(   fieldId   ) {
         //-------------------------------------------------------------------
-            var mm = this
+            let mm = this
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.active_form].fields[tt]
@@ -7439,7 +7439,7 @@ return {}
 
         lockEditor: function()
         {
-             var mm = this
+             let mm = this
              mm.editor_locked = true
              mm.refresh ++
         }
@@ -7447,7 +7447,7 @@ return {}
 
          unlockEditor: function()
          {
-             var mm = this
+             let mm = this
              mm.editor_locked = false
              mm.refresh ++
          }
@@ -7459,7 +7459,7 @@ return {}
         //-------------------------------------------------------------------
         //debugger
             //console.log("start setText")
-            var mm = this
+            let mm = this
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             //console.log("setText: mm.model = json2")
@@ -7476,7 +7476,7 @@ return {}
         //-------------------------------------------------------------------
         getJsonModelFromCode: function(  codeV  ) {
         //-------------------------------------------------------------------
-            var mm = this
+            let mm = this
             mm.edited_app_component_id = yz.getValueOfCodeString(codeV, "base_component_id")
             var json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
             return json2
@@ -7486,7 +7486,7 @@ return {}
         //-------------------------------------------------------------------
         generateCodeFromModel: async function(  ) {
         //-------------------------------------------------------------------
-            var mm = this
+            let mm = this
             if (this.in_generate_code_from_model) {
                 return
             }
