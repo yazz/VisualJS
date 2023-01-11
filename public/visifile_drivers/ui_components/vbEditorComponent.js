@@ -3801,7 +3801,7 @@ setTimeout(async function(){
              var currentWatchIndex
              let mm                     = this
              var currentComponentCurrentWatch
-             var componentIndex
+             let componentIndex
              var currentComponent       = null
              var allComponentsonForm    = mm.model.forms[mm.active_form].components
 
@@ -3834,7 +3834,6 @@ setTimeout(async function(){
               var currentPushIndex
               //let mm                     = this
               var currentComponentCurrentPush
-              var componentIndex
               var currentComponent       = null
               var allComponentsonForm    = mm.model.forms[mm.active_form].components
 
