@@ -6359,8 +6359,8 @@ ${eventMessage.code}
             mm.incoming_link_objects = []
 
             var ccc = mm.model.forms[mm.active_form].components
-            for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                var component = ccc[ytr]
+            for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                let component = ccc[ytr]
                 if (component) {
                     let foundComponentType = component.base_component_id
                     if (foundComponentType) {
@@ -6391,8 +6391,8 @@ ${eventMessage.code}
 //debugger
             mm.outgoing_link_objects = []
 
-            for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                var component = ccc[ytr]
+            for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                let component = ccc[ytr]
                 if (component) {
                     let foundComponentType = component.base_component_id
                     if (linked_properties[mm.selected_link_component_type]) {
@@ -6427,9 +6427,9 @@ ${eventMessage.code}
                             if (linked_properties[typeSelected].outgoing.me) {
                                 if (linked_properties[typeSelected].outgoing.me) {
                                     //debugger
-                                    var ccomp2 =  linked_properties[typeSelected].outgoing.me
-                                    var ccomkeys2 = Object.keys(ccomp2)
-                                    for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                    let ccomp2 =  linked_properties[typeSelected].outgoing.me
+                                    let ccomkeys2 = Object.keys(ccomp2)
+                                    for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                         let typeExists = false
 
                                         let ccc = mm.model.forms[mm.active_form].components
@@ -6464,9 +6464,9 @@ ${eventMessage.code}
                             if (linked_properties[typeSelected].outgoing) {
                                 if (linked_properties[typeSelected].outgoing.me) {
                                     if (linked_properties[typeSelected].outgoing.me) {
-                                        var ccomp2 =  linked_properties[typeSelected].outgoing.me
-                                        var ccomkeys2 = Object.keys(ccomp2)
-                                        for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                        let ccomp2 =  linked_properties[typeSelected].outgoing.me
+                                        let ccomkeys2 = Object.keys(ccomp2)
+                                        for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                             mm.selectedPushFromProperties.push(ccomkeys2[aaa])
                                         }
 
@@ -6484,9 +6484,9 @@ ${eventMessage.code}
                     if (linked_properties[typeSelected]) {
                         if (linked_properties[typeSelected].incoming) {
                             if (linked_properties[typeSelected].incoming.me) {
-                                var ccomp2 =  linked_properties[typeSelected].incoming.me
-                                var ccomkeys2 = Object.keys(ccomp2)
-                                for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                let ccomp2 =  linked_properties[typeSelected].incoming.me
+                                let ccomkeys2 = Object.keys(ccomp2)
+                                for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                     mm.selectedWatchToProperties.push(ccomkeys2[aaa])
                                 }
 
@@ -6502,9 +6502,9 @@ ${eventMessage.code}
                 //selectedWatchToProperties
             } else if (mm.design_mode_pane.links_type == "manual") {
 
-                var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
-                var ccomkeys2 = Object.keys(ccomp2)
-                for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                let ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+                let ccomkeys2 = Object.keys(ccomp2)
+                for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                     mm.selectedPushFromProperties.push(ccomkeys2[aaa])
                 }
             }
@@ -6517,11 +6517,11 @@ ${eventMessage.code}
 
          deleteComponent: async function(index) {
             let mm = this
-            var thisComponentName = this.model.forms[this.active_form].components[index].name
+            let thisComponentName = this.model.forms[this.active_form].components[index].name
             this.model.forms[this.active_form].components.splice(index, 1);
-            var ccc = mm.model.forms[mm.active_form].components
-            for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                var component = ccc[ytr]
+            let ccc = mm.model.forms[mm.active_form].components
+            for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                let component = ccc[ytr]
                 if (component.parent == thisComponentName) {
                     this.model.forms[this.active_form].components.splice(ytr, 1);
                 }
@@ -6538,19 +6538,19 @@ ${eventMessage.code}
             let mm = this
             //debugger
 
-            var promise = new Promise(async function(returnfn) {
+            let promise = new Promise(async function(returnfn) {
 
-                var ccc2 = mm.model.forms[mm.active_form].components
-                for (   var ytr = ccc2.length - 1;    ytr >= 0;    ytr--   ) {
-                    var component = ccc2[ytr]
+                let ccc2 = mm.model.forms[mm.active_form].components
+                for (   let ytr = ccc2.length - 1;    ytr >= 0;    ytr--   ) {
+                    let component = ccc2[ytr]
                     if (component.name == thisComponentName) {
                         mm.model.forms[mm.active_form].components.splice(ytr, 1);
                         break;
                     }
                 }
-                var ccc = mm.model.forms[mm.active_form].components
-                for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                    var component = ccc[ytr]
+                let ccc = mm.model.forms[mm.active_form].components
+                for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                    let component = ccc[ytr]
                     if (component.parent == thisComponentName) {
                         mm.model.forms[mm.active_form].components.splice(ytr, 1);
                     }
@@ -6564,7 +6564,7 @@ ${eventMessage.code}
                     returnfn({})
                 },400)
             })
-            var ret = await promise
+            let ret = await promise
             return ret
          },
 
