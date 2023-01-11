@@ -3959,14 +3959,14 @@ setTimeout(async function(){
          getFormMethod: function(formName, formprop) {
             let mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                var formDetails = mm.model.forms[formName]
-                var thecode =
+                let formDetails = mm.model.forms[formName]
+                let thecode =
 `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 ${formprop.fn}
 })`
 
                 fnDetails = eval(thecode)
-                var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
                 return retv
             }
@@ -3978,14 +3978,14 @@ ${formprop.fn}
             let mm = this
             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 
-                var origCode = mm.model[propDetailsId]
-                var thecode =
+                let origCode = mm.model[propDetailsId]
+                let thecode =
 `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 ${origCode}
 })`
 
                 fnDetails = eval(thecode)
-                var retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
 
                 return retv
@@ -4025,25 +4025,25 @@ ${origCode}
                  event.stopPropagation();
                  if (this.highlighted_control)
                  {
-                     var doc = document.documentElement;
-                     var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-                     var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-                     var rrr = event.target.getBoundingClientRect()
-                     var offsetX = (event.clientX - rrr.left )
-                     var offsetY = (event.clientY - rrr.top )
-                     var parentType = null
-                     var parentName = null
-                     var parentOffsetX = 0
-                     var parentOffsetY = 0
-                     var newItem2 = new Object()
-                     var data = {
+                     let doc = document.documentElement;
+                     let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+                     let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+                     let rrr = event.target.getBoundingClientRect()
+                     let offsetX = (event.clientX - rrr.left )
+                     let offsetY = (event.clientY - rrr.top )
+                     let parentType = null
+                     let parentName = null
+                     let parentOffsetX = 0
+                     let parentOffsetY = 0
+                     let newItem2 = new Object()
+                     let data = {
                         type:       "add_component",
                         base_component_id:        this.highlighted_control,
                         offsetX:     offsetX,
                         offsetY:     offsetY
                      }
 
-                     var parentContainer = this.getContainerForPoint(  offsetX,  offsetY  )
+                     let parentContainer = this.getContainerForPoint(  offsetX,  offsetY  )
                      if (parentContainer) {
                          parentOffsetX = parentContainer.x
                          parentOffsetY = parentContainer.y
@@ -4070,15 +4070,15 @@ ${origCode}
 
      getContainerForPoint: function(leftX,topY) {
 
-         var ccc = this.model.forms[this.active_form].components
-         for (var ytr = 0;ytr < ccc.length;ytr++){
-            var baseId =    ccc[ytr].base_component_id
-            var controlNmae =    ccc[ytr].name
-            var x1 =        ccc[ytr].leftX
-            var x2 =        ccc[ytr].leftX + ccc[ytr].width
-            var y1 =        ccc[ytr].topY
-            var y2 =        ccc[ytr].topY + ccc[ytr].height
-            var isContainer = ccc[ytr].is_container
+         let ccc = this.model.forms[this.active_form].components
+         for (let ytr = 0;ytr < ccc.length;ytr++){
+            let baseId =    ccc[ytr].base_component_id
+            let controlNmae =    ccc[ytr].name
+            let x1 =        ccc[ytr].leftX
+            let x2 =        ccc[ytr].leftX + ccc[ytr].width
+            let y1 =        ccc[ytr].topY
+            let y2 =        ccc[ytr].topY + ccc[ytr].height
+            let isContainer = ccc[ytr].is_container
             if (isContainer && (x1 <= leftX) && (leftX <= x2) && (y1 <= topY) && (topY <= y2)) {
                 return {
                     x:                  x1,
@@ -4102,8 +4102,8 @@ ${origCode}
             //alert(JSON.stringify(data,null,2))
 
 
-            var promise = new Promise(async function(returnfn) {
-                var newItem = new Object()
+            let promise = new Promise(async function(returnfn) {
+                let newItem = new Object()
 
 
                 //alert(parentType +": = (" + parentOffsetX + "," + parentOffsetY + ")")
@@ -4139,12 +4139,12 @@ ${origCode}
                    mm.component_usage[newItem.base_component_id] = true
                 }
 
-                var compEvaled1 = global_component_type_details_cache[newItem.base_component_id]
+                let compEvaled1 = global_component_type_details_cache[newItem.base_component_id]
                 if (isValidObject(compEvaled1)) {
-                       var compEvaled = compEvaled1.properties
+                       let compEvaled = compEvaled1.properties
                        if (isValidObject(compEvaled)) {
-                           for (var cpp = 0 ; cpp < compEvaled.length; cpp ++){
-                               var prop = compEvaled[cpp].id
+                           for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
+                               let prop = compEvaled[cpp].id
 
                                if (!isValidObject(newItem[prop])){
                                    if (isValidObject(compEvaled[cpp].default)) {
@@ -4161,10 +4161,10 @@ ${origCode}
 
 
                 if (data.control) {
-                    var allKeys = Object.keys(data.control)
-                    for (var tt=0;tt<allKeys.length;tt++) {
-                        var propName  = allKeys[tt]
-                        var propValue = data.control[propName]
+                    let allKeys = Object.keys(data.control)
+                    for (let tt=0;tt<allKeys.length;tt++) {
+                        let propName  = allKeys[tt]
+                        let propValue = data.control[propName]
                         newItem[propName] = propValue
                     }
                 }
@@ -4189,10 +4189,10 @@ ${origCode}
 
 
                 if (isValidObject(   defProps   )) {
-                    var oo = Object.keys(defProps)
-                    for (  var ee = 0  ;  ee < oo.length ;  ee++  ) {
-                        var propName = oo[ee]
-                        var propValue = defProps[propName]
+                    let oo = Object.keys(defProps)
+                    for (  let ee = 0  ;  ee < oo.length ;  ee++  ) {
+                        let propName = oo[ee]
+                        let propValue = defProps[propName]
                         newItem[propName] = propValue
                     }
                 }
@@ -4201,14 +4201,14 @@ ${origCode}
                 mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
 
-                var compCode = global_component_type_details_cache[newItem.base_component_id].code
-                var childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
+                let compCode = global_component_type_details_cache[newItem.base_component_id].code
+                let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                 if (isValidObject(childrenCode)) {
-                    for (  var ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
+                    for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
                         //alert(JSON.stringify(childrenCode[ee],null,2))
 
-                        var childBaseId = childrenCode[ee].base_component_id
-                        var childDefProps = childrenCode[ee].properties
+                        let childBaseId = childrenCode[ee].base_component_id
+                        let childDefProps = childrenCode[ee].properties
                         await mm.addComponentV2(    0 ,
                                                     0 ,
                                                     {base_component_id: childBaseId} ,
@@ -4222,17 +4222,17 @@ ${origCode}
                 setTimeout(async function() {
 
                 mm.updateAllFormCaches()
-                    var selectParent = false
-                    var parentItemIndex = null
+                    let selectParent = false
+                    let parentItemIndex = null
                     if (isValidObject(newItem.parent)) {
-                        var parentItem = mm.form_runtime_info[mm.active_form].component_lookup_by_name[newItem.parent]
+                        let parentItem = mm.form_runtime_info[mm.active_form].component_lookup_by_name[newItem.parent]
 
                         if (isValidObject(parentItem.select_parent_when_child_added) &&
                                 (parentItem.select_parent_when_child_added == true)) {
 
                             selectParent = true
-                            var ccc = mm.model.forms[mm.active_form].components
-                            for (var ytr = 0;ytr < ccc.length;ytr++) {
+                            let ccc = mm.model.forms[mm.active_form].components
+                            for (let ytr = 0;ytr < ccc.length;ytr++) {
                                if (parentItem.name == ccc[ytr].name) {
                                    parentItemIndex = ytr
                                    break
@@ -4258,15 +4258,15 @@ ${origCode}
                 },100)
 
             })
-            var ret = await promise
+            let ret = await promise
             return ret
         }
         ,
         selectComponentByName: function(compName) {
             let mm = this
-            var parentItemIndex = -1;
-            var ccc = mm.model.forms[mm.active_form].components
-            for (var ytr = 0;ytr < ccc.length;ytr++) {
+            let parentItemIndex = -1;
+            let ccc = mm.model.forms[mm.active_form].components
+            for (let ytr = 0;ytr < ccc.length;ytr++) {
                if (compName == ccc[ytr].name) {
                    parentItemIndex = ytr
                    break
@@ -4307,8 +4307,8 @@ ${origCode}
 
         getControlByName: function(controlName) {
             let mm = this
-            var control = mm.model.forms.Form_1.components[controlName]
-            for (var tt=0;tt<mm.model.forms.Form_1.components.length;tt++) {
+            let control = mm.model.forms.Form_1.components[controlName]
+            for (let tt=0;tt<mm.model.forms.Form_1.components.length;tt++) {
                 if (mm.model.forms.Form_1.components[tt].name == controlName) {
                     return mm.model.forms.Form_1.components[tt]
                 }
@@ -4321,8 +4321,8 @@ ${origCode}
              let mm = this
             if (mm.active_component_detail_name) {
 
-                var ccc = mm.model.forms[this.active_form].components
-                for (var ytr = 0;ytr < ccc.length;ytr++) {
+                let ccc = mm.model.forms[this.active_form].components
+                for (let ytr = 0;ytr < ccc.length;ytr++) {
                    if (this.active_component_detail_name == ccc[ytr].name) {
                        this.active_component_detail_name = ytr
                        break
