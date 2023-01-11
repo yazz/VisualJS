@@ -4753,7 +4753,7 @@ ${origCode}
         setupCodeAutocompletions: function() {
 
             let mm          = this
-            var langTools   = ace.require("ace/ext/language_tools");
+            let langTools   = ace.require("ace/ext/language_tools");
 
             //
             // Clear any default autocompleters that have been set
@@ -4767,7 +4767,7 @@ ${origCode}
             // Create the autocompleter
             //
 
-            var autocompleterFunction = {
+            let autocompleterFunction = {
                     identifierRegexps: [/[a-zA-Z_0-9.]/]
                     ,
                     getCompletions: function(editor, session, pos, prefix, callback) {
@@ -4789,14 +4789,14 @@ ${origCode}
                         // Get the first part of the text to autocomplete
                         //
 
-                        var firstObjectToAutocomplete = null
+                        let firstObjectToAutocomplete = null
                         if (prefix.indexOf(".") != -1) {
                             firstObjectToAutocomplete = prefix.substring(0,prefix.indexOf("."))
                             //console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
                         }
 
 
-                        var wordList = []
+                        let wordList = []
 
                         //
                         // Create the list of initial objects to complete:
@@ -4864,9 +4864,9 @@ ${origCode}
                                           meta:      "The parent/container control of this"
                                          })
 
-                         var ccc = mm.model.forms[mm.active_form].components
-                         for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                             var component = ccc[ytr]
+                         let ccc = mm.model.forms[mm.active_form].components
+                         for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                             let component = ccc[ytr]
                              wordList.push(  {"word":    component.name,
                                              "freq":     24,
                                              "score":    300,
@@ -4877,7 +4877,7 @@ ${origCode}
                          }
 
                          ccc = Object.keys(mm.model.forms)
-                         for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                         for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                              wordList.push(  {"word":    ccc[ytr],
                                              "freq":     24,
                                              "score":    300,
@@ -4907,9 +4907,9 @@ ${origCode}
                         // it a component, a form, or the app?
                         //
 
-                        var componentId = null
-                        var formName    = null
-                        var isApp       = false
+                        let componentId = null
+                        let formName    = null
+                        let isApp       = false
 
 
 
@@ -4933,7 +4933,7 @@ ${origCode}
                             if (mm.design_mode_pane.app_selected) {
 
                             } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
-                                var parentId = mm.model.forms[mm.active_form].components[ mm.design_mode_pane.active_component_index ].parent
+                                let parentId = mm.model.forms[mm.active_form].components[ mm.design_mode_pane.active_component_index ].parent
                                 if (isValidObject(parentId)) {
                                     componentId = mm.form_runtime_info[mm.active_form].component_lookup_by_name[parentId].base_component_id
                                 }
@@ -4951,9 +4951,9 @@ ${origCode}
                             // see if the word is a component
                             //
 
-                            var comps       = mm.model.forms[mm.active_form].components
+                            let comps       = mm.model.forms[mm.active_form].components
 
-                            for (var rt=0; rt < comps.length; rt++) {
+                            for (let rt=0; rt < comps.length; rt++) {
                                 if (comps[rt].name == firstObjectToAutocomplete) {
                                     componentId = comps[rt].base_component_id
                                 }
@@ -4964,10 +4964,10 @@ ${origCode}
                             // see if the word is a form
                             //
 
-                            var formNames       = Object.keys(mm.model.forms)
+                            let formNames       = Object.keys(mm.model.forms)
 
-                            for (var rt=0; rt < formNames.length; rt++) {
-                                var formName1 = formNames[rt]
+                            for (let rt=0; rt < formNames.length; rt++) {
+                                let formName1 = formNames[rt]
                                 if (formName1 == firstObjectToAutocomplete) {
                                     formName = formName1
                                 }
@@ -4983,11 +4983,11 @@ ${origCode}
                          //
 
                          if (componentId) {
-                            var controlProperties = mm.getControlProperties(componentId)
-                            for (var fg=0;fg < controlProperties.length;fg++){
-                                 var comm = controlProperties[fg]
-                                 var propName = firstObjectToAutocomplete + "." + comm.id
-                                 var meta = "Property"
+                            let controlProperties = mm.getControlProperties(componentId)
+                            for (let fg=0;fg < controlProperties.length;fg++){
+                                 let comm = controlProperties[fg]
+                                 let propName = firstObjectToAutocomplete + "." + comm.id
+                                 let meta = "Property"
                                  if (isValidObject(comm.snippet)) {
                                      propName = firstObjectToAutocomplete + "." + comm.snippet
                                  }
@@ -4998,7 +4998,7 @@ ${origCode}
                                      meta = "Method"
                                  }
 
-                                 var addProp = true
+                                 let addProp = true
                                  if (comm.type == "Event") {
                                     addProp = false
                                  }
@@ -5023,12 +5023,12 @@ ${origCode}
 
                          } else if (formName) {
 
-                            var formProps = mm.getFormProperties(formName)
-                            for (var formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
+                            let formProps = mm.getFormProperties(formName)
+                            for (let formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
-                                var propDetails = formProps[formPropIndex]
-                                var propName    = firstObjectToAutocomplete + "." + propDetails.id
-                                var meta        = "Property"
+                                let propDetails = formProps[formPropIndex]
+                                let propName    = firstObjectToAutocomplete + "." + propDetails.id
+                                let meta        = "Property"
 
                                 if (isValidObject(propDetails.snippet)) {
                                      propName = firstObjectToAutocomplete + "." + propDetails.snippet
@@ -5059,12 +5059,12 @@ ${origCode}
 
                          } else if (isApp) {
 
-                            var appProps = mm.getAllAppPropeties()
-                            for (var formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
+                            let appProps = mm.getAllAppPropeties()
+                            for (let formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
 
-                                var propDetails = appProps[formPropIndex]
-                                var propName    = firstObjectToAutocomplete + "." + propDetails.id
-                                var meta        = "Property"
+                                let propDetails = appProps[formPropIndex]
+                                let propName    = firstObjectToAutocomplete + "." + propDetails.id
+                                let meta        = "Property"
 
                                 if (isValidObject(propDetails.snippet)) {
                                      propName = firstObjectToAutocomplete + "." + propDetails.snippet
