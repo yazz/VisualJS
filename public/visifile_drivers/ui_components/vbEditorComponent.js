@@ -7052,8 +7052,8 @@ ${eventMessage.code}
                 indexProp++
 
                 var forms = mm.getForms()
-                for (  var ere = 0; ere < forms.length; ere++  ) {
-                    var form = forms[ ere ]
+                for (  var ere6 = 0; ere6 < forms.length; ere6++  ) {
+                    var form = forms[ ere6 ]
                     sdata.push(
                         {
                             value:      "" + indexProp,
@@ -7081,8 +7081,8 @@ ${eventMessage.code}
                 indexProp++
 
                 var components = mm.getActiveFormComponents()
-                for (  var ere = 0; ere < components.length; ere++  ) {
-                    var component = components[ ere ]
+                for (  var ere5 = 0; ere5 < components.length; ere5++  ) {
+                    var component = components[ ere5 ]
                     sdata.push(
                         {
                             value:              "" + indexProp,
@@ -7091,10 +7091,10 @@ ${eventMessage.code}
                             component:          component.name,
                             component_scope:     component.base_component_id,
 
-                            component_index:    ere
+                            component_index:    ere5
                         }
                     )
-                    if (mm.active_component_index == ere) {
+                    if (mm.active_component_index == ere5) {
                         selectedItem = indexProp
                     }
                     indexProp++
