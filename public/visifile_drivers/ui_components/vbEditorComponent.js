@@ -6,8 +6,6 @@ load_once_from_file(true)
 uses_javascript_librararies(["advanced_bundle"])
 */
 
-    //alert(JSON.stringify(args,null,2))
-    var mm = null
     var texti = null
     if (args) {
         texti = args.text
