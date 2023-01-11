@@ -6,7 +6,7 @@ load_once_from_file(true)
 uses_javascript_librararies(["advanced_bundle"])
 */
 
-    var texti = null
+    let texti = null
     if (args) {
         texti = args.text
     }
@@ -7522,7 +7522,7 @@ return {}
             this.text = this.text.substring(0,startIndex) +
 
                 `//** gen_start **//
-                var texti = null
+                let texti = null
                 var designMode = false
                 var runtimeMode = true
                 Vue.component('${this.edited_app_component_id}', {`
