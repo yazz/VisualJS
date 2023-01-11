@@ -26,7 +26,9 @@ properties(
             id:     "value",
             name:   "Value",
             default: 50,
-            type:   "Number"
+            type:   "Number",
+            types: {wholeNumber: true, lessThan100: true, canConvertToString: true}
+
         }
         ,
         {
