@@ -5175,8 +5175,8 @@ ${origCode}
                      indexObjectSelector++
 
                      var forms = mm.getForms()
-                     for (  var ere = 0; ere < forms.length; ere++  ) {
-                         var form = forms[ ere ]
+                     for (  var ere7 = 0; ere7 < forms.length; ere7++  ) {
+                         var form = forms[ ere7 ]
                          objectListForSelector.push(
                              {
                                  value:      "" + indexObjectSelector,
@@ -5233,8 +5233,8 @@ ${origCode}
                      indexObjectSelector++
 
                      var components = mm.getActiveFormComponents()
-                     for (  var ere = 0; ere < components.length; ere++  ) {
-                         var component = components[ ere ]
+                     for (  var ere8 = 0; ere8 < components.length; ere8++  ) {
+                         var component = components[ ere8 ]
                          objectListForSelector.push(
                              {
                                  value:              "" + indexObjectSelector,
@@ -5242,10 +5242,10 @@ ${origCode}
                                  form:               mm.active_form,
                                  component:          "  -  " + component.name,
                                  component_scope:     component.base_component_id,
-                                 component_index:    ere
+                                 component_index:    ere8
                              }
                          )
-                         if (mm.active_component_index == ere) {
+                         if (mm.active_component_index == ere8) {
                              selectedCodeObject = indexObjectSelector
                          }
                          indexObjectSelector++
@@ -5290,8 +5290,8 @@ ${origCode}
                      var ccc        = mm.model.forms[mm.active_form].components[mm.active_component_index]
                      var properties = mm.getComponentProperties(  ccc.base_component_id  )
 
-                     for (  var ere = 0;  ere < properties.length;  ere++  ) {
-                         var property = properties[ ere ]
+                     for (  var ere9 = 0;  ere9 < properties.length;  ere9++  ) {
+                         var property = properties[ ere9 ]
                          if (property.type == "Event") {
                              methodListForSelector.push(
                                  {
@@ -5302,7 +5302,7 @@ ${origCode}
                                      action_id:          property.id,
                                      action_name:        property.name,
                                      action_type:        property.type,
-                                     action_index:       ere
+                                     action_index:       ere9
                                  }
                              )
                              if (property.id == property_id) {
@@ -5321,7 +5321,7 @@ ${origCode}
                               action_id:          "load",
                               action_name:        "Load event",
                               action_type:        "Event",
-                              action_index:       ere
+                              action_index:       ere7
                           })
                       if ( property_id == "load" ) {
                           selectedCodeAction = indexActionSelector
@@ -5338,7 +5338,7 @@ ${origCode}
                               action_id:          "on_property_in",
                               action_name:        "On Property In",
                               action_type:        "Event",
-                              action_index:       ere
+                              action_index:       ere7
                           })
                       if ( property_id == "on_property_in" ) {
                           selectedCodeAction = indexActionSelector
@@ -5359,7 +5359,7 @@ ${origCode}
                                 action_id:          "on_property_changed",
                                 action_name:        "On Property Changed",
                                 action_type:        "Event",
-                                action_index:       ere
+                                action_index:       ere7
                             })
                         if ( property_id == "on_property_changed" ) {
                             selectedCodeAction = indexActionSelector
@@ -5378,7 +5378,7 @@ ${origCode}
                               action_id:          "on_property_out",
                               action_name:        "On Property Out",
                               action_type:        "Event",
-                              action_index:       ere
+                              action_index:       ere7
                           })
                       if ( property_id == "on_property_out" ) {
                           selectedCodeAction = indexActionSelector
@@ -5404,7 +5404,7 @@ ${origCode}
                                action_id:          "form_activate",
                                action_name:        "Activate Event",
                                action_type:        "Event",
-                               action_index:       ere
+                               action_index:       ere7
                            })
                        if ( property_id == "form_activate" ) {
                            selectedCodeAction = indexActionSelector
