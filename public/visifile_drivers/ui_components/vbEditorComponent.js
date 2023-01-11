@@ -5144,12 +5144,12 @@ ${origCode}
                  //   initialise vars
                  //
 
-                 var objectListForSelector  = []
-                 var methodListForSelector  = []
-                 var indexObjectSelector    = 0
-                 var indexActionSelector    = 0
-                 var selectedCodeObject     = null
-                 var selectedCodeAction     = null
+                 let objectListForSelector  = []
+                 let methodListForSelector  = []
+                 let indexObjectSelector    = 0
+                 let indexActionSelector    = 0
+                 let selectedCodeObject     = null
+                 let selectedCodeAction     = null
 
 
 
