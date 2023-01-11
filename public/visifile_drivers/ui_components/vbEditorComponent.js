@@ -25,8 +25,8 @@ uses_javascript_librararies(["advanced_bundle"])
     //*** COPY_START ***//
       props: [ "args"],
       template:
-`<div   v-bind:id='uid2'
-        v-if='uid2 != null'
+`<div   v-bind:id='unique_app_dom_element_id'
+        v-if='unique_app_dom_element_id != null'
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
 
@@ -2405,14 +2405,14 @@ Pushlist
 
         mounted: async function() {
             var mm                  = this
-            mm.uid2                 = uuidv4()
+            mm.unique_app_dom_element_id                 = uuidv4()
             mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
             disableAutoSave = false
 
-            //console.log("UI Component mounted: " + mm.uid2 )
+            //console.log("UI Component mounted: " + mm.unique_app_dom_element_id )
 
 
 
@@ -5540,7 +5540,7 @@ ${origCode}
             this.inUpdateAllFormCaches = true
 
             this.watchList = []
-            //console.log( "1: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+            //console.log( "1: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
 
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
@@ -5597,7 +5597,7 @@ ${origCode}
 
                 if (!this.watchList) {
                     this.watchList = []
-                    //console.log( "2: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+                    //console.log( "2: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
                 }
                 if (this.watchList) {
                     //debugger
@@ -5636,7 +5636,7 @@ ${origCode}
                                     this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] = 1
                                 }
 
-                                //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+                                //console.log( "3: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
                     //console.log("Watch list setup")
@@ -5674,7 +5674,7 @@ ${origCode}
                                     this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] = 1
                                 }
 
-                                //console.log( "3: " + this.uid2  + ": " + JSON.stringify(this.watchList,null,2))
+                                //console.log( "3: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
                         }
                     }
 
@@ -7562,7 +7562,7 @@ return {}
                 data: function () {
                   return {
                       code_changes:                [],
-                      uid2:                        null,
+                      unique_app_dom_element_id:                        null,
                       editor_locked:               true,
                       vb_grid_element_id:          null,
                       vb_editor_element_id:        null,
@@ -7836,7 +7836,7 @@ return {}
 
            oldCursor:                   null,
            cursorSource:                null,
-           uid2:                        null,
+           unique_app_dom_element_id:                        null,
            vb_grid_element_id:          null,
            vb_editor_element_id:        null,
            debug_component:             null,
