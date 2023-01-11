@@ -4638,7 +4638,7 @@ ${origCode}
                         //
 
 
-                        var ccode = ""
+                        let ccode = ""
 
                         // application code (THIS MUST BE FIST IN THE IF STATEMENT)
                         if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
@@ -4667,7 +4667,7 @@ ${origCode}
                         mm.ui_code_editor.getSession().setUseWorker(false);
 
                         mm.ui_code_editor.on("change", function(e) {
-                            var newC = mm.ui_code_editor.getValue()
+                            let newC = mm.ui_code_editor.getValue()
                             try {
                                 //
                                 // whack city: we add the new line as o0therwise an error on the last
@@ -4675,7 +4675,7 @@ ${origCode}
                                 // below by only flagging an error if the line exists within the typed
                                 // code
                                 //
-                                var newNode = esprima.parse("(async function(){" + newC + "\n})", { tolerant: true })
+                                let newNode = esprima.parse("(async function(){" + newC + "\n})", { tolerant: true })
                                 //alert(JSON.stringify(newNode.errors, null, 2))
                                 mm.errors = newNode.errors
                                 if (mm.errors) {
@@ -4688,8 +4688,8 @@ ${origCode}
 
                             } catch (e) {
                                 if (e.lineNumber) {
-                                    var newC = mm.ui_code_editor.getValue()
-                                    var lineCount =  newC.split(/\r\n|\r|\n/).length
+                                    let newC = mm.ui_code_editor.getValue()
+                                    let lineCount =  newC.split(/\r\n|\r|\n/).length
                                     if (e.lineNumber > lineCount) {
                                         mm.errors = null
                                     } else {
