@@ -3386,8 +3386,8 @@ setTimeout(async function(){
          //-------------------------------------------------------------------
 
             let mm      = this
-            var val     = null
-            var type    = null
+            let val     = null
+            let type    = null
 
 
             //
@@ -3401,10 +3401,10 @@ setTimeout(async function(){
             }
             this.selectedWatchComponentUuid = event.target.value
             this.selectedWatchFromProperties = []
-            var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+            let ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
             let Acttyoe = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
-            var ccomkeys = Object.keys(linked_properties[Acttyoe].incoming.them[ccomp.base_component_id])
-            for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+            let ccomkeys = Object.keys(linked_properties[Acttyoe].incoming.them[ccomp.base_component_id])
+            for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                 this.selectedWatchFromProperties.push(ccomkeys[aaa])
             }
 
@@ -3436,9 +3436,9 @@ setTimeout(async function(){
 
                         mm.incoming_link_objects = []
 
-                        var ccc = mm.model.forms[mm.active_form].components
-                        for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                            var component = ccc[ytr]
+                        let ccc = mm.model.forms[mm.active_form].components
+                        for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                            let component = ccc[ytr]
                             let foundComponentType = component.base_component_id
                             if (linked_properties[mm.selected_link_component_type]) {
                                 if (linked_properties[mm.selected_link_component_type].incoming.me) {
@@ -3510,16 +3510,16 @@ setTimeout(async function(){
 
                   if (mm.linkSideSelected == "from") {
                       this.selectedWatchToProperties = []
-                      var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+                      let ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
                       let activeComponenttype = ccomp2.base_component_id
                       if (  linked_properties[  activeComponenttype  ]  ) {
                           if (  linked_properties[  activeComponenttype  ].incoming  ) {
                               if (  linked_properties[  activeComponenttype  ].incoming.them  ) {
                                   let them =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
                                   if (  linked_properties[  activeComponenttype  ].incoming.them[  them.base_component_id  ]  ) {
-                                      var ccomkeys2 = Object.keys(linked_properties[  activeComponenttype  ].incoming.them[  them.base_component_id  ][mm.selectedWatchFromProperty] )
+                                      let ccomkeys2 = Object.keys(linked_properties[  activeComponenttype  ].incoming.them[  them.base_component_id  ][mm.selectedWatchFromProperty] )
 
-                                      for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                      for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                           this.selectedWatchToProperties.push(ccomkeys2[aaa])
                                       }
                                   }
@@ -3555,8 +3555,8 @@ setTimeout(async function(){
                             if (linked_properties[activecomp.base_component_id].outgoing.me){
                                 if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
                                     if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType]) {
-                                        var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType])
-                                        for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                                        let ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType])
+                                        for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                             this.selectedPushToProperties.push(ccomkeys[aaa])
                                         }
                                     }
@@ -3593,8 +3593,8 @@ setTimeout(async function(){
                               if (linked_properties[activecomp.base_component_id].incoming.me){
                                   if (linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty] ) {
                                       if (linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType]) {
-                                          var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType])
-                                          for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                                          let ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType])
+                                          for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                               this.selectedWatchFromProperties.push(ccomkeys[aaa])
                                           }
                                       }
@@ -3615,12 +3615,12 @@ setTimeout(async function(){
           //-------------------------------------------------------------------
 //debugger
              let mm      = this
-             var val     = null
-             var type    = null
+             let val     = null
+             let type    = null
 
 
              this.selectedPushComponentUuid = event.target.value
-             var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedPushComponentUuid]
+             let ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedPushComponentUuid]
              let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
              this.selectedPushToProperties = []
              mm.linkSideSelected = "to"
@@ -3635,8 +3635,8 @@ setTimeout(async function(){
                                  if (linked_properties[activecomp.base_component_id].outgoing.me){
                                      if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
                                          if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id]) {
-                                             var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id])
-                                             for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                                             let ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id])
+                                             for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                                  this.selectedPushToProperties.push(ccomkeys[aaa])
                                              }
                                          }
@@ -3652,8 +3652,8 @@ setTimeout(async function(){
                              if (linked_properties[activecomp.base_component_id].outgoing){
                                  if (linked_properties[activecomp.base_component_id].outgoing.them){
                                      if (linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id]){
-                                         var ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id])
-                                         for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                                         let ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id])
+                                         for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                              this.selectedPushToProperties.push(ccomkeys[aaa])
                                          }
                                      }
@@ -3668,8 +3668,8 @@ setTimeout(async function(){
              // else just get all the components on the form
              } else {
 
-                 var ccomkeys = Object.keys(ccomp)
-                 for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+                 let ccomkeys = Object.keys(ccomp)
+                 for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                      this.selectedPushToProperties.push(ccomkeys[aaa])
                  }
 
@@ -3798,19 +3798,19 @@ setTimeout(async function(){
 
          deleteLinkedProperty: function(watchListItem ) {
              //debugger
-             var currentWatchIndex
+             let currentWatchIndex
              let mm                     = this
-             var currentComponentCurrentWatch
+             let currentComponentCurrentWatch
              let componentIndex
-             var currentComponent       = null
-             var allComponentsonForm    = mm.model.forms[mm.active_form].components
+             let currentComponent       = null
+             let allComponentsonForm    = mm.model.forms[mm.active_form].components
 
              for (  componentIndex = 0 ;  componentIndex < allComponentsonForm.length  ;  componentIndex++  ) {
 
                 currentComponent = allComponentsonForm[  componentIndex  ]
                 if (currentComponent.uuid == watchListItem.to_component_uuid) {
                      if (currentComponent.watch){
-                         for (var currentWatchIndex = 0;currentWatchIndex < currentComponent.watch.length;currentWatchIndex++) {
+                         for (let currentWatchIndex = 0;currentWatchIndex < currentComponent.watch.length;currentWatchIndex++) {
                             currentComponentCurrentWatch = currentComponent.watch[currentWatchIndex]
                             if (currentComponentCurrentWatch.uuid == watchListItem.from_component_uuid) {
                                 if (currentComponentCurrentWatch.send_to == watchListItem.to_component_property_name) {
@@ -3829,18 +3829,18 @@ setTimeout(async function(){
                 }
             }
 
-          var pushListItem = watchListItem
+          let pushListItem = watchListItem
               //debugger
-              var currentPushIndex
+              let currentPushIndex
               //let mm                     = this
-              var currentComponentCurrentPush
+              let currentComponentCurrentPush
 
               for (  componentIndex = 0 ;  componentIndex < allComponentsonForm.length  ;  componentIndex++  ) {
 
                  currentComponent = allComponentsonForm[  componentIndex  ]
                  if (currentComponent.uuid == pushListItem.from_component_uuid) {
                       if (currentComponent.push){
-                          for (var currentPushIndex = 0;currentPushIndex < currentComponent.push.length;currentPushIndex++) {
+                          for (let currentPushIndex = 0;currentPushIndex < currentComponent.push.length;currentPushIndex++) {
                              currentComponentCurrentPush = currentComponent.push[currentPushIndex]
                              if (currentComponentCurrentPush.uuid == pushListItem.to_component_uuid) {
                                  if (currentComponentCurrentPush.send_to == pushListItem.to_component_property_name) {
