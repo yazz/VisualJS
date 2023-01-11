@@ -6093,7 +6093,7 @@ ${eventMessage.code}
                         appCode += ( "var app = mm.model;")
                         eval(appCode)
 
-                        var meCode =""
+                        meCode =""
                         meCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
                         eval(meCode)
 
@@ -6393,7 +6393,6 @@ ${eventMessage.code}
 //debugger
             mm.outgoing_link_objects = []
 
-            var ccc = mm.model.forms[mm.active_form].components
             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                 var component = ccc[ytr]
                 if (component) {
