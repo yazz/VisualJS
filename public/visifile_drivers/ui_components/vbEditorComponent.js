@@ -2035,7 +2035,7 @@ Pushlist
 
                 <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;" '
                      v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
-                     v-on:click='$event.stopPropagation();var s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'
+                     v-on:click='$event.stopPropagation();let s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'
                      >
 
                      Project explorer
@@ -2402,7 +2402,7 @@ Pushlist
            -------------------------------------------------------------- */
 
         mounted: async function() {
-            var mm                  = this
+            let mm                  = this
             mm.unique_app_dom_element_id                 = uuidv4()
             mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
@@ -2421,7 +2421,7 @@ Pushlist
             // ---------------------------------------------------------
 
             if (texti) {
-                var json2                   = this.getJsonModelFromCode(  texti  )
+                let json2                   = this.getJsonModelFromCode(  texti  )
                 mm.old_model = JSON.parse(JSON.stringify(json2));
                 mm.model                    = json2
                 mm.edited_app_component_id  = yz.getValueOfCodeString(texti, "base_component_id")
@@ -2438,13 +2438,13 @@ Pushlist
             // save the result in "this.component_usage"
             // ---------------------------------------------------------
             if (mm.edited_app_component_id) {
-                var sql = "select  child_component_id  from  component_usage  where " +
+                let sql = "select  child_component_id  from  component_usage  where " +
                           "        base_component_id = '" + mm.edited_app_component_id + "'"
 
-                var results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
+                let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                                             {   sql: sql  })
 
-                for (var i = 0; i < results.length; i++) {
+                for (let i = 0; i < results.length; i++) {
                     mm.component_usage[results[i].child_component_id] = true
                 }
             }
