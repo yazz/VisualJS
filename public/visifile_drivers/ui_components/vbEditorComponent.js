@@ -2864,10 +2864,10 @@ setTimeout(async function(){
      methods: {
          loadControls: async function() {
            let mm = this
-           var sql =    "select  base_component_id,logo_url  from  system_code  where " +
+           let sql =    "select  base_component_id,logo_url  from  system_code  where " +
                         "        code_tag = 'LATEST' and logo_url is not null and component_type = 'VB'"
 
-           var results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
+           let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                {   sql: sql  })
            mm.available_components = results
            let itemsToLoad = []
@@ -2993,16 +2993,16 @@ setTimeout(async function(){
              //evm_contract_control_114
 
              //debugger
-             var ccc = mm.model.forms[mm.active_form].components
-             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                 var component = ccc[ytr]
+             let ccc = mm.model.forms[mm.active_form].components
+             for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                 let component = ccc[ytr]
                  let fg=component.name
                  if (fg == args.componentName) {
                      ccc[ytr].base_component_id = args.newComponentBaseId
                  }
 
              }
-             var currentTime = new Date().getTime();
+             let currentTime = new Date().getTime();
              if (mm.model_changed_time != -1) {
                  mm.model_changed_time = currentTime
              }
@@ -3024,16 +3024,16 @@ setTimeout(async function(){
              //evm_contract_control_114
 
              //debugger
-             var ccc = mm.model.forms[mm.active_form].components
-             for (   var ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                 var component = ccc[ytr]
+             let ccc = mm.model.forms[mm.active_form].components
+             for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                 let component = ccc[ytr]
                  let fg=component.name
                  if (fg == args.componentName) {
                      ccc[ytr][args.propertyName] = args.propertyValue
                  }
 
              }
-             var currentTime = new Date().getTime();
+             let currentTime = new Date().getTime();
              if (mm.model_changed_time != -1) {
                  mm.model_changed_time = currentTime
              }
@@ -3091,8 +3091,8 @@ setTimeout(async function(){
 
                  let base_component_id = lookupArgs.base_component_id
                  if (mm.model.forms[mm.active_form].components) {
-                     var ccc = mm.model.forms[mm.active_form].components
-                     for (var ytr = 0;ytr < ccc.length;ytr++) {
+                     let ccc = mm.model.forms[mm.active_form].components
+                     for (let ytr = 0;ytr < ccc.length;ytr++) {
                         if (ccc[ytr].base_component_id == base_component_id) {
                             return ccc[ytr]
                         }
@@ -3367,15 +3367,15 @@ setTimeout(async function(){
           //-------------------------------------------------------------------
 
              let mm      = this
-             var val     = null
-             var type    = null
+             let val     = null
+             let type    = null
 
 //debugger
              this.selectedWatchComponentUuid = event.target.value
              this.selectedWatchFromProperties = []
-             var ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
-             var ccomkeys = Object.keys(ccomp)
-             for (var aaa =0; aaa<ccomkeys.length;aaa++) {
+             let ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+             let ccomkeys = Object.keys(ccomp)
+             for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                  this.selectedWatchFromProperties.push(ccomkeys[aaa])
              }
          }
