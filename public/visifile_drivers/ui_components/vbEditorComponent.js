@@ -3236,7 +3236,7 @@ setTimeout(async function(){
           ,
           addWatch: function() {
               //debugger
-              var mm = this
+              let mm = this
 
               if ( mm.selectedWatchComponentUuid == null) {
                   return
@@ -3273,7 +3273,7 @@ setTimeout(async function(){
           addNewComponentPush: async function() {
               //debugger
               //debugger
-              var mm = this
+              let mm = this
               let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
               let old_active_component_index = mm.active_component_index
 
@@ -3313,7 +3313,7 @@ setTimeout(async function(){
           ,
           addNewComponentWatch: async function() {
               //debugger
-              var mm = this
+              let mm = this
               let activeComponent = mm.model.forms[mm.active_form].components[mm.active_component_index]
               let old_active_component_index = mm.active_component_index
               let componentToCreateType = mm.selectedWatchComponentType
@@ -3366,7 +3366,7 @@ setTimeout(async function(){
           setWatchComponent: function(event) {
           //-------------------------------------------------------------------
 
-             var mm      = this
+             let mm      = this
              var val     = null
              var type    = null
 
@@ -3385,7 +3385,7 @@ setTimeout(async function(){
          setIncomingFormWatchComponent: function(event) {
          //-------------------------------------------------------------------
 
-            var mm      = this
+            let mm      = this
             var val     = null
             var type    = null
 
@@ -3539,7 +3539,7 @@ setTimeout(async function(){
           setPushComponentType: function(event) {
           //-------------------------------------------------------------------
 //debugger
-            var mm      = this
+            let mm      = this
 
             let ComponentType = event.target.value
             mm.selectedPushToProperties = []
@@ -3577,7 +3577,7 @@ setTimeout(async function(){
             setWatchComponentType: function(event) {
             //-------------------------------------------------------------------
     //debugger
-              var mm      = this
+              let mm      = this
 
               let ComponentType = event.target.value
               mm.selectedWatchFromProperties = []
@@ -3614,7 +3614,7 @@ setTimeout(async function(){
           setPushComponent: function(event) {
           //-------------------------------------------------------------------
 //debugger
-             var mm      = this
+             let mm      = this
              var val     = null
              var type    = null
 
@@ -3685,7 +3685,7 @@ setTimeout(async function(){
            linkComponents: function(options) {
            //-------------------------------------------------------------------
  //debugger
-              var mm      = this
+              let mm      = this
               //alert(JSON.stringify(options,null,2))
 
               //debugger
@@ -3799,7 +3799,7 @@ setTimeout(async function(){
          deleteLinkedProperty: function(watchListItem ) {
              //debugger
              var currentWatchIndex
-             var mm                     = this
+             let mm                     = this
              var currentComponentCurrentWatch
              var componentIndex
              var currentComponent       = null
@@ -3832,7 +3832,7 @@ setTimeout(async function(){
           var pushListItem = watchListItem
               //debugger
               var currentPushIndex
-              var mm                     = this
+              //var mm                     = this
               var currentComponentCurrentPush
               var componentIndex
               var currentComponent       = null
