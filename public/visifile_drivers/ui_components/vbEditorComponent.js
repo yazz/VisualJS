@@ -2680,7 +2680,7 @@ setTimeout(async function(){
          {
              handler:
                  function() {
-                     var mm  =  this
+                     let mm  =  this
 
                      if (!mm) {
                          return
@@ -2688,19 +2688,18 @@ setTimeout(async function(){
 
                      if (this.design_mode) {
 
-                         var timeDiff = -1
-                         var currentTime = new Date().getTime();
+                         let currentTime = new Date().getTime();
                          if (mm.model_changed_time != -1) {
                              mm.model_changed_time = currentTime
                          }
 
-                         var timeDiff = currentTime - mm.model_changed_time
+                         let timeDiff = currentTime - mm.model_changed_time
                          if (timeDiff > 1000) {
                              if (!mm.in_change_model) {
                                  mm.in_change_model = true
                                  setTimeout(function() {
                                      //console.log("Changed ********")
-                                     var ttt=null
+                                     let ttt=null
                                      if (mm.old_model) {
 
                                          ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
@@ -2720,13 +2719,13 @@ setTimeout(async function(){
 
                      } else {
                          //console.log("Changed ********")
-                         var ttt=null
+                         let ttt=null
                          if (mm.old_model) {
                              ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
                              //console.log("Changes: "+ JSON.stringify(ttt,null,2))
                          }
 
-                         var changedUuids = {}
+                         let changedUuids = {}
 
                          if (ttt) {
                              mm.old_model = JSON.parse(JSON.stringify(mm.model));
@@ -2736,14 +2735,14 @@ setTimeout(async function(){
                              // find  out what components have changed in the current form
                              //
                              if (ttt.forms[this.active_form]) {
-                                 var allComps = Object.keys(ttt.forms[this.active_form].components)
-                                 var numComp = allComps.length
-                                 for (var componentIndex = 0; componentIndex < numComp; componentIndex++){
-                                     var componentNN = allComps[componentIndex]
-                                     var thisComponent = ttt.forms[this.active_form].components[componentNN]
-                                     var nn = parseInt(componentNN)
+                                 let allComps = Object.keys(ttt.forms[this.active_form].components)
+                                 let numComp = allComps.length
+                                 for (let componentIndex = 0; componentIndex < numComp; componentIndex++){
+                                     let componentNN = allComps[componentIndex]
+                                     let thisComponent = ttt.forms[this.active_form].components[componentNN]
+                                     let nn = parseInt(componentNN)
                                      if (nn != NaN) {
-                                         var compname = mm.model.forms[this.active_form].components[nn]
+                                         let compname = mm.model.forms[this.active_form].components[nn]
                                          if (compname) {
                                              //console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
                                              changedUuids[compname.uuid] = true
@@ -2784,23 +2783,23 @@ setTimeout(async function(){
                                              //debugger
                                              //console.log(ww)
 
-                                             var fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                                             let fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
                                              //console.log("fromc: " + JSON.stringify(fromc,null,2))
 
 
-                                             var touuid = ww.to_component_uuid
-                                             var toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                                             let touuid = ww.to_component_uuid
+                                             let toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
                                              //console.log("toc: " + JSON.stringify(toc,null,2))
 
 
 
                                              //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
-                                             var vvvvvv = fromc[ww.from_component_property_name]
-                                             var toValue = JSON.parse(JSON.stringify(vvvvvv))
+                                             let vvvvvv = fromc[ww.from_component_property_name]
+                                             let toValue = JSON.parse(JSON.stringify(vvvvvv))
 
                                              if (ww.transform_fn) {
                                                  try {
-                                                     var toValueFn = eval("("+ ww.transform_fn + ")")
+                                                     let toValueFn = eval("("+ ww.transform_fn + ")")
                                                      toValue = toValueFn(toValue)
                                                  } catch (err) {
                                                      console.log(err)
