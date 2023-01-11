@@ -5175,7 +5175,7 @@ ${origCode}
                      indexObjectSelector++
 
                      var forms = mm.getForms()
-                     for (  var ere7 = 0; ere7 < forms.length; ere7++  ) {
+                     for (  let ere7 = 0; ere7 < forms.length; ere7++  ) {
                          var form = forms[ ere7 ]
                          objectListForSelector.push(
                              {
@@ -5311,7 +5311,7 @@ ${origCode}
                              indexActionSelector++
                          }
                      }
-
+                     let actionIndex = properties.length
                       methodListForSelector.push(
                           {
                               value:              "" + indexActionSelector,
@@ -5321,7 +5321,7 @@ ${origCode}
                               action_id:          "load",
                               action_name:        "Load event",
                               action_type:        "Event",
-                              action_index:       ere7
+                              action_index:       actionIndex++
                           })
                       if ( property_id == "load" ) {
                           selectedCodeAction = indexActionSelector
@@ -5338,7 +5338,7 @@ ${origCode}
                               action_id:          "on_property_in",
                               action_name:        "On Property In",
                               action_type:        "Event",
-                              action_index:       ere7
+                              action_index:       actionIndex++
                           })
                       if ( property_id == "on_property_in" ) {
                           selectedCodeAction = indexActionSelector
@@ -5359,7 +5359,7 @@ ${origCode}
                                 action_id:          "on_property_changed",
                                 action_name:        "On Property Changed",
                                 action_type:        "Event",
-                                action_index:       ere7
+                                action_index:       actionIndex++
                             })
                         if ( property_id == "on_property_changed" ) {
                             selectedCodeAction = indexActionSelector
@@ -5378,7 +5378,7 @@ ${origCode}
                               action_id:          "on_property_out",
                               action_name:        "On Property Out",
                               action_type:        "Event",
-                              action_index:       ere7
+                              action_index:       actionIndex++
                           })
                       if ( property_id == "on_property_out" ) {
                           selectedCodeAction = indexActionSelector
@@ -5404,7 +5404,7 @@ ${origCode}
                                action_id:          "form_activate",
                                action_name:        "Activate Event",
                                action_type:        "Event",
-                               action_index:       ere7
+                               action_index:       actionIndex++
                            })
                        if ( property_id == "form_activate" ) {
                            selectedCodeAction = indexActionSelector
