@@ -359,15 +359,6 @@ module.exports = {
     }
 
 
-    ,
-
-
-
-    saveCodeV2: async function ( thisDb, parentHash, code , options) {
-        let ret = await this.saveCodeV3(thisDb, code , options)
-        return ret
-    }
-
 
     ,
 

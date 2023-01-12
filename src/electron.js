@@ -1460,8 +1460,6 @@ async function checkForJSLoaded() {
                                                         save_html:   true
                                                     })} ) ()
 
-                 //async function saveCodeV2( parentHash, code , options) {
-
                 runapp = baseComponentIdForUrl
                 let frontEndCode = isFrontEndOnlyCode(data)
                 //console.log("frontEndCode: " + frontEndCode)
@@ -1494,16 +1492,14 @@ async function checkForJSLoaded() {
 
             //console.log("code from file:" + data2);
             //console.log("*********** Trying to load loadjsfile code *************")
-            (async function() {let saveResult =await yz.saveCodeV2(
+            (async function() {let saveResult =await yz.saveCodeV3(
                                                                 dbsearch,
-                                                                  null  ,
                                                                   data2,
                                                                   {
                                                                       make_public: true,
                                                                       save_html:   true
                                                                    })
                                                                                 })()
-             //async function saveCodeV2( parentHash, code , options) {
              runapp = baseComponentIdForFile
              let frontEndCode = isFrontEndOnlyCode(data2)
              //console.log("frontEndCode: " + frontEndCode)
@@ -1532,18 +1528,13 @@ async function checkForJSLoaded() {
              outputDebug("*********** Trying to load loadjscode code *************")
 
 
-              let saveResult =await yz.saveCodeV2(
+              let saveResult =await yz.saveCodeV3(
                                                   dbsearch,
-                                                  null,
                                                  data2,
                                                  {
                                                      make_public: true,
                                                      save_html:   true
                                                   })
-              //async function saveCodeV2( parentHash, code , options) {
-
-
-
 
 
               runapp = baseComponentIdForCode
@@ -3604,9 +3595,8 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
           //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
           //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
             //console.log("    " + JSON.stringify(req,null,2) )
-          let saveResult =await yz.saveCodeV2(
+          let saveResult =await yz.saveCodeV3(
                                               dbsearch,
-                                             req.body.value.code_id,
                                              req.body.value.code,
                                              req.body.value.options)
             let savedCode = await yz.getCodeForCommit(dbsearch, saveResult.code_id)
@@ -4878,7 +4868,7 @@ async function save_code_from_upload(msg) {
     //console.log(`Entering  save_code_from_upload`)
 
 
-    let ret = await yz.saveCodeV2(  dbsearch,   msg.parent_hash  ,  msg.code  , msg.options);
+    let ret = await yz.saveCodeV3(  dbsearch  ,  msg.code  , msg.options);
     let useDb = msg.base_component_id //yz.getValueOfCodeString(msg.code ,"use_db")
     if (msg.sqlite_data) {
             //console.log("msg.sqlite_data: " + msg.sqlite_data)
@@ -5209,7 +5199,7 @@ async function addOrUpdateDriver(  codeString ,options ) {
                                     parentId = rows[0].id
                                 }
 
-                                let saveRet = await yz.saveCodeV2(dbsearch,   parentId,    codeString  ,options);
+                                let saveRet = await yz.saveCodeV3(dbsearch,    codeString  ,options);
                                 let codeId = null
                                 if (saveRet) {
                                     codeId = saveRet.code_id
