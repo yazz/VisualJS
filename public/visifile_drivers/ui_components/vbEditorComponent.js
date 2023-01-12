@@ -5935,7 +5935,7 @@ return {}
           //-------------------------------------------------------------------
                 let compEvaled1 = global_component_type_details_cache[componentName]
                 if (isValidObject(compEvaled1)) {
-                     var compEvaled = compEvaled1.properties
+                     let compEvaled = compEvaled1.properties
                      if (isValidObject(compEvaled)) {
                          return compEvaled
                      }
@@ -5971,11 +5971,11 @@ return {}
                       mm.args = mm.model
                  }
 
-                 var args = mm.args
-                 var app = mm.model
-                 var crt = mm.model.forms[formId].form_activate
+                 let args = mm.args
+                 let app = mm.model
+                 let crt = mm.model.forms[formId].form_activate
 
-                 var formEvent = {
+                 let formEvent = {
                      type:               "form_event",
                      form_name:           formId,
                      code:                crt,
@@ -6022,9 +6022,9 @@ return {}
                 // set up property access for all forms
                 //
 
-                var formHandler = {
+                let formHandler = {
                      get: function(target,name){
-                         var formName = target.name
+                         let formName = target.name
                          if (mm.model.forms[formName][name]) {
                              return mm.model.forms[formName][name]
                          }
@@ -6036,11 +6036,11 @@ return {}
                          return "Not found"
                      }
                 }
-                var formEval = ""
-                var allForms = this.getForms();
-                for (var fi =0; fi < allForms.length ; fi ++) {
-                     var aForm = allForms[fi]
-                     formEval += ("var " + aForm.name +
+                let formEval = ""
+                let allForms = this.getForms();
+                for (let fi =0; fi < allForms.length ; fi ++) {
+                     let aForm = allForms[fi]
+                     formEval += ("let " + aForm.name +
                          " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
                 }
@@ -6052,11 +6052,11 @@ return {}
                 //
                 // set up property access for all controls on this form
                 //
-                var allC = this.model.forms[this.active_form].components
-                var cacc =""
-                for (var xi =0; xi< allC.length ; xi ++) {
-                     var comp = allC[xi]
-                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                let allC = this.model.forms[this.active_form].components
+                let cacc =""
+                for (let xi =0; xi< allC.length ; xi ++) {
+                     let comp = allC[xi]
+                     cacc += ( "let " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                 }
                 eval(cacc)
 
@@ -6068,55 +6068,55 @@ return {}
                     if ((eventMessage.code == null) || (eventMessage.code == "")) {
                         return
                     }
-                    var fcc =
+                    let fcc =
 `(async function(args){
 ${eventMessage.code}
 })`
 
 
-                    var thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
+                    let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
                     if (isValidObject(thisControl)) {
 
                         if (isValidObject(thisControl.parent)) {
-                            var cacc =""
-                            cacc += ( "var parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                            let cacc =""
+                            cacc += ( "let parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
                             eval(cacc)
                         }
 
-                        var meCode =""
-                        meCode += ( "var me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                        let meCode =""
+                        meCode += ( "let me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
                         eval(meCode)
 
-                        var appCode =""
-                        appCode += ( "var app = mm.model;")
+                        let appCode =""
+                        appCode += ( "let app = mm.model;")
                         eval(appCode)
 
                         meCode =""
-                        meCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
+                        meCode += ( "let myForm = mm.model.forms['" + this.active_form + "'];")
                         eval(meCode)
 
 
-                        var argsCode =""
-                        var listOfArgs = []
+                        let argsCode =""
+                        let listOfArgs = []
                         if (isValidObject(eventMessage.args)) {
                             listOfArgs = Object.keys(eventMessage.args)
-                            for (var rtt=0;rtt<listOfArgs.length;rtt++) {
-                                argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
+                            for (let rtt=0;rtt<listOfArgs.length;rtt++) {
+                                argsCode += "let " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
                             }
                         }
                         eval(argsCode)
 
 
 
-                        var debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
-                        var efcc = eval(debugFcc)
+                        let debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
+                        let efcc = eval(debugFcc)
 
 
                         try {
                             await efcc()
                         } catch(  err  ) {
 
-                            var errValue = ""
+                            let errValue = ""
                             if (err.message) {
                                 errValue = err.message
                             } else {
@@ -6132,26 +6132,26 @@ ${eventMessage.code}
                     // form events
                     //
                     } else if (eventMessage.type == "form_event") {
-                        var fcc =
+                        let fcc =
 `(async function(){
 ${eventMessage.code}
 })`
-                        var meCode =""
-                        meCode += ( "var me = mm.model.forms['" + this.active_form + "'];")
+                        let meCode =""
+                        meCode += ( "let me = mm.model.forms['" + this.active_form + "'];")
                         eval(meCode)
 
-                        var appCode =""
-                        appCode += ( "var app = mm.model;")
+                        let appCode =""
+                        appCode += ( "let app = mm.model;")
                         eval(appCode)
 
-                        var debugFcc = getDebugCode(this.active_form ,fcc,{skipFirstAndLastLine: true})
-                        var efcc = eval(debugFcc)
+                        let debugFcc = getDebugCode(this.active_form ,fcc,{skipFirstAndLastLine: true})
+                        let efcc = eval(debugFcc)
 
                         try {
                             await efcc()
                         } catch(  err  ) {
 
-                            var errValue = ""
+                            let errValue = ""
                             if (err.message) {
                                 errValue = err.message
                             } else {
@@ -6188,18 +6188,18 @@ ${eventMessage.code}
               ev.preventDefault();
               let mm = this
 
-              var data2 = ev.dataTransfer.getData("message");
-              var data = eval("(" + data2 + ")")
+              let data2 = ev.dataTransfer.getData("message");
+              let data = eval("(" + data2 + ")")
 
-              var doc = document.documentElement;
-              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0) ;
-              var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+              let doc = document.documentElement;
+              let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0) ;
+              let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
               if (data.type == "resize_form_bottom_right") {
-                var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-                var newWidth = (ev.clientX - 8)  - rrr.left ;
-                var newHeight = (ev.clientY - 8) - rrr.top ;
+                let newWidth = (ev.clientX - 8)  - rrr.left ;
+                let newHeight = (ev.clientY - 8) - rrr.top ;
 
                 this.model.forms[this.active_form].width = Math.floor(newWidth)
                 this.model.forms[this.active_form].height = Math.floor(newHeight)
@@ -6208,9 +6208,9 @@ ${eventMessage.code}
                 mm.refresh ++
 
               } else if (data.type == "resize_form_right") {
-                var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-                var newWidth = (ev.clientX - 8)  - rrr.left ;
+                let newWidth = (ev.clientX - 8)  - rrr.left ;
 
                 this.model.forms[this.active_form].width = Math.floor(newWidth)
 
@@ -6218,9 +6218,9 @@ ${eventMessage.code}
                 mm.refresh ++
 
             } else if (data.type == "resize_form_bottom") {
-                  var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                  let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-                  var newHeight = (ev.clientY - 8) - rrr.top ;
+                  let newHeight = (ev.clientY - 8) - rrr.top ;
 
                   this.model.forms[this.active_form].height = Math.floor(newHeight)
 
@@ -6247,10 +6247,10 @@ ${eventMessage.code}
          drag: function(ev,message) {
          //-------------------------------------------------------------------
              let mm = this
-             var doc = document.documentElement;
-             var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-             var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-             var rrr = ev.target.getBoundingClientRect()
+             let doc = document.documentElement;
+             let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+             let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+             let rrr = ev.target.getBoundingClientRect()
              message.offsetX = (ev.clientX - rrr.left )
              message.offsetY = (ev.clientY - rrr.top )
 
@@ -6280,9 +6280,9 @@ ${eventMessage.code}
 
         showComponentDetailedDesignUiByName: async function(compName) {
             let mm = this
-            var parentItemIndex = -1;
-            var ccc = mm.model.forms[mm.active_form].components
-            for (var ytr = 0;ytr < ccc.length;ytr++) {
+            let parentItemIndex = -1;
+            let ccc = mm.model.forms[mm.active_form].components
+            for (let ytr = 0;ytr < ccc.length;ytr++) {
                if (compName == ccc[ytr].name) {
                    parentItemIndex = ytr
                    break
@@ -6305,14 +6305,14 @@ ${eventMessage.code}
 
             if (mm.design_mode_pane.links_type == "form") {
 
-                var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+                let ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
                 let activeComponenttype = ccomp2.base_component_id
                 if (  linked_properties[  activeComponenttype  ]  ) {
                     if (  linked_properties[  activeComponenttype  ].incoming  ) {
                         if (  linked_properties[  activeComponenttype  ].incoming.me  ) {
-                            var ccomkeys2 = Object.keys(linked_properties[  activeComponenttype  ].incoming.me )
+                            let ccomkeys2 = Object.keys(linked_properties[  activeComponenttype  ].incoming.me )
 
-                            for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                            for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                 this.selectedWatchToProperties.push(ccomkeys2[aaa])
                             }
                         }
@@ -6320,9 +6320,9 @@ ${eventMessage.code}
                 }
 
             } else {
-                var ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
-                var ccomkeys2 = Object.keys(ccomp2)
-                for (var aaa =0; aaa<ccomkeys2.length;aaa++) {
+                let ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+                let ccomkeys2 = Object.keys(ccomp2)
+                for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                     this.selectedWatchToProperties.push(ccomkeys2[aaa])
                 }
 
