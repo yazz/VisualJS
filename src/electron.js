@@ -805,20 +805,10 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //------------------------------------------------------------------------------
         if (msg.message_type == "save_code") {
 
-             let saveResult = await yz.saveCodeV2(
+             let saveResult = await yz.saveCodeV3(
                                                 dbsearch,
-                                                msg.parent_hash  ,
                                                 msg.code,
                                                 msg.options)
-
-
-             //async function saveCodeV2(  parentHash, code , options) {
-
-
-
-
-
-
 
 
 
@@ -1462,9 +1452,8 @@ async function checkForJSLoaded() {
                 }
                 let jsCode = data
                 outputDebug("*********** Trying to load loadjsurl code *************")
-                 (async function() {await yz.saveCodeV2(
+                 (async function() {await yz.saveCodeV3(
                                                      dbsearch,
-                                                     null  ,
                                                     data,
                                                     {
                                                         make_public: true,
