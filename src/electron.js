@@ -6564,7 +6564,6 @@ async function getRowForCommit(commitId) {
                 {
                     id: thisCommit.id,
                     ipfs_hash_id: thisCommit.id,
-                    code_tag_v2: thisCommit.code_tag_v2,
                     creation_timestamp: thisCommit.creation_timestamp,
                     num_changes: thisCommit.num_changes,
                     changes: changesList,
