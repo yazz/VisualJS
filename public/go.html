@@ -1103,70 +1103,71 @@ await mm.updateComments()
 }
 }
 ,
-logInWithMetamask: async function() {
-let mm = this
-//debugger
-if (window.ethereum) {
-await useWeb3()
-setTimeout(async function() {
-let accs = await web3.eth.getAccounts()
-let accNo = accs[0]
-let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/login_with_metamask?" +
-new URLSearchParams({
-metamask_account_id: accNo
-})
-fetch(openfileurl, {
-method: 'get',
-credentials: "include"
-})
-.then((response) => response.json())
-.then(async function(responseJson)
-{
-let seed = responseJson.seed
-let signMessage =   signMessageTemplate + seed
-let signedTx = await mm.signTransactionV2(signMessage)
+        logInWithMetamask: async function() {
+            let mm = this
+            //debugger
+            if (window.ethereum) {
+                await useWeb3()
+                setTimeout(async function() {
+                    let accs        = await web3.eth.getAccounts()
+                    let accNo       = accs[0]
+                    let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/login_with_metamask?" +
+                        new URLSearchParams({
+                            metamask_account_id: accNo
+                        })
+                    fetch(openfileurl, {
+                        method: 'get',
+                        credentials: "include"
+                    })
+                    .then((response) => response.json())
+                    .then(async function(responseJson)
+                    {
+                        let seed = responseJson.seed
+                        let signMessage =   signMessageTemplate + seed
+                        let signedTx = await mm.signTransactionV2(signMessage)
 
-let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/check_metamask_seed?" +
-new URLSearchParams({
-metamask_account_id: accNo
-,
-signedTx: signedTx
-,
-sign_message: signMessage
-,
-random_seed: seed
-})
+                        let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/check_metamask_seed?" +
+                        new URLSearchParams({
+                            metamask_account_id: accNo
+                            ,
+                            signedTx: signedTx
+                            ,
+                            sign_message: signMessage
+                            ,
+                            random_seed: seed
+                        })
 
-fetch(checkSeedurl, {
-method: 'get',
-credentials: "include"
-})
-.then((response2) => response2.json())
-.then(async function(responseJson2)
-{
-debugger
-if (responseJson2.error) {
-mm.login_error_message =  responseJson2.error
-} else {
-mm.accountNumber = accs[0]
-}
+                        fetch(checkSeedurl, {
+                            method: 'get',
+                            credentials: "include"
+                        })
+                        .then((response2) => response2.json())
+                        .then(async function(responseJson2)
+                        {
+                            if (responseJson2.error) {
+                                mm.login_error_message =  responseJson2.error
+                            } else {
+                                mm.accountNumber = accs[0]
+                                mm.show_page_info   = false;
+                                mm.tab              = ""
 
-})
-.catch(err => {
-//error block
-})
-x++
-mm.accountNumber = accs[0]
+                            }
 
-})
-.catch(err => {
-//error block
-})
+                        })
+                        .catch(err => {
+                            //error block
+                        })
+                        mm.accountNumber = accs[0]
 
-},100)
-}
-}
-,
+                    })
+                    .catch(err => {
+                        //error block
+                    })
+
+                },100)
+            }
+        }
+        ,
 signTransactionV2: async function(test_transaction_text) {
 let currentETHACC = (await web3.eth.getAccounts())[0]
 let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
@@ -1183,25 +1184,27 @@ currentETHACC
 return signedTx
 }
 ,
-signTransaction: async function() {
-debugger
-let test_transaction_text_el = document.getElementById("test_transaction_text")
-let test_transaction_text = test_transaction_text_el.value
-let currentETHACC = (await web3.eth.getAccounts())[0]
-this.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-await ethereum.request({
-method: 'personal_sign',
-params: [test_transaction_text   //message
-,
-currentETHACC
-// account
-//,
-//test_transaction_text   //password?
-],
-});
-}
+        signMetamaskLoginTransaction: async function() {
+            let mm                          = this
+            let test_transaction_text_el    = document.getElementById("test_transaction_text")
+            let test_transaction_text       = test_transaction_text_el.value
+            let currentETHACC               = (await web3.eth.getAccounts())[0]
 
-},
+            mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+            await ethereum.request({
+                method: 'personal_sign',
+                params: [
+                    test_transaction_text   //message
+                    ,
+                    currentETHACC
+                    // account
+                    //,
+                    //test_transaction_text   //password?
+                ],
+            });
+        }
+
+    },
 data: function () {
 return {
 show_page_info: false
@@ -1393,7 +1396,7 @@ template:
                 class='btn btn-primary'
                 v-bind:disabled='accountNumber?false:true'
                 style='margin-left: 10px;width:40vw;height:15vh;'
-                v-on:click='signTransaction()'>
+                v-on:click='signMetamaskTransaction()'>
 
             Sign transaction
         </button>
