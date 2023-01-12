@@ -6058,7 +6058,7 @@ return {}
                 let cacc =""
                 for (let xi =0; xi< allC.length ; xi ++) {
                      let comp = allC[xi]
-                     cacc += ( "let " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                 }
                 eval(cacc)
 
