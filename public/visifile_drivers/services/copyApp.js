@@ -30,8 +30,8 @@ only_run_on_server(true)
                 console.log("              userId:              " + userId)
                 //console.log("              code:                " + code)
 
-                let saveret = await saveCodeV2(
-                            parentHashId,
+                let saveret = await yz.saveCodeV3(
+                            dbsearch,
                             code,
                             {
                                 sub_components:         listOfSubComponents,
