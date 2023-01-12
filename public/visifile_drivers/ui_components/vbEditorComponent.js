@@ -5451,7 +5451,7 @@ ${origCode}
                  document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
 
                  selectCodeObject.on('selectr.select', function(option) {
-                     var dd = objectListForSelector[option.idx]
+                     let dd = objectListForSelector[option.idx]
                      if (dd.component) {
                          mm.selectComponent(dd.component_index)
                          mm.editAsCode({
@@ -5481,7 +5481,7 @@ ${origCode}
                  });
 
                  selectCodeAction.on('selectr.select', function(option) {
-                     var dd = methodListForSelector[option.idx]
+                     let dd = methodListForSelector[option.idx]
                      mm.editAsCode({
                          app_selected:           mm.app_selected,
                          active_form:            mm.active_form,
@@ -5510,9 +5510,9 @@ ${origCode}
             this.watchList = []
             //console.log( "1: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
 
-            var llf = Object.keys(this.model.forms)
-            for (var ii = 0; ii < llf.length ; ii ++) {
-                var formqq = this.model.forms[llf[ii]]
+            let llf = Object.keys(this.model.forms)
+            for (let ii = 0; ii < llf.length ; ii ++) {
+                let formqq = this.model.forms[llf[ii]]
                 if (formqq != null) {
                     this.updateFormCache(formqq.name)
                 }
@@ -5541,8 +5541,8 @@ ${origCode}
         updateFormCache: function(formName) {
             //debugger
             let mm = this
-            var form = this.model.forms[formName]
-            var components = form.components
+            let form = this.model.forms[formName]
+            let components = form.components
             if (!isValidObject(this.form_runtime_info[formName])) {
                 this.form_runtime_info[formName] = new Object()
             }
@@ -5551,8 +5551,8 @@ ${origCode}
             this.form_runtime_info[formName].component_incoming_count_by_uuid = {}
             this.form_runtime_info[formName].component_outgoing_count_by_uuid = {}
 
-            for (var gjh = 0; gjh < components.length; gjh ++) {
-                var cc = components[gjh]
+            for (let gjh = 0; gjh < components.length; gjh ++) {
+                let cc = components[gjh]
                 if (isValidObject(cc)) {
                     this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
                 }
@@ -5571,7 +5571,7 @@ ${origCode}
                     //debugger
                     if (cc.watch) {
                         //debugger
-                        for (var ff=0;ff<cc.watch.length;ff++){
+                        for (let ff=0;ff<cc.watch.length;ff++){
                             this.watchList.push(
                                 {
                                         form_name:                      formName
@@ -5611,7 +5611,7 @@ ${origCode}
                     //console.log(JSON.stringify(this.watchList,null,2))
                     if (cc.push) {
                         //debugger
-                        for (var ff=0;ff<cc.push.length;ff++){
+                        for (let ff=0;ff<cc.push.length;ff++){
                             this.watchList.push(
                                 {
                                         form_name:                      formName
@@ -5662,10 +5662,10 @@ ${origCode}
          //-------------------------------------------------------------------
          getForms: function() {
          //-------------------------------------------------------------------
-             var forms = []
-             var llf = Object.keys(this.model.forms)
-             for (var ii = 0; ii < llf.length ; ii ++) {
-                var form = this.model.forms[llf[ii]]
+             let forms = []
+             let llf = Object.keys(this.model.forms)
+             for (let ii = 0; ii < llf.length ; ii ++) {
+                let form = this.model.forms[llf[ii]]
                 if (form != null) {
                     forms.push(form)
                 }
@@ -5683,7 +5683,7 @@ ${origCode}
          //                          event, property
          //-------------------------------------------------------------------
          getFormProperties: function(    formName    ) {
-             var props = []
+             let props = []
              props.push({   id:     "name",   name:   "Name",   type:   "String"    })
              props.push({   id:     "width",   name:   "Width",   type:   "Number"    })
              props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
@@ -5734,7 +5734,7 @@ return {}
          setVBEditorPropertyValue: function(property, val ) {
          //-------------------------------------------------------------------
             let mm      = this
-            var type    = null
+            let type    = null
 
             mm.showSaveButton()
 
@@ -5752,8 +5752,8 @@ return {}
 
 
             if (type == 'component') {
-                var componentTochange = mm.model.forms[this.active_form].components[this.active_component_index]
-                var oldContainerName = componentTochange.name
+                let componentTochange = mm.model.forms[this.active_form].components[this.active_component_index]
+                let oldContainerName = componentTochange.name
 
                 //hack city!!!!
                 // why do we need a timeout just so that the FilePath property gets
@@ -5764,9 +5764,9 @@ return {}
                     if ((property.id == "name") && (componentTochange.is_container == true)) {
                         //alert("renaming container")
 
-                        var allC = mm.model.forms[mm.active_form].components
-                        for (var xi =0; xi< allC.length ; xi ++) {
-                             var comp = allC[xi]
+                        let allC = mm.model.forms[mm.active_form].components
+                        for (let xi =0; xi< allC.length ; xi ++) {
+                             let comp = allC[xi]
                              if (comp.parent == oldContainerName) {
                                 comp.parent = componentTochange.name
                              }
@@ -5781,7 +5781,7 @@ return {}
                 if (property.id == "name" ) {
                     this.properties = []
 
-                    var oldval = this.active_form
+                    let oldval = this.active_form
                     //alert("Rename form "  + oldval + " to " + val)
 
                     this.model.forms[val] = this.model.forms[oldval]
@@ -5820,7 +5820,7 @@ return {}
          //-------------------------------------------------------------------
 
             let mm      = this
-            var val     = null
+            let val     = null
 
             if (property.type == "Number") {
                 val     = JSON.parse(event.target.value)
@@ -5833,8 +5833,8 @@ return {}
          //-------------------------------------------------------------------
          getVBEditorProperty: function(property) {
          //-------------------------------------------------------------------
-             var val = ""
-             var type
+             let val = ""
+             let type
              if (this.active_component_index != null) {
                 type = "component"
              } else if ((this.active_component_index == null) && (this.active_form != null) && (!this.model.app_selected)) {
@@ -5870,7 +5870,7 @@ return {}
 
 
             setTimeout(function(){
-                var objDiv = document.getElementById("property_scroll_region");
+                let objDiv = document.getElementById("property_scroll_region");
                 objDiv.scrollTop = objDiv.scrollHeight;
             },200)
          }
@@ -5886,12 +5886,12 @@ return {}
             }
             mm.add_property = false
 
-            var fnText = null
+            let fnText = null
             if (mm.new_property_type == "Action") {
                 fnText = ""
             }
 
-            var defaultVal = null
+            let defaultVal = null
             if (mm.new_property_type == "Object") {
                 defaultVal = new Object()
             }
@@ -5933,7 +5933,7 @@ return {}
           //-------------------------------------------------------------------
           getComponentProperties: function(componentName) {
           //-------------------------------------------------------------------
-                var compEvaled1 = global_component_type_details_cache[componentName]
+                let compEvaled1 = global_component_type_details_cache[componentName]
                 if (isValidObject(compEvaled1)) {
                      var compEvaled = compEvaled1.properties
                      if (isValidObject(compEvaled)) {
