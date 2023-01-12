@@ -3414,7 +3414,9 @@ async function startServices() {
                             " from " +
                             "     released_components " +
                             " inner JOIN " +
-                            "     icon_images ON released_components.icon_image_id = icon_images.id "
+                            "     icon_images ON released_components.icon_image_id = icon_images.id " +
+                            " and " +
+                            "     component_type = 'app' "
                             ,
                             []
                             ,
