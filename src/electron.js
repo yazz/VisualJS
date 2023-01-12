@@ -4813,10 +4813,10 @@ function setUpSql() {
     stmtInsertReleasedComponentListItem = dbsearch.prepare(`insert or ignore
                                                     into
                                                released_components
-                                                    (   id  ,  base_component_id  ,  component_name  ,  
+                                                    (   id  ,  base_component_id  ,  component_name  ,  component_type, 
                                                         component_description  ,  icon_image_id  ,  
                                                         ipfs_hash , version,read_write_status )
-                                               values (?,?,?,?,?,?,?,?)`)
+                                               values (?,?,?,?,?,?,?,?,?)`)
 
 
     stmtUpdateReleasedComponentList = dbsearch.prepare(`update released_components 
@@ -6246,6 +6246,8 @@ async function parseCode(code) {
     let componentType = ""
     if (yz.getValueOfCodeString(code,"component_type") == "SYSTEM") {
         componentType = "app"
+    } else if (yz.getValueOfCodeString(code,"component_type") == "APP") {
+        componentType = "app"
     } else if (yz.getValueOfCodeString(code,"component_type") == "VB") {
         componentType = "component"
     }
@@ -6679,7 +6681,7 @@ async function releaseCode(commitId) {
     let logo = parsedCode.logo
     let ipfs_hash = parsedCode.ipfsHashId
     let readWriteStatus = parsedCode.readWriteStatus
-    let system_code_id = parsedCode.systemCodeId
+    let component_type = parsedCode.type
     let promise = new Promise(async function(returnfn) {
 
         if (logo.startsWith("data:")) {
@@ -6709,7 +6711,7 @@ async function releaseCode(commitId) {
                 dbsearch.run("commit", function () {
                     dbsearch.serialize(function () {
                         dbsearch.run("begin exclusive transaction");
-                        stmtInsertReleasedComponentListItem.run(id, base_component_id, app_name, app_description, icon_image_id, ipfs_hash, '', readWriteStatus)
+                        stmtInsertReleasedComponentListItem.run(id, base_component_id, app_name, component_type, app_description, icon_image_id, ipfs_hash, '', readWriteStatus)
                         stmtInsertIconImageData.run(icon_image_id, dataString)
                         dbsearch.run("commit")
                         returnfn()
