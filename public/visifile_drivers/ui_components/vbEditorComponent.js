@@ -5176,9 +5176,9 @@ ${origCode}
                      }
                      indexObjectSelector++
 
-                     var forms = mm.getForms()
+                     let forms = mm.getForms()
                      for (  let ere7 = 0; ere7 < forms.length; ere7++  ) {
-                         var form = forms[ ere7 ]
+                         let form = forms[ ere7 ]
                          objectListForSelector.push(
                              {
                                  value:      "" + indexObjectSelector,
@@ -5198,9 +5198,9 @@ ${origCode}
                          //
 
                          if ((!mm.model.app_selected) && (form.name == mm.active_form)) {
-                             var components = mm.getActiveFormComponents()
-                             for (  var ere1 = 0; ere1 < components.length; ere1++  ) {
-                                 var component = components[ ere1 ]
+                             let components = mm.getActiveFormComponents()
+                             for (  let ere1 = 0; ere1 < components.length; ere1++  ) {
+                                 let component = components[ ere1 ]
                                  objectListForSelector.push(
                                      {
                                          value:              "" + indexObjectSelector,
@@ -5234,9 +5234,9 @@ ${origCode}
                      )
                      indexObjectSelector++
 
-                     var components = mm.getActiveFormComponents()
-                     for (  var ere8 = 0; ere8 < components.length; ere8++  ) {
-                         var component = components[ ere8 ]
+                     let components = mm.getActiveFormComponents()
+                     for (  let ere8 = 0; ere8 < components.length; ere8++  ) {
+                         let component = components[ ere8 ]
                          objectListForSelector.push(
                              {
                                  value:              "" + indexObjectSelector,
@@ -5265,9 +5265,9 @@ ${origCode}
                   // get the app methods
                   //
                   if (mm.model.app_selected) {
-                      var allProperties = mm.getAllAppPropeties()
-                      for (var ui=0;ui < allProperties.length; ui ++) {
-                          var prop = allProperties[ui]
+                      let allProperties = mm.getAllAppPropeties()
+                      for (let ui=0;ui < allProperties.length; ui ++) {
+                          let prop = allProperties[ui]
                           if ((prop.type == "Event") || (prop.type == "Action")) {
                               methodListForSelector.push(
                                   {
@@ -5289,11 +5289,11 @@ ${origCode}
 
 
                   } else if (  isValidObject(mm.active_component_index)  ) {
-                     var ccc        = mm.model.forms[mm.active_form].components[mm.active_component_index]
-                     var properties = mm.getComponentProperties(  ccc.base_component_id  )
+                     let ccc        = mm.model.forms[mm.active_form].components[mm.active_component_index]
+                     let properties = mm.getComponentProperties(  ccc.base_component_id  )
 
-                     for (  var ere9 = 0;  ere9 < properties.length;  ere9++  ) {
-                         var property = properties[ ere9 ]
+                     for (  let ere9 = 0;  ere9 < properties.length;  ere9++  ) {
+                         let property = properties[ ere9 ]
                          if (property.type == "Event") {
                              methodListForSelector.push(
                                  {
@@ -5392,9 +5392,9 @@ ${origCode}
 
                   // get the actions for the forms
                   } else if (  isValidObject(mm.active_form)  ) {
-                      var ccc        = mm.model.forms[mm.active_form]
+                      let ccc        = mm.model.forms[mm.active_form]
 
-                      var properties = mm.getComponentProperties(  ccc.base_component_id  )
+                      let properties = mm.getComponentProperties(  ccc.base_component_id  )
 
 
                        methodListForSelector.push(
@@ -6058,6 +6058,7 @@ return {}
                 let cacc =""
                 for (let xi =0; xi< allC.length ; xi ++) {
                      let comp = allC[xi]
+                     // LEAVE this as a "var", otherwise components don't work inscripts
                      cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                 }
                 eval(cacc)
@@ -6360,7 +6361,7 @@ ${eventMessage.code}
 //debugger
             mm.incoming_link_objects = []
 
-            var ccc = mm.model.forms[mm.active_form].components
+            let ccc = mm.model.forms[mm.active_form].components
             for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                 let component = ccc[ytr]
                 if (component) {
@@ -6605,21 +6606,21 @@ ${eventMessage.code}
                     this.cursorSource = null
              }
 
-             var data2 = ev.dataTransfer.getData("message");
-             var data = eval("(" + data2 + ")")
+             let data2 = ev.dataTransfer.getData("message");
+             let data = eval("(" + data2 + ")")
 
-             var newItem2 = new Object()
-             var rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+             let newItem2 = new Object()
+             let rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
              newItem2.leftX = (ev.clientX  - rrr2.left)  - data.offsetX;
              newItem2.topY = (ev.clientY  - rrr2.top)   - data.offsetY;
 
-             var parentType = null
-             var parentName = null
-             var parentOffsetX = 0
-             var parentOffsetY = 0
-             var parentOffsetWidth = 0
-             var parentOffsetHeight = 0
-             var parentContainer = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
+             let parentType = null
+             let parentName = null
+             let parentOffsetX = 0
+             let parentOffsetY = 0
+             let parentOffsetWidth = 0
+             let parentOffsetHeight = 0
+             let parentContainer = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
              if (parentContainer) {
                  parentOffsetX = parentContainer.x
                  parentOffsetY = parentContainer.y
@@ -6629,17 +6630,17 @@ ${eventMessage.code}
 
 
              if (data.type == "add_component") {
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
-                 var yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
+                 let yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
                  await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
                  this.highlighted_control = null
 
              } else if (data.type == "move_component") {
-                var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
-                var newLeftX = (ev.clientX  - rrr.left) - data.offsetX;
-                var newTopY = (ev.clientY  - rrr.top) - data.offsetY;
+                let newLeftX = (ev.clientX  - rrr.left) - data.offsetX;
+                let newTopY = (ev.clientY  - rrr.top) - data.offsetY;
 
                 if (!this.model.forms[this.active_form].components[data.index].is_container) {
                     if (parentType) {
@@ -6673,12 +6674,12 @@ ${eventMessage.code}
 
 
              } else if (data.type == "resize_top_left") {
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var oldX = this.model.forms[this.active_form].components[data.index].leftX
-                 var oldY = this.model.forms[this.active_form].components[data.index].topY
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let oldX = this.model.forms[this.active_form].components[data.index].leftX
+                 let oldY = this.model.forms[this.active_form].components[data.index].topY
 
-                 var newLeftX = ev.clientX  + 2 - rrr.left ;
-                 var newTopY = ev.clientY  + 2 - rrr.top ;
+                 let newLeftX = ev.clientX  + 2 - rrr.left ;
+                 let newTopY = ev.clientY  + 2 - rrr.top ;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentType) {
@@ -6699,8 +6700,8 @@ ${eventMessage.code}
 
                  this.model.forms[this.active_form].components[data.index].leftX = Math.floor(newLeftX)
                  this.model.forms[this.active_form].components[data.index].topY = Math.floor(newTopY)
-                 var diffX = this.model.forms[this.active_form].components[data.index].leftX - oldX
-                 var diffY = this.model.forms[this.active_form].components[data.index].topY - oldY
+                 let diffX = this.model.forms[this.active_form].components[data.index].leftX - oldX
+                 let diffY = this.model.forms[this.active_form].components[data.index].topY - oldY
                  this.model.forms[this.active_form].components[data.index].width -= Math.floor(diffX)
                  this.model.forms[this.active_form].components[data.index].height -= Math.floor(diffY)
 
@@ -6708,10 +6709,10 @@ ${eventMessage.code}
                  this.addCodeChange("Resized component top left: " + this.model.forms[this.active_form].components[data.index].name)
 
              } else if (data.type == "resize_left") {
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var oldX = this.model.forms[this.active_form].components[data.index].leftX
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let oldX = this.model.forms[this.active_form].components[data.index].leftX
 
-                 var newLeftX = ev.clientX  + 2 - rrr.left ;
+                 let newLeftX = ev.clientX  + 2 - rrr.left ;
 
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
@@ -6729,7 +6730,7 @@ ${eventMessage.code}
                  }
 
                  this.model.forms[this.active_form].components[data.index].leftX = Math.floor(newLeftX)
-                 var diffX = this.model.forms[this.active_form].components[data.index].leftX - oldX
+                 let diffX = this.model.forms[this.active_form].components[data.index].leftX - oldX
                  this.model.forms[this.active_form].components[data.index].width -= Math.floor(diffX)
 
                  this.active_component_index = data.index
@@ -6738,10 +6739,10 @@ ${eventMessage.code}
 
 
              } else if (data.type == "resize_top") {
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var oldY = this.model.forms[this.active_form].components[data.index].topY
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let oldY = this.model.forms[this.active_form].components[data.index].topY
 
-                 var newTopY = ev.clientY  + 2 - rrr.top ;
+                 let newTopY = ev.clientY  + 2 - rrr.top ;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentType) {
@@ -6758,7 +6759,7 @@ ${eventMessage.code}
                  }
 
                  this.model.forms[this.active_form].components[data.index].topY = Math.floor(newTopY)
-                 var diffY = this.model.forms[this.active_form].components[data.index].topY - oldY
+                 let diffY = this.model.forms[this.active_form].components[data.index].topY - oldY
                  this.model.forms[this.active_form].components[data.index].height -= Math.floor(diffY)
 
                  this.active_component_index = data.index
@@ -6766,9 +6767,9 @@ ${eventMessage.code}
 
 
              } else if (data.type == "resize_top_right") {
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newX = ev.clientX  - 10 - rrr.left ;
-                 var newY = ev.clientY + 2 - rrr.top;
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let newX = ev.clientX  - 10 - rrr.left ;
+                 let newY = ev.clientY + 2 - rrr.top;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentType) {
@@ -6783,7 +6784,7 @@ ${eventMessage.code}
                  this.model.forms[this.active_form].components[data.index].width =
                     Math.floor(newX - this.model.forms[this.active_form].components[data.index].leftX)
 
-                 var newHeight = (this.model.forms[this.active_form].components[data.index].topY +
+                 let newHeight = (this.model.forms[this.active_form].components[data.index].topY +
                                     this.model.forms[this.active_form].components[data.index].height) - newY
                  this.model.forms[this.active_form].components[data.index].topY = Math.floor(newY)
                  this.model.forms[this.active_form].components[data.index].height = Math.floor(newHeight)
@@ -6792,9 +6793,9 @@ ${eventMessage.code}
                  this.active_component_index = data.index
 
              } else if (data.type == "resize_bottom_left") {
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newX = ev.clientX + 8 - rrr.left ;
-                 var newY = ev.clientY - 12 - rrr.top ;
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let newX = ev.clientX + 8 - rrr.left ;
+                 let newY = ev.clientY - 12 - rrr.top ;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentType) {
@@ -6805,8 +6806,8 @@ ${eventMessage.code}
                         this.model.forms[this.active_form].components[data.index].parent = null
                      }
                  }
-                 var newWidth = (this.model.forms[this.active_form].components[data.index].leftX + this.model.forms[this.active_form].components[data.index].width) - newX
-                 var newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
+                 let newWidth = (this.model.forms[this.active_form].components[data.index].leftX + this.model.forms[this.active_form].components[data.index].width) - newX
+                 let newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
 
                  this.model.forms[this.active_form].components[data.index].leftX = Math.floor(newX)
                  this.model.forms[this.active_form].components[data.index].width = Math.floor(newWidth)
@@ -6816,8 +6817,8 @@ ${eventMessage.code}
 
              } else if (data.type == "resize_right") {
 
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newX = ev.clientX  - rrr.left - 10;
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let newX = ev.clientX  - rrr.left - 10;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentType) {
@@ -6828,7 +6829,7 @@ ${eventMessage.code}
                      }
                  }
 
-                 var newWidth = newX - this.model.forms[this.active_form].components[data.index].leftX
+                 let newWidth = newX - this.model.forms[this.active_form].components[data.index].leftX
                  this.model.forms[this.active_form].components[data.index].width = Math.floor(newWidth)
 
                  this.active_component_index = data.index
@@ -6837,9 +6838,9 @@ ${eventMessage.code}
 
              } else if (data.type == "resize_bottom_right") {
 
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newX = ev.clientX  - rrr.left - 10;
-                 var newY = ev.clientY - rrr.top - 12;
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let newX = ev.clientX  - rrr.left - 10;
+                 let newY = ev.clientY - rrr.top - 12;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentType) {
@@ -6851,18 +6852,18 @@ ${eventMessage.code}
                      }
                  }
 
-                 var newWidth = newX - this.model.forms[this.active_form].components[data.index].leftX
+                 let newWidth = newX - this.model.forms[this.active_form].components[data.index].leftX
                  this.model.forms[this.active_form].components[data.index].width = Math.floor(newWidth)
 
-                 var newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
+                 let newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
                  this.model.forms[this.active_form].components[data.index].height = Math.floor(newHeight)
 
                  this.active_component_index = data.index
 
              } else if (data.type == "resize_bottom") {
 
-                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                 var newY = ev.clientY - rrr.top - 12;
+                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                 let newY = ev.clientY - rrr.top - 12;
 
                  if (!this.model.forms[this.active_form].components[data.index].is_container) {
                      if (parentType) {
@@ -6873,7 +6874,7 @@ ${eventMessage.code}
                      }
                  }
 
-                 var newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
+                 let newHeight = newY - this.model.forms[this.active_form].components[data.index].topY
                  this.model.forms[this.active_form].components[data.index].height = Math.floor(newHeight)
 
                  this.active_component_index = data.index
@@ -6909,7 +6910,7 @@ ${eventMessage.code}
          //-------------------------------------------------------------------
          getAllAppPropeties: function() {
             let mm = this
-            var properties                     = mm.get_default_app_propeties()
+            let properties                     = mm.get_default_app_propeties()
 
             if (this.model.app_properties) {
                 properties = properties.concat(this.model.app_properties)
@@ -6956,7 +6957,7 @@ ${eventMessage.code}
                  return "<div></div>"
              }
 
-             var center = ""
+             let center = ""
              if (data.app) {
                 center = "<b style='font-family:verdana,helvetica;font-size: 13px;'>" + (data.app?data.app:data.form) + "</b> "
 
@@ -6966,7 +6967,7 @@ ${eventMessage.code}
                  center = "<b style='font-family:verdana,helvetica;font-size: 13px;'>" + data.form + "</b> "
              }
 
-             var template =
+             let template =
                "<div  style='font-weight:normal;color:black;overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana,helvetica;font-size: 13px;'>" +
                     center +
                "</div>";
@@ -6979,11 +6980,11 @@ ${eventMessage.code}
                 return "<div></div>"
             }
 
-             var center = ""
+             let center = ""
 
              center = "<b style='font-family:verdana,helvetica;font-size: 13px;'>" + data.action_id + "</b> " + data.action_name
 
-             var template =
+             let template =
                "<div  style='font-weight:normal;color:black;overflow:hidden ;text-overflow: ellipsis;border-radius: 1px;margin: 0px;padding:0px;border:0px;font-family:verdana,helvetica;font-size: 13px;'>" +
                     center +
                "</div>";
@@ -7032,9 +7033,9 @@ ${eventMessage.code}
 
             document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
-            var sdata           = []
-            var indexProp       = 0
-            var selectedItem    = null
+            let sdata           = []
+            let indexProp       = 0
+            let selectedItem    = null
 
             if (mm.model.app_selected || (!isValidObject(mm.active_component_index))) {
 
@@ -7053,9 +7054,9 @@ ${eventMessage.code}
                 }
                 indexProp++
 
-                var forms = mm.getForms()
-                for (  var ere6 = 0; ere6 < forms.length; ere6++  ) {
-                    var form = forms[ ere6 ]
+                let forms = mm.getForms()
+                for (  let ere6 = 0; ere6 < forms.length; ere6++  ) {
+                    let form = forms[ ere6 ]
                     sdata.push(
                         {
                             value:      "" + indexProp,
@@ -7082,9 +7083,9 @@ ${eventMessage.code}
                 )
                 indexProp++
 
-                var components = mm.getActiveFormComponents()
-                for (  var ere5 = 0; ere5 < components.length; ere5++  ) {
-                    var component = components[ ere5 ]
+                let components = mm.getActiveFormComponents()
+                for (  let ere5 = 0; ere5 < components.length; ere5++  ) {
+                    let component = components[ ere5 ]
                     sdata.push(
                         {
                             value:              "" + indexProp,
@@ -7122,7 +7123,7 @@ ${eventMessage.code}
             document.getElementsByClassName("selectr-selected")[0].style["border-left"] = "2px solid gray"
 
             selectProp.on('selectr.select', function(option) {
-                var dd = sdata[option.idx]
+                let dd = sdata[option.idx]
                 if (dd.component) {
                     mm.selectComponent(dd.component_index)
                 } else if (dd.form) {
@@ -7137,7 +7138,7 @@ ${eventMessage.code}
 
 
          existsProp: function(compEvaled,propName) {
-            for (var eee = 0 ;eee < compEvaled.length; eee++) {
+            for (let eee = 0 ;eee < compEvaled.length; eee++) {
                 if (compEvaled[eee].id == propName) {
                     return true
                 }
@@ -7149,8 +7150,8 @@ ${eventMessage.code}
 
          //-------------------------------------------------------------------
          getControlProperties: function(base_component_id) {
-             var properties = []
-             var compEvaled = this.getComponentProperties(base_component_id)
+             let properties = []
+             let compEvaled = this.getComponentProperties(base_component_id)
 
              properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
              properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
@@ -7261,7 +7262,7 @@ Vars to use:
                                 snippet:     `clone("new_name")`,
                                 fn:
 `
-var newObject = JSON.parse(JSON.stringify(me))
+let newObject = JSON.parse(JSON.stringify(me))
 newObject.name = arg1
 return newObject
 `
@@ -7333,7 +7334,7 @@ return {}
             mm.properties = mm.getFormProperties()
 
             mm.model.max_form ++
-            var newFormName = "form_" + mm.model.max_form
+            let newFormName = "form_" + mm.model.max_form
             mm.model.forms[newFormName] = {
                 name: newFormName,
                 components: [],
@@ -7354,15 +7355,15 @@ return {}
         moveUp: function(   fieldId   ) {
         //-------------------------------------------------------------------
             let mm = this
-            var itemD = null
-            for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
-                var ciurr = mm.model.forms[mm.active_form].fields[tt]
+            let itemD = null
+            for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                let ciurr = mm.model.forms[mm.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
+                let index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                   mm.model.fields.splice(index - 1, 0, itemD);
@@ -7375,15 +7376,15 @@ return {}
         moveDown: function(   fieldId   ) {
         //-------------------------------------------------------------------
             let mm = this
-            var itemD = null
-            for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
-                var ciurr = mm.model.forms[mm.active_form].fields[tt]
+            let itemD = null
+            for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                let ciurr = mm.model.forms[mm.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
+                let index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                   mm.model.fields.splice(index + 1, 0, itemD);
@@ -7396,15 +7397,15 @@ return {}
         deleteField: function(   fieldId   ) {
         //-------------------------------------------------------------------
             let mm = this
-            var itemD = null
-            for (var tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
-                var ciurr = mm.model.forms[mm.active_form].fields[tt]
+            let itemD = null
+            for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                let ciurr = mm.model.forms[mm.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
+                let index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                 }
@@ -7459,7 +7460,7 @@ return {}
             //console.log("start setText")
             let mm = this
             this.text =  textValue
-            var json2 = this.getJsonModelFromCode(  textValue  )
+            let json2 = this.getJsonModelFromCode(  textValue  )
             //console.log("setText: mm.model = json2")
             mm.edited_app_component_id = yz.getValueOfCodeString(textValue, "base_component_id")
 
@@ -7476,7 +7477,7 @@ return {}
         //-------------------------------------------------------------------
             let mm = this
             mm.edited_app_component_id = yz.getValueOfCodeString(codeV, "base_component_id")
-            var json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
+            let json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
             return json2
         }
 
@@ -7496,21 +7497,21 @@ return {}
 
             //console.log("start generateCodeFromModel")
 
-            var startIndex = this.text.indexOf("//** gen_" + "start **//")
-            var endIndex = this.text.indexOf("//** gen_" + "end **//")
+            let startIndex = this.text.indexOf("//** gen_" + "start **//")
+            let endIndex = this.text.indexOf("//** gen_" + "end **//")
 
 
-            var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
+            let sql =    "select  cast(code as text)  as  code  from  system_code  where " +
                          "        base_component_id = 'vb_editor_component'   and   code_tag = 'LATEST' "
 
-            var results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
+            let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                 {   sql: sql  })
 
-            var editorCode = results[0].code
-            var stt = "//*** COPY_" + "START ***//"
-            var editorCodeToCopyStart = editorCode.indexOf(stt) + stt.length
-            var editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
-            var editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
+            let editorCode = results[0].code
+            let stt = "//*** COPY_" + "START ***//"
+            let editorCodeToCopyStart = editorCode.indexOf(stt) + stt.length
+            let editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
+            let editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
 
 
 
@@ -7568,8 +7569,8 @@ return {}
 
 
 
-              var subComponents = yz.getValueOfCodeString(this.text, "sub_components")
-              var subComponentsMap = {}
+              let subComponents = yz.getValueOfCodeString(this.text, "sub_components")
+              let subComponentsMap = {}
 
 
               if (subComponents) {
@@ -7578,18 +7579,18 @@ return {}
                   subComponents = []
               }
 
-              for (var tt = 0; tt < subComponents.length ; tt++) {
-                  var subComponentName = subComponents[tt]
+              for (let tt = 0; tt < subComponents.length ; tt++) {
+                  let subComponentName = subComponents[tt]
                   subComponentsMap[subComponentName] = {}
               }
-              var forms = mm.getForms()
+              let forms = mm.getForms()
 
 
-              for (  var formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
-                   var formName = forms[formIndex].name
+              for (  let formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
+                   let formName = forms[formIndex].name
 
-                   for (  var compenentInFormIndex = 0;  compenentInFormIndex < mm.model.forms[formName].components.length;  compenentInFormIndex ++  ) {
-                       var newItem = mm.model.forms[formName].components[compenentInFormIndex]
+                   for (  let compenentInFormIndex = 0;  compenentInFormIndex < mm.model.forms[formName].components.length;  compenentInFormIndex ++  ) {
+                       let newItem = mm.model.forms[formName].components[compenentInFormIndex]
                        if (newItem && newItem.base_component_id) {
                            if (!subComponentsMap[newItem.base_component_id]) {
                               subComponentsMap[newItem.base_component_id] = {}
@@ -7597,7 +7598,7 @@ return {}
                        }
                    }
               }
-              var newListOfSubcomponents = Object.keys(  subComponentsMap  )
+              let newListOfSubcomponents = Object.keys(  subComponentsMap  )
               this.text = yz.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
 
 
@@ -7647,14 +7648,14 @@ return {}
             //alert(1)
            //document.getElementById("openfilefromhomepage").click();
            this.showFilePicker = true
-           var result = await callComponent(
+           let result = await callComponent(
                                {
                                    base_component_id: "serverGetHomeDir"}
                                    ,{ })
           if (result) {
               this.open_file_path = result.value
           }
-          var result2 = await callComponent(
+          let result2 = await callComponent(
                               {
                                   base_component_id: "serverFolderContents"}
                                   ,{
@@ -7677,7 +7678,7 @@ return {}
                   this.open_file_path += "/" + fileorFolder.name
               }
               //alert(JSON.stringify(fileExts,null,2))
-             var result2 = await callComponent(
+             let result2 = await callComponent(
                                  {
                                      base_component_id: "serverFolderContentsV2"}
                                      ,{
@@ -7698,8 +7699,8 @@ return {}
             this.open_file_name = this.open_file_path + "/" + fileorFolder.name
 
             let propertyType = null
-            for (  var ere = 0;  ere < mm.properties.length;  ere++  ) {
-                var property = mm.properties[ ere ]
+            for (  let ere = 0;  ere < mm.properties.length;  ere++  ) {
+                let property = mm.properties[ ere ]
                 if (property.id == mm.design_mode_pane.property_id) {
                     propertyType = property
                 }
@@ -7742,7 +7743,7 @@ return {}
          }
 
 
-            var result2 = await callComponent(
+            let result2 = await callComponent(
                                 {
                                     base_component_id: "serverFolderContents"}
                                     ,{
