@@ -5273,6 +5273,14 @@ async function evalComponentFromPath(srcPath){
     return ret
 }
 
+async function releaseComponentFromPath(srcPath){
+    let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
+    await releaseCode(ret.codeId)
+
+    return ret
+}
+
+
 //------------------------------------------------------------------------------
 //
 //
@@ -5356,7 +5364,8 @@ async function setUpComponentsLocally() {
     await evalComponentFromPath( '/controls/evm_demo_count_contract.js')
 
     //
-    await evalComponentFromPath( '/controls/input.js')
+    await releaseComponentFromPath( '/controls/input.js')
+
     await evalComponentFromPath( '/controls/group.js')
     await evalComponentFromPath( '/controls/button.js')
     await evalComponentFromPath( '/controls/checkbox.js')
