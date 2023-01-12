@@ -1,4 +1,3 @@
-const crypto = require("crypto");
 const OnlyIpfsHash = require("ipfs-only-hash");
 const path = require("path");
 let sqlite3                     = require('sqlite3');
@@ -768,10 +767,6 @@ module.exports = {
 
             let componentOptions = null
             let maxProcesses = 1
-            let rowhash = crypto.createHash('sha256');
-
-
-
 
             let visibility = null
             visibility = mm.getValueOfCodeString(code,"visibility")
@@ -794,12 +789,6 @@ module.exports = {
 
             //showTimer(`5`)
 
-            let row = code.toString();
-
-            rowhash.setEncoding('hex');
-            rowhash.write(row);
-            rowhash.end();
-            //let sha1sum = rowhash.read();
             let readOnly = mm.getValueOfCodeString(code,"read_only")
             if (mm.getValueOfCodeString(code,"hide_header")) {
                 componentOptions = "HIDE_HEADER"
