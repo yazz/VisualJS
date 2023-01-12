@@ -30,12 +30,12 @@ module.exports = {
             `insert into
                  system_code  
                      (id, parent_id, code_tag, code, base_component_id, 
-                      max_processes,display_name, creation_timestamp,component_options, 
+                      display_name, creation_timestamp,component_options, 
                       logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, 
                       component_type, edit_file_path, 
                       code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
         stmtDeprecateOldCode = thisDb.prepare(
             " update  system_code  set code_tag = NULL  where base_component_id = ? and id != ?");
@@ -766,7 +766,6 @@ module.exports = {
 
 
             let componentOptions = null
-            let maxProcesses = 1
 
             let visibility = null
             visibility = mm.getValueOfCodeString(code,"visibility")
@@ -943,7 +942,6 @@ module.exports = {
                                                 "LATEST",
                                                 code,
                                                 baseComponentId,
-                                                maxProcesses,
                                                 displayName,
                                                 updatedTimestamp,
                                                 componentOptions,
