@@ -3834,6 +3834,8 @@ setTimeout(async function(){
               let currentPushIndex
               //let mm                     = this
               let currentComponentCurrentPush
+              currentComponent       = null
+              allComponentsonForm    = mm.model.forms[mm.active_form].components
 
               for (  componentIndex = 0 ;  componentIndex < allComponentsonForm.length  ;  componentIndex++  ) {
 
