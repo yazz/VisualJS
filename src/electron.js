@@ -4817,8 +4817,8 @@ function setUpSql() {
                                                released_components
                                                     (   id  ,  base_component_id  ,  component_name  ,  component_type, 
                                                         component_description  ,  icon_image_id  ,  
-                                                        ipfs_hash , version,read_write_status )
-                                               values (?,?,?,?,?,?,?,?,?)`)
+                                                        ipfs_hash , version,read_write_status, code )
+                                               values (?,?,?,?,?,?,?,?,?,?)`)
 
 
     stmtUpdateReleasedComponentList = dbsearch.prepare(`update released_components 
@@ -6722,7 +6722,10 @@ async function releaseCode(commitId) {
                 dbsearch.run("commit", function () {
                     dbsearch.serialize(function () {
                         dbsearch.run("begin exclusive transaction");
-                        stmtInsertReleasedComponentListItem.run(id, base_component_id, app_name, component_type, app_description, icon_image_id, ipfs_hash, '', readWriteStatus)
+                        stmtInsertReleasedComponentListItem.run(
+                            id, base_component_id, app_name, component_type,
+                            app_description, icon_image_id, ipfs_hash, '',
+                            readWriteStatus, codeString)
                         stmtInsertIconImageData.run(icon_image_id, dataString)
                         dbsearch.run("commit")
                         returnfn()
