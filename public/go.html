@@ -4219,6 +4219,9 @@ async function runYazzSourceCode(trcode2, args, callbackFn) {
 
 async function getSubComponents(srcCode) {
     let subC = yz.getValueOfCodeString(srcCode,"sub_components")
+    if (!subC) {
+        return []
+    }
     let retRes = []
     for (let subComponent  of  subC) {
         if (typeof subComponent === 'string' || subComponent instanceof String) {

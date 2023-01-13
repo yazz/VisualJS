@@ -1144,10 +1144,31 @@ module.exports = {
 
                                                             [  baseComponentId  ],
 
-                                                            async function(err, results)
+                                                            async function(err, results2)
                                                             {
+                                                              let results = await mm.getSubComponents(code)
+                                                              //zzz
+
                                                                 //showTimer(`15`)
                                                                 for (let i = 0  ;   i < results.length;    i ++ ) {
+                                                                    if (!results[i].child_code_id) {
+                                                                        let sqlR = await mm.getQuickSqlOneRow(
+                                                                            thisDb,
+                                                                            "select id from system_code where base_component_id = ? and code_tag = 'LATEST'",
+                                                                            [  results[i].child_base_component_id  ])
+                                                                        results[i].sha1 = sqlR.id
+                                                                        results[i].child_code_id = results[i].sha1
+                                                                    } else {
+                                                                        results[i].sha1 = results[i].child_code_id
+                                                                    }
+
+                                                                    let sqlr2 = await mm.getQuickSqlOneRow(
+                                                                        thisDb,
+                                                                        "select  code  from   system_code where id = ? ",
+                                                                        [  results[i].child_code_id  ])
+                                                                    results[i].code = sqlr2.code
+
+
                                                                     let newcodeEs = escape("(" + results[i].code.toString() + ")")
                                                                     let newCode2 =  `global_cached_structure_for_code_commit["${results[i].sha1}"] = {
                                                                     "code": unescape(\`${newcodeEs}\`),
@@ -1393,13 +1414,15 @@ module.exports = {
         let yz = this
 
         let subC = yz.getValueOfCodeString(srcCode,"sub_components")
+        if (!subC) {
+            return []
+        }
         let retRes = []
         for (let subComponent  of  subC) {
             if (typeof subComponent === 'string' || subComponent instanceof String) {
                 retRes.push({child_base_component_id: subComponent})
             }
         }
-        //zzz
         return retRes
     }
 
