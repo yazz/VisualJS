@@ -1193,11 +1193,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
             // save the result in "this.components_used_in_this_app"
             // ---------------------------------------------------------
             if (mm.edited_app_component_id) {
-                var sql = "select  child_base_component_id  from  component_usage  where " +
-                          "        base_component_id = '" + mm.edited_app_component_id + "'"
-
-                var results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
-                                            {   sql: sql  })
+                let results = await getSubComponents(mm.text)
 
                 for (var i = 0; i < results.length; i++) {
                     mm.components_used_in_this_app[results[i].child_base_component_id] = true
