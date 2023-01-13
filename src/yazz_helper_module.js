@@ -837,10 +837,6 @@ module.exports = {
                     for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                         let prop = properties2[rttte]
                         stmtInsertComponentProperty.run(baseComponentId, prop.id)
-
-
-
-
                     }
                 }
 
