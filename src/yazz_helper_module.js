@@ -1122,10 +1122,6 @@ module.exports = {
                                                 newCode += `
                                                 //newcodehere
                                             `
-                                                thisDb.serialize(
-                                                    async function() {
-                                                        //showTimer(`15.....1`)
-
 
                                                               let results = await mm.getSubComponents(code)
                                                               //zzz
@@ -1226,10 +1222,7 @@ module.exports = {
                                                                 fs.writeFileSync( newLocalYazzPath,  code )
                                                                 //showTimer(`15.7`)
 
-                                                        //showTimer(`15.....2`)
 
-                                                    }
-                                                    , sqlite3.OPEN_READONLY)
                                                 //showTimer(`15.8`)
                                             }
                                             //showTimer(`15.9`)
