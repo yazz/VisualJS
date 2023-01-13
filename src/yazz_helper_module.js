@@ -1018,10 +1018,11 @@ module.exports = {
                                             let subComponents = mm.getValueOfCodeString(code, "sub_components")
                                             if (subComponents) {
                                                 for (let tt = 0; tt < subComponents.length ; tt++) {
+                                                    let childComponent = await mm.getChildDetails(subComponents[tt])
                                                     stmtInsertSubComponent.run(
                                                         baseComponentId,
-                                                        subComponents[tt],
-                                                        subComponents[tt])
+                                                        childComponent.baseComponentId,
+                                                        childComponent.codeId)
                                                 }
                                             }
                                             let sqliteCode = ""
@@ -1034,10 +1035,11 @@ module.exports = {
                                                     for (let tew = 0; tew < options.sub_components.length ; tew ++) {
                                                         ////showTimer("Saving " + options.sub_components[tew])
                                                         if (mm.isValidObject(baseComponentId)) {
+                                                            let childComponent = await mm.getChildDetails(options.sub_components[tew])
                                                             stmtInsertSubComponent.run(
                                                                 baseComponentId,
-                                                                options.sub_components[tew],
-                                                                options.sub_components[tew])
+                                                                childComponent.baseComponentId,
+                                                                childComponent.codeId)
                                                         }
                                                     }
                                                 }
@@ -1360,6 +1362,15 @@ module.exports = {
         })
         let ret = await promise
         return ret
+    }
+
+    ,
+    getChildDetails: async function(subComponent) {
+        let newSubComponent = {
+            baseComponentId: subComponent,
+            codeId:          subComponent
+        }
+        return newSubComponent
     }
 
 
