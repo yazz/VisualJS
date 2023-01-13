@@ -1126,26 +1126,7 @@ module.exports = {
                                                     async function() {
                                                         //showTimer(`15.....1`)
 
-                                                        let stmt = thisDb.all(
-                                                            `select
-                                                            system_code.id as sha1,
-                                                            child_base_component_id,
-                                                            code
-                                                        from
-                                                            component_usage,
-                                                            system_code
-                                                        where
-                                                            component_usage.base_component_id = ?
-                                                        and
-                                                            system_code.base_component_id = component_usage.child_base_component_id
-                                                        and
-                                                            code_tag = 'LATEST'
-                                                            `,
 
-                                                            [  baseComponentId  ],
-
-                                                            async function(err, results2)
-                                                            {
                                                               let results = await mm.getSubComponents(code)
                                                               //zzz
 
@@ -1245,7 +1226,6 @@ module.exports = {
                                                                 fs.writeFileSync( newLocalYazzPath,  code )
                                                                 //showTimer(`15.7`)
 
-                                                            })
                                                         //showTimer(`15.....2`)
 
                                                     }
