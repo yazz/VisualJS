@@ -1190,7 +1190,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
             // ---------------------------------------------------------
             // find out which sub components are used by this app
             //
-            // save the result in "this.component_usage"
+            // save the result in "this.components_used_in_this_app"
             // ---------------------------------------------------------
             if (mm.edited_app_component_id) {
                 var sql = "select  child_base_component_id  from  component_usage  where " +
@@ -1200,7 +1200,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
                                             {   sql: sql  })
 
                 for (var i = 0; i < results.length; i++) {
-                    mm.component_usage[results[i].child_base_component_id] = true
+                    mm.components_used_in_this_app[results[i].child_base_component_id] = true
                 }
             }
 
@@ -1290,7 +1290,7 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
                     var componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
                     if (mm.edited_app_component_id) {
-                        mm.component_usage[  componentConfig.base_component_id  ] = true
+                        mm.components_used_in_this_app[  componentConfig.base_component_id  ] = true
                     }
 
 
@@ -1876,7 +1876,7 @@ ${origCode}
             this.refresh++
             if (!component_loaded[newItem.base_component_id]) {
                await loadUiComponentsV4([newItem.base_component_id])
-               this.component_usage[newItem.base_component_id] = true
+               this.components_used_in_this_app[newItem.base_component_id] = true
             }
 
             var compEvaled1 = global_component_type_details_cache[newItem.base_component_id]
@@ -4630,7 +4630,7 @@ return {}
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
-                      component_usage:             new Object(),
+                      components_used_in_this_app:             new Object(),
                       ui_code_editor: null,
                       form_runtime_info: {},
                       text: texti,
@@ -4729,7 +4729,7 @@ return {}
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
-                      component_usage:             new Object(),
+                      components_used_in_this_app:             new Object(),
                       ui_code_editor: null,
                       form_runtime_info: {},
                       text: texti,
