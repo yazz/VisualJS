@@ -1384,6 +1384,25 @@ module.exports = {
         }
         return newSubComponent
     }
+    ,
+
+
+
+
+    getSubComponents: async function (srcCode) {
+        let yz = this
+
+        let subC = yz.getValueOfCodeString(srcCode,"sub_components")
+        let retRes = []
+        for (let subComponent  of  subC) {
+            if (typeof subComponent === 'string' || subComponent instanceof String) {
+                retRes.push({child_base_component_id: subComponent})
+            }
+        }
+        //zzz
+        return retRes
+    }
+
 
 
 

@@ -9,14 +9,8 @@ only_run_on_server(true)
     let userId = args.user_id
 
     async function saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
-        dbsearch.all(
-            "SELECT    child_base_component_id    FROM    component_usage    where    base_component_id = ? ;  "
-            ,
-            argsBaseComponentId
-            ,
 
-            async function(err, listOfSubComponentsRes)
-            {
+                let listOfSubComponentsRes = await yz.getSubComponents(code)
                 var listOfSubComponents = []
                 for (var yuy = 0; yuy < listOfSubComponentsRes.length ; yuy++ ) {
 
@@ -28,7 +22,7 @@ only_run_on_server(true)
                 console.log("              parentHashId:        " + parentHashId)
                 console.log("              argsBaseComponentId: " + argsBaseComponentId)
                 console.log("              userId:              " + userId)
-                //console.log("              code:                " + code)
+                console.log("              code:                " + code)
 
                 let saveret = await yz.saveCodeV3(
                             dbsearch,
@@ -57,8 +51,6 @@ only_run_on_server(true)
                             code_id:            codeIdRet
                             })
 
-
-            })
     }
 
 
