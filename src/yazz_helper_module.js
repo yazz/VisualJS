@@ -88,8 +88,8 @@ module.exports = {
         stmtInsertSubComponent = thisDb.prepare(`insert or ignore
                                                     into
                                                component_usage
-                                                    (base_component_id, child_base_component_id)
-                                               values (?,?)`)
+                                                    (base_component_id, child_base_component_id,  child_code_id)
+                                               values (?,?,?)`)
 
 
         stmtInsertAppDDLRevision = thisDb.prepare(  " insert into app_db_latest_ddl_revisions " +
@@ -1020,6 +1020,7 @@ module.exports = {
                                                 for (let tt = 0; tt < subComponents.length ; tt++) {
                                                     stmtInsertSubComponent.run(
                                                         baseComponentId,
+                                                        subComponents[tt],
                                                         subComponents[tt])
                                                 }
                                             }
@@ -1035,6 +1036,7 @@ module.exports = {
                                                         if (mm.isValidObject(baseComponentId)) {
                                                             stmtInsertSubComponent.run(
                                                                 baseComponentId,
+                                                                options.sub_components[tew],
                                                                 options.sub_components[tew])
                                                         }
                                                     }
