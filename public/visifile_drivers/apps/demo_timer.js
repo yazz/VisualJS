@@ -2510,11 +2510,7 @@ Pushlist
                         // ---------------------------------------------------------
                         if (mm.edited_app_component_id) {
                             debugger
-                            let sql = "select  child_base_component_id  from  component_usage  where " +
-                                "        base_component_id = '" + mm.edited_app_component_id + "'"
-
-                            let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
-                                {   sql: sql  })
+                            let results = await getSubComponents(mm.text)
 
                             for (let i = 0; i < results.length; i++) {
                                 mm.components_used_in_this_app[results[i].child_base_component_id] = true
@@ -7855,7 +7851,7 @@ return {}
                                 "active_form": "Form_1",
                                 "default_form": "Form_1",
                                 "app_selected": false,
-                                "id": "demo_timer_3aaf43a0931e11eda6af1ba3befe349f",
+                                "id": "demo_timer_ccb77130933411edb0348916f8dc5b51",
                                 "next_component_id": 115,
                                 "app_properties": [
                                     {
@@ -7871,8 +7867,8 @@ return {}
                                         "height": 355,
                                         "components": [
                                             {
-                                                "leftX": 49,
-                                                "topY": 32,
+                                                "leftX": 34,
+                                                "topY": 24,
                                                 "name": "aaa",
                                                 "base_component_id": "label_control",
                                                 "width": 100,
