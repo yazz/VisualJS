@@ -16,6 +16,7 @@ let stmtInsertAcceptTypesForComponentProperty;
 let stmtInsertDependency
 let fs = require('fs');
 let stmtInsertSubComponent
+let stmtDeleteSubComponent
 
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
@@ -84,6 +85,15 @@ module.exports = {
             "    (id,  code_id, dependency_type, dependency_name, dependency_version ) " +
             " values " +
             "    (?, ?, ?, ?, ? );");
+
+
+        stmtDeleteSubComponent = thisDb.prepare(`delete
+                                                    from
+                                               component_usage
+                                                    where
+                                               base_component_id = ?  
+                                                    and
+                                               child_base_component_id = ?`)
 
         stmtInsertSubComponent = thisDb.prepare(`insert or ignore
                                                     into
@@ -1019,6 +1029,7 @@ module.exports = {
                                             if (subComponents) {
                                                 for (let tt = 0; tt < subComponents.length ; tt++) {
                                                     let childComponent = await mm.getChildDetails(subComponents[tt])
+                                                    stmtDeleteSubComponent.run(baseComponentId, childComponent.baseComponentId)
                                                     stmtInsertSubComponent.run(
                                                         baseComponentId,
                                                         childComponent.baseComponentId,
@@ -1036,6 +1047,7 @@ module.exports = {
                                                         ////showTimer("Saving " + options.sub_components[tew])
                                                         if (mm.isValidObject(baseComponentId)) {
                                                             let childComponent = await mm.getChildDetails(options.sub_components[tew])
+                                                            stmtDeleteSubComponent.run(baseComponentId, childComponent.baseComponentId)
                                                             stmtInsertSubComponent.run(
                                                                 baseComponentId,
                                                                 childComponent.baseComponentId,
