@@ -1382,14 +1382,14 @@ Pushlist
             // save the result in "this.component_usage"
             // ---------------------------------------------------------
             if (mm.edited_app_component_id) {
-                var sql = "select  child_component_id  from  component_usage  where " +
+                var sql = "select  child_base_component_id  from  component_usage  where " +
                           "        base_component_id = '" + mm.edited_app_component_id + "'"
 
                 var results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                                             {   sql: sql  })
 
                 for (var i = 0; i < results.length; i++) {
-                    mm.component_usage[results[i].child_component_id] = true
+                    mm.component_usage[results[i].child_base_component_id] = true
                 }
             }
 

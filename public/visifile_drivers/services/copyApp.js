@@ -10,7 +10,7 @@ only_run_on_server(true)
 
     async function saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
         dbsearch.all(
-            "SELECT    child_component_id    FROM    component_usage    where    base_component_id = ? ;  "
+            "SELECT    child_base_component_id    FROM    component_usage    where    base_component_id = ? ;  "
             ,
             argsBaseComponentId
             ,
@@ -20,7 +20,7 @@ only_run_on_server(true)
                 var listOfSubComponents = []
                 for (var yuy = 0; yuy < listOfSubComponentsRes.length ; yuy++ ) {
 
-                    listOfSubComponents.push( listOfSubComponentsRes[yuy].child_component_id )
+                    listOfSubComponents.push( listOfSubComponentsRes[yuy].child_base_component_id )
 
                 }
                 console.log("    async function saveCopyOfAppWithDependencies( " + argsBaseComponentId)

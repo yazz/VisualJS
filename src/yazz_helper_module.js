@@ -88,7 +88,7 @@ module.exports = {
         stmtInsertSubComponent = thisDb.prepare(`insert or ignore
                                                     into
                                                component_usage
-                                                    (base_component_id, child_component_id)
+                                                    (base_component_id, child_base_component_id)
                                                values (?,?)`)
 
 
@@ -1113,7 +1113,7 @@ module.exports = {
                                                         let stmt = thisDb.all(
                                                             `select
                                                             system_code.id as sha1,
-                                                            child_component_id,
+                                                            child_base_component_id,
                                                             code
                                                         from
                                                             component_usage,
@@ -1121,7 +1121,7 @@ module.exports = {
                                                         where
                                                             component_usage.base_component_id = ?
                                                         and
-                                                            system_code.base_component_id = component_usage.child_component_id
+                                                            system_code.base_component_id = component_usage.child_base_component_id
                                                         and
                                                             code_tag = 'LATEST'
                                                             `,
@@ -1140,10 +1140,10 @@ module.exports = {
                                                                     "libs": [],
                                                                     "component_type": \"SYSTEM\",
                                                                     "code_id": "${results[i].sha1}",
-                                                                    "base_component_id": "${results[i].child_component_id}"
+                                                                    "base_component_id": "${results[i].child_base_component_id}"
                                                                 }
     
-                                                                global_map_base_component_id_to_commit_id["${results[i].child_component_id}"] = "${results[i].sha1}"
+                                                                global_map_base_component_id_to_commit_id["${results[i].child_base_component_id}"] = "${results[i].sha1}"
                                                                 `
                                                                     newCode += newCode2
                                                                 }
