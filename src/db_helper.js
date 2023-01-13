@@ -38,11 +38,6 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS component_property_accept_types (component_name TEXT, property_name TEXT,  accept_type_name TEXT,  accept_type_value TEXT);",
 
 
-            "CREATE TABLE IF NOT EXISTS component_usage (base_component_id TEXT, child_base_component_id TEXT,  child_code_id TEXT  );",
-            "CREATE INDEX IF NOT EXISTS component_usage_base_component_id_idx ON component_usage (base_component_id);",
-            "CREATE INDEX IF NOT EXISTS component_usage_child_base_component_id_idx ON component_usage (child_base_component_id);",
-            "CREATE INDEX IF NOT EXISTS component_usage_child_code_id_idx ON component_usage (child_code_id);",
-
             "CREATE TABLE IF NOT EXISTS app_allow_co_access (id TEXT, code_id TEXT, give_access_to_code_id TEXT , access_type TEXT);",
 
             "CREATE TABLE IF NOT EXISTS app_db_latest_ddl_revisions (base_component_id TEXT , latest_revision TEXT);",

@@ -15,8 +15,6 @@ let stmtUpdateCommitForCodeTag;
 let stmtInsertAcceptTypesForComponentProperty;
 let stmtInsertDependency
 let fs = require('fs');
-let stmtInsertSubComponent
-let stmtDeleteSubComponent
 
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
@@ -87,19 +85,6 @@ module.exports = {
             "    (?, ?, ?, ?, ? );");
 
 
-        stmtDeleteSubComponent = thisDb.prepare(`delete
-                                                    from
-                                               component_usage
-                                                    where
-                                               base_component_id = ?  
-                                                    and
-                                               child_base_component_id = ?`)
-
-        stmtInsertSubComponent = thisDb.prepare(`insert or ignore
-                                                    into
-                                               component_usage
-                                                    (base_component_id, child_base_component_id,  child_code_id)
-                                               values (?,?,?)`)
 
 
         stmtInsertAppDDLRevision = thisDb.prepare(  " insert into app_db_latest_ddl_revisions " +
@@ -1025,39 +1010,8 @@ module.exports = {
 
                                                 }
                                             }
-                                            let subComponents = mm.getValueOfCodeString(code, "sub_components")
-                                            if (subComponents) {
-                                                for (let tt = 0; tt < subComponents.length ; tt++) {
-                                                    let childComponent = await mm.getChildDetails(subComponents[tt])
-                                                    stmtDeleteSubComponent.run(baseComponentId, childComponent.baseComponentId)
-                                                    stmtInsertSubComponent.run(
-                                                        baseComponentId,
-                                                        childComponent.baseComponentId,
-                                                        childComponent.codeId)
-                                                }
-                                            }
+
                                             let sqliteCode = ""
-                                            if (mm.isValidObject(options)) {
-
-                                                ////showTimer(JSON.stringify(options,null,2))
-                                                if (options.sub_components) {
-                                                    ////showTimer("Save options: " + options.sub_components.length)
-                                                    ////showTimer(JSON.stringify(options,null,2))
-                                                    for (let tew = 0; tew < options.sub_components.length ; tew ++) {
-                                                        ////showTimer("Saving " + options.sub_components[tew])
-                                                        if (mm.isValidObject(baseComponentId)) {
-                                                            let childComponent = await mm.getChildDetails(options.sub_components[tew])
-                                                            stmtDeleteSubComponent.run(baseComponentId, childComponent.baseComponentId)
-                                                            stmtInsertSubComponent.run(
-                                                                baseComponentId,
-                                                                childComponent.baseComponentId,
-                                                                childComponent.codeId)
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            //showTimer(`12`)
-
                                             thisDb.run("commit", async function() {
 
                                             });
