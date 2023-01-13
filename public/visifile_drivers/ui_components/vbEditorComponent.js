@@ -2439,11 +2439,7 @@ Pushlist
             // ---------------------------------------------------------
             if (mm.edited_app_component_id) {
             debugger
-                let sql = "select  child_base_component_id  from  component_usage  where " +
-                          "        base_component_id = '" + mm.edited_app_component_id + "'"
-
-                let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
-                                            {   sql: sql  })
+                let results = await getSubComponents(mm.text)
 
                 for (let i = 0; i < results.length; i++) {
                     mm.components_used_in_this_app[results[i].child_base_component_id] = true
@@ -2926,7 +2922,6 @@ setTimeout(async function(){
 
                      let componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
                      if (mm.edited_app_component_id) {
-                     debugger
                          mm.components_used_in_this_app[  componentConfig.base_component_id  ] = true
                      }
 

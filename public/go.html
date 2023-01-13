@@ -3821,7 +3821,6 @@ async function sqliteQuery(sql) {
 
     METHODS
     -------
-    //zzz
 
       -----------
     - checkLibsV2
@@ -3970,7 +3969,6 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
             let componentId = componentItem.id
 
             if (componentId) {
-                //zzz
                 let compRec = global_cached_structure_for_code_commit[componentId]
                 if (compRec) {
                     component_loaded[compRec.base_component_id] = true
@@ -4217,6 +4215,18 @@ async function runYazzSourceCode(trcode2, args, callbackFn) {
             }
         }
     }
+}
+
+async function getSubComponents(srcCode) {
+    let subC = yz.getValueOfCodeString(srcCode,"sub_components")
+    let retRes = []
+    for (let subComponent  of  subC) {
+        if (typeof subComponent === 'string' || subComponent instanceof String) {
+            retRes.push({child_base_component_id: subComponent})
+        }
+    }
+    //zzz
+    return retRes
 }
 
 

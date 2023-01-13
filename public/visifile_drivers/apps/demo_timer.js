@@ -2997,7 +2997,6 @@ Pushlist
 
                                     let componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
                                     if (mm.edited_app_component_id) {
-                                        debugger
                                         mm.components_used_in_this_app[  componentConfig.base_component_id  ] = true
                                     }
 
