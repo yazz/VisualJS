@@ -2435,9 +2435,10 @@ Pushlist
             // ---------------------------------------------------------
             // find out which sub components are used by this app
             //
-            // save the result in "this.component_usage"
+            // save the result in "this.components_used_in_this_app"
             // ---------------------------------------------------------
             if (mm.edited_app_component_id) {
+            debugger
                 let sql = "select  child_base_component_id  from  component_usage  where " +
                           "        base_component_id = '" + mm.edited_app_component_id + "'"
 
@@ -2445,7 +2446,7 @@ Pushlist
                                             {   sql: sql  })
 
                 for (let i = 0; i < results.length; i++) {
-                    mm.component_usage[results[i].child_base_component_id] = true
+                    mm.components_used_in_this_app[results[i].child_base_component_id] = true
                 }
             }
 
@@ -2925,7 +2926,8 @@ setTimeout(async function(){
 
                      let componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
                      if (mm.edited_app_component_id) {
-                         mm.component_usage[  componentConfig.base_component_id  ] = true
+                     debugger
+                         mm.components_used_in_this_app[  componentConfig.base_component_id  ] = true
                      }
 
 
@@ -4136,9 +4138,9 @@ ${origCode}
 
                 mm.refresh++
                 if (!component_loaded[newItem.base_component_id]) {
-                //debugger
+                debugger
                    await loadUiComponentsV4([newItem.base_component_id])
-                   mm.component_usage[newItem.base_component_id] = true
+                   mm.components_used_in_this_app[newItem.base_component_id] = true
                 }
 
                 let compEvaled1 = global_component_type_details_cache[newItem.base_component_id]
@@ -7542,7 +7544,7 @@ return {}
                       local_app:                    false,
                       refresh: 0,
                       runtime_mode: runtimeMode,
-                      component_usage:             new Object(),
+                      components_used_in_this_app:             new Object(),
                       ui_code_editor: null,
                       form_runtime_info: {},
                       text: texti,
@@ -7831,7 +7833,7 @@ return {}
            design_mode_pane:            {type: "drag_drop"},
            show_advanced_transform:     false,
            available_components:        [],
-           component_usage:             new Object(),
+           components_used_in_this_app:             new Object(),
            form_runtime_info:           {},
            active_form:                 "Form_1",
            old_model:                   {},
