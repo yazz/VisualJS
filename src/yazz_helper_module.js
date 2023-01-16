@@ -1082,23 +1082,19 @@ module.exports = {
                                                                 //showTimer(`15`)
                                                                 for (let i = 0  ;   i < results.length;    i ++ ) {
                                                                     if (!results[i].child_code_id) {
-                                                                        console.log(results[i].child_base_component_id + ":= ...")
                                                                         let sqlR = await mm.getQuickSqlOneRow(
                                                                             thisDb
                                                                             ,
                                                                             "select   ipfs_hash as id,  code  from  released_components  where  base_component_id = ? "
                                                                             ,
                                                                             [  results[i].child_base_component_id  ])
-                                                                        console.log("child_code_id:= " + JSON.stringify(sqlR,null,2))
                                                                         if (!sqlR) {
-                                                                            console.log("using system_code ")
                                                                             sqlR = await mm.getQuickSqlOneRow(
                                                                                 thisDb
                                                                                 ,
                                                                                 "select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
                                                                                 ,
                                                                                 [  results[i].child_base_component_id  ])
-                                                                            console.log("system_code child_code_id:= " + JSON.stringify(sqlR.id,null,2))
                                                                         }
                                                                         results[i].sha1 = sqlR.id
                                                                         results[i].child_code_id = results[i].sha1
