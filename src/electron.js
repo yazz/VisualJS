@@ -2884,9 +2884,9 @@ async function startServices() {
                 let results = await yz.getQuickSql(
                     dbsearch
                     ,
-                    "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
+                    "SELECT  system_code.*  FROM   system_code, released_components   WHERE  released_components.base_component_id  in " +
                     "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
-                    "   and   code_tag = 'LATEST' "
+                    "   and   released_components.ipfs_hash = system_code.id "
                     ,
                     componentIds)
 
