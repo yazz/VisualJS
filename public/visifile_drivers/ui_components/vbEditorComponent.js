@@ -2438,7 +2438,6 @@ Pushlist
             // save the result in "this.components_used_in_this_app"
             // ---------------------------------------------------------
             if (mm.edited_app_component_id) {
-            debugger
                 let results = await getSubComponents(mm.text)
 
                 for (let i = 0; i < results.length; i++) {
@@ -5173,9 +5172,9 @@ ${origCode}
                      }
                      indexObjectSelector++
 
-                     var forms = mm.getForms()
+                     let forms = mm.getForms()
                      for (  var ere7 = 0; ere7 < forms.length; ere7++  ) {
-                         var form = forms[ ere7 ]
+                         let form = forms[ ere7 ]
                          objectListForSelector.push(
                              {
                                  value:      "" + indexObjectSelector,
