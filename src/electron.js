@@ -5291,7 +5291,7 @@ async function setUpComponentsLocally() {
     if (isWin) {
         //await evalComponentFromPath( '/services/powershell.js')
     }
-    await evalComponentFromPath( '/services/commandLine.js')
+    await releaseComponentFromPath( '/services/commandLine.js')
     await evalComponentFromPath( '/services/commandLine2.js')
     await evalComponentFromPath( '/services/copyApp.js')
     await evalComponentFromPath( '/services/downloadApp.js')
@@ -6674,24 +6674,26 @@ async function releaseCode(commitId) {
     let component_type = parsedCode.type
     let promise = new Promise(async function(returnfn) {
 
-        if (logo.startsWith("data:")) {
-            rowhash.setEncoding('hex');
-            rowhash.write(logo);
-            rowhash.end();
-            icon_image_id = rowhash.read();
-            dataString = logo
-        } else {
+        if (logo) {
+            if (logo.startsWith("data:")) {
+                rowhash.setEncoding('hex');
+                rowhash.write(logo);
+                rowhash.end();
+                icon_image_id = rowhash.read();
+                dataString = logo
+            } else {
 
-            let fullPath = path.join(__dirname, "../public" + logo)
-            let logoFileIn = fs.readFileSync(fullPath);
-            dataString = new Buffer(logoFileIn).toString('base64');
-            let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
-            let rowhash = crypto.createHash('sha256');
-            dataString = "data:image/" + imageExtension + ";base64," + dataString
-            rowhash.setEncoding('hex');
-            rowhash.write(dataString);
-            rowhash.end();
-            icon_image_id = rowhash.read();
+                let fullPath = path.join(__dirname, "../public" + logo)
+                let logoFileIn = fs.readFileSync(fullPath);
+                dataString = new Buffer(logoFileIn).toString('base64');
+                let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
+                let rowhash = crypto.createHash('sha256');
+                dataString = "data:image/" + imageExtension + ";base64," + dataString
+                rowhash.setEncoding('hex');
+                rowhash.write(dataString);
+                rowhash.end();
+                icon_image_id = rowhash.read();
+            }
         }
 
         let componentListRecord = await yz.getQuickSqlOneRow(dbsearch, "select * from released_components where base_component_id = ?", [base_component_id])
