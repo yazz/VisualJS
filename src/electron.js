@@ -6239,7 +6239,7 @@ async function parseCode(code) {
 
     let componentType = ""
     if (yz.getValueOfCodeString(code,"component_type") == "SYSTEM") {
-        componentType = "app"
+        componentType = "system"
     } else if (yz.getValueOfCodeString(code,"component_type") == "APP") {
         componentType = "app"
     } else if (yz.getValueOfCodeString(code,"component_type") == "VB") {
