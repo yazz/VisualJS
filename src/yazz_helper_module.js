@@ -1348,6 +1348,8 @@ module.exports = {
         for (let subComponent  of  subC) {
             if (typeof subComponent === 'string' || subComponent instanceof String) {
                 retRes.push({child_base_component_id: subComponent})
+            } else {
+                retRes.push(subComponent)
             }
         }
         return retRes
