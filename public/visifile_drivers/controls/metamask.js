@@ -1,6 +1,5 @@
 function(args) {
 /*
-is_app(true)
 component_type("VB")
 display_name("Meta control")
 description("This will return the metamask control")
