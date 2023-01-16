@@ -6118,7 +6118,7 @@ function function_call_requestPart2 (msg) {
         dbsearch.serialize(
             function() {
                 let stmt = dbsearch.all(
-                  "SELECT id FROM system_code where base_component_id = ? and code_tag = 'LATEST'; ",
+                  "SELECT  ipfs_hash as id  FROM  released_components  where  base_component_id = ?; ",
 
                    msg.find_component.base_component_id,
 
