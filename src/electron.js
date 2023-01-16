@@ -5175,55 +5175,24 @@ async function loadComponentFromIpfs(ipfsHash) {
 //------------------------------------------------------------------------------
 async function addOrUpdateDriver(  codeString ,options ) {
 
-    let name = yz.getValueOfCodeString(codeString,"base_component_id")
+    try {
 
-    let promise = new Promise(async function(returnfn) {
-
-        dbsearch.serialize(
-            function() {
-                dbsearch.all(
-                    " select  " +
-                    "     base_component_id, code, id " +
-                    " from " +
-                    "     system_code " +
-                    " where " +
-                    "     base_component_id = ? and code_tag = 'LATEST';"
-                    ,
-                    name
-                    ,
-                    async function(err, rows) {
-                        if (!err) {
-                            try {
-                                let parentId = null
-                                if (rows.length > 0) {
-                                    parentId = rows[0].id
-                                }
-
-                                let saveRet = await yz.saveCodeV3(dbsearch,    codeString  ,options);
-                                let codeId = null
-                                if (saveRet) {
-                                    codeId = saveRet.code_id
-                                }
-                                returnfn({codeId: codeId})
+        let saveRet = await yz.saveCodeV3(dbsearch,    codeString  ,options);
+        let codeId = null
+        if (saveRet) {
+            codeId = saveRet.code_id
+        }
+        return {codeId: codeId}
 
 
 
-                              } catch(err) {
-                                  console.log(err);
-                                  let stack = new Error().stack
-                                  console.log( stack )
-                                  returnfn({error: err})
-                              } finally {
-                                returnfn({})
-                              }
+      } catch(err) {
+          console.log(err);
+          let stack = new Error().stack
+          console.log( stack )
+          return {error: err}
 
-                  }
-              }
-          );
-      }, sqlite3.OPEN_READONLY)
-  })
-  let ret = await promise
-  return ret
+      }
 }
 
 
