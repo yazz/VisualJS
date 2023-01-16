@@ -2925,9 +2925,9 @@ async function startServices() {
                     dbsearch.serialize(
                         function() {
                             let stmt = dbsearch.all(
-                                "SELECT  *  FROM   system_code   WHERE   base_component_id in " +
-                                "("  + componentHashToIds.map(function(){ return "?" }).join(",") + " )" +
-                                "   and   code_tag = 'LATEST' ",
+                                "SELECT  ipfs_hash as id   FROM   released_components   WHERE   base_component_id in " +
+                                "("  + componentHashToIds.map(function(){ return "?" }).join(",") + " )" 
+                                ,
                                 componentHashToIds
                                 ,
 
