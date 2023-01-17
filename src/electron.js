@@ -5362,12 +5362,6 @@ async function setUpComponentsLocally() {
 
 
 
-    //
-    // forms
-    //
-    await releaseComponentFromPath( '/apps/formSubscribeToAppshare.js')
-
-
 
     //
     // functions
@@ -5388,7 +5382,6 @@ async function setUpComponentsLocally() {
     await releaseComponentFromPath( '/ui_components/historyViewerComponent.js')
     await releaseComponentFromPath( '/ui_components/exportEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/embedAppComponent.js')
-    await releaseComponentFromPath( '/ui_components/formEditorComponent.js')
     //await releaseComponentFromPath( '/ui_components/simpleDisplayEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/vbEditorComponent.js')
 
