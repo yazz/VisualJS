@@ -923,7 +923,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (results2.length > 0) {
                 mm.app_logos[appId] = results2[0].logo_url
               } else {
-                  mm.app_logos[appId] = "/driver_icons/white_edit.png"
+                  mm.app_logos[appId] = "/driver_icons/blocks.png"
               }
 
              mm.refresh++
