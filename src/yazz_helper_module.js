@@ -2,7 +2,6 @@ const OnlyIpfsHash = require("ipfs-only-hash");
 const path = require("path");
 let sqlite3                     = require('sqlite3');
 let stmtInsertNewCode
-let stmtDeprecateOldCode
 let stmtInsertIntoCodeTags
 let uuidv1          = require('uuid/v1');
 let stmtDeleteDependencies
@@ -28,16 +27,14 @@ module.exports = {
         stmtInsertNewCode = thisDb.prepare(
             `insert into
                  system_code  
-                     (id, parent_id, code_tag, code, base_component_id, 
+                     (id, parent_id, code, base_component_id, 
                       display_name, creation_timestamp,component_options, 
                       logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, 
                       component_type, edit_file_path, 
                       code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
-        stmtDeprecateOldCode = thisDb.prepare(
-            " update  system_code  set code_tag = NULL  where base_component_id = ? and id != ?");
 
         stmtInsertIntoCodeTags = thisDb.prepare(`insert or ignore
                                                     into
@@ -929,7 +926,6 @@ module.exports = {
                                             stmtInsertNewCode.run(
                                                 sha1sum,
                                                 parentHash,
-                                                "LATEST",
                                                 code,
                                                 baseComponentId,
                                                 displayName,
@@ -949,10 +945,6 @@ module.exports = {
                                                 userId,
                                                 1,
                                                 "1 point for being committed"
-                                            )
-                                            stmtDeprecateOldCode.run(
-                                                baseComponentId,
-                                                sha1sum
                                             )
 
 
