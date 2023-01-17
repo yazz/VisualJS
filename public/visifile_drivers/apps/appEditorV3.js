@@ -1907,8 +1907,7 @@ End of app preview menu
                                     system_code
                                  where
                                         base_component_id = '${baseComponentId}'
-                                           and
-                                        code_tag = 'LATEST' `)
+                                           `)
 
 
                         if (results) {
