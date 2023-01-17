@@ -930,42 +930,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
           openAppid: async function(appId) {
               let mm = this
-
-
-             //
-             // search
-             //
-
-               let sql2 =    "select  base_component_id,  app_icon_data as logo_url , code  from  released_components  " +
-                  " inner JOIN " +
-                  "     icon_images ON released_components.icon_image_id = icon_images.id " +
-                  "where " +
-                  "    component_type = 'app'" +
-                  " and " +
-                  "    base_component_id = '" + appId + "'  "
-
-             let results2 = await callComponent(
-                 {
-                      base_component_id:    "readFromInternalSqliteDatabase"
-                 }
-                 ,
-                 {
-                     sql: sql2
-                 })
-
-              if (results2.length > 0) {
-                let code  = results2[0].code
-                //alert(code)
-                let rest_api_base_url = yz.getValueOfCodeString(code, "rest_api")
-                if (rest_api_base_url) {
-                    window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/" + rest_api_base_url, appId)
-                } else {
-                    window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + appId + ".html", appId)
-                }
-              };
-
-             mm.refresh++
-
+              window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + appId + ".html", appId)
+              mm.refresh++
           },
 
           renameApp: async function(baseComponentId, displayName) {
