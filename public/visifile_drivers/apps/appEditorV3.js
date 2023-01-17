@@ -1896,19 +1896,20 @@ End of app preview menu
                                     | load app based on App Type (base_component_id") |
                                      -------------------------------------------------   */
                     } else {
+                    debugger
                         mm.base_component_id     = baseComponentId
                         //
                         // read the code for the component that we are editing
                         //
                         results = await sqliteQuery(
                                 `select
-                                    id, cast(code as text)  as  code, editors
+                                    system_code.id, cast(system_code.code as text)  as  code, system_code.editors
                                  from
-                                    system_code
+                                    system_code, released_components
                                  where
-                                        base_component_id = '${baseComponentId}'
+                                        released_components.base_component_id = '${baseComponentId}'
                                            and
-                                        code_tag = 'LATEST' `)
+                                        system_code.id = released_components.ipfs_hash `)
 
 
                         if (results) {
