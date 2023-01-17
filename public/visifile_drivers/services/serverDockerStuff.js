@@ -104,11 +104,11 @@ extraFns += "}"
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     base_component_id, code, id " +
+                            "     base_component_id, code, ipfs_hash as id " +
                             " from " +
-                            "     system_code " +
+                            "     released_components " +
                             " where " +
-                            "     base_component_id = ? and code_tag = 'LATEST';"
+                            "     base_component_id = ?;"
                             ,
                             args.app_base_component_id
                             ,
