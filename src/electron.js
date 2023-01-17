@@ -5270,7 +5270,6 @@ async function setUpComponentsLocally() {
     //await releaseComponentFromPath('/services/test_job.js')
     //await releaseComponentFromPath('/services/kafka_service.js')
     //await releaseComponentFromPath('/services/activemq_service.js')
-    await releaseComponentFromPath('/services/find_components_implementing.js')
 
     //await releaseComponentFromPath( '/services/web_preview.js')
     //await releaseComponentFromPath( '/services/spreadsheet_preview.js')
