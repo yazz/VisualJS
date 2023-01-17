@@ -1901,6 +1901,16 @@ End of app preview menu
                         // read the code for the component that we are editing
                         //
                         results = await sqliteQuery(
+                            `select
+                                    system_code.id, cast(system_code.code as text)  as  code, system_code.editors
+                                 from
+                                    system_code, released_components
+                                 where
+                                        released_components.base_component_id = '${baseComponentId}'
+                                           and
+                                        system_code.id = released_components.ipfs_hash `)
+                        if (!results || results.length == 0) {
+                            results = await sqliteQuery(
                                 `select
                                     id, cast(code as text)  as  code, editors
                                  from
@@ -1908,6 +1918,7 @@ End of app preview menu
                                  where
                                         base_component_id = '${baseComponentId}'
                                            `)
+                        }
 
 
                         if (results) {
