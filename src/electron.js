@@ -2579,9 +2579,8 @@ function keycloakProtector(params) {
         dbsearch.serialize(
             function() {
                 let stmt = dbsearch.all(
-                    "SELECT code FROM system_code where base_component_id = ? and code_tag = ?; ",
+                    "SELECT  code  FROM  released_components  WHERE  base_component_id = ? ; ",
                     appName2,
-                    "LATEST",
 
                     function(err, results)
                     {
