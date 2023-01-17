@@ -68,8 +68,8 @@ only_run_on_server(true)
         dbsearch.serialize(
             async function() {
                 dbsearch.all(
-                    "SELECT    id, code, display_name    FROM    system_code    where    " +
-                        " base_component_id = ? and code_tag = 'LATEST';  "
+                    "SELECT    ipfs_hash as id, code, component_name as display_name    FROM    released_components   where    " +
+                        " base_component_id = ? ;  "
                     ,
                     argsBaseComponentId
                     ,
