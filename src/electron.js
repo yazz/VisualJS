@@ -5418,8 +5418,8 @@ async function setUpComponentsLocally() {
     //await releaseComponentFromPath( '/apps/yazzcraft.js')
 
 
-    let todoRet = await releaseComponentFromPath( '/apps/todo.js')
-    let demoTimerRet = await releaseComponentFromPath( '/apps/demo_timer.js')
+    let todoRet = await evalHtmlComponentFromPath( '/apps/todo.js')
+    let demoTimerRet = await evalHtmlComponentFromPath( '/apps/demo_timer.js')
     await releaseCode(todoRet.codeId)
     await releaseCode(demoTimerRet.codeId)
 
