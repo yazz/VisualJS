@@ -289,14 +289,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             //
             // search
             //
-            let sql2 =    `SELECT  id, base_component_id, logo_url, read_write_status, display_name
-                         FROM
-                     system_code
-                         where
-                             code_tag = 'LATEST'
-                                 and
-                             component_type = 'APP'
-                     order by base_component_id asc; `
+            let sql2 =    "select  base_component_id,  app_icon_data as logo_url, component_name as display_name   from  released_components  " +
+                " inner JOIN " +
+                "     icon_images ON released_components.icon_image_id = icon_images.id " +
+                "where " +
+                "    component_type = 'app'"
+
 //        and
 //        visibility = 'PUBLIC'
 
