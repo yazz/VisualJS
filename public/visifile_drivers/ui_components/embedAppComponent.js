@@ -89,9 +89,8 @@ load_once_from_file(true)
 
 
          if (mm.baseComponentId) {
-             let sql =    "select  display_name as name from  system_code  where " +
-                 "        component_scope = 'app' and base_component_id = '" + mm.base_component_id + "'" +
-                 "        and code_tag = 'LATEST' "
+             let sql =    "select  component_name as name from  released_components  where " +
+                 "        base_component_id = '" + mm.base_component_id + "'"
 
              //alert( sql )
 
