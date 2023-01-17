@@ -902,13 +902,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              //
              // search
              //
-             let sql2 =    `SELECT  base_component_id, logo_url
-                               FROM
-                           system_code
-                               where
-                                   code_tag = 'LATEST'
-                                       and
-                                   base_component_id = '${appId}'; `
+
+               let sql2 =    "select  base_component_id,  app_icon_data as logo_url   from  released_components  " +
+                  " inner JOIN " +
+                  "     icon_images ON released_components.icon_image_id = icon_images.id " +
+                  "where " +
+                  "    component_type = 'app'" +
+                  " and " +
+                  "    base_component_id = '" + appId + "'  "
 
              let results2 = await callComponent(
                  {
@@ -934,13 +935,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              //
              // search
              //
-             let sql2 =    `SELECT  base_component_id, logo_url, code
-                               FROM
-                           system_code
-                               where
-                                   code_tag = 'LATEST'
-                                       and
-                                   base_component_id = '${appId}'; `
+
+               let sql2 =    "select  base_component_id,  app_icon_data as logo_url , code  from  released_components  " +
+                  " inner JOIN " +
+                  "     icon_images ON released_components.icon_image_id = icon_images.id " +
+                  "where " +
+                  "    component_type = 'app'" +
+                  " and " +
+                  "    base_component_id = '" + appId + "'  "
 
              let results2 = await callComponent(
                  {
