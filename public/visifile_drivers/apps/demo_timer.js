@@ -7571,8 +7571,8 @@ return {}
                                 let endIndex = this.text.indexOf("//** gen_" + "end **//")
 
 
-                                let sql =    "select  cast(code as text)  as  code  from  system_code  where " +
-                                    "        base_component_id = 'vb_editor_component'   and   code_tag = 'LATEST' "
+                                let sql =    "select  cast(code as text)  as  code  from  released_components  where " +
+                                    "        base_component_id = 'vb_editor_component'  "
 
                                 let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                                     {   sql: sql  })
