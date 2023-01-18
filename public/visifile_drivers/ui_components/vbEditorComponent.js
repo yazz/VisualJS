@@ -6058,9 +6058,9 @@ return {}
                 for (let xi =0; xi< allC.length ; xi ++) {
                      let comp = allC[xi]
                      // LEAVE this as a "var", otherwise components don't work inscripts
-                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                     cacc += ( "let " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                 }
-                eval(cacc)
+                //eval(cacc)
 
 
 
@@ -6109,9 +6109,9 @@ ${eventMessage.code}
                         eval(argsCode)
 
 
-
+debugger
                         let debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
-                        let efcc = eval(debugFcc)
+                        let efcc = eval(cacc + "" + debugFcc)
 
 
                         try {
