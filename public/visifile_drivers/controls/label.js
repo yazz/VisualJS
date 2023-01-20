@@ -69,12 +69,23 @@ properties(
         }
         ,
         {
-            id:         "setText2",
-            snippet:    `setText2("")`,
-            name:       "setText2",
+            id:         "setText",
+            snippet:    `setText("")`,
+            name:       "setText",
             type:       "Action",
             help:       `<div>Help text for
                             <b>setText2</b> function
+                         </div>`
+        }
+        ,
+        {
+            id:         "setTextAsync",
+            pre_snippet: `await `,
+            snippet:    `setTextAsync("")`,
+            name:       "setTextAsync",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>setTextAsync</b> function
                          </div>`
         }
         ,
@@ -162,7 +173,12 @@ logo_url("/driver_icons/text_control.png")
         }
         ,
         methods: {
-            setText2: function(newtext) {
+            setText: function(newtext) {
+                this.text = newtext
+                this.changedFn()
+            }
+            ,
+            setTextAsync: async function(newtext) {
                 this.text = newtext
                 this.changedFn()
             }
