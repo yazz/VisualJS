@@ -3864,8 +3864,63 @@ setTimeout(async function(){
 
           }
           ,
+         getControlMethodUseNonAsync: function(componentDetails, isComponentInDesignMode, methodId) {
+             return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                 let me = componentDetails
+                 let parent = null
+                 if (me.parent) {
+                     parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
+                 }
+
+                 let retv =  null
+                 let fnDetails       = null
+                 let controlDetails = null
+                 if (isComponentInDesignMode) {
+                     controlDetails = global_design_mode_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
+                 } else {
+                     controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
+                 }
+                 fnDetails = controlDetails[methodId]
+                 retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
 
 
+                 return retv
+             }
+         }
+         ,
+         getControlMethodUseAsync: function(componentDetails) {
+             return async function (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
+                 let me = componentDetails
+                 let parent = null
+                 if (me.parent) {
+                     parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
+                 }
+
+                 let fnDetails = null
+                 if (isValidObject(methodFn)) {
+                     let thecode =
+                         `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                    ${methodFn}
+                    })`
+
+                     fnDetails = eval(thecode)
+
+                 } else {
+                     let controlDetails = null
+                     if (isComponentInDesignMode) {
+                         controlDetails = global_design_mode_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
+                     } else {
+                         controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
+                     }
+                     fnDetails = controlDetails[methodId]
+                 }
+                 let retv = await fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+
+
+                 return retv
+             }
+         }
+         ,
 
          getControlMethod: function(componentDefn,componentDetails) {
             let mm = this
@@ -3894,63 +3949,12 @@ setTimeout(async function(){
             //   async
             if (isAsync || isValidObject(methodFn)){
 
-                            return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                                let me = componentDetails
-                                let parent = null
-                                if (me.parent) {
-                                    parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
-                                }
-
-                                let fnDetails       = null
-                                if (isValidObject(methodFn)) {
-                                    let thecode =
-                `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                ${methodFn}
-                })`
-
-                                    fnDetails = eval(thecode)
-
-                                } else {
-                                    let controlDetails = null
-                                    if (isComponentInDesignMode) {
-                                        controlDetails = global_design_mode_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
-                                    } else {
-                                        controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
-                                    }
-                                     fnDetails = controlDetails[methodId]
-                                }
-                                let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-
-
-                                return retv
-                            }
+                            return mm.getControlMethodUseAsync(componentDetails, isComponentInDesignMode, methodId)
 
             //   NOT async
             } else {
 
-
-                            return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                                let me = componentDetails
-                                let parent = null
-                                if (me.parent) {
-                                    parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
-                                }
-
-                                let retv =  null
-                                let fnDetails       = null
-                                let controlDetails = null
-                                if (isComponentInDesignMode) {
-                                    controlDetails = global_design_mode_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
-                                } else {
-                                    controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
-                                }
-                                fnDetails = controlDetails[methodId]
-                                retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-
-
-                                return retv
-                            }
-
+                            return mm.getControlMethodUseNonAsync(componentDetails, isComponentInDesignMode, methodId)
 
             }
 
