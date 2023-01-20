@@ -296,10 +296,6 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             if (isValidObject(this.args.text)) {
             }
 
-            if (isValidObject(this.args.name)) {
-                global_app_controls_by_name_returns_a_vue_instance[this.args.name] =  this
-            }
-
             if (web3 && web3.eth) {
               let result = await web3.eth.getAccounts()
               if (result.length == 0) {

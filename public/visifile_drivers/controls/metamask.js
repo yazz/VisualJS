@@ -97,9 +97,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
             if (isValidObject(this.args.text)) {
             }
 
-            if (isValidObject(this.args.name)) {
-                global_app_controls_by_name_returns_a_vue_instance[this.args.name] =  this
-            }
 
             if (!this.design_mode) {
               await this.updateAccounts()
