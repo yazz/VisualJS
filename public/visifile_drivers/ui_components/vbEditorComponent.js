@@ -6112,7 +6112,7 @@ ${eventMessage.code}
                         eval(argsCode)
 
 
-debugger
+//debugger
                         let debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
                         let efcc = eval(cacc + "" + debugFcc)
 
