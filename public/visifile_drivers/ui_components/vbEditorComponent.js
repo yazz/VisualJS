@@ -3864,7 +3864,7 @@ setTimeout(async function(){
 
           }
           ,
-         getControlMethodUseNonAsync: function(componentDetails, isComponentInDesignMode, methodId) {
+         getControlNonAsyncMethod: function(componentDetails, isComponentInDesignMode, methodId) {
              return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                  let me = componentDetails
                  let parent = null
@@ -3888,7 +3888,7 @@ setTimeout(async function(){
              }
          }
          ,
-         getControlMethodUseAsync: function(componentDetails) {
+         getControlAsyncMethod: function(componentDetails) {
              return async function (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
                  let me = componentDetails
                  let parent = null
@@ -3922,12 +3922,11 @@ setTimeout(async function(){
          }
          ,
 
-         getControlMethod: function(componentDefn,componentDetails) {
-            let mm = this
-            let methodId = componentDefn.id
-            let methodFn = componentDefn.fn
-            let fnDetailsTemp       = null
-            let isAsync = true
+         getControlMethod: function(  componentDefn  ,  componentDetails  ) {
+            let mm                      = this
+            let methodId                = componentDefn.id
+            let methodFn                = componentDefn.fn
+            let isAsync                 = true
             let isComponentInDesignMode = mm.design_mode
 
             if (!isValidObject(methodFn)) {
@@ -3949,12 +3948,12 @@ setTimeout(async function(){
             //   async
             if (isAsync || isValidObject(methodFn)){
 
-                            return mm.getControlMethodUseAsync(componentDetails, isComponentInDesignMode, methodId)
+                            return mm.getControlAsyncMethod(componentDetails, isComponentInDesignMode, methodId)
 
             //   NOT async
             } else {
 
-                            return mm.getControlMethodUseNonAsync(componentDetails, isComponentInDesignMode, methodId)
+                            return mm.getControlNonAsyncMethod(componentDetails, isComponentInDesignMode, methodId)
 
             }
 
