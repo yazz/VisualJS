@@ -6044,7 +6044,7 @@ return {}
                 let allForms = this.getForms();
                 for (let fi =0; fi < allForms.length ; fi ++) {
                      let aForm = allForms[fi]
-                     formEval += ("let " + aForm.name +
+                     formEval += ("var " + aForm.name +
                          " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
                 }
@@ -6061,7 +6061,7 @@ return {}
                 for (let xi =0; xi< allC.length ; xi ++) {
                      let comp = allC[xi]
                      // LEAVE this as a "var", otherwise components don't work inscripts
-                     cacc += ( "let " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                 }
                 //eval(cacc)
 
@@ -6084,20 +6084,20 @@ ${eventMessage.code}
 
                         if (isValidObject(thisControl.parent)) {
                             let cacc =""
-                            cacc += ( "let parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                            cacc += ( "var parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
                             eval(cacc)
                         }
 
                         let meCode =""
-                        meCode += ( "let me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                        meCode += ( "var me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
                         eval(meCode)
 
                         let appCode =""
-                        appCode += ( "let app = mm.model;")
+                        appCode += ( "var app = mm.model;")
                         eval(appCode)
 
                         meCode =""
-                        meCode += ( "let myForm = mm.model.forms['" + this.active_form + "'];")
+                        meCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
                         eval(meCode)
 
 
@@ -6106,7 +6106,7 @@ ${eventMessage.code}
                         if (isValidObject(eventMessage.args)) {
                             listOfArgs = Object.keys(eventMessage.args)
                             for (let rtt=0;rtt<listOfArgs.length;rtt++) {
-                                argsCode += "let " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
+                                argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
                             }
                         }
                         eval(argsCode)
@@ -6142,11 +6142,11 @@ ${eventMessage.code}
 ${eventMessage.code}
 })`
                         let meCode =""
-                        meCode += ( "let me = mm.model.forms['" + this.active_form + "'];")
+                        meCode += ( "var me = mm.model.forms['" + this.active_form + "'];")
                         eval(meCode)
 
                         let appCode =""
-                        appCode += ( "let app = mm.model;")
+                        appCode += ( "var app = mm.model;")
                         eval(appCode)
 
                         let debugFcc = getDebugCode(this.active_form ,fcc,{skipFirstAndLastLine: true})
