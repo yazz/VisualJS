@@ -5320,6 +5320,7 @@ async function setUpComponentsLocally() {
 
     await releaseComponentFromPath( '/controls/group.js')
     await releaseComponentFromPath( '/controls/button.js')
+
     await releaseComponentFromPath( '/controls/checkbox.js')
     await releaseComponentFromPath( '/controls/radiobutton.js')
     await releaseComponentFromPath( '/controls/dropdown.js')
@@ -5358,6 +5359,7 @@ async function setUpComponentsLocally() {
     //await releaseComponentFromPath( '/controls/rhpam.js')
     //await releaseComponentFromPath( '/controls/rhdata_grid.js')
     //await releaseComponentFromPath( '/controls/rhopenshift.js')
+    await releaseComponentFromPath( '/controls/editableButton.js')
 
 
 
