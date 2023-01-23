@@ -1909,7 +1909,7 @@ Pushlist
                                      v-bind:refresh='refresh'
                                      class='btn btn-info'
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width / 2) - 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(active_component_index)'>
@@ -1917,6 +1917,23 @@ Pushlist
                                     ...
 
                             </div>
+
+
+
+
+                          <!-- Edit controls ... button -->
+                          <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index) && hasMoreDetailsUi(active_form,active_component_index)'
+                                   v-bind:refresh='refresh'
+                                   class='btn btn-info'
+                                   v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
+                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                   v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(active_component_index)'>
+
+                            ...
+
+                          </div>
 
 
 
