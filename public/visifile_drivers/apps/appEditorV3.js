@@ -2176,7 +2176,7 @@ End of app preview menu
                     global_component_type_details_cache[mm.app_base_component_id]             = null
 
                     await mm.load_new_version_of_edited_app({codeId: editingAppCodeId})
-                    //zzz
+
 
                 } else if (mm.app_base_component_id) {
                     editingAppBaseComponentId                                                   = mm.app_base_component_id
@@ -2201,6 +2201,11 @@ End of app preview menu
                         mm.save_state = "saved"
                         mm.checkSavedFile()
                     } else if (message.type == "force_save") {
+                        //mm.save_state = "saved"
+                        //mm.checkSavedFile()
+                    } else if (message.type == "switch_editor") {
+                    //zzz
+                        mm.switchEditor(message.editorName)
                         //mm.save_state = "saved"
                         //mm.checkSavedFile()
                     } else if (message.type == "force_raw_load") {
