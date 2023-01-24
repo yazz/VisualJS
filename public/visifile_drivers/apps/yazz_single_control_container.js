@@ -1398,10 +1398,11 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
 
 //zzz
 debugger
-            this.addComponent(
+            this.addComponentV2(
                 200,
                 200,
              {
+                base_component_id: "button_control",
                 type:       "add_component",
                 text:        "this.highlighted_control",
                 offsetX:     200,
@@ -1409,8 +1410,6 @@ debugger
             },
                 null,
                 null,
-                0,
-                0,
                 [])
 
            hideProgressBar()
@@ -1818,7 +1817,7 @@ ${origCode}
                          parentName    = parentContainer.name
                      }
 
-
+debugger
                      this.addComponent(  offsetX,
                                          offsetY,
                                          data,
@@ -1861,6 +1860,7 @@ ${origCode}
      }
      ,
         addComponent: async function(leftX,topY,data, parentId, parentName, parentOffsetX, parentOffsetY,defProps) {
+        debugger
             var mm = this
             //alert(JSON.stringify(data,null,2))
 

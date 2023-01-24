@@ -4078,7 +4078,7 @@ ${origCode}
                          parentName    = parentContainer.name
                      }
 
-
+                     debugger
                      await this.addComponentV2(  offsetX,
                                          offsetY,
                                          data,
@@ -4119,6 +4119,7 @@ ${origCode}
      }
      ,
         addComponent: async function(leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
+            debugger
             await this.addComponentV2(leftX,topY,data, parentType, parentName, defProps)
         }
         ,
@@ -4309,7 +4310,7 @@ ${origCode}
         addControl: async function(controlDetails) {
             let mm = this
 
-
+debugger
             let newControl = await mm.addComponentV2( 10,
                                                       10,
                                                       {
@@ -6671,6 +6672,7 @@ ${eventMessage.code}
                  let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                  let yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
+                 debugger
                  await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
                  this.highlighted_control = null
 
