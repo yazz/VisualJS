@@ -504,6 +504,12 @@ End of app preview menu
             </div>
 
 
+            <div
+                v-if='app_loaded  &&  (preview_type=="control")'
+            >
+              {{window.edited_control_base_component_id}}
+            </div>
+
             <component  id="app_preview_component"
                         ref="app_preview_component"
                         v-if='app_loaded  &&  (preview_type=="app")'
