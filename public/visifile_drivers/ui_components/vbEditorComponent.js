@@ -6293,7 +6293,7 @@ ${eventMessage.code}
          switchEditor: async function(editorComponentName) {
              let mm = this
              //form_runtime_info[active_form].component_incoming_count_by_uuid[model.forms[active_form].components[active_component_index].base_component_id
-             debugger
+             //debugger
              mm.$root.$emit(
                  'message', {
                      type:          "switch_editor",

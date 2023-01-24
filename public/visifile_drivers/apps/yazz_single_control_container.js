@@ -30,12 +30,12 @@ formEditor({
       "add_block": "alert('Add block called')",
       "components": [
         {
-          "leftX": 24,
-          "topY": 47,
+          "leftX": 124,
+          "topY": 147,
           "name": "aaa",
           "base_component_id": "label_control",
-          "width": 320,
-          "height": 99,
+          "width": 100,
+          "height": 100,
           "text": "Drag controls from the left onto this grid",
           "background_color": "",
           "parent": null,
@@ -1395,6 +1395,23 @@ v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[act
               }
 
            })
+
+//zzz
+debugger
+            this.addComponent(
+                200,
+                200,
+             {
+                type:       "add_component",
+                text:        "this.highlighted_control",
+                offsetX:     200,
+                offsetY:     200
+            },
+                null,
+                null,
+                0,
+                0,
+                [])
 
            hideProgressBar()
            mm.in_change_model = false
@@ -4755,12 +4772,12 @@ return {}
       "add_block": "alert('Add block called')",
       "components": [
         {
-          "leftX": 24,
-          "topY": 47,
-          "name": "aaa",
-          "base_component_id": "label_control",
-          "width": 320,
-          "height": 99,
+            "leftX": 124,
+            "topY": 147,
+            "name": "aaa",
+            "base_component_id": "label_control",
+            "width": 100,
+            "height": 100,
           "text": "Drag controls from the left onto this grid",
           "background_color": "",
           "parent": null,
