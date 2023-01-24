@@ -508,6 +508,17 @@ End of app preview menu
                 v-if='app_loaded  &&  (preview_type=="control")'
             >
               {{window.edited_control_base_component_id}}
+              <br/>
+              <component  id="app_preview_component"
+                          ref="app_preview_component"
+                          v-if='app_loaded  &&  (preview_type=="control")'
+                          style='background-color: white;'
+                          v-bind:is='"yazz_single_control_container"'
+                          v-bind:is2="base_component_id"
+                          zzz
+                          >
+
+              </component>
             </div>
 
             <component  id="app_preview_component"
@@ -2235,7 +2246,7 @@ End of app preview menu
 
 
                 })
-
+                await loadUiComponentsV4(["yazz_single_control_container"])
                 setInterval(async function() {
 
                     if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
