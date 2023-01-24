@@ -506,7 +506,7 @@ End of app preview menu
 
             <component  id="app_preview_component"
                         ref="app_preview_component"
-                        v-if='app_loaded'
+                        v-if='app_loaded  &&  (preview_type=="app")'
                         style='background-color: white;'
                         v-bind:is="base_component_id">
                
@@ -803,6 +803,7 @@ End of app preview menu
                highlighted_block_name:    "",
                highlighted_node:    null,
                app_loaded:          false,
+               preview_type:        "app",
                app_component_name:  null,
                base_component_id:   null,
                code_id:             null,
@@ -2206,6 +2207,9 @@ End of app preview menu
                     } else if (message.type == "switch_editor") {
                     //zzz
                         mm.switchEditor(message.editorName)
+                        if (message.previewType) {
+                            mm.preview_type = message.previewType
+                        }
                         //mm.save_state = "saved"
                         //mm.checkSavedFile()
                     } else if (message.type == "force_raw_load") {

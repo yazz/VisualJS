@@ -6296,8 +6296,9 @@ ${eventMessage.code}
              debugger
              mm.$root.$emit(
                  'message', {
-                     type: "switch_editor",
-                     editorName: editorComponentName
+                     type:          "switch_editor",
+                     editorName:     editorComponentName,
+                     previewType:   "control"
                  })
          }
          ,
