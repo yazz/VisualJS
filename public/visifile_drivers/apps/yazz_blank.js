@@ -2773,7 +2773,7 @@ logo_url("/driver_icons/blocks.png")
                     200,
                     200,
                     {
-                        base_component_id: "button_control",
+                        base_component_id: mm.args.control_type,
                         type:       "add_component",
                         text:        "this.highlighted_control",
                         offsetX:     200,
