@@ -507,14 +507,12 @@ End of app preview menu
             <div
                 v-if='app_loaded  &&  (preview_type=="control")'
             >
-              {{window.edited_control_base_component_id}}
-              <br/>
               <component  id="app_preview_component"
                           ref="app_preview_component"
                           v-if='app_loaded  &&  (preview_type=="control")'
                           style='background-color: white;'
                           v-bind:is='"yazz_single_control_container"'
-                          v-bind:is2="base_component_id"
+                          v-bind:args="{control_type: window.edited_control_base_component_id}"
                           zzz
                           >
 

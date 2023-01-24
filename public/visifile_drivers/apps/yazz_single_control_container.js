@@ -100,7 +100,7 @@ logo_url("/driver_icons/blocks.png")
 `<div   v-bind:id='uid2'
         v-if='uid2 != null'
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
-
+{{JSON.stringify(args.control_type,null,2)}}
 
     <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;padding-bottom: 10px;' v-if='design_mode' >
 
