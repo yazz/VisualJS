@@ -2518,6 +2518,7 @@ logo_url("/driver_icons/blocks.png")
             mm.in_change_model      = true
             disableAutoSave = false
 
+
             //console.log("UI Component mounted: " + mm.unique_app_dom_element_id )
 
 
@@ -2764,6 +2765,24 @@ logo_url("/driver_icons/blocks.png")
             //
             // end of update all watched vars when a form is activated
             //
+
+            if (mm.args.control_type) {
+                //zzz
+                debugger
+                this.addComponentV2(
+                    200,
+                    200,
+                    {
+                        base_component_id: "button_control",
+                        type:       "add_component",
+                        text:        "this.highlighted_control",
+                        offsetX:     200,
+                        offsetY:     200
+                    },
+                    null,
+                    null,
+                    [])
+            }
 
             setTimeout(async function(){
                 if (isStaticHtmlPageApp) {
