@@ -2769,6 +2769,7 @@ logo_url("/driver_icons/blocks.png")
             if (mm.args.control_type) {
                 //zzz
                 debugger
+                this.deleteComponentByName("aaa")
                 this.addComponentV2(
                     200,
                     200,
@@ -2776,8 +2777,8 @@ logo_url("/driver_icons/blocks.png")
                         base_component_id: mm.args.control_type,
                         type:       "add_component",
                         text:        "this.highlighted_control",
-                        offsetX:     200,
-                        offsetY:     200
+                        offsetX:     100,
+                        offsetY:     100
                     },
                     null,
                     null,

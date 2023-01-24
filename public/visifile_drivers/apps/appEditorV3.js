@@ -852,9 +852,9 @@ End of app preview menu
            closeSubEditor: async function() {
                let mm                           = this
                this.editor_overloaded           = false
-               this.show_download_save = true
-               this.show_filename_save = false
-
+               this.show_download_save          = true
+               this.show_filename_save          = false
+               this.preview_type                = "app"
                override_app_editor              = null
                this.editor_text                 = await mm.$refs.editor_component_ref.getText()
 
