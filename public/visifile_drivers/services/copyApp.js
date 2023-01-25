@@ -97,9 +97,11 @@ only_run_on_server(true)
 
                             var componentType = yz.getValueOfCodeString(code, "component_type")
                             if (componentType) {
-                                code = yz.deleteCodeString(code, "component_type")
                             }
-                            code = yz.insertCodeString(code, "component_type", "APP")
+                            if (componentType == "SYSTEM") {
+                                code = yz.deleteCodeString(code, "component_type")
+                                code = yz.insertCodeString(code, "component_type", "APP")
+                            }
 
 
                             var formEditor = yz.getValueOfCodeString(code, "formEditor",")//formEditor")
