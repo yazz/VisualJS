@@ -821,7 +821,7 @@ End of app preview menu
                preview_type:        "app",
                app_component_name:  null,
                base_component_id:   null,
-               previous_main_base_component_id:   null,
+               base_component_id_of_main_app:   null,
                code_id:             null,
                version: 0,
                app_width:           "33%",
