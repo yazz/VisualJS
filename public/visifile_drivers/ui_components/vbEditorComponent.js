@@ -6672,7 +6672,7 @@ ${eventMessage.code}
                  let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                  let yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                 debugger
+                 //debugger
                  await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
                  this.highlighted_control = null
 

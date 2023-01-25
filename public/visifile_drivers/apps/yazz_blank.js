@@ -110,7 +110,7 @@ logo_url("/driver_icons/blocks.png")
                     v-if='unique_app_dom_element_id != null'
                     v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
-          <div v-if="args.control_type">
+          <div v-if="args && args.control_type">
             {{JSON.stringify(args.control_type,null,2)}}
           </div>
 
@@ -6778,7 +6778,7 @@ ${eventMessage.code}
                     let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                     let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                     let yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                    debugger
+                    //debugger
                     await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
                     this.highlighted_control = null
 
