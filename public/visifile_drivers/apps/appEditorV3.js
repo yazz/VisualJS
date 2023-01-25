@@ -1797,6 +1797,11 @@ End of app preview menu
                                 // find the code
                                 //
                                 code = results[0].code
+                                let componentType = yz.getValueOfCodeString(code.toString(),"component_type")
+                                if (componentType == "APP") {
+                                    mm.base_component_id_of_main_app = mm.base_component_id
+                                }
+
                                 codeId = results[0].id
                                 mm.code_id = codeId
 
@@ -1956,6 +1961,11 @@ End of app preview menu
                                 // find the code
                                 //
                                 code = results[0].code
+                                let componentType = yz.getValueOfCodeString(code.toString(),"component_type")
+                                if (componentType == "APP") {
+                                    mm.base_component_id_of_main_app = mm.base_component_id
+                                }
+
                                 codeId = results[0].id
                                 mm.code_id = codeId
 
