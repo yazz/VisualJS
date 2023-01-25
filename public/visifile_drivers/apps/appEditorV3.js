@@ -512,7 +512,7 @@ End of app preview menu
                           v-if='app_loaded  &&  (preview_type=="control")'
                           style='background-color: white;'
                           v-bind:is='"yazz_blank"'
-                          v-bind:args="{control_type: window.edited_control_base_component_id}"
+                          v-bind:args="base_component_id"
                           zzz
                           >
 
@@ -2030,6 +2030,10 @@ End of app preview menu
                    hideProgressBar()
                }
                hideProgressBar()
+               if (code && (yz.getValueOfCodeString(code,"component_type") == "VB")) {
+                   mm.preview_type = "control"
+                   //zzz
+               }
 
 
            }
