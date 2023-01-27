@@ -1099,11 +1099,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               }
 
               if (codeId) {
-                  debugger
+                  //debugger
                   await loadUiComponentsV4([{id: codeId}])
               } else if (item) {
                   if (!component_loaded[item]) {
                       //await loadUiComponentsV4([item])
+                      //debugger
                       await loadUiComponentsV4([{baseComponentId: item}])
                   }
               }

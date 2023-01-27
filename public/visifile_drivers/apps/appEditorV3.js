@@ -1536,7 +1536,7 @@ End of app preview menu
             // ---------------------------------------------------------------
             copyApp: async function( appId , newAppId) {
                 let mm = this
-                debugger
+                //debugger
                 let result = await callComponent(
                                     {
                                         base_component_id: "copyApp"
@@ -1555,7 +1555,7 @@ End of app preview menu
                 }
                 setTimeout(async function() {
                     mm.console_output = ""
-                    debugger
+                    //debugger
                     await mm.load_new_version_of_edited_app( {newApp: true, baseComponentId: result.base_component_id })
                 },200)
 

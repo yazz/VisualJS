@@ -2768,7 +2768,7 @@ logo_url("/driver_icons/blocks.png")
 
             if (mm.args.control_type) {
                 //zzz
-                debugger
+                //debugger
                 this.deleteComponentByName("aaa")
                 this.addComponentV2(
                     200,
@@ -4268,7 +4268,7 @@ ${origCode}
 
                     mm.refresh++
                     if (!component_loaded[newItem.base_component_id]) {
-                        debugger
+                        //debugger
                         await loadUiComponentsV4([newItem.base_component_id])
                         mm.components_used_in_this_app[newItem.base_component_id] = true
                     }
@@ -4334,7 +4334,7 @@ ${origCode}
                     mm.model.forms[mm.active_form].components.push(newItem)
                     mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
-
+debugger
                     let compCode = global_component_type_details_cache[newItem.base_component_id].code
                     let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                     if (isValidObject(childrenCode)) {

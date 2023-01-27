@@ -4206,7 +4206,7 @@ ${origCode}
 
                                 mm.refresh++
                                 if (!component_loaded[newItem.base_component_id]) {
-                                    debugger
+                                    //debugger
                                     await loadUiComponentsV4([newItem.base_component_id])
                                     mm.components_used_in_this_app[newItem.base_component_id] = true
                                 }
