@@ -2891,6 +2891,17 @@ async function startServices() {
 
 
                 if (results) {
+                    if (results.length == 0) {
+                        results = await yz.getQuickSql(
+                            dbsearch
+                            ,
+                            "SELECT  system_code.*  FROM   system_code  WHERE  base_component_id  in " +
+                            "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
+                            "   order by creation_timestamp limit 1  "
+                            ,
+                            componentIds)
+
+                    }
                     if (results.length > 0) {
                         let codeId = results[0].id
                         let results2 = await yz.getQuickSql(
