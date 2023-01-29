@@ -3836,7 +3836,7 @@ async function sqliteQuery(sql) {
       ---------------------------
     - enhanceYazzSourceCodeBeforeRunning
       ---------------------------
-        parse and run the source code for a Yazz Componenet loaded into the front end
+        parse and run the source code for a Yazz Component loaded into the front end
 
 
 
@@ -4092,6 +4092,9 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
 */
 async function enhanceYazzSourceCodeBeforeRunning(componentRecord) {
 
+if (componentRecord && componentRecord.base_component_id == "button_control") {
+    debugger
+}
     try {
         //
         // Determine the apps SQlite database to use
