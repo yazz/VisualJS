@@ -2687,6 +2687,31 @@ Pushlist
            // end of update all watched vars when a form is activated
            //
 
+//
+// note this code should be copied to the template too
+// START
+            if (mm.args && mm.args.control_type) {
+                //zzz
+                //debugger
+                this.deleteComponentByName("aaa")
+                this.addComponentV2(
+                    200,
+                    200,
+                    {
+                        base_component_id: mm.args.control_type,
+                        type:       "add_component",
+                        text:        "this.highlighted_control",
+                        offsetX:     100,
+                        offsetY:     100
+                    },
+                    null,
+                    null,
+                    [])
+            }
+// END
+// note this code should be copied to the template too
+//
+
 setTimeout(async function(){
             if (isStaticHtmlPageApp) {
                 mm.editor_locked = false

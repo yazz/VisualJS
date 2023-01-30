@@ -2774,6 +2774,10 @@ logo_url("/driver_icons/blocks.png")
             // end of update all watched vars when a form is activated
             //
 
+
+//
+// note this code should be copied to the template too
+// START
             if (mm.args && mm.args.control_type) {
                 //zzz
                 //debugger
@@ -2792,6 +2796,9 @@ logo_url("/driver_icons/blocks.png")
                     null,
                     [])
             }
+// END
+// note this code should be copied to the template too
+//
 
             setTimeout(async function(){
                 if (isStaticHtmlPageApp) {
