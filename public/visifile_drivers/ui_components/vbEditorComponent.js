@@ -2430,6 +2430,11 @@ Pushlist
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
+            if (mm.properties) {
+                mm.args = mm.properties
+            } else {
+                mm.properties = mm.args
+            }
 
             if (mm.design_mode) {
                 disableAutoSave = false

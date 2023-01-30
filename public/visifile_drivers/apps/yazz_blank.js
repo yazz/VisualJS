@@ -2516,6 +2516,11 @@ logo_url("/driver_icons/blocks.png")
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
+            if (mm.properties) {
+                mm.args = mm.properties
+            } else {
+                mm.properties = mm.args
+            }
 
             if (mm.design_mode) {
                 disableAutoSave = false
@@ -2769,7 +2774,7 @@ logo_url("/driver_icons/blocks.png")
             // end of update all watched vars when a form is activated
             //
 
-            if (mm.args.control_type) {
+            if (mm.args && mm.args.control_type) {
                 //zzz
                 //debugger
                 this.deleteComponentByName("aaa")
