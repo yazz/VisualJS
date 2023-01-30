@@ -2430,7 +2430,10 @@ Pushlist
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
-            disableAutoSave = false
+
+            if (mm.design_mode) {
+                disableAutoSave = false
+            }
 
             //console.log("UI Component mounted: " + mm.unique_app_dom_element_id )
 
@@ -4119,7 +4122,7 @@ ${origCode}
      }
      ,
         addComponent: async function(leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
-            debugger
+            //debugger
             await this.addComponentV2(leftX,topY,data, parentType, parentName, defProps)
         }
         ,
@@ -4162,7 +4165,7 @@ ${origCode}
 
                 mm.refresh++
                 if (!component_loaded[newItem.base_component_id]) {
-                debugger
+                //debugger
                    await loadUiComponentsV4([newItem.base_component_id])
                    mm.components_used_in_this_app[newItem.base_component_id] = true
                 }

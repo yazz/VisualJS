@@ -2516,7 +2516,10 @@ logo_url("/driver_icons/blocks.png")
             mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
             mm.local_app            = localAppshareApp
             mm.in_change_model      = true
-            disableAutoSave = false
+
+            if (mm.design_mode) {
+                disableAutoSave = false
+            }
 
 
             //console.log("UI Component mounted: " + mm.unique_app_dom_element_id )
