@@ -278,7 +278,7 @@ load_once_from_file(true)
 
 
                     <button   v-bind:disabled='read_only?"":false'
-                              v-bind:style="'margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                              v-bind:style="'margin-left:50px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
@@ -290,7 +290,7 @@ load_once_from_file(true)
                                   src='/driver_icons/save.png'
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
-                              </img>{{saveCodeToFile?"Save":"Pending changes.. update"}}
+                              </img>{{saveCodeToFile?"Save":"Save changes"}}
 
                     </button>
 
