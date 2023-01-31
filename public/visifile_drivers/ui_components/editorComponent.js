@@ -5,7 +5,6 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
 
-    let editorDomId     = uuidv4()
     let editor          = null
 
 
@@ -15,7 +14,7 @@ load_once_from_file(true)
             text:           null,
             previousText:   "",
             read_only:      false,
-            editorDomId:    editorDomId,
+            editorDomId:    uuidv4(),
             errors:         null
         }
       },
@@ -44,13 +43,15 @@ load_once_from_file(true)
      ,
 
      mounted: function() {
-         let thisVueInstance = this
-         disableAutoSave = true
+         let mm             = this
+         disableAutoSave    = true
+
          ace.config.set('basePath', '/');
-         editor = ace.edit(           editorDomId, {
-                                                 selectionStyle: "text",
-                                                 mode:           "ace/mode/javascript"
-                                             })
+         editor = ace.edit(
+            mm.editorDomId, {
+                 selectionStyle: "text",
+                 mode:           "ace/mode/javascript"
+             })
 
          //Bug fix: Need a delay when setting theme or view is corrupted
          setTimeout(function(){
@@ -67,14 +68,14 @@ load_once_from_file(true)
 
 
 
-         document.getElementById(editorDomId).style["font-size"] = "16px"
-         document.getElementById(editorDomId).style.width="100%"
-         document.getElementById(editorDomId).style["border"] = "0px"
+         document.getElementById(mm.editorDomId).style["font-size"] = "16px"
+         document.getElementById(mm.editorDomId).style.width="100%"
+         document.getElementById(mm.editorDomId).style["border"] = "0px"
 
-         document.getElementById(editorDomId).style.height="65vh"
-         if (thisVueInstance.text) {
-             editor.getSession().setValue(thisVueInstance.text);
-             this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
+         document.getElementById(mm.editorDomId).style.height="65vh"
+         if (mm.text) {
+             editor.getSession().setValue(mm.text);
+             this.read_only = yz.getValueOfCodeString(mm.text, "read_only")
          }
 
          editor.getSession().setUseWorker(false);
@@ -84,39 +85,39 @@ load_once_from_file(true)
 
          setTimeout(function() {
              editor.getSession().on('change', function() {
-                thisVueInstance.text = editor.getSession().getValue();
+                mm.text = editor.getSession().getValue();
 
-                if (thisVueInstance.text == "") {
+                if (mm.text == "") {
                     return
                 }
 
-                let filteredOldText = yz.deleteCodeString(thisVueInstance.text, "parent_hash")
-                let filteredNewText = yz.deleteCodeString(thisVueInstance.previousText, "parent_hash")
+                let filteredOldText = yz.deleteCodeString(mm.text, "parent_hash")
+                let filteredNewText = yz.deleteCodeString(mm.previousText, "parent_hash")
                 if (filteredOldText != filteredNewText){
-                    thisVueInstance.previousText = thisVueInstance.text
-                    thisVueInstance.errors = null
-                    if (!isValidObject(thisVueInstance.text)) {
+                    mm.previousText = mm.text
+                    mm.errors = null
+                    if (!isValidObject(mm.text)) {
                         return
                     }
-                    if (thisVueInstance.text.length == 0) {
+                    if (mm.text.length == 0) {
                         return
                     }
                     try {
-                       let newNode = esprima.parse("(" + thisVueInstance.text + ")", { tolerant: true })
+                       let newNode = esprima.parse("(" + mm.text + ")", { tolerant: true })
                        //alert(JSON.stringify(newNode.errors, null, 2))
-                       thisVueInstance.errors = newNode.errors
-                       if (thisVueInstance.errors) {
-                            if (thisVueInstance.errors.length == 0) {
-                                thisVueInstance.errors = null
+                       mm.errors = newNode.errors
+                       if (mm.errors) {
+                            if (mm.errors.length == 0) {
+                                mm.errors = null
                             } else {
-                                thisVueInstance.errors = thisVueInstance.errors[0]
+                                mm.errors = mm.errors[0]
                             }
                        }
-                       thisVueInstance.changed()
+                       mm.changed()
 
                     } catch(e) {
                        //alert(JSON.stringify(e, null, 2))
-                       thisVueInstance.errors = e
+                       mm.errors = e
                     }
                 }
 
@@ -142,9 +143,9 @@ load_once_from_file(true)
             return this.text
         },
         setText: function(textValue) {
-            let thisVueInstance = this
+            let mm = this
             this.text =  textValue
-            this.read_only = yz.getValueOfCodeString(thisVueInstance.text, "read_only")
+            this.read_only = yz.getValueOfCodeString(mm.text, "read_only")
             if (this.read_only) {
                editor.setReadOnly(true)
             }
