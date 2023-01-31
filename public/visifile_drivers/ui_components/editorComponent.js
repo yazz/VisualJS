@@ -12,7 +12,7 @@ load_once_from_file(true)
     Vue.component("editor_component", {
       data: function () {
         return {
-            text:           args.text,
+            text:           null,
             previousText:   "",
             read_only:      false,
             editorDomId:    editorDomId,
@@ -45,7 +45,6 @@ load_once_from_file(true)
 
      mounted: function() {
          let thisVueInstance = this
-         args.text = null
          disableAutoSave = true
          ace.config.set('basePath', '/');
          editor = ace.edit(           editorDomId, {
