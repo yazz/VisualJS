@@ -82,45 +82,49 @@ load_once_from_file(true)
 
          setTimeout(function() {
              mm.editor.getSession().on('change', function() {
-                mm.text = mm.editor.getSession().getValue();
+                 if (mm.editor.curOp && mm.editor.curOp.command.name) {
+                     mm.text = mm.editor.getSession().getValue();
 
-                if (mm.text == "") {
-                    return
-                }
+                     if (mm.text == "") {
+                         return
+                     }
 //zzz
-                mm.errors = null
-                if (!isValidObject(mm.text)) {
-                    return
-                }
-                if (mm.text.length == 0) {
-                    return
-                }
-                try {
-                   let newNode = esprima.parse("(" + mm.text + ")", { tolerant: true })
-                   //alert(JSON.stringify(newNode.errors, null, 2))
-                   mm.errors = newNode.errors
-                   if (mm.errors) {
-                        if (mm.errors.length == 0) {
-                            mm.errors = null
-                        } else {
-                            mm.errors = mm.errors[0]
-                        }
-                   }
-                   mm.changed()
+                     mm.errors = null
+                     if (!isValidObject(mm.text)) {
+                         return
+                     }
+                     if (mm.text.length == 0) {
+                         return
+                     }
+                     try {
+                         let newNode = esprima.parse("(" + mm.text + ")", { tolerant: true })
+                         //alert(JSON.stringify(newNode.errors, null, 2))
+                         mm.errors = newNode.errors
+                         if (mm.errors) {
+                             if (mm.errors.length == 0) {
+                                 mm.errors = null
+                             } else {
+                                 mm.errors = mm.errors[0]
+                             }
+                         }
+                         mm.changed()
 
-                } catch(e) {
-                   //alert(JSON.stringify(e, null, 2))
-                   mm.errors = e
-                }
-
-
+                     } catch(e) {
+                         //alert(JSON.stringify(e, null, 2))
+                         mm.errors = e
+                     }
+                 }
              });
          },1000)
 
 
         mm.editor.resize(true);
         mm.editor.focus();
-     },
+     }
+     ,
+
+
+
      methods: {
         changed: function() {
             let mm = this
