@@ -9,7 +9,6 @@ load_once_from_file(true)
       data: function () {
         return {
             text:           null,
-            previousText:   "",
             read_only:      false,
             editorDomId:    uuidv4(),
             errors:         null,
@@ -89,7 +88,6 @@ load_once_from_file(true)
                     return
                 }
 //zzz
-                mm.previousText = mm.text
                 mm.errors = null
                 if (!isValidObject(mm.text)) {
                     return
