@@ -831,7 +831,7 @@ function registerComponent(vueComponentObject) {
         }
         let componentName = args.name
         //debugger
-        console.log(args.name)
+        //console.log(args.name)
     }
 
     if (vueComponentObject) {
@@ -4155,7 +4155,7 @@ async function enhanceYazzSourceCodeBeforeRunning(componentRecord) {
         {
             trcode2 = getDebugCode(componentRecord.base_component_id,  trcode2)
         } else if (component_type == "VB") {
-            console.log("Component to index: " + componentRecord.base_component_id)
+            //console.log("Component to index: " + componentRecord.base_component_id)
             indexComponent(  componentRecord.base_component_id  )
         }
 
