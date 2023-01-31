@@ -67,13 +67,13 @@ load_once_from_file(true)
 
 
          document.getElementById(mm.editorDomId).style["font-size"] = "16px"
-         document.getElementById(mm.editorDomId).style.width="100%"
-         document.getElementById(mm.editorDomId).style["border"] = "0px"
+         document.getElementById(mm.editorDomId).style.width        = "100%"
+         document.getElementById(mm.editorDomId).style["border"]    = "0px"
+         document.getElementById(mm.editorDomId).style.height       = "65vh"
 
-         document.getElementById(mm.editorDomId).style.height="65vh"
          if (mm.text) {
-             mm.editor.getSession().setValue(mm.text);
-             mm.read_only = yz.getValueOfCodeString(mm.text, "read_only")
+             mm.editor.getSession().setValue(  mm.text  );
+             mm.read_only = yz.getValueOfCodeString( mm.text, "read_only" )
          }
 
          mm.editor.getSession().setUseWorker(false);
@@ -88,7 +88,7 @@ load_once_from_file(true)
                 if (mm.text == "") {
                     return
                 }
-
+//zzz
                 let filteredOldText = yz.deleteCodeString(mm.text, "parent_hash")
                 let filteredNewText = yz.deleteCodeString(mm.previousText, "parent_hash")
                 if (filteredOldText != filteredNewText){
