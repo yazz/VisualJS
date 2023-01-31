@@ -73,11 +73,11 @@ load_once_from_file(true)
          document.getElementById(mm.editorDomId).style.height="65vh"
          if (mm.text) {
              mm.editor.getSession().setValue(mm.text);
-             this.read_only = yz.getValueOfCodeString(mm.text, "read_only")
+             mm.read_only = yz.getValueOfCodeString(mm.text, "read_only")
          }
 
          mm.editor.getSession().setUseWorker(false);
-         if (this.read_only) {
+         if (mm.read_only) {
             mm.editor.setReadOnly(true)
          }
 
@@ -127,11 +127,12 @@ load_once_from_file(true)
         mm.editor.focus();
      },
      methods: {
-         changed: function() {
-             this.$root.$emit('message', {
-                 type:   "pending"
-             })
-         }
+        changed: function() {
+            let mm = this
+            mm.$root.$emit('message', {
+                type:   "pending"
+            })
+        }
          ,
         gotoLine: function(line) {
             let mm = this
@@ -139,13 +140,14 @@ load_once_from_file(true)
         }
         ,
         getText: async function() {
-            return this.text
+            let mm = this
+            return mm.text
         },
         setText: function(textValue) {
             let mm = this
-            this.text =  textValue
-            this.read_only = yz.getValueOfCodeString(mm.text, "read_only")
-            if (this.read_only) {
+            mm.text =  textValue
+            mm.read_only = yz.getValueOfCodeString(mm.text, "read_only")
+            if (mm.read_only) {
                mm.editor.setReadOnly(true)
             }
             mm.editor.getSession().setValue(textValue);
