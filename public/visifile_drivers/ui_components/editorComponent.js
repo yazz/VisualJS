@@ -5,9 +5,6 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
 
-    let editor          = null
-
-
     Vue.component("editor_component", {
       data: function () {
         return {
@@ -15,7 +12,8 @@ load_once_from_file(true)
             previousText:   "",
             read_only:      false,
             editorDomId:    uuidv4(),
-            errors:         null
+            errors:         null,
+            editor:         null
         }
       },
       template: `<div style='background-color:white; ' >
@@ -47,7 +45,7 @@ load_once_from_file(true)
          disableAutoSave    = true
 
          ace.config.set('basePath', '/');
-         editor = ace.edit(
+         mm.editor = ace.edit(
             mm.editorDomId, {
                  selectionStyle: "text",
                  mode:           "ace/mode/javascript"
@@ -55,10 +53,10 @@ load_once_from_file(true)
 
          //Bug fix: Need a delay when setting theme or view is corrupted
          setTimeout(function(){
-            editor.setTheme("ace/theme/sqlserver");
+            mm.editor.setTheme("ace/theme/sqlserver");
 
             let langTools = ace.require("ace/ext/language_tools");
-            editor.setOptions({
+            mm.editor.setOptions({
                enableBasicAutocompletion: true,
                enableSnippets: true,
                enableLiveAutocompletion: false
@@ -74,18 +72,18 @@ load_once_from_file(true)
 
          document.getElementById(mm.editorDomId).style.height="65vh"
          if (mm.text) {
-             editor.getSession().setValue(mm.text);
+             mm.editor.getSession().setValue(mm.text);
              this.read_only = yz.getValueOfCodeString(mm.text, "read_only")
          }
 
-         editor.getSession().setUseWorker(false);
+         mm.editor.getSession().setUseWorker(false);
          if (this.read_only) {
-            editor.setReadOnly(true)
+            mm.editor.setReadOnly(true)
          }
 
          setTimeout(function() {
-             editor.getSession().on('change', function() {
-                mm.text = editor.getSession().getValue();
+             mm.editor.getSession().on('change', function() {
+                mm.text = mm.editor.getSession().getValue();
 
                 if (mm.text == "") {
                     return
@@ -125,8 +123,8 @@ load_once_from_file(true)
          },1000)
 
 
-        editor.resize(true);
-        editor.focus();
+        mm.editor.resize(true);
+        mm.editor.focus();
      },
      methods: {
          changed: function() {
@@ -136,7 +134,8 @@ load_once_from_file(true)
          }
          ,
         gotoLine: function(line) {
-            editor.gotoLine(line , 10, true);
+            let mm = this
+            mm.editor.gotoLine(line , 10, true);
         }
         ,
         getText: async function() {
@@ -147,9 +146,9 @@ load_once_from_file(true)
             this.text =  textValue
             this.read_only = yz.getValueOfCodeString(mm.text, "read_only")
             if (this.read_only) {
-               editor.setReadOnly(true)
+               mm.editor.setReadOnly(true)
             }
-            editor.getSession().setValue(textValue);
+            mm.editor.getSession().setValue(textValue);
         }
 
      }
