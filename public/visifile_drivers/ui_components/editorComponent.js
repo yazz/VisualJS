@@ -89,35 +89,32 @@ load_once_from_file(true)
                     return
                 }
 //zzz
-                let filteredOldText = yz.deleteCodeString(mm.text, "parent_hash")
-                let filteredNewText = yz.deleteCodeString(mm.previousText, "parent_hash")
-                if (filteredOldText != filteredNewText){
-                    mm.previousText = mm.text
-                    mm.errors = null
-                    if (!isValidObject(mm.text)) {
-                        return
-                    }
-                    if (mm.text.length == 0) {
-                        return
-                    }
-                    try {
-                       let newNode = esprima.parse("(" + mm.text + ")", { tolerant: true })
-                       //alert(JSON.stringify(newNode.errors, null, 2))
-                       mm.errors = newNode.errors
-                       if (mm.errors) {
-                            if (mm.errors.length == 0) {
-                                mm.errors = null
-                            } else {
-                                mm.errors = mm.errors[0]
-                            }
-                       }
-                       mm.changed()
-
-                    } catch(e) {
-                       //alert(JSON.stringify(e, null, 2))
-                       mm.errors = e
-                    }
+                mm.previousText = mm.text
+                mm.errors = null
+                if (!isValidObject(mm.text)) {
+                    return
                 }
+                if (mm.text.length == 0) {
+                    return
+                }
+                try {
+                   let newNode = esprima.parse("(" + mm.text + ")", { tolerant: true })
+                   //alert(JSON.stringify(newNode.errors, null, 2))
+                   mm.errors = newNode.errors
+                   if (mm.errors) {
+                        if (mm.errors.length == 0) {
+                            mm.errors = null
+                        } else {
+                            mm.errors = mm.errors[0]
+                        }
+                   }
+                   mm.changed()
+
+                } catch(e) {
+                   //alert(JSON.stringify(e, null, 2))
+                   mm.errors = e
+                }
+
 
              });
          },1000)
