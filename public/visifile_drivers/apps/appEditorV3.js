@@ -386,35 +386,36 @@ load_once_from_file(true)
             <div    v-if='app_loaded'
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
-  <!-- ----------------------------------------------
-  
-  Link to full screen app
-  
-  ---------------------------------------------- -->
-                <div v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'>Full screen mode</div>
+    
+    
+                <!-- ----------------------------------------------
+                Link to full screen app
+                ---------------------------------------------- -->
+                <div 
+                    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                    >
+                    Full screen mode
+                </div>
 
 
-
-
-
-<!-- ----------------------------------------------
-
-Refresh button
-
----------------------------------------------- -->
-                <button   v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
-                          type="button"
-                          v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
-                          class="btn">
-
-                          <img
-                              src='/driver_icons/reload.png'
-                              style='height:25px; margin-right: 0px;'
-                              class='img-fluid'>
-                          </img>
-
+              
+                <!-- ----------------------------------------------
+                Refresh button
+                ---------------------------------------------- -->
+                <button   
+                    v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
+                    type="button"
+                    v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
+                    class="btn"
+                    >
+                    <img
+                        src='/driver_icons/reload.png'
+                        style='height:25px; margin-right: 0px;'
+                        class='img-fluid'
+                        >
+                    </img>
                 </button>
-
+    
 
 
 
