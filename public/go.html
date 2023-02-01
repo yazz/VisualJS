@@ -3895,10 +3895,10 @@ async function checkLibsV2(componentRecord){
 //
 //------------------------------------------------------------------------------
 
-async function loadUiComponentsV4( componentsToLoad, args ) {
+async function loadUiComponentsV4( whichComponentsToLoad, args ) {
 
     //
-    // Turn the list of "componentsToLoad" which is historically
+    // Turn the list of "whichComponentsToLoad" which is historically
     // a list of String IDs into a list of tuples, so:
     //
     // [
@@ -3916,14 +3916,14 @@ async function loadUiComponentsV4( componentsToLoad, args ) {
     // ]
     //
     //debugger
-    if (typeof componentsToLoad === 'string' || componentsToLoad instanceof String) {
-        componentsToLoad = [{baseComponentId: componentsToLoad}]
-    } else if (!Array.isArray(componentsToLoad)) {
-        componentsToLoad = [componentsToLoad]
+    if (typeof whichComponentsToLoad === 'string' || whichComponentsToLoad instanceof String) {
+        whichComponentsToLoad = [{baseComponentId: whichComponentsToLoad}]
+    } else if (!Array.isArray(whichComponentsToLoad)) {
+        whichComponentsToLoad = [whichComponentsToLoad]
     }
 
     let componentsItemsToLoadV3 = []
-    for ( let componentItem  of  componentsToLoad ) {
+    for ( let componentItem  of  whichComponentsToLoad ) {
         if (typeof componentItem == 'string') {
             componentsItemsToLoadV3.push({baseComponentId: componentItem})
         } else {
