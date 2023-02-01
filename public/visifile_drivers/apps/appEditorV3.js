@@ -2077,7 +2077,9 @@ End of app preview menu
                             allowAppToWorkOffline = extras.allowAppToWorkOffline
                         }
 
-                        this.editor_text = enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
+                        if (!allowAppToWorkOffline) {
+                            this.editor_text = enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
+                        }
                         let baseCompIdFromSrcCode = yz.getValueOfCodeString(this.editor_text,"base_component_id")
                         await saveCodeViaWebWorker(
                             this.editor_text
