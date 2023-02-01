@@ -2860,18 +2860,21 @@ async function startServices() {
 
 
         app.post('/load_ui_components_v3', async function (req, res) {
-            let componentItems      = req.body.find_components.items
-            let componentIds        = []
+            let inputComponentsToLoad      = req.body.find_components.items
+            let baseComponentIdsToLoad     = []
             let componentHashs      = []
             let componentHashToIds  = []
 
-            for (let componentItem    of    componentItems ) {
+            for (let componentItem    of    inputComponentsToLoad ) {
+                if (componentItem.id) {
+                    componentItem.ipfsHashId = componentItem.id
+                }
 
                 if (componentItem.ipfsHashId &&  (componentItem.ipfsHashId.length > 0)) {
                     componentHashs.push(componentItem.ipfsHashId)
                     componentHashToIds.push(componentItem.baseComponentId)
                 } else {
-                    componentIds.push(componentItem.baseComponentId)
+                    baseComponentIdsToLoad.push(componentItem.baseComponentId)
                 }
             }
 
@@ -2884,10 +2887,10 @@ async function startServices() {
                     dbsearch
                     ,
                     "SELECT  system_code.*  FROM   system_code, released_components   WHERE  released_components.base_component_id  in " +
-                    "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
+                    "("  + baseComponentIdsToLoad.map(function(){ return "?" }).join(",") + " )" +
                     "   and   released_components.ipfs_hash = system_code.id "
                     ,
-                    componentIds)
+                    baseComponentIdsToLoad)
 
 
                 if (results) {
@@ -2896,10 +2899,10 @@ async function startServices() {
                             dbsearch
                             ,
                             "SELECT  system_code.*  FROM   system_code  WHERE  base_component_id  in " +
-                            "("  + componentIds.map(function(){ return "?" }).join(",") + " )" +
+                            "("  + baseComponentIdsToLoad.map(function(){ return "?" }).join(",") + " )" +
                             "   order by creation_timestamp limit 1  "
                             ,
-                            componentIds)
+                            baseComponentIdsToLoad)
 
                     }
                     if (results.length > 0) {
