@@ -418,54 +418,50 @@ load_once_from_file(true)
     
 
 
-
-<!-- ----------------------------------------------
-
-   App Preview Address Bar 
-
----------------------------------------------- -->
+                
+                <!-- ----------------------------------------------
+                App Preview Address Bar 
+                ---------------------------------------------- -->
                 <input   readonly
                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                                         v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
                                         v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
-
-
-
-
-
-
-
-
-
-
-<!-- ----------------------------------------------
-
-     Saved HTML button
-
----------------------------------------------- -->
-
-              <a          v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{allowAppToWorkOffline: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
-                          v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
-                          v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
-                          v-on:mouseleave='setInfo(null)'
-                          v-bind:disabled='sqlite_data_saved_in_html?false:""'
-                          type="button"
-                          class="btn btn-light">
-
-                <img  src="/driver_icons/html.png"
-                      v-bind:disabled='sqlite_data_saved_in_html?false:""'
-                      style="height: 25px;; margin: 0px;"
-                      class='img-fluid'>
-                </img>
-              </a>
-
-               <a          v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppBaseComponentId + ".html"'
-                            download
-                            id="saveHTMLButton"
-                            type="button"
-                            style="width: 1px; height: 1px;padding:0px;margin:0px"
-                            class="btn btn-light">
+                
+                
+                
+              
+                
+                
+                <!-- ----------------------------------------------
+                Saved HTML button
+                ---------------------------------------------- -->
+                <a        
+                    v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{allowAppToWorkOffline: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
+                    v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
+                    v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
+                    v-on:mouseleave='setInfo(null)'
+                    v-bind:disabled='sqlite_data_saved_in_html?false:""'
+                    type="button"
+                    class="btn btn-light"
+                    >
+                    <img  
+                        src="/driver_icons/html.png"
+                        v-bind:disabled='sqlite_data_saved_in_html?false:""'
+                        style="height: 25px;; margin: 0px;"
+                        class='img-fluid'
+                        >
+                    </img>
+                </a>
+                
+                <a          
+                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + editingAppBaseComponentId + ".html"'
+                    download
+                    id="saveHTMLButton"
+                    type="button"
+                    style="width: 1px; height: 1px;padding:0px;margin:0px"
+                    class="btn btn-light"
+                    >
                 </a>
 
 
