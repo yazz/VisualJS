@@ -422,15 +422,15 @@ load_once_from_file(true)
                 <!-- ----------------------------------------------
                 App Preview Address Bar 
                 ---------------------------------------------- -->
-                <input   readonly
-                                        style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                        v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                                        v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                <input
+                    readonly
+                    style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                    v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
                 
                 
                 
-              
                 
                 
                 <!-- ----------------------------------------------
@@ -1963,17 +1963,14 @@ End of app preview menu
                                     mm.base_component_id_of_main_app = mm.base_component_id
                                 }
 
-                                codeId = results[0].id
-                                mm.code_id = codeId
-
+                                codeId                  = results[0].id
+                                mm.code_id              = codeId
                                 this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
                                     mm.editor_text = code
                                     console.log("2) mm.code_id= " + mm.code_id)
-
-
                                 }
 
 
@@ -2020,22 +2017,14 @@ End of app preview menu
                         }
                     }
 
-
-
-
                } catch (e) {
                    hideProgressBar()
                }
                hideProgressBar()
                if (code && (yz.getValueOfCodeString(code,"component_type") == "VB")) {
                    mm.preview_type = "control"
-                   //zzz
                }
-
-
            }
-
-
            ,
 
 
@@ -2232,7 +2221,6 @@ End of app preview menu
                         //mm.save_state = "saved"
                         //mm.checkSavedFile()
                     } else if (message.type == "switch_editor") {
-                    //zzz
                         mm.switchEditor(message.editorName)
                         if (message.previewType) {
                             mm.preview_type = message.previewType
