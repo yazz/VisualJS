@@ -3877,12 +3877,19 @@ async function checkLibsV2(componentRecord){
 //
 //                                 loadUiComponentsV4
 //
-// Dynamically loads a component class into the currently running system. V3
-// has the ability to load components via IPFS as well
+// Dynamically loads a component class into the currently running system. V4
+// should have the ability to load components via IPFS as well
 //
-// Always expects a list of "baseComponentIds" which will be used to identify
-// the type of the components to load. If we receive only a single
-// "baseComponentId" then turn it into a list
+// Can be called like:
+//
+//     loadUiComponentsV4(    "button_control"  )
+//     loadUiComponentsV4(  [ "button_control" ]  )
+//     loadUiComponentsV4(  [ "button_control"   ,  "label_control"  ]  )
+//     loadUiComponentsV4(  [ { baseComponentId: "button_control" }]  )
+//     loadUiComponentsV4(  [ { baseComponentId: "button_control" }  ,  { id: "Qmeff737e7878...3223" } ]  )
+//
+// "baseComponentId" = type
+// "id"              = commit ID of the code
 //
 //------------------------------------------------------------------------------
 
@@ -3975,6 +3982,11 @@ async function loadUiComponentsV4( baseComponentItems, args ) {
                     await checkLibsV2(compRec)
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
                     await runYazzSourceCode(trcode2, args, null)
+                } else {
+                //zzz
+                    //global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
+                    //global_cached_structure_for_code_commit[data.value.code_id]             = data.value
+
                 }
             } else if (!component_loaded[componentType]) {
                 component_loaded[componentType] = true
@@ -4230,7 +4242,7 @@ async function getSubComponents(srcCode) {
             retRes.push(subComponent)
         }
     }
-    //zzz
+
     return retRes
 }
 
