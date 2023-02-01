@@ -861,7 +861,7 @@ module.exports = {
                         async function(err, rows) {
                             if (!err) {
                                 ////showTimer("rows.length:   " + rows.length)
-                                if ((rows.length == 0) || readOnly){
+                                if ((rows.length == 0) || readOnly || (options && options.allowAppToWorkOffline)){
                                     try {
 
                                         if (controlType == "VB") {
