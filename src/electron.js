@@ -2862,7 +2862,7 @@ async function startServices() {
         app.post('/load_ui_components_v3', async function (req, res) {
             let inputComponentsToLoad      = req.body.find_components.items
             let baseComponentIdsToLoad     = []
-            let componentHashs      = []
+            let componentIdsToLoad      = []
             let componentHashToIds  = []
 
             for (let componentItem    of    inputComponentsToLoad ) {
@@ -2871,8 +2871,8 @@ async function startServices() {
                 }
 
                 if (componentItem.ipfsHashId &&  (componentItem.ipfsHashId.length > 0)) {
-                    componentHashs.push(componentItem.ipfsHashId)
-                    componentHashToIds.push(componentItem.baseComponentId)
+                    componentIdsToLoad.push(componentItem.ipfsHashId)
+                    //componentHashToIds.push(componentItem.baseComponentId)
                 } else {
                     baseComponentIdsToLoad.push(componentItem.baseComponentId)
                 }
@@ -2926,8 +2926,8 @@ async function startServices() {
                 //
                 // read the IPFS components
                 //
-                for (let indexItems = 0 ; indexItems < componentHashs.length ; indexItems ++ ) {
-                    let componentHash = componentHashs[indexItems]
+                for (let indexItems = 0 ; indexItems < componentIdsToLoad.length ; indexItems ++ ) {
+                    let componentHash = componentIdsToLoad[indexItems]
 
                     let ret = await loadComponentFromIpfs(componentHash)
                     let z = 1
