@@ -3899,7 +3899,7 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
 
     // ------------------------------------------------------------------------------
     // Turn the list of "whichComponentsToLoad" into
-    // a list of tuples store in "whichComponentsToLoadAsTuples":
+    // a list of tuples stored in "whichComponentsToLoadAsTuples":
     // [
     //      {baseComponentId: "label"},
     //      {baseComponentId: "button"},
@@ -3921,11 +3921,13 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
         }
     }
 
-    //
+
+
+    // ------------------------------------------------------------------------------
     // For static HTML pages (ie: just HTML , with no Yazz engine) then load the
-    // components from the cache, which is just "global_cached_structure_for_code_commit" which contains all
-    // the object definitions
-    //
+    // components from the cache, which is just "global_cached_structure_for_code_commit"
+    // which contains all the object definitions
+    // ------------------------------------------------------------------------------
     let loadedStatic = false
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
@@ -3955,17 +3957,16 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
 
 
 
-    //
+    // ------------------------------------------------------------------------------
     // For Dynamic HTML pages (which have access to the Yazz engine)
-    // First, find out which components are not loaded and need to be loaded
-    // in
-    //
+    // first find out which components are not loaded and need to be loaded in
+    // ------------------------------------------------------------------------------
     let componentsItemsToLoad = []
     if (!loadedStatic) {
 
-        for (let  componentItem  of  whichComponentsToLoadAsTuples  ) {
-            let componentType = componentItem.baseComponentId
-            let componentId = componentItem.id
+        for (let  componentTuple  of  whichComponentsToLoadAsTuples  ) {
+            let componentType = componentTuple.baseComponentId
+            let componentId = componentTuple.id
 
             if (componentId) {
                 let compRec = global_cached_structure_for_code_commit[componentId]
@@ -3982,7 +3983,7 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
                 }
             } else if (!component_loaded[componentType]) {
                 component_loaded[componentType] = true
-                componentsItemsToLoad.push(componentItem)
+                componentsItemsToLoad.push(componentTuple)
             }
         }
 
