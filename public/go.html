@@ -3968,27 +3968,25 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
             let componentType = componentTuple.baseComponentId
             let componentId = componentTuple.id
 
-            if (componentId) {
+            if (componentId && global_cached_structure_for_code_commit[componentId]) {
                 let compRec = global_cached_structure_for_code_commit[componentId]
                 if (compRec) {
                     component_loaded[compRec.base_component_id] = true
                     await checkLibsV2(compRec)
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
                     await runYazzSourceCode(trcode2, args, null)
-                } else {
-                //zzz
-                    //global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
-                    //global_cached_structure_for_code_commit[data.value.code_id]             = data.value
-
                 }
-            } else if (!component_loaded[componentType]) {
+            } else if (componentType && (!component_loaded[componentType])) {
                 component_loaded[componentType] = true
+                componentsItemsToLoad.push(componentTuple)
+            } else {
                 componentsItemsToLoad.push(componentTuple)
             }
         }
 
         if (componentsItemsToLoad.length > 0) {
             let promise = new Promise(async function(returnfn) {
+                debugger
 
                 if (!online) {
                     setTimeout(async function() {
