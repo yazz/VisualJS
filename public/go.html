@@ -3897,37 +3897,27 @@ async function checkLibsV2(componentRecord){
 
 async function loadUiComponentsV4( whichComponentsToLoad, args ) {
 
-    //
-    // Turn the list of "whichComponentsToLoad" which is historically
-    // a list of String IDs into a list of tuples, so:
-    //
-    // [
-    //      "label",
-    //      "button",
-    //      {ipfs: "1f"}
-    //  ]
-    //
-    // :turns into "componentsItemsToLoadV3":
-    //
+    // ------------------------------------------------------------------------------
+    // Turn the list of "whichComponentsToLoad" into
+    // a list of tuples store in "whichComponentsToLoadAsTuples":
     // [
     //      {baseComponentId: "label"},
     //      {baseComponentId: "button"},
     //      {ipfs: "1f"}
     // ]
-    //
-    //debugger
+    // ------------------------------------------------------------------------------
     if (typeof whichComponentsToLoad === 'string' || whichComponentsToLoad instanceof String) {
         whichComponentsToLoad = [{baseComponentId: whichComponentsToLoad}]
     } else if (!Array.isArray(whichComponentsToLoad)) {
         whichComponentsToLoad = [whichComponentsToLoad]
     }
 
-    let componentsItemsToLoadV3 = []
+    let whichComponentsToLoadAsTuples = []
     for ( let componentItem  of  whichComponentsToLoad ) {
         if (typeof componentItem == 'string') {
-            componentsItemsToLoadV3.push({baseComponentId: componentItem})
+            whichComponentsToLoadAsTuples.push({baseComponentId: componentItem})
         } else {
-            componentsItemsToLoadV3.push(componentItem)
+            whichComponentsToLoadAsTuples.push(componentItem)
         }
     }
 
@@ -3938,8 +3928,8 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
     //
     let loadedStatic = false
     if (isStaticHtmlPageApp) {
-        for (let tt=0; tt < componentsItemsToLoadV3.length; tt++) {
-            let componentType = componentsItemsToLoadV3[tt].baseComponentId
+        for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
+            let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             global_loaded_controls_in_currently_edited_app[componentType] = true
             if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!component_loaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
@@ -3973,7 +3963,7 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
     let componentsItemsToLoad = []
     if (!loadedStatic) {
 
-        for (let  componentItem  of  componentsItemsToLoadV3  ) {
+        for (let  componentItem  of  whichComponentsToLoadAsTuples  ) {
             let componentType = componentItem.baseComponentId
             let componentId = componentItem.id
 
