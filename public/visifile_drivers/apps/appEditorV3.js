@@ -1839,6 +1839,9 @@ End of app preview menu
                                 //do nothing if we set "runthisapp" to false
                             } else {
                                 this.resetDebugger()
+                                setTimeout(async function() {
+                                    mm.refresh++
+                                },200)
                             }
 
 
