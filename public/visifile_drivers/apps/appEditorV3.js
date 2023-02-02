@@ -1926,11 +1926,11 @@ End of app preview menu
                             `select
                                     system_code.id, cast(system_code.code as text)  as  code, system_code.editors
                                  from
-                                    system_code, released_components
+                                    system_code, yz_cache_released_components
                                  where
-                                        released_components.base_component_id = '${baseComponentId}'
+                                        yz_cache_released_components.base_component_id = '${baseComponentId}'
                                            and
-                                        system_code.id = released_components.ipfs_hash `)
+                                        system_code.id = yz_cache_released_components.ipfs_hash `)
                         if (!results || results.length == 0) {
                             results = await sqliteQuery(
                                 `select

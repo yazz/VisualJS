@@ -2579,7 +2579,7 @@ function keycloakProtector(params) {
         dbsearch.serialize(
             function() {
                 let stmt = dbsearch.all(
-                    "SELECT  code  FROM  released_components  WHERE  base_component_id = ? ; ",
+                    "SELECT  code  FROM  yz_cache_released_components  WHERE  base_component_id = ? ; ",
                     appName2,
 
                     function(err, results)
@@ -2894,9 +2894,9 @@ async function startServices() {
                 let results = await yz.getQuickSql(
                     dbsearch
                     ,
-                    "SELECT  system_code.*  FROM   system_code, released_components   WHERE  released_components.base_component_id  in " +
+                    "SELECT  system_code.*  FROM   system_code, yz_cache_released_components   WHERE  yz_cache_released_components.base_component_id  in " +
                     "("  + baseComponentIdsToLoad.map(function(){ return "?" }).join(",") + " )" +
-                    "   and   released_components.ipfs_hash = system_code.id "
+                    "   and   yz_cache_released_components.ipfs_hash = system_code.id "
                     ,
                     baseComponentIdsToLoad)
 
@@ -3374,11 +3374,11 @@ async function startServices() {
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(released_components.id), component_name, app_icon_data, ipfs_hash, released_components.base_component_id " +
+                            "     distinct(yz_cache_released_components.id), component_name, app_icon_data, ipfs_hash, yz_cache_released_components.base_component_id " +
                             " from " +
-                            "     released_components " +
+                            "     yz_cache_released_components " +
                             " inner JOIN " +
-                            "     icon_images ON released_components.icon_image_id = icon_images.id " +
+                            "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
                             " and " +
                             "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control')"
                             ,
@@ -3694,10 +3694,10 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     distinct(released_components.id), base_component_id, component_name, app_icon_data, ipfs_hash " +
+                            "     distinct(yz_cache_released_components.id), base_component_id, component_name, app_icon_data, ipfs_hash " +
                             " from " +
-                            "     released_components " +
-                            " inner JOIN icon_images ON released_components.icon_image_id = icon_images.id " +
+                            "     yz_cache_released_components " +
+                            " inner JOIN icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
                              "where" +
                               "     ipfs_hash = ?;"
                             ,
@@ -4777,14 +4777,14 @@ function setUpSql() {
 
     stmtInsertReleasedComponentListItem = dbsearch.prepare(`insert or ignore
                                                     into
-                                               released_components
+                                               yz_cache_released_components
                                                     (   id  ,  base_component_id  ,  component_name  ,  component_type, 
                                                         component_description  ,  icon_image_id  ,  
                                                         ipfs_hash , version,read_write_status, code )
                                                values (?,?,?,?,?,?,?,?,?,?)`)
 
 
-    stmtUpdateReleasedComponentList = dbsearch.prepare(`update released_components 
+    stmtUpdateReleasedComponentList = dbsearch.prepare(`update yz_cache_released_components 
                                             set 
                                                 ipfs_hash = ?  
                                             where
@@ -6066,7 +6066,7 @@ function function_call_requestPart2 (msg) {
         dbsearch.serialize(
             function() {
                 let stmt = dbsearch.all(
-                  "SELECT  ipfs_hash as id  FROM  released_components  where  base_component_id = ?; ",
+                  "SELECT  ipfs_hash as id  FROM  yz_cache_released_components  where  base_component_id = ?; ",
 
                    msg.find_component.base_component_id,
 
@@ -6650,7 +6650,7 @@ async function releaseCode(commitId) {
             }
         }
 
-        let componentListRecord = await yz.getQuickSqlOneRow(dbsearch, "select * from released_components where base_component_id = ?", [base_component_id])
+        let componentListRecord = await yz.getQuickSqlOneRow(dbsearch, "select * from yz_cache_released_components where base_component_id = ?", [base_component_id])
         if (!componentListRecord) {
             dbsearch.serialize(function () {
                 dbsearch.run("begin exclusive transaction");

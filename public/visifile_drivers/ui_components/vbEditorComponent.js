@@ -2915,9 +2915,9 @@ setTimeout(async function(){
      methods: {
          loadControls: async function() {
            let mm = this
-           let sql =    "select  base_component_id,  app_icon_data as logo_url  from  released_components  " +
+           let sql =    "select  base_component_id,  app_icon_data as logo_url  from  yz_cache_released_components  " +
                         " inner JOIN " +
-                        "     icon_images ON released_components.icon_image_id = icon_images.id " +
+                        "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
                         "where " +
                         "    icon_image_id is not null and component_type = 'component'"
 
@@ -7574,7 +7574,7 @@ return {}
             let endIndex = this.text.indexOf("//** gen_" + "end **//")
 
 
-            let sql =    "select  cast(code as text)  as  code  from  released_components  where " +
+            let sql =    "select  cast(code as text)  as  code  from  yz_cache_released_components  where " +
                          "        base_component_id = 'vb_editor_component'"
 
             let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},

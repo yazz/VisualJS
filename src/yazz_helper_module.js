@@ -1077,7 +1077,7 @@ module.exports = {
                                                                         let sqlR = await mm.getQuickSqlOneRow(
                                                                             thisDb
                                                                             ,
-                                                                            "select   ipfs_hash as id,  code  from  released_components  where  base_component_id = ? "
+                                                                            "select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
                                                                             ,
                                                                             [  results[i].child_base_component_id  ])
                                                                         if (!sqlR) {
