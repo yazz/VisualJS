@@ -2899,7 +2899,7 @@ async function startServices() {
                         componentItem.baseComponentId)
 
                     if (!resultsRow) {
-                        results = await yz.getQuickSql(
+                        resultsRow = await yz.getQuickSqlOneRow(
                             dbsearch
                             ,
                             `
