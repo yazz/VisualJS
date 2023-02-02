@@ -2858,13 +2858,21 @@ async function startServices() {
 
 
 
+/*
+                    POST    '/load_ui_components_v3'
 
+                    Loads a bunch of components
+ */
         app.post('/load_ui_components_v3', async function (req, res) {
-            let inputComponentsToLoad      = req.body.find_components.items
-            let baseComponentIdsToLoad     = []
-            let componentIdsToLoad      = []
-            let componentHashToIds  = []
+            let inputComponentsToLoad       = req.body.find_components.items
+            let baseComponentIdsToLoad      = []
+            let componentIdsToLoad          = []
+            let componentHashToIds          = []
 
+
+            //----------------------------------------------------------------------------
+            // Go through all the components
+            //----------------------------------------------------------------------------
             for (let componentItem    of    inputComponentsToLoad ) {
                 if (componentItem.id) {
                     componentItem.ipfsHashId = componentItem.id
@@ -2930,46 +2938,9 @@ async function startServices() {
                     let componentHash = componentIdsToLoad[indexItems]
 
                     let ret = await loadComponentFromIpfs(componentHash)
-                    let z = 1
-                    let r =z
 
                 }
-                setTimeout( function() {
-                    dbsearch.serialize(
-                        function() {
-                            let stmt = dbsearch.all(
-                                "SELECT  ipfs_hash as id   FROM   released_components   WHERE   base_component_id in " +
-                                "("  + componentHashToIds.map(function(){ return "?" }).join(",") + " )" 
-                                ,
-                                componentHashToIds
-                                ,
 
-                                function(err, results)
-                                {
-                                    if (results) {
-                                        if (results.length > 0) {
-                                            let codeId = results[0].id
-                                            dbsearch.all(
-                                                "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
-                                                codeId,
-
-                                                function(err, results2)
-                                                {
-                                                    results[0].libs = results2
-                                                    sendToBrowserViaWebSocket(
-                                                        ws,
-                                                        {
-                                                            record:                  JSON.stringify(results,null,2),
-                                                        });
-                                                })
-                                        }
-
-                                    }
-
-
-                                })
-                        }, sqlite3.OPEN_READONLY)
-                },200)
                 returnfn(resultsui)
 
             })
