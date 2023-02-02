@@ -2927,7 +2927,21 @@ async function startServices() {
                 } else if (componentItem.id) {
                     componentItem.ipfsHashId = componentItem.id
 
-                    let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
+                    resultsRow = await yz.getQuickSqlOneRow(
+                        dbsearch
+                        ,
+                        `
+                            SELECT  
+                                system_code.*  
+                            FROM
+                                system_code  
+                            WHERE  
+                                id  = ?
+                            `
+                        ,
+                        componentItem.id)
+
+                    //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
                 }
 
 
