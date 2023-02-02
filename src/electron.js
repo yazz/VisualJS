@@ -2865,92 +2865,100 @@ async function startServices() {
  */
         app.post('/load_ui_components_v3', async function (req, res) {
             let inputComponentsToLoad       = req.body.find_components.items
-            let baseComponentIdsToLoad      = []
-            let componentIdsToLoad          = []
-            let componentHashToIds          = []
+            let outputComponents            = []
 
 
             //----------------------------------------------------------------------------
             // Go through all the components
             //----------------------------------------------------------------------------
             for (let componentItem    of    inputComponentsToLoad ) {
-                if (componentItem.id) {
-                    componentItem.ipfsHashId = componentItem.id
-                }
-
-                if (componentItem.ipfsHashId &&  (componentItem.ipfsHashId.length > 0)) {
-                    componentIdsToLoad.push(componentItem.ipfsHashId)
-                    //componentHashToIds.push(componentItem.baseComponentId)
-                } else {
-                    baseComponentIdsToLoad.push(componentItem.baseComponentId)
-                }
-            }
-
-            //
-            // read the database components
-            //
-            let promise = new Promise(async function(returnfn) {
-                let resultsui = []
-                let results = await yz.getQuickSql(
-                    dbsearch
-                    ,
-                    "SELECT  system_code.*  FROM   system_code, yz_cache_released_components   WHERE  yz_cache_released_components.base_component_id  in " +
-                    "("  + baseComponentIdsToLoad.map(function(){ return "?" }).join(",") + " )" +
-                    "   and   yz_cache_released_components.ipfs_hash = system_code.id "
-                    ,
-                    baseComponentIdsToLoad)
+                let resultsRow = null
 
 
-                if (results) {
-                    if (results.length == 0) {
+
+
+                //----------------------------------------------------------------------------
+                // if baseComponentId given
+                //----------------------------------------------------------------------------
+                if (componentItem.baseComponentId) {
+                    resultsRow = await yz.getQuickSqlOneRow(
+                        dbsearch
+                        ,
+                        `
+                        SELECT  
+                            system_code.*  
+                        FROM   
+                            system_code, 
+                            yz_cache_released_components   
+                        WHERE  
+                            yz_cache_released_components.base_component_id = ?
+                                and   
+                            yz_cache_released_components.ipfs_hash = system_code.id 
+                        `
+                        ,
+                        componentItem.baseComponentId)
+
+                    if (!resultsRow) {
                         results = await yz.getQuickSql(
                             dbsearch
                             ,
-                            "SELECT  system_code.*  FROM   system_code  WHERE  base_component_id  in " +
-                            "("  + baseComponentIdsToLoad.map(function(){ return "?" }).join(",") + " )" +
-                            "   order by creation_timestamp limit 1  "
+                            `
+                            SELECT  
+                                system_code.*  
+                            FROM
+                                system_code  
+                            WHERE  
+                                base_component_id  = ?
+                            order by 
+                                creation_timestamp limit 1  
+                            `
                             ,
-                            baseComponentIdsToLoad)
-
+                            componentItem.baseComponentId)
                     }
-                    if (results.length > 0) {
-                        let codeId = results[0].id
-                        let results2 = await yz.getQuickSql(
-                            dbsearch
-                            ,
-                            "SELECT dependency_name FROM app_dependencies where code_id = ?; "
-                            ,
-                            codeId)
 
-                        results[0].libs = results2
-                        resultsui.push(
-                            {
-                                record: JSON.stringify(results, null, 2),
-                            });
-                    }
+
+
+
+
+
+                //----------------------------------------------------------------------------
+                // if IPFS Hash given
+                //----------------------------------------------------------------------------
+                } else if (componentItem.id) {
+                    componentItem.ipfsHashId = componentItem.id
+
+                    let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
                 }
 
 
-                //
-                // read the IPFS components
-                //
-                for (let indexItems = 0 ; indexItems < componentIdsToLoad.length ; indexItems ++ ) {
-                    let componentHash = componentIdsToLoad[indexItems]
 
-                    let ret = await loadComponentFromIpfs(componentHash)
 
+
+
+                //----------------------------------------------------------------------------
+                // Add the libs
+                //----------------------------------------------------------------------------
+                if (resultsRow) {
+                    let codeId = resultsRow.id
+                    let results2 = await yz.getQuickSql(
+                        dbsearch
+                        ,
+                        "SELECT dependency_name FROM app_dependencies where code_id = ?; "
+                        ,
+                        codeId)
+                    resultsRow.libs = results2
                 }
+                let decorateResult = {record: JSON.stringify(resultsRow, null, 2)}
+                outputComponents.push(decorateResult)
+            }
 
-                returnfn(resultsui)
 
-            })
-            let ret = await promise
+            //----------------------------------------------------------------------------
+            // return the result to the API caller
+            //----------------------------------------------------------------------------
             res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                ret
-            ));
-
-        });
+            res.end(JSON.stringify(outputComponents))
+        })
 
 
 
