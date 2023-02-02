@@ -2947,9 +2947,9 @@ async function startServices() {
                         ,
                         codeId)
                     resultsRow.libs = results2
+                    let decorateResult = {record: JSON.stringify(resultsRow, null, 2)}
+                    outputComponents.push(decorateResult)
                 }
-                let decorateResult = {record: JSON.stringify(resultsRow, null, 2)}
-                outputComponents.push(decorateResult)
             }
 
 
