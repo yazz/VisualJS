@@ -2947,8 +2947,7 @@ async function startServices() {
                         ,
                         codeId)
                     resultsRow.libs = results2
-                    let decorateResult = {record: JSON.stringify(resultsRow, null, 2)}
-                    outputComponents.push(decorateResult)
+                    outputComponents.push(resultsRow)
                 }
             }
 
@@ -2956,8 +2955,9 @@ async function startServices() {
             //----------------------------------------------------------------------------
             // return the result to the API caller
             //----------------------------------------------------------------------------
+            let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
             res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(outputComponents))
+            res.end(JSON.stringify(decorateResult))
         })
 
 
