@@ -61,7 +61,10 @@ only_run_on_server(true)
 
         var argsBaseComponentId = args.base_component_id
         var argsNewAppId        = args.new_app_id
+        var argsCodeId          = args.code_id
+
         console.log("    argsBaseComponentId: " + argsBaseComponentId)
+        console.log("    argsCodeId: "          + argsCodeId)
         console.log("    argsNewAppId:        " + argsNewAppId)
         console.log("    userId:              " + userId)
 
@@ -78,9 +81,11 @@ only_run_on_server(true)
             if (code) {
                 code = code.toString()
             }
-            var newBaseid = argsBaseComponentId + "_" + uuidv1().replace(/\-/g, '');
+            var newBaseid =  ""
             if (argsNewAppId) {
                 newBaseid = argsNewAppId
+            } else {
+                newBaseid = "COMP_" + uuidv1().replace(/\-/g, '');
             }
             console.log("    newBaseid:           " + newBaseid)
 
