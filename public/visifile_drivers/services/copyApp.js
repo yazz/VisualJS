@@ -68,12 +68,27 @@ only_run_on_server(true)
         console.log("    argsNewAppId:        " + argsNewAppId)
         console.log("    userId:              " + userId)
 
-        let results = await yz.getQuickSql(
-            dbsearch,
-            "SELECT    ipfs_hash as id, code, component_name as display_name    FROM    yz_cache_released_components   where    " +
-            " base_component_id = ? ;  "
-            ,
-            [argsBaseComponentId])
+        let results = []
+        if (argsBaseComponentId) {
+
+            results = await yz.getQuickSql(
+                dbsearch
+                ,
+                "SELECT    ipfs_hash as id, code, component_name as display_name    FROM    yz_cache_released_components   where    " +
+                " base_component_id = ? ;  "
+                ,
+                [argsBaseComponentId])
+
+        } else if (argsCodeId) {
+
+            results = await yz.getQuickSql(
+                dbsearch
+                ,
+                "SELECT    ipfs_hash as id, code, component_name as display_name    FROM    yz_cache_released_components   where    " +
+                " id = ? ;  "
+                ,
+                [argsCodeId])
+        }
 
 
         if (results.length > 0) {
