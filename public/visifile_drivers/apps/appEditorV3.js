@@ -1539,8 +1539,8 @@ End of app preview menu
                                         base_component_id: "copyApp"
                                     }
                                         ,{
-                                              base_component_id:    appId,
-                                              new_app_id:           newAppId   })
+                                              base_component_id:          appId,
+                                              new_base_component_id:      newAppId   })
                 if (isValidObject(result)) {
                     mm.$root.$emit('message', {
                                                     type:               "insert_app_at",

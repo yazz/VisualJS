@@ -60,7 +60,7 @@ only_run_on_server(true)
     var promise = new Promise(async function(returnfn) {
 
         var argsBaseComponentId = args.base_component_id
-        var argsNewAppId        = args.new_app_id
+        var argsNewAppId        = args.new_base_component_id
         var argsCodeId          = args.code_id
 
         console.log("    argsBaseComponentId: " + argsBaseComponentId)
