@@ -2233,7 +2233,6 @@ End of app preview menu
                         //mm.save_state = "saved"
                         //mm.checkSavedFile()
                     } else if (message.type == "force_raw_load") {
-                        //debugger
                         //mm.save_state = "pending"
                         //mm.checkSavedFile()
                         await mm.load_new_version_of_edited_app(   {codeId: message.commitId , runThisApp: true} )
