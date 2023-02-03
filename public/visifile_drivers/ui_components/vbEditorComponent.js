@@ -1912,7 +1912,9 @@ Pushlist
                                         "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width / 2) - 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='$event.stopPropagation();window.edited_control_base_component_id=model.forms[active_form].components[active_component_index].base_component_id;switchEditor("control_editor")'>
+                                        zzz="//zzz"
+                                     v-on:click='$event.stopPropagation();$root.$emit("message", { type:  "edit_app", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id})'
+                          >
 
 
                                   <img
@@ -2691,7 +2693,7 @@ Pushlist
 // note this code should be copied to the template too
 // START
             if (mm.args && mm.args.control_type) {
-                //zzz
+
                 //debugger
                 this.deleteComponentByName("aaa")
                 this.addComponentV2(

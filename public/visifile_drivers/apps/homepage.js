@@ -685,6 +685,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 }
 
+                if (text.type == "edit_app") {
+                debugger
+                    mm.edit_app = null;
+                    mm.open_file_name = ""
+                    mm.open_file_path = "/"
+                    saveCodeToFile = null
+                    globalEventBus.$emit('show_settings', {});
+
+                    setTimeout(function() {
+                        let bci = text.base_component_id
+                        let cid = text.code_id
+                        mm.copyAndEditApp(null,bci)
+                    },200)
+                }
+
 
             })
 
