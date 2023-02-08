@@ -1930,12 +1930,12 @@ Pushlist
 
 
 
-                          <!-- Builder ... button -->
+                          <!-- Fork component ... button -->
                           <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                    v-bind:refresh='refresh'
                                    class='btn btn-info'
                                    v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) - 47) + "px;" +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                    zzz="//zzz"
@@ -1944,7 +1944,7 @@ Pushlist
 
 
                             <img
-                                src='/driver_icons/builder.png'
+                                src='/driver_icons/plus.png'
                                 style='margin: auto;'
                                 zzz="//zzz"
                                 class='img-fluid'>
