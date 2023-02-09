@@ -3810,7 +3810,10 @@ async function sqliteQuery(sql) {
 
     - global_loaded_controls_in_currently_edited_app[ base_component_id ] = true/false
 
-    - base_component_id = current base_component_id of the app being edited??? or run??
+    - base_component_id = current base_component_id of the app being run
+        This can confuse people as when editing an app the "base_component_id" is
+        set to "homepage" as that is the main app being run. The editor is run on
+        top of that
 
       --------------------------------------------------
     - global_app_controls_by_name_returns_a_vue_instance
