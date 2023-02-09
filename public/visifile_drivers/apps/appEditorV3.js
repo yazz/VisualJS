@@ -917,9 +917,17 @@ End of app preview menu
            // with all the apps)
            // ---------------------------------------------------------------
            closeEditor: async function(event,item) {
-               this.$root.$emit('message', {
-                   type:        "close_app"
-               })
+               if (lastEditingAppCodeId) {
+                   this.$root.$emit("message", { type:  "edit_app", base_component_id:   lastEditingAppBaseComponentId})
+               } else if (lastEditingAppBaseComponentId) {
+                   this.$root.$emit("message", { type:  "edit_app", base_component_id:   lastEditingAppBaseComponentId})
+               } else {
+                   this.$root.$emit('message', {
+                       type:        "close_app"
+                   })
+               }
+               lastEditingAppBaseComponentId    = null;
+               lastEditingAppCodeId             = null;
            },
 
            // ---------------------------------------------------------------
