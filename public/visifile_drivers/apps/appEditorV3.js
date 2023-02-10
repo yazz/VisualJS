@@ -917,21 +917,21 @@ End of app preview menu
            // with all the apps)
            // ---------------------------------------------------------------
            closeEditor: async function(event,item) {
-               if (lastEditingAppCodeId) {
+               if (globalEditorCommunicationArea.lastEditingAppCodeId) {
                    this.$root.$emit("message", {    type:               "edit_component",
-                                                                base_component_id:   lastEditingAppBaseComponentId,
-                                                                code_id:             lastEditingAppCodeId
+                                                                base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId,
+                                                                code_id:             globalEditorCommunicationArea.lastEditingAppCodeId
                                                            })
 
-               } else if (lastEditingAppBaseComponentId) {
-                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   lastEditingAppBaseComponentId})
+               } else if (globalEditorCommunicationArea.lastEditingAppBaseComponentId) {
+                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId})
                } else {
                    this.$root.$emit('message', {
                        type:        "close_app"
                    })
                }
-               lastEditingAppBaseComponentId    = null;
-               lastEditingAppCodeId             = null;
+               globalEditorCommunicationArea.lastEditingAppBaseComponentId    = null;
+               globalEditorCommunicationArea.lastEditingAppCodeId             = null;
            },
 
            // ---------------------------------------------------------------

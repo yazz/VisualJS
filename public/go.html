@@ -552,8 +552,22 @@ var override_app_editor = null
 
 var editingAppBaseComponentId           = null
 var editingAppCodeId                    = null
-var lastEditingAppBaseComponentId       = null
-var lastEditingAppCodeId                = null
+
+
+
+/* -----------------------------------------------------------------------
+globalEditorCommunicationArea
+-----------------------------
+There seems to be alot of specialised, but global  communication in the
+app editors. So instead of having global variables all over the place
+we have decided to just have one global object
+ ----------------------------------------------------------------------- */
+var globalEditorCommunicationArea       = {
+    lastEditingAppBaseComponentId:  null,
+    lastEditingAppCodeId:           null
+}
+
+
 
 var localSqliteDb    = null
 var networkIntranetIpAddress    = null
