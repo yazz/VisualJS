@@ -673,8 +673,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 if (text.type == "update_app") {
                     let bci = text.base_component_id
                     let cid = text.code_id
-                    //zzz
-                    //debugger
                     for (let thisApp of mm.editable_app_list) {
                         if (thisApp.base_component_id == bci) {
                             thisApp.code_id = cid
@@ -684,6 +682,25 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
 
                 }
+
+//zzz
+                if (text.type == "edit_component") {
+                    mm.edit_app = null;
+                    mm.open_file_name = ""
+                    mm.open_file_path = "/"
+                    saveCodeToFile = null
+                    globalEventBus.$emit('show_settings', {});
+
+                    setTimeout(function() {
+                        let bci = text.base_component_id
+                        let cid = text.code_id
+                        debugger
+                        setTimeout(function() {
+                            mm.editApp(event, bci)
+                        },50)
+                    },200)
+                }
+
 
                 if (text.type == "fork_component") {
                     mm.edit_app = null;
