@@ -918,7 +918,7 @@ End of app preview menu
            // ---------------------------------------------------------------
            closeEditor: async function(event,item) {
                if (lastEditingAppCodeId) {
-                   this.$root.$emit("message", { type:  "edit_app", base_component_id:   lastEditingAppBaseComponentId})
+                   this.$root.$emit("message", { type:  "edit_app", code_id:   lastEditingAppCodeId})
                } else if (lastEditingAppBaseComponentId) {
                    this.$root.$emit("message", { type:  "edit_app", base_component_id:   lastEditingAppBaseComponentId})
                } else {

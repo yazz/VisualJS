@@ -172,7 +172,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
                   class='btn btn-lg'
                   v-if="hideImportButtons"
-                  v-on:click='copyAndEditApp($event,"yazz_blank")'>
+                  v-on:click='copyAndEditApp($event,{base_component_id: "yazz_blank"})'>
             <img    src='/driver_icons/blocks.png'
                     style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
             >
@@ -187,7 +187,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
                     class='btn btn-lg'
                     v-if="!hideImportButtons"
-                    v-on:click='copyAndEditApp($event,"yazz_blank")'>
+                    v-on:click='copyAndEditApp($event,{base_component_id: "yazz_blank"})'>
                     <img    src='/driver_icons/blocks.png'
                             style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
@@ -696,7 +696,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     setTimeout(function() {
                         let bci = text.base_component_id
                         let cid = text.code_id
-                        mm.copyAndEditApp(null,bci)
+                        mm.copyAndEditApp(null,{base_component_id: bci})
                     },200)
                 }
 
@@ -1004,8 +1004,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-          copyAndEditApp: async function(event,  baseComponentId ) {
+          copyAndEditApp: async function(event,  compInfo ) {
               let mm = this
+              let baseComponentId = compInfo.base_component_id
               globalEventBus.$emit('hide_settings', {});
 
               this.open_file_name = ""
