@@ -1005,8 +1005,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
           copyAndEditApp: async function(event,  compInfo ) {
-              let mm = this
-              let baseComponentId = compInfo.base_component_id
+              let mm                = this
+              let baseComponentId   = compInfo.base_component_id
+              let codeId            = compInfo.code_id
+
               globalEventBus.$emit('hide_settings', {});
 
               this.open_file_name = ""
@@ -1019,7 +1021,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 }
                                 ,
                                 {
-                                    base_component_id:    baseComponentId
+                                    base_component_id:  baseComponentId
+                                    ,
+                                    code_id:            codeId
                                 })
 
               await mm.addLogoForApp(result.base_component_id)
