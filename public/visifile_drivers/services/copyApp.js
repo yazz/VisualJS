@@ -22,7 +22,7 @@ only_run_on_server(true)
                 console.log("              parentHashId:        " + parentHashId)
                 console.log("              argsBaseComponentId: " + argsBaseComponentId)
                 console.log("              userId:              " + userId)
-                console.log("              code:                " + code)
+                //console.log("              code:                " + code)
 
                 let saveret = await yz.saveCodeV3(
                             dbsearch,
@@ -104,6 +104,9 @@ only_run_on_server(true)
             }
             console.log("    newBaseid:           " + newBaseid)
 
+
+
+
             var oldDisplayName = results[0].display_name
             var parentHashId = results[0].id
             var newDisplayName = "Copy of " + oldDisplayName
@@ -133,8 +136,27 @@ only_run_on_server(true)
             code = yz.insertCodeString(code, "visibility", "PRIVATE")
 
 
+            let previousBaseComponentId = yz.getValueOfCodeString(code, "base_component_id")
             code = yz.deleteCodeString(code, "base_component_id")
             code = yz.insertCodeString(code, "base_component_id", newBaseid)
+
+
+
+            //
+            // this code goes after the "base_component_id" code, otherwise the
+            // "parent_base_component_id" get deleted in a rare bug
+            //
+            console.log("    previousBaseComponentId:  "          + previousBaseComponentId)
+            console.log("    parent_base_component_id: "          + newBaseid)
+            if (yz.getValueOfCodeString(code, "base_component_id_derived_from")) {
+                code = yz.deleteCodeString(code, "base_component_id_derived_from")
+            }
+            if (previousBaseComponentId != newBaseid) {
+                code = yz.insertCodeString(code, "base_component_id_derived_from", previousBaseComponentId)
+                console.log(" INSERTED *     parent_base_component_id: "          + previousBaseComponentId)
+            }
+
+
 
 
             //hack city - Vue and component strings are separated as otherwise they mark the
