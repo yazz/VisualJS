@@ -84,7 +84,7 @@ only_run_on_server(true)
             results = await yz.getQuickSql(
                 dbsearch
                 ,
-                "SELECT    ipfs_hash as id, code, component_name as display_name    FROM    yz_cache_released_components   where    " +
+                "SELECT    id, code, display_name as display_name    FROM    system_code   where    " +
                 " id = ? ;  "
                 ,
                 [argsCodeId])
