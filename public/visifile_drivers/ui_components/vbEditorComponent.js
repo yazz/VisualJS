@@ -1913,7 +1913,7 @@ Pushlist
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 18) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                         zzz="//zzz"
-                                     v-on:click='$event.stopPropagation();$root.$emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id})'
+                                     v-on:click='$event.stopPropagation();$root.$emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id})'
                           >
 
 
