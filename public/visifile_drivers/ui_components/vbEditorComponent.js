@@ -2718,6 +2718,15 @@ Pushlist
            // end of update all watched vars when a form is activated
            //
 
+            //debugger
+
+
+
+//
+// This is only used when previewing a component. Since we use the "Blank Yazz App"
+// for previews we need to see if the argument 'control_type' is passed in, and if
+// it is then we remove then standard text box (with a name of 'aaa') and we add
+// the component being previewed instead
 //
 // note this code should be copied to the template too
 // START
