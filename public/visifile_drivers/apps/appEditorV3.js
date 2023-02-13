@@ -917,7 +917,10 @@ End of app preview menu
            // with all the apps)
            // ---------------------------------------------------------------
            closeEditor: async function(event,item) {
+               let mm = this
                if (globalEditorCommunicationArea.lastEditingAppCodeId) {
+                   globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
+                   globalEditorCommunicationArea.finalCodeIdOfEditedUiControl            = mm.code_id
                    this.$root.$emit("message", {    type:               "edit_component",
                                                                 base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId,
                                                                 code_id:             globalEditorCommunicationArea.lastEditingAppCodeId

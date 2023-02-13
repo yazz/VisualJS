@@ -694,8 +694,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     setTimeout(function() {
                         let bci = text.base_component_id
                         let cid = text.code_id
-                        globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl = bci
-                        globalEditorCommunicationArea.originalCodeIdOfEditedUiControl = cid
                         setTimeout(function() {
                             mm.editApp(event, bci)
                         },50)
