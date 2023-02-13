@@ -7593,11 +7593,27 @@ return {}
             let json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
             return json2
         }
-
         ,
-        //-------------------------------------------------------------------
+
+
+
+
+/*      ________________________________________
+        |                                      |
+        |       generateCodeFromModel          |
+        |                                      |
+        |______________________________________|
+
+        Generates new code based on the "model"
+
+        __________
+        | Params |
+        |        |_________________________________________
+        |
+        |   NONE
+        |
+        |__________________________________________________ */
         generateCodeFromModel: async function(  ) {
-        //-------------------------------------------------------------------
             let mm = this
             if (this.in_generate_code_from_model) {
                 return
@@ -7757,6 +7773,40 @@ return {}
             }
         }
         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*      ________________________________________
+        |                                      |
+        |               openFile               |
+        |                                      |
+        |______________________________________|
+
+        Opens a file from the file system
+
+        __________
+        | Params |
+        |        |_________________________________________
+        |
+        |     NONE
+        |
+        |__________________________________________________ */
+
         openFile: async function() {
             //alert(1)
            //document.getElementById("openfilefromhomepage").click();
