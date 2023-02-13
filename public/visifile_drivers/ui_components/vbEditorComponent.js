@@ -2447,20 +2447,30 @@ Pushlist
 
 
 
-        /* --------------------------------------------------------------
-              mounted
+        /*
+        ________________________________________
+        |                                      |
+        |             mounted                  |
+        |                                      |
+        |______________________________________|
 
-              This is called whenever an app is loaded, either at design
-              time or at runtime
-           -------------------------------------------------------------- */
+        This is called whenever an app is loaded, either at design
+        time or at runtime
 
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
         mounted: async function() {
-            let mm                  = this
-            mm.unique_app_dom_element_id                 = uuidv4()
-            mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
-            mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
-            mm.local_app            = localAppshareApp
-            mm.in_change_model      = true
+            let mm                          = this
+            mm.unique_app_dom_element_id    = uuidv4()
+            mm.vb_grid_element_id           = "vb_grid_"+ uuidv4()
+            mm.vb_editor_element_id         = "vb_editor_"+ uuidv4()
+            mm.local_app                    = localAppshareApp
+            mm.in_change_model              = true
+
             if (mm.properties) {
                 mm.args = mm.properties
             } else {
@@ -2471,16 +2481,16 @@ Pushlist
                 disableAutoSave = false
             }
 
-            //console.log("UI Component mounted: " + mm.unique_app_dom_element_id )
 
-
-
-            // ---------------------------------------------------------
-            // get the base component ID of the code to edit/run
-            //
-            // Save it in "this.edited_app_component_id"
-            // ---------------------------------------------------------
-
+            /*
+            _______________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             | Get the base component ID of the code to edit/run
+                             |
+                             | Save it in "this.edited_app_component_id"
+                             |_____________________________________________________
+            */
             if (texti) {
                 let json2                   = this.getJsonModelFromCode(  texti  )
                 mm.old_model = JSON.parse(JSON.stringify(json2));
@@ -2493,11 +2503,18 @@ Pushlist
 
 
 
-            // ---------------------------------------------------------
-            // find out which sub components are used by this app
-            //
-            // save the result in "this.components_used_in_this_app"
-            // ---------------------------------------------------------
+
+
+
+            /*
+            _______________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             | find out which sub components are used by this app
+                             |
+                             | save the result in "this.components_used_in_this_app"
+                             |_____________________________________________________
+            */
             if (mm.edited_app_component_id) {
                 let results = await getSubComponents(mm.text)
 
@@ -2721,7 +2738,7 @@ Pushlist
             //debugger
 
 
-
+//zzz
 //
 // This is only used when previewing a component. Since we use the "Blank Yazz App"
 // for previews we need to see if the argument 'control_type' is passed in, and if
@@ -6376,8 +6393,8 @@ ${eventMessage.code}
                  })
          }
          ,
-         
-         
+
+
 
         showComponentDetailedDesignUi: async function(index) {
            let mm = this
