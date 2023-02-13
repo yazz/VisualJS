@@ -2736,7 +2736,18 @@ Pushlist
            //
 
             //debugger
+            if (false) {
+                setTimeout(function(){
+                    mm.changePropertyValue(
+                        {
+                            componentName:  "aaa",
+                            propertyName:   "name",
+                            propertyValue:  "zd"
+                        }
+                    )
 
+                },1000)
+            }
 
 //zzz
 //
@@ -2750,8 +2761,8 @@ Pushlist
             if (mm.args && mm.args.control_type) {
 
                 //debugger
-                this.deleteComponentByName("aaa")
-                this.addComponentV2(
+                mm.deleteComponentByName("aaa")
+                mm.addComponentV2(
                     200,
                     200,
                     {
@@ -3310,7 +3321,16 @@ setTimeout(async function(){
          | Params |
          |        |______________________________________________________________
          |
-         |     NONE
+         |        {
+         |                componentName - The name, such as "aaa" of the control
+         |                -------------
+         |
+         |                propertyName - Which property to change
+         |                ------------
+         |
+         |                propertyValue - The property value
+         |                -------------
+         |        }
          |________________________________________________________________________ */
          changePropertyValue(args) {
              let mm = this
@@ -5485,7 +5505,7 @@ ${origCode}
          /*
          ________________________________________
          |                                      |
-         |                   |
+         |           selectComponentByName      |
          |                                      |
          |______________________________________|
 
@@ -5528,7 +5548,7 @@ ${origCode}
          /*
          ________________________________________
          |                                      |
-         |                   |
+         |              addControl              |
          |                                      |
          |______________________________________|
 
@@ -5567,7 +5587,7 @@ ${origCode}
          /*
          ________________________________________
          |                                      |
-         |                   |
+         |          getControlByName            |
          |                                      |
          |______________________________________|
 
@@ -8795,7 +8815,7 @@ ${eventMessage.code}
          /*
          ________________________________________
          |                                      |
-         |                   |
+         |         deleteComponentByName        |
          |                                      |
          |______________________________________|
 
