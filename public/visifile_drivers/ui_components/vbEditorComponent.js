@@ -2735,18 +2735,37 @@ Pushlist
            // end of update all watched vars when a form is activated
            //
 
-            //debugger
-            if (false) {
-                setTimeout(function(){
-                    mm.changePropertyValue(
-                        {
-                            componentName:  "aaa",
-                            propertyName:   "name",
-                            propertyValue:  "zd"
-                        }
-                    )
 
-                },1000)
+
+
+            //debugger
+            if (mm.design_mode) {
+                if (globalEditorCommunicationArea.originalNameOfEditedUiControl) {
+                    if (globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl !=
+                        globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl) {
+                        debugger
+                        setTimeout(function(){
+                            mm.changePropertyValue(
+                                {
+                                    componentName:  globalEditorCommunicationArea.originalNameOfEditedUiControl,
+                                    propertyName:   "base_component_id",
+                                    //propertyName:   "text",
+                                    propertyValue:  globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl
+                                }
+                            )
+                            /*mm.changePropertyValue(
+                                {
+                                    componentName:  "aaa",
+                                    propertyName:   "text",
+                                    propertyValue:  "changed"
+                                }
+                            )*/
+                            globalEditorCommunicationArea.originalNameOfEditedUiControl = null
+
+                        },1000)
+                    }
+
+                }
             }
 
 //zzz
