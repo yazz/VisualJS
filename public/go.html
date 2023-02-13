@@ -565,7 +565,14 @@ var globalEditorCommunicationArea       = {
     lastEditingAppBaseComponentId:  null,
     lastEditingAppCodeId:           null,
 
-    override_app_editor:            null
+    override_app_editor:            null,
+    reset: function(){
+        editingAppBaseComponentId       = null
+        editingAppCodeId                = null
+        lastEditingAppBaseComponentId   = null
+        lastEditingAppCodeId            = null
+        override_app_editor             = null
+    }
 }
 
 
