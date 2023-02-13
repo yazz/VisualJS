@@ -345,12 +345,12 @@ load_once_from_file(true)
                                     base_component_id: "serverDockerStuff"
                                 }
                                     ,{
-                                        create:             true,
-                                        image_name:         this.dockerImageName,
-                                        host:               this.dockerHost,
-                                        port:               this.dockerPort,
-                                        docker_local_port:  this.dockerLocalPort,
-                                        app_base_component_id:             editingAppBaseComponentId
+                                        create:                 true,
+                                        image_name:             this.dockerImageName,
+                                        host:                   this.dockerHost,
+                                        port:                   this.dockerPort,
+                                        docker_local_port:      this.dockerLocalPort,
+                                        app_base_component_id:  globalEditorCommunicationArea.editingAppBaseComponentId
                                      })
 
            //alert(JSON.stringify(result,null,2))

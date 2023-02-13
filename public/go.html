@@ -548,10 +548,6 @@ return true
 var testObject = null; // Use this to test elements at debug time
 /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
 /*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
-var override_app_editor = null
-
-var editingAppBaseComponentId           = null
-var editingAppCodeId                    = null
 
 
 
@@ -563,8 +559,13 @@ app editors. So instead of having global variables all over the place
 we have decided to just have one global object
  ----------------------------------------------------------------------- */
 var globalEditorCommunicationArea       = {
+    editingAppBaseComponentId:      null,
+    editingAppCodeId:               null,
+
     lastEditingAppBaseComponentId:  null,
-    lastEditingAppCodeId:           null
+    lastEditingAppCodeId:           null,
+
+    override_app_editor:            null
 }
 
 
