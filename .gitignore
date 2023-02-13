@@ -10,6 +10,7 @@
 !/Dockerfile
 !/DockerfileNewApp
 !/.README.md
+!/comments.txt
 
 !/.babelrc
 !/package.json
