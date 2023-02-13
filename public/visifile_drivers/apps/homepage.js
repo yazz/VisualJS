@@ -711,8 +711,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     setTimeout(function() {
                         let bci = text.base_component_id
                         let cid = text.code_id
-                        globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl = bci
-                        globalEditorCommunicationArea.originalCodeIdOfEditedUiControl = cid
+                        let fid = text.form_id
+                        let cni = text.control_name
+                        globalEditorCommunicationArea.originalFormIdOfEditedUiControl           = fid
+                        globalEditorCommunicationArea.originalNameOfEditedUiControl             = cni
+                        globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl  = bci
+                        globalEditorCommunicationArea.originalCodeIdOfEditedUiControl           = cid
                         mm.copyAndEditApp(
                             null,
                             {base_component_id: bci  ,  code_id: cid})
