@@ -1487,11 +1487,17 @@ End of app preview menu
 
 
 
-            // ---------------------------------------------------------------
-            //                         editAsText
-            //
-            // This is called to edit the current app with the text editor
-            // ---------------------------------------------------------------
+           /*
+            _______________________________________
+            |       editAsText                     |
+            |______________________________________|
+            This is called to edit the current app with the text editor
+            __________
+            | Params |
+            |        |______________________________________________________________
+            |
+            |     NONE
+            |________________________________________________________________________ */
             editAsText: async function() {
                 let mm = this
 
@@ -1505,7 +1511,7 @@ End of app preview menu
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
-                await mm.load_new_version_of_edited_app({newApp: true, baseComponentId:  this.base_component_id } )
+                await mm.load_new_version_of_edited_app({newApp: true, codeId:  this.code_id } )
             }
             ,
 
