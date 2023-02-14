@@ -43,7 +43,7 @@ module.exports = {
 
         stmtDeleteDependencies = thisDb.prepare(" delete from  app_dependencies   where   code_id = ?");
 
-        stmtDeleteTypesForComponentProperty = thisDb.prepare(" delete from  component_property_types   where   component_name = ?");
+        stmtDeleteTypesForComponentProperty = thisDb.prepare(" delete from  component_property_types   where   base_component_id = ?");
 
         stmtDeleteAcceptTypesForComponentProperty = thisDb.prepare(" delete from  component_property_accept_types   where   component_name = ?");
 
@@ -52,8 +52,8 @@ module.exports = {
         stmtInsertTypesForComponentProperty = thisDb.prepare(`insert or ignore
                                                     into
                                                component_property_types
-                                                    (component_name, property_name , type_name, type_value )
-                                               values ( ?,?,?,?)`)
+                                                    (base_component_id, property_name , outputs_type )
+                                               values ( ?,?,? )`)
 
         stmtUpdateCommitForCodeTag = thisDb.prepare(`update
                                                        code_tags
@@ -859,9 +859,7 @@ module.exports = {
                                                     if (prop.types) {
                                                         let labelKeys = Object.keys(prop.types)
                                                         for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                                                            let prop2 = prop.types[labelKeys[rttte2]]
-                                                            ////showTimer("    " + prop.id + " = " +  JSON.stringify(prop.labels))
-                                                            stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2],prop2)
+                                                            stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2])
 
                                                         }
                                                     }

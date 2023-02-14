@@ -45,7 +45,7 @@ module.exports = {
             |                component_name - base component ID of the component
             |                --------------
             |________________________________________________________________________ */
-            "CREATE TABLE IF NOT EXISTS component_property_types (component_name TEXT, property_name TEXT,  type_name TEXT, type_value TEXT);",
+            "CREATE TABLE IF NOT EXISTS component_property_types (base_component_id TEXT, property_name TEXT,  outputs_type TEXT );",
 
 
 
