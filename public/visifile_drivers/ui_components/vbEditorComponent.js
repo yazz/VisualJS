@@ -5325,10 +5325,9 @@ ${origCode}
         ________________________________________
         |           addComponentV2             |
         |______________________________________|
-        TO BE FILLED IN
+        Adds a component to the form
         __________
-        | Params |
-        | ------ |______________________________________________________________
+        | PARAMS |______________________________________________________________
         |
         |     leftX   where to place this control
         |     -----
@@ -5353,14 +5352,19 @@ ${origCode}
         |
         |________________________________________________________________________ */
         addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
-
             let mm = this
 
             let promise = new Promise(async function(returnfn) {
                 let newItem = new Object()
 
-
-                //alert(parentType +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+                /*
+                 _______________________________________
+                 |    addComponentV2                    |
+                 |_________________                     |____________
+                                  | Calculate the x,y coordinates of
+                                  | the new component to be added.
+                                  |__________________________________
+                 */
                 newItem.leftX = Math.floor(leftX)
                 newItem.topY = Math.floor(topY)
                 if (newItem.leftX < 0) {
@@ -5369,10 +5373,18 @@ ${origCode}
                 if (newItem.topY < 0) {
                    newItem.topY = 0
                 }
-                //alert(`(${newItem.leftX},${newItem.topY})`)
 
+
+
+                /*
+                 _______________________________________
+                 |    addComponentV2                    |
+                 |_________________                     |____________
+                                  | Calculate the name of
+                                  | the new component
+                                  |__________________________________
+                 */
                 if (parentType) {
-                   //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
                    newItem.parent = parentName
                 }
 
@@ -5386,6 +5398,16 @@ ${origCode}
 
 
 
+
+
+                /*
+                 _______________________________________
+                 |    addComponentV2                    |
+                 |_________________                     |____________
+                                  | If the component isn't loaded
+                                  | then load it
+                                  |__________________________________
+                 */
                 mm.refresh++
                 if (!component_loaded[newItem.base_component_id]) {
                 //debugger
