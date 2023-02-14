@@ -31,7 +31,6 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS app_dependencies (id TEXT, code_id	TEXT, dependency_type TEXT , dependency_name TEXT, dependency_version TEXT);",
             "CREATE INDEX IF NOT EXISTS app_dependencies_code_id_id_idx ON app_dependencies (code_id);",
 
-            "CREATE TABLE IF NOT EXISTS component_properties (component_name TEXT, property_name TEXT);",
 
 
             "CREATE TABLE IF NOT EXISTS component_property_types (component_name TEXT, property_name TEXT,  type_name TEXT, type_value TEXT);",

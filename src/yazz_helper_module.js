@@ -5,7 +5,6 @@ let stmtInsertNewCode
 let stmtInsertIntoCodeTags
 let uuidv1          = require('uuid/v1');
 let stmtDeleteDependencies
-let stmtInsertComponentProperty
 let stmtDeleteTypesForComponentProperty
 let stmtDeleteAcceptTypesForComponentProperty
 
@@ -43,12 +42,6 @@ module.exports = {
                                                values ( ?, ?, ?, ?, ?)`)
 
         stmtDeleteDependencies = thisDb.prepare(" delete from  app_dependencies   where   code_id = ?");
-
-        stmtInsertComponentProperty = thisDb.prepare(`insert or ignore
-                                                    into
-                                               component_properties
-                                                    (component_name, property_name )
-                                               values ( ?,?)`)
 
         stmtDeleteTypesForComponentProperty = thisDb.prepare(" delete from  component_property_types   where   component_name = ?");
 
@@ -818,21 +811,6 @@ module.exports = {
                 properties = JSON.stringify(properties,null,2)
             }
             let properties2 = mm.getValueOfCodeString(code,"properties",")//properties")
-            if (controlType == "VB") {
-                //showTimer(`7`)
-
-                ////showTimer("VB: " + baseComponentId)
-                if (properties2) {
-                    //showTimer(`8`)
-
-                    ////showTimer("     properties: " + properties2.length)
-                    for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
-                        let prop = properties2[rttte]
-                        stmtInsertComponentProperty.run(baseComponentId, prop.id)
-                    }
-                }
-
-            }
 
 
 
@@ -876,7 +854,6 @@ module.exports = {
                                                 ////showTimer("     properties: " + properties2.length)
                                                 for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
                                                     let prop = properties2[rttte]
-                                                    stmtInsertComponentProperty.run(baseComponentId, prop.id)
 
 
                                                     if (prop.types) {
