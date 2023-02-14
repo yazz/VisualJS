@@ -42,8 +42,8 @@ module.exports = {
             | Fields |
             |        |______________________________________________________________
             |
-            |                component_name - base component ID of the component
-            |                --------------
+            |                base_component_id - base component ID of the component
+            |                -----------------
             |________________________________________________________________________ */
             "CREATE TABLE IF NOT EXISTS component_property_types (base_component_id TEXT, property_name TEXT,  outputs_type TEXT );",
 
@@ -60,10 +60,10 @@ module.exports = {
             | Fields |
             |        |______________________________________________________________
             |
-            |                component_name - base component ID of the component
-            |                --------------
+            |                base_component_id - base component ID of the component
+            |                -----------------
             |________________________________________________________________________ */
-            "CREATE TABLE IF NOT EXISTS component_property_accept_types (component_name TEXT, property_name TEXT,  accept_type_name TEXT,  accept_type_value TEXT);",
+            "CREATE TABLE IF NOT EXISTS component_property_accept_types (base_component_id TEXT, property_name TEXT,  accept_type TEXT );",
 
 
             "CREATE TABLE IF NOT EXISTS app_allow_co_access (id TEXT, code_id TEXT, give_access_to_code_id TEXT , access_type TEXT);",

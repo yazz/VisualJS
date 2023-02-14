@@ -45,7 +45,7 @@ module.exports = {
 
         stmtDeleteTypesForComponentProperty = thisDb.prepare(" delete from  component_property_types   where   base_component_id = ?");
 
-        stmtDeleteAcceptTypesForComponentProperty = thisDb.prepare(" delete from  component_property_accept_types   where   component_name = ?");
+        stmtDeleteAcceptTypesForComponentProperty = thisDb.prepare(" delete from  component_property_accept_types   where   base_component_id = ?");
 
 
         //select name from (select distinct(name) ,count(name) cn from test  where value in (1,2,3)  group by name) where cn = 3
@@ -65,8 +65,8 @@ module.exports = {
         stmtInsertAcceptTypesForComponentProperty = thisDb.prepare(`insert or ignore
                                                     into
                                                component_property_accept_types
-                                                    (component_name, property_name , accept_type_name , accept_type_value )
-                                               values ( ?,?,?,?)`)
+                                                    (  base_component_id, property_name , accept_type  )
+                                               values ( ?,?,? )`)
 
 
         stmtInsertDependency = thisDb.prepare(" insert or replace into app_dependencies " +
@@ -867,13 +867,10 @@ module.exports = {
                                                     if (prop.accept_types) {
                                                         let labelKeys = Object.keys(prop.accept_types)
                                                         for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                                                            let prop2 = prop.accept_types[labelKeys[rttte2]]
-                                                            ////showTimer("    " + prop.id + " = " +  JSON.stringify(prop.labels))
                                                             stmtInsertAcceptTypesForComponentProperty.run(
                                                                 baseComponentId,
                                                                 prop.id,
-                                                                labelKeys[rttte2],
-                                                                prop2)
+                                                                labelKeys[rttte2])
 
                                                         }
                                                     }
