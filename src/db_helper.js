@@ -32,8 +32,37 @@ module.exports = {
             "CREATE INDEX IF NOT EXISTS app_dependencies_code_id_id_idx ON app_dependencies (code_id);",
 
 
-
+            /*
+            _______________________________________
+            |       component_property_types       |
+            |______________________________________|
+            Used for the global component directory. List of which components can output their values
+            to another property
+            __________
+            | Fields |
+            |        |______________________________________________________________
+            |
+            |                component_name - base component ID of the component
+            |                --------------
+            |________________________________________________________________________ */
             "CREATE TABLE IF NOT EXISTS component_property_types (component_name TEXT, property_name TEXT,  type_name TEXT, type_value TEXT);",
+
+
+
+
+            /*
+            _______________________________________
+            |  component_property_accept_types     |
+            |______________________________________|
+            Used for the global component directory. List of which component fields can accept values
+            from other components
+            __________
+            | Fields |
+            |        |______________________________________________________________
+            |
+            |                component_name - base component ID of the component
+            |                --------------
+            |________________________________________________________________________ */
             "CREATE TABLE IF NOT EXISTS component_property_accept_types (component_name TEXT, property_name TEXT,  accept_type_name TEXT,  accept_type_value TEXT);",
 
 
