@@ -6,7 +6,7 @@
         Function description
         __________
         | Params |
-        |        |______________________________________________________________
+        | ------ |______________________________________________________________
         |
         |     NONE
         |
@@ -14,11 +14,11 @@
         |     --
         |
         |     options: {
-        |     -------    baseComponentId - if set then load the latest
+        |     -------    baseComponentId   if set then load the latest
         |                ---------------   edited version of the app which has
         |                                  a type of "baseComponentId"
         |
-        |                newApp - if set to true then ...
+        |                newApp   if set to true then ...
         |                ------
         |     }
         |________________________________________________________________________ */

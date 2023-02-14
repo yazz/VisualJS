@@ -1920,7 +1920,7 @@ Pushlist
                                   <img
                                       src='/driver_icons/builder.png'
                                       style='margin: auto;'
-                                      zzz="//zzz"
+                                      zzz=""
                                       class='img-fluid'>
                                   </img>
                             </div>
@@ -1938,8 +1938,7 @@ Pushlist
                                         "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                   zzz="//zzz"
-                                   zzz="//zzz"
+                                   zzz=""
                                    v-on:click='globalEditorCommunicationArea.lastEditingAppBaseComponentId = globalEditorCommunicationArea.editingAppBaseComponentId; globalEditorCommunicationArea.lastEditingAppCodeId = globalEditorCommunicationArea.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
                           >
 
@@ -1947,7 +1946,6 @@ Pushlist
                             <img
                                 src='/driver_icons/plus.png'
                                 style='margin: auto;'
-                                zzz="//zzz"
                                 class='img-fluid'>
                             </img>
                           </div>
@@ -3938,9 +3936,7 @@ setTimeout(async function(){
                             "topY": 10,
                             "name": newName,
                             "base_component_id": componentToCreateType
-                          }
-
-                          )
+                          })
                //mm.gotoDragDropEditor()
                //mm.selectComponentByName(newName)
 
@@ -5325,27 +5321,40 @@ ${origCode}
 
 
 
-         /*
-         ________________________________________
-         |                                      |
-         |                   |
-         |                                      |
-         |______________________________________|
-
-         TO BE FILLED IN
-
-         __________
-         | Params |
-         |        |______________________________________________________________
-         |
-         |     NONE
-         |________________________________________________________________________ */
+        /*
+        ________________________________________
+        |           addComponentV2             |
+        |______________________________________|
+        TO BE FILLED IN
+        __________
+        | Params |
+        | ------ |______________________________________________________________
+        |
+        |     leftX   where to place this control
+        |     -----
+        |
+        |     topY   where to place this control
+        |     ----
+        |//zzz
+        |     data    {
+        |     ----       base_component_id:  ...
+        |                control:            controlDetails
+        |             }
+        |
+        |
+        |     parentType   Only used when adding a component to a container
+        |     ----------
+        |
+        |     parentName   Only used when adding a component to a container
+        |     ----------
+        |
+        |     defProps   Only used when adding a component to a container
+        |     --------
+        |
+        |________________________________________________________________________ */
         addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
 
             let mm = this
-
-            //alert(JSON.stringify(data,null,2))
-
 
             let promise = new Promise(async function(returnfn) {
                 let newItem = new Object()
@@ -5564,21 +5573,29 @@ ${origCode}
 
 
 
-         /*
-         ________________________________________
-         |                                      |
-         |              addControl              |
-         |                                      |
-         |______________________________________|
+        /*
+        ________________________________________
+        |              addControl              |
+        |______________________________________|
+        Adds a control to the page. eg:
 
-         TO BE FILLED IN
+        await mm.addControl(
+        {
+            "leftX": 310,
+            "topY": 10,
+            "name": "mycontrol",
+            "base_component_id": "button_control"
+        })
 
-         __________
-         | Params |
-         |        |______________________________________________________________
-         |
-         |     NONE
-         |________________________________________________________________________ */
+        This function really seems to be a helper function for the more complex
+        "addComponentV2" function
+
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     controlDetails:
+        |________________________________________________________________________ */
         addControl: async function(controlDetails) {
             let mm = this
             let newControl = await mm.addComponentV2( 10,
