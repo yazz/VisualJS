@@ -3920,18 +3920,17 @@ ________________________________________
 __________
 | PARAMS |______________________________________________________________
 |
-|     argComponentsToLoad:
-|     -------------------
-|
+|     argComponentsToLoad
+|     -------------------   This is a list of all the UI components that
+|                           we wish to load
 |     args:
-|     ----
-|
+|     ----   This is the arguments that we wish to pass into the UI component.
+|            I am not sure where this is used. I will have to look to find out
+|            more
 |
 |________________________________________________________________________ */
 async function loadUiComponentsV4( argComponentsToLoad, args ) {
 
-    //
-    // ------------------------------------------------------------------------------
     /*
     ________________________________________
     |    loadUiComponentsV4                |
@@ -3964,11 +3963,18 @@ async function loadUiComponentsV4( argComponentsToLoad, args ) {
 
 
 
-    // ------------------------------------------------------------------------------
-    // For static HTML pages (ie: just HTML , with no Yazz engine) then load the
-    // components from the cache, which is just "global_cached_structure_for_code_commit"
-    // which contains all the object definitions
-    // ------------------------------------------------------------------------------
+    /*
+    ________________________________________
+    |    loadUiComponentsV4                |
+    |_________________                     |______________________________________
+                     |
+                     | For static HTML pages (ie: just HTML , with no Yazz engine)
+                     | then load the components from the global cache which
+                     | contains all the UI control definitions in:
+                     |   - global_map_base_component_id_to_commit_id
+                     |   - global_cached_structure_for_code_commit
+                     |____________________________________________________________
+    */
     let loadedStatic = false
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
@@ -3998,19 +4004,25 @@ async function loadUiComponentsV4( argComponentsToLoad, args ) {
 
 
 
-    // ------------------------------------------------------------------------------
-    // For Dynamic HTML pages (which have access to the Yazz engine)
-    // first find out which components are not loaded and need to be loaded in
-    // ------------------------------------------------------------------------------
+    /*
+    ________________________________________
+    |    loadUiComponentsV4                |
+    |_________________                     |______________________________________
+                     |
+                     | For Dynamic HTML pages (which have access to the Yazz engine)
+                     | first find out which components are not loaded and need to be
+                     | loaded in
+                     |____________________________________________________________
+    */
     let componentsItemsToLoad = []
     if (!loadedStatic) {
 
         for (let  componentTuple  of  whichComponentsToLoadAsTuples  ) {
-            let componentType = componentTuple.baseComponentId
-            let componentId = componentTuple.id
+            let componentType   = componentTuple.baseComponentId
+            let componentCodeId     = componentTuple.codeId
 
-            if (componentId && global_cached_structure_for_code_commit[componentId]) {
-                let compRec = global_cached_structure_for_code_commit[componentId]
+            if (componentCodeId && global_cached_structure_for_code_commit[componentCodeId]) {
+                let compRec = global_cached_structure_for_code_commit[componentCodeId]
                 if (compRec) {
                     component_loaded[compRec.base_component_id] = true
                     await checkLibsV2(compRec)
