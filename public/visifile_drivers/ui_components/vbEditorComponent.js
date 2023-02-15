@@ -5417,6 +5417,7 @@ ${origCode}
 
                 let compEvaled1 = global_component_type_details_cache[newItem.base_component_id]
                 if (isValidObject(compEvaled1)) {
+                        newItem.code_id = compEvaled1.code_id
                        let compEvaled = compEvaled1.properties
                        if (isValidObject(compEvaled)) {
                            for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
