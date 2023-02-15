@@ -3920,15 +3920,15 @@ ________________________________________
 __________
 | PARAMS |______________________________________________________________
 |
-|     whichComponentsToLoad:
-|     ---------------------
+|     argComponentsToLoad:
+|     -------------------
 |
 |     args:
 |     ----
 |
 |
 |________________________________________________________________________ */
-async function loadUiComponentsV4( whichComponentsToLoad, args ) {
+async function loadUiComponentsV4( argComponentsToLoad, args ) {
 
     //
     // ------------------------------------------------------------------------------
@@ -3937,7 +3937,7 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
     |    loadUiComponentsV4                |
     |_________________                     |______________________________________
                      |
-                     | Transform "whichComponentsToLoad" from a list
+                     | Transform "argComponentsToLoad" from a list
                      | into a list of tuples in "whichComponentsToLoadAsTuples":
                      | [
                      |    {baseComponentId: "label"},
@@ -3947,14 +3947,14 @@ async function loadUiComponentsV4( whichComponentsToLoad, args ) {
                      | ]
                      |____________________________________________________________
     */
-    if (typeof whichComponentsToLoad === 'string' || whichComponentsToLoad instanceof String) {
-        whichComponentsToLoad = [{baseComponentId: whichComponentsToLoad}]
-    } else if (!Array.isArray(whichComponentsToLoad)) {
-        whichComponentsToLoad = [whichComponentsToLoad]
+    if (typeof argComponentsToLoad === 'string' || argComponentsToLoad instanceof String) {
+        argComponentsToLoad = [{baseComponentId: argComponentsToLoad}]
+    } else if (!Array.isArray(argComponentsToLoad)) {
+        argComponentsToLoad = [argComponentsToLoad]
     }
 
     let whichComponentsToLoadAsTuples = []
-    for ( let componentItem  of  whichComponentsToLoad ) {
+    for ( let componentItem  of  argComponentsToLoad ) {
         if (typeof componentItem == 'string') {
             whichComponentsToLoadAsTuples.push({baseComponentId: componentItem})
         } else {
