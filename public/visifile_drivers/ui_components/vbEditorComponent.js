@@ -2573,12 +2573,11 @@ Pushlist
                          compsToLoad.push(
                              {
                                  baseComponentId:   newItem.base_component_id,
-                                 ipfsHashId:        newItem.ipfs_hash_id
+                                 codeId:            newItem.code_id
                              }
                          )
                      }
                  }
-                 //debugger
                  await loadUiComponentsV4(compsToLoad)
 
 

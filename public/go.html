@@ -3900,39 +3900,53 @@ async function checkLibsV2(componentRecord){
 
 
 
-//------------------------------------------------------------------------------
-////
-//                               |----------------------|
-//                               |  loadUiComponentsV4  |
-//                               |----------------------|
-//
-// Dynamically loads a component class into the currently running system. V4
-// should have the ability to load components via IPFS as well
-//
-// Can be called like:
-//
-//     loadUiComponentsV4(    "button_control"  )
-//     loadUiComponentsV4(  [ "button_control" ]  )
-//     loadUiComponentsV4(  [ "button_control"   ,  "label_control"  ]  )
-//     loadUiComponentsV4(  [ { baseComponentId: "button_control" }]  )
-//     loadUiComponentsV4(  [ { baseComponentId: "button_control" }  ,  { id: "Qmeff737e7878...3223" } ]  )
-//
-// "baseComponentId" = type
-// "id"              = commit ID of the code
-//
-//------------------------------------------------------------------------------
 
+/*
+________________________________________
+|                                      |
+|       loadUiComponentsV4             |
+|                                      |
+|______________________________________|
+ Dynamically loads a component class into the currently running system. V4
+ should have the ability to load components via IPFS as well
+
+ Can be called like:
+
+     loadUiComponentsV4(    "button_control"  )
+     loadUiComponentsV4(  [ "button_control" ]  )
+     loadUiComponentsV4(  [ "button_control"   ,  "label_control"  ]  )
+     loadUiComponentsV4(  [ { baseComponentId: "button_control" }]  )
+     loadUiComponentsV4(  [ { baseComponentId: "button_control" }  ,  { codeId: "Qmeff737e7878...3223" } ]  )
+__________
+| PARAMS |______________________________________________________________
+|
+|     whichComponentsToLoad:
+|     ---------------------
+|
+|     args:
+|     ----
+|
+|
+|________________________________________________________________________ */
 async function loadUiComponentsV4( whichComponentsToLoad, args ) {
 
+    //
     // ------------------------------------------------------------------------------
-    // Turn the list of "whichComponentsToLoad" into
-    // a list of tuples stored in "whichComponentsToLoadAsTuples":
-    // [
-    //      {baseComponentId: "label"},
-    //      {baseComponentId: "button"},
-    //      {ipfs: "1f"}
-    // ]
-    // ------------------------------------------------------------------------------
+    /*
+    ________________________________________
+    |    loadUiComponentsV4                |
+    |_________________                     |______________________________________
+                     |
+                     | Transform "whichComponentsToLoad" from a list
+                     | into a list of tuples in "whichComponentsToLoadAsTuples":
+                     | [
+                     |    {baseComponentId: "label"},
+                     |    {baseComponentId: "button"},
+                     |    {baseComponentId: "button",  codeId: "1f"},
+                     |    {codeId: "1f"}
+                     | ]
+                     |____________________________________________________________
+    */
     if (typeof whichComponentsToLoad === 'string' || whichComponentsToLoad instanceof String) {
         whichComponentsToLoad = [{baseComponentId: whichComponentsToLoad}]
     } else if (!Array.isArray(whichComponentsToLoad)) {
