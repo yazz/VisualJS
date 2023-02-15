@@ -2463,6 +2463,9 @@ Pushlist
         |________________________________________________________________________ */
         mounted: async function() {
             let mm                          = this
+            let json2
+            let subComponentsUsedInThisApp
+
             mm.unique_app_dom_element_id    = uuidv4()
             mm.vb_grid_element_id           = "vb_grid_"+ uuidv4()
             mm.vb_editor_element_id         = "vb_editor_"+ uuidv4()
@@ -2481,7 +2484,7 @@ Pushlist
 
 
             /*
-            _______________________________________
+            ________________________________________
             |    mounted                           |
             |_________________                     |_______________________________
                              | Get the base component ID of the code to edit/run
@@ -2490,12 +2493,12 @@ Pushlist
                              |_____________________________________________________
             */
             if (texti) {
-                let json2                   = this.getJsonModelFromCode(  texti  )
-                mm.old_model = JSON.parse(JSON.stringify(json2));
+                json2                       = mm.getJsonModelFromCode(  texti  )
+                mm.old_model                = JSON.parse(JSON.stringify(json2));
                 mm.model                    = json2
                 mm.edited_app_component_id  = yz.getValueOfCodeString(texti, "base_component_id")
 
-                this.read_only = yz.getValueOfCodeString(texti, "read_only")
+                mm.read_only = yz.getValueOfCodeString(texti, "read_only")
             }
             mm.active_form = mm.model.default_form
 
@@ -2505,7 +2508,7 @@ Pushlist
 
 
             /*
-            _______________________________________
+            ________________________________________
             |    mounted                           |
             |_________________                     |_______________________________
                              | find out which sub components are used by this app
@@ -2514,24 +2517,25 @@ Pushlist
                              |_____________________________________________________
             */
             if (mm.edited_app_component_id) {
-                let results = await getSubComponents(mm.text)
+                subComponentsUsedInThisApp = await getSubComponents(mm.text)
 
-                for (let i = 0; i < results.length; i++) {
-                    mm.components_used_in_this_app[results[i].child_base_component_id] = true
+                for (let i = 0; i < subComponentsUsedInThisApp.length; i++) {
+                    mm.components_used_in_this_app[subComponentsUsedInThisApp[i].child_base_component_id] = true
                 }
             }
 
 
 
-            // ---------------------------------------------------------
-            // load the forms and their controls
-            // ---------------------------------------------------------
 
 
-            // ---------------------------------------------------------
-            // ... Set up all the form methods
-            // ---------------------------------------------------------
-             let forms = mm.getForms()
+            /*
+            ________________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             | Set up all the form methods
+                             |_____________________________________________________
+            */
+            let forms = mm.getForms()
              for (let formIndex = 0; formIndex < forms.length; formIndex ++) {
                  let formName = forms[formIndex].name
 
