@@ -2512,8 +2512,9 @@ Pushlist
             |    mounted                           |
             |_________________                     |_______________________________
                              | find out which sub components are used by this app
-                             |
-                             | save the result in "this.components_used_in_this_app"
+                             | and save the result in "this.components_used_in_this_app"
+                             | which just sets the value to "true" for the base_component_id
+                             | of that component
                              |_____________________________________________________
             */
             if (mm.edited_app_component_id) {
@@ -2542,7 +2543,6 @@ Pushlist
                  let formProps = mm.getFormProperties()
                  for (let cpp = 0 ; cpp < formProps.length; cpp ++) {
                      let formprop = formProps[cpp]
-                     let propname = formprop.name
                      let formDef = mm.model.forms[formName]
                      if (formprop.type == "Action") {
                          formDef[formprop.id] =
@@ -2557,11 +2557,14 @@ Pushlist
 
 
 
-                 // ---------------------------------------------------------
-                 // Load the component definitions for all components on
-                 // this form
-                 // ---------------------------------------------------------
-//debugger
+                /*
+                ________________________________________
+                |    mounted                           |
+                |_________________                     |_______________________________
+                                 | Load the component definitions for all components on
+                                 | this form
+                                 |_____________________________________________________
+                */
                  let compsToLoad = []
                  for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                  {
