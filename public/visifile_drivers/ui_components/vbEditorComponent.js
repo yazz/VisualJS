@@ -2736,8 +2736,15 @@ Pushlist
 
 
 
-            //debugger
-            if (mm.design_mode) {
+            /*
+             _______________________________________
+             |    mounted                           |
+             |_________________                     |____________
+                              | Change a UI control in the app
+                              | after the Ui control class definition
+                              | has been edited in another editor
+                              |__________________________________
+             */            if (mm.design_mode) {
                 if (globalEditorCommunicationArea.originalNameOfEditedUiControl) {
                     if (globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl !=
                         globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl) {
@@ -2745,19 +2752,18 @@ Pushlist
                         setTimeout(function(){
                             mm.changePropertyValue(
                                 {
-                                    componentName:  globalEditorCommunicationArea.originalNameOfEditedUiControl,
+                                    componentName:   globalEditorCommunicationArea.originalNameOfEditedUiControl,
                                     propertyName:   "base_component_id",
-                                    //propertyName:   "text",
-                                    propertyValue:  globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl
+                                    propertyValue:   globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl
                                 }
                             )
-                            /*mm.changePropertyValue(
+                            mm.changePropertyValue(
                                 {
-                                    componentName:  "aaa",
-                                    propertyName:   "text",
-                                    propertyValue:  "changed"
+                                    componentName:   globalEditorCommunicationArea.originalNameOfEditedUiControl,
+                                    propertyName:   "code_id",
+                                    propertyValue:   globalEditorCommunicationArea.finalCodeIdOfEditedUiControl
                                 }
-                            )*/
+                            )
                             globalEditorCommunicationArea.originalNameOfEditedUiControl = null
 
                         },1000)
