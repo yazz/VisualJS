@@ -3923,13 +3923,14 @@ __________
 |     argComponentsToLoad
 |     -------------------   This is a list of all the UI components that
 |                           we wish to load
-|     args:
-|     ----   This is the arguments that we wish to pass into the UI component.
-|            I am not sure where this is used. I will have to look to find out
-|            more
+|
+|     argsToPassToUiComponents
+|     ------------------------      This is the arguments that we wish to pass into the UI component.
+|                                   I am not sure where this is used. I will have to look to find out
+|                                   more
 |
 |________________________________________________________________________ */
-async function loadUiComponentsV4( argComponentsToLoad, args ) {
+async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents ) {
 
     /*
     ________________________________________
@@ -3995,7 +3996,7 @@ async function loadUiComponentsV4( argComponentsToLoad, args ) {
 
                 await checkLibsV2(codeCommit)
                 let trcode2 = await enhanceYazzSourceCodeBeforeRunning(codeCommit)
-                await runYazzSourceCode(trcode2, args, null)
+                await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 loadedStatic = true
             }
         }
@@ -4029,7 +4030,7 @@ async function loadUiComponentsV4( argComponentsToLoad, args ) {
                     component_loaded[compRec.base_component_id] = true
                     await checkLibsV2(compRec)
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
-                    await runYazzSourceCode(trcode2, args, null)
+                    await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 }
 
             //
@@ -4068,7 +4069,7 @@ async function loadUiComponentsV4( argComponentsToLoad, args ) {
                         for (var i=0; i< sdf.length; i++) {
                             await checkLibsV2(sdf[i])
                             let trcode2 = await enhanceYazzSourceCodeBeforeRunning(sdf[i])
-                            await runYazzSourceCode(trcode2, args, null)
+                            await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
 
                         }
                     };
