@@ -4016,7 +4016,7 @@ async function loadUiComponentsV4( argComponentsToLoad, args ) {
     */
     let componentsItemsToLoad = []
     if (!loadedStatic) {
-
+debugger
         for (let  componentTuple  of  whichComponentsToLoadAsTuples  ) {
             let componentType   = componentTuple.baseComponentId
             let componentCodeId     = componentTuple.codeId
@@ -4092,7 +4092,25 @@ async function loadUiComponentsV4( argComponentsToLoad, args ) {
 
 
 
-
+/*
+________________________________________
+|                                      |
+|       callComponent                  |
+|                                      |
+|______________________________________|
+Calls a server side component and returns the results
+__________
+| PARAMS |______________________________________________________________
+|
+|     componentSearchDetails
+|     ----------------------    Some text
+|                               can go here
+|
+|     fnCallArgs
+|     ----------    Some text
+|                   can go here
+|
+|________________________________________________________________________ */
 async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
     var promise = new Promise(returnfn => {
         let seqNum                          = queuedBrowserResponseSeqNum ++;

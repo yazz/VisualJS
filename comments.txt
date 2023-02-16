@@ -14,14 +14,10 @@ __________
 |
 |     OR
 |
-|     options: {
-|     -------    baseComponentId   if set then load the latest
-|                ---------------   edited version of the app which has
-|                                  a type of "baseComponentId"
+|     componentSearchDetails
+|     ----------------------    Some text
+|                               can go here
 |
-|                newApp   if set to true then ...
-|                ------
-|     }
 |________________________________________________________________________ */
 
 
