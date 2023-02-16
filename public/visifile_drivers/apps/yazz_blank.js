@@ -2781,8 +2781,8 @@ logo_url("/driver_icons/blocks.png")
             if (mm.args && mm.args.control_type) {
                 //zzz
                 //debugger
-                this.deleteComponentByName("aaa")
-                this.addComponentV2(
+                await this.deleteComponentByName("aaa")
+                await this.addComponentV2(
                     200,
                     200,
                     {
