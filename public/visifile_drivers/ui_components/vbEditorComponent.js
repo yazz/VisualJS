@@ -2790,16 +2790,16 @@ Pushlist
             if (mm.args && mm.args.control_type) {
 
                 //debugger
-                mm.deleteComponentByName("aaa")
-                mm.addComponentV2(
+                await mm.deleteComponentByName("aaa")
+                await mm.addComponentV2(
                     200,
                     200,
                     {
-                        base_component_id: mm.args.control_type,
-                        type:       "add_component",
-                        text:        "this.highlighted_control",
-                        offsetX:     100,
-                        offsetY:     100
+                        base_component_id:   mm.args.control_type,
+                        type:               "add_component",
+                        text:               "this.highlighted_control",
+                        offsetX:             100,
+                        offsetY:             100
                     },
                     null,
                     null,
