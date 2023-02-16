@@ -4016,11 +4016,13 @@ async function loadUiComponentsV4( argComponentsToLoad, args ) {
     */
     let componentsItemsToLoad = []
     if (!loadedStatic) {
-debugger
         for (let  componentTuple  of  whichComponentsToLoadAsTuples  ) {
             let componentType   = componentTuple.baseComponentId
             let componentCodeId     = componentTuple.codeId
 
+            //
+            // if we have cached the component then run it
+            //
             if (componentCodeId && global_cached_structure_for_code_commit[componentCodeId]) {
                 let compRec = global_cached_structure_for_code_commit[componentCodeId]
                 if (compRec) {
@@ -4029,9 +4031,23 @@ debugger
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
                     await runYazzSourceCode(trcode2, args, null)
                 }
-            } else if (componentType && (!component_loaded[componentType])) {
-                component_loaded[componentType] = true
+
+            //
+            // if we have haven't cached the component (given the code ID) then put it on the list of things to load
+            //
+            } else if (componentCodeId && !global_cached_structure_for_code_commit[componentCodeId]) {
                 componentsItemsToLoad.push(componentTuple)
+
+            //
+            // if we have haven't cached the component (given the Type) then put it on the list of things to load
+            //
+            } else if (componentType && (!component_loaded[componentType])) {
+                component_loaded[componentType] = true //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
+                componentsItemsToLoad.push(componentTuple)
+
+            //
+            // Otherwise just put it on the list of things to load
+            //
             } else {
                 componentsItemsToLoad.push(componentTuple)
             }
@@ -4039,38 +4055,24 @@ debugger
 
         if (componentsItemsToLoad.length > 0) {
             let promise = new Promise(async function(returnfn) {
-                //debugger
+                let resultsUi = await postToYazzReturnJson(
+                    "/load_ui_components_v3",
+                    {
+                        find_components:  {items: componentsItemsToLoad},
+                    })
 
-                if (!online) {
-                    setTimeout(async function() {
-                        await postToYazzReturnJson(
-                            "/load_ui_components_v3",
-                            {
-                                find_components:  {items: componentsItemsToLoad},
-                                args:             args,
-                            })
-                    },2000)
-                } else {
-                    let resultsUi = await postToYazzReturnJson(
-                        "/load_ui_components_v3",
-                        {
-                            find_components:  {items: componentsItemsToLoad},
-                        })
-                        //debugger
+                    for (const data of resultsUi) {
 
-                        for (const data of resultsUi) {
+                        var sdf     = eval("(" + data.record + ")")
 
-                            var sdf     = eval("(" + data.record + ")")
+                        for (var i=0; i< sdf.length; i++) {
+                            await checkLibsV2(sdf[i])
+                            let trcode2 = await enhanceYazzSourceCodeBeforeRunning(sdf[i])
+                            await runYazzSourceCode(trcode2, args, null)
 
-                            for (var i=0; i< sdf.length; i++) {
-                                await checkLibsV2(sdf[i])
-                                let trcode2 = await enhanceYazzSourceCodeBeforeRunning(sdf[i])
-                                await runYazzSourceCode(trcode2, args, null)
+                        }
+                    };
 
-                            }
-                        };
-
-                }
                 returnfn({})
 
             })
