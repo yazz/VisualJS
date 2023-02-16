@@ -1879,7 +1879,7 @@ End of app preview menu
                                     }
                                 }
                                 mm.resetDebugger()
-                                await loadUiComponentsV4( {id: mm.code_id }, {} )
+                                await loadUiComponentsV4( {codeId: mm.code_id }, {} )
                             },500)
                         }
 
@@ -1918,7 +1918,7 @@ End of app preview menu
 
 
                         this.resetDebugger()
-                        await loadUiComponentsV4( {id: mm.code_id }, {} )
+                        await loadUiComponentsV4( {codeId: mm.code_id }, {} )
 
 
 

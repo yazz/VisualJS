@@ -2878,9 +2878,35 @@ async function startServices() {
 
 
                 //----------------------------------------------------------------------------
+                // if IPFS Hash given
+                //----------------------------------------------------------------------------
+            if (componentItem.codeId) {
+                componentItem.ipfsHashId = componentItem.codeId
+
+                resultsRow = await yz.getQuickSqlOneRow(
+                    dbsearch
+                    ,
+                    `
+                            SELECT  
+                                system_code.*  
+                            FROM
+                                system_code  
+                            WHERE  
+                                id  = ?
+                            `
+                    ,
+                    componentItem.codeId)
+
+                //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
+
+
+
+
+
+                //----------------------------------------------------------------------------
                 // if baseComponentId given
                 //----------------------------------------------------------------------------
-                if (componentItem.baseComponentId) {
+                } else if (componentItem.baseComponentId) {
                     resultsRow = await yz.getQuickSqlOneRow(
                         dbsearch
                         ,
@@ -2915,34 +2941,14 @@ async function startServices() {
                             ,
                             componentItem.baseComponentId)
                     }
-
-
-
-
-
-
-                //----------------------------------------------------------------------------
-                // if IPFS Hash given
-                //----------------------------------------------------------------------------
-                } else if (componentItem.id) {
-                    componentItem.ipfsHashId = componentItem.id
-
-                    resultsRow = await yz.getQuickSqlOneRow(
-                        dbsearch
-                        ,
-                        `
-                            SELECT  
-                                system_code.*  
-                            FROM
-                                system_code  
-                            WHERE  
-                                id  = ?
-                            `
-                        ,
-                        componentItem.id)
-
-                    //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
                 }
+
+
+
+
+
+
+
 
 
 
