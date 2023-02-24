@@ -2864,37 +2864,63 @@ logo_url("/driver_icons/blocks.png")
                 }
             }
 
-//zzz
-//
-// This is only used when previewing a component. Since we use the "Blank Yazz App"
-// for previews we need to see if the argument 'control_type' is passed in, and if
-// it is then we remove then standard text box (with a name of 'aaa') and we add
-// the component being previewed instead
-//
-// note this code should be copied to the template too
-// START
+
+
+
+
+
+
+
+
+            /*
+            ________________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             |  This is only used when previewing a component. Since we use the "Blank Yazz App"
+                             |  for previews we need to see if the argument 'control_type' is passed in, and if
+                             |  it is then we remove then standard text box (with a name of 'aaa') and we add
+                             |  the component being previewed instead
+                             |
+                             |  note this code should be copied to the template too
+                             |_____________________________________________________
+            */
             if (mm.args && mm.args.control_type) {
-
-                //debugger
-                await mm.deleteComponentByName("aaa")
-                await mm.addComponentV2(
-                    200,
-                    200,
-                    {
-                        base_component_id:   mm.args.control_type,
-                        type:               "add_component",
-                        text:               "this.highlighted_control",
-                        offsetX:             100,
-                        offsetY:             100
-                    },
-                    null,
-                    null,
-                    [])
+                setTimeout(
+                    async function( ) {
+                        await mm.deleteComponentByName("aaa")
+                        await mm.addComponentV2(
+                            200,
+                            200,
+                            {
+                                base_component_id:   mm.args.control_type,
+                                type:               "add_component",
+                                text:               "this.highlighted_control",
+                                offsetX:             100,
+                                offsetY:             100
+                            },
+                            null,
+                            null,
+                            [])
+                    }
+                    ,
+                    100
+                )
             }
-// END
-// note this code should be copied to the template too
-//
 
+
+
+
+
+
+
+
+            /*
+            ________________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             |
+                             |_____________________________________________________
+            */
             setTimeout(async function(){
                 if (isStaticHtmlPageApp) {
                     mm.editor_locked = false
