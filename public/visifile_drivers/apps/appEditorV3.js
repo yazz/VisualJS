@@ -1744,6 +1744,7 @@ End of app preview menu
                 let results
                 let codeId          = null
                 let runThisApp      = false
+                mm.preview_type     = ""
 
                 if (options.codeId) {
                     codeId = options.codeId
@@ -2050,6 +2051,8 @@ End of app preview menu
                hideProgressBar()
                if (code && (yz.getValueOfCodeString(code,"component_type") == "VB")) {
                    mm.preview_type = "control"
+               } else {
+                   mm.preview_type = "app"
                }
            }
            ,
