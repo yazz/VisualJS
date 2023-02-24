@@ -373,6 +373,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                                 v-bind:is='child_item.base_component_id'
                                                 v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                 v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                                v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                 v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                 v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                     </component>
@@ -1991,7 +1992,7 @@ Pushlist
                                                 v-bind:children='getChildren(item.name)'
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='item.base_component_id'
-                                                v-if='!item.parent'
+                                                v-if='!item.parent && model.forms[active_form].components[index]'
                                                 v-bind:name='item.name + "_design_mode_" + design_mode'
                                                 v-bind:properties='model.forms[active_form].components[index]'
                                                 v-bind:props='model.forms[active_form].components[index]'
@@ -2012,6 +2013,7 @@ Pushlist
                                                         v-bind:is='child_item.base_component_id'
                                                         v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                         v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                                        v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                         v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                         v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                             </component>
