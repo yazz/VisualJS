@@ -354,6 +354,7 @@ uses_javascript_librararies(["advanced_bundle"])
                                 v-bind:is='model.forms[active_form].components[active_component_detail_index].base_component_id'
                                 v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
                                 v-bind:props='model.forms[active_form].components[active_component_detail_index]'
+                                v-if='model.forms[active_form].components[active_component_detail_index]'
                                 v-bind:properties='model.forms[active_form].components[active_component_detail_index]'
                                 v-bind:args='model.forms[active_form].components[active_component_detail_index]'>
 
@@ -2754,7 +2755,6 @@ Pushlist
                 if (globalEditorCommunicationArea.originalNameOfEditedUiControl) {
                     if (globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl !=
                         globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl) {
-                        debugger
                         setTimeout(function(){
                             mm.changePropertyValue(
                                 {
