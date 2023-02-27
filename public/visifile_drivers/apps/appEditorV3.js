@@ -930,7 +930,7 @@ End of app preview menu
                                                            })
 
                } else if (globalEditorCommunicationArea.lastEditingAppBaseComponentId) {
-                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId})
+                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
                } else {
                    this.$root.$emit('message', {
                        type:        "close_app"
