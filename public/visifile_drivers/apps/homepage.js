@@ -60,8 +60,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     <div    v-for="(item, index) in editable_app_list"
             v-bind:refresh='refresh'
             v-if="(edit_app == item.base_component_id)"
-            v-on:mouseenter="preview_app_id = item.base_component_id;previewApp(item.base_component_id)"
-            v-on:mouseleave="preview_app_id = null;"
+            v-on:mouseenter="selectedBaseComponentId = item.base_component_id;previewApp(item.base_component_id)"
+            v-on:mouseleave="selectedBaseComponentId = null;"
             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
             class='app_card'>
 
@@ -351,21 +351,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <div    v-for="(item, index) in editable_app_list"
                     v-bind:refresh='refresh'
                     v-bind:id='"appid_" + item.base_component_id'
-                    v-on:mouseenter="if (!disableAppSelect) {preview_app_id = item.base_component_id;previewApp(item.base_component_id)}"
-                    v-on:oldmouseleave="preview_app_id = null;"
-                    v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((preview_app_id == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
+                    v-on:mouseenter="if (!disableAppSelect) {selectedBaseComponentId = item.base_component_id;previewApp(item.base_component_id)}"
+                    v-on:oldmouseleave="selectedBaseComponentId = null;"
+                    v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((selectedBaseComponentId == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                     classold='app_card'>
 
                 <div    v-bind:refresh='refresh'
-                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
+                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((selectedBaseComponentId == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
 
-                        <div    v-if='(preview_app_id == item.base_component_id) && (!edit_app)'
+                        <div    v-if='(selectedBaseComponentId == item.base_component_id) && (!edit_app)'
                                 v-bind:refresh='refresh'
                                 style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
 
 
-                            <div    v-if='(preview_app_id == item.base_component_id) '
+                            <div    v-if='(selectedBaseComponentId == item.base_component_id) '
                                     v-bind:refresh='refresh'
                                     v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                                     v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -381,7 +381,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                         {{item.code_id.substring(0,5)}}...
                                       </div>
 
-                                    <img    v-if='(preview_app_id == item.base_component_id) '
+                                    <img    v-if='(selectedBaseComponentId == item.base_component_id) '
                                             v-bind:src='app_logos[item.base_component_id]'
                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                             v-bind:alt='app_logos[item.base_component_id]'
@@ -421,7 +421,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                        <div v-if="preview_app_id != item.base_component_id"
+                        <div v-if="selectedBaseComponentId != item.base_component_id"
                              style='border-radius: 0px;padding:0px; margin:0;'
                              v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                             <img    v-if='(app_logos[item.base_component_id] && (app_logos[item.base_component_id] != ""))'
@@ -477,21 +477,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         <div    v-for="(item, index) in appstore_apps"
                 v-bind:refresh='refresh'
-                v-on:mouseenter=" preview_app_id = item.base_component_id;previewApp(item.base_component_id)"
-                v-on:mouseleave=" preview_app_id = null;"
+                v-on:mouseenter=" selectedBaseComponentId = item.base_component_id;previewApp(item.base_component_id)"
+                v-on:mouseleave=" selectedBaseComponentId = null;"
                 style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                 class='app_card'>
 
           <div    v-bind:refresh='refresh'
-                  v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((preview_app_id == item.id) )?"background-color:white;":"background-color:black;")'>
+                  v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((selectedBaseComponentId == item.id) )?"background-color:white;":"background-color:black;")'>
 
-            <div    v-if='(preview_app_id == item.base_component_id) && (!edit_app)'
+            <div    v-if='(selectedBaseComponentId == item.base_component_id) && (!edit_app)'
                     v-bind:refresh='refresh'
                     style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
 
 
-              <div    v-if='(preview_app_id == item.base_component_id) '
+              <div    v-if='(selectedBaseComponentId == item.base_component_id) '
                       v-bind:refresh='refresh'
                       v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                       v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -503,7 +503,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   {{item.display_name}}
                 </div>
 
-                <img    v-if='(preview_app_id == item.base_component_id) '
+                <img    v-if='(selectedBaseComponentId == item.base_component_id) '
                         v-bind:src='app_logos[item.base_component_id]'
                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                         v-bind:alt='app_logos[item.base_component_id]'
@@ -544,7 +544,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-            <div v-if="preview_app_id != item.id"
+            <div v-if="selectedBaseComponentId != item.id"
                  style='border-radius: 0px;padding:0px; margin:0;'
                  v-on:click='$event.stopPropagation();editApp(item.id)'>
               <img    v-if='(app_logos[item.id] && (app_logos[item.id] != ""))'
@@ -598,7 +598,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     data: function() {
         return {
                     hideImportButtons:      false,
-                    preview_app_id:         null,
+                    selectedBaseComponentId:         null,
                     editable_app_list:      [],
                     appstore_apps:          [],
                     loaded_app:             new Object(),
@@ -658,7 +658,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     await mm.addLogoForApp(text.base_component_id)
                     await mm.addEditableApp(text.base_component_id, text.display_name)
                     mm.edit_app = text.base_component_id
-                    mm.preview_app_id = null
+                    mm.selectedBaseComponentId = null
                     mm.refresh++
                 }
 
@@ -764,7 +764,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               let mm = this
               setTimeout(function() {
                   //debugger
-                  mm.preview_app_id = (appId)
+                  mm.selectedBaseComponentId = (appId)
                   mm.previewApp(appId)
                   let a = document.getElementById("downloaded_apps")
                   if (!a) {
@@ -933,7 +933,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           previewApp: function(appId) {
                 let mm = this
 
-                if (mm.preview_app_id) {
+                if (mm.selectedBaseComponentId) {
 
                     mm.refresh ++
                     mm.$forceUpdate();
@@ -1176,7 +1176,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               }
 
               this.edit_app = item;
-              mm.preview_app_id = null
+              mm.selectedBaseComponentId = null
               mm.refresh ++
           }
           ,
