@@ -172,7 +172,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
                   class='btn btn-lg'
                   v-if="hideImportButtons"
-                  v-on:click='copyAndEditApp($event,{base_component_id: "yazz_blank"})'>
+                  v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
             <img    src='/driver_icons/blocks.png'
                     style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
             >
@@ -187,7 +187,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
                     class='btn btn-lg'
                     v-if="!hideImportButtons"
-                    v-on:click='copyAndEditApp($event,{base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
                     <img    src='/driver_icons/blocks.png'
                             style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                             >
@@ -515,7 +515,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                         class='btn btn-sm'
-                        v-on:click='showProgressBar();downloadApp($event,item.ipfs_hash)'>
+                        v-on:click='showProgressBar();$event.stopPropagation();downloadApp(item.ipfs_hash)'>
                   <img    src='/driver_icons/play.png'
                           style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                   >
@@ -526,7 +526,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 
                 <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                         class='btn  btn-sm'
-                        v-on:click='showProgressBar();downloadAndEditApp($event,item.ipfs_hash)'>
+                        v-on:click='showProgressBar();$event.stopPropagation();downloadAndEditApp(item.ipfs_hash)'>
                   <img    src='/driver_icons/edit.png'
                           style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                   >
@@ -718,7 +718,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl  = bci
                         globalEditorCommunicationArea.originalCodeIdOfEditedUiControl           = cid
                         mm.copyAndEditApp(
-                            null,
                             {base_component_id: bci  ,  code_id: cid})
                     },200)
                 }
@@ -1027,7 +1026,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-          copyAndEditApp: async function(event,  compInfo ) {
+          copyAndEditApp: async function(compInfo ) {
               let mm                = this
               let baseComponentId   = compInfo.base_component_id
               let codeId            = compInfo.code_id
@@ -1056,7 +1055,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           },
 
 
-          downloadApp: async function(event,  ipfsHash ) {
+          downloadApp: async function(ipfsHash ) {
               let mm = this
 
               this.open_file_name = ""
@@ -1093,7 +1092,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-          downloadAndEditApp: async function(event,  ipfsHash ) {
+          downloadAndEditApp: async function(ipfsHash ) {
               let mm = this
 
               this.open_file_name = ""
