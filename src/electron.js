@@ -2741,14 +2741,18 @@ async function startServices() {
 //zzz
 
         app.get('/copy_component', async function (req, res, next) {
-            let userid          = await getUserId(req)
-            let baseComponentId = req.query.base_component_id
-            let codeId = req.query.code_id
+            let userid              = await getUserId(req)
+            let baseComponentId     = req.query.base_component_id
+            let codeId              = req.query.code_id
+            let newBaseComponentId  = req.query.new_base_component_id
+
             let args =
                 {
                     base_component_id: baseComponentId
                     ,
                     code_id: codeId
+                    ,
+                    new_base_component_id: newBaseComponentId
                 }
 
             let response = await copyAppshareApp(args)

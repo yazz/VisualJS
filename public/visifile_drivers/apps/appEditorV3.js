@@ -1558,13 +1558,19 @@ End of app preview menu
             copyApp: async function( appId , newAppId) {
                 let mm = this
                 //debugger
-                let result = await callComponent(
+                /*let result = await callComponent(
                                     {
                                         base_component_id: "copyApp"
                                     }
                                         ,{
                                               base_component_id:          appId,
-                                              new_base_component_id:      newAppId   })
+                                              new_base_component_id:      newAppId   })*/
+                let result = await getFromYazzReturnJson("/copy_component",
+                    {
+                        base_component_id: appId
+                        ,
+                        new_base_component_id:      newAppId
+                    })
                 if (isValidObject(result)) {
                     mm.$root.$emit('message', {
                                                     type:               "insert_app_at",
