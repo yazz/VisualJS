@@ -5304,7 +5304,6 @@ async function setUpComponentsLocally() {
     }
     await releaseComponentFromPath( '/services/commandLine.js')
     await releaseComponentFromPath( '/services/commandLine2.js')
-    await releaseComponentFromPath( '/services/copyApp.js')
     await releaseComponentFromPath( '/services/downloadApp.js')
     //await releaseComponentFromPath('/services/test_job.js')
     //await releaseComponentFromPath('/services/kafka_service.js')

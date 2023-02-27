@@ -1557,14 +1557,7 @@ End of app preview menu
             // ---------------------------------------------------------------
             copyApp: async function( appId , newAppId) {
                 let mm = this
-                //debugger
-                /*let result = await callComponent(
-                                    {
-                                        base_component_id: "copyApp"
-                                    }
-                                        ,{
-                                              base_component_id:          appId,
-                                              new_base_component_id:      newAppId   })*/
+
                 let result = await getFromYazzReturnJson("/copy_component",
                     {
                         base_component_id: appId
