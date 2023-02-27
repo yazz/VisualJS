@@ -6813,7 +6813,7 @@ async function copyAppshareApp(args) {
 
         var argsBaseComponentId = args.base_component_id
         var argsNewAppId        = args.new_base_component_id
-        var argsCodeId          = args.code_id
+        var argsCodeId          = args.code_id==""?null:args.code_id
 
         console.log("    argsBaseComponentId: " + argsBaseComponentId)
         console.log("    argsCodeId: "          + argsCodeId)
