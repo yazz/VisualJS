@@ -60,7 +60,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     <div    v-for="(item, index) in editable_app_list"
             v-bind:refresh='refresh'
             v-if="(edit_app == item.base_component_id)"
-            v-on:mouseenter="selectedBaseComponentId = item.base_component_id;previewApp(item.base_component_id)"
+            v-on:mouseenter="selectedBaseComponentId = item.base_component_id;"
             v-on:mouseleave="selectedBaseComponentId = null;"
             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
             class='app_card'>
@@ -351,7 +351,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <div    v-for="(item, index) in editable_app_list"
                     v-bind:refresh='refresh'
                     v-bind:id='"appid_" + item.base_component_id'
-                    v-on:mouseenter="if (!disableAppSelect) {selectedBaseComponentId = item.base_component_id;previewApp(item.base_component_id)}"
+                    v-on:mouseenter="if (!disableAppSelect) {selectedBaseComponentId = item.base_component_id;}"
                     v-on:oldmouseleave="selectedBaseComponentId = null;"
                     v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((selectedBaseComponentId == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                     classold='app_card'>
@@ -477,7 +477,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         <div    v-for="(item, index) in appstore_apps"
                 v-bind:refresh='refresh'
-                v-on:mouseenter=" selectedBaseComponentId = item.base_component_id;previewApp(item.base_component_id)"
+                v-on:mouseenter=" selectedBaseComponentId = item.base_component_id;"
                 v-on:mouseleave=" selectedBaseComponentId = null;"
                 style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                 class='app_card'>
@@ -765,7 +765,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               setTimeout(function() {
                   //debugger
                   mm.selectedBaseComponentId = (appId)
-                  mm.previewApp(appId)
                   let a = document.getElementById("downloaded_apps")
                   if (!a) {
                     return
@@ -930,16 +929,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             document.getElementById("uploadfilefromhomepage").click();
            //
         },
-          previewApp: function(appId) {
-                let mm = this
-
-                if (mm.selectedBaseComponentId) {
-
-                    mm.refresh ++
-                    mm.$forceUpdate();
-                }
-          }
-          ,
           addLogoForApp: async function(appId) {
               let mm = this
 
