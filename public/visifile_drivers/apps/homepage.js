@@ -46,16 +46,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     
     hideImportButtons:          {{ hideImportButtons }}
     selectedBaseComponentId:    {{ selectedBaseComponentId }}
-    editable_app_list:          {{ editable_app_list }}
-    appstore_apps:              {{ appstore_apps }}
     refresh:                    {{ refresh }}
-    edit_app:                   {{ edit_app }}
-    app_logos:                  {{ app_logos }}
+    editingBaseComponentId:     {{ editingBaseComponentId }}
     showFilePicker:             {{ showFilePicker }}
     open_file_path:             {{ open_file_path }}
     open_file_list:             {{ open_file_list }}
     open_file_name:             {{ open_file_name }}
     disableAppSelect:           {{ disableAppSelect }}
+    editable_app_list:          {{ editable_app_list }}
+    appstore_apps:              {{ appstore_apps }}
+    app_logos:                  {{ app_logos }}
 
   </pre>
   
@@ -88,13 +88,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
      ------------------------------------------------------------------------------ -->
     <div    v-for="(item, index) in editable_app_list"
             v-bind:refresh='refresh'
-            v-if="(edit_app == item.base_component_id)"
+            v-if="(editingBaseComponentId == item.base_component_id)"
             v-on:mouseenter="selectedBaseComponentId = item.base_component_id;"
             v-on:mouseleave="selectedBaseComponentId = null;"
             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
             class='app_card'>
 
-        <div    v-if="(edit_app == item.base_component_id)"
+        <div    v-if="(editingBaseComponentId == item.base_component_id)"
                 v-bind:refresh='refresh'
                 style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
 
@@ -118,7 +118,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     
     ------------------------------------------------ -->
     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
-            v-if="(!edit_app)"
+            v-if="(!editingBaseComponentId)"
             v-bind:refresh='refresh'>
 
             <div    v-bind:refresh='refresh'
@@ -189,7 +189,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     
     ------------------------------------------------ -->
     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
-            v-if="(!edit_app)"
+            v-if="(!editingBaseComponentId)"
             v-bind:refresh='refresh'>
             
         <h1 style='width:100%;vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
@@ -388,7 +388,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 <div    v-bind:refresh='refresh'
                         v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((selectedBaseComponentId == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
 
-                        <div    v-if='(selectedBaseComponentId == item.base_component_id) && (!edit_app)'
+                        <div    v-if='(selectedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)'
                                 v-bind:refresh='refresh'
                                 style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
@@ -514,7 +514,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           <div    v-bind:refresh='refresh'
                   v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((selectedBaseComponentId == item.id) )?"background-color:white;":"background-color:black;")'>
 
-            <div    v-if='(selectedBaseComponentId == item.base_component_id) && (!edit_app)'
+            <div    v-if='(selectedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)'
                     v-bind:refresh='refresh'
                     style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
@@ -630,7 +630,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     editable_app_list:          [],
                     appstore_apps:              [],
                     refresh:                    0,
-                    edit_app:                   null,
+                    editingBaseComponentId:                   null,
                     app_logos:                  new Object(),
                     showFilePicker:             false,
                     open_file_path:             "/",
@@ -702,7 +702,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 if (text.type == "insert_app_at") {
                     await mm.addLogoForApp(text.base_component_id)
                     await mm.addEditableApp(text.base_component_id, text.display_name)
-                    mm.edit_app = text.base_component_id
+                    mm.editingBaseComponentId = text.base_component_id
                     mm.selectedBaseComponentId = null
                     mm.refresh++
                 }
@@ -714,7 +714,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 }
 
                 if (text.type == "close_app") {
-                    mm.edit_app = null;
+                    mm.editingBaseComponentId = null;
                     mm.open_file_name = ""
                     mm.open_file_path = "/"
                     saveCodeToFile = null
@@ -739,7 +739,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 //zzz
                 if (text.type == "edit_component") {
-                    mm.edit_app = null;
+                    mm.editingBaseComponentId = null;
                     mm.open_file_name = ""
                     mm.open_file_path = "/"
                     saveCodeToFile = null
@@ -756,7 +756,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
                 if (text.type == "fork_component") {
-                    mm.edit_app = null;
+                    mm.editingBaseComponentId = null;
                     mm.open_file_name = ""
                     mm.open_file_path = "/"
                     saveCodeToFile = null
@@ -1208,7 +1208,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   }
               }
 
-              this.edit_app = item;
+              this.editingBaseComponentId = item;
               mm.selectedBaseComponentId = null
               mm.refresh ++
           }
