@@ -507,7 +507,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         v-bind:src='app_logos[item.base_component_id]'
                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                         v-bind:alt='app_logos[item.base_component_id]'
-                        v-on:click=$event.stopPropagation();'editApp(item.base_component_id)'
+                        v-on:click='$event.stopPropagation();editApp(item.base_component_id)'
                 >
                 </img>
 
