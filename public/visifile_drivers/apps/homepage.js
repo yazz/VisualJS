@@ -695,7 +695,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         let bci = text.base_component_id
                         let cid = text.code_id
                         setTimeout(function() {
-                            mm.editApp(bci)
+                            mm.editApp(bci,  text.code_id)
                         },50)
                     },200)
                 }
@@ -1152,6 +1152,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           //zzz
           editApp: async function(item, codeId) {
             let mm = this
+            debugger
               globalEventBus.$emit('hide_settings', {});
 
               //await loadUiComponentsV4("app_editor_3")
