@@ -48,7 +48,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     selectedBaseComponentId:    {{ selectedBaseComponentId }}
     editable_app_list:          {{ editable_app_list }}
     appstore_apps:              {{ appstore_apps }}
-    loaded_app:                 {{ loaded_app }}
     refresh:                    {{ refresh }}
     edit_app:                   {{ edit_app }}
     app_logos:                  {{ app_logos }}
@@ -626,22 +625,23 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     |________________________________________________________________________ */
     data: function() {
         return {
-                    hideImportButtons:      false,
-                    selectedBaseComponentId:         null,
-                    editable_app_list:      [],
-                    appstore_apps:          [],
-                    loaded_app:             new Object(),
-                    refresh:                0,
-                    edit_app:               null,
-                    app_logos:              new Object(),
-                    showFilePicker:         false,
-                    open_file_path:         "/",
-                    open_file_list:         [],
-                    open_file_name:         "",
-                    disableAppSelect:       false,
-                    listenerD:              null,
-                    debugMode:              false
-                }},
+                    hideImportButtons:          false,
+                    selectedBaseComponentId:    null,
+                    editable_app_list:          [],
+                    appstore_apps:              [],
+                    refresh:                    0,
+                    edit_app:                   null,
+                    app_logos:                  new Object(),
+                    showFilePicker:             false,
+                    open_file_path:             "/",
+                    open_file_list:             [],
+                    open_file_name:             "",
+                    disableAppSelect:           false,
+                    listenerD:                  null,
+                    debugMode:                  false
+                }
+    }
+    ,
 
     mounted: async function() {
         let mm = this
@@ -1051,7 +1051,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         }
                     }
 
-                    mm.loaded_app[baseComponentId]                                  = true
                     component_loaded[baseComponentId]                               = false
                     global_loaded_controls_in_currently_edited_app[baseComponentId] = false
                     global_component_type_details_cache[baseComponentId]            = null
