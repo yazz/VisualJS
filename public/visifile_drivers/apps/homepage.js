@@ -35,11 +35,23 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
 
 
+<!  ----------------------------------------
+    |                                      |
+    |          Show the debug mode         |
+    |                                      |
+    ---------------------------------------- -->
+<div v-if="debugMode" style="background-color: whitesmoke; ">
+  Debug mode on
+</div>
+
+
+
+
     <!  --------------------------------------
        |                                      |
        |    Show the list of editable apps    |
        |                                      |
-        --------------------------------------
+        --------------------------------------    
 
     Iterate through the apps in "editable_app_list"
 
@@ -578,7 +590,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         
     </div>
 
-
 </div>`
       ,
 
@@ -609,11 +620,27 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     open_file_path:         "/",
                     open_file_list:         [],
                     open_file_name:         "",
-                    disableAppSelect:       false
+                    disableAppSelect:       false,
+                    listenerD:              null,
+                    debugMode:              false
                 }},
 
     mounted: async function() {
         let mm = this
+
+        mm.listenerD = function(event) {
+            if (event.keyCode == 100) {
+                mm.debugMode = true
+            }
+        };
+        document.addEventListener("keypress", mm.listenerD)
+
+        setTimeout( function() {
+            document.removeEventListener("keypress",mm.listenerD); // Succeeds
+            }
+        ,
+        3000)
+
 
         await onPageInitialized( async function() {
 
