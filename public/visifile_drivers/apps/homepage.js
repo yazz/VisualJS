@@ -160,7 +160,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     
     ------------------------------------------------ -->
     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
-            v-if="(!edit_app) && (main_tab=='apps')"
+            v-if="(!edit_app)"
             v-bind:refresh='refresh'>
             
         <h1 style='width:100%;vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
@@ -339,7 +339,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     <div    class=""
             v-bind:refresh='refresh'
             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'
-            v-if="(main_tab=='apps')"
             >
       <span style="font-size: 60px; color: white;">Editable Apps</span>
 
@@ -583,9 +582,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 </div>`
       ,
 
+
+
+    /*
+    ________________________________________
+    |                                      |
+    |       data                           |
+    |______________________________________|
+    __________
+    | ITEMS  |______________________________________________________________
+    |
+    |     hideImportButtons
+    |     -----------------  Which tab
+    |________________________________________________________________________ */
     data: function() {
         return {
-                    main_tab:               "apps",
                     hideImportButtons:      false,
                     preview_app_id:         null,
                     preview_app_loaded:     false,
@@ -1078,7 +1089,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               await mm.addEditableApp(result.base_component_id, result.display_name)
               setTimeout(async function() {
                   //mm.openAppid(result.base_component_id)
-                  mm.main_tab = "apps"
                   hideProgressBar()
                   await mm.selectApp(result.base_component_id)
                   await mm.openAppid(result.base_component_id)
@@ -1116,7 +1126,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               setTimeout(async function() {
                   //mm.openAppid(result.base_component_id)
                   //debugger
-                  mm.main_tab = "apps"
                   hideProgressBar()
                   mm.selectApp(result.base_component_id)
                   await mm.editApp(result.base_component_id)
