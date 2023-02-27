@@ -41,7 +41,25 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     |                                      |
     ---------------------------------------- -->
 <div v-if="debugMode" style="background-color: whitesmoke; ">
-  Debug mode on
+  <pre>
+  Debug mode on:
+    
+    hideImportButtons:          {{ hideImportButtons }}
+    selectedBaseComponentId:    {{ selectedBaseComponentId }}
+    editable_app_list:          {{ editable_app_list }}
+    appstore_apps:              {{ appstore_apps }}
+    loaded_app:                 {{ loaded_app }}
+    refresh:                    {{ refresh }}
+    edit_app:                   {{ edit_app }}
+    app_logos:                  {{ app_logos }}
+    showFilePicker:             {{ showFilePicker }}
+    open_file_path:             {{ open_file_path }}
+    open_file_list:             {{ open_file_list }}
+    open_file_name:             {{ open_file_name }}
+    disableAppSelect:           {{ disableAppSelect }}
+
+  </pre>
+  
 </div>
 
 
