@@ -1142,14 +1142,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           __________
           | PARAMS |______________________________________________________________
           |
-          |     NONE
-          |     ----
+          |     item
+          |     ----  The "base_component_id" of the app to load
           |
-          |     OR
-          |
-          |     componentSearchDetails
-          |     ----------------------    Some text
-          |                               can go here
+          |     codeId
+          |     ------  The commit ID of the app to load
           |
           |________________________________________________________________________ */
           //zzz
@@ -1177,6 +1174,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               mm.refresh ++
           }
           ,
+
+
+
+
+
+
           submitFormAjax: function() {
             let xmlhttp= window.XMLHttpRequest ?
                 new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
