@@ -386,7 +386,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                             v-bind:src='app_logos[item.base_component_id]'
                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                             v-bind:alt='app_logos[item.base_component_id]'
-                                            v-on:click='editApp($event,item.base_component_id)'
+                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id)'
                                             >
                                     </img>
 
@@ -403,7 +403,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                                     <button style='position:absolute;top:250px;left:140px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                             class='btn btn-sm'
-                                            v-on:click='showProgressBar();editApp($event,item.base_component_id,item.code_id)'>
+                                            v-on:click='showProgressBar();$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
                                             <img    src='/driver_icons/edit.png'
                                                     style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                                                     >
@@ -424,16 +424,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                         <div v-if="preview_app_id != item.base_component_id"
                              style='border-radius: 0px;padding:0px; margin:0;'
-                             v-on:click='editApp($event,item.base_component_id)'>
+                             v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                             <img    v-if='(app_logos[item.base_component_id] && (app_logos[item.base_component_id] != ""))'
                                     v-bind:src='app_logos[item.base_component_id]'
                                     style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                     v-bind:alt='app_logos[item.base_component_id]'
-                                    v-on:click='editApp($event,item.base_component_id)'
+                                    v-on:click='$event.stopPropagation();editApp(item.base_component_id)'
                                     >
                             </img>
 
-                            <a  v-on:click='editApp($event,item.base_component_id)'
+                            <a  v-on:click='$event.stopPropagation();editApp(item.base_component_id)'
                                 class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
                                 {{item.displayName}}
@@ -508,7 +508,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         v-bind:src='app_logos[item.base_component_id]'
                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                         v-bind:alt='app_logos[item.base_component_id]'
-                        v-on:click='editApp($event,item.base_component_id)'
+                        v-on:click=$event.stopPropagation();'editApp(item.base_component_id)'
                 >
                 </img>
 
@@ -547,16 +547,16 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             <div v-if="preview_app_id != item.id"
                  style='border-radius: 0px;padding:0px; margin:0;'
-                 v-on:click='editApp($event,item.id)'>
+                 v-on:click='$event.stopPropagation();editApp(item.id)'>
               <img    v-if='(app_logos[item.id] && (app_logos[item.id] != ""))'
                       v-bind:src='app_logos[item.id]'
                       style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                       v-bind:alt='app_logos[item.id]'
-                      v-on:click='editApp($event,item.id)'
+                      v-on:click='$event.stopPropagation();editApp(item.id)'
               >
               </img>
 
-              <a  v-on:click='editApp($event,item.id)'
+              <a  v-on:click='$event.stopPropagation();editApp(item.id)'
                   class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
                 {{item.display_name}}
@@ -695,7 +695,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         let bci = text.base_component_id
                         let cid = text.code_id
                         setTimeout(function() {
-                            mm.editApp(event, bci)
+                            mm.editApp(bci)
                         },50)
                     },200)
                 }
@@ -732,7 +732,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     await mm.addLogoForApp(data)
                     await mm.addEditableApp(data)
                     setTimeout(function() {
-                        mm.editApp(null, data)
+                        mm.editApp(data)
                     },250)
                 });
 
@@ -1049,7 +1049,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               await mm.addEditableApp(result.base_component_id, result.new_display_name, {codeId: result.code_id})
               setTimeout(function() {
-                    mm.editApp(event, result.base_component_id)
+                    mm.editApp(result.base_component_id)
               },50)
 
 
@@ -1120,22 +1120,46 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   mm.main_tab = "apps"
                   hideProgressBar()
                   mm.selectApp(result.base_component_id)
-                  await mm.editApp(event, result.base_component_id)
+                  await mm.editApp(result.base_component_id)
 
               },50)
 
 
-          },
+          }
+          ,
 
-          editApp: async function(event,item, codeId) {
+
+
+
+
+
+          /*
+          ________________________________________
+          |                                      |
+          |       editApp                  |
+          |                                      |
+          |______________________________________|
+          Function description
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     NONE
+          |     ----
+          |
+          |     OR
+          |
+          |     componentSearchDetails
+          |     ----------------------    Some text
+          |                               can go here
+          |
+          |________________________________________________________________________ */
+          //zzz
+          editApp: async function(item, codeId) {
             let mm = this
               globalEventBus.$emit('hide_settings', {});
 
               //await loadUiComponentsV4("app_editor_3")
               await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
-              if (event) {
-                  event.stopPropagation()
-              }
 
               if (codeId) {
                   //debugger
