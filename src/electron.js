@@ -6830,6 +6830,15 @@ async function copyAppshareApp(args) {
                 " base_component_id = ? ;  "
                 ,
                 [argsBaseComponentId])
+            if (results.length == 0 ) {
+                results = await yz.getQuickSql(
+                    dbsearch
+                    ,
+                    "SELECT    id, code, display_name    FROM    system_code   where    " +
+                    " base_component_id = ? order by   creation_timestamp desc   limit 1 ;  "
+                    ,
+                    [argsBaseComponentId])
+            }
 
         } else if (argsCodeId) {
 

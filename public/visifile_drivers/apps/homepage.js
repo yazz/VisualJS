@@ -1038,7 +1038,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               this.open_file_path = "/"
               saveCodeToFile = null
 
-debugger
               let result = await getFromYazzReturnJson("/copy_component",
                       {
                           base_component_id: baseComponentId
