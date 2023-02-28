@@ -979,6 +979,27 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               },150)
           }
           ,
+
+
+
+
+
+
+
+
+
+          /*
+          ________________________________________
+          |                                      |
+          |           loadAppStoreApps           |
+          |                                      |
+          |______________________________________|
+          Load the apps from the app store
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     NONE
+          |________________________________________________________________________ */
           loadAppStoreApps: async function() {
               let mm = this
 
@@ -1008,6 +1029,26 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           }
           ,
 
+
+
+
+
+
+
+
+          /*
+          ________________________________________
+          |                                      |
+          |                   openFile           |
+          |                                      |
+          |______________________________________|
+          Show the file open dialog box. This is mostly used for Electron or desktop
+          applications
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     NONE
+          |________________________________________________________________________ */
           openFile: async function() {
               //alert(1)
              //document.getElementById("openfilefromhomepage").click();
@@ -1028,10 +1069,29 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
            if (result2) {
                this.open_file_list = result2
            }
+         }
+         ,
 
-            //
-         },
 
+
+
+
+
+
+
+          /*
+          ________________________________________
+          |                                      |
+          |          selectOpenFileOrFolder      |
+          |                                      |
+          |______________________________________|
+          Navigate when opening a file. This is mostly used for Electron or desktop
+          applications
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     NONE
+          |________________________________________________________________________ */
          selectOpenFileOrFolder: async function(fileorFolder) {
             //
             // if this is a folder
@@ -1075,7 +1135,26 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           }
 
            //
-        },
+        }
+        ,
+
+
+
+
+
+        /*
+        ________________________________________
+        |                                      |
+        |          chosenFolderUp              |
+        |                                      |
+        |______________________________________|
+        Navigate when opening a file. This is mostly used for Electron or desktop
+        applications
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
         chosenFolderUp:  async function() {
             //alert(1)
            //document.getElementById("openfilefromhomepage").click();
@@ -1117,56 +1196,112 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              }
 
 
-       },
+       }
+       ,
 
 
 
-         importApp: function() {
-             //alert(1)
+
+
+
+
+        /*
+        ________________________________________
+        |                                      |
+        |               importApp              |
+        |                                      |
+        |______________________________________|
+        Import a file. This is mostly used for Electron or desktop
+        applications
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
+        importApp: function() {
             saveCodeToFile = null
             document.getElementById("uploadfilefromhomepage").click();
-           //
-        },
-          addLogoForApp: async function(baseComponentId) {
-              let mm = this
+        }
+        ,
 
 
-             //
-             // search
-             //
 
-               let sql2 =    "select  base_component_id,  app_icon_data as logo_url   from  yz_cache_released_components  " +
-                  " inner JOIN " +
-                  "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
-                  "where " +
-                  "    component_type = 'app'" +
-                  " and " +
-                  "    base_component_id = '" + baseComponentId + "'  "
 
-             let results2 = await callComponent(
-                 {
-                      base_component_id:    "readFromInternalSqliteDatabase"
-                 }
-                 ,
-                 {
-                     sql: sql2
-                 })
 
-              if (results2.length > 0) {
+        /*
+        ________________________________________
+        |                                      |
+        |           addLogoForApp              |
+        |                                      |
+        |______________________________________|
+        Given the base component ID of a component, insert the logo image into the
+        local cache stored in "app_logos"
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     baseComponentId
+        |     ---------------
+        |________________________________________________________________________ */
+        addLogoForApp: async function(baseComponentId) {
+            let mm = this
+
+            let sql2 =
+                "select  base_component_id,  app_icon_data as logo_url   from  yz_cache_released_components  " +
+                " inner JOIN " +
+                "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
+                "where " +
+                "    component_type = 'app'" +
+                " and " +
+                "    base_component_id = '" + baseComponentId + "'  "
+
+            let results2 = await callComponent(
+                {
+                    base_component_id:    "readFromInternalSqliteDatabase"
+                }
+                ,
+                {
+                    sql: sql2
+                })
+
+            if (results2.length > 0) {
                 mm.app_logos[baseComponentId] = results2[0].logo_url
-              } else {
-                  mm.app_logos[baseComponentId] = "/driver_icons/blocks.png"
-              }
+            } else {
+                mm.app_logos[baseComponentId] = "/driver_icons/blocks.png"
+            }
 
-             mm.refresh++
+            mm.refresh++
 
-          },
+        }
+        ,
 
-          openAppid: async function(baseComponentId) {
-              let mm = this
-              window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + baseComponentId + ".html", baseComponentId)
-              mm.refresh++
-          },
+
+
+
+        /*
+        ________________________________________
+        |                                      |
+        |               openAppid              |
+        |                                      |
+        |______________________________________|
+        Given the base component ID of an app, open that app in a separate
+        browser tab as an app
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     baseComponentId
+        |     ---------------
+        |________________________________________________________________________ */
+        openAppid: async function(baseComponentId) {
+            let mm = this
+            window.open(
+                location.protocol +
+                "//" + location.hostname + ":" +
+                location.port + "/app/" + baseComponentId + ".html"
+                ,
+                baseComponentId)
+            mm.refresh++
+        }
+        ,
 
           renameApp: async function(baseComponentId, displayName) {
               let mm = this
