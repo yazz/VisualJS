@@ -1280,23 +1280,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         addLogoForApp: async function(baseComponentId) {
             let mm = this
 
-            let sql2 =
-                "select  base_component_id,  app_icon_data as logo_url   from  yz_cache_released_components  " +
-                " inner JOIN " +
-                "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
-                "where " +
-                "    component_type = 'app'" +
-                " and " +
-                "    base_component_id = '" + baseComponentId + "'  "
-
-            let results2 = await callComponent(
-                {
-                    base_component_id:    "readFromInternalSqliteDatabase"
-                }
-                ,
-                {
-                    sql: sql2
-                })
+            let results2 = await sqliteQuery(
+                `select  
+                    base_component_id,  
+                    app_icon_data as logo_url   
+                from  
+                    yz_cache_released_components  
+                inner JOIN 
+                    icon_images ON yz_cache_released_components.icon_image_id = icon_images.id 
+                where 
+                    component_type = 'app'
+                        and 
+                    base_component_id = '{{baseComponentId}}'`)
 
             if (results2.length > 0) {
                 mm.app_logos[baseComponentId] = results2[0].logo_url
@@ -1471,7 +1466,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               await mm.addEditableApp(result.base_component_id, result.display_name)
               setTimeout(async function() {
-                  //mm.runAppInNewBrowserTab(result.base_component_id)
                   hideProgressBar()
                   await mm.highlightApp(result.base_component_id)
                   await mm.runAppInNewBrowserTab(result.base_component_id)
@@ -1674,7 +1668,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             let mm = this
             globalEventBus.$emit('hide_settings', {});
 
-            //await loadUiComponentsV4("app_editor_3")
             await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
 
             if (codeId) {
