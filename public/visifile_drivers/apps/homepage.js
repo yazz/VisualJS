@@ -1460,7 +1460,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               let result = await callComponent(
                   {
-                      base_component_id: "downloadAndRunApp"
+                      base_component_id: "downloadApp"
                   }
                   ,
                   {
@@ -1505,7 +1505,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               let result = await callComponent(
                   {
-                      base_component_id: "downloadAndRunApp"
+                      base_component_id: "downloadApp"
                   }
                   ,
                   {
