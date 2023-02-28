@@ -504,28 +504,27 @@ End of app preview menu
             </div>
 
 
-            <div
-                v-if='app_loaded  &&  (preview_type=="control")'
-            >
-              <component  id="app_preview_component"
-                          ref="app_preview_component"
-                          v-if='app_loaded  &&  (preview_type=="control")'
-                          style='background-color: white;'
-                          v-bind:is='"yazz_blank"'
-                          v-bind:args="{control_type: base_component_id}"
-                          zzz
-                          >
-
-              </component>
+            <div  v-if='app_loaded  &&  (preview_type=="control")'>
+                  <component  id="app_preview_component"
+                              ref="app_preview_component"
+                              v-if='app_loaded  &&  (preview_type=="control")'
+                              style='background-color: white;'
+                              v-bind:is='"yazz_blank"'
+                              v-bind:args="{control_type: base_component_id}"
+                              >
+                  </component>
             </div>
 
-            <component  id="app_preview_component"
-                        ref="app_preview_component"
-                        v-if='app_loaded  &&  (preview_type=="app")'
-                        style='background-color: white;'
-                        v-bind:is="base_component_id">
-               
-            </component>
+
+            <div  v-if='app_loaded  &&  (preview_type=="app")'>
+                <component  id="app_preview_component"
+                            ref="app_preview_component"
+                            v-if='app_loaded  &&  (preview_type=="app")'
+                            style='background-color: white;'
+                            v-bind:is="base_component_id">
+                   
+                </component>
+            </div>
 
 
 
