@@ -40,9 +40,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         Related to editing apps or components
         -------------------------------------
-            copyAndEditApp(  compInfo  )            - copies an existing app and opens
-            editApp(  baseComponentId , codeId  )   - downloads a component and goes into edit mode
-            addToEditableAppsAndEdit(  ipfsHash  )  - downloads an app based of commit ID and goes into edit mode
+            copyAndEditApp(  compInfo  )            - copies an existing app and opens it in the editor
+            editApp(  baseComponentId , codeId  )   - go into edit mode for an app
+            addToEditableAppsAndEdit(  ipfsHash  )  - add an app to the editable apps and go into edit mode
 
 
 
@@ -865,7 +865,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-//zzz
+
 
 
                 /*
@@ -1665,8 +1665,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         |     ------  The commit ID of the app to load
         |
         |________________________________________________________________________ */
+        //zzz
         editApp: async function(baseComponentId, codeId) {
             let mm = this
+
             globalEventBus.$emit('hide_settings', {});
 
             await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
@@ -1679,8 +1681,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 }
             }
 
-            this.editingBaseComponentId = baseComponentId;
-            mm.currentlyHighlightedBaseComponentId = null
+            this.editingBaseComponentId             = baseComponentId;
+            mm.currentlyHighlightedBaseComponentId  = null
             mm.refresh ++
         }
     }})
