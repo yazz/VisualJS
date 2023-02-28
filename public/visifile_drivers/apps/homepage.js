@@ -1484,48 +1484,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-          /*
-          ________________________________________
-          |                                      |
-          |          downloadAndEditApp          |
-          |                                      |
-          |______________________________________|
-          Given the commit ID of an app in the app store, download it and edit it
-          __________
-          | PARAMS |______________________________________________________________
-          |
-          |     ipfsHash
-          |     --------
-          |________________________________________________________________________ */
-          downloadAndEditApp: async function( ipfsHash ) {
-              let mm                = this
-              this.open_file_name   = ""
-              this.open_file_path   = "/"
-              saveCodeToFile        = null
-
-              let result = await callComponent(
-                  {
-                      base_component_id: "downloadApp"
-                  }
-                  ,
-                  {
-                      ipfs_hash:            ipfsHash
-                  })
-
-              await mm.addLogoForApp(result.base_component_id)
-
-              await mm.addEditableApp(result.base_component_id, result.display_name)
-              setTimeout(async function() {
-                  //mm.runAppInNewBrowserTab(result.base_component_id)
-                  //debugger
-                  hideProgressBar()
-                  mm.highlightApp(result.base_component_id)
-                  await mm.editApp(result.base_component_id)
-
-              },50)
-          }
-          ,
-
 
 
 
@@ -1581,55 +1539,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-
-
-
-
-          /*
-          ________________________________________
-          |                                      |
-          |             editApp                  |
-          |                                      |
-          |______________________________________|
-          Allows an app to be edited given either the base component ID or
-          the commit ID
-          __________
-          | PARAMS |______________________________________________________________
-          |
-          |     baseComponentId
-          |     ----  The "base_component_id" of the app to load
-          |
-          |     codeId
-          |     ------  The commit ID of the app to load
-          |
-          |________________________________________________________________________ */
-          editApp: async function(baseComponentId, codeId) {
-            let mm = this
-              globalEventBus.$emit('hide_settings', {});
-
-              //await loadUiComponentsV4("app_editor_3")
-              await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
-
-              if (codeId) {
-                  await loadUiComponentsV4([{codeId: codeId}])
-              } else if (baseComponentId) {
-                  if (!component_loaded[baseComponentId]) {
-                      await loadUiComponentsV4([{baseComponentId: baseComponentId}])
-                  }
-              }
-
-              this.editingBaseComponentId = baseComponentId;
-              mm.currentlyHighlightedBaseComponentId = null
-              mm.refresh ++
-          }
-          ,
-
-
-
-
-
-
-
           /*
           ________________________________________
           |                                      |
@@ -1657,6 +1566,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
+
         /*
         ________________________________________
         |                                      |
@@ -1679,6 +1589,105 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             xmlhttp.open("POST","/file_open_single",true);
             xmlhttp.send(formData);
         }
+        ,
 
+
+
+
+
+
+
+
+        /*
+        ________________________________________
+        |                                      |
+        |          downloadAndEditApp          |
+        |                                      |
+        |______________________________________|
+        Given the commit ID of an app in the app store, download it and edit it
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     ipfsHash
+        |     --------
+        |________________________________________________________________________ */
+        downloadAndEditApp: async function( ipfsHash ) {
+            let mm                = this
+            this.open_file_name   = ""
+            this.open_file_path   = "/"
+            saveCodeToFile        = null
+
+            let result = await callComponent(
+                {
+                    base_component_id: "downloadApp"
+                }
+                ,
+                {
+                    ipfs_hash:            ipfsHash
+                })
+
+            await mm.addLogoForApp(result.base_component_id)
+
+            await mm.addEditableApp(result.base_component_id, result.display_name)
+            setTimeout(async function() {
+                //mm.runAppInNewBrowserTab(result.base_component_id)
+                //debugger
+                hideProgressBar()
+                mm.highlightApp(result.base_component_id)
+                await mm.editApp(result.base_component_id)
+            },50)
+        }
+        ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+        ________________________________________
+        |                                      |
+        |             editApp                  |
+        |                                      |
+        |______________________________________|
+        Allows an app to be edited given either the base component ID or
+        the commit ID
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     baseComponentId
+        |     ----  The "base_component_id" of the app to load
+        |
+        |     codeId
+        |     ------  The commit ID of the app to load
+        |
+        |________________________________________________________________________ */
+        editApp: async function(baseComponentId, codeId) {
+            let mm = this
+            globalEventBus.$emit('hide_settings', {});
+
+            //await loadUiComponentsV4("app_editor_3")
+            await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
+
+            if (codeId) {
+                await loadUiComponentsV4([{codeId: codeId}])
+            } else if (baseComponentId) {
+                if (!component_loaded[baseComponentId]) {
+                    await loadUiComponentsV4([{baseComponentId: baseComponentId}])
+                }
+            }
+
+            this.editingBaseComponentId = baseComponentId;
+            mm.currentlyHighlightedBaseComponentId = null
+            mm.refresh ++
+        }
     }})
 }
