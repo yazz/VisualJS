@@ -594,7 +594,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                           style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                   >
                   </img>
-                  Remix
+                  Edit
                 </button>
 
 
@@ -1595,7 +1595,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         /*
         ________________________________________
         |                                      |
-        |          addToEditableAppsAndEdit          |
+        |       addToEditableAppsAndEdit       |
         |                                      |
         |______________________________________|
         Given the commit ID of an app in the app store, download it and edit it
