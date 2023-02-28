@@ -5330,7 +5330,6 @@ async function setUpComponentsLocally() {
     // UI components
     //
     await releaseComponentFromPath( '/ui_components/comp.js')
-    await releaseComponentFromPath( '/ui_components/editorComponent.js')
     await releaseComponentFromPath( '/ui_components/sqliteEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/keycloakEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/historyViewerComponent.js')
@@ -5338,7 +5337,12 @@ async function setUpComponentsLocally() {
     await releaseComponentFromPath( '/ui_components/exportEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/embedAppComponent.js')
     //await releaseComponentFromPath( '/ui_components/simpleDisplayEditorComponent.js')
-    await releaseComponentFromPath( '/ui_components/vbEditorComponent.js')
+
+    //
+    // code editors
+    //
+    await releaseComponentFromPath( '/ui_components/codePlugInVbEditor.js')
+    await releaseComponentFromPath( '/ui_components/codePlugInTextEditor.js')
 
     outputDebug("Loaded main drivers")
 
