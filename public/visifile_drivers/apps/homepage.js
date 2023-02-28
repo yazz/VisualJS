@@ -1584,11 +1584,22 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
+
+          /*
+          ________________________________________
+          |                                      |
+          |      submitFormAjax                  |
+          |                                      |
+          |______________________________________|
+          Used when uploading a file
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     NONE
+          |________________________________________________________________________ */
           submitFormAjax: function() {
             let xmlhttp= window.XMLHttpRequest ?
                 new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-
-
 
             let form = document.getElementById('uploadfilefromhomepageform');
             let formData = new FormData(form);
@@ -1597,20 +1608,32 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             xmlhttp.send(formData);
         }
         ,
+
+
+
+
+        /*
+        ________________________________________
+        |                                      |
+        |      openFileChange                  |
+        |                                      |
+        |______________________________________|
+        Related to accessing components stored in files
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
         openFileChange: function() {
-          let xmlhttp= window.XMLHttpRequest ?
-              new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+            let xmlhttp= window.XMLHttpRequest ?
+            new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
+            let form = document.getElementById('openfilefromhomepageform');
+            let formData = new FormData(form);
 
+            xmlhttp.open("POST","/file_open_single",true);
+            xmlhttp.send(formData);
+        }
 
-          let form = document.getElementById('openfilefromhomepageform');
-          let formData = new FormData(form);
-
-          xmlhttp.open("POST","/file_open_single",true);
-          xmlhttp.send(formData);
-      }
-
-      }
-    })
-
+    }})
 }
