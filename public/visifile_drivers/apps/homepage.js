@@ -42,7 +42,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         -------------------------------------
             copyAndEditApp(  compInfo  )            - copies an existing app and opens
             editApp(  baseComponentId , codeId  )   - downloads a component and goes into edit mode
-            downloadAndEditApp(  ipfsHash  )        - downloads an app based of commit ID and goes into edit mode
+            addToEditableAppsAndEdit(  ipfsHash  )  - downloads an app based of commit ID and goes into edit mode
 
 
 
@@ -589,7 +589,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 
                 <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                         class='btn  btn-sm'
-                        v-on:click='showProgressBar();$event.stopPropagation();downloadAndEditApp(item.ipfs_hash)'>
+                        v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.ipfs_hash)'>
                   <img    src='/driver_icons/edit.png'
                           style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                   >
@@ -1595,7 +1595,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         /*
         ________________________________________
         |                                      |
-        |          downloadAndEditApp          |
+        |          addToEditableAppsAndEdit          |
         |                                      |
         |______________________________________|
         Given the commit ID of an app in the app store, download it and edit it
@@ -1605,7 +1605,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         |     ipfsHash
         |     --------
         |________________________________________________________________________ */
-        downloadAndEditApp: async function( ipfsHash ) {
+        addToEditableAppsAndEdit: async function( ipfsHash ) {
             let mm                = this
             this.open_file_name   = ""
             this.open_file_path   = "/"
