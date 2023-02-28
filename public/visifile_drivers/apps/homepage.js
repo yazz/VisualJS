@@ -543,7 +543,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                         class='btn btn-sm'
-                        v-on:click='showProgressBar();$event.stopPropagation();downloadApp(item.ipfs_hash)'>
+                        v-on:click='showProgressBar();$event.stopPropagation();downloadAndRunApp(item.ipfs_hash)'>
                   <img    src='/driver_icons/play.png'
                           style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                   >
@@ -1307,60 +1307,113 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-
-          renameApp: async function(baseComponentId, displayName) {
-              let mm = this
-              for (let thisApp of mm.editable_app_list) {
-                  if (thisApp) {
-                      if (thisApp.base_component_id ==  baseComponentId) {
-                          thisApp.displayName = displayName
-                      }
-                  }
-              }
-              mm.refresh++
-              return null
-          },
-
-            addEditableApp: async function(baseComponentId, displayName, other) {
-                let mm = this
-                if (baseComponentId) {
-                    for (let thisApp of mm.editable_app_list) {
-                        if (thisApp.base_component_id == baseComponentId) {
-                            mm.refresh++
-                            return
-                        }
+        /*
+        ________________________________________
+        |                                      |
+        |             renameApp                |
+        |                                      |
+        |______________________________________|
+        Given the base component ID of an app and a new display name, rename
+        the app on the homepage (Only works for editable apps)
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     baseComponentId
+        |     ---------------
+        |
+        |     displayName
+        |     -----------
+        |________________________________________________________________________ */
+        renameApp: async function(baseComponentId, displayName) {
+            let mm = this
+            for (let thisApp of mm.editable_app_list) {
+                if (thisApp) {
+                    if (thisApp.base_component_id ==  baseComponentId) {
+                        thisApp.displayName = displayName
                     }
-                    let app = {
-                        type:                       "app",
-                        base_component_id:          baseComponentId,
-                        displayName:                displayName
-                    }
-                    if (other) {
-                        if (other.visibility) {
-                            app.visibility = other.visibility
-                        }
-                        if (other.codeId) {
-                            app.code_id = other.codeId
-                        }
-                    }
-
-                    component_loaded[baseComponentId]                               = false
-                    global_loaded_controls_in_currently_edited_app[baseComponentId] = false
-                    global_component_type_details_cache[baseComponentId]            = null
-
-                    //await loadUiComponentsV4(baseComponentId)
-                    mm.editable_app_list.push( app  )
-                    mm.refresh++
                 }
-                return null
             }
-            ,
+            mm.refresh++
+            return null
+        }
+        ,
 
 
 
 
+        /*
+        ________________________________________
+        |                                      |
+        |        addEditableApp                |
+        |                                      |
+        |______________________________________|
+        Given the base component ID of an app, a new display name, and
+        some other data, add a new editable app to the homepage
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     baseComponentId
+        |     ---------------
+        |
+        |     displayName
+        |     -----------
+        |
+        |     other
+        |     -----
+        |________________________________________________________________________ */
+        addEditableApp: async function(baseComponentId, displayName, other) {
+            let mm = this
+            if (baseComponentId) {
+                for (let thisApp of mm.editable_app_list) {
+                    if (thisApp.base_component_id == baseComponentId) {
+                        mm.refresh++
+                        return
+                    }
+                }
+                let app = {
+                    type:                       "app",
+                    base_component_id:          baseComponentId,
+                    displayName:                displayName
+                }
+                if (other) {
+                    if (other.visibility) {
+                        app.visibility = other.visibility
+                    }
+                    if (other.codeId) {
+                        app.code_id = other.codeId
+                    }
+                }
 
-          copyAndEditApp: async function(compInfo ) {
+                component_loaded[baseComponentId]                               = false
+                global_loaded_controls_in_currently_edited_app[baseComponentId] = false
+                global_component_type_details_cache[baseComponentId]            = null
+
+                //await loadUiComponentsV4(baseComponentId)
+                mm.editable_app_list.push( app  )
+                mm.refresh++
+            }
+            return null
+        }
+        ,
+
+
+
+
+          /*
+          ________________________________________
+          |                                      |
+          |        copyAndEditApp                |
+          |                                      |
+          |______________________________________|
+          Given some app info, take an existing app and make a new copy of it, and edit
+          that copy
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     compInfo
+          |     --------
+          |________________________________________________________________________ */
+          copyAndEditApp: async function( compInfo ) {
               let mm                = this
               let baseComponentId   = compInfo.base_component_id
               let codeId            = compInfo.code_id
@@ -1384,23 +1437,36 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               setTimeout(function() {
                     mm.editApp(result.base_component_id)
               },50)
+          }
+          ,
 
 
-          },
 
 
-          downloadApp: async function(ipfsHash ) {
-              let mm = this
-
-              this.open_file_name = ""
-              this.open_file_path = "/"
-              saveCodeToFile = null
 
 
+          /*
+          ________________________________________
+          |                                      |
+          |           downloadAndRunApp          |
+          |                                      |
+          |______________________________________|
+          Given the commit ID of an app in the app store, download it and run it
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     ipfsHash
+          |     --------
+          |________________________________________________________________________ */
+          downloadAndRunApp: async function( ipfsHash ) {
+              let mm                = this
+              this.open_file_name   = ""
+              this.open_file_path   = "/"
+              saveCodeToFile        = null
 
               let result = await callComponent(
                   {
-                      base_component_id: "downloadApp"
+                      base_component_id: "downloadAndRunApp"
                   }
                   ,
                   {
@@ -1417,26 +1483,35 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   await mm.runAppInNewBrowserTab(result.base_component_id)
 
               },50)
-
-
-          },
-
-
+          }
+          ,
 
 
 
-          downloadAndEditApp: async function(ipfsHash ) {
-              let mm = this
-
-              this.open_file_name = ""
-              this.open_file_path = "/"
-              saveCodeToFile = null
 
 
+          /*
+          ________________________________________
+          |                                      |
+          |          downloadAndEditApp          |
+          |                                      |
+          |______________________________________|
+          Given the commit ID of an app in the app store, download it and edit it
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     ipfsHash
+          |     --------
+          |________________________________________________________________________ */
+          downloadAndEditApp: async function( ipfsHash ) {
+              let mm                = this
+              this.open_file_name   = ""
+              this.open_file_path   = "/"
+              saveCodeToFile        = null
 
               let result = await callComponent(
                   {
-                      base_component_id: "downloadApp"
+                      base_component_id: "downloadAndRunApp"
                   }
                   ,
                   {
@@ -1454,8 +1529,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   await mm.editApp(result.base_component_id)
 
               },50)
-
-
           }
           ,
 
@@ -1467,24 +1540,23 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           /*
           ________________________________________
           |                                      |
-          |       editApp                  |
+          |             editApp                  |
           |                                      |
           |______________________________________|
-          Function description
+          Allows an app to be edited given either the base component ID or
+          the commit ID
           __________
           | PARAMS |______________________________________________________________
           |
-          |     item
+          |     baseComponentId
           |     ----  The "base_component_id" of the app to load
           |
           |     codeId
           |     ------  The commit ID of the app to load
           |
           |________________________________________________________________________ */
-          //zzz
-          editApp: async function(item, codeId) {
+          editApp: async function(baseComponentId, codeId) {
             let mm = this
-            debugger
               globalEventBus.$emit('hide_settings', {});
 
               //await loadUiComponentsV4("app_editor_3")
@@ -1493,15 +1565,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               if (codeId) {
                   //debugger
                   await loadUiComponentsV4([{codeId: codeId}])
-              } else if (item) {
-                  if (!component_loaded[item]) {
-                      //await loadUiComponentsV4([item])
+              } else if (baseComponentId) {
+                  if (!component_loaded[baseComponentId]) {
+                      //await loadUiComponentsV4([baseComponentId])
                       //debugger
-                      await loadUiComponentsV4([{baseComponentId: item}])
+                      await loadUiComponentsV4([{baseComponentId: baseComponentId}])
                   }
               }
 
-              this.editingBaseComponentId = item;
+              this.editingBaseComponentId = baseComponentId;
               mm.currentlyHighlightedBaseComponentId = null
               mm.refresh ++
           }
