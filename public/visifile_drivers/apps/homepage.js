@@ -420,7 +420,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                                     <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                             class='btn btn-sm'
-                                            v-on:click='openAppid(item.base_component_id);'>
+                                            v-on:click='runAppInNewBrowserTab(item.base_component_id);'>
                                             <img    src='/driver_icons/play.png'
                                                     style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                                                     >
@@ -1280,7 +1280,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         /*
         ________________________________________
         |                                      |
-        |               openAppid              |
+        |      runAppInNewBrowserTab           |
         |                                      |
         |______________________________________|
         Given the base component ID of an app, open that app in a separate
@@ -1291,7 +1291,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         |     baseComponentId
         |     ---------------
         |________________________________________________________________________ */
-        openAppid: async function(baseComponentId) {
+        runAppInNewBrowserTab: async function(baseComponentId) {
             let mm = this
             window.open(
                 location.protocol +
@@ -1302,6 +1302,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             mm.refresh++
         }
         ,
+
+
+
+
+
 
           renameApp: async function(baseComponentId, displayName) {
               let mm = this
@@ -1406,10 +1411,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               await mm.addEditableApp(result.base_component_id, result.display_name)
               setTimeout(async function() {
-                  //mm.openAppid(result.base_component_id)
+                  //mm.runAppInNewBrowserTab(result.base_component_id)
                   hideProgressBar()
                   await mm.highlightApp(result.base_component_id)
-                  await mm.openAppid(result.base_component_id)
+                  await mm.runAppInNewBrowserTab(result.base_component_id)
 
               },50)
 
@@ -1442,7 +1447,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               await mm.addEditableApp(result.base_component_id, result.display_name)
               setTimeout(async function() {
-                  //mm.openAppid(result.base_component_id)
+                  //mm.runAppInNewBrowserTab(result.base_component_id)
                   //debugger
                   hideProgressBar()
                   mm.highlightApp(result.base_component_id)
