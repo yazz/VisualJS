@@ -1452,16 +1452,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               this.open_file_name   = ""
               this.open_file_path   = "/"
               saveCodeToFile        = null
-              debugger
 
-              let result = await sqliteQuery(
+              let result = (await sqliteQuery(
                   `select  
                     base_component_id,  
                     display_name   
                 from  
                     system_code  
                 where 
-                    id = '${ipfsHash}'`)[0]
+                    id = '${ipfsHash}'`))[0]
 
               await mm.addLogoForApp(result.base_component_id)
 
@@ -1612,14 +1611,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             this.open_file_path   = "/"
             saveCodeToFile        = null
 
-            let result = await callComponent(
-                {
-                    base_component_id: "downloadApp"
-                }
-                ,
-                {
-                    ipfs_hash:            ipfsHash
-                })
+            let result = (await sqliteQuery(
+                `select  
+                    base_component_id,  
+                    display_name   
+                from  
+                    system_code  
+                where 
+                    id = '${ipfsHash}'`))[0]
+
 
             await mm.addLogoForApp(result.base_component_id)
 
