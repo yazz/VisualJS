@@ -20,7 +20,42 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                  |                                              |
                   ----------------------------------------------
 
-        This contains everything needed to show the appstore and editable apps
+        This contains everything needed to show the appstore and editable apps. The
+        embedded Vue objects has the following functions:
+
+        Related to loading apps from the app store
+        ------------------------------------------
+            downloadAndRunApp(  ipfsHash  )                 -
+            runAppInNewBrowserTab(  baseComponentId  )      -
+
+        Related to the edit or appstore apps on the homepage
+        ----------------------------------------------------
+            highlightApp(  baseComponentId  )                           -
+            loadAppStoreApps( )                                         -
+            addLogoForApp(  baseComponentId  )                          -
+            renameApp(  baseComponentId , displayName  )                -
+            addEditableApp(  baseComponentId , displayName , other  )   -
+
+
+
+        Related to editing apps or components
+        -------------------------------------
+            copyAndEditApp(  compInfo  )            - copies an existing app and opens
+            editApp(  baseComponentId , codeId  )   - downloads a component and goes into edit mode
+            downloadAndEditApp(  ipfsHash  )        - downloads an app based of commit ID and goes into edit mode
+
+
+
+        Related to loading apps from the filesystem:
+        -------------------------------------------
+            submitFormAjax( )                           -
+            openFileChange( )                           -
+            openFile( )                                 -
+            selectOpenFileOrFolder(  fileOrFolder  )    -
+            chosenFolderUp( )                           -
+            importApp( )                                -
+
+
 
          --------
         | Params |
@@ -1092,15 +1127,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           |
           |     NONE
           |________________________________________________________________________ */
-         selectOpenFileOrFolder: async function(fileorFolder) {
+         selectOpenFileOrFolder: async function(fileOrFolder) {
             //
             // if this is a folder
             //
-            if (fileorFolder.type == "folder") {
+            if (fileOrFolder.type == "folder") {
                 if (isWin) {
-                    this.open_file_path += "\\" + fileorFolder.name
+                    this.open_file_path += "\\" + fileOrFolder.name
                 } else {
-                    this.open_file_path += "/" + fileorFolder.name
+                    this.open_file_path += "/" + fileOrFolder.name
                 }
                let result2 = await callComponent(
                                    {
@@ -1118,7 +1153,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           //
           } else {
               this.showFilePicker=false
-              this.open_file_name = this.open_file_path + "/" + fileorFolder.name
+              this.open_file_name = this.open_file_path + "/" + fileOrFolder.name
 
 
               //alert(this.open_file_name)
@@ -1410,8 +1445,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           __________
           | PARAMS |______________________________________________________________
           |
-          |     compInfo
-          |     --------
+          |     compInfo    A map containing optional items:
+          |     --------    {
+          |                       base_component_id
+          |                       code_id
+          |                 }
           |________________________________________________________________________ */
           copyAndEditApp: async function( compInfo ) {
               let mm                = this
@@ -1420,9 +1458,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               globalEventBus.$emit('hide_settings', {});
 
-              this.open_file_name = ""
-              this.open_file_path = "/"
-              saveCodeToFile = null
+              this.open_file_name   = ""
+              this.open_file_path   = "/"
+              saveCodeToFile        = null
 
               let result = await getFromYazzReturnJson("/copy_component",
                       {
@@ -1563,12 +1601,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
 
               if (codeId) {
-                  //debugger
                   await loadUiComponentsV4([{codeId: codeId}])
               } else if (baseComponentId) {
                   if (!component_loaded[baseComponentId]) {
-                      //await loadUiComponentsV4([baseComponentId])
-                      //debugger
                       await loadUiComponentsV4([{baseComponentId: baseComponentId}])
                   }
               }
