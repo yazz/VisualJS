@@ -489,21 +489,24 @@ Embed button
                     class='img-fluid'>
                 </img>
               </a>
-
-
-
-
-
-
+              
+            </div>
 <!-- ----------------------------------------------
 
 End of app preview menu
 
 ---------------------------------------------- -->
 
-            </div>
 
 
+
+
+
+          <!-- ----------------------------------------------
+          
+          Preview a component
+          
+          ---------------------------------------------- -->
             <div  v-if='app_loaded  &&  (preview_type=="control")'>
                   <component  id="app_preview_component"
                               ref="app_preview_component"
@@ -516,15 +519,28 @@ End of app preview menu
             </div>
 
 
+
+
+
+
+          <!-- ----------------------------------------------
+          
+          Preview an app 
+          
+          ---------------------------------------------- -->
             <div  v-if='app_loaded  &&  (preview_type=="app")'>
                 <component  id="app_preview_component"
                             ref="app_preview_component"
                             v-if='app_loaded  &&  (preview_type=="app")'
                             style='background-color: white;'
                             v-bind:is="base_component_id">
-                   
                 </component>
             </div>
+
+
+
+
+
 
 
 
