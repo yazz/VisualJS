@@ -3736,90 +3736,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
         });
 
 
-        app.post("/download_app" , async function (req, res) {
-            console.log("app.post('/download_app'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-            let topApps = []
-            let ipfsHashOfAppToDownload =  req.body.ipfs_hash;
-            let promise = new Promise(async function(returnfn) {
-
-                dbsearch.serialize(
-                    function() {
-                        dbsearch.all(
-                            " select  " +
-                            "     distinct(yz_cache_released_components.id), base_component_id, component_name, app_icon_data, ipfs_hash " +
-                            " from " +
-                            "     yz_cache_released_components " +
-                            " inner JOIN icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
-                             "where" +
-                              "     ipfs_hash = ?;"
-                            ,
-                            [ipfsHashOfAppToDownload]
-                            ,
-                            async function(err, rows) {
-                                let returnRows = []
-                                if (!err) {
-                                    try {
-                                        if (rows.length > 0) {
-                                            for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
-                                                let thisRow = rows[rowIndex]
-                                                returnRows.push(
-                                                    {
-
-                                                        data: {
-                                                            id: thisRow.id
-                                                            ,
-                                                            base_component_id: thisRow.base_component_id
-                                                            ,
-                                                            name: thisRow.app_name
-                                                            ,
-                                                            logo: thisRow.app_icon_data
-                                                            ,
-                                                            ipfs_hash: thisRow.ipfs_hash
-                                                        }
-                                                    })
-                                            }
-                                        }
-
-
-
-
-                                    } catch(err) {
-                                        console.log(err);
-                                        let stack = new Error().stack
-                                        console.log( stack )
-                                    } finally {
-                                        returnfn(returnRows[0])
-                                    }
-
-                                } else {
-                                    console.log(err);
-                                }
-                            }
-                        );
-                    }, sqlite3.OPEN_READONLY)
-            })
-            let ret = await promise
-
-            let fullFileName = path.join(fullIpfsFolderPath, ipfsHashOfAppToDownload)
-
-            let ipfsContent = ""
-            let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  ipfsHashOfAppToDownload  ])
-            if (codeRecord) {
-                ipfsContent = codeRecord.code
-            } else {
-                try {
-                    ipfsContent = fs.readFileSync(fullFileName, 'utf8')
-                } catch (e) {
-                    console.log(e)
-                }
-            }
-
-            ret.data.code = ipfsContent
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify(ret))
-        });
 
         app.post("/save_component" , async function (req, res) {
 
@@ -5304,7 +5220,6 @@ async function setUpComponentsLocally() {
     }
     await releaseComponentFromPath( '/services/commandLine.js')
     await releaseComponentFromPath( '/services/commandLine2.js')
-    await releaseComponentFromPath( '/services/downloadApp.js')
     //await releaseComponentFromPath('/services/test_job.js')
     //await releaseComponentFromPath('/services/kafka_service.js')
     //await releaseComponentFromPath('/services/activemq_service.js')
