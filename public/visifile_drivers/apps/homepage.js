@@ -643,9 +643,41 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     }
     ,
 
+
+
+
+
+
+
+
+    /*
+    ________________________________________
+    |                                      |
+    |             mounted                  |
+    |                                      |
+    |______________________________________|
+    This sets up:
+    - The "d" key as a debug key
+
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     NONE
+    |     ----
+    |________________________________________________________________________ */
     mounted: async function() {
         let mm = this
 
+
+
+        /*
+        ____________________________________________________________
+        |    mounted
+        |_________________________
+                                 |  Set the "d" key to allow debug view
+                                 | to be shown if pressed in the first
+                                 | three seconds
+                                 |__________________________________ */
         mm.listenerD = function(event) {
             if (event.keyCode == 100) {
                 mm.debugMode = true
@@ -660,8 +692,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         3000)
 
 
+
+
+
+
+
         await onPageInitialized( async function() {
 
+            /*
+            ____________________________________________________________
+            |    mounted
+            |_________________________
+                                     | Hide the more complex buttons by
+                                     | default
+                                     |__________________________________ */
             if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
                 if ($HIDEIMPORTBUTTONS == 'true') {
                     mm.hideImportButtons = true
@@ -669,9 +713,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             }
 
 
-            //
-            // get editable apps
-            //
+            /*
+            ____________________________________________________________
+            |    mounted
+            |_________________________
+                                     | get the editable apps
+                                     |__________________________________ */
             let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/editable_apps"
             fetch(openfileurl,
                 {
@@ -697,7 +744,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-
+            /*
+            ____________________________________________________________
+            |    mounted
+            |_________________________
+                                     | Insert new editable app on the
+                                     | homepage
+                                     |__________________________________ */
             mm.$root.$on('message', async function(text) {
                 if (text.type == "insert_app_at") {
                     await mm.addLogoForApp(text.base_component_id)
@@ -707,12 +760,33 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.refresh++
                 }
 
+
+
+
+
+
+                /*
+                ____________________________________________________________
+                |    mounted
+                |_________________________
+                                         | Rename an app on the
+                                         | homepage
+                                         |__________________________________ */
                 if (text.type == "rename_app") {
                     //debugger
                     await mm.renameApp(text.base_component_id, text.display_name)
                     mm.refresh++
                 }
 
+
+
+                /*
+                ____________________________________________________________
+                |    mounted
+                |_________________________
+                                         | Called when we close the currently
+                                         | edited app
+                                         |__________________________________ */
                 if (text.type == "close_app") {
                     mm.editingBaseComponentId = null;
                     mm.open_file_name = ""
@@ -721,9 +795,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     globalEventBus.$emit('show_settings', {});
 
                     mm.refresh++
-                } else {
+
+
                 }
 
+
+
+
+                /*
+                ____________________________________________________________
+                |    mounted
+                |_________________________
+                                         | Called when we update the version
+                                         | of an app on the homepage. Since
+                                         | every app points to a commit ID
+                                         | we update the "code_id" of the app.
+                                         | Of course this app will be in the
+                                         | list of editable apps
+                                         |__________________________________ */
                 if (text.type == "update_app") {
                     let bci = text.base_component_id
                     let cid = text.code_id
@@ -734,15 +823,27 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             return
                         }
                     }
-
                 }
 
+
+
+
+
+
 //zzz
+
+
+                /*
+                ____________________________________________________________
+                |    mounted
+                |_________________________
+                                         | When we try to edit a component
+                                         |__________________________________ */
                 if (text.type == "edit_component") {
-                    mm.editingBaseComponentId = null;
-                    mm.open_file_name = ""
-                    mm.open_file_path = "/"
-                    saveCodeToFile = null
+                    mm.editingBaseComponentId   = null;
+                    mm.open_file_name           = ""
+                    mm.open_file_path           = "/"
+                    saveCodeToFile              = null
                     globalEventBus.$emit('show_settings', {});
 
                     setTimeout(function() {
