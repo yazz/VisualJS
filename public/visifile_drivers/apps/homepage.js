@@ -45,14 +45,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
   Debug mode on:
     
     hideImportButtons:          {{ hideImportButtons }}
-    selectedBaseComponentId:    {{ selectedBaseComponentId }}
+    currentlyHighlightedBaseComponentId:    {{ currentlyHighlightedBaseComponentId }}
     refresh:                    {{ refresh }}
     editingBaseComponentId:     {{ editingBaseComponentId }}
     showFilePicker:             {{ showFilePicker }}
     open_file_path:             {{ open_file_path }}
     open_file_list:             {{ open_file_list }}
     open_file_name:             {{ open_file_name }}
-    disableAppSelect:           {{ disableAppSelect }}
+    disableHighlightApp:           {{ disableHighlightApp }}
     editable_app_list:          {{ editable_app_list }}
     appstore_apps:              {{ appstore_apps }}
     app_logos:                  {{ app_logos }}
@@ -89,8 +89,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     <div    v-for="(item, index) in editable_app_list"
             v-bind:refresh='refresh'
             v-if="(editingBaseComponentId == item.base_component_id)"
-            v-on:mouseenter="selectedBaseComponentId = item.base_component_id;"
-            v-on:mouseleave="selectedBaseComponentId = null;"
+            v-on:mouseenter="currentlyHighlightedBaseComponentId = item.base_component_id;"
+            v-on:mouseleave="currentlyHighlightedBaseComponentId = null;"
             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
             class='app_card'>
 
@@ -380,21 +380,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             <div    v-for="(item, index) in editable_app_list"
                     v-bind:refresh='refresh'
                     v-bind:id='"appid_" + item.base_component_id'
-                    v-on:mouseenter="if (!disableAppSelect) {selectedBaseComponentId = item.base_component_id;}"
-                    v-on:oldmouseleave="selectedBaseComponentId = null;"
-                    v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((selectedBaseComponentId == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
+                    v-on:mouseenter="if (!disableHighlightApp) {currentlyHighlightedBaseComponentId = item.base_component_id;}"
+                    v-on:oldmouseleave="currentlyHighlightedBaseComponentId = null;"
+                    v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedBaseComponentId == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                     classold='app_card'>
 
                 <div    v-bind:refresh='refresh'
-                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((selectedBaseComponentId == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
+                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedBaseComponentId == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
 
-                        <div    v-if='(selectedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)'
+                        <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)'
                                 v-bind:refresh='refresh'
                                 style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
 
 
-                            <div    v-if='(selectedBaseComponentId == item.base_component_id) '
+                            <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
                                     v-bind:refresh='refresh'
                                     v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                                     v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -410,7 +410,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                         {{item.code_id.substring(0,5)}}...
                                       </div>
 
-                                    <img    v-if='(selectedBaseComponentId == item.base_component_id) '
+                                    <img    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
                                             v-bind:src='app_logos[item.base_component_id]'
                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                             v-bind:alt='app_logos[item.base_component_id]'
@@ -450,7 +450,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                        <div v-if="selectedBaseComponentId != item.base_component_id"
+                        <div v-if="currentlyHighlightedBaseComponentId != item.base_component_id"
                              style='border-radius: 0px;padding:0px; margin:0;'
                              v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                             <img    v-if='(app_logos[item.base_component_id] && (app_logos[item.base_component_id] != ""))'
@@ -506,21 +506,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         <div    v-for="(item, index) in appstore_apps"
                 v-bind:refresh='refresh'
-                v-on:mouseenter=" selectedBaseComponentId = item.base_component_id;"
-                v-on:mouseleave=" selectedBaseComponentId = null;"
+                v-on:mouseenter=" currentlyHighlightedBaseComponentId = item.base_component_id;"
+                v-on:mouseleave=" currentlyHighlightedBaseComponentId = null;"
                 style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                 class='app_card'>
 
           <div    v-bind:refresh='refresh'
-                  v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((selectedBaseComponentId == item.id) )?"background-color:white;":"background-color:black;")'>
+                  v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedBaseComponentId == item.id) )?"background-color:white;":"background-color:black;")'>
 
-            <div    v-if='(selectedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)'
+            <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)'
                     v-bind:refresh='refresh'
                     style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
 
 
-              <div    v-if='(selectedBaseComponentId == item.base_component_id) '
+              <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
                       v-bind:refresh='refresh'
                       v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                       v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -532,7 +532,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   {{item.display_name}}
                 </div>
 
-                <img    v-if='(selectedBaseComponentId == item.base_component_id) '
+                <img    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
                         v-bind:src='app_logos[item.base_component_id]'
                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                         v-bind:alt='app_logos[item.base_component_id]'
@@ -573,7 +573,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-            <div v-if="selectedBaseComponentId != item.id"
+            <div v-if="currentlyHighlightedBaseComponentId != item.id"
                  style='border-radius: 0px;padding:0px; margin:0;'
                  v-on:click='$event.stopPropagation();editApp(item.id)'>
               <img    v-if='(app_logos[item.id] && (app_logos[item.id] != ""))'
@@ -626,7 +626,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     data: function() {
         return {
                     hideImportButtons:          false,
-                    selectedBaseComponentId:    null,
+                    currentlyHighlightedBaseComponentId:    null,
                     editable_app_list:          [],
                     appstore_apps:              [],
                     refresh:                    0,
@@ -636,7 +636,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     open_file_path:             "/",
                     open_file_list:             [],
                     open_file_name:             "",
-                    disableAppSelect:           false,
+                    disableHighlightApp:           false,
                     listenerD:                  null,
                     debugMode:                  false
                 }
@@ -756,7 +756,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     await mm.addLogoForApp(text.base_component_id)
                     await mm.addEditableApp(text.base_component_id, text.display_name)
                     mm.editingBaseComponentId = text.base_component_id
-                    mm.selectedBaseComponentId = null
+                    mm.currentlyHighlightedBaseComponentId = null
                     mm.refresh++
                 }
 
@@ -838,6 +838,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 |    mounted
                 |_________________________
                                          | When we try to edit a component
+                                         | while already editing an app
                                          |__________________________________ */
                 if (text.type == "edit_component") {
                     mm.editingBaseComponentId   = null;
@@ -856,6 +857,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 }
 
 
+
+
+
+
+                /*
+                ____________________________________________________________
+                |    mounted
+                |_________________________
+                                         | When we try to fork a component
+                                         | while already editing an app
+                                         |__________________________________ */
                 if (text.type == "fork_component") {
                     mm.editingBaseComponentId = null;
                     mm.open_file_name = ""
@@ -880,7 +892,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             })
 
-
+            /*
+            ____________________________________________________________
+            |    mounted
+            |_________________________
+                                     | When we try to drag drop an app
+                                     | into the Yazz editor
+                                     |__________________________________ */
             globalEventBus.$on('new-appshare-app-uploaded',
                 async function(data) {
                     await mm.addLogoForApp(data)
@@ -891,38 +909,72 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 });
 
 
+            /*
+            ____________________________________________________________
+            |    mounted
+            |_________________________
+                                     | Load apps from the app store
+                                     |__________________________________ */
             await mm.loadAppStoreApps()
 
+
+
+
+            /*
+            ____________________________________________________________
+            |    mounted
+            |_________________________
+                                     | Highlight an app when this page
+                                     | is loaded by looking for "id" in
+                                     | the URL
+                                     |__________________________________ */
             let highlightAppOnStartup = getUrlParam("id")
             if (highlightAppOnStartup) {
-                mm.selectApp(highlightAppOnStartup)
+                mm.highlightApp(highlightAppOnStartup)
 
             }
         })
-
-
-      },
+      }
+      ,
 
 
 
       methods: {
-          selectApp: function(appId) {
+
+
+
+
+
+          /*
+          ________________________________________
+          |                                      |
+          |               highlightApp           |
+          |                                      |
+          |______________________________________|
+          Function description
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     baseComponentId   The base component ID of the highlighted app
+          |     ---------------
+          |
+          |________________________________________________________________________ */
+          highlightApp: function(baseComponentId) {
               let mm = this
               setTimeout(function() {
-                  //debugger
-                  mm.selectedBaseComponentId = (appId)
+                  mm.currentlyHighlightedBaseComponentId = baseComponentId
                   let a = document.getElementById("downloaded_apps")
                   if (!a) {
                     return
                   }
-                  let itemLeft = document.getElementById("appid_" + appId)
+                  let itemLeft = document.getElementById("appid_" + baseComponentId)
                   if (!itemLeft) {
                       return
                   }
                   a.scrollLeft=itemLeft.offsetLeft
-                  mm.disableAppSelect = true
+                  mm.disableHighlightApp = true
                   setTimeout(function() {
-                    mm.disableAppSelect = false
+                    mm.disableHighlightApp = false
                   },4000)
               },150)
           }
@@ -1075,7 +1127,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             document.getElementById("uploadfilefromhomepage").click();
            //
         },
-          addLogoForApp: async function(appId) {
+          addLogoForApp: async function(baseComponentId) {
               let mm = this
 
 
@@ -1089,7 +1141,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   "where " +
                   "    component_type = 'app'" +
                   " and " +
-                  "    base_component_id = '" + appId + "'  "
+                  "    base_component_id = '" + baseComponentId + "'  "
 
              let results2 = await callComponent(
                  {
@@ -1101,18 +1153,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                  })
 
               if (results2.length > 0) {
-                mm.app_logos[appId] = results2[0].logo_url
+                mm.app_logos[baseComponentId] = results2[0].logo_url
               } else {
-                  mm.app_logos[appId] = "/driver_icons/blocks.png"
+                  mm.app_logos[baseComponentId] = "/driver_icons/blocks.png"
               }
 
              mm.refresh++
 
           },
 
-          openAppid: async function(appId) {
+          openAppid: async function(baseComponentId) {
               let mm = this
-              window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + appId + ".html", appId)
+              window.open(location.protocol + "//" + location.hostname + ":" + location.port + "/app/" + baseComponentId + ".html", baseComponentId)
               mm.refresh++
           },
 
@@ -1221,7 +1273,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               setTimeout(async function() {
                   //mm.openAppid(result.base_component_id)
                   hideProgressBar()
-                  await mm.selectApp(result.base_component_id)
+                  await mm.highlightApp(result.base_component_id)
                   await mm.openAppid(result.base_component_id)
 
               },50)
@@ -1258,7 +1310,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   //mm.openAppid(result.base_component_id)
                   //debugger
                   hideProgressBar()
-                  mm.selectApp(result.base_component_id)
+                  mm.highlightApp(result.base_component_id)
                   await mm.editApp(result.base_component_id)
 
               },50)
@@ -1310,7 +1362,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               }
 
               this.editingBaseComponentId = item;
-              mm.selectedBaseComponentId = null
+              mm.currentlyHighlightedBaseComponentId = null
               mm.refresh ++
           }
           ,
