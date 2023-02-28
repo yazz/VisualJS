@@ -1434,50 +1434,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-          /*
-          ________________________________________
-          |                                      |
-          |        copyAndEditApp                |
-          |                                      |
-          |______________________________________|
-          Given some app info, take an existing app and make a new copy of it, and edit
-          that copy
-          __________
-          | PARAMS |______________________________________________________________
-          |
-          |     compInfo    A map containing optional items:
-          |     --------    {
-          |                       base_component_id
-          |                       code_id
-          |                 }
-          |________________________________________________________________________ */
-          copyAndEditApp: async function( compInfo ) {
-              let mm                = this
-              let baseComponentId   = compInfo.base_component_id
-              let codeId            = compInfo.code_id
-
-              globalEventBus.$emit('hide_settings', {});
-
-              this.open_file_name   = ""
-              this.open_file_path   = "/"
-              saveCodeToFile        = null
-
-              let result = await getFromYazzReturnJson("/copy_component",
-                      {
-                          base_component_id: baseComponentId
-                          ,
-                          code_id: codeId?codeId:""
-                      })
-
-              await mm.addLogoForApp(result.base_component_id)
-
-              await mm.addEditableApp(result.base_component_id, result.new_display_name, {codeId: result.code_id})
-              setTimeout(function() {
-                    mm.editApp(result.base_component_id)
-              },50)
-          }
-          ,
-
 
 
 
@@ -1569,6 +1525,60 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               },50)
           }
           ,
+
+
+
+
+
+
+          /*
+          ________________________________________
+          |                                      |
+          |        copyAndEditApp                |
+          |                                      |
+          |______________________________________|
+          Given some app info, take an existing app and make a new copy of it, and edit
+          that copy
+          __________
+          | PARAMS |______________________________________________________________
+          |
+          |     compInfo    A map containing optional items:
+          |     --------    {
+          |                       base_component_id
+          |                       code_id
+          |                 }
+          |________________________________________________________________________ */
+          copyAndEditApp: async function( compInfo ) {
+              let mm                = this
+              let baseComponentId   = compInfo.base_component_id
+              let codeId            = compInfo.code_id
+
+              globalEventBus.$emit('hide_settings', {});
+
+              this.open_file_name   = ""
+              this.open_file_path   = "/"
+              saveCodeToFile        = null
+
+              let result = await getFromYazzReturnJson("/copy_component",
+                  {
+                      base_component_id: baseComponentId
+                      ,
+                      code_id: codeId?codeId:""
+                  })
+
+              await mm.addLogoForApp(result.base_component_id)
+
+              await mm.addEditableApp(result.base_component_id, result.new_display_name, {codeId: result.code_id})
+              setTimeout(function() {
+                  mm.editApp(result.base_component_id)
+              },50)
+          }
+          ,
+
+
+
+
+
 
 
 
