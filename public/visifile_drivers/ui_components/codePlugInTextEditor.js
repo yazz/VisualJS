@@ -24,14 +24,14 @@ load_once_from_file(true)
     |     read_only     Set to true if the text should be in read only mode
     |     ---------
     |
-    |     editorDomId    Some text
+    |     editorDomId   A random ID used to mark the text editor component
     |     -----------
     |
-    |     errors    Some text
-    |     ----
+    |     errors        A list of errors after parsing the code to check for errors
+    |     ------
     |
-    |     editor    Some text
-    |     ----
+    |     editor        The text editor component
+    |     ------
     |________________________________________________________________________ */
     data: function () {
         return {
@@ -66,84 +66,98 @@ load_once_from_file(true)
                  </div>`
      ,
 
-     mounted: function() {
-         let mm             = this
-         disableAutoSave    = true
 
-         ace.config.set('basePath', '/');
-         mm.editor = ace.edit(
+
+    /*
+    ________________________________________
+    |                                      |
+    |             mounted                  |
+    |                                      |
+    |______________________________________|
+    Sets up the text editor
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     NONE
+    |     ----
+    |________________________________________________________________________ */
+    mounted: function() {
+        let mm             = this
+        disableAutoSave    = true
+
+        ace.config.set('basePath', '/');
+        mm.editor = ace.edit(
             mm.editorDomId, {
-                 selectionStyle: "text",
-                 mode:           "ace/mode/javascript"
-             })
+                selectionStyle: "text",
+                mode:           "ace/mode/javascript"
+            })
 
-         //Bug fix: Need a delay when setting theme or view is corrupted
-         setTimeout(function(){
+        //Bug fix: Need a delay when setting theme or view is corrupted
+        setTimeout(function() {
             mm.editor.setTheme("ace/theme/sqlserver");
 
             let langTools = ace.require("ace/ext/language_tools");
             mm.editor.setOptions({
-               enableBasicAutocompletion: true,
-               enableSnippets: true,
-               enableLiveAutocompletion: false
+                enableBasicAutocompletion:  true,
+                enableSnippets:             true,
+                enableLiveAutocompletion:   false
             });
-
-         },100)
-
+        },100)
 
 
-         document.getElementById(mm.editorDomId).style["font-size"] = "16px"
-         document.getElementById(mm.editorDomId).style.width        = "100%"
-         document.getElementById(mm.editorDomId).style["border"]    = "0px"
-         document.getElementById(mm.editorDomId).style.height       = "65vh"
 
-         if (mm.text) {
-             mm.editor.getSession().setValue(  mm.text  );
-             mm.read_only = yz.getValueOfCodeString( mm.text, "read_only" )
-         }
+        document.getElementById(mm.editorDomId).style["font-size"] = "16px"
+        document.getElementById(mm.editorDomId).style.width        = "100%"
+        document.getElementById(mm.editorDomId).style["border"]    = "0px"
+        document.getElementById(mm.editorDomId).style.height       = "65vh"
 
-         mm.editor.getSession().setUseWorker(false);
-         if (mm.read_only) {
+        if (mm.text) {
+            mm.editor.getSession().setValue(  mm.text  );
+            mm.read_only = yz.getValueOfCodeString( mm.text, "read_only" )
+        }
+
+        mm.editor.getSession().setUseWorker(false);
+        if (mm.read_only) {
             mm.editor.setReadOnly(true)
-         }
+        }
 
-         setTimeout(function() {
-             mm.editor.getSession().on('change', function() {
-             debugger
-                 if (mm.editor.curOp && mm.editor.curOp.command.name) {
-                     mm.text = mm.editor.getSession().getValue();
+        setTimeout(function() {
+            mm.editor.getSession().on('change', function() {
+            debugger
+                if (mm.editor.curOp && mm.editor.curOp.command.name) {
+                    mm.text = mm.editor.getSession().getValue();
 
-                     if (mm.text == "") {
-                         return
-                     }
-//zzz
-                     mm.errors = null
-                     if (!isValidObject(mm.text)) {
-                         return
-                     }
-                     if (mm.text.length == 0) {
-                         return
-                     }
-                     try {
-                         let newNode = esprima.parse("(" + mm.text + ")", { tolerant: true })
-                         //alert(JSON.stringify(newNode.errors, null, 2))
-                         mm.errors = newNode.errors
-                         if (mm.errors) {
-                             if (mm.errors.length == 0) {
-                                 mm.errors = null
-                             } else {
-                                 mm.errors = mm.errors[0]
-                             }
-                         }
-                         mm.changed()
+                    if (mm.text == "") {
+                        return
+                    }
 
-                     } catch(e) {
-                         //alert(JSON.stringify(e, null, 2))
-                         mm.errors = e
-                     }
-                 }
-             });
-         },1000)
+                    mm.errors = null
+                    if (!isValidObject(mm.text)) {
+                        return
+                    }
+                    if (mm.text.length == 0) {
+                        return
+                    }
+                    try {
+                        let newNode = esprima.parse("(" + mm.text + ")", { tolerant: true })
+                        //alert(JSON.stringify(newNode.errors, null, 2))
+                        mm.errors = newNode.errors
+                        if (mm.errors) {
+                            if (mm.errors.length == 0) {
+                                mm.errors = null
+                            } else {
+                                mm.errors = mm.errors[0]
+                            }
+                        }
+                        mm.changed()
+
+                    } catch(e) {
+                        //alert(JSON.stringify(e, null, 2))
+                        mm.errors = e
+                    }
+                }
+            });
+        },1000)
 
 
         mm.editor.resize(true);
@@ -154,23 +168,90 @@ load_once_from_file(true)
 
 
      methods: {
+        /*
+        ________________________________________
+        |                                      |
+        |             changed                  |
+        |                                      |
+        |______________________________________|
+        ...
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     NONE
+        |     ----
+        |________________________________________________________________________ */
         changed: function() {
             let mm = this
             mm.$root.$emit('message', {
                 type:   "pending"
             })
         }
-         ,
+        ,
+
+
+
+
+
+         /*
+         ________________________________________
+         |                                      |
+         |             gotoLine                 |
+         |                                      |
+         |______________________________________|
+         ...
+         __________
+         | PARAMS |______________________________________________________________
+         |
+         |     NONE
+         |     ----
+         |________________________________________________________________________ */
         gotoLine: function(line) {
             let mm = this
             mm.editor.gotoLine(line , 10, true);
         }
         ,
+
+
+
+
+
+        /*
+        ________________________________________
+        |                                      |
+        |             getText                  |
+        |                                      |
+        |______________________________________|
+        ...
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     NONE
+        |     ----
+        |________________________________________________________________________ */
         getText: async function() {
             let mm = this
             return mm.text
-        },
-        setText: function(textValue) {
+        }
+        ,
+
+
+
+
+         /*
+         ________________________________________
+         |                                      |
+         |             setText                  |
+         |                                      |
+         |______________________________________|
+         ...
+         __________
+         | PARAMS |______________________________________________________________
+         |
+         |     NONE
+         |     ----
+         |________________________________________________________________________ */
+         setText: function(textValue) {
             let mm = this
             mm.text =  textValue
             mm.read_only = yz.getValueOfCodeString(mm.text, "read_only")
@@ -180,9 +261,12 @@ load_once_from_file(true)
             mm.editor.getSession().setValue(textValue);
         }
 
+
+
+
+
+
+
      }
-
-
     })
-
 }
