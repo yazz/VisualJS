@@ -4018,7 +4018,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
     let componentsItemsToLoad = []
     if (!loadedStatic) {
         for (let  componentTuple  of  whichComponentsToLoadAsTuples  ) {
-            let componentType   = componentTuple.baseComponentId
+            let componentType       = componentTuple.baseComponentId
             let componentCodeId     = componentTuple.codeId
 
             //
@@ -4050,7 +4050,8 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             // Otherwise just put it on the list of things to load
             //
             } else {
-                componentsItemsToLoad.push(componentTuple)
+                //Causes a crash as editor is reloaded
+                //componentsItemsToLoad.push(componentTuple)
             }
         }
 
