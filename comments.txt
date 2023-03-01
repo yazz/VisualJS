@@ -14,10 +14,15 @@ __________
 |
 |     OR
 |
-|     componentSearchDetails
-|     ----------------------    Some text
-|                               can go here
+|     componentSearchDetails    Some text
+|     ----------------------    can go here
+|                               and on the
+|                               following lines
 |
+|     second param              Some text
+|     ------------              can go here
+|                               and on the
+|                               following lines
 |________________________________________________________________________ */
 
 

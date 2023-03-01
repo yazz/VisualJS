@@ -1562,7 +1562,7 @@ End of app preview menu
 
 
             // ---------------------------------------------------------------
-            //                          copyApp
+            //
             //
             // This is called to copy an app. At the moment this copies the
             // base_component_id, which means that the app's latest version
@@ -1570,14 +1570,33 @@ End of app preview menu
             // to copy the commit ID's code
             //
             // ---------------------------------------------------------------
-            copyApp: async function( appId , newAppId) {
+
+           /*
+           ________________________________________
+           |                                      |
+           |             copyApp                  |
+           |                                      |
+           |______________________________________|
+           Function description
+           __________
+           | PARAMS |______________________________________________________________
+           |
+           |     appId          Base component ID of the app/component to copy
+           |     -----
+           |
+           |     newAppId       New Base Component ID to give the new app/component
+           |     --------
+           |
+           |________________________________________________________________________ */
+
+           copyApp: async function( appId , newAppId) {
                 let mm = this
 
                 let result = await getFromYazzReturnJson("/copy_component",
                     {
-                        base_component_id: appId
+                        base_component_id:      appId
                         ,
-                        new_base_component_id:      newAppId
+                        new_base_component_id:  newAppId
                     })
                 if (isValidObject(result)) {
                     mm.$root.$emit('message', {
@@ -1593,7 +1612,6 @@ End of app preview menu
                     //debugger
                     await mm.load_new_version_of_edited_app( {newApp: true, baseComponentId: result.base_component_id })
                 },200)
-
             }
             ,
 
