@@ -4,13 +4,40 @@ base_component_id("editor_component")
 component_type("SYSTEM")
 load_once_from_file(true)
 */
-
+    let genDomId = uuidv4()
     Vue.component("editor_component", {
-      data: function () {
+
+
+    /*
+    ________________________________________
+    |                                      |
+    |                data                  |
+    |                                      |
+    |______________________________________|
+    Function description
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     text          The text stored in the editor
+    |     ----
+    |
+    |     read_only     Set to true if the text should be in read only mode
+    |     ---------
+    |
+    |     editorDomId    Some text
+    |     -----------
+    |
+    |     errors    Some text
+    |     ----
+    |
+    |     editor    Some text
+    |     ----
+    |________________________________________________________________________ */
+    data: function () {
         return {
             text:           null,
             read_only:      false,
-            editorDomId:    uuidv4(),
+            editorDomId:    genDomId,
             errors:         null,
             editor:         null
         }
@@ -82,6 +109,7 @@ load_once_from_file(true)
 
          setTimeout(function() {
              mm.editor.getSession().on('change', function() {
+             debugger
                  if (mm.editor.curOp && mm.editor.curOp.command.name) {
                      mm.text = mm.editor.getSession().getValue();
 
