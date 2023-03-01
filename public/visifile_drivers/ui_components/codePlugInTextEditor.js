@@ -123,7 +123,6 @@ load_once_from_file(true)
 
         setTimeout(function() {
             mm.editor.getSession().on('change', function() {
-            debugger
                 if (mm.editor.curOp && mm.editor.curOp.command.name) {
                     mm.text = mm.editor.getSession().getValue();
 
