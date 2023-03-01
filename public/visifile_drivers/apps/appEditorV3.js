@@ -1877,6 +1877,7 @@ End of app preview menu
                                     }
 
                                     await loadUiComponentsV4( editorName, {text: code} )
+                                    mm.refresh++
 
                                     mm.editor_loaded    = true
                                     mm.editor_component = editorName
@@ -1940,6 +1941,7 @@ End of app preview menu
                             }
 //debugger
                             await loadUiComponentsV4( editorName, {text: code} )
+                            mm.refresh++
 
                             mm.editor_loaded    = true
                             mm.editor_component = editorName
@@ -1954,6 +1956,7 @@ End of app preview menu
 
                         this.resetDebugger()
                         await loadUiComponentsV4( {codeId: mm.code_id }, {} )
+                        mm.refresh++
 
 
 
@@ -2046,6 +2049,7 @@ End of app preview menu
                                     }
 
                                     await loadUiComponentsV4( editorName, {text: code} )
+                                    mm.refresh++
 
                                     mm.editor_loaded    = true
                                     mm.editor_component = editorName
