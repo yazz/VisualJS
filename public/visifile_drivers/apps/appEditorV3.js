@@ -1914,6 +1914,7 @@ End of app preview menu
                                 }
                                 mm.resetDebugger()
                                 await loadUiComponentsV4( {codeId: mm.code_id }, {} )
+                                mm.refresh++
                             },500)
                         }
 
