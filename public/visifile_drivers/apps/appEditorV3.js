@@ -90,7 +90,7 @@ load_once_from_file(true)
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
                 <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyApp(base_component_id, null)},100)' >Copy app</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)' >Copy app</button>
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){switchEditor("keycloak_editor_component")},100)' >Keycloak</button>
 
@@ -333,7 +333,7 @@ load_once_from_file(true)
                     <button   v-bind:style="'margin-left:50px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
-                              v-on:click='setTimeout(function(){copyApp(base_component_id, null)},100)'
+                              v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
                               type="button" class="btn  btn-primary"
                               v-if='read_only && (mode != "profiler") && (!editor_overloaded)'>
 
@@ -1589,8 +1589,9 @@ End of app preview menu
            |
            |________________________________________________________________________ */
 
-           copyApp: async function( appId , newAppId) {
+           copyApp: async function( appId , newAppId, codeId) {
                let mm = this
+               debugger
 
                let copyArgs = {}
                if (appId) {copyArgs.base_component_id = appId}
