@@ -35,7 +35,7 @@
     "is-docker": "^2.2.1",
     "jaeger-client": "^3.19.0",
     "kafkajs": "^1.16.0",
-    "keycloak-connect": "^12.0.4",
+    "keycloak-connect": "^21.0.1",
     "ls-sync": "^0.3.0",
     "merkle-json": "^2.4.0",
     "mkdirp": "^1.0.4",
