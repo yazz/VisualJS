@@ -1591,8 +1591,6 @@ End of app preview menu
 
            copyApp: async function( appId , newAppId, codeId) {
                let mm = this
-               debugger
-
                let copyArgs = {}
                if (appId) {copyArgs.base_component_id = appId}
                if (newAppId) {copyArgs.new_base_component_id = newAppId}
@@ -1610,7 +1608,12 @@ End of app preview menu
                 setTimeout(async function() {
                     mm.console_output = ""
                     //debugger
-                    await mm.load_new_version_of_edited_app( {newApp: true, baseComponentId: result.base_component_id })
+                    await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id })
+                        setTimeout(async function() {
+                            mm.refresh++
+                            //hack - the preview doesn't load without this
+                            mm.setInfo("...")
+                        },1500)
                 },200)
             }
             ,
