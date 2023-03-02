@@ -6740,7 +6740,16 @@ async function copyAppshareApp(args) {
         console.log("    userId:              " + userId)
 
         let results = []
-        if (argsBaseComponentId) {
+        if (argsCodeId) {
+
+            results = await yz.getQuickSql(
+                dbsearch
+                ,
+                "SELECT    id, code, display_name as display_name    FROM    system_code   where    " +
+                " id = ? ;  "
+                ,
+                [argsCodeId])
+        } else if (argsBaseComponentId) {
 
             results = await yz.getQuickSql(
                 dbsearch
@@ -6759,15 +6768,6 @@ async function copyAppshareApp(args) {
                     [argsBaseComponentId])
             }
 
-        } else if (argsCodeId) {
-
-            results = await yz.getQuickSql(
-                dbsearch
-                ,
-                "SELECT    id, code, display_name as display_name    FROM    system_code   where    " +
-                " id = ? ;  "
-                ,
-                [argsCodeId])
         }
 
 

@@ -1596,7 +1596,7 @@ End of app preview menu
                let copyArgs = {}
                if (appId) {copyArgs.base_component_id = appId}
                if (newAppId) {copyArgs.new_base_component_id = newAppId}
-               if (codeId) {copyArgs.codeId = codeId}
+               if (codeId) {copyArgs.code_id = codeId}
                let result = await getFromYazzReturnJson("/copy_component_get",copyArgs)
                if (isValidObject(result)) {
                     mm.$root.$emit('message', {
