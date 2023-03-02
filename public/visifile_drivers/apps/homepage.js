@@ -1511,7 +1511,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               this.open_file_path   = "/"
               saveCodeToFile        = null
 
-              let result = await getFromYazzReturnJson("/copy_component",
+              let result = await getFromYazzReturnJson("/copy_component_get",
                   {
                       base_component_id: baseComponentId
                       ,

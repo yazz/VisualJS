@@ -2740,7 +2740,7 @@ async function startServices() {
 
 //zzz
 
-        app.get('/copy_component', async function (req, res, next) {
+        app.get('/copy_component_get', async function (req, res, next) {
             let userid              = await getUserId(req)
             let baseComponentId     = req.query.base_component_id
             let codeId              = req.query.code_id
