@@ -2831,50 +2831,52 @@ if (typeName == "horiz_scroll_control") {
 
 }
 
-for (let oneProperty of global_component_type_details_cache[typeName].properties) {
-let propertyName = oneProperty.name
-if (propertyName) {
+if (isValidObject(global_component_type_details_cache) &&
+    isValidObject(global_component_type_details_cache[typeName]) &&
+    isValidObject(global_component_type_details_cache[typeName].properties)
+) {
+    for (let oneProperty of global_component_type_details_cache[typeName].properties) {
+        let propertyName = oneProperty.name
+        if (propertyName) {
 
 //
 // match my ACCEPT TYPES with TYPES coming from other components
 //
-if (oneProperty.accept_types) {
-let acceptTypes = Object.keys(oneProperty.accept_types)
-for (let acceptType of acceptTypes) {
+            if (oneProperty.accept_types) {
+                let acceptTypes = Object.keys(oneProperty.accept_types)
+                for (let acceptType of acceptTypes) {
 //console.log("    " + acceptType)
-for (let otherComponentName of Object.keys(global_component_type_details_cache)){
-if (otherComponentName == "database_control") {
+                    for (let otherComponentName of Object.keys(global_component_type_details_cache)){
+                        if (otherComponentName == "database_control") {
 //debugger
 
-}
-if (otherComponentName != typeName) {
-if (global_component_type_details_cache[otherComponentName]) {
-if (global_component_type_details_cache[otherComponentName].properties) {
-let otherProperties = global_component_type_details_cache[otherComponentName].properties
-for (let otherProperty of otherProperties){
-if (otherProperty.types) {
-for (let otherPropertyType of Object.keys(otherProperty.types)){
-if (otherPropertyType == acceptType) {
+                        }
+                        if (otherComponentName != typeName) {
+                            if (global_component_type_details_cache[otherComponentName]) {
+                                if (global_component_type_details_cache[otherComponentName].properties) {
+                                    let otherProperties = global_component_type_details_cache[otherComponentName].properties
+                                    for (let otherProperty of otherProperties){
+                                        if (otherProperty.types) {
+                                            for (let otherPropertyType of Object.keys(otherProperty.types)){
+                                                if (otherPropertyType == acceptType) {
 //debugger
 //console.log("        Found Match for " + acceptType)
-if (!linked_properties[typeName].incoming.them[otherComponentName]) {
-linked_properties[typeName].incoming.them[otherComponentName]={}
-}
-if (! linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] ) {
-linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
-}
-linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                    if (!linked_properties[typeName].incoming.them[otherComponentName]) {
+                                                        linked_properties[typeName].incoming.them[otherComponentName]={}
+                                                    }
+                                                    if (! linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] ) {
+                                                        linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
+                                                    }
+                                                    linked_properties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-if (!linked_properties[typeName].incoming.me[oneProperty.id]) {
-linked_properties[typeName].incoming.me[oneProperty.id]={}
-}
-if (!linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
-linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName]={}
-}
+                                                    if (!linked_properties[typeName].incoming.me[oneProperty.id]) {
+                                                        linked_properties[typeName].incoming.me[oneProperty.id]={}
+                                                    }
+                                                    if (!linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
+                                                        linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName]={}
+                                                    }
 
-linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
-
-
+                                                    linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
 
 
 
@@ -2883,45 +2885,47 @@ linked_properties[typeName].incoming.me[oneProperty.id][otherComponentName][othe
 
 
 
-if (!linked_properties[otherComponentName].outgoing.them[typeName]) {
-linked_properties[otherComponentName].outgoing.them[typeName] = {}
-}
-if (!linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
-linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
-}
-if (!linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
-linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
-}
+
+
+                                                    if (!linked_properties[otherComponentName].outgoing.them[typeName]) {
+                                                        linked_properties[otherComponentName].outgoing.them[typeName] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
+                                                    }
 
 
 
-if (!linked_properties[otherComponentName].outgoing.me) {
-linked_properties[otherComponentName].outgoing.me = {}
-}
-if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id]) {
-linked_properties[otherComponentName].outgoing.me[otherProperty.id] = {}
-}
-if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
-linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
-}
-if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
-linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
-}
+                                                    if (!linked_properties[otherComponentName].outgoing.me) {
+                                                        linked_properties[otherComponentName].outgoing.me = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
+                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                        linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
+                                                    }
 
 
 
-}
-}
-}
-}
-}
-}
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
-}
-}
+                        }
+                    }
 
-}
-}
+                }
+            }
 
 
 
@@ -2929,90 +2933,92 @@ linked_properties[otherComponentName].outgoing.me[otherProperty.id][typeName][on
 //
 // match my TYPES with ACCEPT_TYPES to other components
 //
-if (oneProperty.types) {
-let types = Object.keys(oneProperty.types)
-for (let myType of types) {
+            if (oneProperty.types) {
+                let types = Object.keys(oneProperty.types)
+                for (let myType of types) {
 //console.log("    " + myType)
-for (let otherComponentName of Object.keys(global_component_type_details_cache)){
-if (otherComponentName == "table_control") {
+                    for (let otherComponentName of Object.keys(global_component_type_details_cache)){
+                        if (otherComponentName == "table_control") {
 //debugger
-}
-if (otherComponentName != typeName) {
-if (global_component_type_details_cache[otherComponentName]) {
-if (global_component_type_details_cache[otherComponentName].properties) {
-let otherProperties = global_component_type_details_cache[otherComponentName].properties
-for (let otherProperty of otherProperties){
-if (otherProperty.accept_types) {
-for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
-if (otherPropertyAcceptType == myType) {
+                        }
+                        if (otherComponentName != typeName) {
+                            if (global_component_type_details_cache[otherComponentName]) {
+                                if (global_component_type_details_cache[otherComponentName].properties) {
+                                    let otherProperties = global_component_type_details_cache[otherComponentName].properties
+                                    for (let otherProperty of otherProperties){
+                                        if (otherProperty.accept_types) {
+                                            for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
+                                                if (otherPropertyAcceptType == myType) {
 //debugger
 //console.log("        Found Match for " + myType)
-if (!linked_properties[typeName].outgoing.them[otherComponentName]) {
-linked_properties[typeName].outgoing.them[otherComponentName]={}
-}
-if (!linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
-linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
-}
-linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                    if (!linked_properties[typeName].outgoing.them[otherComponentName]) {
+                                                        linked_properties[typeName].outgoing.them[otherComponentName]={}
+                                                    }
+                                                    if (!linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
+                                                        linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
+                                                    }
+                                                    linked_properties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-if (!linked_properties[typeName].outgoing.me) {
-linked_properties[typeName].outgoing.me = {}
-}
-if (!linked_properties[typeName].outgoing.me[oneProperty.id]) {
-linked_properties[typeName].outgoing.me[oneProperty.id] = {}
-}
+                                                    if (!linked_properties[typeName].outgoing.me) {
+                                                        linked_properties[typeName].outgoing.me = {}
+                                                    }
+                                                    if (!linked_properties[typeName].outgoing.me[oneProperty.id]) {
+                                                        linked_properties[typeName].outgoing.me[oneProperty.id] = {}
+                                                    }
 
-if (!linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
-linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
-}
-linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
-
-
-
-
-if (!linked_properties[otherComponentName].incoming.them[typeName]) {
-linked_properties[otherComponentName].incoming.them[typeName]={}
-}
-if (!linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
-linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id]={}
-}
-if (!linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
-linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
-}
+                                                    if (!linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
+                                                        linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
+                                                    }
+                                                    linked_properties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
 
 
 
 
-if (!linked_properties[otherComponentName].incoming.me) {
-linked_properties[otherComponentName].incoming.me={}
-}
-if (!linked_properties[otherComponentName].incoming.me[otherProperty.id]) {
-linked_properties[otherComponentName].incoming.me[otherProperty.id]={}
-}
-if (!linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
-linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
-}
-if (!linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
-linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
-}
-
-
-}
-}
-}
-}
-}
-}
-
-}
-}
-
-}
-}
+                                                    if (!linked_properties[otherComponentName].incoming.them[typeName]) {
+                                                        linked_properties[otherComponentName].incoming.them[typeName]={}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
+                                                        linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id]={}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                        linked_properties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
+                                                    }
 
 
 
-}
+
+                                                    if (!linked_properties[otherComponentName].incoming.me) {
+                                                        linked_properties[otherComponentName].incoming.me={}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.me[otherProperty.id]) {
+                                                        linked_properties[otherComponentName].incoming.me[otherProperty.id]={}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
+                                                        linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
+                                                    }
+                                                    if (!linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                        linked_properties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
+                                                    }
+
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+
+
+
+        }
+    }
+
 }
 
 }
