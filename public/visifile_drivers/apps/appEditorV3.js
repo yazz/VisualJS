@@ -513,7 +513,7 @@ End of app preview menu
                               v-if='app_loaded  &&  (preview_type=="control")'
                               style='background-color: white;'
                               v-bind:is='"yazz_blank"'
-                              v-bind:args="{control_type: base_component_id}"
+                              v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
                               >
                   </component>
             </div>

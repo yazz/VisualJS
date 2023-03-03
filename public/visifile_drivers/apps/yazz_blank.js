@@ -2889,7 +2889,7 @@ logo_url("/driver_icons/blocks.png")
                 if (mm.args.control_code_id) {
                     compArgs.code_id = mm.args.control_code_id
                 }
-
+debugger
                 await mm.addComponentV2(
                     200,
                     200,
@@ -5423,10 +5423,7 @@ ${origCode}
 
 
 
-
-
-
-            /*
+        /*
         ________________________________________
         |           addComponentV2             |
         |______________________________________|
@@ -5442,6 +5439,7 @@ ${origCode}
         |
         |     data    {
         |     ----       base_component_id:  ...
+        |     ----       code_id:            ...
         |                control:            controlDetails
         |             }
         |
@@ -5456,8 +5454,8 @@ ${origCode}
         |     --------
         |
         |________________________________________________________________________ */
-            addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
-                let mm = this
+        addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
+            let mm = this
 
                 let promise = new Promise(async function(returnfn) {
                     let newItem = new Object()
@@ -5482,13 +5480,13 @@ ${origCode}
 
 
                     /*
-                 _______________________________________
-                 |    addComponentV2                    |
-                 |_________________                     |____________
-                                  | Calculate the name of
-                                  | the new component
-                                  |__________________________________
-                 */
+                     _______________________________________
+                     |    addComponentV2                    |
+                     |_________________                     |____________
+                                      | Calculate the name of
+                                      | the new component
+                                      |__________________________________
+                    */
                     if (parentType) {
                         newItem.parent = parentName
                     }
@@ -5500,6 +5498,7 @@ ${origCode}
                         newItem.name = data.base_component_id + "_" + mm.model.next_component_id++
                     }
                     newItem.base_component_id = data.base_component_id
+                    newItem.code_id = data.code_id
 
 
 
@@ -5516,7 +5515,12 @@ ${origCode}
                     mm.refresh++
                     if (!component_loaded[newItem.base_component_id]) {
                         //debugger
-                        await loadUiComponentsV4([newItem.base_component_id])
+                        //zzz
+                        if (newItem.code_id) {
+                            await loadUiComponentsV4([{codeId: newItem.code_id}])
+                        } else {
+                            await loadUiComponentsV4([newItem.base_component_id])
+                        }
                         mm.components_used_in_this_app[newItem.base_component_id] = true
                     }
 

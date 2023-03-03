@@ -5418,6 +5418,7 @@ ${origCode}
                     newItem.name = data.base_component_id + "_" + mm.model.next_component_id++
                 }
                 newItem.base_component_id = data.base_component_id
+                newItem.code_id = data.code_id
 
 
 
@@ -5434,7 +5435,11 @@ ${origCode}
                 mm.refresh++
                 if (!component_loaded[newItem.base_component_id]) {
                 //debugger
-                   await loadUiComponentsV4([newItem.base_component_id])
+                    if (newItem.code_id) {
+                        await loadUiComponentsV4([{codeId: newItem.code_id}])
+                    } else {
+                        await loadUiComponentsV4([newItem.base_component_id])
+                    }
                    mm.components_used_in_this_app[newItem.base_component_id] = true
                 }
 
