@@ -1998,7 +1998,7 @@ logo_url("/driver_icons/blocks.png")
                                         "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width / 2) - 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 18) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                 zzz="//zzz"
+                                 zzz=""
                                  v-on:click='$event.stopPropagation();$root.$emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id})'
                         >
 
@@ -2864,7 +2864,7 @@ logo_url("/driver_icons/blocks.png")
                 }
             }
 
-//zzz
+
 //
 // This is only used when previewing a component. Since we use the "Blank Yazz App"
 // for previews we need to see if the argument 'control_type' is passed in, and if
@@ -2877,16 +2877,23 @@ logo_url("/driver_icons/blocks.png")
 
                 //debugger
                 await mm.deleteComponentByName("aaa")
+                //zzz
+                let compArgs =  {
+                                    base_component_id:   mm.args.control_type,
+                                    type:               "add_component",
+                                    text:               "this.highlighted_control",
+                                    offsetX:             100,
+                                    offsetY:             100
+                                }
+
+                if (mm.args.control_code_id) {
+                    compArgs.code_id = mm.args.control_code_id
+                }
+
                 await mm.addComponentV2(
                     200,
                     200,
-                    {
-                        base_component_id:   mm.args.control_type,
-                        type:               "add_component",
-                        text:               "this.highlighted_control",
-                        offsetX:             100,
-                        offsetY:             100
-                    },
+                    compArgs,
                     null,
                     null,
                     [])
@@ -5432,7 +5439,7 @@ ${origCode}
         |
         |     topY   where to place this control
         |     ----
-        |//zzz
+        |
         |     data    {
         |     ----       base_component_id:  ...
         |                control:            controlDetails

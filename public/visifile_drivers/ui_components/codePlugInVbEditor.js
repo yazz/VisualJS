@@ -2796,16 +2796,22 @@ Pushlist
 
                 //debugger
                 await mm.deleteComponentByName("aaa")
+                let compArgs =  {
+                    base_component_id:   mm.args.control_type,
+                    type:               "add_component",
+                    text:               "this.highlighted_control",
+                    offsetX:             100,
+                    offsetY:             100
+                }
+
+                if (mm.args.control_code_id) {
+                    compArgs.code_id = mm.args.control_code_id
+                }
+
                 await mm.addComponentV2(
                     200,
                     200,
-                    {
-                        base_component_id:   mm.args.control_type,
-                        type:               "add_component",
-                        text:               "this.highlighted_control",
-                        offsetX:             100,
-                        offsetY:             100
-                    },
+                    compArgs,
                     null,
                     null,
                     [])
