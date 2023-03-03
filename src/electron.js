@@ -3434,7 +3434,7 @@ async function startServices() {
                             " inner JOIN " +
                             "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
                             " and " +
-                            "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control')"
+                            "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
                             ,
                             []
                             ,
