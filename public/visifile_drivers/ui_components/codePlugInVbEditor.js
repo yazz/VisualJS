@@ -2755,8 +2755,9 @@ Pushlist
                               |__________________________________
              */            if (mm.design_mode) {
                 if (globalEditorCommunicationArea.originalNameOfEditedUiControl) {
-                    if (globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl !=
-                        globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl) {
+                    if (globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl &&
+                        (globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl !=
+                            globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl)) {
                         setTimeout(function(){
                             mm.changePropertyValue(
                                 {
