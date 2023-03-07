@@ -943,11 +943,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                      | into the Yazz editor
                                      |__________________________________ */
             globalEventBus.$on('new-appshare-app-uploaded',
-                async function(data) {
-                    await mm.addLogoForApp(data)
-                    await mm.addEditableApp(data)
+                async function(uploadedAppBaseComponentId) {
+                    await mm.addLogoForApp(uploadedAppBaseComponentId)
+                    await mm.addEditableApp(uploadedAppBaseComponentId)
                     setTimeout(function() {
-                        mm.editApp(data)
+                        mm.editApp(uploadedAppBaseComponentId)
                     },250)
                 });
 
