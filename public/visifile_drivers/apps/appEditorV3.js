@@ -97,7 +97,7 @@ ________
 |     selected_app                  Which is the app that the mouse is over
 |     app_loaded                    Set to true once an app has been loaded
 |     preview_type                  Is the preview pane showing an "app" or a "control"
-|     app_component_name            :  null,
+|     component_display_name            :  null,
 |     base_component_id             null,
 |     code_id                       null,
 |     version                       : 0,
@@ -190,14 +190,14 @@ ___________
         </img>
 
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
-            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} 
+            {{component_display_name?"" + component_display_name.substring(0,30):""}}{{(component_display_name && ((component_display_name.length > 50))?"...":"")}} 
           
         </h5>
 
         <input    class='caption' 
                   v-bind:style='"display: inline-block;" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")' 
                   v-if='edit_name' 
-                  v-model='app_component_name'></input>
+                  v-model='component_display_name'></input>
 
 
           <button type=button class='btn btn-primary'
@@ -210,7 +210,7 @@ ___________
         <button type=button class='btn btn-primary' 
                 v-bind:style='"margin-left: 10px" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")'
                 v-if='edit_name' 
-                v-on:click='(async function(){await rename(app_component_name)})()'>
+                v-on:click='(async function(){await rename(component_display_name)})()'>
             Save new name
         </button>
 
@@ -992,7 +992,7 @@ End of app preview menu
                highlighted_node:    null,
                app_loaded:          false,
                preview_type:        "app",
-               app_component_name:  null,
+               component_display_name:  null,
                base_component_id:   null,
                code_id:             null,
                version: 0,
@@ -1640,7 +1640,7 @@ End of app preview menu
                     mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
                     mm.editor_text = yz.insertCodeString(mm.editor_text, "display_name", nn)
 
-                    mm.app_component_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
+                    mm.component_display_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
                     if (mm.$refs.editor_component_ref) {
                         if (mm.$refs.editor_component_ref.setText) {
                             mm.$refs.editor_component_ref.setText(mm.editor_text)
@@ -1650,7 +1650,7 @@ End of app preview menu
                     mm.$root.$emit('message', {
                         type:               "rename_app",
                         base_component_id:   mm.base_component_id,
-                        display_name:        mm.app_component_name
+                        display_name:        mm.component_display_name
                     })
 
                 },500)
@@ -1960,7 +1960,7 @@ End of app preview menu
                 }
 
                 mm.selected_app             = ""
-                mm.app_component_name       = null
+                mm.component_display_name       = null
                 mm.app_loaded               = true
                 mm.execution_timeline       = executionTimeline
                 mm.execution_code           = executionCode
@@ -2013,7 +2013,7 @@ End of app preview menu
                                 codeId = results[0].id
                                 mm.code_id = codeId
 
-                                this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
                                     mm.editor_text = code
@@ -2062,8 +2062,8 @@ End of app preview menu
                                 //code = yz.deleteCodeString(code, "display_name")
                                 //code = yz.insertCodeString(code, "display_name", newDisplayName)
 
-                                //mm.app_component_name = baseComponentId
-                                mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                                //mm.component_display_name = baseComponentId
+                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                                 if (mm.$refs.editor_component_ref) {
                                     if (mm.$refs.editor_component_ref.setText) {
                                         mm.$refs.editor_component_ref.setText(code)
@@ -2117,8 +2117,8 @@ End of app preview menu
 
 
                         setTimeout(async function() {
-                            //mm.app_component_name = baseComponentId
-                            mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                            //mm.component_display_name = baseComponentId
+                            mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                             if (mm.$refs.editor_component_ref) {
                                 if (mm.$refs.editor_component_ref.setText) {
                                     mm.$refs.editor_component_ref.setText(code)
@@ -2180,7 +2180,7 @@ End of app preview menu
 
                                 codeId                  = results[0].id
                                 mm.code_id              = codeId
-                                this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
@@ -2222,8 +2222,8 @@ End of app preview menu
                                 //code = yz.deleteCodeString(code, "display_name")
                                 //code = yz.insertCodeString(code, "display_name", newDisplayName)
 
-                                //mm.app_component_name = baseComponentId
-                                mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                                //mm.component_display_name = baseComponentId
+                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                                 if (mm.$refs.editor_component_ref) {
                                     if (mm.$refs.editor_component_ref.setText) {
                                         mm.$refs.editor_component_ref.setText(code)
