@@ -65,17 +65,14 @@ ________
 |---------------------
 |    SAVING DATA
 |---------------------
-|     file_save_state               Text which shows information on saving the current app
-|                                   such as "Saved ..."
-|     inSave                        True/false which can tell us if we are in the "save" method, so
-|                                   we don't reenter the method and save twice
-|     save_state                    :.
+|     file_save_state               Text which shows information on saving the current app such as "Saved ..."
+|     inSave                        True/false which can tell us if we are in the "save" method, to prevent reentry
+|     save_state                    Pending, saved, saving, etc
 |
 |---------------------
 |    EDITOR DATA
 |---------------------
-|     editor_shell_locked           True/false to lock the editing UI when saving code, so that new
-|                                   edits are not made
+|     editor_shell_locked           True/false to lock the editing UI when saving code, to prevent new edits
 |     info_text                     Informational text shown at the bottom of the text editor
 |     editor_loaded                 Set to true once the whole editor has loaded
 |     editor_overloaded             If we switch from the main editor then set to true (such as Sqlite editor)
@@ -87,8 +84,7 @@ ________
 |      UI DATA
 |---------------------
 |
-|     hideImportButtons             When running in web mode don't show all the buttons on the homepage
-|                                   such as "Open as file"
+|     hideImportButtons             When running in web mode don't show all homepage buttons such as "Open as file"
 |     refresh                       Used to force the update the UI when a change is made
 |     app_width                     .
 |     code_width                    .
@@ -98,10 +94,9 @@ ________
 |---------------------
 |      APP DATA
 |---------------------
-|
-|     selected_app                  .
-|     app_loaded                    .
-|     preview_type                  .
+|     selected_app                  Which is the app that the mouse is over
+|     app_loaded                    Set to true once an app has been loaded
+|     preview_type                  Is the preview pane showing an "app" or a "control"
 |     app_component_name            :  null,
 |     base_component_id             null,
 |     code_id                       null,
