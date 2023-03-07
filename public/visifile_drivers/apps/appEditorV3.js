@@ -29,261 +29,144 @@ This is the main UI Component for the Yazz Editor. It contains:
 ________
 | DATA |______________________________________________________________
 |
-|     sqlite_data_saved_in_html     A helper true/false var for when the user presses the button to
-|     -------------------------     save an app as HTML, since the Sqlite data needs to be saved in
-|                                   the HTML file
+|---------------------
+|        SETUP
+|---------------------
 |
-|     file_save_state               Text which shows information on saving the current app
-|     ---------------               such as "Saved ..."
-|
-|     editor_shell_locked           True/false to lock the editing UI when saving code, so that new
-|     -------------------           edits are not made
-|
-|     info_text                     Informational text shown at the bottom of the text editor
-|     ---------
-|
-|     inSave                        True/false which can tell us if we are in the "save" method, so
-|     ------                        we don't reenter the method and save twice
-|
-|     hideImportButtons             When running in web mode don't show all the buttons on the homepage
-|     -----------------             such as "Open as file"
-|
-|     refresh                       Used to force the update the UI when a change is made
+|     mounted
 |     -------
 |
+|---------------------
+|    DEBUGGING DATA
+|---------------------
+|     sqlite_data_saved_in_html     A helper true/false var for when the user presses the button to
+|                                   save an app as HTML, since the Sqlite data needs to be saved in
+|                                   the HTML file
+|     execution_timeline            :  null,
+|     execution_horiz_scale         : 3,
+|     y_step                        30    ,
+|     timeline_editor               : null,
+|     current_execution_step        :  -1,
+|     current_execution_step_y_line :  -1,
+|     execution_code                : null,
+|     execution_block_list          : [],
+|     execution_var_list            : [],
+|     execution_watch_list          .
+|     highlighted_line              .
+|     timeline_x_cursor             .
+|     timeline_y_cursor             : 10,
+|     timeline_pause                : false,
+|     highlighted_block             .
+|     highlighted_block_name        .
+|     highlighted_node              :    null,
+|
+|---------------------
+|    SAVING DATA
+|---------------------
+|     file_save_state               Text which shows information on saving the current app
+|                                   such as "Saved ..."
+|     inSave                        True/false which can tell us if we are in the "save" method, so
+|                                   we don't reenter the method and save twice
+|     save_state                    :.
+|
+|---------------------
+|    EDITOR DATA
+|---------------------
+|     editor_shell_locked           True/false to lock the editing UI when saving code, so that new
+|                                   edits are not made
+|     info_text                     Informational text shown at the bottom of the text editor
 |     editor_loaded                 Set to true once the whole editor has loaded
-|     -------------
+|     editor_overloaded             :
+|     show_download_save            .
+|     show_filename_save            false,
+|     editor_component              :
+|     right_mode                    .
+|     selected_pane                 :
+|
+|---------------------
+|      UI DATA
+|---------------------
+|
+|     hideImportButtons             When running in web mode don't show all the buttons on the homepage
+|                                   such as "Open as file"
+|     refresh                       Used to force the update the UI when a change is made
+|     app_width                     .
+|     code_width                    .
+|     app_shown                     .
+|     code_shown                    .
+|
+|---------------------
+|      APP DATA
+|---------------------
 |
 |     selected_app                  .
-|     ------------                  can go here
-|
-|     editor_overloaded             :
-|     -----------------             can go here
-|
-|     show_download_save            .
-|     ------------------            can go here
-|
-      show_filename_save            false,
-|     ------------------            can go here
-|
-|     editor_component              :
-|     ----------------              can go here
-|
-|     right_mode                    .
-|     ----------                    can go here
-|
-|     selected_pane                 :
-|     -------------                 can go here
-|
-|     execution_timeline            :  null,
-|     ------------------
-|
-|     execution_horiz_scale         : 3,
-|     ---------------------         can go here
-|
-|     y_step                        30    ,
-|     ------                        can go here
-|
-|     timeline_editor               : null,
-|     ---------------               can go here
-|
-|     current_execution_step        :  -1,
-|     ----------------------        can go here
-|
-|     current_execution_step_y_line :  -1,
-|     ----------------------------- can go here
-|
-|     execution_code                : null,
-|     --------------                can go here
-|
-|     execution_block_list          : [],
-|     --------------------          can go here
-|
-|     execution_var_list            : [],
-|     ------------------            can go here
-|
-|     execution_watch_list          .
-|     --------------------          can go here
-|
-|     highlighted_line              .
-|     ----------------              can go here
-|
-|     timeline_x_cursor             .
-|     -----------------             can go here
-|
-|     timeline_y_cursor             : 10,
-|     -----------------             can go here
-|
-|     timeline_pause                : false,
-|     --------------                can go here
-|
-|     highlighted_block             .
-|     -----------------             can go here
-|
-|     highlighted_block_name        .
-|     ----------------------        can go here
-|
-|     highlighted_node              :    null,
-|     ----------------              can go here
-|
 |     app_loaded                    .
-|     ----------                    can go here
-|
 |     preview_type                  .
-|     ------------                  can go here
-|
 |     app_component_name            :  null,
-|     ------------------            can go here
-|
 |     base_component_id             null,
-|     -----------------             can go here
-|
 |     code_id                       null,
-|     -------                       can go here
-|
 |     version                       : 0,
-|     --------                      can go here
-|
-|     app_width                     .
-|     ---------                     can go here
-|
-|     code_width                    .
-|     ----------                    can go here
-|
-|     app_shown                     .
-|     ---------                     can go here
-|
-|     code_shown                    .
-|     ----------                    can go here
-|
 |     read_only                     :
-|     ---------                     can go here
-|
 |     extra_menu                    false,
-|     ----------                    can go here
-|
 |     mode                          "edit",
-|     ----                          can go here
-|
 |     sub_mode                      .
-|     --------                      can go here
-|
 |     show_name                     true,
-|     ---------                     can go here
-|
 |     edit_name                     false,
-|     ---------                     can go here
-|
 |     editor_text                   : "",
-|     -----------                   can go here
-|
-|     save_state                    :.
-|     ----------                    can go here
-|
 |     display_name                  .
-|     ------------                  can go here
 |
 |________________________________________________________________________
 
 ___________
 | METHODS |______________________________________________________________
 |
-|
-|     closeSubEditor                    : async function() {
-|     --------------
-|
-|     switchEditor                      : async function(editor_component_id) {
-|     ------------
-|
-|     setInfo                           : function(text) {
-|     -------
-|
-|     closeEditor                       : async function(event,item) {
-|     -----------
-|
+|-------------------------
+|    DEBUGGING METHODS
+|-------------------------
 |     getVarAsHtml                      : function(viewer,varName) {
-|     ------------
-|
 |     getVarAsBarChart                  : function(value) {
-|     ----------------
-|
 |     resetDebugger                     : function() {
-|     -------------
-|
 |     stepForward                       : function() {
-|     -----------
-|
 |     stepBack                          : function() {
-|     --------
-|
 |     timelineRefresh                   : function(move) {
-|     ---------------
-|
-|     chooseRightDebugPane              : function(ff) {
-|     --------------------
-|
 |     updateTimeline                    : function( args ) {
-|     --------------
-|
 |     mouseEnterTimeline                : function(ev) {
-|     ------------------
-|
 |     mouseClickTimeline                : function(ev) {
-|     ------------------
-|
 |     inTimelineScroll                  : function() {
-|     ----------------
-|
 |     mouseMoveTimeline                 : function(ev) {
-|     -----------------
-|
 |     addWatch                          : async function(varN){
-|     --------
-|
 |     deleteWatch                       : async function(varN){
-|     -----------
-|
 |     keepWatch                         : async function(varN){
-|     ---------
-|
 |     setupTimelineEditor               : function() {
-|     -------------------
 |
+|
+|-------------------------
+|    UI METHODS
+|-------------------------
+|     setInfo                           : function(text) {
+|     chooseRightDebugPane              : function(ff) {
 |     chooseApp                         : async function() {
-|     ---------
-|
 |     chooseCode                        : async function() {
-|     ----------
-|
 |     chooseBoth                        : async function() {
-|     ----------
-|
 |     chooseProfiler                    : async function() {
-|     --------------
 |
+|-------------------------
+|    EDITOR METHODS
+|-------------------------
+|     closeSubEditor                    : async function() {
+|     switchEditor                      : async function(editor_component_id) {
+|     closeEditor                       : async function(event,item) {
 |     rename                            : async function(nn) {
-|     ------
-|
 |     editAsText                        : async function() {
-|     ----------
 |
+|-------------------------
+|    SAVE METHODS
+|-------------------------
 |     checkSavedFile                    : function() {
-|     --------------
-|
 |     copyApp                           : async function( appId , newAppId, codeId) {
-|     -------
-|
 |     bookmarkCode                      : async function() {
-|     ------------
-|
 |     load_new_version_of_edited_app    : async function ( options ) {
-|     ------------------------------
-|
 |     save                              function( base_component_id, code_id , textIn, extras) {
-|     ----
-|
-|     mounted
-|     -------
 |
 |________________________________________________________________________ */
 

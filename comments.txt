@@ -21,6 +21,10 @@ ________
 |
 |     OR
 |
+|---------------------
+|    SECTION NAME
+|---------------------
+|
 |     first data item           Some text
 |     ---------------           can go here
 |                               and on the
