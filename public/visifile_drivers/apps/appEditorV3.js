@@ -32,16 +32,12 @@ ________
 |---------------------
 |        SETUP
 |---------------------
-|
-|     mounted
-|     -------
+|     mounted                       Setup everything
 |
 |---------------------
 |    DEBUGGING DATA
 |---------------------
-|     sqlite_data_saved_in_html     A helper true/false var for when the user presses the button to
-|                                   save an app as HTML, since the Sqlite data needs to be saved in
-|                                   the HTML file
+|     sqlite_data_saved_in_html     Save the Sqlite data in the app HTML file?
 |     execution_timeline            Array of execution points for the program
 |     execution_horiz_scale         horiz scale
 |     y_step                        how many y steps
@@ -85,27 +81,26 @@ ________
 |
 |     hideImportButtons             When running in web mode don't show all homepage buttons such as "Open as file"
 |     refresh                       Used to force the update the UI when a change is made
-|     app_width                     .
-|     code_width                    .
-|     app_shown                     .
-|     code_shown                    .
+|     app_width                     app preview width
+|     code_width                    code editor width
+|     app_shown                     show the app preview?
+|     code_shown                    show the code editor?
 |
 |---------------------
 |      APP DATA
 |---------------------
-|     selected_app                  Which is the app that the mouse is over
 |     app_loaded                    Set to true once an app has been loaded
 |     preview_type                  Is the preview pane showing an "app" or a "control"
 |     component_display_name        The name of the edited component (shown in top left)
 |     base_component_id             The base component ID of the component being edited
 |     code_id                       The commit ID of the component being edited
-|     read_only                     :
-|     extra_menu                    false,
-|     mode                          "edit",
-|     sub_mode                      .
-|     show_name                     true,
-|     edit_name                     false,
-|     editor_text                   : "",
+|     read_only                     Is the app read only
+|     extra_menu                    Show the extra menu in the top right of the editor?
+|     mode                          Are we in "edit" or "profiler" mode?
+|     sub_mode                      In the editor are we in "code", "app", or "both" mode
+|     show_name                     Show the display name of the component?
+|     edit_name                     Are we editing the display name?
+|     editor_text
 |     display_name                  .
 |
 |________________________________________________________________________
@@ -964,7 +959,6 @@ End of app preview menu
                hideImportButtons: true,
                refresh:             0,
                editor_loaded:       false,
-               selected_app:        '',
                editor_overloaded:       false,
                show_download_save:       false,
                show_filename_save:       false,
@@ -1954,7 +1948,6 @@ End of app preview menu
                     return
                 }
 
-                mm.selected_app             = ""
                 mm.component_display_name       = null
                 mm.app_loaded               = true
                 mm.execution_timeline       = executionTimeline
