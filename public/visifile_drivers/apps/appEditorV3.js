@@ -97,7 +97,8 @@ ________
 |     edit_name                     Are we editing the display name?
 |     editor_text                   The code of the current component being edited
 |     display_name                  The display name of the current component being edited
-|
+|     override_app_editor           Sometimes we override the app editor to show something like the Sqlite DB schema editor
+
 |________________________________________________________________________
 
 ___________
@@ -1013,7 +1014,7 @@ End of app preview menu
                this.show_download_save                              = true
                this.show_filename_save                              = false
                this.preview_type                                    = "app"
-               GEC.override_app_editor    = null
+               this.override_app_editor                             = null
                this.editor_text                                     = await mm.$refs.editor_component_ref.getText()
 
                await mm.load_new_version_of_edited_app({
@@ -1043,7 +1044,7 @@ End of app preview menu
                this.show_download_save = false
                this.show_filename_save = false
 
-               GEC.override_app_editor = editor_component_id
+               this.override_app_editor = editor_component_id
 
                await mm.load_new_version_of_edited_app(
                     {
@@ -1981,7 +1982,7 @@ End of app preview menu
                                 mm.base_component_id = results[0].base_component_id
 
                                 let newEditor = null
-                                if (isValidObject(editors2) && (GEC.override_app_editor == null)) {
+                                if (isValidObject(editors2) && (mm.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
                                 }
@@ -2008,8 +2009,8 @@ End of app preview menu
                                 //
                                 if ( !mm.editor_loaded ) {
                                     let editorName = "editor_component"
-                                    if (GEC.override_app_editor != null) {
-                                        editorName = GEC.override_app_editor
+                                    if (mm.override_app_editor != null) {
+                                        editorName = mm.override_app_editor
                                     }
                                     if (newEditor) {
                                         editorName = newEditor
@@ -2072,8 +2073,8 @@ End of app preview menu
                         //
                         if ( !mm.editor_loaded ) {
                             let editorName = "editor_component"
-                            if (GEC.override_app_editor != null) {
-                                editorName = GEC.override_app_editor
+                            if (mm.override_app_editor != null) {
+                                editorName = mm.override_app_editor
                             }
                             if (newEditor) {
                                 editorName = newEditor
@@ -2149,7 +2150,7 @@ End of app preview menu
                                 //
                                 let editors2 = results[0].editors
                                 let newEditor = null
-                                if (isValidObject(editors2) && (GEC.override_app_editor == null)) {
+                                if (isValidObject(editors2) && (mm.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
                                 }
@@ -2177,8 +2178,8 @@ End of app preview menu
                                 //
                                 if ( !mm.editor_loaded ) {
                                     let editorName = "editor_component"
-                                    if (GEC.override_app_editor != null) {
-                                        editorName = GEC.override_app_editor
+                                    if (mm.override_app_editor != null) {
+                                        editorName = mm.override_app_editor
                                     }
                                     if (newEditor) {
                                         editorName = newEditor
@@ -2375,7 +2376,7 @@ End of app preview menu
                 if ($HIDEIMPORTBUTTONS == 'false') {
                     mm.hideImportButtons = false
                 }
-                GEC.override_app_editor = null
+                mm.override_app_editor = null
 
                 this.show_download_save = true
                 this.show_filename_save = false

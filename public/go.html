@@ -552,9 +552,9 @@ var testObject = null; // Use this to test elements at debug time
 
 
 /* -----------------------------------------------------------------------
-GEC
------------------------------
-There seems to be alot of specialised, but global  communication in the
+GEC - Global Editor Communication
+----------------------------------
+There seems to be alot of specialised, but global communication in the
 app editors. So instead of having global variables all over the place
 we have decided to just have one global object
  ----------------------------------------------------------------------- */
@@ -563,7 +563,6 @@ var GEC       = {
     editingAppCodeId:                           null,
     lastEditingAppBaseComponentId:              null,
     lastEditingAppCodeId:                       null,
-    override_app_editor:                        null,
 
     originalFormIdOfEditedUiControl:            null,
     originalNameOfEditedUiControl:              null,
