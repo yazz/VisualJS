@@ -97,10 +97,9 @@ ________
 |     selected_app                  Which is the app that the mouse is over
 |     app_loaded                    Set to true once an app has been loaded
 |     preview_type                  Is the preview pane showing an "app" or a "control"
-|     component_display_name            :  null,
-|     base_component_id             null,
-|     code_id                       null,
-|     version                       : 0,
+|     component_display_name        The name of the edited component (shown in top left)
+|     base_component_id             The base component ID of the component being edited
+|     code_id                       The commit ID of the component being edited
 |     read_only                     :
 |     extra_menu                    false,
 |     mode                          "edit",
@@ -995,7 +994,6 @@ End of app preview menu
                component_display_name:  null,
                base_component_id:   null,
                code_id:             null,
-               version: 0,
                app_width:           "33%",
                code_width:          "63%",
                app_shown:           true,
