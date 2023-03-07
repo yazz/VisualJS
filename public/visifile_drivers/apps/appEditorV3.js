@@ -42,23 +42,22 @@ ________
 |     sqlite_data_saved_in_html     A helper true/false var for when the user presses the button to
 |                                   save an app as HTML, since the Sqlite data needs to be saved in
 |                                   the HTML file
-|     execution_timeline            :  null,
-|     execution_horiz_scale         : 3,
-|     y_step                        30    ,
-|     timeline_editor               : null,
-|     current_execution_step        :  -1,
-|     current_execution_step_y_line :  -1,
-|     execution_code                : null,
-|     execution_block_list          : [],
-|     execution_var_list            : [],
-|     execution_watch_list          .
-|     highlighted_line              .
-|     timeline_x_cursor             .
-|     timeline_y_cursor             : 10,
-|     timeline_pause                : false,
-|     highlighted_block             .
-|     highlighted_block_name        .
-|     highlighted_node              :    null,
+|     execution_timeline            Array of execution points for the program
+|     execution_horiz_scale         horiz scale
+|     y_step                        how many y steps
+|     timeline_editor               ID for the timeline editor
+|     current_execution_step        current step in the program run
+|     current_execution_step_y_line y step
+|     execution_code                current code  being executed
+|     execution_block_list          list of blocks
+|     execution_var_list            list of vars
+|     execution_watch_list          list of watch vars
+|     highlighted_line              current line number highlighted
+|     timeline_x_cursor             pos of x cursor
+|     timeline_y_cursor             pos of y cursor
+|     timeline_pause                Pause the timeline if certain mouse events happening
+|     highlighted_block             which block highlighted
+|     highlighted_block_name        which block highlighted
 |     debugger_right_mode           What should we show on the right hand side of the debugger such as "watches"
 |     debugger_selected_pane        Which pane has been selected, such as "watches"
 |
@@ -988,7 +987,6 @@ End of app preview menu
                timeline_pause: false,
                highlighted_block:    "",
                highlighted_block_name:    "",
-               highlighted_node:    null,
                app_loaded:          false,
                preview_type:        "app",
                component_display_name:  null,
@@ -1264,7 +1262,6 @@ End of app preview menu
                     this.highlighted_line           = x.line
                     this.highlighted_block          = executionCode[x.code_block_name].code
                     this.highlighted_block_name     = x.code_block_name
-                    this.highlighted_node           = x.node
 
                     if (this.timeline_editor && this.timeline_editor.getSession()) {
                         this.timeline_editor.getSession().setValue(executionCode[x.code_block_name].code);
