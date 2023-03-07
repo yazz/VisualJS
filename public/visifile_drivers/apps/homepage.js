@@ -1673,7 +1673,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         |     ------  The commit ID of the app to load
         |
         |________________________________________________________________________ */
-        //zzz
         editApp: async function(baseComponentId, codeId) {
             let mm = this
 
