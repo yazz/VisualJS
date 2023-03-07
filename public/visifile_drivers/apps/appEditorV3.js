@@ -168,7 +168,7 @@ ___________
 
     Vue.component("app_editor_3",
     {
-      props: ['app_base_component_id', 'app_code_id'],
+      props: ['arg_edit_base_component_id', 'arg_edit_code_id'],
       template:
 `<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;position:relative;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;display: block;overflow: auto;'>
@@ -2389,23 +2389,23 @@ End of app preview menu
                 //
                 // make sure we load the component for this app
                 //
-                if (mm.app_code_id) {
-                    GEC.editingAppBaseComponentId                   = mm.app_base_component_id
-                    GEC.editingAppCodeId                            = mm.app_code_id
-                    component_loaded[mm.app_base_component_id]                                = false
-                    global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]  = false
-                    global_component_type_details_cache[mm.app_base_component_id]             = null
+                if (mm.arg_edit_code_id) {
+                    GEC.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
+                    GEC.editingAppCodeId                            = mm.arg_edit_code_id
+                    component_loaded[mm.arg_edit_base_component_id]                                = false
+                    global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]  = false
+                    global_component_type_details_cache[mm.arg_edit_base_component_id]             = null
 
                     await mm.load_new_version_of_edited_app({codeId: GEC.editingAppCodeId})
 
 
-                } else if (mm.app_base_component_id) {
-                    GEC.editingAppBaseComponentId                     = mm.app_base_component_id
-                    component_loaded[mm.app_base_component_id]                                  = false
-                    global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]    = false
-                    global_component_type_details_cache[mm.app_base_component_id]               = null
+                } else if (mm.arg_edit_base_component_id) {
+                    GEC.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
+                    component_loaded[mm.arg_edit_base_component_id]                                  = false
+                    global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]    = false
+                    global_component_type_details_cache[mm.arg_edit_base_component_id]               = null
 
-                    await mm.load_new_version_of_edited_app({baseComponentId: this.app_base_component_id})
+                    await mm.load_new_version_of_edited_app({baseComponentId: this.arg_edit_base_component_id})
 
                 }
 
@@ -2437,7 +2437,7 @@ End of app preview menu
                         await mm.load_new_version_of_edited_app(   {codeId: message.commitId , runThisApp: true} )
                         mm.$root.$emit('message', {
                             type:               "update_app",
-                            base_component_id:   mm.app_base_component_id,
+                            base_component_id:   mm.arg_edit_base_component_id,
                             code_id:             message.commitId
                         })
                         setTimeout(function(){
