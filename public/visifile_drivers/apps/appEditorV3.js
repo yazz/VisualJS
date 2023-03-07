@@ -59,6 +59,8 @@ ________
 |     highlighted_block             .
 |     highlighted_block_name        .
 |     highlighted_node              :    null,
+|     debugger_right_mode           What should we show on the right hand side of the debugger such as "watches"
+|     debugger_selected_pane        Which pane has been selected, such as "watches"
 |
 |---------------------
 |    SAVING DATA
@@ -76,12 +78,10 @@ ________
 |                                   edits are not made
 |     info_text                     Informational text shown at the bottom of the text editor
 |     editor_loaded                 Set to true once the whole editor has loaded
-|     editor_overloaded             :
-|     show_download_save            .
-|     show_filename_save            false,
-|     editor_component              :
-|     right_mode                    .
-|     selected_pane                 :
+|     editor_overloaded             If we switch from the main editor then set to true (such as Sqlite editor)
+|     show_download_save            Should we show the download/save buttons
+|     show_filename_save            Should we show the the file save button (for desktop editor)
+|     editor_component              The name of the VueJS component editor such as "vb_editor_component"
 |
 |---------------------
 |      UI DATA
@@ -849,16 +849,16 @@ End of app preview menu
 
             <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: hidden; background-color: white;padding:0;margin-left:20px;'
                     >
-                <div    v-bind:class='(right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")''
+                <div    v-bind:class='(debugger_right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")''
                         v-bind:refresh='refresh'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
                     <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;" '
-                         v-bind:class='(selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
-                         v-on:click='$event.stopPropagation();selected_pane = "watches";chooseRightDebugPane("watches");'>
+                         v-bind:class='(debugger_selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
+                         v-on:click='$event.stopPropagation();debugger_selected_pane = "watches";chooseRightDebugPane("watches");'>
                         Watch vars
                     </div>
-                    <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "watches"?"":"display:none;")'>
+                    <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (debugger_right_mode == "watches"?"":"display:none;")'>
                         <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
                             <div class='container' style="padding:0;margin:0">
                                 <div v-if='execution_timeline[current_execution_step]'>
@@ -910,12 +910,12 @@ End of app preview menu
 
 
 
-                <div    v-bind:class='(right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
+                <div    v-bind:class='(debugger_right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
                     <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;"'
-                            v-bind:class='(selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                            v-on:click='selected_pane = "scope";chooseRightDebugPane("scope");'>
+                            v-bind:class='(debugger_selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
+                            v-on:click='debugger_selected_pane = "scope";chooseRightDebugPane("scope");'>
                         Current scope
                     </div>
                     <div style='margin:0;padding:0; min-height:350px; background-color: white;'>
@@ -976,8 +976,8 @@ End of app preview menu
                show_download_save:       false,
                show_filename_save:       false,
                editor_component:    null,
-               right_mode:          "scope",
-               selected_pane:       "scope",
+               debugger_right_mode:          "scope",
+               debugger_selected_pane:       "scope",
                execution_timeline:  null,
                execution_horiz_scale: 3,
                y_step: 30,
@@ -1252,7 +1252,7 @@ End of app preview menu
             // Used to update the debug timeline
             // ---------------------------------------------------------------
             chooseRightDebugPane: function(ff) {
-                this.right_mode = ff
+                this.debugger_right_mode = ff
             }
             ,
 
