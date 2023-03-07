@@ -112,8 +112,8 @@ load_once_from_file(true)
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();closeEditor()' >
-                  <span v-if="!globalEditorCommunicationArea.lastEditingAppCodeId">Close</span>
-                  <span v-if="globalEditorCommunicationArea.lastEditingAppCodeId">Update app</span>
+                  <span v-if="!GEC.lastEditingAppCodeId">Close</span>
+                  <span v-if="GEC.lastEditingAppCodeId">Update app</span>
                 </button>
             </div>
 
@@ -150,7 +150,7 @@ load_once_from_file(true)
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + globalEditorCommunicationArea.editingAppBaseComponentId + ".yazz"'
+                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GEC.editingAppBaseComponentId + ".yazz"'
                        download
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Download app source code")'
@@ -458,7 +458,7 @@ load_once_from_file(true)
                 </a>
                 
                 <a          
-                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + globalEditorCommunicationArea.editingAppBaseComponentId + ".html"'
+                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GEC.editingAppBaseComponentId + ".html"'
                     download
                     id="saveHTMLButton"
                     type="button"
@@ -871,7 +871,7 @@ End of app preview menu
                this.show_download_save                              = true
                this.show_filename_save                              = false
                this.preview_type                                    = "app"
-               globalEditorCommunicationArea.override_app_editor    = null
+               GEC.override_app_editor    = null
                this.editor_text                                     = await mm.$refs.editor_component_ref.getText()
 
                await mm.load_new_version_of_edited_app({
@@ -901,7 +901,7 @@ End of app preview menu
                this.show_download_save = false
                this.show_filename_save = false
 
-               globalEditorCommunicationArea.override_app_editor = editor_component_id
+               GEC.override_app_editor = editor_component_id
 
                await mm.load_new_version_of_edited_app(
                     {
@@ -936,23 +936,23 @@ End of app preview menu
            // ---------------------------------------------------------------
            closeEditor: async function(event,item) {
                let mm = this
-               if (globalEditorCommunicationArea.lastEditingAppCodeId) {
-                   globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
-                   globalEditorCommunicationArea.finalCodeIdOfEditedUiControl            = mm.code_id
+               if (GEC.lastEditingAppCodeId) {
+                   GEC.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
+                   GEC.finalCodeIdOfEditedUiControl            = mm.code_id
                    this.$root.$emit("message", {    type:               "edit_component",
-                                                                base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId,
-                                                                code_id:             globalEditorCommunicationArea.lastEditingAppCodeId
+                                                                base_component_id:   GEC.lastEditingAppBaseComponentId,
+                                                                code_id:             GEC.lastEditingAppCodeId
                                                            })
 
-               } else if (globalEditorCommunicationArea.lastEditingAppBaseComponentId) {
-                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
+               } else if (GEC.lastEditingAppBaseComponentId) {
+                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   GEC.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
                } else {
                    this.$root.$emit('message', {
                        type:        "close_app"
                    })
                }
-               globalEditorCommunicationArea.lastEditingAppBaseComponentId    = null;
-               globalEditorCommunicationArea.lastEditingAppCodeId             = null;
+               GEC.lastEditingAppBaseComponentId    = null;
+               GEC.lastEditingAppCodeId             = null;
            },
 
            // ---------------------------------------------------------------
@@ -1844,7 +1844,7 @@ End of app preview menu
                                 mm.base_component_id = results[0].base_component_id
 
                                 let newEditor = null
-                                if (isValidObject(editors2) && (globalEditorCommunicationArea.override_app_editor == null)) {
+                                if (isValidObject(editors2) && (GEC.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
                                 }
@@ -1874,8 +1874,8 @@ End of app preview menu
                                 //
                                 if ( !mm.editor_loaded ) {
                                     let editorName = "editor_component"
-                                    if (globalEditorCommunicationArea.override_app_editor != null) {
-                                        editorName = globalEditorCommunicationArea.override_app_editor
+                                    if (GEC.override_app_editor != null) {
+                                        editorName = GEC.override_app_editor
                                     }
                                     if (newEditor) {
                                         editorName = newEditor
@@ -1938,8 +1938,8 @@ End of app preview menu
                         //
                         if ( !mm.editor_loaded ) {
                             let editorName = "editor_component"
-                            if (globalEditorCommunicationArea.override_app_editor != null) {
-                                editorName = globalEditorCommunicationArea.override_app_editor
+                            if (GEC.override_app_editor != null) {
+                                editorName = GEC.override_app_editor
                             }
                             if (newEditor) {
                                 editorName = newEditor
@@ -2015,7 +2015,7 @@ End of app preview menu
                                 //
                                 let editors2 = results[0].editors
                                 let newEditor = null
-                                if (isValidObject(editors2) && (globalEditorCommunicationArea.override_app_editor == null)) {
+                                if (isValidObject(editors2) && (GEC.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
                                 }
@@ -2046,8 +2046,8 @@ End of app preview menu
                                 //
                                 if ( !mm.editor_loaded ) {
                                     let editorName = "editor_component"
-                                    if (globalEditorCommunicationArea.override_app_editor != null) {
-                                        editorName = globalEditorCommunicationArea.override_app_editor
+                                    if (GEC.override_app_editor != null) {
+                                        editorName = GEC.override_app_editor
                                     }
                                     if (newEditor) {
                                         editorName = newEditor
@@ -2244,7 +2244,7 @@ End of app preview menu
                 if ($HIDEIMPORTBUTTONS == 'false') {
                     mm.hideImportButtons = false
                 }
-                globalEditorCommunicationArea.override_app_editor = null
+                GEC.override_app_editor = null
 
                 this.show_download_save = true
                 this.show_filename_save = false
@@ -2258,17 +2258,17 @@ End of app preview menu
                 // make sure we load the component for this app
                 //
                 if (mm.app_code_id) {
-                    globalEditorCommunicationArea.editingAppBaseComponentId                   = mm.app_base_component_id
-                    globalEditorCommunicationArea.editingAppCodeId                            = mm.app_code_id
+                    GEC.editingAppBaseComponentId                   = mm.app_base_component_id
+                    GEC.editingAppCodeId                            = mm.app_code_id
                     component_loaded[mm.app_base_component_id]                                = false
                     global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]  = false
                     global_component_type_details_cache[mm.app_base_component_id]             = null
 
-                    await mm.load_new_version_of_edited_app({codeId: globalEditorCommunicationArea.editingAppCodeId})
+                    await mm.load_new_version_of_edited_app({codeId: GEC.editingAppCodeId})
 
 
                 } else if (mm.app_base_component_id) {
-                    globalEditorCommunicationArea.editingAppBaseComponentId                     = mm.app_base_component_id
+                    GEC.editingAppBaseComponentId                     = mm.app_base_component_id
                     component_loaded[mm.app_base_component_id]                                  = false
                     global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]    = false
                     global_component_type_details_cache[mm.app_base_component_id]               = null
