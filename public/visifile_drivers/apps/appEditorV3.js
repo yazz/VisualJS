@@ -9,6 +9,246 @@ description("This will return the editor app V3")
 logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgcwOpYBOgknkHQ-qmgxvFv1D-iHACLcBGAs/s1600/BracketsDarks.PNG")
 load_once_from_file(true)
 */
+
+
+
+/*
+________________________________________
+|                                      |
+|             app_editor_3             |
+|                                      |
+|            Vue component             |
+|______________________________________|
+This is the main UI Component for the Yazz Editor. It contains:
+- Text, UI, and projectional editors
+- Debugger
+- App/Component Preview
+
+
+
+________
+| DATA |______________________________________________________________
+|
+|     sqlite_data_saved_in_html     A helper true/false var for when the user presses the button to
+|     -------------------------     save an app as HTML, since the Sqlite data needs to be saved in
+|                                   the HTML file
+|
+|     file_save_state               Text which shows information on saving the current app
+|     ---------------               such as "Saved ..."
+|
+|     editor_shell_locked           True/false to lock the editing UI when saving code, so that new
+|     -------------------           edits are not made
+|
+|     info_text                     Informational text shown at the bottom of the text editor
+|     ---------
+|
+|     inSave                        True/false which can tell us if we are in the "save" method, so
+|     ------                        we don't reenter the method and save twice
+|
+|     hideImportButtons             When running in web mode don't show all the buttons on the homepage
+|     -----------------             such as "Open as file"
+|
+|     refresh                       Used to force the update the UI when a change is made
+|     -------
+|
+|     editor_loaded                 Set to true once the whole editor has loaded
+|     -------------
+|
+        selected_app:        '',
+|     ----------------------    can go here
+        editor_overloaded:       false,
+|     ----------------------    can go here
+        show_download_save:       false,
+|     ----------------------    can go here
+        show_filename_save:       false,
+|     ----------------------    can go here
+        editor_component:    null,
+|     ----------------------    can go here
+        right_mode:          "scope",
+|     ----------------------    can go here
+        selected_pane:       "scope",
+|     ----------------------    can go here
+        execution_timeline:  null,
+|     ----------------------    can go here
+        execution_horiz_scale: 3,
+|     ----------------------    can go here
+        y_step: 30,
+|     ----------------------    can go here
+        timeline_editor: null,
+|     ----------------------    can go here
+        current_execution_step:  -1,
+|     ----------------------    can go here
+        current_execution_step_y_line:  -1,
+|     ----------------------    can go here
+        execution_code: null,
+|     ----------------------    can go here
+        execution_block_list: [],
+|     ----------------------    can go here
+        execution_var_list: [],
+|     ----------------------    can go here
+        execution_watch_list: [],
+|     ----------------------    can go here
+        highlighted_line:    -1,
+|     ----------------------    can go here
+        timeline_x_cursor: -1,
+|     ----------------------    can go here
+        timeline_y_cursor: 10,
+|     ----------------------    can go here
+        timeline_pause: false,
+|     ----------------------    can go here
+        highlighted_block:    "",
+|     ----------------------    can go here
+        highlighted_block_name:    "",
+|     ----------------------    can go here
+        highlighted_node:    null,
+|     ----------------------    can go here
+        app_loaded:          false,
+|     ----------------------    can go here
+        preview_type:        "app",
+|     ----------------------    can go here
+        app_component_name:  null,
+|     ----------------------    can go here
+        base_component_id:   null,
+|     ----------------------    can go here
+        code_id:             null,
+|     ----------------------    can go here
+        version: 0,
+|     ----------------------    can go here
+        app_width:           "33%",
+|     ----------------------    can go here
+        code_width:          "63%",
+|     ----------------------    can go here
+        app_shown:           true,
+|     ----------------------    can go here
+        code_shown:          true,
+|     ----------------------    can go here
+        read_only:           false,
+|     ----------------------    can go here
+        extra_menu:          false,
+|     ----------------------    can go here
+        mode:                "edit",
+|     ----------------------    can go here
+        sub_mode:            "both",
+|     ----------------------    can go here
+        show_name:           true,
+|     ----------------------    can go here
+        edit_name:           false,
+|     ----------------------    can go here
+        editor_text:         "",
+|     ----------------------    can go here
+        save_state:          "saved",
+|     ----------------------    can go here
+        display_name:        ""              Some text
+|     ------------              can go here
+|                               and on the
+|                               following lines
+|________________________________________________________________________
+
+___________
+| METHODS |______________________________________________________________
+|
+|
+|     closeSubEditor: async function() {
+|     --------------------------------
+|
+|     switchEditor: async function(editor_component_id) {
+|     --------------------------------
+|
+|     setInfo: function(text) {
+|     --------------------------------
+|
+|     closeEditor: async function(event,item) {
+|     --------------------------------
+|
+|     getVarAsHtml: function(viewer,varName) {
+|     --------------------------------
+|
+|     getVarAsBarChart: function(value) {
+|     --------------------------------
+|
+|     resetDebugger: function() {
+|     --------------------------------
+|
+|     stepForward: function() {
+|     --------------------------------
+|
+|     stepBack: function() {
+|     --------------------------------
+|
+|     timelineRefresh: function(move) {
+|     --------------------------------
+|
+|     chooseRightDebugPane: function(ff) {
+|     --------------------------------
+|
+|     updateTimeline: function( args ) {
+|     --------------------------------
+|
+|     mouseEnterTimeline: function(ev) {
+|     --------------------------------
+|
+|     mouseClickTimeline: function(ev) {
+|     --------------------------------
+|
+|     inTimelineScroll: function() {
+|     --------------------------------
+|
+|     mouseMoveTimeline: function(ev) {
+|     --------------------------------
+|
+|     addWatch: async function(varN){
+|     --------------------------------
+|
+|     deleteWatch: async function(varN){
+|     --------------------------------
+|
+|     keepWatch: async function(varN){
+|     --------------------------------
+|
+|     setupTimelineEditor: function() {
+|     --------------------------------
+|
+|     chooseApp: async function() {
+|     --------------------------------
+|
+|     chooseCode: async function() {
+|     --------------------------------
+|
+|     chooseBoth: async function() {
+|     --------------------------------
+|
+|     chooseProfiler: async function() {
+|     --------------------------------
+|
+|     rename: async function(nn) {
+|     --------------------------------
+|
+|     editAsText: async function() {
+|     --------------------------------
+|
+|     checkSavedFile: function() {
+|     --------------------------------
+|
+|     copyApp: async function( appId , newAppId, codeId) {
+|     --------------------------------
+|
+|     bookmarkCode: async function() {
+|     --------------------------------
+|
+|     load_new_version_of_edited_app: async function ( options ) {
+|     --------------------------------
+|
+|     save       function( base_component_id, code_id , textIn, extras) {
+|     --------------------------------
+|
+|     mounted
+|     --------------------------------
+|
+|________________________________________________________________________ */
+
+
+
+
     //
     // Hack city!!! Turn off the component cache so that we can enable hot reloading of components
     //
@@ -807,7 +1047,6 @@ End of app preview menu
                hideImportButtons: true,
                refresh:             0,
                editor_loaded:       false,
-               console_output:      "",
                selected_app:        '',
                editor_overloaded:       false,
                show_download_save:       false,
@@ -1477,7 +1716,6 @@ End of app preview menu
                 // commented out as we don't want to replace _ (underscores) with spaces
                 //nn = nn.replace(/[\W_]+/g,"_");
 
-                this.console_output = ""
                 setTimeout(async function() {
                     //debugger
                     mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
@@ -1605,8 +1843,6 @@ End of app preview menu
 
                 }
                 setTimeout(async function() {
-                    mm.console_output = ""
-                    //debugger
                     await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id })
                         setTimeout(async function() {
                             mm.refresh++
@@ -2328,3 +2564,9 @@ End of app preview menu
        return {name: "app_editor"}
 
 }
+
+
+
+
+
+
