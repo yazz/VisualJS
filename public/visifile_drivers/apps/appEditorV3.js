@@ -1395,7 +1395,7 @@ End of app preview menu
             // ---------------------------------------------------------------
             addWatch: async function(varN){
                 globalWatchList[varN]={}
-                await this.load_new_version_of_edited_app({baseComponentId:  this.base_component_id })
+                await this.load_new_version_of_edited_app({codeId:  this.code_id })
                 let allWatches = Object.keys(globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
@@ -1513,7 +1513,7 @@ End of app preview menu
                     //
 
                     //await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_new_version_of_edited_app({baseComponentId:  mm.base_component_id , runThisApp: true})
+                    await mm.load_new_version_of_edited_app({codeId:  this.code_id,  runThisApp: true})
                     hideProgressBar()
                 }
             },
@@ -1535,7 +1535,7 @@ End of app preview menu
                 this.mode      = "edit"
                 this.sub_mode  = "code"
 
-                await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id , runThisApp: false})
+                await mm.load_new_version_of_edited_app({codeId:  this.code_id , runThisApp: false})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1568,7 +1568,7 @@ End of app preview menu
                 this.app_shown = true
 
                 appClearIntervals()
-                await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id , runThisApp: true})
+                await mm.load_new_version_of_edited_app({codeId:  this.code_id, runThisApp: true})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1599,7 +1599,7 @@ End of app preview menu
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id  , runThisApp: true})
+                    await mm.load_new_version_of_edited_app({codeId:  this.code_id, runThisApp: true})
                 }
                 this.mode = "profiler"
 
