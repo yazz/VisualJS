@@ -54,195 +54,236 @@ ________
 |     editor_loaded                 Set to true once the whole editor has loaded
 |     -------------
 |
-        selected_app:        '',
-|     ----------------------    can go here
-        editor_overloaded:       false,
-|     ----------------------    can go here
-        show_download_save:       false,
-|     ----------------------    can go here
-        show_filename_save:       false,
-|     ----------------------    can go here
-        editor_component:    null,
-|     ----------------------    can go here
-        right_mode:          "scope",
-|     ----------------------    can go here
-        selected_pane:       "scope",
-|     ----------------------    can go here
-        execution_timeline:  null,
-|     ----------------------    can go here
-        execution_horiz_scale: 3,
-|     ----------------------    can go here
-        y_step: 30,
-|     ----------------------    can go here
-        timeline_editor: null,
-|     ----------------------    can go here
-        current_execution_step:  -1,
-|     ----------------------    can go here
-        current_execution_step_y_line:  -1,
-|     ----------------------    can go here
-        execution_code: null,
-|     ----------------------    can go here
-        execution_block_list: [],
-|     ----------------------    can go here
-        execution_var_list: [],
-|     ----------------------    can go here
-        execution_watch_list: [],
-|     ----------------------    can go here
-        highlighted_line:    -1,
-|     ----------------------    can go here
-        timeline_x_cursor: -1,
-|     ----------------------    can go here
-        timeline_y_cursor: 10,
-|     ----------------------    can go here
-        timeline_pause: false,
-|     ----------------------    can go here
-        highlighted_block:    "",
-|     ----------------------    can go here
-        highlighted_block_name:    "",
-|     ----------------------    can go here
-        highlighted_node:    null,
-|     ----------------------    can go here
-        app_loaded:          false,
-|     ----------------------    can go here
-        preview_type:        "app",
-|     ----------------------    can go here
-        app_component_name:  null,
-|     ----------------------    can go here
-        base_component_id:   null,
-|     ----------------------    can go here
-        code_id:             null,
-|     ----------------------    can go here
-        version: 0,
-|     ----------------------    can go here
-        app_width:           "33%",
-|     ----------------------    can go here
-        code_width:          "63%",
-|     ----------------------    can go here
-        app_shown:           true,
-|     ----------------------    can go here
-        code_shown:          true,
-|     ----------------------    can go here
-        read_only:           false,
-|     ----------------------    can go here
-        extra_menu:          false,
-|     ----------------------    can go here
-        mode:                "edit",
-|     ----------------------    can go here
-        sub_mode:            "both",
-|     ----------------------    can go here
-        show_name:           true,
-|     ----------------------    can go here
-        edit_name:           false,
-|     ----------------------    can go here
-        editor_text:         "",
-|     ----------------------    can go here
-        save_state:          "saved",
-|     ----------------------    can go here
-        display_name:        ""              Some text
-|     ------------              can go here
-|                               and on the
-|                               following lines
+|     selected_app                  .
+|     ------------                  can go here
+|
+|     editor_overloaded             :
+|     -----------------             can go here
+|
+|     show_download_save            .
+|     ------------------            can go here
+|
+      show_filename_save            false,
+|     ------------------            can go here
+|
+|     editor_component              :
+|     ----------------              can go here
+|
+|     right_mode                    .
+|     ----------                    can go here
+|
+|     selected_pane                 :
+|     -------------                 can go here
+|
+|     execution_timeline            :  null,
+|     ------------------
+|
+|     execution_horiz_scale         : 3,
+|     ---------------------         can go here
+|
+|     y_step                        30    ,
+|     ------                        can go here
+|
+|     timeline_editor               : null,
+|     ---------------               can go here
+|
+|     current_execution_step        :  -1,
+|     ----------------------        can go here
+|
+|     current_execution_step_y_line :  -1,
+|     ----------------------------- can go here
+|
+|     execution_code                : null,
+|     --------------                can go here
+|
+|     execution_block_list          : [],
+|     --------------------          can go here
+|
+|     execution_var_list            : [],
+|     ------------------            can go here
+|
+|     execution_watch_list          .
+|     --------------------          can go here
+|
+|     highlighted_line              .
+|     ----------------              can go here
+|
+|     timeline_x_cursor             .
+|     -----------------             can go here
+|
+|     timeline_y_cursor             : 10,
+|     -----------------             can go here
+|
+|     timeline_pause                : false,
+|     --------------                can go here
+|
+|     highlighted_block             .
+|     -----------------             can go here
+|
+|     highlighted_block_name        .
+|     ----------------------        can go here
+|
+|     highlighted_node              :    null,
+|     ----------------              can go here
+|
+|     app_loaded                    .
+|     ----------                    can go here
+|
+|     preview_type                  .
+|     ------------                  can go here
+|
+|     app_component_name            :  null,
+|     ------------------            can go here
+|
+|     base_component_id             null,
+|     -----------------             can go here
+|
+|     code_id                       null,
+|     -------                       can go here
+|
+|     version                       : 0,
+|     --------                      can go here
+|
+|     app_width                     .
+|     ---------                     can go here
+|
+|     code_width                    .
+|     ----------                    can go here
+|
+|     app_shown                     .
+|     ---------                     can go here
+|
+|     code_shown                    .
+|     ----------                    can go here
+|
+|     read_only                     :
+|     ---------                     can go here
+|
+|     extra_menu                    false,
+|     ----------                    can go here
+|
+|     mode                          "edit",
+|     ----                          can go here
+|
+|     sub_mode                      .
+|     --------                      can go here
+|
+|     show_name                     true,
+|     ---------                     can go here
+|
+|     edit_name                     false,
+|     ---------                     can go here
+|
+|     editor_text                   : "",
+|     -----------                   can go here
+|
+|     save_state                    :.
+|     ----------                    can go here
+|
+|     display_name                  .
+|     ------------                  can go here
+|
 |________________________________________________________________________
 
 ___________
 | METHODS |______________________________________________________________
 |
 |
-|     closeSubEditor: async function() {
-|     --------------------------------
+|     closeSubEditor                    : async function() {
+|     --------------
 |
-|     switchEditor: async function(editor_component_id) {
-|     --------------------------------
+|     switchEditor                      : async function(editor_component_id) {
+|     ------------
 |
-|     setInfo: function(text) {
-|     --------------------------------
+|     setInfo                           : function(text) {
+|     -------
 |
-|     closeEditor: async function(event,item) {
-|     --------------------------------
+|     closeEditor                       : async function(event,item) {
+|     -----------
 |
-|     getVarAsHtml: function(viewer,varName) {
-|     --------------------------------
+|     getVarAsHtml                      : function(viewer,varName) {
+|     ------------
 |
-|     getVarAsBarChart: function(value) {
-|     --------------------------------
+|     getVarAsBarChart                  : function(value) {
+|     ----------------
 |
-|     resetDebugger: function() {
-|     --------------------------------
+|     resetDebugger                     : function() {
+|     -------------
 |
-|     stepForward: function() {
-|     --------------------------------
+|     stepForward                       : function() {
+|     -----------
 |
-|     stepBack: function() {
-|     --------------------------------
+|     stepBack                          : function() {
+|     --------
 |
-|     timelineRefresh: function(move) {
-|     --------------------------------
+|     timelineRefresh                   : function(move) {
+|     ---------------
 |
-|     chooseRightDebugPane: function(ff) {
-|     --------------------------------
+|     chooseRightDebugPane              : function(ff) {
+|     --------------------
 |
-|     updateTimeline: function( args ) {
-|     --------------------------------
+|     updateTimeline                    : function( args ) {
+|     --------------
 |
-|     mouseEnterTimeline: function(ev) {
-|     --------------------------------
+|     mouseEnterTimeline                : function(ev) {
+|     ------------------
 |
-|     mouseClickTimeline: function(ev) {
-|     --------------------------------
+|     mouseClickTimeline                : function(ev) {
+|     ------------------
 |
-|     inTimelineScroll: function() {
-|     --------------------------------
+|     inTimelineScroll                  : function() {
+|     ----------------
 |
-|     mouseMoveTimeline: function(ev) {
-|     --------------------------------
+|     mouseMoveTimeline                 : function(ev) {
+|     -----------------
 |
-|     addWatch: async function(varN){
-|     --------------------------------
+|     addWatch                          : async function(varN){
+|     --------
 |
-|     deleteWatch: async function(varN){
-|     --------------------------------
+|     deleteWatch                       : async function(varN){
+|     -----------
 |
-|     keepWatch: async function(varN){
-|     --------------------------------
+|     keepWatch                         : async function(varN){
+|     ---------
 |
-|     setupTimelineEditor: function() {
-|     --------------------------------
+|     setupTimelineEditor               : function() {
+|     -------------------
 |
-|     chooseApp: async function() {
-|     --------------------------------
+|     chooseApp                         : async function() {
+|     ---------
 |
-|     chooseCode: async function() {
-|     --------------------------------
+|     chooseCode                        : async function() {
+|     ----------
 |
-|     chooseBoth: async function() {
-|     --------------------------------
+|     chooseBoth                        : async function() {
+|     ----------
 |
-|     chooseProfiler: async function() {
-|     --------------------------------
+|     chooseProfiler                    : async function() {
+|     --------------
 |
-|     rename: async function(nn) {
-|     --------------------------------
+|     rename                            : async function(nn) {
+|     ------
 |
-|     editAsText: async function() {
-|     --------------------------------
+|     editAsText                        : async function() {
+|     ----------
 |
-|     checkSavedFile: function() {
-|     --------------------------------
+|     checkSavedFile                    : function() {
+|     --------------
 |
-|     copyApp: async function( appId , newAppId, codeId) {
-|     --------------------------------
+|     copyApp                           : async function( appId , newAppId, codeId) {
+|     -------
 |
-|     bookmarkCode: async function() {
-|     --------------------------------
+|     bookmarkCode                      : async function() {
+|     ------------
 |
-|     load_new_version_of_edited_app: async function ( options ) {
-|     --------------------------------
+|     load_new_version_of_edited_app    : async function ( options ) {
+|     ------------------------------
 |
-|     save       function( base_component_id, code_id , textIn, extras) {
-|     --------------------------------
+|     save                              function( base_component_id, code_id , textIn, extras) {
+|     ----
 |
 |     mounted
-|     --------------------------------
+|     -------
 |
 |________________________________________________________________________ */
 
