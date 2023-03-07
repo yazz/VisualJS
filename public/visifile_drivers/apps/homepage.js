@@ -887,10 +887,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         let cid = text.code_id
                         let fid = text.form_id
                         let cni = text.control_name
-                        globalEditorCommunicationArea.originalFormIdOfEditedUiControl           = fid
-                        globalEditorCommunicationArea.originalNameOfEditedUiControl             = cni
-                        globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl  = bci
-                        globalEditorCommunicationArea.originalCodeIdOfEditedUiControl           = cid
+                        //GEC.originalFormIdOfEditedUiControl           = fid
+                        //GEC.originalNameOfEditedUiControl             = cni
+                        GEC.originalBaseComponentIdOfEditedUiControl  = bci
+                        GEC.originalCodeIdOfEditedUiControl           = cid
                         setTimeout(function() {
                             mm.editApp(bci,  text.code_id)
                         },50)
@@ -921,10 +921,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         let cid = text.code_id
                         let fid = text.form_id
                         let cni = text.control_name
-                        globalEditorCommunicationArea.originalFormIdOfEditedUiControl           = fid
-                        globalEditorCommunicationArea.originalNameOfEditedUiControl             = cni
-                        globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl  = bci
-                        globalEditorCommunicationArea.originalCodeIdOfEditedUiControl           = cid
+                        GEC.originalFormIdOfEditedUiControl           = fid
+                        GEC.originalNameOfEditedUiControl             = cni
+                        GEC.originalBaseComponentIdOfEditedUiControl  = bci
+                        GEC.originalCodeIdOfEditedUiControl           = cid
                         mm.copyAndEditApp(
                             {base_component_id: bci  ,  code_id: cid})
                     },200)

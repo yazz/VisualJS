@@ -1915,7 +1915,7 @@ Pushlist
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 18) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                         zzz="//zzz"
-                                     v-on:click='globalEditorCommunicationArea.lastEditingAppBaseComponentId = globalEditorCommunicationArea.editingAppBaseComponentId; globalEditorCommunicationArea.lastEditingAppCodeId = globalEditorCommunicationArea.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
+                                     v-on:click='GEC.lastEditingAppBaseComponentId = GEC.editingAppBaseComponentId; GEC.lastEditingAppCodeId = GEC.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
                           >
 
 
@@ -1941,7 +1941,7 @@ Pushlist
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                    zzz=""
-                                   v-on:click='globalEditorCommunicationArea.lastEditingAppBaseComponentId = globalEditorCommunicationArea.editingAppBaseComponentId; globalEditorCommunicationArea.lastEditingAppCodeId = globalEditorCommunicationArea.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
+                                   v-on:click='GEC.lastEditingAppBaseComponentId = GEC.editingAppBaseComponentId; GEC.lastEditingAppCodeId = GEC.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
                           >
 
 
@@ -2754,26 +2754,26 @@ Pushlist
                               | has been edited in another editor
                               |__________________________________
              */            if (mm.design_mode) {
-                if (globalEditorCommunicationArea.originalNameOfEditedUiControl) {
-                    if (globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl &&
-                        (globalEditorCommunicationArea.originalBaseComponentIdOfEditedUiControl !=
-                            globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl)) {
+                if (GEC.originalNameOfEditedUiControl) {
+                    if (GEC.finalBaseComponentIdOfEditedUiControl &&
+                        (GEC.originalBaseComponentIdOfEditedUiControl !=
+                            GEC.finalBaseComponentIdOfEditedUiControl)) {
                         setTimeout(function(){
                             mm.changePropertyValue(
                                 {
-                                    componentName:   globalEditorCommunicationArea.originalNameOfEditedUiControl,
+                                    componentName:   GEC.originalNameOfEditedUiControl,
                                     propertyName:   "base_component_id",
-                                    propertyValue:   globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl
+                                    propertyValue:   GEC.finalBaseComponentIdOfEditedUiControl
                                 }
                             )
                             mm.changePropertyValue(
                                 {
-                                    componentName:   globalEditorCommunicationArea.originalNameOfEditedUiControl,
+                                    componentName:   GEC.originalNameOfEditedUiControl,
                                     propertyName:   "code_id",
-                                    propertyValue:   globalEditorCommunicationArea.finalCodeIdOfEditedUiControl
+                                    propertyValue:   GEC.finalCodeIdOfEditedUiControl
                                 }
                             )
-                            globalEditorCommunicationArea.originalNameOfEditedUiControl = null
+                            GEC.originalNameOfEditedUiControl = null
 
                         },1000)
                     }

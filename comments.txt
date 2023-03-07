@@ -2,6 +2,67 @@
 /*
 ________________________________________
 |                                      |
+|             app_editor_3             |
+|                                      |
+|            Vue component             |
+|______________________________________|
+This is the main UI Component for the Yazz Editor. It contains:
+- Text, UI, and projectional editors
+- Debugger
+- App/Component Preview
+
+
+
+________
+| DATA |______________________________________________________________
+|
+|     NONE
+|     ----
+|
+|     OR
+|
+|---------------------
+|    SECTION NAME
+|---------------------
+|
+|     first data item           Some text
+|     ---------------           can go here
+|                               and on the
+|                               following lines
+|
+|     second data item          Some text
+|     ----------------          can go here
+|                               and on the
+|                               following lines
+|________________________________________________________________________
+
+___________
+| METHODS |______________________________________________________________
+|
+|     NONE
+|     ----
+|
+|     OR
+|
+|     first method              Some text
+|     ------------              can go here
+|                               and on the
+|                               following lines
+|
+|     second method             Some text
+|     -------------             can go here
+|                               and on the
+|                               following lines
+|________________________________________________________________________ */
+
+
+
+
+
+
+/*
+________________________________________
+|                                      |
 |       FUNCTION_NAME                  |
 |                                      |
 |______________________________________|

@@ -9,6 +9,164 @@ description("This will return the editor app V3")
 logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgcwOpYBOgknkHQ-qmgxvFv1D-iHACLcBGAs/s1600/BracketsDarks.PNG")
 load_once_from_file(true)
 */
+
+
+
+/*
+________________________________________
+|                                      |
+|             app_editor_3             |
+|                                      |
+|            Vue component             |
+|______________________________________|
+This is the main UI Component for the Yazz Editor. It contains:
+- Text, UI, and projectional editors
+- Debugger
+- App/Component Preview
+
+
+
+________
+| DATA |______________________________________________________________
+|
+|---------------------
+|        SETUP
+|---------------------
+|
+|     mounted
+|     -------
+|
+|---------------------
+|    DEBUGGING DATA
+|---------------------
+|     sqlite_data_saved_in_html     A helper true/false var for when the user presses the button to
+|                                   save an app as HTML, since the Sqlite data needs to be saved in
+|                                   the HTML file
+|     execution_timeline            :  null,
+|     execution_horiz_scale         : 3,
+|     y_step                        30    ,
+|     timeline_editor               : null,
+|     current_execution_step        :  -1,
+|     current_execution_step_y_line :  -1,
+|     execution_code                : null,
+|     execution_block_list          : [],
+|     execution_var_list            : [],
+|     execution_watch_list          .
+|     highlighted_line              .
+|     timeline_x_cursor             .
+|     timeline_y_cursor             : 10,
+|     timeline_pause                : false,
+|     highlighted_block             .
+|     highlighted_block_name        .
+|     highlighted_node              :    null,
+|     debugger_right_mode           What should we show on the right hand side of the debugger such as "watches"
+|     debugger_selected_pane        Which pane has been selected, such as "watches"
+|
+|---------------------
+|    SAVING DATA
+|---------------------
+|     file_save_state               Text which shows information on saving the current app such as "Saved ..."
+|     inSave                        True/false which can tell us if we are in the "save" method, to prevent reentry
+|     save_state                    Pending, saved, saving, etc
+|
+|---------------------
+|    EDITOR DATA
+|---------------------
+|     editor_shell_locked           True/false to lock the editing UI when saving code, to prevent new edits
+|     info_text                     Informational text shown at the bottom of the text editor
+|     editor_loaded                 Set to true once the whole editor has loaded
+|     editor_overloaded             If we switch from the main editor then set to true (such as Sqlite editor)
+|     show_download_save            Should we show the download/save buttons
+|     show_filename_save            Should we show the the file save button (for desktop editor)
+|     editor_component              The name of the VueJS component editor such as "vb_editor_component"
+|
+|---------------------
+|      UI DATA
+|---------------------
+|
+|     hideImportButtons             When running in web mode don't show all homepage buttons such as "Open as file"
+|     refresh                       Used to force the update the UI when a change is made
+|     app_width                     .
+|     code_width                    .
+|     app_shown                     .
+|     code_shown                    .
+|
+|---------------------
+|      APP DATA
+|---------------------
+|     selected_app                  Which is the app that the mouse is over
+|     app_loaded                    Set to true once an app has been loaded
+|     preview_type                  Is the preview pane showing an "app" or a "control"
+|     component_display_name        The name of the edited component (shown in top left)
+|     base_component_id             The base component ID of the component being edited
+|     code_id                       The commit ID of the component being edited
+|     read_only                     :
+|     extra_menu                    false,
+|     mode                          "edit",
+|     sub_mode                      .
+|     show_name                     true,
+|     edit_name                     false,
+|     editor_text                   : "",
+|     display_name                  .
+|
+|________________________________________________________________________
+
+___________
+| METHODS |______________________________________________________________
+|
+|-------------------------
+|    DEBUGGING METHODS
+|-------------------------
+|     getVarAsHtml                      : function(viewer,varName) {
+|     getVarAsBarChart                  : function(value) {
+|     resetDebugger                     : function() {
+|     stepForward                       : function() {
+|     stepBack                          : function() {
+|     timelineRefresh                   : function(move) {
+|     updateTimeline                    : function( args ) {
+|     mouseEnterTimeline                : function(ev) {
+|     mouseClickTimeline                : function(ev) {
+|     inTimelineScroll                  : function() {
+|     mouseMoveTimeline                 : function(ev) {
+|     addWatch                          : async function(varN){
+|     deleteWatch                       : async function(varN){
+|     keepWatch                         : async function(varN){
+|     setupTimelineEditor               : function() {
+|
+|
+|-------------------------
+|    UI METHODS
+|-------------------------
+|     setInfo                           : function(text) {
+|     chooseRightDebugPane              : function(ff) {
+|     chooseApp                         : async function() {
+|     chooseCode                        : async function() {
+|     chooseBoth                        : async function() {
+|     chooseProfiler                    : async function() {
+|
+|-------------------------
+|    EDITOR METHODS
+|-------------------------
+|     closeSubEditor                    : async function() {
+|     switchEditor                      : async function(editor_component_id) {
+|     closeEditor                       : async function(event,item) {
+|     rename                            : async function(nn) {
+|     editAsText                        : async function() {
+|
+|-------------------------
+|    SAVE METHODS
+|-------------------------
+|     checkSavedFile                    : function() {
+|     copyApp                           : async function( appId , newAppId, codeId) {
+|     bookmarkCode                      : async function() {
+|     load_new_version_of_edited_app    : async function ( options ) {
+|     save                              function( base_component_id, code_id , textIn, extras) {
+|
+|________________________________________________________________________ */
+
+
+
+
     //
     // Hack city!!! Turn off the component cache so that we can enable hot reloading of components
     //
@@ -31,14 +189,14 @@ load_once_from_file(true)
         </img>
 
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
-            {{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 50))?"...":"")}} 
+            {{component_display_name?"" + component_display_name.substring(0,30):""}}{{(component_display_name && ((component_display_name.length > 50))?"...":"")}} 
           
         </h5>
 
         <input    class='caption' 
                   v-bind:style='"display: inline-block;" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")' 
                   v-if='edit_name' 
-                  v-model='app_component_name'></input>
+                  v-model='component_display_name'></input>
 
 
           <button type=button class='btn btn-primary'
@@ -51,7 +209,7 @@ load_once_from_file(true)
         <button type=button class='btn btn-primary' 
                 v-bind:style='"margin-left: 10px" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")'
                 v-if='edit_name' 
-                v-on:click='(async function(){await rename(app_component_name)})()'>
+                v-on:click='(async function(){await rename(component_display_name)})()'>
             Save new name
         </button>
 
@@ -112,8 +270,8 @@ load_once_from_file(true)
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();closeEditor()' >
-                  <span v-if="!globalEditorCommunicationArea.lastEditingAppCodeId">Close</span>
-                  <span v-if="globalEditorCommunicationArea.lastEditingAppCodeId">Update app</span>
+                  <span v-if="!GEC.lastEditingAppCodeId">Close</span>
+                  <span v-if="GEC.lastEditingAppCodeId">Update app</span>
                 </button>
             </div>
 
@@ -150,7 +308,7 @@ load_once_from_file(true)
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + globalEditorCommunicationArea.editingAppBaseComponentId + ".yazz"'
+                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GEC.editingAppBaseComponentId + ".yazz"'
                        download
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Download app source code")'
@@ -458,7 +616,7 @@ load_once_from_file(true)
                 </a>
                 
                 <a          
-                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + globalEditorCommunicationArea.editingAppBaseComponentId + ".html"'
+                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GEC.editingAppBaseComponentId + ".html"'
                     download
                     id="saveHTMLButton"
                     type="button"
@@ -685,16 +843,16 @@ End of app preview menu
 
             <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: hidden; background-color: white;padding:0;margin-left:20px;'
                     >
-                <div    v-bind:class='(right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")''
+                <div    v-bind:class='(debugger_right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")''
                         v-bind:refresh='refresh'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
                     <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;" '
-                         v-bind:class='(selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
-                         v-on:click='$event.stopPropagation();selected_pane = "watches";chooseRightDebugPane("watches");'>
+                         v-bind:class='(debugger_selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
+                         v-on:click='$event.stopPropagation();debugger_selected_pane = "watches";chooseRightDebugPane("watches");'>
                         Watch vars
                     </div>
-                    <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "watches"?"":"display:none;")'>
+                    <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (debugger_right_mode == "watches"?"":"display:none;")'>
                         <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
                             <div class='container' style="padding:0;margin:0">
                                 <div v-if='execution_timeline[current_execution_step]'>
@@ -746,12 +904,12 @@ End of app preview menu
 
 
 
-                <div    v-bind:class='(right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
+                <div    v-bind:class='(debugger_right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
 
                     <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;"'
-                            v-bind:class='(selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                            v-on:click='selected_pane = "scope";chooseRightDebugPane("scope");'>
+                            v-bind:class='(debugger_selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
+                            v-on:click='debugger_selected_pane = "scope";chooseRightDebugPane("scope");'>
                         Current scope
                     </div>
                     <div style='margin:0;padding:0; min-height:350px; background-color: white;'>
@@ -807,14 +965,13 @@ End of app preview menu
                hideImportButtons: true,
                refresh:             0,
                editor_loaded:       false,
-               console_output:      "",
                selected_app:        '',
                editor_overloaded:       false,
                show_download_save:       false,
                show_filename_save:       false,
                editor_component:    null,
-               right_mode:          "scope",
-               selected_pane:       "scope",
+               debugger_right_mode:          "scope",
+               debugger_selected_pane:       "scope",
                execution_timeline:  null,
                execution_horiz_scale: 3,
                y_step: 30,
@@ -834,11 +991,9 @@ End of app preview menu
                highlighted_node:    null,
                app_loaded:          false,
                preview_type:        "app",
-               app_component_name:  null,
+               component_display_name:  null,
                base_component_id:   null,
-               base_component_id_of_main_app:   null,
                code_id:             null,
-               version: 0,
                app_width:           "33%",
                code_width:          "63%",
                app_shown:           true,
@@ -871,7 +1026,7 @@ End of app preview menu
                this.show_download_save                              = true
                this.show_filename_save                              = false
                this.preview_type                                    = "app"
-               globalEditorCommunicationArea.override_app_editor    = null
+               GEC.override_app_editor    = null
                this.editor_text                                     = await mm.$refs.editor_component_ref.getText()
 
                await mm.load_new_version_of_edited_app({
@@ -901,7 +1056,7 @@ End of app preview menu
                this.show_download_save = false
                this.show_filename_save = false
 
-               globalEditorCommunicationArea.override_app_editor = editor_component_id
+               GEC.override_app_editor = editor_component_id
 
                await mm.load_new_version_of_edited_app(
                     {
@@ -936,23 +1091,23 @@ End of app preview menu
            // ---------------------------------------------------------------
            closeEditor: async function(event,item) {
                let mm = this
-               if (globalEditorCommunicationArea.lastEditingAppCodeId) {
-                   globalEditorCommunicationArea.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
-                   globalEditorCommunicationArea.finalCodeIdOfEditedUiControl            = mm.code_id
+               if (GEC.lastEditingAppCodeId) {
+                   GEC.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
+                   GEC.finalCodeIdOfEditedUiControl            = mm.code_id
                    this.$root.$emit("message", {    type:               "edit_component",
-                                                                base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId,
-                                                                code_id:             globalEditorCommunicationArea.lastEditingAppCodeId
+                                                                base_component_id:   GEC.lastEditingAppBaseComponentId,
+                                                                code_id:             GEC.lastEditingAppCodeId
                                                            })
 
-               } else if (globalEditorCommunicationArea.lastEditingAppBaseComponentId) {
-                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   globalEditorCommunicationArea.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
+               } else if (GEC.lastEditingAppBaseComponentId) {
+                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   GEC.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
                } else {
                    this.$root.$emit('message', {
                        type:        "close_app"
                    })
                }
-               globalEditorCommunicationArea.lastEditingAppBaseComponentId    = null;
-               globalEditorCommunicationArea.lastEditingAppCodeId             = null;
+               GEC.lastEditingAppBaseComponentId    = null;
+               GEC.lastEditingAppCodeId             = null;
            },
 
            // ---------------------------------------------------------------
@@ -1090,7 +1245,7 @@ End of app preview menu
             // Used to update the debug timeline
             // ---------------------------------------------------------------
             chooseRightDebugPane: function(ff) {
-                this.right_mode = ff
+                this.debugger_right_mode = ff
             }
             ,
 
@@ -1240,7 +1395,7 @@ End of app preview menu
             // ---------------------------------------------------------------
             addWatch: async function(varN){
                 globalWatchList[varN]={}
-                await this.load_new_version_of_edited_app({baseComponentId:  this.base_component_id })
+                await this.load_new_version_of_edited_app({codeId:  this.code_id })
                 let allWatches = Object.keys(globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
@@ -1358,7 +1513,7 @@ End of app preview menu
                     //
 
                     //await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_new_version_of_edited_app({baseComponentId:  mm.base_component_id , runThisApp: true})
+                    await mm.load_new_version_of_edited_app({codeId:  this.code_id,  runThisApp: true})
                     hideProgressBar()
                 }
             },
@@ -1380,7 +1535,7 @@ End of app preview menu
                 this.mode      = "edit"
                 this.sub_mode  = "code"
 
-                await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id , runThisApp: false})
+                await mm.load_new_version_of_edited_app({codeId:  this.code_id , runThisApp: false})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1413,7 +1568,7 @@ End of app preview menu
                 this.app_shown = true
 
                 appClearIntervals()
-                await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id , runThisApp: true})
+                await mm.load_new_version_of_edited_app({codeId:  this.code_id, runThisApp: true})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1444,7 +1599,7 @@ End of app preview menu
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_new_version_of_edited_app({baseComponentId:  this.base_component_id  , runThisApp: true})
+                    await mm.load_new_version_of_edited_app({codeId:  this.code_id, runThisApp: true})
                 }
                 this.mode = "profiler"
 
@@ -1478,13 +1633,12 @@ End of app preview menu
                 // commented out as we don't want to replace _ (underscores) with spaces
                 //nn = nn.replace(/[\W_]+/g,"_");
 
-                this.console_output = ""
                 setTimeout(async function() {
                     //debugger
                     mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
                     mm.editor_text = yz.insertCodeString(mm.editor_text, "display_name", nn)
 
-                    mm.app_component_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
+                    mm.component_display_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
                     if (mm.$refs.editor_component_ref) {
                         if (mm.$refs.editor_component_ref.setText) {
                             mm.$refs.editor_component_ref.setText(mm.editor_text)
@@ -1494,7 +1648,7 @@ End of app preview menu
                     mm.$root.$emit('message', {
                         type:               "rename_app",
                         base_component_id:   mm.base_component_id,
-                        display_name:        mm.app_component_name
+                        display_name:        mm.component_display_name
                     })
 
                 },500)
@@ -1606,8 +1760,6 @@ End of app preview menu
 
                 }
                 setTimeout(async function() {
-                    mm.console_output = ""
-                    //debugger
                     await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id })
                         setTimeout(async function() {
                             mm.refresh++
@@ -1806,7 +1958,7 @@ End of app preview menu
                 }
 
                 mm.selected_app             = ""
-                mm.app_component_name       = null
+                mm.component_display_name       = null
                 mm.app_loaded               = true
                 mm.execution_timeline       = executionTimeline
                 mm.execution_code           = executionCode
@@ -1844,7 +1996,7 @@ End of app preview menu
                                 mm.base_component_id = results[0].base_component_id
 
                                 let newEditor = null
-                                if (isValidObject(editors2) && (globalEditorCommunicationArea.override_app_editor == null)) {
+                                if (isValidObject(editors2) && (GEC.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
                                 }
@@ -1855,14 +2007,11 @@ End of app preview menu
                                 //
                                 code = results[0].code
                                 let componentType = yz.getValueOfCodeString(code.toString(),"component_type")
-                                if (componentType == "APP") {
-                                    mm.base_component_id_of_main_app = mm.base_component_id
-                                }
 
                                 codeId = results[0].id
                                 mm.code_id = codeId
 
-                                this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
                                     mm.editor_text = code
@@ -1874,8 +2023,8 @@ End of app preview menu
                                 //
                                 if ( !mm.editor_loaded ) {
                                     let editorName = "editor_component"
-                                    if (globalEditorCommunicationArea.override_app_editor != null) {
-                                        editorName = globalEditorCommunicationArea.override_app_editor
+                                    if (GEC.override_app_editor != null) {
+                                        editorName = GEC.override_app_editor
                                     }
                                     if (newEditor) {
                                         editorName = newEditor
@@ -1911,8 +2060,8 @@ End of app preview menu
                                 //code = yz.deleteCodeString(code, "display_name")
                                 //code = yz.insertCodeString(code, "display_name", newDisplayName)
 
-                                //mm.app_component_name = baseComponentId
-                                mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                                //mm.component_display_name = baseComponentId
+                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                                 if (mm.$refs.editor_component_ref) {
                                     if (mm.$refs.editor_component_ref.setText) {
                                         mm.$refs.editor_component_ref.setText(code)
@@ -1938,8 +2087,8 @@ End of app preview menu
                         //
                         if ( !mm.editor_loaded ) {
                             let editorName = "editor_component"
-                            if (globalEditorCommunicationArea.override_app_editor != null) {
-                                editorName = globalEditorCommunicationArea.override_app_editor
+                            if (GEC.override_app_editor != null) {
+                                editorName = GEC.override_app_editor
                             }
                             if (newEditor) {
                                 editorName = newEditor
@@ -1966,8 +2115,8 @@ End of app preview menu
 
 
                         setTimeout(async function() {
-                            //mm.app_component_name = baseComponentId
-                            mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                            //mm.component_display_name = baseComponentId
+                            mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                             if (mm.$refs.editor_component_ref) {
                                 if (mm.$refs.editor_component_ref.setText) {
                                     mm.$refs.editor_component_ref.setText(code)
@@ -2015,7 +2164,7 @@ End of app preview menu
                                 //
                                 let editors2 = results[0].editors
                                 let newEditor = null
-                                if (isValidObject(editors2) && (globalEditorCommunicationArea.override_app_editor == null)) {
+                                if (isValidObject(editors2) && (GEC.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
                                 }
@@ -2026,13 +2175,10 @@ End of app preview menu
                                 //
                                 code = results[0].code
                                 let componentType = yz.getValueOfCodeString(code.toString(),"component_type")
-                                if (componentType == "APP") {
-                                    mm.base_component_id_of_main_app = mm.base_component_id
-                                }
 
                                 codeId                  = results[0].id
                                 mm.code_id              = codeId
-                                this.app_component_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
@@ -2046,8 +2192,8 @@ End of app preview menu
                                 //
                                 if ( !mm.editor_loaded ) {
                                     let editorName = "editor_component"
-                                    if (globalEditorCommunicationArea.override_app_editor != null) {
-                                        editorName = globalEditorCommunicationArea.override_app_editor
+                                    if (GEC.override_app_editor != null) {
+                                        editorName = GEC.override_app_editor
                                     }
                                     if (newEditor) {
                                         editorName = newEditor
@@ -2074,8 +2220,8 @@ End of app preview menu
                                 //code = yz.deleteCodeString(code, "display_name")
                                 //code = yz.insertCodeString(code, "display_name", newDisplayName)
 
-                                //mm.app_component_name = baseComponentId
-                                mm.app_component_name = yz.getValueOfCodeString(code,"display_name")
+                                //mm.component_display_name = baseComponentId
+                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                                 if (mm.$refs.editor_component_ref) {
                                     if (mm.$refs.editor_component_ref.setText) {
                                         mm.$refs.editor_component_ref.setText(code)
@@ -2244,7 +2390,7 @@ End of app preview menu
                 if ($HIDEIMPORTBUTTONS == 'false') {
                     mm.hideImportButtons = false
                 }
-                globalEditorCommunicationArea.override_app_editor = null
+                GEC.override_app_editor = null
 
                 this.show_download_save = true
                 this.show_filename_save = false
@@ -2258,17 +2404,17 @@ End of app preview menu
                 // make sure we load the component for this app
                 //
                 if (mm.app_code_id) {
-                    globalEditorCommunicationArea.editingAppBaseComponentId                   = mm.app_base_component_id
-                    globalEditorCommunicationArea.editingAppCodeId                            = mm.app_code_id
+                    GEC.editingAppBaseComponentId                   = mm.app_base_component_id
+                    GEC.editingAppCodeId                            = mm.app_code_id
                     component_loaded[mm.app_base_component_id]                                = false
                     global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]  = false
                     global_component_type_details_cache[mm.app_base_component_id]             = null
 
-                    await mm.load_new_version_of_edited_app({codeId: globalEditorCommunicationArea.editingAppCodeId})
+                    await mm.load_new_version_of_edited_app({codeId: GEC.editingAppCodeId})
 
 
                 } else if (mm.app_base_component_id) {
-                    globalEditorCommunicationArea.editingAppBaseComponentId                     = mm.app_base_component_id
+                    GEC.editingAppBaseComponentId                     = mm.app_base_component_id
                     component_loaded[mm.app_base_component_id]                                  = false
                     global_loaded_controls_in_currently_edited_app[mm.app_base_component_id]    = false
                     global_component_type_details_cache[mm.app_base_component_id]               = null
@@ -2335,3 +2481,9 @@ End of app preview menu
        return {name: "app_editor"}
 
 }
+
+
+
+
+
+
