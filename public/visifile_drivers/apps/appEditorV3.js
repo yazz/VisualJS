@@ -30,12 +30,12 @@ ________
 | DATA |______________________________________________________________
 |
 |---------------------
-|        SETUP
+|        SETUP       |
 |---------------------
 |     mounted                       Setup everything
 |
 |---------------------
-|    DEBUGGING DATA
+|    DEBUGGING DATA  |
 |---------------------
 |     sqlite_data_saved_in_html     Save the Sqlite data in the app HTML file?
 |     execution_timeline            Array of execution points for the program
@@ -58,27 +58,17 @@ ________
 |     debugger_selected_pane        Which pane has been selected, such as "watches"
 |
 |---------------------
-|    SAVING DATA
+|    SAVING DATA     |
 |---------------------
 |     file_save_state               Text which shows information on saving the current app such as "Saved ..."
 |     inSave                        True/false which can tell us if we are in the "save" method, to prevent reentry
 |     save_state                    Pending, saved, saving, etc
-|
-|---------------------
-|    EDITOR DATA
-|---------------------
-|     editor_shell_locked           True/false to lock the editing UI when saving code, to prevent new edits
-|     info_text                     Informational text shown at the bottom of the text editor
-|     editor_loaded                 Set to true once the whole editor has loaded
-|     editor_overloaded             If we switch from the main editor then set to true (such as Sqlite editor)
 |     show_download_save            Should we show the download/save buttons
 |     show_filename_save            Should we show the the file save button (for desktop editor)
-|     editor_component              The name of the VueJS component editor such as "vb_editor_component"
 |
 |---------------------
-|      UI DATA
+|      UI DATA       |
 |---------------------
-|
 |     hideImportButtons             When running in web mode don't show all homepage buttons such as "Open as file"
 |     refresh                       Used to force the update the UI when a change is made
 |     app_width                     app preview width
@@ -87,8 +77,13 @@ ________
 |     code_shown                    show the code editor?
 |
 |---------------------
-|      APP DATA
+|    EDITOR DATA     |
 |---------------------
+|     editor_shell_locked           True/false to lock the editing UI when saving code, to prevent new edits
+|     info_text                     Informational text shown at the bottom of the text editor
+|     editor_loaded                 Set to true once the whole editor has loaded
+|     editor_overloaded             If we switch from the main editor then set to true (such as Sqlite editor)
+|     editor_component              The name of the VueJS component editor such as "vb_editor_component"
 |     app_loaded                    Set to true once an app has been loaded
 |     preview_type                  Is the preview pane showing an "app" or a "control"
 |     component_display_name        The name of the edited component (shown in top left)
@@ -100,8 +95,8 @@ ________
 |     sub_mode                      In the editor are we in "code", "app", or "both" mode
 |     show_name                     Show the display name of the component?
 |     edit_name                     Are we editing the display name?
-|     editor_text
-|     display_name                  .
+|     editor_text                   The code of the current component being edited
+|     display_name                  The display name of the current component being edited
 |
 |________________________________________________________________________
 

@@ -22,18 +22,10 @@ ________
 |     OR
 |
 |---------------------
-|    SECTION NAME
+|    SECTION NAME    |
 |---------------------
-|
 |     first data item           Some text
-|     ---------------           can go here
-|                               and on the
-|                               following lines
-|
 |     second data item          Some text
-|     ----------------          can go here
-|                               and on the
-|                               following lines
 |________________________________________________________________________
 
 ___________
@@ -44,15 +36,11 @@ ___________
 |
 |     OR
 |
+|---------------------
+|    SECTION NAME    |
+|---------------------
 |     first method              Some text
-|     ------------              can go here
-|                               and on the
-|                               following lines
-|
 |     second method             Some text
-|     -------------             can go here
-|                               and on the
-|                               following lines
 |________________________________________________________________________ */
 
 
