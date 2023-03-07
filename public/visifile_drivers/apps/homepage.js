@@ -660,20 +660,22 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     |________________________________________________________________________ */
     data: function() {
         return {
-                    hideImportButtons:          false,
+                    editingBaseComponentId:                 null,
+
+                    editable_app_list:                      [],
                     currentlyHighlightedBaseComponentId:    null,
-                    editable_app_list:          [],
-                    appstore_apps:              [],
-                    refresh:                    0,
-                    editingBaseComponentId:                   null,
-                    app_logos:                  new Object(),
-                    showFilePicker:             false,
-                    open_file_path:             "/",
-                    open_file_list:             [],
-                    open_file_name:             "",
-                    disableHighlightApp:           false,
-                    listenerD:                  null,
-                    debugMode:                  false
+                    appstore_apps:                          [],
+
+                    hideImportButtons:                      false,
+                    refresh:                                0,
+                    app_logos:                              new Object(),
+                    showFilePicker:                         false,
+                    open_file_path:                         "/",
+                    open_file_list:                         [],
+                    open_file_name:                         "",
+                    disableHighlightApp:                    false,
+                    listenerD:                              null,
+                    debugMode:                              false
                 }
     }
     ,
