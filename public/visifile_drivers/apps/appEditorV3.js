@@ -2301,7 +2301,7 @@ End of app preview menu
                         }
 
                         mm.code_id  = await getIpfsHash(mm.editor_text)
-                        global_cached_structure_for_code_commit[  mm.code_id  ] =
+                        GLOBALS.commitIdReturnsCodeStructure[  mm.code_id  ] =
                             {
                                 code:               mm.editor_text,
                                 is_code_result:     true,

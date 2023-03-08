@@ -591,7 +591,29 @@ var GLOBALS = {
     // This is used so that we know what controls to embed if we
     // export the app as HTML
     //
-    loadedControlsMapInCurrentlyEditedApp: new Object()
+    loadedControlsMapInCurrentlyEditedApp: new Object(),
+
+
+    //
+    // This contains the source code for a particular commit ID
+    //
+    // eg:    value: {
+    //                    "async fn {... code here ... }"
+    //                    }
+    //  commitIdReturnsCodeStructure["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
+    //  {
+    //      code:               mm.editor_text,
+    //      is_code_result:     true,
+    //      use_db:             baseCompIdFromSrcCode,
+    //      component_type:     "SYSTEM",
+    //      libs:               [],
+    //      code_id:            mm.code_id,
+    //      base_component_id:  baseCompIdFromSrcCode
+    //  }
+    //
+    commitIdReturnsCodeStructure: new Object()
+
+
 }
 
 
@@ -604,7 +626,6 @@ var GLOBALS = {
 
 var component_loaded                                                = new Object()
 var global_component_type_details_cache                             = new Object()
-var global_cached_structure_for_code_commit                         = new Object()
 var global_map_base_component_id_to_commit_id                       = new Object()
 var global_app_controls_by_name_returns_a_vue_instance              = {}
 
@@ -2139,7 +2160,7 @@ var code_fn = ""
 //alert(JSON.stringify(global_map_base_component_id_to_commit_id[base_component_id],null,2))
 var codeiii = global_map_base_component_id_to_commit_id[base_component_id]
 
-var hjhg = await eval(global_cached_structure_for_code_commit[codeiii])
+var hjhg = await eval(GLOBALS.commitIdReturnsCodeStructure[codeiii])
 //alert(JSON.stringify(hjhg.value.code,null,2))
 code_fn = hjhg.code
 
@@ -2353,7 +2374,7 @@ isWin = data.value
                     if (data.value.base_component_id && (!global_map_base_component_id_to_commit_id[data.value.base_component_id])) {
 
                         global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
-                        global_cached_structure_for_code_commit[data.value.code_id]             = data.value
+                        GLOBALS.commitIdReturnsCodeStructure[data.value.code_id]             = data.value
                     }
 
                     await checkLibsV2(data.value)
@@ -3850,15 +3871,7 @@ async function sqliteQuery(sql) {
         is a component type loaded into memory. Remember only one version of a component type at any one time
 
 
-      ---------------------------------------
-    - global_cached_structure_for_code_commit
-      ---------------------------------------
-        This contains the source code for a particular commit ID
-            {
-                value: {
-                            "async fn {... code here ... }"
-                }
-            }
+
 
 
       -----------------------------------
@@ -4012,7 +4025,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                      | then load the components from the global cache which
                      | contains all the UI control definitions in:
                      |   - global_map_base_component_id_to_commit_id
-                     |   - global_cached_structure_for_code_commit
+                     |   - GLOBALS.commitIdReturnsCodeStructure
                      |____________________________________________________________
     */
     let loadedStatic = false
@@ -4025,7 +4038,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 component_loaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 let newDataCodeId   = global_map_base_component_id_to_commit_id[ componentType ]
-                let codeCommit      = global_cached_structure_for_code_commit[ newDataCodeId ]
+                let codeCommit      = GLOBALS.commitIdReturnsCodeStructure[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(codeCommit.code, "properties",")//properties")
                 if (properties) {
                     if (isValidObject(codeCommit)) {
@@ -4063,8 +4076,8 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have cached the component then run it
             //
-            if (componentCodeId && global_cached_structure_for_code_commit[componentCodeId]) {
-                let compRec = global_cached_structure_for_code_commit[componentCodeId]
+            if (componentCodeId && GLOBALS.commitIdReturnsCodeStructure[componentCodeId]) {
+                let compRec = GLOBALS.commitIdReturnsCodeStructure[componentCodeId]
                 if (compRec) {
                     component_loaded[compRec.base_component_id] = true
                     await checkLibsV2(compRec)
@@ -4075,7 +4088,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have haven't cached the component (given the code ID) then put it on the list of things to load
             //
-            } else if (componentCodeId && !global_cached_structure_for_code_commit[componentCodeId]) {
+            } else if (componentCodeId && !GLOBALS.commitIdReturnsCodeStructure[componentCodeId]) {
                 componentsItemsToLoad.push(componentTuple)
 
             //

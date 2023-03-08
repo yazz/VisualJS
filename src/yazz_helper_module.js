@@ -1021,7 +1021,7 @@ module.exports = {
 
 
 
-                                                let newCode =  `global_cached_structure_for_code_commit["${sha1sum}"] = {
+                                                let newCode =  `GLOBALS.commitIdReturnsCodeStructure["${sha1sum}"] = {
                                                 "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                                 "is_code_result": true,
                                                 "use_db": ${useDb?"\"" + useDb + "\"":null},
@@ -1072,7 +1072,7 @@ module.exports = {
                                                                     results[i].code = sqlr2.code
 
                                                                     let newcodeEs = escape("(" + results[i].code.toString() + ")")
-                                                                    let newCode2 =  `global_cached_structure_for_code_commit["${results[i].sha1}"] = {
+                                                                    let newCode2 =  `GLOBALS.commitIdReturnsCodeStructure["${results[i].sha1}"] = {
                                                                     "code": unescape(\`${newcodeEs}\`),
                                                                     "is_code_result": true,
                                                                     "use_db": ${useDb?"\"" + useDb + "\"":null},
