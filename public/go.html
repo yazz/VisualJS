@@ -591,7 +591,7 @@ var GEC = {
     // This is used so that we know what controls to embed if we
     // export the app as HTML
     //
-    global_loaded_controls_in_currently_edited_app: new Object()
+    loadedControlsMapInCurrentlyEditedApp: new Object()
 }
 
 
@@ -4018,7 +4018,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-            GEC.global_loaded_controls_in_currently_edited_app[componentType] = true
+            GEC.loadedControlsMapInCurrentlyEditedApp[componentType] = true
             if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!component_loaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
                 component_loaded[componentType] = true
