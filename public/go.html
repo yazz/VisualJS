@@ -584,7 +584,7 @@ var GEC = {
     //
     // so {aaa: -> Vue object, mycontrolname: -> vue object}
     //
-    global_design_mode_app_controls_by_name_returns_a_vue_instance: {},
+    designModeUiControlNameReturnsVueInstance: {},
 
     //
     // Which controls are used only in the currently edited app.
@@ -592,7 +592,6 @@ var GEC = {
     // export the app as HTML
     //
     global_loaded_controls_in_currently_edited_app: new Object()
-
 }
 
 
@@ -967,7 +966,7 @@ function registerComponent(vueComponentObject) {
         if (isValidObject(usePropVar)) {
             if (isValidObject(usePropVar.name)) {
                 if (vueComponentObject.design_mode) {
-                    GEC.global_design_mode_app_controls_by_name_returns_a_vue_instance[usePropVar.name] =  vueComponentObject
+                    GEC.designModeUiControlNameReturnsVueInstance[usePropVar.name] =  vueComponentObject
                 } else {
                     global_app_controls_by_name_returns_a_vue_instance[usePropVar.name] =  vueComponentObject
                 }
@@ -990,7 +989,7 @@ function registerComponent(vueComponentObject) {
 }
 
 function unregisterComponent(componentName) {
-    GEC.global_design_mode_app_controls_by_name_returns_a_vue_instance[componentName]   = null
+    GEC.designModeUiControlNameReturnsVueInstance[componentName]   = null
     global_app_controls_by_name_returns_a_vue_instance[componentName]               = null
 }
 

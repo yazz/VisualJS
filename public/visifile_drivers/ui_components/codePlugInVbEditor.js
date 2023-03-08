@@ -4882,7 +4882,7 @@ setTimeout(async function(){
                  let fnDetails       = null
                  let controlDetails = null
                  if (isComponentInDesignMode) {
-                     controlDetails = GEC.global_design_mode_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
+                     controlDetails = GEC.designModeUiControlNameReturnsVueInstance[componentDetails.name]
                  } else {
                      controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                  }
@@ -4940,7 +4940,7 @@ setTimeout(async function(){
                  } else {
                      let controlDetails = null
                      if (isComponentInDesignMode) {
-                         controlDetails = GEC.global_design_mode_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
+                         controlDetails = GEC.designModeUiControlNameReturnsVueInstance[componentDetails.name]
                      } else {
                          controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                      }
