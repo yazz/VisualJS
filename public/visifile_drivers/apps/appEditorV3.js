@@ -2388,6 +2388,7 @@ End of app preview menu
                 //
                 // make sure we load the component for this app
                 //
+                debugger
                 if (mm.arg_edit_code_id) {
                     GEC.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                     GEC.editingAppCodeId                            = mm.arg_edit_code_id
