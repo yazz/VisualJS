@@ -2155,15 +2155,6 @@ var hostEditorAddress = "https://yazz.com:443"
 
 staticAppSocket = io(hostEditorAddress);
 
-var code_fn = ""
-//alert(JSON.stringify(global_component_type_details_cache[base_component_id],null,2)) --> {}
-//alert(JSON.stringify(global_map_base_component_id_to_commit_id[base_component_id],null,2))
-var codeiii = global_map_base_component_id_to_commit_id[base_component_id]
-
-var hjhg = await eval(GLOBALS.commitIdReturnsCodeStructure[codeiii])
-//alert(JSON.stringify(hjhg.value.code,null,2))
-code_fn = hjhg.code
-
 
 
 
