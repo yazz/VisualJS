@@ -3983,7 +3983,7 @@ Pushlist
                                     } else {
                                         let controlDetails = null
                                         if (isComponentInDesignMode) {
-                                            controlDetails = GEC.designModeUiControlNameReturnsVueInstance[componentDetails.name]
+                                            controlDetails = GLOBALS.designModeUiControlNameReturnsVueInstance[componentDetails.name]
                                         } else {
                                             controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                                         }
@@ -4010,7 +4010,7 @@ Pushlist
                                     let fnDetails       = null
                                     let controlDetails = null
                                     if (isComponentInDesignMode) {
-                                        controlDetails = GEC.designModeUiControlNameReturnsVueInstance[componentDetails.name]
+                                        controlDetails = GLOBALS.designModeUiControlNameReturnsVueInstance[componentDetails.name]
                                     } else {
                                         controlDetails = global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
                                     }

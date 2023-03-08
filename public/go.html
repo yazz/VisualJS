@@ -552,13 +552,13 @@ var testObject = null; // Use this to test elements at debug time
 
 
 /* -----------------------------------------------------------------------
-GEC - Global Editor Communication
+GLOBALS
 ----------------------------------
 There seems to be alot of specialised, but global communication in the
 app editors. So instead of having global variables all over the place
 we have decided to just have one global object
  ----------------------------------------------------------------------- */
-var GEC = {
+var GLOBALS = {
     //
     // This is used to jump from editing an app to editing a UI control and back again
     //
@@ -967,7 +967,7 @@ function registerComponent(vueComponentObject) {
         if (isValidObject(usePropVar)) {
             if (isValidObject(usePropVar.name)) {
                 if (vueComponentObject.design_mode) {
-                    GEC.designModeUiControlNameReturnsVueInstance[usePropVar.name] =  vueComponentObject
+                    GLOBALS.designModeUiControlNameReturnsVueInstance[usePropVar.name] =  vueComponentObject
                 } else {
                     global_app_controls_by_name_returns_a_vue_instance[usePropVar.name] =  vueComponentObject
                 }
@@ -990,7 +990,7 @@ function registerComponent(vueComponentObject) {
 }
 
 function unregisterComponent(componentName) {
-    GEC.designModeUiControlNameReturnsVueInstance[componentName]   = null
+    GLOBALS.designModeUiControlNameReturnsVueInstance[componentName]   = null
     global_app_controls_by_name_returns_a_vue_instance[componentName]               = null
 }
 
@@ -4019,7 +4019,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-            GEC.loadedControlsMapInCurrentlyEditedApp[componentType] = true
+            GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
             if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!component_loaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
                 component_loaded[componentType] = true

@@ -888,10 +888,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         let cid = text.code_id
                         let fid = text.form_id
                         let cni = text.control_name
-                        //GEC.originalFormIdOfEditedUiControl           = fid
-                        //GEC.originalNameOfEditedUiControl             = cni
-                        GEC.originalBaseComponentIdOfEditedUiControl  = bci
-                        GEC.originalCodeIdOfEditedUiControl           = cid
+                        //GLOBALS.originalFormIdOfEditedUiControl           = fid
+                        //GLOBALS.originalNameOfEditedUiControl             = cni
+                        GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
+                        GLOBALS.originalCodeIdOfEditedUiControl           = cid
                         setTimeout(function() {
                             mm.editApp(bci,  text.code_id)
                         },50)
@@ -922,10 +922,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         let cid = text.code_id
                         let fid = text.form_id
                         let cni = text.control_name
-                        GEC.originalFormIdOfEditedUiControl           = fid
-                        GEC.originalNameOfEditedUiControl             = cni
-                        GEC.originalBaseComponentIdOfEditedUiControl  = bci
-                        GEC.originalCodeIdOfEditedUiControl           = cid
+                        GLOBALS.originalFormIdOfEditedUiControl           = fid
+                        GLOBALS.originalNameOfEditedUiControl             = cni
+                        GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
+                        GLOBALS.originalCodeIdOfEditedUiControl           = cid
                         mm.copyAndEditApp(
                             {base_component_id: bci  ,  code_id: cid})
                     },200)
@@ -1422,7 +1422,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 }
 
                 //component_loaded[baseComponentId]                               = false
-                GEC.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
+                GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
                 //global_component_type_details_cache[baseComponentId]            = null
 
                 //await loadUiComponentsV4(baseComponentId)
