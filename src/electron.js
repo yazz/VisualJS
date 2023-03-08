@@ -5356,7 +5356,6 @@ async function setUpComponentsLocally() {
     await evalHtmlComponentFromPath( '/apps/mobilehomepage.js')
     await releaseComponentFromPath( '/apps/yazz_blank.js')
 
-    //await evalHtmlComponentFromPath( '/meta.yazz')
     //await releaseComponentFromPath( '/apps/search.js')
     //await releaseComponentFromPath( '/apps/test.js')
     //await releaseComponentFromPath( '/apps/oculus_go.js')
