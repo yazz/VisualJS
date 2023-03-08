@@ -579,9 +579,20 @@ var GEC = {
     finalCodeIdOfEditedUiControl:               null,
 
     //
-    // This points to the Vue objects for the components in an edited app
+    // This is a map from the UI control name to the corresponding Vue object
+    // for the controls in an edited app
     //
-    global_design_mode_app_controls_by_name_returns_a_vue_instance: {}
+    // so {aaa: -> Vue object, mycontrolname: -> vue object}
+    //
+    global_design_mode_app_controls_by_name_returns_a_vue_instance: {},
+
+    //
+    // Which controls are used only in the currently edited app.
+    // This is used so that we know what controls to embed if we
+    // export the app as HTML
+    //
+    global_loaded_controls_in_currently_edited_app: new Object()
+
 }
 
 
@@ -596,7 +607,6 @@ var component_loaded                                                = new Object
 var global_component_type_details_cache                             = new Object()
 var global_cached_structure_for_code_commit                         = new Object()
 var global_map_base_component_id_to_commit_id                       = new Object()
-var global_loaded_controls_in_currently_edited_app                  = new Object()
 var global_app_controls_by_name_returns_a_vue_instance              = {}
 var linked_properties                                               = new Object()
 
@@ -3860,11 +3870,6 @@ async function sqliteQuery(sql) {
         - properties
 
 
-      -----------------------------------
-    - global_loaded_controls_in_currently_edited_app[ base_component_id ] = true/false
-      -----------------------------------
-        Which controls are used only in the currently edited app. This is used so that we
-        know what controls to embed if we export the app as HTML
 
 
 
@@ -4014,7 +4019,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
     if (isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-            global_loaded_controls_in_currently_edited_app[componentType] = true
+            GEC.global_loaded_controls_in_currently_edited_app[componentType] = true
             if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!component_loaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
                 component_loaded[componentType] = true

@@ -1931,7 +1931,7 @@ End of app preview menu
                 }
 
                 if (options.newApp == true) {
-                    global_loaded_controls_in_currently_edited_app = new Object()
+                    GEC.global_loaded_controls_in_currently_edited_app = new Object()
                     mm.editor_loaded                               = false
                 }
 
@@ -2286,7 +2286,7 @@ End of app preview menu
                             this.editor_text
                             ,
                             {
-                                sub_components:         Object.keys(global_loaded_controls_in_currently_edited_app),
+                                sub_components:         Object.keys(GEC.global_loaded_controls_in_currently_edited_app),
                                 save_html:              true,
                                 save_code_to_file:      saveCodeToFile,
                                 allowAppToWorkOffline:  allowAppToWorkOffline,
@@ -2393,7 +2393,7 @@ End of app preview menu
                     GEC.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                     GEC.editingAppCodeId                            = mm.arg_edit_code_id
                     //component_loaded[mm.arg_edit_base_component_id]                                = false
-                    //global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]  = false
+                    //GEC.global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]  = false
                     //global_component_type_details_cache[mm.arg_edit_base_component_id]             = null
 
                     await mm.load_new_version_of_edited_app({codeId: GEC.editingAppCodeId})
@@ -2402,7 +2402,7 @@ End of app preview menu
                 } else if (mm.arg_edit_base_component_id) {
                     GEC.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
                     //component_loaded[mm.arg_edit_base_component_id]                                  = false
-                    //global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]    = false
+                    //GEC.global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]    = false
                     //global_component_type_details_cache[mm.arg_edit_base_component_id]               = null
 
                     await mm.load_new_version_of_edited_app({baseComponentId: this.arg_edit_base_component_id})
