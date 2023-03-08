@@ -2392,18 +2392,18 @@ End of app preview menu
                 if (mm.arg_edit_code_id) {
                     GEC.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                     GEC.editingAppCodeId                            = mm.arg_edit_code_id
-                    component_loaded[mm.arg_edit_base_component_id]                                = false
-                    global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]  = false
-                    global_component_type_details_cache[mm.arg_edit_base_component_id]             = null
+                    //component_loaded[mm.arg_edit_base_component_id]                                = false
+                    //global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]  = false
+                    //global_component_type_details_cache[mm.arg_edit_base_component_id]             = null
 
                     await mm.load_new_version_of_edited_app({codeId: GEC.editingAppCodeId})
 
 
                 } else if (mm.arg_edit_base_component_id) {
                     GEC.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
-                    component_loaded[mm.arg_edit_base_component_id]                                  = false
-                    global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]    = false
-                    global_component_type_details_cache[mm.arg_edit_base_component_id]               = null
+                    //component_loaded[mm.arg_edit_base_component_id]                                  = false
+                    //global_loaded_controls_in_currently_edited_app[mm.arg_edit_base_component_id]    = false
+                    //global_component_type_details_cache[mm.arg_edit_base_component_id]               = null
 
                     await mm.load_new_version_of_edited_app({baseComponentId: this.arg_edit_base_component_id})
 
