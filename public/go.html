@@ -614,6 +614,14 @@ var GLOBALS = {
     commitIdReturnsCodeStructure: new Object(),
 
     //
+    // This is a cache for types using the Base Component ID as an index. It caches the following:
+    // - code
+    // - code_id
+    // - properties
+    //
+    global_component_type_details_cache: new Object(),
+
+    //
     // true/false. is a component type loaded into memory? Remember only one
     // version of a component type at any one time can be loaded. If true
     // then the following is loaded:
@@ -632,7 +640,7 @@ var GLOBALS = {
 
 
 
-var global_component_type_details_cache                             = new Object()
+
 var global_map_base_component_id_to_commit_id                       = new Object()
 
 
@@ -926,7 +934,7 @@ function registerComponent(vueComponentObject) {
             let thisComponent22 = vueComponentObject
             let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
 
-            for (let oneProperty of global_component_type_details_cache[args.base_component_id].properties) {
+            for (let oneProperty of GLOBALS.global_component_type_details_cache[args.base_component_id].properties) {
                 let propNamee = oneProperty.id
                 let propType = oneProperty.type
                 if (propNamee) {
@@ -2877,11 +2885,11 @@ if (typeName == "horiz_scroll_control") {
 
 }
 
-if (isValidObject(global_component_type_details_cache) &&
-    isValidObject(global_component_type_details_cache[typeName]) &&
-    isValidObject(global_component_type_details_cache[typeName].properties)
+if (isValidObject(GLOBALS.global_component_type_details_cache) &&
+    isValidObject(GLOBALS.global_component_type_details_cache[typeName]) &&
+    isValidObject(GLOBALS.global_component_type_details_cache[typeName].properties)
 ) {
-    for (let oneProperty of global_component_type_details_cache[typeName].properties) {
+    for (let oneProperty of GLOBALS.global_component_type_details_cache[typeName].properties) {
         let propertyName = oneProperty.name
         if (propertyName) {
 
@@ -2892,15 +2900,15 @@ if (isValidObject(global_component_type_details_cache) &&
                 let acceptTypes = Object.keys(oneProperty.accept_types)
                 for (let acceptType of acceptTypes) {
 //console.log("    " + acceptType)
-                    for (let otherComponentName of Object.keys(global_component_type_details_cache)){
+                    for (let otherComponentName of Object.keys(GLOBALS.global_component_type_details_cache)){
                         if (otherComponentName == "database_control") {
 //debugger
 
                         }
                         if (otherComponentName != typeName) {
-                            if (global_component_type_details_cache[otherComponentName]) {
-                                if (global_component_type_details_cache[otherComponentName].properties) {
-                                    let otherProperties = global_component_type_details_cache[otherComponentName].properties
+                            if (GLOBALS.global_component_type_details_cache[otherComponentName]) {
+                                if (GLOBALS.global_component_type_details_cache[otherComponentName].properties) {
+                                    let otherProperties = GLOBALS.global_component_type_details_cache[otherComponentName].properties
                                     for (let otherProperty of otherProperties){
                                         if (otherProperty.types) {
                                             for (let otherPropertyType of Object.keys(otherProperty.types)){
@@ -2983,14 +2991,14 @@ if (isValidObject(global_component_type_details_cache) &&
                 let types = Object.keys(oneProperty.types)
                 for (let myType of types) {
 //console.log("    " + myType)
-                    for (let otherComponentName of Object.keys(global_component_type_details_cache)){
+                    for (let otherComponentName of Object.keys(GLOBALS.global_component_type_details_cache)){
                         if (otherComponentName == "table_control") {
 //debugger
                         }
                         if (otherComponentName != typeName) {
-                            if (global_component_type_details_cache[otherComponentName]) {
-                                if (global_component_type_details_cache[otherComponentName].properties) {
-                                    let otherProperties = global_component_type_details_cache[otherComponentName].properties
+                            if (GLOBALS.global_component_type_details_cache[otherComponentName]) {
+                                if (GLOBALS.global_component_type_details_cache[otherComponentName].properties) {
+                                    let otherProperties = GLOBALS.global_component_type_details_cache[otherComponentName].properties
                                     for (let otherProperty of otherProperties){
                                         if (otherProperty.accept_types) {
                                             for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
@@ -3870,13 +3878,7 @@ async function sqliteQuery(sql) {
 
 
 
-      -----------------------------------
-    - global_component_type_details_cache[BCI]
-      -----------------------------------
-        This is a cache for types using the Base Component ID as an index. It caches the following:
-        - code
-        - code_id
-        - properties
+
 
 
 
@@ -4230,13 +4232,13 @@ async function enhanceYazzSourceCodeBeforeRunning(componentRecord) {
         //
         // if the component type hasn't been added to the type database then add it
         //
-        if (!global_component_type_details_cache[componentRecord.base_component_id]) {
-            global_component_type_details_cache[componentRecord.base_component_id] = new Object()
+        if (!GLOBALS.global_component_type_details_cache[componentRecord.base_component_id]) {
+            GLOBALS.global_component_type_details_cache[componentRecord.base_component_id] = new Object()
         }
         if (isValidObject(componentRecord.properties)) {
-            global_component_type_details_cache[componentRecord.base_component_id].code         = componentRecord.code
-            global_component_type_details_cache[componentRecord.base_component_id].properties   = eval("(" + componentRecord.properties + ")")
-            global_component_type_details_cache[componentRecord.base_component_id].code_id      = componentRecord.id
+            GLOBALS.global_component_type_details_cache[componentRecord.base_component_id].code         = componentRecord.code
+            GLOBALS.global_component_type_details_cache[componentRecord.base_component_id].properties   = eval("(" + componentRecord.properties + ")")
+            GLOBALS.global_component_type_details_cache[componentRecord.base_component_id].code_id      = componentRecord.id
             //debugger
         }
 
