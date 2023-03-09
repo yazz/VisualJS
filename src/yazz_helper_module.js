@@ -955,7 +955,7 @@ module.exports = {
                                             if (jsLibs) {
                                                 ////showTimer(JSON.stringify(jsLibs,null,2))
                                                 for (let tt = 0; tt < jsLibs.length ; tt++) {
-                                                    scriptCode += `libLoaded[ "${jsLibs[tt]}" ] = true;
+                                                    scriptCode += `GLOBALS.libLoaded[ "${jsLibs[tt]}" ] = true;
                                                   `
                                                     stmtInsertDependency.run(
                                                         uuidv1(),
