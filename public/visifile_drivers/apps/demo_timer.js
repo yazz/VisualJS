@@ -2601,7 +2601,7 @@ Pushlist
                         //
                         // get the availabe components
                         //
-                        if (online) {
+                        if (GLOBALS.online) {
                             //debugger
                             await mm.loadControls()
                         }
@@ -7563,7 +7563,7 @@ return {}
                                 return
                             }
                             this.in_generate_code_from_model = true
-                            if (online && this.design_mode) {
+                            if (GLOBALS.online && this.design_mode) {
 
                                 //console.log("start generateCodeFromModel")
 

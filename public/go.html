@@ -648,7 +648,14 @@ var GLOBALS = {
     //
     // A list of loaded libs for an app
     //
-    libLoaded: new Object()
+    libLoaded: new Object(),
+
+
+
+    //
+    // If the Yazz server is current online with internet access
+    //
+    online: false
 }
 
 
@@ -666,7 +673,7 @@ var linked_properties                                               = new Object
 var localSqliteDb    = null
 var networkIntranetIpAddress    = null
 
-var online           = false
+
 var file_upload_uuid = null
 var base_component_id = null
 let isStaticHtmlPageApp = false
@@ -2164,7 +2171,7 @@ function populateCache() {
 
 var socket=null;
 function sendToServerViaWebSocket(msg) {
-if (online) {
+if (GLOBALS.online) {
 msg.cookie = getYazzCookie()
 socket.send(JSON.stringify(msg));
 }
@@ -2225,7 +2232,7 @@ function setupWebSocket(host, port)
 socket = io();
 //console.log('opening web socketio');
 socket.on('socket_connected',function(data){
-online = true
+GLOBALS.online = true
 //console.log("Connected: " + JSON.stringify(data,null,2));
 
 setTimeout(function(){
