@@ -594,47 +594,7 @@ var GLOBALS = {
     loadedControlsMapInCurrentlyEditedApp: new Object(),
 
 
-    //
-    // This contains the source code for a particular commit ID
-    //
-    // eg:    value: {
-    //                    "async fn {... code here ... }"
-    //                    }
-    //  commitIdReturnsCodeStructure["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
-    //  {
-    //      code:               mm.editor_text,
-    //      is_code_result:     true,
-    //      use_db:             baseCompIdFromSrcCode,
-    //      component_type:     "SYSTEM",
-    //      libs:               [],
-    //      code_id:            mm.code_id,
-    //      base_component_id:  baseCompIdFromSrcCode
-    //  }
-    //
-    commitIdReturnsCodeStructure: new Object(),
 
-    //
-    // This is a cache for types using the Base Component ID as an index. It caches the following:
-    // - code
-    // - code_id
-    // - properties
-    //
-    componentTypeDetailsCache: new Object(),
-
-    //
-    // maps the base component ID to the commit ID
-    // "Qm0x43FFE338..2F1" < - points to a commit ID
-    //
-    baseComponentIdReturnsCommitId: new Object(),
-
-
-    //
-    // true/false. is a component type loaded into memory? Remember only one
-    // version of a component type at any one time can be loaded. If true
-    // then the following is loaded:
-    // -
-    //
-    isComponentTypeLoaded: new Object(),
 
     //
     // This points to the Vue objects for the components in an app
@@ -680,7 +640,54 @@ var GLOBALS = {
     // properties on UI components where the output of one property is linked to
     // the input of another property
     //
-    linkedProperties: new Object()
+    linkedProperties: new Object(),
+
+
+
+
+
+
+    //
+    // This contains the source code for a particular commit ID
+    //
+    // eg:    value: {
+    //                    "async fn {... code here ... }"
+    //                    }
+    //  commitIdReturnsCodeStructure["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
+    //  {
+    //      code:               mm.editor_text,
+    //      is_code_result:     true,
+    //      use_db:             baseCompIdFromSrcCode,
+    //      component_type:     "SYSTEM",
+    //      libs:               [],
+    //      code_id:            mm.code_id,
+    //      base_component_id:  baseCompIdFromSrcCode
+    //  }
+    //
+    commitIdReturnsCodeStructure: new Object(),
+
+    //
+    // This is a cache for types using the Base Component ID as an index. It caches the following:
+    // - code
+    // - code_id
+    // - properties
+    //
+    componentTypeDetailsCache: new Object(),
+
+    //
+    // maps the base component ID to the commit ID
+    // "Qm0x43FFE338..2F1" < - points to a commit ID
+    //
+    baseComponentIdReturnsCommitId: new Object(),
+
+
+    //
+    // true/false. is a component type loaded into memory? Remember only one
+    // version of a component type at any one time can be loaded. If true
+    // then the following is loaded:
+    // -
+    //
+    isComponentTypeLoaded: new Object()
 
 }
 
