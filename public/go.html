@@ -661,7 +661,17 @@ var GLOBALS = {
     // If this app is loaded as a HTML page and possibly without a Yazz server running
     // DO NOT change this line as it is dynamically replaced by code
     //
-    isStaticHtmlPageApp: false
+    isStaticHtmlPageApp: false,
+
+
+
+    //
+    // current base_component_id of the app being run
+    // This can confuse people as when editing an app the "base_component_id" is
+    // set to "homepage" as that is the main app being run. The editor is run on
+    // top of that
+    //
+    base_component_id_of_main_runtime_compoennt: null
 }
 
 
@@ -3894,18 +3904,6 @@ async function sqliteQuery(sql) {
 
 
  Here are what the main component loading functions and vars do:
-
-    VARS
-    ----
-
-      -----------------------------------
-    - base_component_id = current base_component_id of the app being run
-      -----------------------------------
-        This can confuse people as when editing an app the "base_component_id" is
-        set to "homepage" as that is the main app being run. The editor is run on
-        top of that
-
-
 
 
 
