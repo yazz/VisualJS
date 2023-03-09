@@ -611,8 +611,15 @@ var GLOBALS = {
     //      base_component_id:  baseCompIdFromSrcCode
     //  }
     //
-    commitIdReturnsCodeStructure: new Object()
+    commitIdReturnsCodeStructure: new Object(),
 
+    //
+    // true/false. is a component type loaded into memory? Remember only one
+    // version of a component type at any one time can be loaded. If true
+    // then the following is loaded:
+    // -
+    //
+    component_loaded: new Object()
 
 }
 
@@ -624,7 +631,6 @@ var GLOBALS = {
 // does the same thing):
 
 
-var component_loaded                                                = new Object()
 var global_component_type_details_cache                             = new Object()
 var global_map_base_component_id_to_commit_id                       = new Object()
 var global_app_controls_by_name_returns_a_vue_instance              = {}
@@ -3858,8 +3864,6 @@ async function sqliteQuery(sql) {
     ----
     - isStaticHtmlPageApp = true/false
     - global_map_base_component_id_to_commit_id[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
-    - component_loaded[ base_component_id ] = true/false
-        is a component type loaded into memory. Remember only one version of a component type at any one time
 
 
 
@@ -4024,9 +4028,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!component_loaded[componentType])) {
+            if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!GLOBALS.component_loaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
-                component_loaded[componentType] = true
+                GLOBALS.component_loaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 let newDataCodeId   = global_map_base_component_id_to_commit_id[ componentType ]
                 let codeCommit      = GLOBALS.commitIdReturnsCodeStructure[ newDataCodeId ]
@@ -4070,7 +4074,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             if (componentCodeId && GLOBALS.commitIdReturnsCodeStructure[componentCodeId]) {
                 let compRec = GLOBALS.commitIdReturnsCodeStructure[componentCodeId]
                 if (compRec) {
-                    component_loaded[compRec.base_component_id] = true
+                    GLOBALS.component_loaded[compRec.base_component_id] = true
                     await checkLibsV2(compRec)
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
                     await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
@@ -4085,8 +4089,8 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have haven't cached the component (given the Type) then put it on the list of things to load
             //
-            } else if (componentType && (!component_loaded[componentType])) {
-                component_loaded[componentType] = true //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
+            } else if (componentType && (!GLOBALS.component_loaded[componentType])) {
+                GLOBALS.component_loaded[componentType] = true //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
                 componentsItemsToLoad.push(componentTuple)
 
             //
