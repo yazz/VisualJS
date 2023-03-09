@@ -622,6 +622,12 @@ var GLOBALS = {
     global_component_type_details_cache: new Object(),
 
     //
+    // maps the base component ID to the commit ID
+    //
+    global_map_base_component_id_to_commit_id: new Object(),
+
+
+    //
     // true/false. is a component type loaded into memory? Remember only one
     // version of a component type at any one time can be loaded. If true
     // then the following is loaded:
@@ -641,7 +647,6 @@ var GLOBALS = {
 
 
 
-var global_map_base_component_id_to_commit_id                       = new Object()
 
 
 
@@ -2377,9 +2382,9 @@ isWin = data.value
         if (data.value && data.value.is_code_result) {
 
                 if (data.value.code_id) {
-                    if (data.value.base_component_id && (!global_map_base_component_id_to_commit_id[data.value.base_component_id])) {
+                    if (data.value.base_component_id && (!GLOBALS.global_map_base_component_id_to_commit_id[data.value.base_component_id])) {
 
-                        global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
+                        GLOBALS.global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
                         GLOBALS.commitIdReturnsCodeStructure[data.value.code_id]             = data.value
                     }
 
@@ -3872,7 +3877,7 @@ async function sqliteQuery(sql) {
     VARS
     ----
     - isStaticHtmlPageApp = true/false
-    - global_map_base_component_id_to_commit_id[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
+    - GLOBALS.global_map_base_component_id_to_commit_id[ base_component_id ] = "Qm0x43FFE338..2F1" < - points to a commit ID
 
 
 
@@ -4022,7 +4027,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                      | For static HTML pages (ie: just HTML , with no Yazz engine)
                      | then load the components from the global cache which
                      | contains all the UI control definitions in:
-                     |   - global_map_base_component_id_to_commit_id
+                     |   - GLOBALS.global_map_base_component_id_to_commit_id
                      |   - GLOBALS.commitIdReturnsCodeStructure
                      |____________________________________________________________
     */
@@ -4031,11 +4036,11 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!GLOBALS.isComponentTypeLoaded[componentType])) {
+            if (isStaticHtmlPageApp && GLOBALS.global_map_base_component_id_to_commit_id[ componentType ] && (!GLOBALS.isComponentTypeLoaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
                 GLOBALS.isComponentTypeLoaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                let newDataCodeId   = global_map_base_component_id_to_commit_id[ componentType ]
+                let newDataCodeId   = GLOBALS.global_map_base_component_id_to_commit_id[ componentType ]
                 let codeCommit      = GLOBALS.commitIdReturnsCodeStructure[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(codeCommit.code, "properties",")//properties")
                 if (properties) {

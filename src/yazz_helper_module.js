@@ -1031,7 +1031,7 @@ module.exports = {
                                                 "base_component_id": "${baseComponentId}"
                                             }
     
-                                            global_map_base_component_id_to_commit_id["${baseComponentId}"] = "${sha1sum}"`
+                                            GLOBALS.global_map_base_component_id_to_commit_id["${baseComponentId}"] = "${sha1sum}"`
 
 
                                                 //showTimer(`14`)
@@ -1082,7 +1082,7 @@ module.exports = {
                                                                     "base_component_id": "${results[i].child_base_component_id}"
                                                                 }
     
-                                                                global_map_base_component_id_to_commit_id["${results[i].child_base_component_id}"] = "${results[i].sha1}"
+                                                                GLOBALS.global_map_base_component_id_to_commit_id["${results[i].child_base_component_id}"] = "${results[i].sha1}"
                                                                 `
                                                                     newCode += newCode2
                                                                 }
