@@ -4884,7 +4884,7 @@ setTimeout(async function(){
                  if (isComponentInDesignMode) {
                      controlDetails = GLOBALS.designModeUiControlNameReturnsVueInstance[componentDetails.name]
                  } else {
-                     controlDetails = GLOBALS.global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
+                     controlDetails = GLOBALS.runtimeUiControlNameReturnsVueInstance[componentDetails.name]
                  }
                  fnDetails = controlDetails[methodId]
                  retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
@@ -4942,7 +4942,7 @@ setTimeout(async function(){
                      if (isComponentInDesignMode) {
                          controlDetails = GLOBALS.designModeUiControlNameReturnsVueInstance[componentDetails.name]
                      } else {
-                         controlDetails = GLOBALS.global_app_controls_by_name_returns_a_vue_instance[componentDetails.name]
+                         controlDetails = GLOBALS.runtimeUiControlNameReturnsVueInstance[componentDetails.name]
                      }
                      fnDetails = controlDetails[methodId]
                  }
