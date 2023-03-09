@@ -1103,8 +1103,8 @@ function localSql(sql, params) {
     }
 }
 String.prototype.replaceAll = function(search, replacement) {
-let target = this;
-return target.replace(new RegExp(search, 'g'), replacement);
+    let target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
 };
 
 var useProtocol = location.protocol
@@ -1112,458 +1112,431 @@ var useHostname = null
 var usePort = null
 
 async function initFn() {
-setTimeout(async function(){
+    setTimeout(async function(){
 
+        Vue.component('card_component', {
+            props: ["item","visible","element_id", "full_screen", "card_selected", "is_static"]
+            ,
+            mounted: async function() {
+                let mm = this
 
-
-
-
-
-Vue.component('card_component', {
-    props: ["item","visible","element_id", "full_screen", "card_selected", "is_static"]
-    ,
-    mounted: async function() {
-        let mm = this
-
-        globalEventBus.$on('hide_settings',
-            async function() {
-                mm.showSettings = false
-            });
-        globalEventBus.$on('show_settings',
-            async function() {
-                mm.showSettings = true
-            });
-    }
-    ,
-    methods: {
-click_card: async function(id) {
-autoScroll = false;
-await select_card(id)
-}
-,
-updateComments: async function() {
-let mm                           = this
-let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
-location.port + "/get_comments_for_component" + "/" +
-"?"
-
-callAjaxPost(newrestUrl
-,
-{
-base_component_id: base_component_id
-,
-base_component_id_version: null
-}
-,
-function(response) {
-//debugger
-let resp = JSON.parse(response)
-mm.new_comment = ""
-mm.new_rating = 0
-if (resp.status == "ok")
-mm.comments = resp.comments_and_ratings
-})
-
-
-}
-,
-submitComment: async function() {
-let mm                           = this
-
-//debugger
-mm.submit_error_message = ""
-if (mm.new_comment.length < 5) {
-mm.submit_error_message = "You must enter a comment to rate this"
-return
-}
-
-if (mm.new_rating == 0 ) {
-mm.submit_error_message = "You must enter a rating"
-return
-}
-
-
-let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
-location.port + "/submit_comment" + "/" +
-"?"
-
-callAjaxPost(newrestUrl
-,
-{
-base_component_id: base_component_id
-,
-base_component_id_version: null
-,
-comment: mm.new_comment
-,
-rating: mm.new_rating
-}
-,
-function(response) {
-//debugger
-let resp = JSON.parse(response)
-mm.new_comment = ""
-mm.new_rating = 0
-if (resp.status == "ok")
-{
-mm.comments = resp.comments_and_ratings
-mm.submit_info_message = "Comment submitted"
-}
-})
-
-}
-,
-openInfo: async function(useTab) {
-//debugger
-let mm = this
-if (mm.tab == useTab) {
-mm.tab = ""
-mm.show_page_info=false;
-} else {
-mm.tab = useTab
-mm.show_page_info = true
-await mm.updateComments()
-}
-}
-,
-        logInWithMetamask: async function() {
-            let mm = this
-            //debugger
-            if (window.ethereum) {
-                await useWeb3()
-                setTimeout(async function() {
-                    let accs        = await web3.eth.getAccounts()
-                    let accNo       = accs[0]
-                    let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/login_with_metamask?" +
-                        new URLSearchParams({
-                            metamask_account_id: accNo
-                        })
-                    fetch(openfileurl, {
-                        method: 'get',
-                        credentials: "include"
-                    })
-                    .then((response) => response.json())
-                    .then(async function(responseJson)
-                    {
-                        let seed = responseJson.seed
-                        let signMessage =   signMessageTemplate + seed
-                        let signedTx = await mm.signTransactionV2(signMessage)
-
-                        let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/check_metamask_seed?" +
-                        new URLSearchParams({
-                            metamask_account_id: accNo
-                            ,
-                            signedTx: signedTx
-                            ,
-                            sign_message: signMessage
-                            ,
-                            random_seed: seed
-                        })
-
-                        fetch(checkSeedurl, {
-                            method: 'get',
-                            credentials: "include"
-                        })
-                        .then((response2) => response2.json())
-                        .then(async function(responseJson2)
-                        {
-                            if (responseJson2.error) {
-                                mm.login_error_message =  responseJson2.error
-                            } else {
-                                mm.accountNumber = accs[0]
-                                mm.show_page_info   = false;
-                                mm.tab              = ""
-
-                            }
-
-                        })
-                        .catch(err => {
-                            //error block
-                        })
-                        mm.accountNumber = accs[0]
-
-                    })
-                    .catch(err => {
-                        //error block
-                    })
-
-                },100)
+                globalEventBus.$on('hide_settings',
+                    async function() {
+                        mm.showSettings = false
+                    });
+                globalEventBus.$on('show_settings',
+                    async function() {
+                        mm.showSettings = true
+                    });
             }
+            ,
+            methods: {
+        click_card: async function(id) {
+        autoScroll = false;
+        await select_card(id)
         }
         ,
-signTransactionV2: async function(test_transaction_text) {
-let currentETHACC = (await web3.eth.getAccounts())[0]
-let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-await ethereum.request({
-method: 'personal_sign',
-params: [test_transaction_text   //message
-,
-currentETHACC
-// account
-//,
-//test_transaction_text   //password?
-],
-});
-return signedTx
-}
-,
-        signMetamaskLoginTransaction: async function() {
-            let mm                          = this
-            let test_transaction_text_el    = document.getElementById("test_transaction_text")
-            let test_transaction_text       = test_transaction_text_el.value
-            let currentETHACC               = (await web3.eth.getAccounts())[0]
+        updateComments: async function() {
+        let mm                           = this
+        let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+        location.port + "/get_comments_for_component" + "/" +
+        "?"
 
-            mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-            await ethereum.request({
-                method: 'personal_sign',
-                params: [
-                    test_transaction_text   //message
-                    ,
-                    currentETHACC
-                    // account
-                    //,
-                    //test_transaction_text   //password?
-                ],
-            });
+        callAjaxPost(newrestUrl
+        ,
+        {
+        base_component_id: base_component_id
+        ,
+        base_component_id_version: null
+        }
+        ,
+        function(response) {
+        //debugger
+        let resp = JSON.parse(response)
+        mm.new_comment = ""
+        mm.new_rating = 0
+        if (resp.status == "ok")
+        mm.comments = resp.comments_and_ratings
+        })
+
+
+        }
+        ,
+        submitComment: async function() {
+        let mm                           = this
+
+        //debugger
+        mm.submit_error_message = ""
+        if (mm.new_comment.length < 5) {
+        mm.submit_error_message = "You must enter a comment to rate this"
+        return
         }
 
-    },
-data: function () {
-return {
-show_page_info: false
-,
-accountNumber: null
-,
-comments:
-[
-]
-,
-rating: 0
-,
-new_rating: 0
-,
-numRatings: 0
-,
-new_comment: ""
-,
-submit_error_message: ""
-,
-login_error_message: ""
-,
-submit_info_message: ""
-,
-tab: ""
-,
-debug_sign_tx_out: ""
-,
-showSettings: true
-}
-}
-,
-
-template:
-`<span   v-bind:id='element_id'
-         v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-         v-on:click='click_card(item.id)'
-         v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
-
-    <div
-    v-if="showSettings"
-    style='background-color:navy;height:5vh;width: 100vw;color:white;'>
+        if (mm.new_rating == 0 ) {
+        mm.submit_error_message = "You must enter a rating"
+        return
+        }
 
 
+        let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+        location.port + "/submit_comment" + "/" +
+        "?"
 
-        <!-- ------------------------------------------------
-        The top menu items for the info pane
-        ------------------------------------------------ -->
-        <span
-            v-on:click=' openInfo("login")'
-            v-on:touchstart=' openInfo("login")'
-            style='height:100%;margin-left:20px;vertical-align:middle;'
-            >
-            {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
-        </span>
+        callAjaxPost(newrestUrl
+        ,
+        {
+        base_component_id: base_component_id
+        ,
+        base_component_id_version: null
+        ,
+        comment: mm.new_comment
+        ,
+        rating: mm.new_rating
+        }
+        ,
+        function(response) {
+        //debugger
+        let resp = JSON.parse(response)
+        mm.new_comment = ""
+        mm.new_rating = 0
+        if (resp.status == "ok")
+        {
+        mm.comments = resp.comments_and_ratings
+        mm.submit_info_message = "Comment submitted"
+        }
+        })
 
+        }
+        ,
+        openInfo: async function(useTab) {
+        //debugger
+        let mm = this
+        if (mm.tab == useTab) {
+        mm.tab = ""
+        mm.show_page_info=false;
+        } else {
+        mm.tab = useTab
+        mm.show_page_info = true
+        await mm.updateComments()
+        }
+        }
+        ,
+                logInWithMetamask: async function() {
+                    let mm = this
+                    //debugger
+                    if (window.ethereum) {
+                        await useWeb3()
+                        setTimeout(async function() {
+                            let accs        = await web3.eth.getAccounts()
+                            let accNo       = accs[0]
+                            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/login_with_metamask?" +
+                                new URLSearchParams({
+                                    metamask_account_id: accNo
+                                })
+                            fetch(openfileurl, {
+                                method: 'get',
+                                credentials: "include"
+                            })
+                            .then((response) => response.json())
+                            .then(async function(responseJson)
+                            {
+                                let seed = responseJson.seed
+                                let signMessage =   signMessageTemplate + seed
+                                let signedTx = await mm.signTransactionV2(signMessage)
 
-        <span
-            style='margin-left: 30px;'
-            v-on:click=' openInfo("comments")'
-            v-on:touchstart=' openInfo("comments")'
-            style='height:100%;margin-left:20px;vertical-align:middle;'
-            >
-            Comments
-        </span>
+                                let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/check_metamask_seed?" +
+                                new URLSearchParams({
+                                    metamask_account_id: accNo
+                                    ,
+                                    signedTx: signedTx
+                                    ,
+                                    sign_message: signMessage
+                                    ,
+                                    random_seed: seed
+                                })
 
+                                fetch(checkSeedurl, {
+                                    method: 'get',
+                                    credentials: "include"
+                                })
+                                .then((response2) => response2.json())
+                                .then(async function(responseJson2)
+                                {
+                                    if (responseJson2.error) {
+                                        mm.login_error_message =  responseJson2.error
+                                    } else {
+                                        mm.accountNumber = accs[0]
+                                        mm.show_page_info   = false;
+                                        mm.tab              = ""
 
-        <span
-            style='margin-left: 30px;'
-            v-on:click=' openInfo("debug")'
-            v-on:touchstart=' openInfo("debug")'
-            style='height:100%;margin-left:20px;vertical-align:middle;'
-        >
-            Debug
+                                    }
 
-        </span>
+                                })
+                                .catch(err => {
+                                    //error block
+                                })
+                                mm.accountNumber = accs[0]
 
+                            })
+                            .catch(err => {
+                                //error block
+                            })
 
-        <span
-            style='height:100%;margin-left:20px;vertical-align:middle;'
-            v-if='show_page_info'
-            v-on:click='show_page_info=false;tab=""'
-            v-on:touchstart='show_page_info=false;'
-        >
-            Close
-        </span>
-    </div>
+                        },100)
+                    }
+                }
+                ,
+        signTransactionV2: async function(test_transaction_text) {
+        let currentETHACC = (await web3.eth.getAccounts())[0]
+        let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+        await ethereum.request({
+        method: 'personal_sign',
+        params: [test_transaction_text   //message
+        ,
+        currentETHACC
+        // account
+        //,
+        //test_transaction_text   //password?
+        ],
+        });
+        return signedTx
+        }
+        ,
+                signMetamaskLoginTransaction: async function() {
+                    let mm                          = this
+                    let test_transaction_text_el    = document.getElementById("test_transaction_text")
+                    let test_transaction_text       = test_transaction_text_el.value
+                    let currentETHACC               = (await web3.eth.getAccounts())[0]
 
+                    mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                    await ethereum.request({
+                        method: 'personal_sign',
+                        params: [
+                            test_transaction_text   //message
+                            ,
+                            currentETHACC
+                            // account
+                            //,
+                            //test_transaction_text   //password?
+                        ],
+                    });
+                }
 
+            },
+        data: function () {
+        return {
+        show_page_info: false
+        ,
+        accountNumber: null
+        ,
+        comments:
+        [
+        ]
+        ,
+        rating: 0
+        ,
+        new_rating: 0
+        ,
+        numRatings: 0
+        ,
+        new_comment: ""
+        ,
+        submit_error_message: ""
+        ,
+        login_error_message: ""
+        ,
+        submit_info_message: ""
+        ,
+        tab: ""
+        ,
+        debug_sign_tx_out: ""
+        ,
+        showSettings: true
+        }
+        }
+        ,
 
-    <div    v-if='show_page_info'
-            style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
+        template:
+        `<span   v-bind:id='element_id'
+                 v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+                 v-on:click='click_card(item.id)'
+                 v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
 
-        <!-- ------------------------------------------------
-        LOGIN pane
-        ------------------------------------------------ -->
-        <div v-if='tab=="login"'>
-
-        <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
-        <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
-        requested to authorise the login</div>
-
-        <div style='color:red' id='login_error'>{{login_error_message}}</div>
-
-        <button type=button
-            class='btn btn-primary'
-            style='margin-left: 10px;width:40vw;height:15vh;'
-            v-on:click='logInWithMetamask()'>
-
-            <img    src="/driver_icons/metamaskfox.svg"
-                    style="height:100%;width:100%"
-            />
-        </button>
-
-    </div>
-
-
-
-    <!-- ------------------------------------------------
-
-    Comments pane
-
-    ------------------------------------------------ -->
-
-    <div v-if='tab=="comments"'>
-
-        <div style=";height:40vh">
-
-            Add comment
-            <br>
-            <textarea   style='display: inline-block;'
-                        id='new_comment'
-                        v-model='new_comment'>
-            </textarea>
-            <br><br>
-
-            Rating (1-5, 5 is best):<br>
-            <input  id="new_rating"
-            v-model="new_rating"
-            type="range"
-            min="0"
-            max="5"
-            value="0">
-            </input>{{new_rating}}
-            <br>
-            <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
-            Submit comment
-            </button>
-            <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
-            <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
-
-        </div>
-
-
-
-        <div style="overflow: scroll;height:40vh">
-            <b>Previous comments:</b>
-            <li v-for='comment in comments'
-            style='color:white;background-color:navy;'>
-            {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
-
-            </li>
-        </div>
-
-    </div>
-
-
-
-
-
-
-    <!-- -------------------------------------------------
-     |                                                   |
-     |                    DEBUG pane                     |
-     |                                                   |
-     -------------------------------------------------- -->
-
-    <div v-if='tab=="debug"'>
-
-        <div v-if='!accountNumber'>
-            You are not signed into Metamask. Please login first
-        </div>
-
-        <textarea id="test_transaction_text"
-                  value="">
-        </textarea>
-
-        <button type=button
-                class='btn btn-primary'
-                v-bind:disabled='accountNumber?false:true'
-                style='margin-left: 10px;width:40vw;height:15vh;'
-                v-on:click='signMetamaskTransaction()'>
-
-            Sign transaction
-        </button>
-
-
-        <div>
-            {{debug_sign_tx_out}}
-        </div>
-
-
-        <div    style="background-color: black; color: white; text-align: center;"
-                v-on:click='showProgressBar();setupPublicWebSocket()' >
-
-                Edit this app
-        </div>
-    </div>
-</div>
+            <div
+            v-if="showSettings"
+            style='background-color:navy;height:5vh;width: 100vw;color:white;'>
 
 
 
-  <div
-      v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
+                <!-- ------------------------------------------------
+                The top menu items for the info pane
+                ------------------------------------------------ -->
+                <span
+                    v-on:click=' openInfo("login")'
+                    v-on:touchstart=' openInfo("login")'
+                    style='height:100%;margin-left:20px;vertical-align:middle;'
+                    >
+                    {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
+                </span>
+
+
+                <span
+                    style='margin-left: 30px;'
+                    v-on:click=' openInfo("comments")'
+                    v-on:touchstart=' openInfo("comments")'
+                    style='height:100%;margin-left:20px;vertical-align:middle;'
+                    >
+                    Comments
+                </span>
+
+
+                <span
+                    style='margin-left: 30px;'
+                    v-on:click=' openInfo("debug")'
+                    v-on:touchstart=' openInfo("debug")'
+                    style='height:100%;margin-left:20px;vertical-align:middle;'
+                >
+                    Debug
+
+                </span>
+
+
+                <span
+                    style='height:100%;margin-left:20px;vertical-align:middle;'
+                    v-if='show_page_info'
+                    v-on:click='show_page_info=false;tab=""'
+                    v-on:touchstart='show_page_info=false;'
+                >
+                    Close
+                </span>
+            </div>
+
+
+
+            <div    v-if='show_page_info'
+                    style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
+
+                <!-- ------------------------------------------------
+                LOGIN pane
+                ------------------------------------------------ -->
+                <div v-if='tab=="login"'>
+
+                <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
+                <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
+                requested to authorise the login</div>
+
+                <div style='color:red' id='login_error'>{{login_error_message}}</div>
+
+                <button type=button
+                    class='btn btn-primary'
+                    style='margin-left: 10px;width:40vw;height:15vh;'
+                    v-on:click='logInWithMetamask()'>
+
+                    <img    src="/driver_icons/metamaskfox.svg"
+                            style="height:100%;width:100%"
+                    />
+                </button>
+
+            </div>
+
+
+
+            <!-- ------------------------------------------------
+
+            Comments pane
+
+            ------------------------------------------------ -->
+
+            <div v-if='tab=="comments"'>
+
+                <div style=";height:40vh">
+
+                    Add comment
+                    <br>
+                    <textarea   style='display: inline-block;'
+                                id='new_comment'
+                                v-model='new_comment'>
+                    </textarea>
+                    <br><br>
+
+                    Rating (1-5, 5 is best):<br>
+                    <input  id="new_rating"
+                    v-model="new_rating"
+                    type="range"
+                    min="0"
+                    max="5"
+                    value="0">
+                    </input>{{new_rating}}
+                    <br>
+                    <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
+                    Submit comment
+                    </button>
+                    <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
+                    <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
+
+                </div>
+
+
+
+                <div style="overflow: scroll;height:40vh">
+                    <b>Previous comments:</b>
+                    <li v-for='comment in comments'
+                    style='color:white;background-color:navy;'>
+                    {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+
+                    </li>
+                </div>
+
+            </div>
 
 
 
 
 
 
+            <!-- -------------------------------------------------
+             |                                                   |
+             |                    DEBUG pane                     |
+             |                                                   |
+             -------------------------------------------------- -->
 
-            <div    v-if='full_screen && (item.card.type == "app")'>
+            <div v-if='tab=="debug"'>
 
-                <div    v-bind:id='"app_container_"+ item.id'  >
-                    <div v-bind:id='"app_"+ item.id' >
-                    </div>
+                <div v-if='!accountNumber'>
+                    You are not signed into Metamask. Please login first
+                </div>
+
+                <textarea id="test_transaction_text"
+                          value="">
+                </textarea>
+
+                <button type=button
+                        class='btn btn-primary'
+                        v-bind:disabled='accountNumber?false:true'
+                        style='margin-left: 10px;width:40vw;height:15vh;'
+                        v-on:click='signMetamaskTransaction()'>
+
+                    Sign transaction
+                </button>
+
+
+                <div>
+                    {{debug_sign_tx_out}}
+                </div>
+
+
+                <div    style="background-color: black; color: white; text-align: center;"
+                        v-on:click='showProgressBar();setupPublicWebSocket()' >
+
+                        Edit this app
                 </div>
             </div>
-            <div style='height: 2em;'></div>
-
-    </div>
-</div>`
-})
+        </div>
 
 
 
+          <div
+              v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
 
 
 
@@ -1571,186 +1544,208 @@ template:
 
 
 
+                    <div    v-if='full_screen && (item.card.type == "app")'>
 
-mainMoonApp = new Vue({
-el: "#infinite-list"
-,
-data: function() {
-return {
-count: 1
-,
-is_gui_app:              true
-,
-console_output:         ""
-,
-selected_card: -1
-,
-cards: []
-,
-show_loader: false
-,
-is_static: false
-,
-local_app:                    false
+                        <div    v-bind:id='"app_container_"+ item.id'  >
+                            <div v-bind:id='"app_"+ item.id' >
+                            </div>
+                        </div>
+                    </div>
+                    <div style='height: 2em;'></div>
 
-}
-}
-,
-mounted: async function(){
-this.local_app = localAppshareApp
-
-
-}
-});
-
-listElm = document.querySelector('#wrapper');
-
-// Add 20 items.
-var loadMore = function() {
-if (!GLOBALS.isStaticHtmlPageApp) {
-for (let i = 0; i < 1; i++) {
-let nextIndex = nextItem - 1;
-if (nextItem <= defaultCards.length) {
-add_card( {id: nextItem++, card: defaultCards[nextIndex]});
-refresh();
-}
-}
-}
-}
-
-listElm.addEventListener('scroll', function(event)
-{
-let element = event.target;
-if (element.scrollHeight - element.scrollTop <= (element.clientHeight + 10))
-{
-//console.log('scrolled');
-loadMore();
-//alert("load")
-}
-});
-// Initially load some items.
-for (let i=0; i < 20; i++) {
-loadMore();
-}
+            </div>
+        </div>`
+        })
 
 
 
 
 
-//alert(0)
-if (GLOBALS.isStaticHtmlPageApp) {
-//alert(1)
-let nid = nextItem++;
-add_card({
-id: nid,
-card: {
-id:                 nid,
-name:               "***STATIC_NAME***",
-base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
-code_id:            "***STATIC_BASE_COMPONENT_ID***",
-display_name:       "***STATIC_NAME***",
-type:               "app"
-}});
-mainMoonApp.show_loader = false
-autoScroll = false
-setTimeout(async function() {
-await select_card(nid)
-},20)
-refresh();
-}
-
-
-if (GLOBALS.isStaticHtmlPageApp) {
-useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
-usePort = /*static_port_start*/-1/*static_port_end*/
-} else {
-useHostname = location.hostname
-usePort = location.port
-}
-setupWebSocket(useHostname,  usePort);
-//alert(useHostname + ":" +  usePort)
-
-let regex = /[?&]([^=#]+)=([^&#]*)/g,
-url = window.location.href,
-match;
-while(match = regex.exec(url)) {
-params[match[1]] = match[2];
-}
-
-if (params.goto) {
-wait_and_select_app = params.goto.replaceAll("%20"," ").toLowerCase()
-autoScroll = false;
-mainMoonApp.show_loader = true
-} else if (params.embed) {
-wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
-autoScroll = false;
-mainMoonApp.show_loader = true
-} else if (!GLOBALS.isStaticHtmlPageApp) {
-setTimeout(async function() {
-await select_card(1)
-},200)
-} else if (GLOBALS.isStaticHtmlPageApp) {
-mainMoonApp.is_static = true
-}
-
-
-if (editAppShareApp) {
-showProgressBar()
-let nid = nextItem++;
-await loadUiComponentsV4("app_editor_3")
-add_card({
-id: nid,
-card: {
-id:                 nid,
-name:               "fdsfsd",
-base_component_id:  "app_editor_3",
-code_id:            "app_editor_3",
-display_name:       "fdsfds",
-args:                {app_base_component_id: editAppShareApp},
-type:               "app"
-}});
-mainMoonApp.show_loader = false
-autoScroll = false
-setTimeout(async function() {
-await select_card(nid)
-},2000)
-refresh();
-}
 
 
 
 
-Dropzone.autoDiscover = false;
 
 
-Dropzone.options.mydropzone = {
-init: function() {
-this.on("addedfile", function(file) {
-//alert("Added file.");
-});
-}
-};
-var myDropzone = new Dropzone("body#mydropzone", {
-url: "/file_upload"
-,
-createImageThumbnails: false
-,
-sending: function(file, xhr, formData){
-showProgressBar()
-file_upload_uuid = uuidv4()
-//alert(fdfs)
-formData.append('client_file_upload_id', file_upload_uuid);
-}
-});
-myDropzone.on("complete", function(file) {
-myDropzone.removeFile(file);
-//let eds = yz.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
-});
+        mainMoonApp = new Vue({
+        el: "#infinite-list"
+        ,
+        data: function() {
+        return {
+        count: 1
+        ,
+        is_gui_app:              true
+        ,
+        console_output:         ""
+        ,
+        selected_card: -1
+        ,
+        cards: []
+        ,
+        show_loader: false
+        ,
+        is_static: false
+        ,
+        local_app:                    false
+
+        }
+        }
+        ,
+        mounted: async function(){
+        this.local_app = localAppshareApp
+
+
+        }
+        });
+
+        listElm = document.querySelector('#wrapper');
+
+        // Add 20 items.
+        var loadMore = function() {
+        if (!GLOBALS.isStaticHtmlPageApp) {
+        for (let i = 0; i < 1; i++) {
+        let nextIndex = nextItem - 1;
+        if (nextItem <= defaultCards.length) {
+        add_card( {id: nextItem++, card: defaultCards[nextIndex]});
+        refresh();
+        }
+        }
+        }
+        }
+
+        listElm.addEventListener('scroll', function(event)
+        {
+        let element = event.target;
+        if (element.scrollHeight - element.scrollTop <= (element.clientHeight + 10))
+        {
+        //console.log('scrolled');
+        loadMore();
+        //alert("load")
+        }
+        });
+        // Initially load some items.
+        for (let i=0; i < 20; i++) {
+        loadMore();
+        }
 
 
 
 
-},100)
+
+        //alert(0)
+        if (GLOBALS.isStaticHtmlPageApp) {
+        //alert(1)
+        let nid = nextItem++;
+        add_card({
+        id: nid,
+        card: {
+        id:                 nid,
+        name:               "***STATIC_NAME***",
+        base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
+        code_id:            "***STATIC_BASE_COMPONENT_ID***",
+        display_name:       "***STATIC_NAME***",
+        type:               "app"
+        }});
+        mainMoonApp.show_loader = false
+        autoScroll = false
+        setTimeout(async function() {
+        await select_card(nid)
+        },20)
+        refresh();
+        }
+
+
+        if (GLOBALS.isStaticHtmlPageApp) {
+        useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
+        usePort = /*static_port_start*/-1/*static_port_end*/
+        } else {
+        useHostname = location.hostname
+        usePort = location.port
+        }
+        setupWebSocket(useHostname,  usePort);
+        //alert(useHostname + ":" +  usePort)
+
+        let regex = /[?&]([^=#]+)=([^&#]*)/g,
+        url = window.location.href,
+        match;
+        while(match = regex.exec(url)) {
+        params[match[1]] = match[2];
+        }
+
+        if (params.goto) {
+        wait_and_select_app = params.goto.replaceAll("%20"," ").toLowerCase()
+        autoScroll = false;
+        mainMoonApp.show_loader = true
+        } else if (params.embed) {
+        wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
+        autoScroll = false;
+        mainMoonApp.show_loader = true
+        } else if (!GLOBALS.isStaticHtmlPageApp) {
+        setTimeout(async function() {
+        await select_card(1)
+        },200)
+        } else if (GLOBALS.isStaticHtmlPageApp) {
+        mainMoonApp.is_static = true
+        }
+
+
+        if (editAppShareApp) {
+        showProgressBar()
+        let nid = nextItem++;
+        await loadUiComponentsV4("app_editor_3")
+        add_card({
+        id: nid,
+        card: {
+        id:                 nid,
+        name:               "fdsfsd",
+        base_component_id:  "app_editor_3",
+        code_id:            "app_editor_3",
+        display_name:       "fdsfds",
+        args:                {app_base_component_id: editAppShareApp},
+        type:               "app"
+        }});
+        mainMoonApp.show_loader = false
+        autoScroll = false
+        setTimeout(async function() {
+        await select_card(nid)
+        },2000)
+        refresh();
+        }
+
+
+
+
+        Dropzone.autoDiscover = false;
+
+
+        Dropzone.options.mydropzone = {
+        init: function() {
+        this.on("addedfile", function(file) {
+        //alert("Added file.");
+        });
+        }
+        };
+        var myDropzone = new Dropzone("body#mydropzone", {
+        url: "/file_upload"
+        ,
+        createImageThumbnails: false
+        ,
+        sending: function(file, xhr, formData){
+        showProgressBar()
+        file_upload_uuid = uuidv4()
+        //alert(fdfs)
+        formData.append('client_file_upload_id', file_upload_uuid);
+        }
+        });
+        myDropzone.on("complete", function(file) {
+        myDropzone.removeFile(file);
+        //let eds = yz.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
+        });
+
+
+
+
+    },100)
 };
 
 
