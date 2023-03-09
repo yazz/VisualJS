@@ -3473,7 +3473,7 @@ Pushlist
                             this.selectedWatchFromProperties = []
                             let ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
                             let Acttyoe = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
-                            let ccomkeys = Object.keys(linked_properties[Acttyoe].incoming.them[ccomp.base_component_id])
+                            let ccomkeys = Object.keys(GLOBALS.linkedProperties[Acttyoe].incoming.them[ccomp.base_component_id])
                             for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                 this.selectedWatchFromProperties.push(ccomkeys[aaa])
                             }
@@ -3510,10 +3510,10 @@ Pushlist
                                     for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                                         let component = ccc[ytr]
                                         let foundComponentType = component.base_component_id
-                                        if (linked_properties[mm.selected_link_component_type]) {
-                                            if (linked_properties[mm.selected_link_component_type].incoming.me) {
-                                                if (linked_properties[mm.selected_link_component_type].incoming.me[this.selectedWatchToProperty]) {
-                                                    let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].incoming.me[this.selectedWatchToProperty][foundComponentType]
+                                        if (GLOBALS.linkedProperties[mm.selected_link_component_type]) {
+                                            if (GLOBALS.linkedProperties[mm.selected_link_component_type].incoming.me) {
+                                                if (GLOBALS.linkedProperties[mm.selected_link_component_type].incoming.me[this.selectedWatchToProperty]) {
+                                                    let foundComponentIncomingTree = GLOBALS.linkedProperties[mm.selected_link_component_type].incoming.me[this.selectedWatchToProperty][foundComponentType]
 
                                                     if (foundComponentIncomingTree) {
                                                         let incomingCount = Object.keys(foundComponentIncomingTree).length
@@ -3535,7 +3535,7 @@ Pushlist
                                 if (mm.linkSideSelected == "to") {
                                     mm.incoming_link_component_types = []
                                     let selectedObject = mm.model.forms[mm.active_form].components[mm.active_component_index]
-                                    let inTypes = linked_properties[selectedObject.base_component_id].incoming.them
+                                    let inTypes = GLOBALS.linkedProperties[selectedObject.base_component_id].incoming.them
                                     //debugger
                                     if (inTypes) {
                                         let ooo = Object.keys(inTypes)
@@ -3582,12 +3582,12 @@ Pushlist
                                     this.selectedWatchToProperties = []
                                     let ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
                                     let activeComponenttype = ccomp2.base_component_id
-                                    if (  linked_properties[  activeComponenttype  ]  ) {
-                                        if (  linked_properties[  activeComponenttype  ].incoming  ) {
-                                            if (  linked_properties[  activeComponenttype  ].incoming.them  ) {
+                                    if (  GLOBALS.linkedProperties[  activeComponenttype  ]  ) {
+                                        if (  GLOBALS.linkedProperties[  activeComponenttype  ].incoming  ) {
+                                            if (  GLOBALS.linkedProperties[  activeComponenttype  ].incoming.them  ) {
                                                 let them =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
-                                                if (  linked_properties[  activeComponenttype  ].incoming.them[  them.base_component_id  ]  ) {
-                                                    let ccomkeys2 = Object.keys(linked_properties[  activeComponenttype  ].incoming.them[  them.base_component_id  ][mm.selectedWatchFromProperty] )
+                                                if (  GLOBALS.linkedProperties[  activeComponenttype  ].incoming.them[  them.base_component_id  ]  ) {
+                                                    let ccomkeys2 = Object.keys(GLOBALS.linkedProperties[  activeComponenttype  ].incoming.them[  them.base_component_id  ][mm.selectedWatchFromProperty] )
 
                                                     for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                                         this.selectedWatchToProperties.push(ccomkeys2[aaa])
@@ -3619,13 +3619,13 @@ Pushlist
 
 
                             if (mm.linkSideSelected == "from") {
-                                if (linked_properties){
-                                    if (linked_properties[activecomp.base_component_id]){
-                                        if (linked_properties[activecomp.base_component_id].outgoing){
-                                            if (linked_properties[activecomp.base_component_id].outgoing.me){
-                                                if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
-                                                    if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType]) {
-                                                        let ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType])
+                                if (GLOBALS.linkedProperties){
+                                    if (GLOBALS.linkedProperties[activecomp.base_component_id]){
+                                        if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing){
+                                            if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me){
+                                                if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
+                                                    if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType]) {
+                                                        let ccomkeys = Object.keys(GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType])
                                                         for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                                             this.selectedPushToProperties.push(ccomkeys[aaa])
                                                         }
@@ -3657,13 +3657,13 @@ Pushlist
 
 
                             if (mm.linkSideSelected == "to") {
-                                if (linked_properties){
-                                    if (linked_properties[activecomp.base_component_id]){
-                                        if (linked_properties[activecomp.base_component_id].incoming){
-                                            if (linked_properties[activecomp.base_component_id].incoming.me){
-                                                if (linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty] ) {
-                                                    if (linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType]) {
-                                                        let ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType])
+                                if (GLOBALS.linkedProperties){
+                                    if (GLOBALS.linkedProperties[activecomp.base_component_id]){
+                                        if (GLOBALS.linkedProperties[activecomp.base_component_id].incoming){
+                                            if (GLOBALS.linkedProperties[activecomp.base_component_id].incoming.me){
+                                                if (GLOBALS.linkedProperties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty] ) {
+                                                    if (GLOBALS.linkedProperties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType]) {
+                                                        let ccomkeys = Object.keys(GLOBALS.linkedProperties[activecomp.base_component_id].incoming.me[mm.selectedWatchToProperty][ComponentType])
                                                         for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                                             this.selectedWatchFromProperties.push(ccomkeys[aaa])
                                                         }
@@ -3699,13 +3699,13 @@ Pushlist
                             if (mm.design_mode_pane.links_type == "form") {
 
                                 if (mm.linkSideSelected == "from") {
-                                    if (linked_properties){
-                                        if (linked_properties[activecomp.base_component_id]){
-                                            if (linked_properties[activecomp.base_component_id].outgoing){
-                                                if (linked_properties[activecomp.base_component_id].outgoing.me){
-                                                    if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
-                                                        if (linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id]) {
-                                                            let ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id])
+                                    if (GLOBALS.linkedProperties){
+                                        if (GLOBALS.linkedProperties[activecomp.base_component_id]){
+                                            if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing){
+                                                if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me){
+                                                    if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
+                                                        if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id]) {
+                                                            let ccomkeys = Object.keys(GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ccomp.base_component_id])
                                                             for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                                                 this.selectedPushToProperties.push(ccomkeys[aaa])
                                                             }
@@ -3717,12 +3717,12 @@ Pushlist
                                         }
                                     }
                                 } else if (mm.linkSideSelected == "to") {
-                                    if (linked_properties){
-                                        if (linked_properties[activecomp.base_component_id]){
-                                            if (linked_properties[activecomp.base_component_id].outgoing){
-                                                if (linked_properties[activecomp.base_component_id].outgoing.them){
-                                                    if (linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id]){
-                                                        let ccomkeys = Object.keys(linked_properties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id])
+                                    if (GLOBALS.linkedProperties){
+                                        if (GLOBALS.linkedProperties[activecomp.base_component_id]){
+                                            if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing){
+                                                if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.them){
+                                                    if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id]){
+                                                        let ccomkeys = Object.keys(GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.them[ccomp.base_component_id])
                                                         for (let aaa =0; aaa<ccomkeys.length;aaa++) {
                                                             this.selectedPushToProperties.push(ccomkeys[aaa])
                                                         }
@@ -3848,9 +3848,9 @@ Pushlist
                             if (this.design_mode_pane.links_type == "create_new_component") {
                                 this.outgoing_link_component_types = []
                                 let selectedObject = mm.model.forms[mm.active_form].components[mm.active_component_index]
-                                if (linked_properties) {
-                                    if (linked_properties[selectedObject.base_component_id]) {
-                                        let outTypes = linked_properties[selectedObject.base_component_id].outgoing.them
+                                if (GLOBALS.linkedProperties) {
+                                    if (GLOBALS.linkedProperties[selectedObject.base_component_id]) {
+                                        let outTypes = GLOBALS.linkedProperties[selectedObject.base_component_id].outgoing.them
                                         //debugger
                                         if (outTypes) {
                                             let ooo = Object.keys(outTypes)
@@ -6380,10 +6380,10 @@ ${eventMessage.code}
 
                                 let ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
                                 let activeComponenttype = ccomp2.base_component_id
-                                if (  linked_properties[  activeComponenttype  ]  ) {
-                                    if (  linked_properties[  activeComponenttype  ].incoming  ) {
-                                        if (  linked_properties[  activeComponenttype  ].incoming.me  ) {
-                                            let ccomkeys2 = Object.keys(linked_properties[  activeComponenttype  ].incoming.me )
+                                if (  GLOBALS.linkedProperties[  activeComponenttype  ]  ) {
+                                    if (  GLOBALS.linkedProperties[  activeComponenttype  ].incoming  ) {
+                                        if (  GLOBALS.linkedProperties[  activeComponenttype  ].incoming.me  ) {
+                                            let ccomkeys2 = Object.keys(GLOBALS.linkedProperties[  activeComponenttype  ].incoming.me )
 
                                             for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                                 this.selectedWatchToProperties.push(ccomkeys2[aaa])
@@ -6438,10 +6438,10 @@ ${eventMessage.code}
                                     let foundComponentType = component.base_component_id
                                     if (foundComponentType) {
 
-                                        if (linked_properties[mm.selected_link_component_type]) {
-                                            if (linked_properties[mm.selected_link_component_type].incoming) {
-                                                if (linked_properties[mm.selected_link_component_type].incoming.them) {
-                                                    let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].incoming.them[foundComponentType]
+                                        if (GLOBALS.linkedProperties[mm.selected_link_component_type]) {
+                                            if (GLOBALS.linkedProperties[mm.selected_link_component_type].incoming) {
+                                                if (GLOBALS.linkedProperties[mm.selected_link_component_type].incoming.them) {
+                                                    let foundComponentIncomingTree = GLOBALS.linkedProperties[mm.selected_link_component_type].incoming.them[foundComponentType]
                                                     if (foundComponentIncomingTree) {
                                                         let incomingCount = Object.keys(foundComponentIncomingTree).length
                                                         if (incomingCount > 0) {
@@ -6468,10 +6468,10 @@ ${eventMessage.code}
                                 let component = ccc[ytr]
                                 if (component) {
                                     let foundComponentType = component.base_component_id
-                                    if (linked_properties[mm.selected_link_component_type]) {
-                                        if (linked_properties[mm.selected_link_component_type].outgoing) {
-                                            if (linked_properties[mm.selected_link_component_type].outgoing.them) {
-                                                let foundComponentIncomingTree = linked_properties[mm.selected_link_component_type].outgoing.them[foundComponentType]
+                                    if (GLOBALS.linkedProperties[mm.selected_link_component_type]) {
+                                        if (GLOBALS.linkedProperties[mm.selected_link_component_type].outgoing) {
+                                            if (GLOBALS.linkedProperties[mm.selected_link_component_type].outgoing.them) {
+                                                let foundComponentIncomingTree = GLOBALS.linkedProperties[mm.selected_link_component_type].outgoing.them[foundComponentType]
                                                 if (foundComponentIncomingTree) {
                                                     let outgoingCount = Object.keys(foundComponentIncomingTree).length
                                                     if (outgoingCount > 0) {
@@ -6495,12 +6495,12 @@ ${eventMessage.code}
                             if (mm.design_mode_pane.links_type == "form") {
                                 if (mm.model.forms[mm.active_form].components[mm.active_component_links_index]) {
                                     let typeSelected = mm.model.forms[mm.active_form].components[mm.active_component_links_index].base_component_id
-                                    if (linked_properties[typeSelected]) {
-                                        if (linked_properties[typeSelected].outgoing) {
-                                            if (linked_properties[typeSelected].outgoing.me) {
-                                                if (linked_properties[typeSelected].outgoing.me) {
+                                    if (GLOBALS.linkedProperties[typeSelected]) {
+                                        if (GLOBALS.linkedProperties[typeSelected].outgoing) {
+                                            if (GLOBALS.linkedProperties[typeSelected].outgoing.me) {
+                                                if (GLOBALS.linkedProperties[typeSelected].outgoing.me) {
                                                     //debugger
-                                                    let ccomp2 =  linked_properties[typeSelected].outgoing.me
+                                                    let ccomp2 =  GLOBALS.linkedProperties[typeSelected].outgoing.me
                                                     let ccomkeys2 = Object.keys(ccomp2)
                                                     for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                                         let typeExists = false
@@ -6509,7 +6509,7 @@ ${eventMessage.code}
                                                         for (   let ytr =  0;    ytr < ccc.length;    ytr++   ) {
                                                             let component = ccc[ytr]
                                                             if (component) {
-                                                                if (linked_properties[typeSelected].outgoing.them[component.base_component_id]) {
+                                                                if (GLOBALS.linkedProperties[typeSelected].outgoing.them[component.base_component_id]) {
                                                                     typeExists = true
                                                                     break;
                                                                 }
@@ -6533,11 +6533,11 @@ ${eventMessage.code}
                                 if (mm.design_mode_pane.direction=="outgoing") {
                                     if (this.model.forms[this.active_form].components[this.active_component_links_index]) {
                                         let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
-                                        if (linked_properties[typeSelected]) {
-                                            if (linked_properties[typeSelected].outgoing) {
-                                                if (linked_properties[typeSelected].outgoing.me) {
-                                                    if (linked_properties[typeSelected].outgoing.me) {
-                                                        let ccomp2 =  linked_properties[typeSelected].outgoing.me
+                                        if (GLOBALS.linkedProperties[typeSelected]) {
+                                            if (GLOBALS.linkedProperties[typeSelected].outgoing) {
+                                                if (GLOBALS.linkedProperties[typeSelected].outgoing.me) {
+                                                    if (GLOBALS.linkedProperties[typeSelected].outgoing.me) {
+                                                        let ccomp2 =  GLOBALS.linkedProperties[typeSelected].outgoing.me
                                                         let ccomkeys2 = Object.keys(ccomp2)
                                                         for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                                             mm.selectedPushFromProperties.push(ccomkeys2[aaa])
@@ -6554,10 +6554,10 @@ ${eventMessage.code}
                                 } else if (mm.design_mode_pane.direction=="incoming") {
                                     mm.selectedWatchToProperties = []
                                     let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
-                                    if (linked_properties[typeSelected]) {
-                                        if (linked_properties[typeSelected].incoming) {
-                                            if (linked_properties[typeSelected].incoming.me) {
-                                                let ccomp2 =  linked_properties[typeSelected].incoming.me
+                                    if (GLOBALS.linkedProperties[typeSelected]) {
+                                        if (GLOBALS.linkedProperties[typeSelected].incoming) {
+                                            if (GLOBALS.linkedProperties[typeSelected].incoming.me) {
+                                                let ccomp2 =  GLOBALS.linkedProperties[typeSelected].incoming.me
                                                 let ccomkeys2 = Object.keys(ccomp2)
                                                 for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                                     mm.selectedWatchToProperties.push(ccomkeys2[aaa])
