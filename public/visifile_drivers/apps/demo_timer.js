@@ -2557,7 +2557,7 @@ Pushlist
                             for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                             {
                                 let newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                                if (!GLOBALS.component_loaded[newItem.base_component_id]) {
+                                if (!GLOBALS.isComponentTypeLoaded[newItem.base_component_id]) {
                                     compsToLoad.push(
                                         {
                                             baseComponentId:   newItem.base_component_id,
@@ -4205,7 +4205,7 @@ ${origCode}
 
 
                                 mm.refresh++
-                                if (!GLOBALS.component_loaded[newItem.base_component_id]) {
+                                if (!GLOBALS.isComponentTypeLoaded[newItem.base_component_id]) {
                                     //debugger
                                     await loadUiComponentsV4([newItem.base_component_id])
                                     mm.components_used_in_this_app[newItem.base_component_id] = true

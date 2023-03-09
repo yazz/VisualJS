@@ -619,7 +619,7 @@ var GLOBALS = {
     // then the following is loaded:
     // -
     //
-    component_loaded: new Object()
+    isComponentTypeLoaded: new Object()
 
 }
 
@@ -4028,9 +4028,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!GLOBALS.component_loaded[componentType])) {
+            if (isStaticHtmlPageApp && global_map_base_component_id_to_commit_id[ componentType ] && (!GLOBALS.isComponentTypeLoaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
-                GLOBALS.component_loaded[componentType] = true
+                GLOBALS.isComponentTypeLoaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 let newDataCodeId   = global_map_base_component_id_to_commit_id[ componentType ]
                 let codeCommit      = GLOBALS.commitIdReturnsCodeStructure[ newDataCodeId ]
@@ -4074,7 +4074,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             if (componentCodeId && GLOBALS.commitIdReturnsCodeStructure[componentCodeId]) {
                 let compRec = GLOBALS.commitIdReturnsCodeStructure[componentCodeId]
                 if (compRec) {
-                    GLOBALS.component_loaded[compRec.base_component_id] = true
+                    GLOBALS.isComponentTypeLoaded[compRec.base_component_id] = true
                     await checkLibsV2(compRec)
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
                     await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
@@ -4089,8 +4089,8 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have haven't cached the component (given the Type) then put it on the list of things to load
             //
-            } else if (componentType && (!GLOBALS.component_loaded[componentType])) {
-                GLOBALS.component_loaded[componentType] = true //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
+            } else if (componentType && (!GLOBALS.isComponentTypeLoaded[componentType])) {
+                GLOBALS.isComponentTypeLoaded[componentType] = true //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
                 componentsItemsToLoad.push(componentTuple)
 
             //

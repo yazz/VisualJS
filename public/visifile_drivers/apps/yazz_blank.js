@@ -2656,7 +2656,7 @@ logo_url("/driver_icons/blocks.png")
                 for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                 {
                     let newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                    if (!GLOBALS.component_loaded[newItem.base_component_id]) {
+                    if (!GLOBALS.isComponentTypeLoaded[newItem.base_component_id]) {
                         compsToLoad.push(
                             {
                                 baseComponentId:   newItem.base_component_id,
@@ -5514,7 +5514,7 @@ ${origCode}
                                   |__________________________________
                  */
                     mm.refresh++
-                    if (!GLOBALS.component_loaded[newItem.base_component_id]) {
+                    if (!GLOBALS.isComponentTypeLoaded[newItem.base_component_id]) {
                         //debugger
                         //zzz
                         if (newItem.code_id) {
