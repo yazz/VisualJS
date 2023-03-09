@@ -160,7 +160,7 @@ ___________
     //
     // Hack city!!! Turn off the component cache so that we can enable hot reloading of components
     //
-    isStaticHtmlPageApp = false
+    GLOBALS.isStaticHtmlPageApp = false
     //
     //
     //

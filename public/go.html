@@ -655,7 +655,13 @@ var GLOBALS = {
     //
     // If the Yazz server is current online with internet access
     //
-    online: false
+    online: false,
+
+    //
+    // If this app is loaded as a HTML page and possibly without a Yazz server running
+    // DO NOT change this line as it is dynamically replaced by code
+    //
+    isStaticHtmlPageApp: false
 }
 
 
@@ -676,7 +682,6 @@ var networkIntranetIpAddress    = null
 
 var file_upload_uuid = null
 var base_component_id = null
-let isStaticHtmlPageApp = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var componentCallsListArgsSent = new Object()
@@ -1592,7 +1597,7 @@ listElm = document.querySelector('#wrapper');
 
 // Add 20 items.
 var loadMore = function() {
-if (!isStaticHtmlPageApp) {
+if (!GLOBALS.isStaticHtmlPageApp) {
 for (let i = 0; i < 1; i++) {
 let nextIndex = nextItem - 1;
 if (nextItem <= defaultCards.length) {
@@ -1623,7 +1628,7 @@ loadMore();
 
 
 //alert(0)
-if (isStaticHtmlPageApp) {
+if (GLOBALS.isStaticHtmlPageApp) {
 //alert(1)
 let nid = nextItem++;
 add_card({
@@ -1645,7 +1650,7 @@ refresh();
 }
 
 
-if (isStaticHtmlPageApp) {
+if (GLOBALS.isStaticHtmlPageApp) {
 useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
 usePort = /*static_port_start*/-1/*static_port_end*/
 } else {
@@ -1670,11 +1675,11 @@ mainMoonApp.show_loader = true
 wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
 autoScroll = false;
 mainMoonApp.show_loader = true
-} else if (!isStaticHtmlPageApp) {
+} else if (!GLOBALS.isStaticHtmlPageApp) {
 setTimeout(async function() {
 await select_card(1)
 },200)
-} else if (isStaticHtmlPageApp) {
+} else if (GLOBALS.isStaticHtmlPageApp) {
 mainMoonApp.is_static = true
 }
 
@@ -2091,7 +2096,7 @@ if (elmnt) {
 //elmnt.scrollIntoView({  alignToTop: 'true',
 //                        bahaviour: 'smooth'});
 //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
-if (isStaticHtmlPageApp) {
+if (GLOBALS.isStaticHtmlPageApp) {
 mainMoonApp.selected_card = id;
 setTimeout(async function() {
 let thisApp = mainMoonApp.cards[id - 1]
@@ -3892,10 +3897,6 @@ async function sqliteQuery(sql) {
 
     VARS
     ----
-    - isStaticHtmlPageApp = true/false
-
-
-
 
       -----------------------------------
     - base_component_id = current base_component_id of the app being run
@@ -4040,11 +4041,11 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                      |____________________________________________________________
     */
     let loadedStatic = false
-    if (isStaticHtmlPageApp) {
+    if (GLOBALS.isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded[componentType])) {
+            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
                 GLOBALS.isComponentTypeLoaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)

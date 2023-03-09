@@ -2822,7 +2822,7 @@ Pushlist
 //
 
 setTimeout(async function(){
-            if (isStaticHtmlPageApp) {
+            if (GLOBALS.isStaticHtmlPageApp) {
                 mm.editor_locked = false
             }
             await mm.loadControls()

@@ -1006,7 +1006,7 @@ module.exports = {
 
                                                 let newStaticFileContent = fs.readFileSync( origFilePath )
 
-                                                newStaticFileContent = newStaticFileContent.toString().replace("let isStaticHtmlPageApp = false", "let isStaticHtmlPageApp = true")
+                                                newStaticFileContent = newStaticFileContent.toString().replace("isStaticHtmlPageApp: false", "isStaticHtmlPageApp: true")
 
                                                 let newcode = escape( code.toString() )
 

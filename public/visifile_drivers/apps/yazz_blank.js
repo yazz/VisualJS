@@ -2904,7 +2904,7 @@ logo_url("/driver_icons/blocks.png")
 //
 
             setTimeout(async function(){
-                if (isStaticHtmlPageApp) {
+                if (GLOBALS.isStaticHtmlPageApp) {
                     mm.editor_locked = false
                 }
                 await mm.loadControls()
