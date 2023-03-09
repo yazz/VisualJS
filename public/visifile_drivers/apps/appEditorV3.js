@@ -2394,7 +2394,7 @@ End of app preview menu
                     GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
                     //GLOBALS.isComponentTypeLoaded[mm.arg_edit_base_component_id]                                = false
                     //GLOBALS.loadedControlsMapInCurrentlyEditedApp[mm.arg_edit_base_component_id]  = false
-                    //GLOBALS.global_component_type_details_cache[mm.arg_edit_base_component_id]             = null
+                    //GLOBALS.componentTypeDetailsCache[mm.arg_edit_base_component_id]             = null
 
                     await mm.load_new_version_of_edited_app({codeId: GLOBALS.editingAppCodeId})
 
@@ -2403,7 +2403,7 @@ End of app preview menu
                     GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
                     //GLOBALS.isComponentTypeLoaded[mm.arg_edit_base_component_id]                                  = false
                     //GLOBALS.loadedControlsMapInCurrentlyEditedApp[mm.arg_edit_base_component_id]    = false
-                    //GLOBALS.global_component_type_details_cache[mm.arg_edit_base_component_id]               = null
+                    //GLOBALS.componentTypeDetailsCache[mm.arg_edit_base_component_id]               = null
 
                     await mm.load_new_version_of_edited_app({baseComponentId: this.arg_edit_base_component_id})
 

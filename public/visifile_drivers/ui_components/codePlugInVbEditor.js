@@ -48,10 +48,10 @@ uses_javascript_librararies(["advanced_bundle"])
           <br>
           <div>
             
-            IPFS: {{GLOBALS.global_component_type_details_cache[debug_component]?GLOBALS.global_component_type_details_cache[debug_component].code_id:""}}
+            IPFS: {{GLOBALS.componentTypeDetailsCache[debug_component]?GLOBALS.componentTypeDetailsCache[debug_component].code_id:""}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{GLOBALS.global_component_type_details_cache[debug_component]?GLOBALS.global_component_type_details_cache[debug_component].code:""}}
+            {{GLOBALS.componentTypeDetailsCache[debug_component]?GLOBALS.componentTypeDetailsCache[debug_component].code:""}}
           </pre>
           
         </div>
@@ -3190,7 +3190,7 @@ setTimeout(async function(){
                      // ---------------------------------------------------------
 
                      let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
-                     let cachedComponentDefinition = GLOBALS.global_component_type_details_cache[componentId]
+                     let cachedComponentDefinition = GLOBALS.componentTypeDetailsCache[componentId]
 
                      if (isValidObject(cachedComponentDefinition)) {
                          let cachedComponentPropertiesDefinition = mm.getControlProperties(mm.model.forms[formName].components[compenentInFormIndex].base_component_id)
@@ -4987,7 +4987,7 @@ setTimeout(async function(){
             let isComponentInDesignMode = mm.design_mode
 
             if (!isValidObject(methodFn)) {
-                let allProps = GLOBALS.global_component_type_details_cache[componentDetails.base_component_id].properties
+                let allProps = GLOBALS.componentTypeDetailsCache[componentDetails.base_component_id].properties
                 if (allProps) {
                     for (let i=0;i<allProps.length;i++) {
                         let thisProp = allProps[i]
@@ -5444,7 +5444,7 @@ ${origCode}
                    mm.components_used_in_this_app[newItem.base_component_id] = true
                 }
 
-                let compEvaled1 = GLOBALS.global_component_type_details_cache[newItem.base_component_id]
+                let compEvaled1 = GLOBALS.componentTypeDetailsCache[newItem.base_component_id]
                 if (isValidObject(compEvaled1)) {
                         newItem.code_id = compEvaled1.code_id
                        let compEvaled = compEvaled1.properties
@@ -5507,7 +5507,7 @@ ${origCode}
                 mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
 //debugger
-                let compCode = GLOBALS.global_component_type_details_cache[newItem.base_component_id].code
+                let compCode = GLOBALS.componentTypeDetailsCache[newItem.base_component_id].code
                 let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                 if (isValidObject(childrenCode)) {
                     for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
@@ -7940,7 +7940,7 @@ return {}
          |     NONE
          |________________________________________________________________________ */
           getComponentProperties: function(componentName) {
-                let compEvaled1 = GLOBALS.global_component_type_details_cache[componentName]
+                let compEvaled1 = GLOBALS.componentTypeDetailsCache[componentName]
                 if (isValidObject(compEvaled1)) {
                      let compEvaled = compEvaled1.properties
                      if (isValidObject(compEvaled)) {

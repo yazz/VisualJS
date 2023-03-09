@@ -619,7 +619,7 @@ var GLOBALS = {
     // - code_id
     // - properties
     //
-    global_component_type_details_cache: new Object(),
+    componentTypeDetailsCache: new Object(),
 
     //
     // maps the base component ID to the commit ID
@@ -955,7 +955,7 @@ function registerComponent(vueComponentObject) {
             let thisComponent22 = vueComponentObject
             let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
 
-            for (let oneProperty of GLOBALS.global_component_type_details_cache[args.base_component_id].properties) {
+            for (let oneProperty of GLOBALS.componentTypeDetailsCache[args.base_component_id].properties) {
                 let propNamee = oneProperty.id
                 let propType = oneProperty.type
                 if (propNamee) {
@@ -2906,11 +2906,11 @@ if (typeName == "horiz_scroll_control") {
 
 }
 
-if (isValidObject(GLOBALS.global_component_type_details_cache) &&
-    isValidObject(GLOBALS.global_component_type_details_cache[typeName]) &&
-    isValidObject(GLOBALS.global_component_type_details_cache[typeName].properties)
+if (isValidObject(GLOBALS.componentTypeDetailsCache) &&
+    isValidObject(GLOBALS.componentTypeDetailsCache[typeName]) &&
+    isValidObject(GLOBALS.componentTypeDetailsCache[typeName].properties)
 ) {
-    for (let oneProperty of GLOBALS.global_component_type_details_cache[typeName].properties) {
+    for (let oneProperty of GLOBALS.componentTypeDetailsCache[typeName].properties) {
         let propertyName = oneProperty.name
         if (propertyName) {
 
@@ -2921,15 +2921,15 @@ if (isValidObject(GLOBALS.global_component_type_details_cache) &&
                 let acceptTypes = Object.keys(oneProperty.accept_types)
                 for (let acceptType of acceptTypes) {
 //console.log("    " + acceptType)
-                    for (let otherComponentName of Object.keys(GLOBALS.global_component_type_details_cache)){
+                    for (let otherComponentName of Object.keys(GLOBALS.componentTypeDetailsCache)){
                         if (otherComponentName == "database_control") {
 //debugger
 
                         }
                         if (otherComponentName != typeName) {
-                            if (GLOBALS.global_component_type_details_cache[otherComponentName]) {
-                                if (GLOBALS.global_component_type_details_cache[otherComponentName].properties) {
-                                    let otherProperties = GLOBALS.global_component_type_details_cache[otherComponentName].properties
+                            if (GLOBALS.componentTypeDetailsCache[otherComponentName]) {
+                                if (GLOBALS.componentTypeDetailsCache[otherComponentName].properties) {
+                                    let otherProperties = GLOBALS.componentTypeDetailsCache[otherComponentName].properties
                                     for (let otherProperty of otherProperties){
                                         if (otherProperty.types) {
                                             for (let otherPropertyType of Object.keys(otherProperty.types)){
@@ -3012,14 +3012,14 @@ if (isValidObject(GLOBALS.global_component_type_details_cache) &&
                 let types = Object.keys(oneProperty.types)
                 for (let myType of types) {
 //console.log("    " + myType)
-                    for (let otherComponentName of Object.keys(GLOBALS.global_component_type_details_cache)){
+                    for (let otherComponentName of Object.keys(GLOBALS.componentTypeDetailsCache)){
                         if (otherComponentName == "table_control") {
 //debugger
                         }
                         if (otherComponentName != typeName) {
-                            if (GLOBALS.global_component_type_details_cache[otherComponentName]) {
-                                if (GLOBALS.global_component_type_details_cache[otherComponentName].properties) {
-                                    let otherProperties = GLOBALS.global_component_type_details_cache[otherComponentName].properties
+                            if (GLOBALS.componentTypeDetailsCache[otherComponentName]) {
+                                if (GLOBALS.componentTypeDetailsCache[otherComponentName].properties) {
+                                    let otherProperties = GLOBALS.componentTypeDetailsCache[otherComponentName].properties
                                     for (let otherProperty of otherProperties){
                                         if (otherProperty.accept_types) {
                                             for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
@@ -4245,13 +4245,13 @@ async function enhanceYazzSourceCodeBeforeRunning(componentRecord) {
         //
         // if the component type hasn't been added to the type database then add it
         //
-        if (!GLOBALS.global_component_type_details_cache[componentRecord.base_component_id]) {
-            GLOBALS.global_component_type_details_cache[componentRecord.base_component_id] = new Object()
+        if (!GLOBALS.componentTypeDetailsCache[componentRecord.base_component_id]) {
+            GLOBALS.componentTypeDetailsCache[componentRecord.base_component_id] = new Object()
         }
         if (isValidObject(componentRecord.properties)) {
-            GLOBALS.global_component_type_details_cache[componentRecord.base_component_id].code         = componentRecord.code
-            GLOBALS.global_component_type_details_cache[componentRecord.base_component_id].properties   = eval("(" + componentRecord.properties + ")")
-            GLOBALS.global_component_type_details_cache[componentRecord.base_component_id].code_id      = componentRecord.id
+            GLOBALS.componentTypeDetailsCache[componentRecord.base_component_id].code         = componentRecord.code
+            GLOBALS.componentTypeDetailsCache[componentRecord.base_component_id].properties   = eval("(" + componentRecord.properties + ")")
+            GLOBALS.componentTypeDetailsCache[componentRecord.base_component_id].code_id      = componentRecord.id
             //debugger
         }
 
