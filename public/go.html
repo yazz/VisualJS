@@ -625,7 +625,7 @@ var GLOBALS = {
     // maps the base component ID to the commit ID
     // "Qm0x43FFE338..2F1" < - points to a commit ID
     //
-    global_map_base_component_id_to_commit_id: new Object(),
+    baseComponentIdReturnsCommitId: new Object(),
 
 
     //
@@ -2398,9 +2398,9 @@ isWin = data.value
         if (data.value && data.value.is_code_result) {
 
                 if (data.value.code_id) {
-                    if (data.value.base_component_id && (!GLOBALS.global_map_base_component_id_to_commit_id[data.value.base_component_id])) {
+                    if (data.value.base_component_id && (!GLOBALS.baseComponentIdReturnsCommitId[data.value.base_component_id])) {
 
-                        GLOBALS.global_map_base_component_id_to_commit_id[data.value.base_component_id] = data.value.code_id
+                        GLOBALS.baseComponentIdReturnsCommitId[data.value.base_component_id] = data.value.code_id
                         GLOBALS.commitIdReturnsCodeStructure[data.value.code_id]             = data.value
                     }
 
@@ -4035,7 +4035,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                      | For static HTML pages (ie: just HTML , with no Yazz engine)
                      | then load the components from the global cache which
                      | contains all the UI control definitions in:
-                     |   - GLOBALS.global_map_base_component_id_to_commit_id
+                     |   - GLOBALS.baseComponentIdReturnsCommitId
                      |   - GLOBALS.commitIdReturnsCodeStructure
                      |____________________________________________________________
     */
@@ -4044,11 +4044,11 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (isStaticHtmlPageApp && GLOBALS.global_map_base_component_id_to_commit_id[ componentType ] && (!GLOBALS.isComponentTypeLoaded[componentType])) {
+            if (isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded[componentType])) {
                 //console.log("loadUiComponentsV4: 2")
                 GLOBALS.isComponentTypeLoaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                let newDataCodeId   = GLOBALS.global_map_base_component_id_to_commit_id[ componentType ]
+                let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
                 let codeCommit      = GLOBALS.commitIdReturnsCodeStructure[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(codeCommit.code, "properties",")//properties")
                 if (properties) {
