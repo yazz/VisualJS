@@ -656,7 +656,7 @@ var GLOBALS = {
     // eg:    value: {
     //                    "async fn {... code here ... }"
     //                    }
-    //  commitIdReturnsCodeStructure["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
+    //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
     //  {
     //      code:               mm.editor_text,
     //      component_type:     "SYSTEM",
@@ -665,7 +665,7 @@ var GLOBALS = {
     //      base_component_id:  baseCompIdFromSrcCode
     //  }
     //
-    commitIdReturnsCodeStructure: new Object(),
+    codeCache: new Object(),
 
     //
     // This is a cache for types using the Base Component ID as an index. It caches the following:
@@ -698,13 +698,13 @@ var GLOBALS = {
     //
     // component type cache to replace other caches
     //
-    componentTypeCache: new Object(),
+    //componentTypeCach e: new Object(),
 
 
     //
     // code cache to replace other caches
     //
-    codeCache: new Object()
+    //codeCache: new Object()
 }
 
 
@@ -4037,7 +4037,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                      | then load the components from the global cache which
                      | contains all the UI control definitions in:
                      |   - GLOBALS.baseComponentIdReturnsCommitId
-                     |   - GLOBALS.commitIdReturnsCodeStructure
+                     |   - GLOBALS.codeCache
                      |____________________________________________________________
     */
     let loadedStatic = false
@@ -4050,7 +4050,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 GLOBALS.isComponentTypeLoaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
-                let codeCommit      = GLOBALS.commitIdReturnsCodeStructure[ newDataCodeId ]
+                let codeCommit      = GLOBALS.codeCache[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(codeCommit.code, "properties",")//properties")
                 if (properties) {
                     if (isValidObject(codeCommit)) {
@@ -4088,8 +4088,8 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have cached the component then run it
             //
-            if (componentCodeId && GLOBALS.commitIdReturnsCodeStructure[componentCodeId]) {
-                let compRec = GLOBALS.commitIdReturnsCodeStructure[componentCodeId]
+            if (componentCodeId && GLOBALS.codeCache[componentCodeId]) {
+                let compRec = GLOBALS.codeCache[componentCodeId]
                 if (compRec) {
                     GLOBALS.isComponentTypeLoaded[compRec.base_component_id] = true
                     await checkLibsV2(compRec)
@@ -4100,7 +4100,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have haven't cached the component (given the code ID) then put it on the list of things to load
             //
-            } else if (componentCodeId && !GLOBALS.commitIdReturnsCodeStructure[componentCodeId]) {
+            } else if (componentCodeId && !GLOBALS.codeCache[componentCodeId]) {
                 componentsItemsToLoad.push(componentTuple)
 
             //

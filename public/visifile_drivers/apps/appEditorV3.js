@@ -2301,7 +2301,7 @@ End of app preview menu
                         }
 
                         mm.code_id  = await getIpfsHash(mm.editor_text)
-                        GLOBALS.commitIdReturnsCodeStructure[  mm.code_id  ] =
+                        GLOBALS.codeCache[  mm.code_id  ] =
                             {
                                 code:               mm.editor_text,
                                 component_type:     "SYSTEM",
