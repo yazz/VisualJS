@@ -1024,7 +1024,6 @@ module.exports = {
                                                 let newCode =  `GLOBALS.commitIdReturnsCodeStructure["${sha1sum}"] = {
                                                 "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
                                                 "is_code_result": true,
-                                                "use_db": ${useDb?"\"" + useDb + "\"":null},
                                                 "component_type": \"SYSTEM\",
                                                 "libs": [],
                                                 "code_id": "${sha1sum}",
@@ -1075,7 +1074,6 @@ module.exports = {
                                                                     let newCode2 =  `GLOBALS.commitIdReturnsCodeStructure["${results[i].sha1}"] = {
                                                                     "code": unescape(\`${newcodeEs}\`),
                                                                     "is_code_result": true,
-                                                                    "use_db": ${useDb?"\"" + useDb + "\"":null},
                                                                     "libs": [],
                                                                     "component_type": \"SYSTEM\",
                                                                     "code_id": "${results[i].sha1}",

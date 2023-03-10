@@ -2305,7 +2305,6 @@ End of app preview menu
                             {
                                 code:               mm.editor_text,
                                 is_code_result:     true,
-                                use_db:             baseCompIdFromSrcCode,
                                 component_type:     "SYSTEM",
                                 libs:               [],
                                 code_id:            mm.code_id,
