@@ -297,34 +297,25 @@ function executeCode(  callId  ,  codeId  , args  ,  base_component_id  ) {
                         var code = results[0].code.toString()
                         try {
                             if (isFrontEndOnlyCode( code )) {
-                                    dbsearch.all(
-                                        "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
-                                        codeId,
-
-                                        function(err, results2)
-                                        {
-                                            process.send({  message_type:         "function_call_response" ,
-                                                            result:              { code:                code,
-                                                                                   is_code_result:      true,
-                                                                                   component_options:   componentOptions,
-                                                                                   libs:                results2,
-                                                                                   code_id:             codeId,
-                                                                                   base_component_id:   base_component_id,
-                                                                                   properties:          properties
-                                                                                      },
-                                                            child_process_name:    childProcessName,
-                                                            base_component_id:           currentDriver,
-                                                            callback_index:        currentCallbackIndex,
-                                                            called_call_id:        callId
-                                                            });
-                                            //console.log("*) Result process call ID: " + callId);
-                                            inUseIndex --
-
-                                        })
+                                process.send({  message_type:         "function_call_response" ,
+                                                result:
+                                                {
+                                                    error: "cannot run UI component on server for : " +
+                                                            base_component_id,
+                                                },
+                                                child_process_name:    childProcessName,
+                                                base_component_id:     currentDriver,
+                                                callback_index:        currentCallbackIndex,
+                                                called_call_id:        callId
+                                                });
+                                //console.log("*) Result process call ID: " + callId);
+                                inUseIndex --
 
 
 
-                            } else { // front and backend code
+
+                            // backend code
+                            } else {
 //console.log(code)
                                 var fnfn = eval("(" + code + ")")
                                 if (code.indexOf("function*") != -1) {
