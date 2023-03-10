@@ -1,17 +1,55 @@
-var fs                          = require('fs');
-var path                        = require('path');
-var mkdirp                      = require('mkdirp')
-var postgresdb                  = require('pg');
-var mysql                       = require('mysql');
-const uuidv1                    = require('uuid/v1');
+var fs                              = require('fs');
+var path                            = require('path');
+var mkdirp                          = require('mkdirp')
+var postgresdb                      = require('pg');
+var mysql                           = require('mysql');
+const uuidv1                        = require('uuid/v1');
+var inUseIndex                      = 0
+var currentCallId                   = null
+var currentDriver                   = null
+var currentCodeID                   = null
+var currentArgs                     = null
+let electronApp                     = false
+let nodeModulesPath                 = process.cwd()
+var os                              = require('os')
+var perf                            = require('./perf')
+var db_helper                       = require("./db_helper")
+var https                           = require('https');
+var http                            = require('http');
+var request                         = require('request');
+var xml2js                          = require('xml2js')
+var traverse                        = require('traverse');
+var Kafka                           = require('kafkajs').Kafka
+var userData
+var childProcessName
+var ip                              = require('ip');
+var yazzInstanceId                  = null
+const initJaegerTracer              = require("jaeger-client").initTracer;
+const {Tags, FORMAT_HTTP_HEADERS}   = require('opentracing')
+let jaegerConfig                    = null
+let tracer                          = null
+const jaegerOptions                 = { };
+let jaegercollector                 = null
+var isWin                           = /^win/.test(process.platform);
+var username                        = "Unknown user";
+var dbsearch;
+var envVars
+var stmtInsertProcessError;
+var inUse                           = false
+var callbackIndex                   = 0
+var currentCallbackIndex            = -1
+var yz                              = require('./yazz_helper_module')
+var callbackList                    = new Object()
+
+
+
+
 
 console.log("e***: " + process.env.electron)
-let electronApp = false
 if (process.env.electron && (process.env.electron == "TRUE")) {
     electronApp = true
 }
 
-let nodeModulesPath = process.cwd()
 if (process.execPath) {
     let vjsPos = process.execPath.indexOf("vjs")
     if (vjsPos != -1) {
@@ -29,35 +67,6 @@ if (electronApp){
 } else {
     sqlite3                     = require(sqlNodePath);
 }
-var os                          = require('os')
-var perf                        = require('./perf')
-var db_helper                   = require("./db_helper")
-var https                       = require('https');
-var http                        = require('http');
-var request                     = require('request');
-var xml2js                      = require('xml2js')
-var traverse                    = require('traverse');
-var Kafka                       = require('kafkajs').Kafka
-var userData
-var childProcessName
-var ip = require('ip');
-var yazzInstanceId = null
-const initJaegerTracer = require("jaeger-client").initTracer;
-const {Tags, FORMAT_HTTP_HEADERS} = require('opentracing')
-let jaegerConfig = null
-let tracer = null
-const jaegerOptions = { };
-let jaegercollector = null
-
-
-var isWin                               = /^win/.test(process.platform);
-var username                            = "Unknown user";
-var dbsearch;
-var envVars
-
-
-var stmtInsertProcessError;
-var inUse = false
 
 //username = os.userInfo().username.toLowerCase();
 username = "node"
@@ -183,11 +192,6 @@ function processMessagesFromMainProcess() {
         inUseIndex --
 
     }
-
-
-
-
-
 });}
 
 
@@ -229,9 +233,6 @@ function setUpSql() {
 
 
 
-var functions = new Object()
-
-var inUseIndex = 0
 
 function announceFree() {
     //console.log("@announceFree "+ childProcessName + " in use: " + inUse)
@@ -245,18 +246,43 @@ function announceFree() {
     }
 }
 
-var currentCallId = null
-var currentDriver = null
-var currentCodeID = null
-var currentArgs = null
 
-function executeCode(callId, codeId, args,  base_component_id) {
-    //console.log("@executeCode "+ childProcessName + " in use: " + inUse)
 
+
+
+
+
+
+
+
+
+/*
+________________________________________
+|                                      |
+|         executeCode                  |
+|                                      |
+|______________________________________|
+Function description
+__________
+| PARAMS |______________________________________________________________
+|
+|   callId              Some text
+|   ------
+|
+|   codeId              Some text
+|   ------
+|
+|   args                Some text
+|   ----
+|
+|   base_component_id   Some text
+|   -----------------
+|________________________________________________________________________ */
+function executeCode(  callId  ,  codeId  , args  ,  base_component_id  ) {
     dbsearch.serialize(
         function() {
-            var stmt = dbsearch.all(
-                "SELECT base_component_id,component_options,use_db,code,properties FROM system_code where id  = ?; ",
+            dbsearch.all(
+                "SELECT base_component_id,component_options,code,properties FROM system_code where id  = ?; ",
                 codeId,
 
                 function(err, results)
@@ -264,7 +290,6 @@ function executeCode(callId, codeId, args,  base_component_id) {
                     if (results.length > 0) {
                         currentDriver           = results[0].base_component_id
                         var componentOptions    = results[0].component_options
-                        var useDb               = results[0].use_db
                         currentCodeID           = codeId
                         currentArgs             = args
                         var properties          = results[0].properties
@@ -281,7 +306,6 @@ function executeCode(callId, codeId, args,  base_component_id) {
                                             process.send({  message_type:         "function_call_response" ,
                                                             result:              { code:                code,
                                                                                    is_code_result:      true,
-                                                                                   use_db:              useDb,
                                                                                    component_options:   componentOptions,
                                                                                    libs:                results2,
                                                                                    code_id:             codeId,
@@ -391,6 +415,12 @@ function executeCode(callId, codeId, args,  base_component_id) {
     }, sqlite3.OPEN_READONLY)
 }
 
+
+
+
+
+
+
 process.on('uncaughtException', function (err) {
   console.log("\n\n *****uncaughtException:");
   console.log("    Err: " + JSON.stringify(err,null,2));
@@ -406,6 +436,11 @@ process.on('uncaughtException', function (err) {
 
 
 
+
+
+
+
+
 function isFrontEndOnlyCode(code) {
     if (code.indexOf("Vue.") != -1) { return true }
     if (code.indexOf("only_run_on_server(") != -1) { return false }
@@ -416,12 +451,6 @@ function isFrontEndOnlyCode(code) {
 //pure_function
 
 
-var callbackIndex = 0
-var currentCallbackIndex = -1
-
-
-
-var callbackList = new Object()
 
 function callComponentNonAsync( driverName, args, callbackFn ) {
 
@@ -496,6 +525,11 @@ process.on('quit', function(err) {
   shutdownExeProcess(err);
 });
 
+
+
+
+
+
 function shutdownExeProcess(err) {
     console.log("** This process was killed: " + childProcessName)
     if (err) {
@@ -510,7 +544,6 @@ function shutdownExeProcess(err) {
 
 
 
-var yz = require('./yazz_helper_module')
 
 
 
