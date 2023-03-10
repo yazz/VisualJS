@@ -4267,8 +4267,9 @@ async function enhanceYazzSourceCodeBeforeRunning(componentRecord) {
         // Determine the apps SQlite database to use
         //
         let useDb = componentRecord.base_component_id
-        if (componentRecord.use_db) {
-            useDb = componentRecord.use_db
+        let useOtherDb = yz.getValueOfCodeString(componentRecord.code, "use_db")
+        if (useOtherDb) {
+            useDb = useOtherDb
         }
 
         //
