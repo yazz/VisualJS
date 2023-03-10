@@ -1423,7 +1423,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 //GLOBALS.isComponentTypeLoaded[baseComponentId]                               = false
                 GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
-                //GLOBALS.componentTypeDetailsCache[baseComponentId]            = null
+                //GLOBALS.componentTypeCache[baseComponentId]            = null
 
                 //await loadUiComponentsV4(baseComponentId)
                 mm.editable_app_list.push( app  )
