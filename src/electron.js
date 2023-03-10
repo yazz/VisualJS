@@ -4818,19 +4818,25 @@ function setUpSql() {
 
 
 
+/*
+________________________________________
+|                                      |
+|       save_code_from_upload          |
+|                                      |
+|______________________________________|
+Function description
+__________
+| PARAMS |______________________________________________________________
+|
+|     msg    Some text
+|     ---
+|________________________________________________________________________ */
 async function save_code_from_upload(msg) {
-    //console.log(`Entering  save_code_from_upload`)
-
-
     let ret = await yz.saveCodeV3(  dbsearch  ,  msg.code  , msg.options);
-    let useDb = msg.base_component_id //yz.getValueOfCodeString(msg.code ,"use_db")
     if (msg.sqlite_data) {
-            //console.log("msg.sqlite_data: " + msg.sqlite_data)
             let b = Buffer.from(msg.sqlite_data, 'base64')
-            //console.log("use_db: " + useDb)
             let sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
             fs.writeFileSync(sqliteAppDbPath, b);
-
     }
 
 
@@ -4841,11 +4847,30 @@ async function save_code_from_upload(msg) {
                 base_component_id:       ret.base_component_id,
                 client_file_upload_id:   msg.client_file_upload_id
             })
-    }
+}
 
 
 
 
+
+
+
+
+
+
+/*
+_____________________________________________________________________________
+|                                                                           |
+|       ipc_child_returning_uploaded_app_as_file_in_child_response          |
+|                                                                           |
+|___________________________________________________________________________|
+Function description
+__________
+| PARAMS |______________________________________________________________
+|
+|     msg    Some text
+|     ---
+|________________________________________________________________________ */
 function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
 
       outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
