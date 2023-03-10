@@ -659,7 +659,6 @@ var GLOBALS = {
     //  commitIdReturnsCodeStructure["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
     //  {
     //      code:               mm.editor_text,
-    //      is_code_result:     true,
     //      component_type:     "SYSTEM",
     //      libs:               [],
     //      code_id:            mm.code_id,
@@ -2438,35 +2437,9 @@ isWin = data.value
 
 
     socket.on('ws_to_browser_call_component_results',async function(data) {
-
-        if (data.value && data.value.is_code_result) {
-
-                if (data.value.code_id) {
-                    if (data.value.base_component_id && (!GLOBALS.baseComponentIdReturnsCommitId[data.value.base_component_id])) {
-
-                        GLOBALS.baseComponentIdReturnsCommitId[data.value.base_component_id] = data.value.code_id
-                        GLOBALS.commitIdReturnsCodeStructure[data.value.code_id]             = data.value
-                    }
-
-                    await checkLibsV2(data.value)
-
-                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning(data.value)
-                    var callbackFn = null
-                    if (isValidObject(data.seq_num)) {
-                        callbackFn = queuedResponses[data.seq_num]
-                    }
-                    await runYazzSourceCode(trcode2, componentCallsListArgsSent[data.seq_num], callbackFn)
-                    queuedResponses[data.seq_num] = null
-
-                }
-
-
-            } else {
                 var callbackFn = queuedResponses[data.seq_num]
                 callbackFn(data.value)
                 queuedResponses[data.seq_num] = null
-            }
-
     });
 
 }
@@ -4250,7 +4223,6 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
         value:
         {
             code:               "async function() { ... }"
-            is_code_result:      true,
             component_type:     "SYSTEM",
             libs:                [],
             code_id:            "${sha1sum}",

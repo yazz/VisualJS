@@ -2304,7 +2304,6 @@ End of app preview menu
                         GLOBALS.commitIdReturnsCodeStructure[  mm.code_id  ] =
                             {
                                 code:               mm.editor_text,
-                                is_code_result:     true,
                                 component_type:     "SYSTEM",
                                 libs:               [],
                                 code_id:            mm.code_id,
