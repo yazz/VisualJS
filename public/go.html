@@ -646,8 +646,18 @@ var GLOBALS = {
 
 
 //----------------------------------------------------
-// OLD CACHES
+// CODE CACHES
 //----------------------------------------------------
+
+//zzz
+    getCommitId: function (args) {
+        if (args.baseComponentId) {
+            return GLOBALS.baseComponentIdReturnsCommitId[ args.baseComponentId ]
+        }
+    },
+
+
+
 
 
     //
@@ -4033,7 +4043,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 //console.log("loadUiComponentsV4: 2")
                 GLOBALS.isComponentTypeLoaded[componentType] = true
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
+                //zzz
+                //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
+                let newDataCodeId   = GLOBALS.getCommitId({baseComponentId: componentType })
                 let codeCommit      = GLOBALS.codeCache[ newDataCodeId ]
                 let properties = yz.getValueOfCodeString(codeCommit.code, "properties",")//properties")
                 if (properties) {
