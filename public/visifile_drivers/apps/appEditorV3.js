@@ -2388,7 +2388,6 @@ End of app preview menu
                 //
                 // make sure we load the component for this app
                 //
-                debugger
                 if (mm.arg_edit_code_id) {
                     GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                     GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
