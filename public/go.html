@@ -680,7 +680,6 @@ var GLOBALS = {
 
     isComponentTypeLoaded: function(baseComponentId) {
         if (baseComponentId) {
-            //return GLOBALS.isComponentTypeLoadedVar[baseComponentId]
             if (GLOBALS.componentTypeCache[baseComponentId]) {
                 return true
             }
@@ -689,13 +688,6 @@ var GLOBALS = {
     }
     ,
 
-
-
-
-    setComponentTypeLoaded: function(baseComponentId, value) {
-        GLOBALS.isComponentTypeLoadedVar[baseComponentId] = value
-    }
-    ,
 
 
 
@@ -731,15 +723,6 @@ var GLOBALS = {
     // "Qm0x43FFE338..2F1" < - points to a commit ID
     //
     baseComponentIdReturnsCommitId: new Object(),
-
-
-    //
-    // true/false. is a component type loaded into memory? Remember only one
-    // version of a component type at any one time can be loaded. If true
-    // then the following is loaded:
-    // -
-    //
-    isComponentTypeLoadedVar: new Object(),
 }
 
 
@@ -4082,7 +4065,6 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
             if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded(componentType))) {
                 //console.log("loadUiComponentsV4: 2")
-                GLOBALS.setComponentTypeLoaded(componentType,true)
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 //zzz
                 //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
@@ -4132,7 +4114,6 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             if (componentCodeId && GLOBALS.codeCache[componentCodeId]) {
                 let compRec = GLOBALS.codeCache[componentCodeId]
                 if (compRec) {
-                    GLOBALS.setComponentTypeLoaded(compRec.base_component_id, true)
 
                     if (compRec) {
                         await checkLibsV3(compRec)
@@ -4151,7 +4132,6 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             // if we have haven't cached the component (given the Type) then put it on the list of things to load
             //
             } else if (componentType && (!GLOBALS.isComponentTypeLoaded(componentType))) {
-                GLOBALS.setComponentTypeLoaded(componentType,  true) //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
                 componentsItemsToLoad.push(componentTuple)
 
             //

@@ -2389,7 +2389,6 @@ End of app preview menu
                 if (mm.arg_edit_code_id) {
                     GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                     GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
-                    //GLOBALS.setComponentTypeLoaded(mm.arg_edit_base_component_id,false)
                     //GLOBALS.loadedControlsMapInCurrentlyEditedApp[mm.arg_edit_base_component_id]  = false
                     //GLOBALS.componentTypeCache[mm.arg_edit_base_component_id]             = null
 
@@ -2398,7 +2397,6 @@ End of app preview menu
 
                 } else if (mm.arg_edit_base_component_id) {
                     GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
-                    //GLOBALS.setComponentTypeLoaded(mm.arg_edit_base_component_id, false)
                     //GLOBALS.loadedControlsMapInCurrentlyEditedApp[mm.arg_edit_base_component_id]    = false
                     //GLOBALS.componentTypeCache[mm.arg_edit_base_component_id]               = null
 

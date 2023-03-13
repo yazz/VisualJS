@@ -1421,7 +1421,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
                 }
 
-                //GLOBALS.setComponentTypeLoaded(baseComponentId, false)
                 GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
                 //GLOBALS.componentTypeCache[baseComponentId]            = null
 
