@@ -1682,7 +1682,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             if (codeId) {
                 await loadUiComponentsV4([{codeId: codeId}])
             } else if (baseComponentId) {
-                if (!GLOBALS.isComponentTypeLoadedFn(baseComponentId)) {
+                if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
                     await loadUiComponentsV4([{baseComponentId: baseComponentId}])
                 }
             }

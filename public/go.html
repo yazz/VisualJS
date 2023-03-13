@@ -678,7 +678,7 @@ var GLOBALS = {
 
 
 
-    isComponentTypeLoadedFn: function(baseComponentId) {
+    isComponentTypeLoaded: function(baseComponentId) {
         if (baseComponentId) {
             return GLOBALS.isComponentTypeLoadedVar[baseComponentId]
         }
@@ -4077,7 +4077,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoadedFn(componentType))) {
+            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded(componentType))) {
                 //console.log("loadUiComponentsV4: 2")
                 GLOBALS.setComponentTypeLoaded(componentType,true)
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
@@ -4147,7 +4147,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have haven't cached the component (given the Type) then put it on the list of things to load
             //
-            } else if (componentType && (!GLOBALS.isComponentTypeLoadedFn(componentType))) {
+            } else if (componentType && (!GLOBALS.isComponentTypeLoaded(componentType))) {
                 GLOBALS.setComponentTypeLoaded(componentType,  true) //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
                 componentsItemsToLoad.push(componentTuple)
 
