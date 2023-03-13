@@ -1027,7 +1027,9 @@ module.exports = {
                                                 "libs": [],
                                                 "code_id": "${sha1sum}",
                                                 "base_component_id": "${baseComponentId}"
-                                            }`
+                                            }
+    
+                                            GLOBALS.baseComponentIdReturnsCommitId["${baseComponentId}"] = "${sha1sum}"`
 
 
                                                 //showTimer(`14`)
@@ -1076,6 +1078,7 @@ module.exports = {
                                                                     "base_component_id": "${results[i].child_base_component_id}"
                                                                 }
     
+                                                                GLOBALS.baseComponentIdReturnsCommitId["${results[i].child_base_component_id}"] = "${results[i].sha1}"
                                                                 `
                                                                     newCode += newCode2
                                                                 }
