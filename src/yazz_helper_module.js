@@ -1086,6 +1086,15 @@ module.exports = {
                                                                     "base_component_id": "${results[i].child_base_component_id}"
                                                                 }
     
+                                                                GLOBALS.codeCacheV2["${sha1sum}"] = {
+                                                                    "code": unescape(\`${newcodeEs}\`)
+                                                                }
+                                                                
+                                                                GLOBALS.componentTypeCacheV2["${baseComponentId}"] = {
+                                                                    "code_id": "${results[i].sha1}"
+                                                                }
+    
+    
                                                                 GLOBALS.baseComponentIdReturnsCommitId["${results[i].child_base_component_id}"] = "${results[i].sha1}"
                                                                 `
                                                                     newCode += newCode2
