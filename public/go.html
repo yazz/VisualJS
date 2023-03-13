@@ -654,11 +654,27 @@ var GLOBALS = {
         if (args.baseComponentId) {
             return GLOBALS.baseComponentIdReturnsCommitId[ args.baseComponentId ]
         }
-    },
+    }
+    ,
+
+
+    getCodeForCommit: function(args) {
+        if (args.codeId) {
+            return GLOBALS.codeCache[args.codeId].code
+        }
+    }
+    ,
 
 
 
-
+    getLibsForCommit: function(args) {
+        if (args.codeId) {
+            if (GLOBALS.codeCache[args.codeId]) {
+                return GLOBALS.codeCache[args.codeId].libs
+            }
+        }
+    }
+    ,
 
     //
     // This contains the source code for a particular commit ID
@@ -4047,7 +4063,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
                 let newDataCodeId   = GLOBALS.getCommitId({baseComponentId: componentType })
                 let codeCommit      = GLOBALS.codeCache[ newDataCodeId ]
-                let properties = yz.getValueOfCodeString(codeCommit.code, "properties",")//properties")
+                let codeForCommit   = GLOBALS.getCodeForCommit({codeId: newDataCodeId })
+                let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
+                let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
                 if (properties) {
                     if (isValidObject(codeCommit)) {
                         codeCommit.properties = JSON.stringify(properties)
@@ -4055,7 +4073,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 }
 
                 if (codeCommit) {
-                    await checkLibsV3(codeCommit.libs)
+                    await checkLibsV3(libsForCode)
                 }
                 let trcode2 = await enhanceYazzSourceCodeBeforeRunning(codeCommit)
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
