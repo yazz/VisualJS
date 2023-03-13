@@ -3908,7 +3908,7 @@ async function sqliteQuery(sql) {
     -------
 
       -----------
-    - checkLibsV2
+    - checkLibsV3
       -----------
         checks that related libs are loaded
 
@@ -3935,16 +3935,16 @@ async function sqliteQuery(sql) {
  */
 
 
-async function checkLibsV2(componentRecord){
-    if (componentRecord.libs && componentRecord.libs.length > 0 ) {
-        for (var tt = 0; tt < componentRecord.libs.length ; tt++) {
-            if (!GLOBALS.libLoaded[ componentRecord.libs[tt].dependency_name ]) {
-                GLOBALS.libLoaded[ componentRecord.libs[tt].dependency_name ] = true
+
+async function checkLibsV3(libsToLoad){
+    if (libsToLoad && libsToLoad.length > 0 ) {
+        for (var tt = 0; tt < libsToLoad.length ; tt++) {
+            if (!GLOBALS.libLoaded[ libsToLoad[tt].dependency_name ]) {
+                GLOBALS.libLoaded[ libsToLoad[tt].dependency_name ] = true
             }
         }
     }
 }
-
 
 
 
@@ -4054,7 +4054,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                     }
                 }
 
-                await checkLibsV2(codeCommit)
+                if (codeCommit) {
+                    await checkLibsV3(codeCommit.libs)
+                }
                 let trcode2 = await enhanceYazzSourceCodeBeforeRunning(codeCommit)
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 loadedStatic = true
@@ -4088,7 +4090,10 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 let compRec = GLOBALS.codeCache[componentCodeId]
                 if (compRec) {
                     GLOBALS.isComponentTypeLoaded[compRec.base_component_id] = true
-                    await checkLibsV2(compRec)
+
+                    if (compRec) {
+                        await checkLibsV3(compRec)
+                    }
                     let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
                     await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 }
@@ -4128,7 +4133,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                         var sdf     = eval("(" + data.record + ")")
 
                         for (var i=0; i< sdf.length; i++) {
-                            await checkLibsV2(sdf[i])
+                            if (sdf[i]) {
+                                await checkLibsV3(sdf[i])
+                            }
                             let trcode2 = await enhanceYazzSourceCodeBeforeRunning(sdf[i])
                             await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
 
