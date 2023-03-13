@@ -1421,7 +1421,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
                 }
 
-                //GLOBALS.isComponentTypeLoaded[baseComponentId]                               = false
+                //GLOBALS.setComponentTypeLoaded(baseComponentId, false)
                 GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
                 //GLOBALS.componentTypeCache[baseComponentId]            = null
 
@@ -1682,7 +1682,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             if (codeId) {
                 await loadUiComponentsV4([{codeId: codeId}])
             } else if (baseComponentId) {
-                if (!GLOBALS.isComponentTypeLoaded[baseComponentId]) {
+                if (!GLOBALS.isComponentTypeLoadedFn(baseComponentId)) {
                     await loadUiComponentsV4([{baseComponentId: baseComponentId}])
                 }
             }

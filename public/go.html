@@ -676,6 +676,28 @@ var GLOBALS = {
     }
     ,
 
+
+
+    isComponentTypeLoadedFn: function(baseComponentId) {
+        if (baseComponentId) {
+            return GLOBALS.isComponentTypeLoaded[baseComponentId]
+        }
+        return false
+    }
+    ,
+
+
+
+
+    setComponentTypeLoaded: function(baseComponentId, value) {
+        GLOBALS.isComponentTypeLoaded[baseComponentId] = value
+    }
+    ,
+
+
+
+
+
     //
     // This contains the source code for a particular commit ID
     //
@@ -4055,9 +4077,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded[componentType])) {
+            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoadedFn(componentType))) {
                 //console.log("loadUiComponentsV4: 2")
-                GLOBALS.isComponentTypeLoaded[componentType] = true
+                GLOBALS.setComponentTypeLoaded(componentType,true)
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 //zzz
                 //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
@@ -4107,7 +4129,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             if (componentCodeId && GLOBALS.codeCache[componentCodeId]) {
                 let compRec = GLOBALS.codeCache[componentCodeId]
                 if (compRec) {
-                    GLOBALS.isComponentTypeLoaded[compRec.base_component_id] = true
+                    GLOBALS.setComponentTypeLoaded(compRec.base_component_id, true)
 
                     if (compRec) {
                         await checkLibsV3(compRec)
@@ -4125,8 +4147,8 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have haven't cached the component (given the Type) then put it on the list of things to load
             //
-            } else if (componentType && (!GLOBALS.isComponentTypeLoaded[componentType])) {
-                GLOBALS.isComponentTypeLoaded[componentType] = true //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
+            } else if (componentType && (!GLOBALS.isComponentTypeLoadedFn(componentType))) {
+                GLOBALS.setComponentTypeLoaded(componentType,  true) //TODO2 is this line a bug? Shouldn't this be set as loaded when actually loaded?
                 componentsItemsToLoad.push(componentTuple)
 
             //
