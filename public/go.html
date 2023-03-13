@@ -689,6 +689,10 @@ var GLOBALS = {
     ,
 
 
+    getTypeForCommitId: function(codeId) {
+        return GLOBALS.codeCache[codeId].base_component_id
+    }
+    ,
 
 
 
@@ -4111,7 +4115,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 if (codeCommit) {
                     await checkLibsV3(libsForCode)
                 }
-                let trcode2 = await enhanceYazzSourceCodeBeforeRunning(null,codeCommit)
+                let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId},codeCommit)
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 loadedStatic = true
             }
@@ -4147,7 +4151,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                     if (compRec) {
                         await checkLibsV3(compRec)
                     }
-                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning(null,compRec)
+                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: componentCodeId},compRec)
                     await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 }
 
@@ -4188,7 +4192,13 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                             if (sdf[i]) {
                                 await checkLibsV3(sdf[i])
                             }
-                            let trcode2 = await enhanceYazzSourceCodeBeforeRunning(null,sdf[i])
+                            let trcode2 = await enhanceYazzSourceCodeBeforeRunning(
+                                {
+                                    codeId: sdf[i].code_id,
+                                    baseComponentId: sdf[i].base_component_id
+                                }
+                                ,
+                                sdf[i])
                             await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
 
                         }
