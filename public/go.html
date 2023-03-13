@@ -4111,7 +4111,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 if (codeCommit) {
                     await checkLibsV3(libsForCode)
                 }
-                let trcode2 = await enhanceYazzSourceCodeBeforeRunning(codeCommit)
+                let trcode2 = await enhanceYazzSourceCodeBeforeRunning(null,codeCommit)
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 loadedStatic = true
             }
@@ -4147,7 +4147,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                     if (compRec) {
                         await checkLibsV3(compRec)
                     }
-                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning(compRec)
+                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning(null,compRec)
                     await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 }
 
@@ -4188,7 +4188,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                             if (sdf[i]) {
                                 await checkLibsV3(sdf[i])
                             }
-                            let trcode2 = await enhanceYazzSourceCodeBeforeRunning(sdf[i])
+                            let trcode2 = await enhanceYazzSourceCodeBeforeRunning(null,sdf[i])
                             await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
 
                         }
@@ -4285,7 +4285,19 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
         }
     }
 */
-async function enhanceYazzSourceCodeBeforeRunning(componentRecord) {
+async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
+
+    let codeId = null
+    let baseComponentId = null
+//zzz
+    if (!args) {
+    } else if (args.baseComponentId) {
+        baseComponentId = args.baseComponentId
+        codeId = GLOBALS.getCommitId({baseComponentId: args.baseComponentId})
+    } else if (args.codeId) {
+        codeId = args.codeId
+        baseComponentId = GLOBALS.getTypeForCommitId(codeId)
+    }
 
     try {
         //
