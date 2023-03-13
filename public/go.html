@@ -680,7 +680,10 @@ var GLOBALS = {
 
     isComponentTypeLoaded: function(baseComponentId) {
         if (baseComponentId) {
-            return GLOBALS.isComponentTypeLoadedVar[baseComponentId]
+            //return GLOBALS.isComponentTypeLoadedVar[baseComponentId]
+            if (GLOBALS.componentTypeCache[baseComponentId]) {
+                return true
+            }
         }
         return false
     }
