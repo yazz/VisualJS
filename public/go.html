@@ -652,7 +652,7 @@ var GLOBALS = {
 //zzz
     getCommitId: function (args) {
         if (args.baseComponentId) {
-            return GLOBALS.componentTypeCache[ args.baseComponentId ].code_id
+            return GLOBALS.baseComponentIdReturnsCommitId[ args.baseComponentId ]
         }
     }
     ,
@@ -722,7 +722,7 @@ var GLOBALS = {
     // maps the base component ID to the commit ID
     // "Qm0x43FFE338..2F1" < - points to a commit ID
     //
-    baseComponentIdReturnsCommitId: new Object()
+    baseComponentIdReturnsCommitId: new Object(),
 }
 
 
@@ -4054,7 +4054,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                      | For static HTML pages (ie: just HTML , with no Yazz engine)
                      | then load the components from the global cache which
                      | contains all the UI control definitions in:
-                     |   - GLOBALS.componentTypeCache
+                     |   - GLOBALS.baseComponentIdReturnsCommitId
                      |   - GLOBALS.codeCache
                      |____________________________________________________________
     */
@@ -4063,11 +4063,11 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.getCommitId({baseComponentid: componentType}) && (!GLOBALS.isComponentTypeLoaded(componentType))) {
+            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded(componentType))) {
                 //console.log("loadUiComponentsV4: 2")
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
                 //zzz
-                //let newDataCodeId   = GLOBALS.getCommitId({baseComponentid:  componentType })
+                //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
                 let newDataCodeId   = GLOBALS.getCommitId({baseComponentId: componentType })
                 let codeCommit      = GLOBALS.codeCache[ newDataCodeId ]
                 let codeForCommit   = GLOBALS.getCodeForCommit({codeId: newDataCodeId })
