@@ -1028,6 +1028,14 @@ module.exports = {
                                                 "code_id": "${sha1sum}",
                                                 "base_component_id": "${baseComponentId}"
                                             }
+                                            
+                                            GLOBALS.codeCacheV2["${sha1sum}"] = {
+                                                "code": /*APP_START_V2*/unescape(\`${newcode}\`)/*APP_END_V2*/
+                                            }
+                                            
+                                            GLOBALS.componentTypeCacheV2["${baseComponentId}"] = {
+                                                "code_id": "${sha1sum}"
+                                            }
     
                                             GLOBALS.baseComponentIdReturnsCommitId["${baseComponentId}"] = "${sha1sum}"`
 
