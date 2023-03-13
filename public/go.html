@@ -680,7 +680,7 @@ var GLOBALS = {
 
     isComponentTypeLoadedFn: function(baseComponentId) {
         if (baseComponentId) {
-            return GLOBALS.isComponentTypeLoaded[baseComponentId]
+            return GLOBALS.isComponentTypeLoadedVar[baseComponentId]
         }
         return false
     }
@@ -690,7 +690,7 @@ var GLOBALS = {
 
 
     setComponentTypeLoaded: function(baseComponentId, value) {
-        GLOBALS.isComponentTypeLoaded[baseComponentId] = value
+        GLOBALS.isComponentTypeLoadedVar[baseComponentId] = value
     }
     ,
 
@@ -736,7 +736,7 @@ var GLOBALS = {
     // then the following is loaded:
     // -
     //
-    isComponentTypeLoaded: new Object(),
+    isComponentTypeLoadedVar: new Object(),
 }
 
 
