@@ -700,6 +700,9 @@ var GLOBALS = {
     getDbToUse: function(args) {
         let useDb =  null
         let codeId = args.codeId
+        if (!codeId ) {
+            codeId = GLOBALS.getCommitId({baseComponentId: args.baseComponentId})
+        }
 
         if (codeId)
         {
@@ -4345,7 +4348,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
         //
         //let useDb = componentRecord.base_component_id
         debugger
-        let useDb = GLOBALS.getDbToUse({codeId: codeId})
+        let useDb = GLOBALS.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
 
         //
         // if the component type hasn't been added to the type database then add it
