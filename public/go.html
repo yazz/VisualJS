@@ -4385,14 +4385,14 @@ async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
         //
         // Sqlite stuff
         //
-        let addP = "'" + componentRecord.code_id + "', '" + useDb + "', "
+        let addP = "'" + codeId + "', '" + useDb + "', "
         if (localAppshareApp) {
 
             if (sqlitedata) {
                 let b = base64ToUint8Array(sqlitedata)
                 localSqliteDb = new SQL.Database(b);
             } else {
-                let eds = yz.getValueOfCodeString(componentRecord.code, "sqlite",")//sqlite")
+                let eds = yz.getValueOfCodeString(code, "sqlite",")//sqlite")
                 if (eds){
                     for (let te = 1; te < eds.length ; te = te + 2) {
                         let sqlStatements = eds[te]
@@ -4412,18 +4412,18 @@ async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
         //
         // Execute the code
         //
-        let trcode2 = "(" + componentRecord.code + ")"
+        let trcode2 = "(" + code + ")"
 
-        let component_type = yz.getValueOfCodeString(componentRecord.code, "component_type")
+        let component_type = yz.getValueOfCodeString(code, "component_type")
         if (
             (component_type != "APP") &&
             (component_type != "SYSTEM") &&
             (component_type != "VB"))
         {
-            trcode2 = getDebugCode(componentRecord.base_component_id,  trcode2)
+            trcode2 = getDebugCode(baseComponentId,  trcode2)
         } else if (component_type == "VB") {
             //console.log("Component to index: " + componentRecord.base_component_id)
-            indexComponent(  componentRecord.base_component_id  )
+            indexComponent( baseComponentId  )
         }
 
         //
@@ -4456,6 +4456,18 @@ async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
         hideProgressBar()
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 async function runYazzSourceCode(trcode2, args, callbackFn) {
     //Don't run any server code
