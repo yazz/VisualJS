@@ -731,6 +731,24 @@ var GLOBALS = {
 
 
 
+    cacheComponent: function(code) {
+        let baseComponentId = yz.getValueOfCodeString(code, "base_component_id")
+
+        if (!GLOBALS.componentTypeCache[baseComponentId]) {
+            GLOBALS.componentTypeCache[baseComponentId] = new Object()
+            let properties = yz.getValueOfCodeString(code, "properties",")//properties")
+            let id = getIpfsHash( code)
+
+            if (isValidObject(properties)) {
+                GLOBALS.componentTypeCache[baseComponentId].code         = code
+                GLOBALS.componentTypeCache[baseComponentId].properties   = properties
+                GLOBALS.componentTypeCache[baseComponentId].code_id      = id
+            }
+        }
+    }
+    ,
+
+
 
 
     //
@@ -4335,6 +4353,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
 
     let codeId = null
     let baseComponentId = null
+    let code = componentRecord.code
 //zzz
     if (!args) {
     } else if (args.codeId) {
@@ -4356,15 +4375,11 @@ async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
         //
         // if the component type hasn't been added to the type database then add it
         //
-        if (!GLOBALS.componentTypeCache[componentRecord.base_component_id]) {
-            GLOBALS.componentTypeCache[componentRecord.base_component_id] = new Object()
+        //zzz
+        if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
+            GLOBALS.cacheComponent(code)
         }
-        if (isValidObject(componentRecord.properties)) {
-            GLOBALS.componentTypeCache[componentRecord.base_component_id].code         = componentRecord.code
-            GLOBALS.componentTypeCache[componentRecord.base_component_id].properties   = eval("(" + componentRecord.properties + ")")
-            GLOBALS.componentTypeCache[componentRecord.base_component_id].code_id      = componentRecord.id
-            //debugger
-        }
+
 
 
         //
