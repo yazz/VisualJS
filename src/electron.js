@@ -6718,12 +6718,18 @@ async function copyAppshareApp(args) {
         console.log("              userId:              " + userId)
         //console.log("              code:                " + code)
 
+        let dbToCopyFrom = argsBaseComponentId
+        let altDbUsed = yz.getValueOfCodeString(code,"use_db")
+        if (altDbUsed) {
+            dbToCopyFrom = altDbUsed
+        }
+
         let saveret = await yz.saveCodeV3(
             dbsearch,
             code,
             {
                 sub_components:         listOfSubComponents,
-                copy_db_from:           argsBaseComponentId,
+                copy_db_from:           dbToCopyFrom,
                 save_html:              true,
                 //let userid = await getUserId(req)
                 //let optionsForSave = req.body.value.options
