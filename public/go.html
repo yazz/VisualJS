@@ -4204,8 +4204,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have cached the component then run it
             //
-            if (componentCodeId) {
-                debugger
+            if (componentCodeId && GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
                 let compCode        = GLOBALS.getCodeForComponent({codeId: componentCodeId})
                 if (compCode) {
                     let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
