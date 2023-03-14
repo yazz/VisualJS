@@ -658,7 +658,7 @@ var GLOBALS = {
     ,
 
 
-    getCodeForCommit: function(args) {
+    getCodeForComponent: function(args) {
         if (args.codeId) {
             return GLOBALS.codeCache[args.codeId].code
         }
@@ -693,6 +693,36 @@ var GLOBALS = {
         return GLOBALS.codeCache[codeId].base_component_id
     }
     ,
+
+
+
+
+    getDbToUse: function(args) {
+        let useDb =  null
+        let codeId = args.codeId
+
+        if (codeId)
+        {
+            if (!GLOBALS.codeCache[codeId]) {
+                return useDb
+            }
+
+            if (GLOBALS.codeCache[codeId].use_db) {
+                useDb =  GLOBALS.codeCache[codeId].use_db
+            } else {
+                useDb = GLOBALS.getTypeForCommitId(args.codeId)
+                let codeFor = GLOBALS.getCodeForComponent({codeId: args.codeId})
+                let useOtherDb = yz.getValueOfCodeString(codeFor, "use_db")
+                if (useOtherDb) {
+                    useDb = useOtherDb
+                }
+                GLOBALS.codeCache[codeId].use_db = useDb
+            }
+        }
+        return useDb
+    }
+    ,
+
 
 
 
@@ -4103,7 +4133,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
                 let newDataCodeId   = GLOBALS.getCommitId({baseComponentId: componentType })
                 let codeCommit      = GLOBALS.codeCache[ newDataCodeId ]
-                let codeForCommit   = GLOBALS.getCodeForCommit({codeId: newDataCodeId })
+                let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
                 let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
                 if (properties) {
@@ -4301,23 +4331,21 @@ async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
     let baseComponentId = null
 //zzz
     if (!args) {
-    } else if (args.baseComponentId) {
-        baseComponentId = args.baseComponentId
-        codeId = GLOBALS.getCommitId({baseComponentId: args.baseComponentId})
     } else if (args.codeId) {
         codeId = args.codeId
         baseComponentId = GLOBALS.getTypeForCommitId(codeId)
+    } else if (args.baseComponentId) {
+        baseComponentId = args.baseComponentId
+        codeId = GLOBALS.getCommitId({baseComponentId: args.baseComponentId})
     }
 
     try {
         //
         // Determine the apps SQlite database to use
         //
-        let useDb = componentRecord.base_component_id
-        let useOtherDb = yz.getValueOfCodeString(componentRecord.code, "use_db")
-        if (useOtherDb) {
-            useDb = useOtherDb
-        }
+        //let useDb = componentRecord.base_component_id
+        debugger
+        let useDb = GLOBALS.getDbToUse({codeId: codeId})
 
         //
         // if the component type hasn't been added to the type database then add it
