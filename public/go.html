@@ -4169,7 +4169,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 if (codeCommit) {
                     await checkLibsV3(libsForCode)
                 }
-                let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId},codeCommit)
+                let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeCommit.code})
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 loadedStatic = true
             }
@@ -4205,7 +4205,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                     if (compRec) {
                         await checkLibsV3(compRec)
                     }
-                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: componentCodeId},compRec)
+                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: componentCodeId,   code: compRec.code})
                     await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 }
 
@@ -4248,11 +4248,10 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                             }
                             let trcode2 = await enhanceYazzSourceCodeBeforeRunning(
                                 {
-                                    codeId: sdf[i].code_id,
-                                    baseComponentId: sdf[i].base_component_id
-                                }
-                                ,
-                                sdf[i])
+                                    codeId:             sdf[i].code_id,
+                                    baseComponentId:    sdf[i].base_component_id,
+                                    code:               sdf[i].code
+                                })
                             await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
 
                         }
@@ -4349,11 +4348,11 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
         }
     }
 */
-async function enhanceYazzSourceCodeBeforeRunning(args, componentRecord) {
+async function enhanceYazzSourceCodeBeforeRunning(args) {
 
     let codeId = null
     let baseComponentId = null
-    let code = componentRecord.code
+    let code = args.code
 //zzz
     if (!args) {
     } else if (args.codeId) {
