@@ -4156,16 +4156,10 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 //zzz
                 //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
                 let newDataCodeId   = GLOBALS.getCommitId({baseComponentId: componentType })
-                let codeCommit      = GLOBALS.codeCache[ newDataCodeId ]
                 let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
                 let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
-                if (properties) {
-                    if (isValidObject(codeCommit)) {
-                        codeCommit.properties = JSON.stringify(properties)
-                    }
-                }
-//zzz
+
                 await checkLibsV3(libsForCode)
                 let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeForCommit})
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
