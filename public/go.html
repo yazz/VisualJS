@@ -660,8 +660,11 @@ var GLOBALS = {
 
     getCodeForComponent: function(args) {
         if (args.codeId) {
-            return GLOBALS.codeCache[args.codeId].code
+            if (GLOBALS.codeCache[args.codeId]) {
+                return GLOBALS.codeCache[args.codeId].code
+            }
         }
+        return null
     }
     ,
 
@@ -4202,7 +4205,8 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             // if we have cached the component then run it
             //
             if (componentCodeId) {
-                let compCode        = GLOBALS.getCodeForComponent({baseComponentId: componentCodeId})
+                debugger
+                let compCode        = GLOBALS.getCodeForComponent({codeId: componentCodeId})
                 if (compCode) {
                     let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
                     await checkLibsV3(libsForCode)
