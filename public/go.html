@@ -703,6 +703,9 @@ var GLOBALS = {
         if (!codeId ) {
             codeId = GLOBALS.getCommitId({baseComponentId: args.baseComponentId})
         }
+        if (!codeId ) {
+             return args.baseComponentId
+        }
 
         if (codeId)
         {
