@@ -4201,14 +4201,12 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have cached the component then run it
             //
-            if (componentCodeId && GLOBALS.codeCache[componentCodeId]) {
-                let compRec = GLOBALS.codeCache[componentCodeId]
-                if (compRec) {
-
-                    if (compRec) {
-                        await checkLibsV3(compRec)
-                    }
-                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: componentCodeId,   code: compRec.code})
+            if (componentCodeId) {
+                let compCode        = GLOBALS.getCodeForComponent({baseComponentId: componentCodeId})
+                if (compCode) {
+                    let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
+                    await checkLibsV3(libsForCode)
+                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: componentCodeId,   code: compCode})
                     await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 }
 
