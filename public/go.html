@@ -733,21 +733,32 @@ var GLOBALS = {
 
     cacheComponent: function(code) {
         let baseComponentId = yz.getValueOfCodeString(code, "base_component_id")
+        let codeId = getIpfsHash( code)
 
         if (!GLOBALS.componentTypeCache[baseComponentId]) {
             GLOBALS.componentTypeCache[baseComponentId] = new Object()
             let properties = yz.getValueOfCodeString(code, "properties",")//properties")
-            let id = getIpfsHash( code)
 
             if (isValidObject(properties)) {
                 GLOBALS.componentTypeCache[baseComponentId].code         = code
                 GLOBALS.componentTypeCache[baseComponentId].properties   = properties
-                GLOBALS.componentTypeCache[baseComponentId].code_id      = id
+                GLOBALS.componentTypeCache[baseComponentId].code_id      = codeId
             }
+        }
+
+
+        if (!GLOBALS.codeCache[  codeId  ] ) {
+            GLOBALS.codeCache[  codeId  ] =
+                {
+                    code:               code,
+                    component_type:     "SYSTEM",
+                    libs:               [],
+                    code_id:            codeId,
+                    base_component_id:  baseComponentId
+                }
         }
     }
     ,
-
 
 
 

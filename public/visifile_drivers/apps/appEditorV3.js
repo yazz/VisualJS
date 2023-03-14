@@ -2301,14 +2301,7 @@ End of app preview menu
                         }
 
                         mm.code_id  = await getIpfsHash(mm.editor_text)
-                        GLOBALS.codeCache[  mm.code_id  ] =
-                            {
-                                code:               mm.editor_text,
-                                component_type:     "SYSTEM",
-                                libs:               [],
-                                code_id:            mm.code_id,
-                                base_component_id:  baseCompIdFromSrcCode
-                            }
+                        GLOBALS.cacheComponent(mm.editor_text)
 
 
                         if (mm.app_shown) {
