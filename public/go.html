@@ -4169,7 +4169,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 if (codeCommit) {
                     await checkLibsV3(libsForCode)
                 }
-                let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeCommit.code})
+                let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeForCommit})
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 loadedStatic = true
             }
