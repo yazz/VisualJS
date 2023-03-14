@@ -1043,7 +1043,11 @@ module.exports = {
 
                                                                 //showTimer(`15.4`)
 
-                                                                let sqliteAppDbPath = path.join( mm.userData, 'app_dbs/' + baseComponentId + '.visi' )
+                                                                let dbToUse = baseComponentId
+                                                                if (useDb) {
+                                                                    dbToUse = useDb
+                                                                }
+                                                                let sqliteAppDbPath = path.join( mm.userData, 'app_dbs/' + dbToUse + '.visi' )
 
 
                                                                 if (options && options.allowAppToWorkOffline) {
