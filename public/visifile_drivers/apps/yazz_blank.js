@@ -5534,22 +5534,22 @@ ${origCode}
                         if (isValidObject(compEvaled1)) {
                             newItem.code_id = compEvaled1.code_id
                             let compEvaled = compEvaled1.properties
-                        if (isValidObject(compEvaled)) {
-                            for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
-                                let prop = compEvaled[cpp].id
+                            if (isValidObject(compEvaled)) {
+                                for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
+                                    let prop = compEvaled[cpp].id
 
-                                if (!isValidObject(newItem[prop])){
-                                    if (isValidObject(compEvaled[cpp].default)) {
-                                        newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
-                                    } else if (isValidObject(compEvaled[cpp].default_expression)){
-                                        newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
-                                    } else {
-                                        newItem[prop] = ""
+                                    if (!isValidObject(newItem[prop])){
+                                        if (isValidObject(compEvaled[cpp].default)) {
+                                            newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
+                                        } else if (isValidObject(compEvaled[cpp].default_expression)){
+                                            newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
+                                        } else {
+                                            newItem[prop] = ""
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
 
                     if (data.control) {
