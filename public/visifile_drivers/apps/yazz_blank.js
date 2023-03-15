@@ -3272,9 +3272,7 @@ logo_url("/driver_icons/blocks.png")
                         // ---------------------------------------------------------
 
                         let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
-                        let cachedComponentDefinition = GLOBALS.componentTypeCache[componentId]
-
-                        if (isValidObject(cachedComponentDefinition)) {
+                        if (GLOBALS.isComponentTypeLoaded(componentId)) {
                             let cachedComponentPropertiesDefinition = mm.getControlProperties(mm.model.forms[formName].components[compenentInFormIndex].base_component_id)
                             if (isValidObject(cachedComponentPropertiesDefinition)) {
                                 for (let cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
