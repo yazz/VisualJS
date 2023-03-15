@@ -47,11 +47,11 @@ uses_javascript_librararies(["advanced_bundle"])
           </div> 
           <br>
           <div>
-            
-            IPFS: {{GLOBALS.componentTypeCache[debug_component]?GLOBALS.componentTypeCache[debug_component].code_id:""}}
+
+            IPFS: {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCommitId({baseComponentid: debug_component}):""}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{GLOBALS.componentTypeCache[debug_component]?GLOBALS.componentTypeCache[debug_component].code:""}}
+            {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCodeForComponent({baseComponentid: debug_component}):""}}
           </pre>
           
         </div>
