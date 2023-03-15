@@ -3190,14 +3190,14 @@ if (GLOBALS.isComponentTypeLoaded(typeName))
                 let types = Object.keys(oneProperty.types)
                 for (let myType of types) {
 //console.log("    " + myType)
-                    for (let otherComponentName of Object.keys(GLOBALS.componentTypeCache)){
-                        if (otherComponentName == "table_control") {
+                    for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()){
+//if (otherComponentName == "table_control") {
 //debugger
-                        }
+//}
                         if (otherComponentName != typeName) {
-                            if (GLOBALS.componentTypeCache[otherComponentName]) {
-                                if (GLOBALS.componentTypeCache[otherComponentName].properties) {
-                                    let otherProperties = GLOBALS.componentTypeCache[otherComponentName].properties
+                            if (GLOBALS.isComponentTypeLoaded(otherComponentName)) {
+                                if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
+                                    let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
                                     for (let otherProperty of otherProperties){
                                         if (otherProperty.accept_types) {
                                             for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
