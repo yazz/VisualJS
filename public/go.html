@@ -680,6 +680,15 @@ var GLOBALS = {
     ,
 
 
+    getControlPropertyDefns: function(args) {
+        if (args.baseComponentId) {
+            return GLOBALS.componentTypeCache[args.baseComponentId].properties
+        }
+    }
+    ,
+
+
+
 
     isComponentTypeLoaded: function(baseComponentId) {
         if (baseComponentId) {
@@ -1134,8 +1143,11 @@ function registerComponent(vueComponentObject) {
         }
         if (args && args.name) {
             let cccname = args.name
+            debugger
 
-            for (let oneProperty of GLOBALS.componentTypeCache[args.base_component_id].properties) {
+            //for (let oneProperty of GLOBALS.componentTypeCache[args.base_component_id].properties) {
+            //zzz
+            for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: args.base_component_id})) {
                 let propNamee = oneProperty.id
                 let propType = oneProperty.type
                 if (propNamee) {
