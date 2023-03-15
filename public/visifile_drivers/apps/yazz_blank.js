@@ -5595,8 +5595,8 @@ ${origCode}
                     mm.model.forms[mm.active_form].components.push(newItem)
                     mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
-debugger
-                    //qqq
+//debugger
+                    //qqqDONE
                     let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id})
                     //let compCode = GLOBALS.componentTypeCache[newItem.base_component_id].code
                     let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
@@ -8030,17 +8030,17 @@ return {}
         |________________________________________________________________________ */
         getComponentProperties: function(componentType) {
 //qqq
-//            let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: componentType})
-//           if (isValidObject(compEvaled)) {
-//                return compEvaled
-//            }
-            let compEvaled1 = GLOBALS.componentTypeCache[componentType]
-            if (isValidObject(compEvaled1)) {
-                let compEvaled = compEvaled1.properties
-                if (isValidObject(compEvaled)) {
-                    return compEvaled
-                }
+            let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: componentType})
+           if (isValidObject(compEvaled)) {
+                return compEvaled
             }
+//            let compEvaled1 = GLOBALS.componentTypeCache[componentType]
+//            if (isValidObject(compEvaled1)) {
+//                let compEvaled = compEvaled1.properties
+//                if (isValidObject(compEvaled)) {
+//                    return compEvaled
+//                }
+//            }
 
             return []
         }
