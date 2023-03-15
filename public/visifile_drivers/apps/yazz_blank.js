@@ -132,10 +132,10 @@ logo_url("/driver_icons/blocks.png")
                 <br>
                 <div>
 
-                  IPFS: {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCommitId({baseComponentid: debug_component}):""}}
+                  IPFS: {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCommitId({baseComponentId: debug_component}):""}}
                 </div>
                 <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-                  {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCodeForComponent({baseComponentid: debug_component}):""}}
+                  {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCodeForComponent({baseComponentId: debug_component}):""}}
           </pre>
 
               </div>
@@ -5523,10 +5523,10 @@ ${origCode}
                         mm.components_used_in_this_app[newItem.base_component_id] = true
                     }
 
-                    if (isValidObject(compEvaled1)) {
-                        newItem.code_id = GLOBALS.getCommitId({baseComponentid: newItem.base_component_id})
+                    if (GLOBALS.isComponentTypeLoaded({baseComponentId: newItem.base_component_id})) {
+                        newItem.code_id = GLOBALS.getCommitId({baseComponentId: newItem.base_component_id})
 
-                        let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentid: newItem.base_component_id})
+                        let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                         if (isValidObject(compEvaled)) {
                             for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
                                 let prop = compEvaled[cpp].id
@@ -5586,7 +5586,7 @@ ${origCode}
                     mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
 //debugger
-                    let compCode = GLOBALS.getCodeForComponent({baseComponentid: newItem.base_component_id})
+                    let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id})
                     let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                     if (isValidObject(childrenCode)) {
                         for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
