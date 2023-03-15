@@ -5534,7 +5534,8 @@ ${origCode}
                         //if (isValidObject(compEvaled1)) {
                         if (GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
                             newItem.code_id = compEvaled1.code_id
-                            let compEvaled = compEvaled1.properties
+                            //let compEvaled = compEvaled1.properties
+                            let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                             if (isValidObject(compEvaled)) {
                                 for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
                                     let prop = compEvaled[cpp].id
