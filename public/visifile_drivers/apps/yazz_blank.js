@@ -8026,9 +8026,17 @@ return {}
         |     -------------
         |________________________________________________________________________ */
         getComponentProperties: function(componentType) {
-            let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: componentType})
-            if (isValidObject(compEvaled)) {
-                return compEvaled
+//qqq
+//            let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: componentType})
+//           if (isValidObject(compEvaled)) {
+//                return compEvaled
+//            }
+            let compEvaled1 = GLOBALS.componentTypeCache[componentType]
+            if (isValidObject(compEvaled1)) {
+                let compEvaled = compEvaled1.properties
+                if (isValidObject(compEvaled)) {
+                    return compEvaled
+                }
             }
 
             return []
