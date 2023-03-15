@@ -4402,6 +4402,7 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
         }
     }
 */
+//zzz
 async function enhanceYazzSourceCodeBeforeRunning(args) {
 
     let codeId = null
@@ -4499,6 +4500,35 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                     kkk
                 )
         }
+
+
+
+        let inputCode = "some code;//*** insert_code_here_start ***// //*** insert_code_here_end ***//some more code;"
+        let startIndex = inputCode.indexOf("//*** insert_code_here_start ***//") + 32
+        let endIndex = inputCode.indexOf("//*** insert_code_here_end ***//")
+
+        let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
+        let stt = "//*** copy_start ***//"
+        let editorCodeToCopyStart = codeToCopy.indexOf(stt) + stt.length
+        let editorCodeToCopyEnd = codeToCopy.indexOf("//*** copy_end ***//")
+        let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
+
+        let resultText=""
+        resultText = inputCode.substring(0,startIndex) +
+
+            ".........." +
+
+            inputCode.substring(endIndex)
+        debugger
+
+
+
+
+
+
+
+
+
         return trcode2
 
     } catch (err) {
