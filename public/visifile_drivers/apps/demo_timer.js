@@ -119,10 +119,10 @@ logo_url("/driver_icons/tallly.jpeg")
           <br>
           <div>
 
-            IPFS: {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCommitId({baseComponentid: debug_component}):""}}
+            IPFS: {{GLOBALS.isComponentTypeLoaded(debug_component)?GLOBALS.getCommitId({baseComponentid: debug_component}):""}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-                  {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCodeForComponent({baseComponentid: debug_component}):""}}
+                  {{GLOBALS.isComponentTypeLoaded(debug_component)?GLOBALS.getCodeForComponent({baseComponentid: debug_component}):""}}
           </pre>
           
         </div>

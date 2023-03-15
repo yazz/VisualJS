@@ -132,10 +132,10 @@ logo_url("/driver_icons/blocks.png")
                 <br>
                 <div>
 
-                  IPFS: {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCommitId({baseComponentId: debug_component}):""}}
+                  IPFS: {{GLOBALS.isComponentTypeLoaded(debug_component)?GLOBALS.getCommitId({baseComponentId: debug_component}):""}}
                 </div>
                 <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-                  {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCodeForComponent({baseComponentId: debug_component}):""}}
+                  {{GLOBALS.isComponentTypeLoaded(debug_component)?GLOBALS.getCodeForComponent({baseComponentId: debug_component}):""}}
           </pre>
 
               </div>
@@ -5523,7 +5523,7 @@ ${origCode}
                         mm.components_used_in_this_app[newItem.base_component_id] = true
                     }
 
-                    if (GLOBALS.isComponentTypeLoaded({baseComponentId: newItem.base_component_id})) {
+                    if (GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
                         newItem.code_id = GLOBALS.getCommitId({baseComponentId: newItem.base_component_id})
 
                         let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
