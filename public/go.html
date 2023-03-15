@@ -4216,7 +4216,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have haven't cached the component (given the code ID) then put it on the list of things to load
             //
-            } else if (componentCodeId && !GLOBALS.codeCache[componentCodeId]) {
+            } else if (componentCodeId && !GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
                 componentsItemsToLoad.push(componentTuple)
 
             //
