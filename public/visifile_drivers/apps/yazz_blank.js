@@ -8001,33 +8001,30 @@ return {}
 
 
 
-            /*
-         ________________________________________
-         |                                      |
-         |                   |
-         |                                      |
-         |______________________________________|
+        /*
+        ________________________________________
+        |                                      |
+        |        getComponentProperties        |
+        |                                      |
+        |______________________________________|
 
-         TO BE FILLED IN
-
-         __________
-         | Params |
-         |        |______________________________________________________________
-         |
-         |     NONE
-         |________________________________________________________________________ */
-            getComponentProperties: function(componentName) {
-                let compEvaled1 = GLOBALS.componentTypeCache[componentName]
-                if (isValidObject(compEvaled1)) {
-                    let compEvaled = compEvaled1.properties
-                    if (isValidObject(compEvaled)) {
-                        return compEvaled
-                    }
-                }
-
-                return []
+        TO BE FILLED IN
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     componentName     The component type
+        |     -------------
+        |________________________________________________________________________ */
+        getComponentProperties: function(componentType) {
+            let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: componentType})
+            if (isValidObject(compEvaled)) {
+                return compEvaled
             }
-            ,
+
+            return []
+        }
+        ,
 
 
 
