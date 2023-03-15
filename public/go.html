@@ -771,6 +771,14 @@ var GLOBALS = {
     }
     ,
 
+
+
+    getAllLoadedTypeNames: function() {
+        return Object.keys(GLOBALS.componentTypeCache)
+    }
+    ,
+
+
 //zzz
 
 
@@ -3092,10 +3100,11 @@ if (GLOBALS.isComponentTypeLoaded(typeName))
                 let acceptTypes = Object.keys(oneProperty.accept_types)
                 for (let acceptType of acceptTypes) {
 //console.log("    " + acceptType)
-                    for (let otherComponentName of Object.keys(GLOBALS.componentTypeCache)){
+                    //for (let otherComponentName of Object.keys(GLOBALS.componentTypeCache)){
+                    for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()){
                         if (otherComponentName == "database_control") {
 //debugger
-
+//zzz
                         }
                         if (otherComponentName != typeName) {
                             if (GLOBALS.componentTypeCache[otherComponentName]) {
