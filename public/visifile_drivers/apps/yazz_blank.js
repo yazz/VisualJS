@@ -5067,7 +5067,7 @@ logo_url("/driver_icons/blocks.png")
                 let isComponentInDesignMode = mm.design_mode
 
                 if (!isValidObject(methodFn)) {
-                    let allProps = GLOBALS.componentTypeCache[componentDetails.base_component_id].properties
+                    let allProps = GLOBALS.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
                     if (allProps) {
                         for (let i=0;i<allProps.length;i++) {
                             let thisProp = allProps[i]
@@ -5523,10 +5523,10 @@ ${origCode}
                         mm.components_used_in_this_app[newItem.base_component_id] = true
                     }
 
-                    let compEvaled1 = GLOBALS.componentTypeCache[newItem.base_component_id]
                     if (isValidObject(compEvaled1)) {
-                        newItem.code_id = compEvaled1.code_id
-                        let compEvaled = compEvaled1.properties
+                        newItem.code_id = GLOBALS.getCommitId({baseComponentid: newItem.base_component_id})
+
+                        let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentid: newItem.base_component_id})
                         if (isValidObject(compEvaled)) {
                             for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
                                 let prop = compEvaled[cpp].id
