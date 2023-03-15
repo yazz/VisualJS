@@ -658,10 +658,20 @@ var GLOBALS = {
 
 
     getCodeForComponent: function(args) {
-        if (args.codeId) {
-            if (GLOBALS.codeCache[args.codeId]) {
-                return GLOBALS.codeCache[args.codeId].code
+        let codeId = args.codeId
+        if (!codeId) {
+            if (args.baseComponentId) {
+                codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
             }
+        }
+
+
+        if (codeId) {
+            if (GLOBALS.codeCache[codeId]) {
+                return GLOBALS.codeCache[codeId].code
+            }
+        } else {
+            return  GLOBALS.componentTypeCache[args.baseComponentId].code
         }
         return null
     }
