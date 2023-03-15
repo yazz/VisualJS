@@ -5525,15 +5525,16 @@ ${origCode}
                         mm.components_used_in_this_app[newItem.base_component_id] = true
                     }
 
-                    //qqq
+                    //qqqDONE
                     //if (GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
                     //    newItem.code_id = GLOBALS.getCommitId({baseComponentId: newItem.base_component_id})
 
                     //    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
-                    let compEvaled1 = GLOBALS.componentTypeCache[newItem.base_component_id]
+                    //let compEvaled1 = GLOBALS.componentTypeCache[newItem.base_component_id]
                         //if (isValidObject(compEvaled1)) {
                         if (GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
-                            newItem.code_id = compEvaled1.code_id
+                            //newItem.code_id = compEvaled1.code_id
+                            newItem.code_id = GLOBALS.getCommitId({baseComponentId: newItem.base_component_id})
                             //let compEvaled = compEvaled1.properties
                             let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                             if (isValidObject(compEvaled)) {
