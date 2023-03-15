@@ -5586,12 +5586,10 @@ ${origCode}
                     mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
 //debugger
-                    let compCode = GLOBALS.componentTypeCache[newItem.base_component_id].code
+                    let compCode = GLOBALS.getCodeForComponent({baseComponentid: newItem.base_component_id})
                     let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                     if (isValidObject(childrenCode)) {
                         for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
-                            //alert(JSON.stringify(childrenCode[ee],null,2))
-
                             let childBaseId = childrenCode[ee].base_component_id
                             let childDefProps = childrenCode[ee].properties
                             await mm.addComponentV2(    0 ,
