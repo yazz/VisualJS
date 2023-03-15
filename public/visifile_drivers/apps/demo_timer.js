@@ -118,9 +118,11 @@ logo_url("/driver_icons/tallly.jpeg")
           </div> 
           <br>
           <div>
-            
+
+            IPFS: {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCommitId({baseComponentid: debug_component}):""}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
+                  {{GLOBALS.isComponentTypeLoaded({baseComponentId: debug_component})?GLOBALS.getCodeForComponent({baseComponentid: debug_component}):""}}
           </pre>
           
         </div>
@@ -423,6 +425,7 @@ logo_url("/driver_icons/tallly.jpeg")
                                 v-bind:is='model.forms[active_form].components[active_component_detail_index].base_component_id'
                                 v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
                                 v-bind:props='model.forms[active_form].components[active_component_detail_index]'
+                                v-if='model.forms[active_form].components[active_component_detail_index]'
                                 v-bind:properties='model.forms[active_form].components[active_component_detail_index]'
                                 v-bind:args='model.forms[active_form].components[active_component_detail_index]'>
 
@@ -441,6 +444,7 @@ logo_url("/driver_icons/tallly.jpeg")
                                                 v-bind:is='child_item.base_component_id'
                                                 v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                 v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                                v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                 v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                 v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                     </component>
@@ -1973,19 +1977,70 @@ Pushlist
 
 
 
-                            <!-- More details ... button -->
-                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index) && hasMoreDetailsUi(active_form,active_component_index)'
+                            <!-- Builder ... button -->
+                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                      v-bind:refresh='refresh'
                                      class='btn btn-info'
-                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                     v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width / 2) - 15) + "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 18) +  "px;" +
+                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                        zzz="//zzz"
+                                     v-on:click='GLOBALS.lastEditingAppBaseComponentId = GLOBALS.editingAppBaseComponentId; GLOBALS.lastEditingAppCodeId = GLOBALS.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
+                          >
+
+
+                                  <img
+                                      src='/driver_icons/builder.png'
+                                      style='margin: auto;'
+                                      zzz=""
+                                      class='img-fluid'>
+                                  </img>
+                            </div>
+
+
+
+
+
+
+                          <!-- Fork component ... button -->
+                          <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                   v-bind:refresh='refresh'
+                                   class='btn btn-info'
+                                   v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
                                         "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(active_component_index)'>
+                                   zzz=""
+                                   v-on:click='GLOBALS.lastEditingAppBaseComponentId = GLOBALS.editingAppBaseComponentId; GLOBALS.lastEditingAppCodeId = GLOBALS.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
+                          >
 
-                                    ...
 
-                            </div>
+                            <img
+                                src='/driver_icons/plus.png'
+                                style='margin: auto;'
+                                class='img-fluid'>
+                            </img>
+                          </div>
+
+
+
+                          
+
+
+                          <!-- Advanced details ... button -->
+                          <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index) && hasMoreDetailsUi(active_form,active_component_index)'
+                                   v-bind:refresh='refresh'
+                                   class='btn btn-info'
+                                   v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
+                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                   v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(active_component_index)'>
+
+                            ...
+
+                          </div>
 
 
 
@@ -2008,7 +2063,7 @@ Pushlist
                                                 v-bind:children='getChildren(item.name)'
                                                 v-on:send="processControlEvent"
                                                 v-bind:is='item.base_component_id'
-                                                v-if='!item.parent'
+                                                v-if='!item.parent && model.forms[active_form].components[index]'
                                                 v-bind:name='item.name + "_design_mode_" + design_mode'
                                                 v-bind:properties='model.forms[active_form].components[index]'
                                                 v-bind:props='model.forms[active_form].components[index]'
@@ -2029,6 +2084,7 @@ Pushlist
                                                         v-bind:is='child_item.base_component_id'
                                                         v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                         v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                                        v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                         v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                         v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                             </component>
@@ -2463,67 +2519,97 @@ Pushlist
 
 
 
-                    /* --------------------------------------------------------------
-              mounted
+                    /*
+        ________________________________________
+        |                                      |
+        |             MOUNTED                  |
+        |                                      |
+        |______________________________________|
 
-              This is called whenever an app is loaded, either at design
-              time or at runtime
-           -------------------------------------------------------------- */
+        This is called whenever an app is loaded, either at design
+        time or at runtime
 
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
                     mounted: async function() {
-                        let mm                  = this
-                        mm.unique_app_dom_element_id                 = uuidv4()
-                        mm.vb_grid_element_id   = "vb_grid_"+ uuidv4()
-                        mm.vb_editor_element_id = "vb_editor_"+ uuidv4()
-                        mm.local_app            = localAppshareApp
-                        mm.in_change_model      = true
-                        disableAutoSave = false
+                        let mm                          = this
+                        let json2
+                        let subComponentsUsedInThisApp
 
-                        //console.log("UI Component mounted: " + mm.unique_app_dom_element_id )
+                        mm.unique_app_dom_element_id    = uuidv4()
+                        mm.vb_grid_element_id           = "vb_grid_"+ uuidv4()
+                        mm.vb_editor_element_id         = "vb_editor_"+ uuidv4()
+                        mm.local_app                    = localAppshareApp
+                        mm.in_change_model              = true
+
+                        if (mm.properties) {
+                            mm.args = mm.properties
+                        } else {
+                            mm.properties = mm.args
+                        }
+
+                        if (mm.design_mode) {
+                            disableAutoSave = false
+                        }
 
 
-
-                        // ---------------------------------------------------------
-                        // get the base component ID of the code to edit/run
-                        //
-                        // Save it in "this.edited_app_component_id"
-                        // ---------------------------------------------------------
-
+                        /*
+            ________________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             | Get the base component ID of the code to edit/run
+                             |
+                             | Save it in "this.edited_app_component_id"
+                             |_____________________________________________________
+            */
                         if (texti) {
-                            let json2                   = this.getJsonModelFromCode(  texti  )
-                            mm.old_model = JSON.parse(JSON.stringify(json2));
+                            json2                       = mm.getJsonModelFromCode(  texti  )
+                            mm.old_model                = JSON.parse(JSON.stringify(json2));
                             mm.model                    = json2
                             mm.edited_app_component_id  = yz.getValueOfCodeString(texti, "base_component_id")
 
-                            this.read_only = yz.getValueOfCodeString(texti, "read_only")
+                            mm.read_only = yz.getValueOfCodeString(texti, "read_only")
                         }
                         mm.active_form = mm.model.default_form
 
 
 
-                        // ---------------------------------------------------------
-                        // find out which sub components are used by this app
-                        //
-                        // save the result in "this.components_used_in_this_app"
-                        // ---------------------------------------------------------
-                        if (mm.edited_app_component_id) {
-                            let results = await getSubComponents(mm.text)
 
-                            for (let i = 0; i < results.length; i++) {
-                                mm.components_used_in_this_app[results[i].child_base_component_id] = true
+
+
+                        /*
+            ________________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             | find out which sub components are used by this app
+                             | and save the result in "this.components_used_in_this_app"
+                             | which just sets the value to "true" for the base_component_id
+                             | of that component
+                             |_____________________________________________________
+            */
+                        if (mm.edited_app_component_id) {
+                            subComponentsUsedInThisApp = await getSubComponents(mm.text)
+
+                            for (let i = 0; i < subComponentsUsedInThisApp.length; i++) {
+                                mm.components_used_in_this_app[subComponentsUsedInThisApp[i].child_base_component_id] = true
                             }
                         }
 
 
 
-                        // ---------------------------------------------------------
-                        // load the forms and their controls
-                        // ---------------------------------------------------------
 
 
-                        // ---------------------------------------------------------
-                        // ... Set up all the form methods
-                        // ---------------------------------------------------------
+                        /*
+            ________________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             | Set up all the form methods
+                             |_____________________________________________________
+            */
                         let forms = mm.getForms()
                         for (let formIndex = 0; formIndex < forms.length; formIndex ++) {
                             let formName = forms[formIndex].name
@@ -2531,7 +2617,6 @@ Pushlist
                             let formProps = mm.getFormProperties()
                             for (let cpp = 0 ; cpp < formProps.length; cpp ++) {
                                 let formprop = formProps[cpp]
-                                let propname = formprop.name
                                 let formDef = mm.model.forms[formName]
                                 if (formprop.type == "Action") {
                                     formDef[formprop.id] =
@@ -2546,11 +2631,14 @@ Pushlist
 
 
 
-                            // ---------------------------------------------------------
-                            // Load the component definitions for all components on
-                            // this form
-                            // ---------------------------------------------------------
-//debugger
+                            /*
+                ________________________________________
+                |    mounted                           |
+                |_________________                     |_______________________________
+                                 | Load the component definitions for all components on
+                                 | this form
+                                 |_____________________________________________________
+                */
                             let compsToLoad = []
                             for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                             {
@@ -2559,12 +2647,11 @@ Pushlist
                                     compsToLoad.push(
                                         {
                                             baseComponentId:   newItem.base_component_id,
-                                            ipfsHashId:        newItem.ipfs_hash_id
+                                            codeId:            newItem.code_id
                                         }
                                     )
                                 }
                             }
-                            //debugger
                             await loadUiComponentsV4(compsToLoad)
 
 
@@ -2726,6 +2813,85 @@ Pushlist
                         // end of update all watched vars when a form is activated
                         //
 
+
+
+
+                        /*
+             _______________________________________
+             |    mounted                           |
+             |_________________                     |____________
+                              | Change a UI control in the app
+                              | after the Ui control class definition
+                              | has been edited in another editor
+                              |__________________________________
+             */            if (mm.design_mode) {
+                            if (GLOBALS.originalNameOfEditedUiControl) {
+                                if (GLOBALS.finalBaseComponentIdOfEditedUiControl &&
+                                    (GLOBALS.originalBaseComponentIdOfEditedUiControl !=
+                                        GLOBALS.finalBaseComponentIdOfEditedUiControl)) {
+                                    setTimeout(function(){
+                                        mm.changePropertyValue(
+                                            {
+                                                componentName:   GLOBALS.originalNameOfEditedUiControl,
+                                                propertyName:   "base_component_id",
+                                                propertyValue:   GLOBALS.finalBaseComponentIdOfEditedUiControl
+                                            }
+                                        )
+                                        mm.changePropertyValue(
+                                            {
+                                                componentName:   GLOBALS.originalNameOfEditedUiControl,
+                                                propertyName:   "code_id",
+                                                propertyValue:   GLOBALS.finalCodeIdOfEditedUiControl
+                                            }
+                                        )
+                                        GLOBALS.originalNameOfEditedUiControl = null
+
+                                    },1000)
+                                }
+
+                            }
+                        }
+
+                        /*
+            ________________________________________
+            |    mounted                           |
+            |_________________                     |_______________________________
+                             |  This is only used when previewing a component. Since we use the "Blank Yazz App"
+                             |  for previews we need to see if the argument 'control_type' is passed in, and if
+                             |  it is then we remove then standard text box (with a name of 'aaa') and we add
+                             |  the component being previewed instead
+                             |
+                             |  note this code should be copied to the template too
+                             |_____________________________________________________
+            */
+                        if (mm.args && mm.args.control_type) {
+
+                            //debugger
+                            await mm.deleteComponentByName("aaa")
+                            let compArgs =  {
+                                base_component_id:   mm.args.control_type,
+                                type:               "add_component",
+                                text:               "this.highlighted_control",
+                                offsetX:             100,
+                                offsetY:             100
+                            }
+
+                            if (mm.args.control_code_id) {
+                                compArgs.code_id = mm.args.control_code_id
+                            }
+
+                            await mm.addComponentV2(
+                                200,
+                                200,
+                                compArgs,
+                                null,
+                                null,
+                                [])
+                        }
+// END
+// note this code should be copied to the template too
+//
+
                         setTimeout(async function(){
                             if (GLOBALS.isStaticHtmlPageApp) {
                                 mm.editor_locked = false
@@ -2740,6 +2906,28 @@ Pushlist
                     ,
 
 
+
+
+
+
+
+
+
+                    /*
+        ________________________________________
+        |                                      |
+        |             WATCH                    |
+        |                                      |
+        |______________________________________|
+
+        This watches for changes in the design of the application
+
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
                     watch: {
                         model:
                             {
@@ -2927,6 +3115,22 @@ Pushlist
 
 
                     methods: {
+                        /*
+        ________________________________________
+        |                                      |
+        |             loadControls             |
+        |                                      |
+        |______________________________________|
+
+        This loads the controls for the control palette, which allows the user
+        to add buttons, labels, and other controls to their app
+
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
                         loadControls: async function() {
                             let mm = this
                             let sql =    "select  base_component_id,  app_icon_data as logo_url  from  yz_cache_released_components  " +
@@ -2937,6 +3141,7 @@ Pushlist
 
                             let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                                 {   sql: sql  })
+
                             mm.available_components = results
                             let itemsToLoad = []
                             for (let thiscc of results) {
@@ -2949,9 +3154,33 @@ Pushlist
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+        ________________________________________
+        |                                      |
+        |             addCodeChange            |
+        |                                      |
+        |______________________________________|
+
+        This is called to try to keep a log of changes that has occurred on a commit
+
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
                         addCodeChange: function(changeText) {
-                            //zzz
-                            //debugger
                             let mm = this
                             if (!mm.code_changes) {
                                 mm.code_changes = []
@@ -2967,10 +3196,38 @@ Pushlist
                         ,
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+        ________________________________________
+        |                                      |
+        |         updateComponentMethods       |
+        |                                      |
+        |______________________________________|
+
+        I'm not entirely sure what this method does
+
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
                         updateComponentMethods: function() {
                             let mm = this
-
-
 
                             // ---------------------------------------------------------
                             // ... Set up all the form methods
@@ -2978,7 +3235,6 @@ Pushlist
                             let forms = mm.getForms()
                             for (let formIndex = 0; formIndex < forms.length; formIndex ++) {
                                 let formName = forms[formIndex].name
-
 
                                 // ---------------------------------------------------------
                                 // For each component in the form ...
@@ -2995,8 +3251,6 @@ Pushlist
                                     if (mm.edited_app_component_id) {
                                         mm.components_used_in_this_app[  componentConfig.base_component_id  ] = true
                                     }
-
-
 
 
 
@@ -3027,15 +3281,31 @@ Pushlist
                                             }
                                         }
                                     }
-
-
                                 }
-
                             }
-
-
                         }
                         ,
+
+
+
+
+
+
+                        /*
+        ________________________________________
+        |                                      |
+        |   getIncomingToPropertyName          |
+        |                                      |
+        |______________________________________|
+
+        I'm not entirely sure what this method does
+
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     NONE
+        |________________________________________________________________________ */
                         getIncomingToPropertyName: function(currentWatch) {
                             let ret
                             if (this.model.forms[this.active_form].components[this.active_component_links_index]) {
@@ -3051,10 +3321,62 @@ Pushlist
                             return ret
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |   getEditor                          |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getEditor: function() {
                             return this
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |   changeComponentBaseId              |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         changeComponentBaseId(args) {
                             let mm = this
                             //alert("Hi from the editor" + JSON.stringify(args,null,2))
@@ -3086,6 +3408,42 @@ Pushlist
                             },100)
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |   changePropertyValue                |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |        {
+         |                componentName - The name, such as "aaa" of the control
+         |                -------------
+         |
+         |                propertyName - Which property to change
+         |                ------------
+         |
+         |                propertyValue - The property value
+         |                -------------
+         |        }
+         |________________________________________________________________________ */
                         changePropertyValue(args) {
                             let mm = this
                             //alert("Hi from the editor" + JSON.stringify(args,null,2))
@@ -3117,6 +3475,39 @@ Pushlist
                             },100)
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         lookupComponent: function(componentName) {
                             let component  = null
                             let mm         = this
@@ -3134,6 +3525,35 @@ Pushlist
                             return component
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         lookupComponentOnForm: function(lookupArgs)
                         {
                             //debugger
@@ -3177,6 +3597,30 @@ Pushlist
 
 
 
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getIncomingFromPropertyName: function(currentWatch) {
                             let ret
                             if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid]) {
@@ -3195,6 +3639,32 @@ Pushlist
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getIncomingTransformFn: function(currentWatch) {
                             let ret
                             //debugger
@@ -3207,6 +3677,35 @@ Pushlist
                             return ret
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getOutgoingTransformFn: function(currentPush) {
                             let ret
                             //debugger
@@ -3222,6 +3721,29 @@ Pushlist
 
 
 
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getOutgoingFromPropertyName: function(currentPush) {
                             let ret
                             if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.from_component_uuid]) {
@@ -3238,6 +3760,31 @@ Pushlist
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getOutgoingToPropertyName: function(currentPush) {
                             let ret
                             if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.to_component_uuid]) {
@@ -3255,6 +3802,28 @@ Pushlist
                         ,
 
 
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addPush: function() {
                             //debugger
                             let mm = this
@@ -3287,6 +3856,31 @@ Pushlist
 
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         clearLinks: async function() {
                             let mm = this
                             mm.selectedWatchComponentUuid = null
@@ -3302,6 +3896,33 @@ Pushlist
                             await mm.recalcComponentLinks()
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addWatch: function() {
                             //debugger
                             let mm = this
@@ -3334,10 +3955,61 @@ Pushlist
 
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getNextComponentid: function() {
                             return this.model.next_component_id++
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addNewComponentPush: async function() {
                             //debugger
                             //debugger
@@ -3359,9 +4031,7 @@ Pushlist
                                     "topY": 10,
                                     "name": newName,
                                     "base_component_id": componentToCreateType
-                                }
-
-                            )
+                                })
                             //mm.gotoDragDropEditor()
                             //mm.selectComponentByName(newName)
 
@@ -3379,6 +4049,35 @@ Pushlist
 
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addNewComponentWatch: async function() {
                             //debugger
                             let mm = this
@@ -3419,9 +4118,29 @@ Pushlist
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         showSaveButton: function(event) {
-                            //-------------------------------------------------------------------
                             this.$root.$emit('message', {
                                 type:   "pending"
                             })
@@ -3430,9 +4149,23 @@ Pushlist
 
 
 
-                        //-------------------------------------------------------------------
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setWatchComponent: function(event) {
-                            //-------------------------------------------------------------------
 
                             let mm      = this
                             let val     = null
@@ -3449,10 +4182,35 @@ Pushlist
                         }
                         ,
 
-                        //-------------------------------------------------------------------
-                        setIncomingFormWatchComponent: function(event) {
-                            //-------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
+                        setIncomingFormWatchComponent: function(event) {
                             let mm      = this
                             let val     = null
                             let type    = null
@@ -3484,9 +4242,27 @@ Pushlist
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setWatchToProperty: function(event) {
-                            //-------------------------------------------------------------------
                             let mm = this
                             this.selectedWatchToProperty = event.target.value
                             this.toLinkPropertySelected = true
@@ -3553,22 +4329,92 @@ Pushlist
                         ,
 
 
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setWatchTransformFn: function(event) {
-                            //-------------------------------------------------------------------
                             this.selectedWatchTransformFn = event.target.value
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setPushTransformFn: function(event) {
-                            //-------------------------------------------------------------------
                             this.selectedPushTransformFn = event.target.value
                         }
                         ,
 
-                        //-------------------------------------------------------------------
-                        setWatchFromProperty: function(event) {
-                            //-------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
+                        setWatchFromProperty: function(event) {
                             let mm = this
                             this.selectedWatchFromProperty = event.target.value
 
@@ -3603,10 +4449,31 @@ Pushlist
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setPushComponentType: function(event) {
-                            //-------------------------------------------------------------------
-//debugger
                             let mm      = this
 
                             let ComponentType = event.target.value
@@ -3641,10 +4508,29 @@ Pushlist
 
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setWatchComponentType: function(event) {
-                            //-------------------------------------------------------------------
-                            //debugger
                             let mm      = this
 
                             let ComponentType = event.target.value
@@ -3678,10 +4564,30 @@ Pushlist
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setPushComponent: function(event) {
-                            //-------------------------------------------------------------------
-//debugger
                             let mm      = this
                             let val     = null
                             let type    = null
@@ -3749,10 +4655,28 @@ Pushlist
 
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         linkComponents: function(options) {
-                            //-------------------------------------------------------------------
-                            //debugger
                             let mm      = this
                             //alert(JSON.stringify(options,null,2))
 
@@ -3827,17 +4751,55 @@ Pushlist
 
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setPushToProperty: function(event) {
-                            //-------------------------------------------------------------------
                             this.selectedPushToProperty = event.target.value
                         }
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setPushFromProperty: function(event) {
-                            //-------------------------------------------------------------------
                             let mm = this
                             this.selectedPushFromProperty = event.target.value
                             this.linkSideSelected = "from"
@@ -3864,6 +4826,29 @@ Pushlist
                         ,
 
 
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         deleteLinkedProperty: function(watchListItem ) {
                             //debugger
                             let currentWatchIndex
@@ -3935,12 +4920,141 @@ Pushlist
 
 
 
-                        getControlMethod: function(componentDefn,componentDetails) {
-                            let mm = this
-                            let methodId = componentDefn.id
-                            let methodFn = componentDefn.fn
-                            let fnDetailsTemp       = null
-                            let isAsync = true
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
+                        getControlNonAsyncMethod: function(componentDetails, isComponentInDesignMode, methodId) {
+                            return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                                let me = componentDetails
+                                let parent = null
+                                if (me.parent) {
+                                    parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
+                                }
+
+                                let retv =  null
+                                let fnDetails       = null
+                                let controlDetails = null
+                                if (isComponentInDesignMode) {
+                                    controlDetails = GLOBALS.designModeUiControlNameReturnsVueInstance[componentDetails.name]
+                                } else {
+                                    controlDetails = GLOBALS.runtimeUiControlNameReturnsVueInstance[componentDetails.name]
+                                }
+                                fnDetails = controlDetails[methodId]
+                                retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+
+
+                                return retv
+                            }
+                        }
+                        ,
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
+                        getControlAsyncMethod: function(componentDetails) {
+                            return async function (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
+                                let me = componentDetails
+                                let parent = null
+                                if (me.parent) {
+                                    parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
+                                }
+
+                                let fnDetails = null
+                                if (isValidObject(methodFn)) {
+                                    let thecode =
+                                        `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                    ${methodFn}
+                    })`
+
+                                    fnDetails = eval(thecode)
+
+                                } else {
+                                    let controlDetails = null
+                                    if (isComponentInDesignMode) {
+                                        controlDetails = GLOBALS.designModeUiControlNameReturnsVueInstance[componentDetails.name]
+                                    } else {
+                                        controlDetails = GLOBALS.runtimeUiControlNameReturnsVueInstance[componentDetails.name]
+                                    }
+                                    fnDetails = controlDetails[methodId]
+                                }
+                                let retv = await fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+
+
+                                return retv
+                            }
+                        }
+                        ,
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
+                        getControlMethod: function(  componentDefn  ,  componentDetails  ) {
+                            let mm                      = this
+                            let methodId                = componentDefn.id
+                            let methodFn                = componentDefn.fn
+                            let isAsync                 = true
                             let isComponentInDesignMode = mm.design_mode
 
                             if (!isValidObject(methodFn)) {
@@ -3962,70 +5076,40 @@ Pushlist
                             //   async
                             if (isAsync || isValidObject(methodFn)){
 
-                                return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                                    let me = componentDetails
-                                    let parent = null
-                                    if (me.parent) {
-                                        parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
-                                    }
-
-                                    let fnDetails       = null
-                                    if (isValidObject(methodFn)) {
-                                        let thecode =
-                                            `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                ${methodFn}
-                })`
-
-                                        fnDetails = eval(thecode)
-
-                                    } else {
-                                        let controlDetails = null
-                                        if (isComponentInDesignMode) {
-                                            controlDetails = GLOBALS.designModeUiControlNameReturnsVueInstance[componentDetails.name]
-                                        } else {
-                                            controlDetails = GLOBALS.runtimeUiControlNameReturnsVueInstance[componentDetails.name]
-                                        }
-                                        fnDetails = controlDetails[methodId]
-                                    }
-                                    let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-
-
-                                    return retv
-                                }
+                                return mm.getControlAsyncMethod(componentDetails, isComponentInDesignMode, methodId)
 
                                 //   NOT async
                             } else {
 
-
-                                return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                                    let me = componentDetails
-                                    let parent = null
-                                    if (me.parent) {
-                                        parent = mm.form_runtime_info[mm.active_form].component_lookup_by_name[me.parent]
-                                    }
-
-                                    let retv =  null
-                                    let fnDetails       = null
-                                    let controlDetails = null
-                                    if (isComponentInDesignMode) {
-                                        controlDetails = GLOBALS.designModeUiControlNameReturnsVueInstance[componentDetails.name]
-                                    } else {
-                                        controlDetails = GLOBALS.runtimeUiControlNameReturnsVueInstance[componentDetails.name]
-                                    }
-                                    fnDetails = controlDetails[methodId]
-                                    retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-
-
-                                    return retv
-                                }
-
+                                return mm.getControlNonAsyncMethod(componentDetails, isComponentInDesignMode, methodId)
 
                             }
 
                         }
-
-
                         ,
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getFormMethod: function(formName, formprop) {
                             let mm = this
                             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
@@ -4042,8 +5126,31 @@ ${formprop.fn}
                             }
 
                         }
-
                         ,
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getAppMethod: function(propDetailsId) {
                             let mm = this
                             return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
@@ -4062,8 +5169,34 @@ ${origCode}
                             }
 
                         }
-
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         deleteCursor: function() {
                             document.getElementById(this.vb_grid_element_id).style.cursor = "crosshair"
                             document.getElementById("grid_container").style.cursor = "default"
@@ -4075,6 +5208,31 @@ ${origCode}
                             }
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         switchCursor: function(event, oldCursor, newCursor) {
                             let mm = this
 
@@ -4089,6 +5247,34 @@ ${origCode}
 
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         clickOnMainGrid: async function(event) {
                             if (this.design_mode)
                             {
@@ -4121,7 +5307,7 @@ ${origCode}
                                         parentName    = parentContainer.name
                                     }
 
-
+                                    debugger
                                     await this.addComponentV2(  offsetX,
                                         offsetY,
                                         data,
@@ -4138,6 +5324,34 @@ ${origCode}
 
                         },
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getContainerForPoint: function(leftX,topY) {
 
                             let ccc = this.model.forms[this.active_form].components
@@ -4161,22 +5375,91 @@ ${origCode}
                             return null
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addComponent: async function(leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
+                            //debugger
                             await this.addComponentV2(leftX,topY,data, parentType, parentName, defProps)
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+                        /*
+        ________________________________________
+        |           addComponentV2             |
+        |______________________________________|
+        Adds a component to the form
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     leftX   where to place this control
+        |     -----
+        |
+        |     topY   where to place this control
+        |     ----
+        |//zzz
+        |     data    {
+        |     ----       base_component_id:  ...
+        |                control:            controlDetails
+        |             }
+        |
+        |
+        |     parentType   Only used when adding a component to a container
+        |     ----------
+        |
+        |     parentName   Only used when adding a component to a container
+        |     ----------
+        |
+        |     defProps   Only used when adding a component to a container
+        |     --------
+        |
+        |________________________________________________________________________ */
                         addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
-
                             let mm = this
-
-                            //alert(JSON.stringify(data,null,2))
-
 
                             let promise = new Promise(async function(returnfn) {
                                 let newItem = new Object()
 
-
-                                //alert(parentType +": = (" + parentOffsetX + "," + parentOffsetY + ")")
+                                /*
+                 _______________________________________
+                 |    addComponentV2                    |
+                 |_________________                     |____________
+                                  | Calculate the x,y coordinates of
+                                  | the new component to be added.
+                                  |__________________________________
+                 */
                                 newItem.leftX = Math.floor(leftX)
                                 newItem.topY = Math.floor(topY)
                                 if (newItem.leftX < 0) {
@@ -4185,10 +5468,18 @@ ${origCode}
                                 if (newItem.topY < 0) {
                                     newItem.topY = 0
                                 }
-                                //alert(`(${newItem.leftX},${newItem.topY})`)
 
+
+
+                                /*
+                 _______________________________________
+                 |    addComponentV2                    |
+                 |_________________                     |____________
+                                  | Calculate the name of
+                                  | the new component
+                                  |__________________________________
+                 */
                                 if (parentType) {
-                                    //alert(`${baseId}:(${x1},${y1}) - (${x2},${y2})`)
                                     newItem.parent = parentName
                                 }
 
@@ -4199,18 +5490,34 @@ ${origCode}
                                     newItem.name = data.base_component_id + "_" + mm.model.next_component_id++
                                 }
                                 newItem.base_component_id = data.base_component_id
+                                newItem.code_id = data.code_id
 
 
 
+
+
+                                /*
+                 _______________________________________
+                 |    addComponentV2                    |
+                 |_________________                     |____________
+                                  | If the component isn't loaded
+                                  | then load it
+                                  |__________________________________
+                 */
                                 mm.refresh++
                                 if (!GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
                                     //debugger
-                                    await loadUiComponentsV4([newItem.base_component_id])
+                                    if (newItem.code_id) {
+                                        await loadUiComponentsV4([{codeId: newItem.code_id}])
+                                    } else {
+                                        await loadUiComponentsV4([newItem.base_component_id])
+                                    }
                                     mm.components_used_in_this_app[newItem.base_component_id] = true
                                 }
 
                                 let compEvaled1 = GLOBALS.componentTypeCache[newItem.base_component_id]
                                 if (isValidObject(compEvaled1)) {
+                                    newItem.code_id = compEvaled1.code_id
                                     let compEvaled = compEvaled1.properties
                                     if (isValidObject(compEvaled)) {
                                         for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
@@ -4270,7 +5577,7 @@ ${origCode}
                                 mm.model.forms[mm.active_form].components.push(newItem)
                                 mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
-
+//debugger
                                 let compCode = GLOBALS.componentTypeCache[newItem.base_component_id].code
                                 let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                                 if (isValidObject(childrenCode)) {
@@ -4332,6 +5639,35 @@ ${origCode}
                             return ret
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |           selectComponentByName      |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         selectComponentByName: function(compName) {
                             let mm = this
                             let parentItemIndex = -1;
@@ -4349,10 +5685,42 @@ ${origCode}
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+        ________________________________________
+        |              addControl              |
+        |______________________________________|
+        Adds a control to the page. eg:
+
+        await mm.addControl(
+        {
+            "leftX": 310,
+            "topY": 10,
+            "name": "mycontrol",
+            "base_component_id": "button_control"
+        })
+
+        This function really seems to be a helper function for the more complex
+        "addComponentV2" function
+
+        __________
+        | Params |
+        |        |______________________________________________________________
+        |
+        |     controlDetails:
+        |________________________________________________________________________ */
                         addControl: async function(controlDetails) {
                             let mm = this
-
-
                             let newControl = await mm.addComponentV2( 10,
                                 10,
                                 {
@@ -4375,6 +5743,21 @@ ${origCode}
 
 
 
+                        /*
+         ________________________________________
+         |                                      |
+         |          getControlByName            |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getControlByName: function(controlName) {
                             let mm = this
                             let control = mm.model.forms.Form_1.components[controlName]
@@ -4387,6 +5770,37 @@ ${origCode}
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         refreshControlIndexes: function() {
                             let mm = this
                             if (mm.active_component_detail_name) {
@@ -4407,6 +5821,35 @@ ${origCode}
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         hasMoreDetailsUi: function(formName, componentIndex) {
                             let mm = this
                             let component = mm.model.forms[formName].components[componentIndex]
@@ -4430,6 +5873,33 @@ ${origCode}
                             return false
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         isVisible: function(formName, componentIndex) {
                             let mm = this
                             let component = mm.model.forms[formName].components[componentIndex]
@@ -4457,6 +5927,32 @@ ${origCode}
                             return true
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getLeft: function(formName, componentIndex) {
                             let mm = this
                             let component = mm.model.forms[formName].components[componentIndex]
@@ -4479,6 +5975,33 @@ ${origCode}
                             return left
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getTop: function(formName, componentIndex) {
                             let mm = this
                             let component = mm.model.forms[formName].components[componentIndex]
@@ -4499,6 +6022,36 @@ ${origCode}
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getChildren: function( itemName ) {
 
                             let mm = this
@@ -4513,6 +6066,35 @@ ${origCode}
                             return chh
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         previewUpload: function(property) {
                             let mm = this;
                             let file    = document.getElementById('image_file').files[0];
@@ -4529,6 +6111,35 @@ ${origCode}
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         previewFileUpload: function(property) {
                             let mm = this;
                             let file    = document.getElementById('upload_file').files[0];
@@ -4546,6 +6157,34 @@ ${origCode}
                         ,
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         showHelp: async function(aa) {
                             let mm = this
 
@@ -4584,6 +6223,22 @@ ${origCode}
                         // a File Path property in the property inspector
                         //
                         // -----------------------------------------------------
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         selectFilePath: async function(aa) {
 
                             //
@@ -4636,6 +6291,22 @@ ${origCode}
                         // controls
                         //
                         // -----------------------------------------------------
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         editAsCode: async function(aa) {
 
                             //
@@ -4820,6 +6491,22 @@ ${origCode}
                         //
                         //
                         // -----------------------------------------------------
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setupCodeAutocompletions: function() {
 
                             let mm          = this
@@ -5192,6 +6879,21 @@ ${origCode}
 
 
 
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setupCodeEditorSelectors: function(   property_id   ) {
                             let mm = this
 
@@ -5381,7 +7083,7 @@ ${origCode}
                                             indexActionSelector++
                                         }
                                     }
-                                    let actionIndex = properties.length
+
                                     methodListForSelector.push(
                                         {
                                             value:              "" + indexActionSelector,
@@ -5391,7 +7093,7 @@ ${origCode}
                                             action_id:          "load",
                                             action_name:        "Load event",
                                             action_type:        "Event",
-                                            action_index:       actionIndex++
+                                            action_index:       null
                                         })
                                     if ( property_id == "load" ) {
                                         selectedCodeAction = indexActionSelector
@@ -5408,13 +7110,12 @@ ${origCode}
                                             action_id:          "on_property_in",
                                             action_name:        "On Property In",
                                             action_type:        "Event",
-                                            action_index:       actionIndex++
+                                            action_index:       null
                                         })
                                     if ( property_id == "on_property_in" ) {
                                         selectedCodeAction = indexActionSelector
                                     }
                                     indexActionSelector++
-
 
 
 
@@ -5429,7 +7130,7 @@ ${origCode}
                                             action_id:          "on_property_changed",
                                             action_name:        "On Property Changed",
                                             action_type:        "Event",
-                                            action_index:       actionIndex++
+                                            action_index:       null
                                         })
                                     if ( property_id == "on_property_changed" ) {
                                         selectedCodeAction = indexActionSelector
@@ -5448,7 +7149,7 @@ ${origCode}
                                             action_id:          "on_property_out",
                                             action_name:        "On Property Out",
                                             action_type:        "Event",
-                                            action_index:       actionIndex++
+                                            action_index:       null
                                         })
                                     if ( property_id == "on_property_out" ) {
                                         selectedCodeAction = indexActionSelector
@@ -5474,7 +7175,7 @@ ${origCode}
                                             action_id:          "form_activate",
                                             action_name:        "Activate Event",
                                             action_type:        "Event",
-                                            action_index:       actionIndex++
+                                            action_index:       null
                                         })
                                     if ( property_id == "form_activate" ) {
                                         selectedCodeAction = indexActionSelector
@@ -5565,9 +7266,54 @@ ${origCode}
                         }
                         ,
 
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getActiveFormComponents: function() {
                             return this.model.forms[this.active_form].components
                         },
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         updateAllFormCaches: function() {
                             if (typeof (this.inUpdateAllFormCaches) == 'undefined') {
                                 this["inUpdateAllFormCaches"] = false
@@ -5591,6 +7337,27 @@ ${origCode}
                             this.inUpdateAllFormCaches = false
                         },
 
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         gotoDragDropEditor: function() {
                             this.design_mode_pane.type = "drag_drop";
                             if (this.ui_code_editor) {
@@ -5608,6 +7375,30 @@ ${origCode}
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         updateFormCache: function(formName) {
                             //debugger
                             let mm = this
@@ -5724,14 +7515,61 @@ ${origCode}
                         },
 
 
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         chooseRight: function(ff) {
                             this.right_mode = ff
                         },
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getForms: function() {
-                            //-------------------------------------------------------------------
                             let forms = []
                             let llf = Object.keys(this.model.forms)
                             for (let ii = 0; ii < llf.length ; ii ++) {
@@ -5752,6 +7590,22 @@ ${origCode}
                         //
                         //                          event, property
                         //-------------------------------------------------------------------
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getFormProperties: function(    formName    ) {
                             let props = []
                             props.push({   id:     "name",   name:   "Name",   type:   "String"    })
@@ -5800,9 +7654,30 @@ return {}
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setVBEditorPropertyValue: function(property, val ) {
-                            //-------------------------------------------------------------------
                             let mm      = this
                             let type    = null
 
@@ -5885,10 +7760,31 @@ return {}
 
                         },
 
-                        //-------------------------------------------------------------------
-                        setVBEditorProperty: function(event, property) {
-                            //-------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
+                        setVBEditorProperty: function(event, property) {
                             let mm      = this
                             let val     = null
 
@@ -5900,9 +7796,27 @@ return {}
                             mm.setVBEditorPropertyValue(property, val)
                         },
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getVBEditorProperty: function(property) {
-                            //-------------------------------------------------------------------
                             let val = ""
                             let type
                             if (this.active_component_index != null) {
@@ -5929,9 +7843,35 @@ return {}
                             return val
                         },
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addProperty: function() {
-                            //-------------------------------------------------------------------
                             let mm = this
                             mm.add_property = true
                             mm.new_property_id = ""
@@ -5946,9 +7886,36 @@ return {}
                         }
                         ,
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addPropertySave: function() {
-                            //-------------------------------------------------------------------
                             let mm = this
                             if ((mm.new_property_name.length == 0) || (mm.new_property_id.length == 0)) {
                                 alert("You must enter a property name and ID")
@@ -5990,9 +7957,30 @@ return {}
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addPropertyCancel: function() {
-                            //-------------------------------------------------------------------
                             let mm = this
                             mm.add_property = false
                         }
@@ -6000,9 +7988,29 @@ return {}
 
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getComponentProperties: function(componentName) {
-                            //-------------------------------------------------------------------
                             let compEvaled1 = GLOBALS.componentTypeCache[componentName]
                             if (isValidObject(compEvaled1)) {
                                 let compEvaled = compEvaled1.properties
@@ -6018,10 +8026,30 @@ return {}
 
 
 
-                        //-------------------------------------------------------------------
-                        selectForm: function(formId, showProps) {
-                            //-------------------------------------------------------------------
 
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
+                        selectForm: function(formId, showProps) {
                             let mm = this
 
 
@@ -6071,6 +8099,21 @@ return {}
                         // This is used to run user written event code
                         //-------------------------------------------------------------------
 
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         processControlEvent: async function(  eventMessage  ) {
                             let mm = this
 
@@ -6110,7 +8153,7 @@ return {}
                                 let allForms = this.getForms();
                                 for (let fi =0; fi < allForms.length ; fi ++) {
                                     let aForm = allForms[fi]
-                                    formEval += ("let " + aForm.name +
+                                    formEval += ("var " + aForm.name +
                                         " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
                                 }
@@ -6129,7 +8172,7 @@ return {}
                                     // LEAVE this as a "var", otherwise components don't work inscripts
                                     cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                                 }
-                                eval(cacc)
+                                //eval(cacc)
 
 
 
@@ -6150,20 +8193,20 @@ ${eventMessage.code}
 
                                         if (isValidObject(thisControl.parent)) {
                                             let cacc =""
-                                            cacc += ( "let parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                                            cacc += ( "var parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
                                             eval(cacc)
                                         }
 
                                         let meCode =""
-                                        meCode += ( "let me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                                        meCode += ( "var me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
                                         eval(meCode)
 
                                         let appCode =""
-                                        appCode += ( "let app = mm.model;")
+                                        appCode += ( "var app = mm.model;")
                                         eval(appCode)
 
                                         meCode =""
-                                        meCode += ( "let myForm = mm.model.forms['" + this.active_form + "'];")
+                                        meCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
                                         eval(meCode)
 
 
@@ -6172,15 +8215,15 @@ ${eventMessage.code}
                                         if (isValidObject(eventMessage.args)) {
                                             listOfArgs = Object.keys(eventMessage.args)
                                             for (let rtt=0;rtt<listOfArgs.length;rtt++) {
-                                                argsCode += "let " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
+                                                argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
                                             }
                                         }
                                         eval(argsCode)
 
 
-
+//debugger
                                         let debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
-                                        let efcc = eval(debugFcc)
+                                        let efcc = eval(cacc + "" + debugFcc)
 
 
                                         try {
@@ -6208,11 +8251,11 @@ ${eventMessage.code}
 ${eventMessage.code}
 })`
                                     let meCode =""
-                                    meCode += ( "let me = mm.model.forms['" + this.active_form + "'];")
+                                    meCode += ( "var me = mm.model.forms['" + this.active_form + "'];")
                                     eval(meCode)
 
                                     let appCode =""
-                                    appCode += ( "let app = mm.model;")
+                                    appCode += ( "var app = mm.model;")
                                     eval(appCode)
 
                                     let debugFcc = getDebugCode(this.active_form ,fcc,{skipFirstAndLastLine: true})
@@ -6246,16 +8289,52 @@ ${eventMessage.code}
 
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         allowDropEditor: function(ev) {
-                            //-------------------------------------------------------------------
                             ev.preventDefault();
                         },
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         dropEditor: async function (ev) {
-                            //-------------------------------------------------------------------
                             ev.preventDefault();
                             let mm = this
 
@@ -6300,6 +8379,28 @@ ${eventMessage.code}
                             }
                         },
 
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setInfo: function(text) {
                             this.$root.$emit('message', {
                                 type:   "set_info_text",
@@ -6308,15 +8409,60 @@ ${eventMessage.code}
                         },
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         allowDrop: function(ev) {
-                            //-------------------------------------------------------------------
                             //ev.preventDefault();
                         },
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         drag: function(ev,message) {
-                            //-------------------------------------------------------------------
                             let mm = this
                             let doc = document.documentElement;
                             let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
@@ -6335,6 +8481,73 @@ ${eventMessage.code}
 
 
 
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
+                        switchEditor: async function(editorComponentName) {
+                            let mm = this
+                            //form_runtime_info[active_form].component_incoming_count_by_uuid[model.forms[active_form].components[active_component_index].base_component_id
+                            //debugger
+                            mm.$root.$emit(
+                                'message', {
+                                    type:          "switch_editor",
+                                    editorName:     editorComponentName,
+                                    previewType:   "control"
+                                })
+                        }
+                        ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         showComponentDetailedDesignUi: async function(index) {
                             let mm = this
                             mm.design_mode_pane.type = "control_details_editor"
@@ -6349,6 +8562,34 @@ ${eventMessage.code}
                         },
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         showComponentDetailedDesignUiByName: async function(compName) {
                             let mm = this
                             let parentItemIndex = -1;
@@ -6366,6 +8607,32 @@ ${eventMessage.code}
                         },
 
 
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         clearLinkToProperties: async function() {
                             let mm = this
                             this.selectedWatchToProperties = []
@@ -6401,6 +8668,35 @@ ${eventMessage.code}
                             }
 
                         },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         showComponentLinks: async function(index,diretionOfLinks) {
                             let mm = this
                             mm.design_mode_pane.type = "control_links_editor"
@@ -6424,6 +8720,35 @@ ${eventMessage.code}
                             },400)
                         },
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         recalcComponentLinks: async function() {
                             let mm = this
 //debugger
@@ -6586,6 +8911,33 @@ ${eventMessage.code}
                         },
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         deleteComponent: async function(index) {
                             let mm = this
                             let thisComponentName = this.model.forms[this.active_form].components[index].name
@@ -6605,6 +8957,35 @@ ${eventMessage.code}
                                 mm.$forceUpdate();
                             },400)
                         },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |         deleteComponentByName        |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         deleteComponentByName: async function(thisComponentName) {
                             let mm = this
                             //debugger
@@ -6640,6 +9021,31 @@ ${eventMessage.code}
                         },
 
 
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         childDeleteComponent: function(index) {
                             this.$root.$emit('message', {
                                 type:             "delete_design_time_component",
@@ -6648,6 +9054,32 @@ ${eventMessage.code}
 
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         childSelectComponent: function(index) {
                             this.$root.$emit('message', {
                                 type:             "select_design_time_component",
@@ -6658,7 +9090,30 @@ ${eventMessage.code}
                         }
                         ,
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         drop: async function (ev) {
                             //
                             // This is called when something happens on the main drag and drop
@@ -6701,6 +9156,7 @@ ${eventMessage.code}
                                 let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                                 let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                                 let yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
+                                //debugger
                                 await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
                                 this.highlighted_control = null
 
@@ -6956,7 +9412,31 @@ ${eventMessage.code}
 
                         },
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         get_default_app_propeties: function() {
                             let mm = this
                             return [
@@ -6975,7 +9455,32 @@ ${eventMessage.code}
                         }
                         ,
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getAllAppPropeties: function() {
                             let mm = this
                             let properties                     = mm.get_default_app_propeties()
@@ -6989,12 +9494,34 @@ ${eventMessage.code}
 
 
 
+
+
+
+
+
+
+
                         //-------------------------------------------------------------------
                         //                             select_app
                         //
                         //
                         //-------------------------------------------------------------------
 
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         select_app: function() {
                             let mm = this
 
@@ -7014,12 +9541,33 @@ ${eventMessage.code}
 
 
 
+
+
+
+
+
+
                         //-------------------------------------------------------------------
                         //                        myDataRenderFunction
                         //
                         //
                         //-------------------------------------------------------------------
 
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         myDataRenderFunction: function(data) {
                             if (!isValidObject(data)) {
                                 return "<div></div>"
@@ -7043,6 +9591,32 @@ ${eventMessage.code}
                         },
 
 
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         actionRenderFunction: function(data) {
                             if (!isValidObject(data)) {
                                 return "<div></div>"
@@ -7071,6 +9645,21 @@ ${eventMessage.code}
                         // to display
                         // -------------------------------------------------------------------
 
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         updatePropertySelector: function() {
 
                             let mm = this
@@ -7205,6 +9794,29 @@ ${eventMessage.code}
                         },
 
 
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         existsProp: function(compEvaled,propName) {
                             for (let eee = 0 ;eee < compEvaled.length; eee++) {
                                 if (compEvaled[eee].id == propName) {
@@ -7216,13 +9828,41 @@ ${eventMessage.code}
 
                         ,
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getControlProperties: function(base_component_id) {
                             let properties = []
                             let compEvaled = this.getComponentProperties(base_component_id)
 
                             properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
                             properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
+                            properties.push({   id:     "code_id",             name:   "Type IPFS",   type:   "String" , readonly: true   })
 
                             properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
                             properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
@@ -7364,12 +10004,40 @@ return {}
 
                             return properties
                         }
-                        //-------------------------------------------------------------------
-
                         ,
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         selectComponent: async function(index, showProps) {
-                            //-------------------------------------------------------------------
                             if (!this.design_mode) {
                                 return
                             }
@@ -7394,9 +10062,31 @@ return {}
 
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         addForm: function() {
-                            //-------------------------------------------------------------------
                             let mm = this
                             mm.active_component_index = null
                             mm.properties = mm.getFormProperties()
@@ -7419,9 +10109,31 @@ return {}
 
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         moveUp: function(   fieldId   ) {
-                            //-------------------------------------------------------------------
                             let mm = this
                             let itemD = null
                             for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
@@ -7440,9 +10152,35 @@ return {}
                             }
                         },
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         moveDown: function(   fieldId   ) {
-                            //-------------------------------------------------------------------
                             let mm = this
                             let itemD = null
                             for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
@@ -7461,9 +10199,30 @@ return {}
                             }
                         },
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         deleteField: function(   fieldId   ) {
-                            //-------------------------------------------------------------------
                             let mm = this
                             let itemD = null
                             for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
@@ -7482,7 +10241,30 @@ return {}
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         savedStatus: async function(args) {
                             //debugger
                             //-------------------------------------------------------------------
@@ -7494,9 +10276,29 @@ return {}
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getText: async function() {
-                            //-------------------------------------------------------------------
 
                             //console.log("2) VB: getText")
                             await this.generateCodeFromModel()
@@ -7504,6 +10306,33 @@ return {}
                             return this.text
                         },
 
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         lockEditor: function()
                         {
                             let mm = this
@@ -7512,6 +10341,30 @@ return {}
                         }
                         ,
 
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         unlockEditor: function()
                         {
                             let mm = this
@@ -7521,9 +10374,31 @@ return {}
                         ,
 
 
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         setText: function(textValue) {
-                            //-------------------------------------------------------------------
                             //debugger
                             //console.log("start setText")
                             let mm = this
@@ -7540,19 +10415,65 @@ return {}
                             //console.log("end setText")
                         }
                         ,
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         getJsonModelFromCode: function(  codeV  ) {
-                            //-------------------------------------------------------------------
                             let mm = this
                             mm.edited_app_component_id = yz.getValueOfCodeString(codeV, "base_component_id")
                             let json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
                             return json2
                         }
-
                         ,
-                        //-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+                        /*      ________________________________________
+        |                                      |
+        |       generateCodeFromModel          |
+        |                                      |
+        |______________________________________|
+
+        Generates new code based on the "model"
+
+        __________
+        | Params |
+        |        |_________________________________________
+        |
+        |   NONE
+        |
+        |__________________________________________________ */
                         generateCodeFromModel: async function(  ) {
-                            //-------------------------------------------------------------------
                             let mm = this
                             if (this.in_generate_code_from_model) {
                                 return
@@ -7570,7 +10491,7 @@ return {}
 
 
                                 let sql =    "select  cast(code as text)  as  code  from  yz_cache_released_components  where " +
-                                    "        base_component_id = 'vb_editor_component'  "
+                                    "        base_component_id = 'vb_editor_component'"
 
                                 let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                                     {   sql: sql  })
@@ -7712,6 +10633,40 @@ return {}
                             }
                         }
                         ,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*      ________________________________________
+        |                                      |
+        |               openFile               |
+        |                                      |
+        |______________________________________|
+
+        Opens a file from the file system
+
+        __________
+        | Params |
+        |        |_________________________________________
+        |
+        |     NONE
+        |
+        |__________________________________________________ */
+
                         openFile: async function() {
                             //alert(1)
                             //document.getElementById("openfilefromhomepage").click();
@@ -7735,6 +10690,34 @@ return {}
 
                             //
                         },
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         selectOpenFileOrFolder: async function(fileorFolder, fileExts) {
                             //
                             // if this is a folder
@@ -7781,6 +10764,32 @@ return {}
 
                             //
                         },
+
+
+
+
+
+
+
+
+
+
+
+                        /*
+         ________________________________________
+         |                                      |
+         |                   |
+         |                                      |
+         |______________________________________|
+
+         TO BE FILLED IN
+
+         __________
+         | Params |
+         |        |______________________________________________________________
+         |
+         |     NONE
+         |________________________________________________________________________ */
                         chosenFolderUp:  async function() {
                             //alert(1)
                             //document.getElementById("openfilefromhomepage").click();
@@ -7851,7 +10860,7 @@ return {}
                                 "active_form": "Form_1",
                                 "default_form": "Form_1",
                                 "app_selected": false,
-                                "id": "demo_timer_ccb77130933411edb0348916f8dc5b51",
+                                "id": "COMP_e9257120c2f311ed8c0a19d614e7e1b8",
                                 "next_component_id": 115,
                                 "app_properties": [
                                     {
@@ -7867,8 +10876,8 @@ return {}
                                         "height": 355,
                                         "components": [
                                             {
-                                                "leftX": 34,
-                                                "topY": 24,
+                                                "leftX": 39.97221374511719,
+                                                "topY": 28.00347900390625,
                                                 "name": "aaa",
                                                 "base_component_id": "label_control",
                                                 "width": 100,
@@ -7876,6 +10885,7 @@ return {}
                                                 "text": "0",
                                                 "background_color": "",
                                                 "uuid": "c8b8f370-22db-4bf1-ab05-cdbffea73317",
+                                                "code_id": "",
                                                 "load": "",
                                                 "color": "",
                                                 "border_color": "",
@@ -7886,8 +10896,7 @@ return {}
                                                 "font_size": "",
                                                 "on_property_in": "",
                                                 "on_property_out": "",
-                                                "on_property_changed": "",
-                                                "parent": null
+                                                "on_property_changed": ""
                                             },
                                             {
                                                 "leftX": 37,
@@ -7903,6 +10912,7 @@ return {}
                                                 "height": 100,
                                                 "uuid": "f08cd8ea-c417-47d7-9b65-28386c31e432",
                                                 "parent": null,
+                                                "code_id": "",
                                                 "load": "",
                                                 "on_property_in": "",
                                                 "on_property_out": "",
