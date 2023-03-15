@@ -649,7 +649,6 @@ var GLOBALS = {
 // CODE CACHES
 //----------------------------------------------------
 
-//zzz
     getCommitId: function (args) {
         if (args.baseComponentId) {
             return GLOBALS.baseComponentIdReturnsCommitId[ args.baseComponentId ]
@@ -772,6 +771,7 @@ var GLOBALS = {
     }
     ,
 
+//zzz
 
 
     //
@@ -3078,11 +3078,10 @@ if (typeName == "horiz_scroll_control") {
 
 }
 
-if (isValidObject(GLOBALS.componentTypeCache) &&
-    isValidObject(GLOBALS.componentTypeCache[typeName]) &&
-    isValidObject(GLOBALS.componentTypeCache[typeName].properties)
-) {
-    for (let oneProperty of GLOBALS.componentTypeCache[typeName].properties) {
+
+if (GLOBALS.isComponentTypeLoaded(typeName))
+{
+    for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: typeName})) {
         let propertyName = oneProperty.name
         if (propertyName) {
 
@@ -4201,7 +4200,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded(componentType))) {
                 //console.log("loadUiComponentsV4: 2")
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
-                //zzz
+
                 //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
                 let newDataCodeId   = GLOBALS.getCommitId({baseComponentId: componentType })
                 let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
@@ -4391,7 +4390,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
     let codeId = null
     let baseComponentId = null
     let code = args.code
-//zzz
+
     if (!args) {
     } else if (args.codeId) {
         codeId = args.codeId
