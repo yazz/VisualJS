@@ -119,10 +119,8 @@ logo_url("/driver_icons/tallly.jpeg")
           <br>
           <div>
             
-            IPFS: {{GLOBALS.componentTypeCache[debug_component]?GLOBALS.componentTypeCache[debug_component].code_id:""}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{GLOBALS.componentTypeCache[debug_component]?GLOBALS.componentTypeCache[debug_component].code:""}}
           </pre>
           
         </div>

@@ -2382,16 +2382,12 @@ End of app preview menu
                 if (mm.arg_edit_code_id) {
                     GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                     GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
-                    //GLOBALS.loadedControlsMapInCurrentlyEditedApp[mm.arg_edit_base_component_id]  = false
-                    //GLOBALS.componentTypeCache[mm.arg_edit_base_component_id]             = null
 
                     await mm.load_new_version_of_edited_app({codeId: GLOBALS.editingAppCodeId})
 
 
                 } else if (mm.arg_edit_base_component_id) {
                     GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
-                    //GLOBALS.loadedControlsMapInCurrentlyEditedApp[mm.arg_edit_base_component_id]    = false
-                    //GLOBALS.componentTypeCache[mm.arg_edit_base_component_id]               = null
 
                     await mm.load_new_version_of_edited_app({baseComponentId: this.arg_edit_base_component_id})
 
