@@ -1126,53 +1126,45 @@ function registerComponent(vueComponentObject) {
                              | longer description
                              |__________________________________ */
     if (vueComponentObject) {
-        let args = vueComponentObject.args
-        let argsPrefix="args"
+        let args        = vueComponentObject.args
+        let argsPrefix  = "args"
         if (vueComponentObject.properties) {
             args = vueComponentObject.properties
             argsPrefix = "properties"
         }
         if (args && args.name) {
             let cccname = args.name
-            console.log(args.name );
-            let thisComponent22 = vueComponentObject
-            let listOfProperties = Object.keys(thisComponent22[  argsPrefix  ])
 
             for (let oneProperty of GLOBALS.componentTypeCache[args.base_component_id].properties) {
                 let propNamee = oneProperty.id
                 let propType = oneProperty.type
                 if (propNamee) {
-                    thisComponent22.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
-                    //debugger
+                    vueComponentObject.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
+
                     if (propType != "Action") {
                         console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
                     }
-                    //console.log(cccname + '.' + propType );
                     let designTimeOnlyEvents = false
-                    // get this from the component defn
-                    //debugger
 
                     if (oneProperty.design_time_only_events) {
                         designTimeOnlyEvents = true
                     }
 
-
-//debugger
-                    if (thisComponent22 && thisComponent22.meta) {
-                        if (thisComponent22.meta.getEditor) {
-                            thisComponent22.meta.getEditor().processControlEvent(
+                    if (vueComponentObject && vueComponentObject.meta) {
+                        if (vueComponentObject.meta.getEditor) {
+                            vueComponentObject.meta.getEditor().processControlEvent(
                                 {
                                     type: "subcomponent_event",
-                                    form_name: thisComponent22.meta.getEditor().active_form,
-                                    control_name: thisComponent22[argsPrefix].name,
+                                    form_name: vueComponentObject.meta.getEditor().active_form,
+                                    control_name: vueComponentObject[argsPrefix].name,
                                     sub_type: "on_property_changed",
-                                    code: thisComponent22[argsPrefix].on_property_changed,
+                                    code: vueComponentObject[argsPrefix].on_property_changed,
                                     design_time_only_events: designTimeOnlyEvents,
 
                                     args:
                                         {
-                                            form: thisComponent22.meta.getEditor().active_form,
-                                            component: thisComponent22[argsPrefix].name,
+                                            form: vueComponentObject.meta.getEditor().active_form,
+                                            component: vueComponentObject[argsPrefix].name,
                                             property: propNamee,
                                             value: newValue,
                                             old_value: oldValue,
@@ -1182,8 +1174,6 @@ function registerComponent(vueComponentObject) {
                         }
 
                     }
-
-
                     });
                 }
             }
