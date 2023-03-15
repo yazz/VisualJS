@@ -1097,20 +1097,37 @@ width: 40%
 
 
 <script>
-function registerComponent(vueComponentObject) {
-    if (vueComponentObject) {
-        let args = vueComponentObject.args
-        if (vueComponentObject.properties) {
-            args = vueComponentObject.properties
-        }
-        let componentName = args.name
-        //debugger
-        //console.log(args.name)
-    }
 
+
+
+
+/*
+________________________________________
+|                                      |
+|         registerComponent            |
+|                                      |
+|______________________________________|
+Every UI component in a GUI app must register itself here
+__________
+| PARAMS |______________________________________________________________
+|
+|     vueComponentObject    The Vue object. From the component that
+|     ------------------    is registering itself, it calls register(this)
+|                           from it's mount: method
+|________________________________________________________________________ */
+function registerComponent(vueComponentObject) {
+
+    /*
+    ____________________________________________________________
+    |    registerComponent
+    |_________________________
+                             | part
+                             |
+                             | longer description
+                             |__________________________________ */
     if (vueComponentObject) {
-        let argsPrefix="args"
         let args = vueComponentObject.args
+        let argsPrefix="args"
         if (vueComponentObject.properties) {
             args = vueComponentObject.properties
             argsPrefix = "properties"
@@ -1174,9 +1191,18 @@ function registerComponent(vueComponentObject) {
 
     }
 
+
+
+
+    /*
+    ____________________________________________________________
+    |    registerComponent
+    |_________________________
+                             | part
+                             |
+                             | longer description
+                             |__________________________________ */
     if (isValidObject(vueComponentObject)) {
-
-
         let  usePropVar = vueComponentObject.args
         if (!isValidObject(usePropVar)) {
             usePropVar = vueComponentObject.properties
@@ -1211,6 +1237,17 @@ function registerComponent(vueComponentObject) {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 function unregisterComponent(componentName) {
     GLOBALS.designModeUiControlNameReturnsVueInstance[componentName]   = null
