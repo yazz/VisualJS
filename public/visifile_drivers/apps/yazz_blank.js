@@ -5067,9 +5067,9 @@ logo_url("/driver_icons/blocks.png")
                 let isComponentInDesignMode = mm.design_mode
 
                 if (!isValidObject(methodFn)) {
-                    //qqq
-                    //let allProps = GLOBALS.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
-                    let allProps = GLOBALS.componentTypeCache[componentDetails.base_component_id].properties
+                    //qqqDONE
+                    let allProps = GLOBALS.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
+                    //let allProps = GLOBALS.componentTypeCache[componentDetails.base_component_id].properties
                     if (allProps) {
                         for (let i=0;i<allProps.length;i++) {
                             let thisProp = allProps[i]
