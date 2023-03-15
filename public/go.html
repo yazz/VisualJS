@@ -1143,10 +1143,7 @@ function registerComponent(vueComponentObject) {
         }
         if (args && args.name) {
             let cccname = args.name
-            debugger
 
-            //for (let oneProperty of GLOBALS.componentTypeCache[args.base_component_id].properties) {
-            //zzz
             for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: args.base_component_id})) {
                 let propNamee = oneProperty.id
                 let propType = oneProperty.type
@@ -4409,13 +4406,11 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
         // Determine the apps SQlite database to use
         //
         //let useDb = componentRecord.base_component_id
-        debugger
         let useDb = GLOBALS.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
 
         //
         // if the component type hasn't been added to the type database then add it
         //
-        //zzz
         if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
             GLOBALS.cacheComponent(code)
         }
