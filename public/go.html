@@ -3099,22 +3099,20 @@ if (GLOBALS.isComponentTypeLoaded(typeName))
             if (oneProperty.accept_types) {
                 let acceptTypes = Object.keys(oneProperty.accept_types)
                 for (let acceptType of acceptTypes) {
-//console.log("    " + acceptType)
-                    //for (let otherComponentName of Object.keys(GLOBALS.componentTypeCache)){
+
                     for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()){
                         if (otherComponentName == "database_control") {
-//debugger
 //zzz
                         }
                         if (otherComponentName != typeName) {
-                            if (GLOBALS.componentTypeCache[otherComponentName]) {
-                                if (GLOBALS.componentTypeCache[otherComponentName].properties) {
-                                    let otherProperties = GLOBALS.componentTypeCache[otherComponentName].properties
+                            if (GLOBALS.isComponentTypeLoaded(otherComponentName)) {
+                                if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
+                                    let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
                                     for (let otherProperty of otherProperties){
                                         if (otherProperty.types) {
                                             for (let otherPropertyType of Object.keys(otherProperty.types)){
                                                 if (otherPropertyType == acceptType) {
-//debugger
+
 //console.log("        Found Match for " + acceptType)
                                                     if (!GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName]) {
                                                         GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName]={}
