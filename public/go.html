@@ -3128,7 +3128,7 @@ if (GLOBALS.isComponentTypeLoaded(typeName))
 
                     for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()){
                         if (otherComponentName == "database_control") {
-//zzz
+
                         }
                         if (otherComponentName != typeName) {
                             if (GLOBALS.isComponentTypeLoaded(otherComponentName)) {
@@ -4418,7 +4418,6 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
         }
     }
 */
-//zzz
 async function enhanceYazzSourceCodeBeforeRunning(args) {
 
     let codeId = null
@@ -4525,8 +4524,8 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
 //zzz
         let inputCode = "some code;//*** insert_code_here_start ***// //*** insert_code_here_end ***//some more code;"
-        let startIndex = inputCode.indexOf("//*** insert_code_here_start ***//") + 34
-        let endIndex = inputCode.indexOf("//*** insert_code_here_end ***//")
+        let startIndex = trcode2.indexOf("//*** insert_code_here_start ***//") + 34
+        let endIndex = trcode2.indexOf("//*** insert_code_here_end ***//")
 
         let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
         let stt = "//*** copy_start ***//"
@@ -4535,17 +4534,19 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
         let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
 
         let resultText=""
-        resultText = inputCode.substring(0,startIndex) +
-
-            editorCodeToCopy +
-
-            inputCode.substring(endIndex)
         debugger
+        if (startIndex != -1) {
+            if (endIndex != -1) {
+                trcode2 = trcode2.substring(0,startIndex) +
 
+                    editorCodeToCopy +
 
-
-
-
+                    trcode2.substring(endIndex)
+            }
+        }
+        if (baseComponentId == "yazz_blank") {
+            saveDebugTextOnServer(trcode2, "z.txt")
+        }
 
 
 
@@ -4618,6 +4619,38 @@ async function getSubComponents(srcCode) {
     return retRes
 }
 
+
+
+
+
+
+
+/*
+________________________________________
+|                                      |
+|         saveDebugTextOnServer        |
+|                                      |
+|______________________________________|
+Function description
+__________
+| PARAMS |______________________________________________________________
+|
+|     textInput         The text to save
+|     ---------
+|
+|      fileLocation     Where to save the text
+|      ------------
+|________________________________________________________________________ */
+async function saveDebugTextOnServer(textInput, fileLocation) {
+    let resultsUi = await postToYazzReturnJson(
+        "/save_debug_text",
+        {
+            textInput:      textInput,
+            fileLocation:   fileLocation
+        })
+
+}
+//zzz
 
 </script>
 </body>

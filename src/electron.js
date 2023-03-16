@@ -2738,7 +2738,7 @@ async function startServices() {
             return getRoot(req, res, next);
         })
 
-//zzz
+
 
         app.get('/copy_component_get', async function (req, res, next) {
             let userid              = await getUserId(req)
@@ -2880,6 +2880,35 @@ async function startServices() {
 
 
 
+        /*
+        ________________________________________
+        |                                      |
+        |       POST /save_debug_text          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     componentSearchDetails    Some text
+        |     ----------------------    can go here
+        |                               and on the
+        |                               following lines
+        |
+        |     second param              Some text
+        |     ------------              can go here
+        |                               and on the
+        |                               following lines
+        |________________________________________________________________________ */
+        app.post('/save_debug_text', async function (req, res) {
+            let textInput       = req.body.textInput
+            let fileLocation    = req.body.fileLocation
+            fs.writeFileSync(fileLocation, textInput);
+
+//zzz
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify({status: "OK"}))
+        })
 
 
 

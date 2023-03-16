@@ -99,6 +99,8 @@ is_app(true)
 description('VB Blank App')
 logo_url("/driver_icons/blocks.png")
 */
+//*** insert_code_here_start ***//
+//*** insert_code_here_end ***//
 
     //** gen_start **//
     let texti = null
