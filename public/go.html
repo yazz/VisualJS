@@ -4523,32 +4523,39 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
 
 //zzz
-        let inputCode = "some code;//*** insert_code_here_start ***// //*** insert_code_here_end ***//some more code;"
-        let startIndex = trcode2.indexOf("/* ** *** insert_code_here_start *** ** */")
-        if (startIndex != -1) {
-            startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
-        }
-        let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
-
-        let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
-        let stt = "//*** copy_start ***//"
-        let editorCodeToCopyStart = codeToCopy.indexOf(stt) + stt.length
-        let editorCodeToCopyEnd = codeToCopy.indexOf("//*** copy_end ***//")
-        let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
-
-        let resultText=""
-        debugger
-        if (startIndex != -1) {
-            if (endIndex != -1) {
-                trcode2 = trcode2.substring(0,startIndex) +
-
-                    editorCodeToCopy +
-
-                    trcode2.substring(endIndex)
-            }
-        }
         if (baseComponentId == "yazz_blank") {
-            saveDebugTextOnServer(trcode2, "z.txt")
+            debugger
+        }
+        let runtimePipeline = yz.getValueOfCodeString(trcode2, "runtime_pipeline")
+        if (runtimePipeline){
+            for (let pipelineItem of runtimePipeline) {
+                let inputCode = "some code;//*** insert_code_here_start ***// //*** insert_code_here_end ***//some more code;"
+                let startIndex = trcode2.indexOf("/* ** *** insert_code_here_start *** ** */")
+                if (startIndex != -1) {
+                    startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
+                }
+                let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
+
+                let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
+                let stt = "//*** copy_start ***//"
+                let editorCodeToCopyStart = codeToCopy.indexOf(stt) + stt.length
+                let editorCodeToCopyEnd = codeToCopy.indexOf("//*** copy_end ***//")
+                let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
+
+                let resultText=""
+                if (startIndex != -1) {
+                    if (endIndex != -1) {
+                        trcode2 = trcode2.substring(0,startIndex) +
+
+                            editorCodeToCopy +
+
+                            trcode2.substring(endIndex)
+                    }
+                }
+                if (baseComponentId == "yazz_blank") {
+                    saveDebugTextOnServer(trcode2, "z.txt")
+                }
+            }
         }
 
 

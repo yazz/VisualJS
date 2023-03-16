@@ -67,6 +67,7 @@ formEditor({
   }
 })//formEditor
 component_type("SYSTEM")
+runtime_pipeline(["APP"])
 sub_components([
   "app_editor_3",
   "vb_editor_component",
