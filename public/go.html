@@ -662,17 +662,14 @@ var GLOBALS = {
 //zzz
 
     getPipelineCodeFromServer: async function(fileName) {
-        return `
-        {
+        let resultsCode = await postToYazzReturnJson(
+            "/get_pipeline_code",
+            {
+                pipelineFileName:  fileName
+            })
+        debugger
 
-            pipelineCode: async function () {
-                //*** gen_start ***//
-                alert('2');
-                //*** gen_end ***//
-            }
-        }
-        `
-
+        return resultsCode.value
     }
     ,
 

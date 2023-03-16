@@ -2913,11 +2913,49 @@ async function startServices() {
 
 
 
-/*
-                    POST    '/load_ui_components_v3'
 
-                    Loads a bunch of components
- */
+
+
+
+
+
+        /*
+        ________________________________________
+        |                                      |
+        |       POST /save_debug_text          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     componentSearchDetails    Some text
+        |     ----------------------    can go here
+        |                               and on the
+        |                               following lines
+        |
+        |     second param              Some text
+        |     ------------              can go here
+        |                               and on the
+        |                               following lines
+        |________________________________________________________________________ */
+        app.post('/get_pipeline_code', async function (req, res) {
+            let pipelineFileName       = req.body.pipelineFileName
+            let fileOut = fs.readFileSync("src/" + pipelineFileName, 'utf8').toString()
+
+//zzz
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify({value: fileOut}))
+        })
+
+
+
+
+        /*
+                            POST    '/load_ui_components_v3'
+
+                            Loads a bunch of components
+         */
         app.post('/load_ui_components_v3', async function (req, res) {
             let inputComponentsToLoad       = req.body.find_components.items
             let outputComponents            = []

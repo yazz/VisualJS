@@ -2,7 +2,7 @@
 
     pipelineCode: async function () {
         //*** gen_start ***//
-        alert('2');
+        alert('zed');
         //*** gen_end ***//
     }
 }
