@@ -4504,7 +4504,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
 
         let inputCode = "some code;//*** insert_code_here_start ***// //*** insert_code_here_end ***//some more code;"
-        let startIndex = inputCode.indexOf("//*** insert_code_here_start ***//") + 32
+        let startIndex = inputCode.indexOf("//*** insert_code_here_start ***//") + 34
         let endIndex = inputCode.indexOf("//*** insert_code_here_end ***//")
 
         let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
@@ -4516,7 +4516,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
         let resultText=""
         resultText = inputCode.substring(0,startIndex) +
 
-            ".........." +
+            editorCodeToCopy +
 
             inputCode.substring(endIndex)
         debugger
