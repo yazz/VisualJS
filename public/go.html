@@ -657,9 +657,26 @@ var GLOBALS = {
     // because otherwise we end up with duplication of edits in the engine
     // and the example apps
     //
-    runtimeEngines: new Object(),
+    runtimePipelines: new Object(),
 
 //zzz
+
+    getPipelineCodeFromServer: async function(fileName) {
+        return `
+        {
+
+            pipelineCode: async function () {
+                //*** gen_start ***//
+                alert('2');
+                //*** gen_end ***//
+            }
+        }
+        `
+
+    }
+    ,
+
+
 
 
     /*
@@ -688,7 +705,19 @@ var GLOBALS = {
     |                               following lines
     |________________________________________________________________________ */
     getPipelineCodeToCopy: async function(args) {
-        let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
+        let codeToCopy = null
+        if (GLOBALS.runtimePipelines[args.pipelineName]) {
+            codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
+        } else {
+            if (args.pipelineName == "APP") {
+                GLOBALS.runtimePipelines[args.pipelineName] = {}
+                GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer("runtimePipelineTest.js")
+                GLOBALS.runtimePipelines[args.pipelineName].json = eval("(" + GLOBALS.runtimePipelines[args.pipelineName].code + ")")
+            }
+
+            codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
+        }
+
         let stt = args.fromMarker
         let editorCodeToCopyStart = codeToCopy.indexOf(stt) + stt.length
         let editorCodeToCopyEnd = codeToCopy.indexOf(args.toMarker)
@@ -4573,12 +4602,12 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                         startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
                     }
                     let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
-
+debugger
                     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
                         {
                             pipelineName: "APP",
-                            fromMarker: "//*** copy_start ***//",
-                            toMarker: "//*** copy_end ***//"
+                            fromMarker: "//*** gen_start ***//",
+                            toMarker: "//*** gen_end ***//"
                         })
 
                     let resultText=""

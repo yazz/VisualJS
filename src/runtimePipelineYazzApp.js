@@ -1,6 +1,6 @@
 {
     
-    codeToCopy: async function() {
+    pipelineCode: async function() {
         //** gen_start **//
         let texti = null
         let designMode = false
