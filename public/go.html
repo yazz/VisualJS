@@ -645,6 +645,22 @@ var GLOBALS = {
 
 
 
+    //
+    // This contains the engines that allows components to be decorated at
+    // run time, which means that their source code can be minimal. Originally
+    // this allowed us to take the large .yazz Application files which were
+    // often 300-400k in size, and shrink them to a few k. This is possible
+    // because most of that code was Javascript engine code. By taking this
+    // engine code out of the components also allows us to more easily swap
+    // out Vue.js for something else in the future as well, if needed. Right
+    // now (as of March 2023) we have to move things to an engine model
+    // because otherwise we end up with duplication of edits in the engine
+    // and the example apps
+    //
+    runtimeEngines: new Object(),
+
+
+
 //----------------------------------------------------
 // CODE CACHES
 //----------------------------------------------------
@@ -4503,6 +4519,11 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
 
 
+
+
+
+
+//zzz
         let inputCode = "some code;//*** insert_code_here_start ***// //*** insert_code_here_end ***//some more code;"
         let startIndex = inputCode.indexOf("//*** insert_code_here_start ***//") + 34
         let endIndex = inputCode.indexOf("//*** insert_code_here_end ***//")
@@ -4520,6 +4541,9 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
             inputCode.substring(endIndex)
         debugger
+
+
+
 
 
 
