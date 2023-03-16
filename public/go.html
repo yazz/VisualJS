@@ -4524,8 +4524,11 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
 //zzz
         let inputCode = "some code;//*** insert_code_here_start ***// //*** insert_code_here_end ***//some more code;"
-        let startIndex = trcode2.indexOf("//*** insert_code_here_start ***//") + 34
-        let endIndex = trcode2.indexOf("//*** insert_code_here_end ***//")
+        let startIndex = trcode2.indexOf("/* ** *** insert_code_here_start *** ** */")
+        if (startIndex != -1) {
+            startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
+        }
+        let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
 
         let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
         let stt = "//*** copy_start ***//"
