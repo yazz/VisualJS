@@ -659,7 +659,44 @@ var GLOBALS = {
     //
     runtimeEngines: new Object(),
 
+//zzz
 
+
+    /*
+    ________________________________________
+    |                                      |
+    |       FUNCTION_NAME                  |
+    |                                      |
+    |______________________________________|
+    Function description
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     NONE
+    |     ----
+    |
+    |     OR
+    |
+    |     componentSearchDetails    Some text
+    |     ----------------------    can go here
+    |                               and on the
+    |                               following lines
+    |
+    |     second param              Some text
+    |     ------------              can go here
+    |                               and on the
+    |                               following lines
+    |________________________________________________________________________ */
+    getPipelineCodeToCopy: async function(args) {
+        let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
+        let stt = args.fromMarker
+        let editorCodeToCopyStart = codeToCopy.indexOf(stt) + stt.length
+        let editorCodeToCopyEnd = codeToCopy.indexOf(args.toMarker)
+        let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
+
+        return editorCodeToCopy
+    }
+    ,
 
 //----------------------------------------------------
 // CODE CACHES
@@ -805,7 +842,7 @@ var GLOBALS = {
     ,
 
 
-//zzz
+
 
 
     //
@@ -4529,31 +4566,35 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
         let runtimePipeline = yz.getValueOfCodeString(trcode2, "runtime_pipeline")
         if (runtimePipeline){
             for (let pipelineItem of runtimePipeline) {
-                let inputCode = "some code;//*** insert_code_here_start ***// //*** insert_code_here_end ***//some more code;"
-                let startIndex = trcode2.indexOf("/* ** *** insert_code_here_start *** ** */")
-                if (startIndex != -1) {
-                    startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
-                }
-                let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
+                if (pipelineItem == "APP") {
 
-                let codeToCopy = "//*** copy_start ***//alert('1');//*** copy_end ***//"
-                let stt = "//*** copy_start ***//"
-                let editorCodeToCopyStart = codeToCopy.indexOf(stt) + stt.length
-                let editorCodeToCopyEnd = codeToCopy.indexOf("//*** copy_end ***//")
-                let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
-
-                let resultText=""
-                if (startIndex != -1) {
-                    if (endIndex != -1) {
-                        trcode2 = trcode2.substring(0,startIndex) +
-
-                            editorCodeToCopy +
-
-                            trcode2.substring(endIndex)
+                    let startIndex = trcode2.indexOf("/* ** *** insert_code_here_start *** ** */")
+                    if (startIndex != -1) {
+                        startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
                     }
+                    let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
+
+                    let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
+                        {
+                            pipelineName: "APP",
+                            fromMarker: "//*** copy_start ***//",
+                            toMarker: "//*** copy_end ***//"
+                        })
+
+                    let resultText=""
+                    if (startIndex != -1) {
+                        if (endIndex != -1) {
+                            trcode2 = trcode2.substring(0,startIndex) +
+
+                                editorCodeToCopy +
+
+                                trcode2.substring(endIndex)
+                        }
+                    }
+
                 }
                 if (baseComponentId == "yazz_blank") {
-                    saveDebugTextOnServer(trcode2, "z.txt")
+                    await saveDebugTextOnServer(trcode2, "z.txt")
                 }
             }
         }
@@ -4660,7 +4701,7 @@ async function saveDebugTextOnServer(textInput, fileLocation) {
         })
 
 }
-//zzz
+
 
 </script>
 </body>
