@@ -6,7 +6,7 @@
             let texti = null
             let designMode = false
             let runtimeMode = true
-            Vue.component('yazz_blank', {
+            Vue.component('_REPLACE_THIS_WITH_BASE_COMPONENT_ID_', {
                 props: [ "args"],
                 template:
                     `<div   v-bind:id='unique_app_dom_element_id'
@@ -10785,7 +10785,7 @@ return {}
                             "active_form": "Form_1",
                             "default_form": "Form_1",
                             "app_selected": false,
-                            "id": "yazz_blank",
+                            "id": "_REPLACE_THIS_WITH_BASE_COMPONENT_ID_",
                             "next_component_id": 114,
                             "app_properties": [
                                 {
