@@ -10782,61 +10782,6 @@ return {}
                         model:
                         //*** insert_app_model_start ***//
                         {
-                            "next_id": 7,
-                            "max_form": 5,
-                            "active_form": "Form_1",
-                            "default_form": "Form_1",
-                            "app_selected": false,
-                            "id": "_REPLACE_THIS_WITH_BASE_COMPONENT_ID_",
-                            "next_component_id": 114,
-                            "app_properties": [
-                                {
-                                    "id": "test",
-                                    "name": "test",
-                                    "type": "String"
-                                }
-                            ],
-                            "forms": {
-                                "Form_1": {
-                                    "name": "Form_1",
-                                    "width": 400,
-                                    "height": 400,
-                                    "add_block": "alert('Add block called')",
-                                    "components": [
-                                        {
-                                            "leftX": 24,
-                                            "topY": 47,
-                                            "name": "aaa",
-                                            "base_component_id": "label_control",
-                                            "width": 320,
-                                            "height": 99,
-                                            "text": "Drag controls from the left onto this grid",
-                                            "background_color": "",
-                                            "parent": null,
-                                            "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
-                                            "watch": [],
-                                            "border_width_px": 1,
-                                            "padding_px": 5,
-                                            "load": "",
-                                            "color": "",
-                                            "border_color": "",
-                                            "use_pre": "",
-                                            "font_size_units": "",
-                                            "font_size": "",
-                                            "on_property_in": "",
-                                            "on_property_out": "",
-                                            "on_property_changed": "",
-                                            "code_id": ""
-                                        }
-                                    ]
-                                },
-                                "Form_2": {
-                                    "name": "Form_2",
-                                    "components": [],
-                                    "width": 300,
-                                    "height": 300
-                                }
-                            }
                         }
                         //*** insert_app_model_end ***//
                     }
