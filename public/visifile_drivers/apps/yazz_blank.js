@@ -106,6 +106,7 @@ logo_url("/driver_icons/blocks.png")
 /* ** *** insert_code_here_end *** ** */
 
     //** gen_start **//
+    {
     let texti = null
     let designMode = false
     let runtimeMode = true
@@ -10940,7 +10941,9 @@ return {}
                     }
                 }}
         }
-    })//** gen_end **//
+    })
+    }
+    //** gen_end **//
     /*
 allowAccessToAppBaseComponentIds([""])
 allowAccessToAppTypes(["database_reader"])
