@@ -667,7 +667,6 @@ var GLOBALS = {
             {
                 pipelineFileName:  fileName
             })
-        debugger
 
         return resultsCode.value
     }
@@ -715,7 +714,7 @@ var GLOBALS = {
 
             codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
         }
-        debugger
+
         let stt = args.fromMarker
         let editorCodeToCopyStart = codeToCopy.indexOf(stt)
         if (editorCodeToCopyStart == -1){
@@ -4644,9 +4643,6 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  | Transform the code using the
                                  | runtime pipelines
                                  |__________________________________ */
-        if (baseComponentId.startsWith("COMP_")) {
-            debugger
-        }
         let runtimePipeline = yz.getValueOfCodeString(trcode2, "runtime_pipeline")
         if (runtimePipeline){
             for (let pipelineItem of runtimePipeline) {
@@ -4665,7 +4661,6 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                             toMarker: "//*** gen_end ***//"
                         })
 
-                    let resultText=""
                     if (startIndex != -1) {
                         if (endIndex != -1) {
                             trcode2 = trcode2.substring(0,startIndex) +
@@ -4677,6 +4672,14 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                     }
 
 
+
+
+
+
+                    if (baseComponentId.startsWith("COMP_")) {
+                        debugger
+                    }
+
                     let model = yz.getValueOfCodeString(trcode2,"formEditor",")//formEditor")
                     let modelAsText =  JSON.stringify( model,
 
@@ -4687,11 +4690,11 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                             return value;
                         }, 2)
 
-                    let startIndex2 = trcode2.indexOf("//*** insert_app_model_start ***//")
+                    let startIndex2 = trcode2.indexOf("/* ** insert_app_model_start ** */")
                     if (startIndex2 != -1) {
                         startIndex2 += 34
                     }
-                    let endIndex2 = trcode2.indexOf("/*** insert_app_model_end ***/")
+                    let endIndex2 = trcode2.indexOf("/* ** insert_app_model_end ** */")
 
                     if (startIndex2 != -1) {
                         if (endIndex2 != -1) {
