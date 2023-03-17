@@ -4516,18 +4516,34 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  |__________________________________ */
         let useDb = GLOBALS.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
 
-        //
-        // if the component type hasn't been added to the type database then add it
-        //
+
+
+
+        /*
+        ____________________________________________________________
+        |    enhanceYazzSourceCodeBeforeRunning
+        |_________________________
+                                 | if the component type hasn't been
+                                 | added to the type database then add it
+                                 | to use
+                                 |__________________________________ */
         if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
             GLOBALS.cacheComponent(code)
         }
 
 
 
-        //
-        // Sqlite stuff
-        //
+
+
+
+        /*
+        ____________________________________________________________
+        |    enhanceYazzSourceCodeBeforeRunning
+        |_________________________
+                                 | If we are running the app from a
+                                 | HTML page then run the SQL queries
+                                 | from the embedded SQLite database
+                                 |__________________________________ */
         let addP = "'" + codeId + "', '" + useDb + "', "
         if (localAppshareApp) {
 
@@ -4539,22 +4555,29 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                 if (eds){
                     for (let te = 1; te < eds.length ; te = te + 2) {
                         let sqlStatements = eds[te]
-                        //console.log(`${te}`)
                         for (let te2 = 0; te2 < sqlStatements.length ; te2 ++) {
                             let sqlStatement = sqlStatements[te2]
-                            //console.log(`   SQL ${te2}: ${sqlStatement}`)
                             localSql(sqlStatement)
                         }
 
                     }
                 }
             }
-            //alert(eds.length)
         }
 
-        //
-        // Execute the code
-        //
+
+
+
+
+
+
+        /*
+        ____________________________________________________________
+        |    enhanceYazzSourceCodeBeforeRunning
+        |_________________________
+                                 | Add debugger info to the code to
+                                 | allow step by step debugging
+                                 |__________________________________ */
         let trcode2 = "(" + code + ")"
 
         let component_type = yz.getValueOfCodeString(code, "component_type")
@@ -4569,18 +4592,33 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
             indexComponent( baseComponentId  )
         }
 
-        //
-        // Sqlite stuff
-        //
+
+
+
+
+
+        /*
+        ____________________________________________________________
+        |    enhanceYazzSourceCodeBeforeRunning
+        |_________________________
+                                 | Sqlite stuff
+                                 |__________________________________ */
         trcode2 = trcode2.toString().replaceAll("sql[(]","await rxsql(" + addP)
         trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
         trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
         trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
 
 
-        //
-        // User auth stuff
-        //
+
+
+
+
+        /*
+        ____________________________________________________________
+        |    enhanceYazzSourceCodeBeforeRunning
+        |_________________________
+                                 | User auth stuff
+                                 |__________________________________ */
         let kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
         if (kkk) {
             //alert(JSON.stringify(kkk,null,2))
@@ -4599,6 +4637,13 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
 
 //zzz
+        /*
+        ____________________________________________________________
+        |    enhanceYazzSourceCodeBeforeRunning
+        |_________________________
+                                 | Transform the code using the
+                                 | runtime pipelines
+                                 |__________________________________ */
         if (baseComponentId == "yazz_blank") {
             debugger
         }
