@@ -4469,29 +4469,34 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
 
 
 
-
 /*
-    componentRecord
-
-     ===
-
-    {
-        value:
-        {
-            code:               "async function() { ... }"
-            component_type:     "SYSTEM",
-            libs:                [],
-            code_id:            "${sha1sum}",
-            base_component_id:  "${baseComponentId}"
-        }
-    }
-*/
+________________________________________
+|                                      |
+|  enhanceYazzSourceCodeBeforeRunning  |
+|                                      |
+|______________________________________|
+Function description
+__________
+| PARAMS |______________________________________________________________
+|
+|     args      {
+|     ----          codeId
+|                   baseComponentId
+|               }
+|________________________________________________________________________ */
 async function enhanceYazzSourceCodeBeforeRunning(args) {
 
-    let codeId = null
+    let codeId          = null
     let baseComponentId = null
-    let code = args.code
+    let code            = args.code
 
+
+    /*
+    ____________________________________________________________
+    |    enhanceYazzSourceCodeBeforeRunning
+    |_________________________
+                             | Set the commit ID and type
+                             |__________________________________ */
     if (!args) {
     } else if (args.codeId) {
         codeId = args.codeId
@@ -4502,10 +4507,13 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
     }
 
     try {
-        //
-        // Determine the apps SQlite database to use
-        //
-        //let useDb = componentRecord.base_component_id
+        /*
+        ____________________________________________________________
+        |    enhanceYazzSourceCodeBeforeRunning
+        |_________________________
+                                 | Determine the apps SQlite database
+                                 | to use
+                                 |__________________________________ */
         let useDb = GLOBALS.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
 
         //
