@@ -10434,7 +10434,7 @@ return {}
 
 
 
-
+//zzz
             //this.text = this.text.substring(0,startIndex) +
               let   thistext = this.text.substring(0,startIndex) +
 
