@@ -10435,7 +10435,8 @@ return {}
 
 
 
-            this.text = this.text.substring(0,startIndex) +
+            //this.text = this.text.substring(0,startIndex) +
+              let   thistext = this.text.substring(0,startIndex) +
 
                 `//** gen_start **//
                 let texti = null

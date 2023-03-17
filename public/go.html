@@ -707,16 +707,21 @@ var GLOBALS = {
             codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
         } else {
             if (args.pipelineName == "APP") {
+
                 GLOBALS.runtimePipelines[args.pipelineName] = {}
-                GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer("runtimePipelineTest.js")
+                GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer("runtimePipelineYazzApp.js")
                 GLOBALS.runtimePipelines[args.pipelineName].json = eval("(" + GLOBALS.runtimePipelines[args.pipelineName].code + ")")
             }
 
             codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
         }
-
+        debugger
         let stt = args.fromMarker
-        let editorCodeToCopyStart = codeToCopy.indexOf(stt) + stt.length
+        let editorCodeToCopyStart = codeToCopy.indexOf(stt)
+        if (editorCodeToCopyStart == -1){
+            throw "Can't find start"
+        }
+        editorCodeToCopyStart += stt.length
         let editorCodeToCopyEnd = codeToCopy.indexOf(args.toMarker)
         let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
 
