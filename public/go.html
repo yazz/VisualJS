@@ -4657,7 +4657,6 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                         startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
                     }
                     let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
-debugger
                     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
                         {
                             pipelineName: "APP",
@@ -4665,7 +4664,6 @@ debugger
                             toMarker: "//*** gen_end ***//"
                         })
 
-                    let resultText=""
                     if (startIndex != -1) {
                         if (endIndex != -1) {
                             trcode2 = trcode2.substring(0,startIndex) +
@@ -4675,7 +4673,41 @@ debugger
                                 trcode2.substring(endIndex)
                         }
                     }
+
+
+                    let model = yz.getValueOfCodeString(trcode2,"formEditor",")//formEditor")
+                    let modelAsText =  JSON.stringify( model,
+
+                        function(key, value) {
+                            if (typeof value === 'string') {
+                                return  value.toString()
+                            }
+                            return value;
+                        }, 2)
+
+                    debugger
+                    let startIndex2 = trcode2.indexOf("//*** insert_app_model_start ***//")
+                    if (startIndex2 != -1) {
+                        startIndex2 += 34
+                    }
+                    let endIndex2 = trcode2.indexOf("/*** insert_app_model_end ***/")
+
+                    if (startIndex2 != -1) {
+                        if (endIndex2 != -1) {
+                            trcode2 = trcode2.substring(0,startIndex2) +
+
+                                modelAsText +
+
+                                trcode2.substring(endIndex2)
+                        }
+                    }
+
+
+
+
                     trcode2 = trcode2.toString().replaceAll("yazz_blank",baseComponentId )
+
+
 
                 }
                 if (baseComponentId == "yazz_blank") {
