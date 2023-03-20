@@ -4476,7 +4476,6 @@ __________
 |               }
 |________________________________________________________________________ */
 async function enhanceYazzSourceCodeBeforeRunning(args) {
-debugger
     let codeId          = null
     let baseComponentId = null
     let code            = args.code
@@ -4518,6 +4517,7 @@ debugger
                                  | added to the type database then add it
                                  | to use
                                  |__________________________________ */
+                                 //zzz
         if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
             GLOBALS.cacheComponent(code)
         }
@@ -4669,7 +4669,7 @@ debugger
 
 
                     if (baseComponentId.startsWith("COMP_")) {
-                        debugger
+                        //debugger
                     }
 
                     let model = yz.getValueOfCodeString(trcode2,"formEditor",")//formEditor")
