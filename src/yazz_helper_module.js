@@ -914,7 +914,7 @@ module.exports = {
 
                                                 newStaticFileContent = newStaticFileContent.toString().replace("isStaticHtmlPageApp: false", "isStaticHtmlPageApp: true")
 
-                                                let newcode = escape( code.toString() )
+                                                let escapedCode = escape( code.toString() )
 
 
                                                 newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
@@ -924,15 +924,18 @@ module.exports = {
                                                 newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
                                                 newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
 
+let pipelineCode = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzApp.js"})
+let escapedPipelineCode = escape( pipelineCode.toString() )
 
-    //zzz
-                                                //GLOBALS.runtimePipelines[args.pipelineName] = {}
-                                                //GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer("runtimePipelineYazzApp.js")
-                                                //GLOBALS.runtimePipelines[args.pipelineName].json = eval("(" + GLOBALS.runtimePipelines[args.pipelineName].code + ")")
+                                                let newCode =  `
+GLOBALS.runtimePipelines["APP2"] = {}
+GLOBALS.runtimePipelines["APP2"].code = unescape(\`${escapedPipelineCode}\`)
+GLOBALS.runtimePipelines["APP2"].json = eval("(" + GLOBALS.runtimePipelines["APP2"].code + ")")
+`
 
 
-                                                let newCode =  `GLOBALS.codeCache["${sha1sum}"] = {
-                                                "code": /*APP_START*/unescape(\`${newcode}\`)/*APP_END*/,
+                                                    newCode +=  `GLOBALS.codeCache["${sha1sum}"] = {
+                                                "code": /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/,
                                                 "component_type": \"SYSTEM\",
                                                 "libs": [],
                                                 "code_id": "${sha1sum}",
@@ -940,7 +943,7 @@ module.exports = {
                                             }
                                             
                                             GLOBALS.codeCacheV2["${sha1sum}"] = {
-                                                "code": /*APP_START_V2*/unescape(\`${newcode}\`)/*APP_END_V2*/
+                                                "code": /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
                                             }
                                             
                                             GLOBALS.componentTypeCacheV2["${baseComponentId}"] = {
