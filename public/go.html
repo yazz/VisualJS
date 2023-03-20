@@ -827,11 +827,14 @@ var GLOBALS = {
 
 
 
-    cacheComponent: function(code) {
+    cacheComponent: async function(code, codeId) {
         let baseComponentId = yz.getValueOfCodeString(code, "base_component_id")
-        let codeId = getIpfsHash( code)
+        if (!isValidObject(codeId)) {
+            codeId = await getIpfsHash( code )
+        }
 
         if (!GLOBALS.componentTypeCache[baseComponentId]) {
+            console.log("cacheComponent("+baseComponentId+"," + codeId+")")
             GLOBALS.componentTypeCache[baseComponentId] = new Object()
             let properties = yz.getValueOfCodeString(code, "properties",")//properties")
 
@@ -4519,7 +4522,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  |__________________________________ */
                                  //zzz
         if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
-            GLOBALS.cacheComponent(code)
+            await GLOBALS.cacheComponent(code, codeId)
         }
 
 
