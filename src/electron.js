@@ -2940,9 +2940,8 @@ async function startServices() {
         |                               following lines
         |________________________________________________________________________ */
         app.post('/get_pipeline_code', async function (req, res) {
-            let pipelineFileName       = req.body.pipelineFileName
-            let fileOut = fs.readFileSync("src/" + pipelineFileName, 'utf8').toString()
-
+            let pipelineFileName        = req.body.pipelineFileName
+            let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
 //zzz
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({value: fileOut}))

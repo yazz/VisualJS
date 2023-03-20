@@ -925,6 +925,10 @@ module.exports = {
                                                 newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
 
 
+    //zzz
+                                                //GLOBALS.runtimePipelines[args.pipelineName] = {}
+                                                //GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer("runtimePipelineYazzApp.js")
+                                                //GLOBALS.runtimePipelines[args.pipelineName].json = eval("(" + GLOBALS.runtimePipelines[args.pipelineName].code + ")")
 
 
                                                 let newCode =  `GLOBALS.codeCache["${sha1sum}"] = {
@@ -1248,6 +1252,43 @@ module.exports = {
         }
         return retRes
     }
+    ,
+
+
+
+
+
+
+
+
+    /*
+    ________________________________________
+    |                                      |
+    |       getPipelineCode                |
+    |                                      |
+    |______________________________________|
+    Function description
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     NONE
+    |     ----
+    |
+    |     OR
+    |
+    |     args    {
+    |     ----          pipelineFileName
+    |             }
+    |________________________________________________________________________ */
+    getPipelineCode: async function(args) {
+        let pipelineFileName = args.pipelineFileName
+        let fileOut = fs.readFileSync("src/" + pipelineFileName, 'utf8').toString()
+        return fileOut
+    }
+
+
+
+
 
 
 
