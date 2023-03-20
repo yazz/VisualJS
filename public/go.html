@@ -678,27 +678,15 @@ var GLOBALS = {
     /*
     ________________________________________
     |                                      |
-    |       FUNCTION_NAME                  |
+    |       getPipelineCodeToCopy                  |
     |                                      |
     |______________________________________|
     Function description
     __________
     | PARAMS |______________________________________________________________
     |
-    |     NONE
+    |     args
     |     ----
-    |
-    |     OR
-    |
-    |     componentSearchDetails    Some text
-    |     ----------------------    can go here
-    |                               and on the
-    |                               following lines
-    |
-    |     second param              Some text
-    |     ------------              can go here
-    |                               and on the
-    |                               following lines
     |________________________________________________________________________ */
     getPipelineCodeToCopy: async function(args) {
         let codeToCopy = null
@@ -728,9 +716,13 @@ var GLOBALS = {
     }
     ,
 
-//----------------------------------------------------
-// CODE CACHES
-//----------------------------------------------------
+
+
+
+
+    //----------------------------------------------------
+    // CODE CACHES
+    //----------------------------------------------------
 
     getCommitId: function (args) {
         if (args.baseComponentId) {
@@ -4484,7 +4476,7 @@ __________
 |               }
 |________________________________________________________________________ */
 async function enhanceYazzSourceCodeBeforeRunning(args) {
-
+debugger
     let codeId          = null
     let baseComponentId = null
     let code            = args.code
