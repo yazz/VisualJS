@@ -928,9 +928,9 @@ let pipelineCode = await mm.getPipelineCode({pipelineFileName: "runtimePipelineY
 let escapedPipelineCode = escape( pipelineCode.toString() )
 
                                                 let newCode =  `
-GLOBALS.runtimePipelines["APP2"] = {}
-GLOBALS.runtimePipelines["APP2"].code = unescape(\`${escapedPipelineCode}\`)
-GLOBALS.runtimePipelines["APP2"].json = eval("(" + GLOBALS.runtimePipelines["APP2"].code + ")")
+GLOBALS.runtimePipelines["APP"] = {}
+GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
+//GLOBALS.runtimePipelines["APP"].json = eval("(" + GLOBALS.runtimePipelines["APP"].code + ")")
 `
 
 
