@@ -930,7 +930,9 @@ let escapedPipelineCode = escape( pipelineCode.toString() )
                                                 let newCode =  `
 GLOBALS.runtimePipelines["APP"] = {}
 GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
-//GLOBALS.runtimePipelines["APP"].json = eval("(" + GLOBALS.runtimePipelines["APP"].code + ")")
+GLOBALS.runtimePipelines["APP"].json = eval("(" + GLOBALS.runtimePipelines["APP"].code + ")")
+
+
 `
 
 
