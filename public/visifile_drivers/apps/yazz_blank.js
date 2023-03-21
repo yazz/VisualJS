@@ -105,8 +105,7 @@ logo_url("/driver_icons/blocks.png")
 /* ** *** insert_code_here_start *** ** */
 /* ** *** insert_code_here_end *** ** */
 
-    //** gen_start **//
-    //** gen_end **//
+
     /*
 allowAccessToAppBaseComponentIds([""])
 allowAccessToAppTypes(["database_reader"])
