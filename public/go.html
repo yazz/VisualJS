@@ -4245,6 +4245,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
     console.log("    argComponentsToLoad := " + JSON.stringify(argComponentsToLoad,null,2))
     console.log("    argsToPassToUiComponents := " + JSON.stringify(argsToPassToUiComponents,null,2))
     console.log("")
+    if (argComponentsToLoad && (typeof argComponentsToLoad === 'string') && argComponentsToLoad.startsWith("COMP_")) {
+        debugger
+    }
 
     /*
     ________________________________________
