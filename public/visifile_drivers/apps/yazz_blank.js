@@ -87,15 +87,6 @@ editors([
 ])
 created_timestamp(1551965300424)
 uses_javascript_libraries(["advanced_bundle"])
-
-
-
-
-
-
-
-
-
 is_app(true)
 description('VB Blank App')
 logo_url("/driver_icons/blocks.png")
