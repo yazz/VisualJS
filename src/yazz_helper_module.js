@@ -857,7 +857,7 @@ module.exports = {
 
                                             let scriptCode = ""
                                             //showTimer(`11`)
-                                            let jsLibs = mm.getValueOfCodeString(code, "uses_javascript_librararies")
+                                            let jsLibs = mm.getValueOfCodeString(code, "uses_javascript_libraries")
                                             if (jsLibs) {
                                                 ////showTimer(JSON.stringify(jsLibs,null,2))
                                                 for (let tt = 0; tt < jsLibs.length ; tt++) {

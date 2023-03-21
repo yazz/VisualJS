@@ -3,7 +3,7 @@ async function component( args ) {
 base_component_id("vb_editor_component")
 component_type("SYSTEM")
 load_once_from_file(true)
-uses_javascript_librararies(["advanced_bundle"])
+uses_javascript_libraries(["advanced_bundle"])
 */
 
     let texti = null

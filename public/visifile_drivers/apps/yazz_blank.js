@@ -86,7 +86,7 @@ editors([
   "vb_editor_component"
 ])
 created_timestamp(1551965300424)
-uses_javascript_librararies(["advanced_bundle"])
+uses_javascript_libraries(["advanced_bundle"])
 
 
 

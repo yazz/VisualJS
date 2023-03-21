@@ -6,7 +6,7 @@ created_timestamp(-1)
 display_name("3d hologram app")
 is_app(true)
 description('Game app, this will return the game app')
-uses_javascript_librararies(["advanced_bundle"])
+uses_javascript_libraries(["advanced_bundle"])
 logo_url("/driver_icons/hologram.png")
 
 */
