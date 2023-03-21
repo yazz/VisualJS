@@ -2301,7 +2301,7 @@ End of app preview menu
                         }
 
                         mm.code_id  = await getIpfsHash(mm.editor_text)
-                        await GLOBALS.cacheComponent(mm.editor_text, mm.code_id)
+                        GLOBALS.cacheComponent(mm.editor_text)
 
 
                         if (mm.app_shown) {
