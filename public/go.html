@@ -4528,7 +4528,8 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  | to use
                                  |__________________________________ */
                                  //zzz
-        if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
+        if (!GLOBALS.getCommitId({baseComponentId: baseComponentId})) {
+        //if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
             GLOBALS.cacheComponent(code)
         }
 
