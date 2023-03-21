@@ -4971,7 +4971,6 @@
                         if (!isValidObject(methodFn)) {
                             //qqqDONE
                             let allProps = GLOBALS.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
-                            //let allProps = GLOBALS.componentTypeCache[componentDetails.base_component_id].properties
                             if (allProps) {
                                 for (let i=0;i<allProps.length;i++) {
                                     let thisProp = allProps[i]
@@ -5432,7 +5431,6 @@ ${origCode}
                             //    newItem.code_id = GLOBALS.getCommitId({baseComponentId: newItem.base_component_id})
 
                             //    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
-                            //let compEvaled1 = GLOBALS.componentTypeCache[newItem.base_component_id]
                             //if (isValidObject(compEvaled1)) {
                             if (GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
                                 //newItem.code_id = compEvaled1.code_id
@@ -5500,7 +5498,6 @@ ${origCode}
 //debugger
                             //qqqDONE
                             let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id})
-                            //let compCode = GLOBALS.componentTypeCache[newItem.base_component_id].code
                             let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                             if (isValidObject(childrenCode)) {
                                 for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
@@ -7936,14 +7933,6 @@ return {}
                         if (isValidObject(compEvaled)) {
                             return compEvaled
                         }
-//            let compEvaled1 = GLOBALS.componentTypeCache[componentType]
-//            if (isValidObject(compEvaled1)) {
-//                let compEvaled = compEvaled1.properties
-//                if (isValidObject(compEvaled)) {
-//                    return compEvaled
-//                }
-//            }
-
                         return []
                     }
                     ,
