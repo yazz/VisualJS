@@ -5506,8 +5506,7 @@ ${origCode}
                 mm.model.forms[mm.active_form].components.push(newItem)
                 mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
-//debugger
-                let compCode = GLOBALS.componentTypeCache[newItem.base_component_id].code
+                let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id })
                 let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
                 if (isValidObject(childrenCode)) {
                     for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
