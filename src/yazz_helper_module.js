@@ -943,7 +943,6 @@ let newCode =  `
     //
     GLOBALS.codeCache["${sha1sum}"] = {
     "code": /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/,
-    "libs": [],
     "code_id": "${sha1sum}",
     "base_component_id": "${baseComponentId}"
     }
