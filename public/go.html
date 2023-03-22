@@ -869,6 +869,15 @@ var GLOBALS = {
 
 
 
+    setCodeIdForType: function(args) {
+        return {
+            baseComponentId:    args.baseComponentId,
+            codeId:             args.sha1sum
+        }
+    }
+    ,
+
+
 
     //
     // This contains the source code for a particular commit ID

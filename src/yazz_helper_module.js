@@ -946,16 +946,24 @@ let newCode =  `
     "code_id": "${sha1sum}",
     "base_component_id": "${baseComponentId}"
     }
-    
-    GLOBALS.codeCacheV2["${sha1sum}"] = {
-    "code": /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
-    }
-    
-    GLOBALS.componentTypeCacheV2["${baseComponentId}"] = {
-    "code_id": "${sha1sum}"
-    }
+
     
     GLOBALS.baseComponentIdReturnsCommitId["${baseComponentId}"] = "${sha1sum}"
+    
+    
+    
+    //
+    // The new way of setting the cache
+    //
+    GLOBALS.codeCacheV2["${sha1sum}"] = {
+        codeId: "${sha1sum}",
+        code:   /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
+    }
+    GLOBALS.setCodeIdForType(
+    {   
+        baseComponentId:    "${baseComponentId}",
+        codeId:             "${sha1sum}"
+    })
     
     `
 
