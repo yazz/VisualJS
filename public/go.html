@@ -917,33 +917,6 @@ var GLOBALS = {
 
 
 
-    cacheComponent: function(code) {
-        let baseComponentId = yz.getValueOfCodeString(code, "base_component_id")
-        let codeId = getIpfsHash( code)
-
-        if (!GLOBALS.componentTypeCache[baseComponentId]) {
-            GLOBALS.componentTypeCache[baseComponentId] = new Object()
-            let properties = yz.getValueOfCodeString(code, "properties",")//properties")
-
-            if (isValidObject(properties)) {
-                GLOBALS.componentTypeCache[baseComponentId].code         = code
-                GLOBALS.componentTypeCache[baseComponentId].properties   = properties
-                GLOBALS.componentTypeCache[baseComponentId].code_id      = codeId
-            }
-        }
-
-
-        if (!GLOBALS.codeCache[  codeId  ] ) {
-            GLOBALS.codeCache[  codeId  ] =
-                {
-                    code:               code,
-                    component_type:     "SYSTEM",
-                    code_id:            codeId,
-                    base_component_id:  baseComponentId
-                }
-        }
-    }
-    ,
 
 
 
@@ -970,6 +943,20 @@ var GLOBALS = {
             code_id:            args.codeId,
             base_component_id:  baseComponentId
             }
+
+        if (!GLOBALS.componentTypeCache[baseComponentId]) {
+            GLOBALS.componentTypeCache[baseComponentId] = new Object()
+            let properties = yz.getValueOfCodeString(args.code, "properties",")//properties")
+
+            GLOBALS.componentTypeCache[baseComponentId].code         = args.code
+            GLOBALS.componentTypeCache[baseComponentId].code_id      = args.codeId
+            if (isValidObject(properties)) {
+                GLOBALS.componentTypeCache[baseComponentId].properties   = properties
+            } else {
+                GLOBALS.componentTypeCache[baseComponentId].properties   = []
+            }
+        }
+
     }
     ,
 
@@ -4569,7 +4556,8 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  //zzz
         if (!GLOBALS.getCommitId({baseComponentId: baseComponentId})) {
         //if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
-            GLOBALS.cacheComponent(code)
+            let codeId = getIpfsHash(  code  )
+            GLOBALS.cacheCode(  {codeId: codeId, baseComponentId: code}  )
         }
 
 
