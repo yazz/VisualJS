@@ -937,24 +937,15 @@ let newCode =  `
     GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
     GLOBALS.runtimePipelines["APP"].json = eval("(" + GLOBALS.runtimePipelines["APP"].code + ")")
     
-    
-    //
-    // Add the components code
-    //
-    GLOBALS.codeCache["${sha1sum}"] = {
-    "code": /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/,
-    "code_id": "${sha1sum}",
-    "base_component_id": "${baseComponentId}"
-    }
+
 
     
-    GLOBALS.baseComponentIdReturnsCommitId["${baseComponentId}"] = "${sha1sum}"
     
     
     
     GLOBALS.cacheCode(
         {   
-            baseComponentId:    "${baseComponentId}",
+            codeId:             "${sha1sum}",
             code:               /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
         })
     
