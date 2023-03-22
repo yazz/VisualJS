@@ -5445,10 +5445,9 @@ ${origCode}
                    mm.components_used_in_this_app[newItem.base_component_id] = true
                 }
 
-                let compEvaled1 = GLOBALS.componentTypeCache[newItem.base_component_id]
-                if (isValidObject(compEvaled1)) {
-                        newItem.code_id = compEvaled1.code_id
-                       let compEvaled = compEvaled1.properties
+                if (GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
+                        newItem.code_id = GLOBALS.getCommitId({baseComponentId: newItem.base_component_id})
+                       let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                        if (isValidObject(compEvaled)) {
                            for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
                                let prop = compEvaled[cpp].id
