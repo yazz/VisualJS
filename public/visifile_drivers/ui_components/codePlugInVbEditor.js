@@ -4985,8 +4985,10 @@ setTimeout(async function(){
             let isAsync                 = true
             let isComponentInDesignMode = mm.design_mode
 
+
+
             if (!isValidObject(methodFn)) {
-                let allProps = GLOBALS.componentTypeCache[componentDetails.base_component_id].properties
+                let allProps = GLOBALS.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
                 if (allProps) {
                     for (let i=0;i<allProps.length;i++) {
                         let thisProp = allProps[i]
