@@ -941,6 +941,7 @@ var GLOBALS = {
         GLOBALS.codeCache[   args.codeId  ] = {
             code:               args.code,
             code_id:            args.codeId,
+            component_type:     "SYSTEM",
             base_component_id:  baseComponentId
             }
 
@@ -4557,7 +4558,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
         if (!GLOBALS.getCommitId({baseComponentId: baseComponentId})) {
         //if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
             let codeId = getIpfsHash(  code  )
-            GLOBALS.cacheCode(  {codeId: codeId, baseComponentId: code}  )
+            GLOBALS.cacheCode(  {codeId: codeId,    code: code}  )
         }
 
 
