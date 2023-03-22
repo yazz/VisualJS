@@ -952,18 +952,17 @@ let newCode =  `
     
     
     
-    //
-    // The new way of setting the cache
-    //
-    GLOBALS.codeCacheV2["${sha1sum}"] = {
-        codeId: "${sha1sum}",
-        code:   /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
-    }
-    GLOBALS.setCodeIdForType(
-    {   
-        baseComponentId:    "${baseComponentId}",
-        codeId:             "${sha1sum}"
-    })
+    GLOBALS.cacheCode(
+        {   
+            baseComponentId:    "${baseComponentId}",
+            code:               /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
+        })
+    
+    GLOBALS.pointBaseComponentIdAtCode(
+        {   
+            baseComponentId:    "${baseComponentId}",
+            codeId:             "${sha1sum}"
+        })
     
     `
 

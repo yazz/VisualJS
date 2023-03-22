@@ -867,13 +867,16 @@ var GLOBALS = {
     ,
 
 
-
-
-    setCodeIdForType: function(args) {
-        return {
-            baseComponentId:    args.baseComponentId,
-            codeId:             args.sha1sum
+    cacheCode: function(args) {
+        GLOBALS.codeCacheV2[  args.codeId  ] =
+        {
+            code:   args.code
         }
+    }
+    ,
+
+    pointBaseComponentIdAtCode: function(args) {
+        GLOBALS.componentTypeCacheV2[  args.baseComponentId  ] = args.codeId
     }
     ,
 
