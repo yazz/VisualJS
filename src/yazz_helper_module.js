@@ -943,7 +943,6 @@ let newCode =  `
     //
     GLOBALS.codeCache["${sha1sum}"] = {
     "code": /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/,
-    "component_type": \"SYSTEM\",
     "libs": [],
     "code_id": "${sha1sum}",
     "base_component_id": "${baseComponentId}"
@@ -1003,7 +1002,6 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
     let newcodeEs = escape("(" + results[i].code.toString() + ")")
     let newCode2 =  `GLOBALS.codeCache["${results[i].sha1}"] = {
         "code": unescape(\`${newcodeEs}\`),
-        "libs": [],
         "component_type": \"SYSTEM\",
         "code_id": "${results[i].sha1}",
         "base_component_id": "${results[i].child_base_component_id}"

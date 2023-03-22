@@ -755,6 +755,7 @@ var GLOBALS = {
 
 
     getLibsForCommit: function(args) {
+        return []
         if (args.codeId) {
             if (GLOBALS.codeCache[args.codeId]) {
                 return GLOBALS.codeCache[args.codeId].libs
@@ -851,7 +852,6 @@ var GLOBALS = {
                 {
                     code:               code,
                     component_type:     "SYSTEM",
-                    libs:               [],
                     code_id:            codeId,
                     base_component_id:  baseComponentId
                 }
