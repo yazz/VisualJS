@@ -4557,7 +4557,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  //zzz
         if (!GLOBALS.getCommitId({baseComponentId: baseComponentId})) {
         //if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
-            let codeId = getIpfsHash(  code  )
+            let codeId = await getIpfsHash(  code  )
             GLOBALS.cacheCode(  {codeId: codeId,    code: code}  )
         }
 

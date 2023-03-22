@@ -335,7 +335,7 @@ load_once_from_file(true)
              //debugger
              let mm = this
              let retVal = null
-             retval = getIpfsHash( mm.text )
+             retval = await getIpfsHash( mm.text )
              return retval
          }
          ,
