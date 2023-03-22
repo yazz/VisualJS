@@ -1001,7 +1001,6 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
     let newcodeEs = escape("(" + results[i].code.toString() + ")")
     let newCode2 =  `GLOBALS.codeCache["${results[i].sha1}"] = {
         "code": unescape(\`${newcodeEs}\`),
-        "component_type": \"SYSTEM\",
         "code_id": "${results[i].sha1}",
         "base_component_id": "${results[i].child_base_component_id}"
         }
