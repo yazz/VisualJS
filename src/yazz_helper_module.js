@@ -927,93 +927,106 @@ module.exports = {
 let pipelineCode = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzApp.js"})
 let escapedPipelineCode = escape( pipelineCode.toString() )
 
-                                                let newCode =  `
-GLOBALS.runtimePipelines["APP"] = {}
-GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
-GLOBALS.runtimePipelines["APP"].json = eval("(" + GLOBALS.runtimePipelines["APP"].code + ")")
 
 
-`
-
-
-                                                    newCode +=  `GLOBALS.codeCache["${sha1sum}"] = {
-                                                "code": /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/,
-                                                "component_type": \"SYSTEM\",
-                                                "libs": [],
-                                                "code_id": "${sha1sum}",
-                                                "base_component_id": "${baseComponentId}"
-                                            }
-                                            
-                                            GLOBALS.codeCacheV2["${sha1sum}"] = {
-                                                "code": /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
-                                            }
-                                            
-                                            GLOBALS.componentTypeCacheV2["${baseComponentId}"] = {
-                                                "code_id": "${sha1sum}"
-                                            }
-    
-                                            GLOBALS.baseComponentIdReturnsCommitId["${baseComponentId}"] = "${sha1sum}"`
-
-
-                                                //showTimer(`14`)
-
-                                                newCode += `
-                                                //newcodehere
-                                            `
-
-                                                              let results = await mm.getSubComponents(code)
-                                                              //zzz
-
-                                                                //showTimer(`15`)
-                                                                for (let i = 0  ;   i < results.length;    i ++ ) {
-                                                                    if (!results[i].child_code_id) {
-                                                                        let sqlR = await mm.getQuickSqlOneRow(
-                                                                            thisDb
-                                                                            ,
-                                                                            "select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
-                                                                            ,
-                                                                            [  results[i].child_base_component_id  ])
-                                                                        if (!sqlR) {
-                                                                            sqlR = await mm.getQuickSqlOneRow(
-                                                                                thisDb
-                                                                                ,
-                                                                                "select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
-                                                                                ,
-                                                                                [  results[i].child_base_component_id  ])
-                                                                        }
-                                                                        results[i].sha1 = sqlR.id
-                                                                        results[i].child_code_id = results[i].sha1
-                                                                    } else {
-                                                                        results[i].sha1 = results[i].child_code_id
-                                                                    }
-                                                                    let sqlr2 = await mm.getQuickSqlOneRow(
-                                                                        thisDb,
-                                                                        "select  code  from   system_code where id = ? ",
-                                                                        [  results[i].child_code_id  ])
-                                                                    results[i].code = sqlr2.code
-
-                                                                    let newcodeEs = escape("(" + results[i].code.toString() + ")")
-                                                                    let newCode2 =  `GLOBALS.codeCache["${results[i].sha1}"] = {
-                                                                    "code": unescape(\`${newcodeEs}\`),
-                                                                    "libs": [],
-                                                                    "component_type": \"SYSTEM\",
-                                                                    "code_id": "${results[i].sha1}",
-                                                                    "base_component_id": "${results[i].child_base_component_id}"
-                                                                }
-    
-                                                                GLOBALS.codeCacheV2["${sha1sum}"] = {
-                                                                    "code": unescape(\`${newcodeEs}\`)
-                                                                }
-                                                                
-                                                                GLOBALS.componentTypeCacheV2["${baseComponentId}"] = {
-                                                                    "code_id": "${results[i].sha1}"
-                                                                }
+let newCode =  `
+    //
+    // Add the pipelines to the HTML output
+    //
+    GLOBALS.runtimePipelines["APP"] = {}
+    GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
+    GLOBALS.runtimePipelines["APP"].json = eval("(" + GLOBALS.runtimePipelines["APP"].code + ")")
     
     
-                                                                GLOBALS.baseComponentIdReturnsCommitId["${results[i].child_base_component_id}"] = "${results[i].sha1}"
-                                                                `
-                                                                    newCode += newCode2
-                                                                }
+    //
+    // Add the components code
+    //
+    GLOBALS.codeCache["${sha1sum}"] = {
+    "code": /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/,
+    "component_type": \"SYSTEM\",
+    "libs": [],
+    "code_id": "${sha1sum}",
+    "base_component_id": "${baseComponentId}"
+    }
+    
+    GLOBALS.codeCacheV2["${sha1sum}"] = {
+    "code": /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
+    }
+    
+    GLOBALS.componentTypeCacheV2["${baseComponentId}"] = {
+    "code_id": "${sha1sum}"
+    }
+    
+    GLOBALS.baseComponentIdReturnsCommitId["${baseComponentId}"] = "${sha1sum}"
+    
+    `
+
+
+
+//
+// Add the subcomponents code
+//
+let results = await mm.getSubComponents(code)
+for (let i = 0  ;   i < results.length;    i ++ ) {
+    if (!results[i].child_code_id) {
+
+        let sqlR = await mm.getQuickSqlOneRow(
+            thisDb
+            ,
+            "select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
+            ,
+            [  results[i].child_base_component_id  ])
+
+
+        if (!sqlR) {
+            sqlR = await mm.getQuickSqlOneRow(
+                thisDb
+                ,
+                "select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
+                ,
+                [  results[i].child_base_component_id  ])
+        }
+
+        results[i].sha1 = sqlR.id
+        results[i].child_code_id = results[i].sha1
+    } else {
+        results[i].sha1 = results[i].child_code_id
+    }
+
+    let sqlr2 = await mm.getQuickSqlOneRow(
+        thisDb,
+        "select  code  from   system_code where id = ? ",
+        [  results[i].child_code_id  ])
+
+    results[i].code = sqlr2.code
+
+    let newcodeEs = escape("(" + results[i].code.toString() + ")")
+    let newCode2 =  `GLOBALS.codeCache["${results[i].sha1}"] = {
+        "code": unescape(\`${newcodeEs}\`),
+        "libs": [],
+        "component_type": \"SYSTEM\",
+        "code_id": "${results[i].sha1}",
+        "base_component_id": "${results[i].child_base_component_id}"
+        }
+    
+        GLOBALS.codeCacheV2["${sha1sum}"] = {
+        "code": unescape(\`${newcodeEs}\`)
+        }
+        
+        GLOBALS.componentTypeCacheV2["${baseComponentId}"] = {
+        "code_id": "${results[i].sha1}"
+        }
+    
+    
+        GLOBALS.baseComponentIdReturnsCommitId["${results[i].child_base_component_id}"] = "${results[i].sha1}"
+    `
+    newCode += newCode2
+}
+
+
+
+
+
                                                                 //showTimer(`15.1`)
                                                                 newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
 
