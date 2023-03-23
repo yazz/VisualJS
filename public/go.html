@@ -861,7 +861,7 @@ var GLOBALS = {
 
 
 
-    isComponentTypeLoaded: function(baseComponentId) {
+    isComponentTypeCached: function(baseComponentId) {
         if (baseComponentId) {
             if (GLOBALS.componentTypeCache[baseComponentId]) {
                 return true
@@ -927,7 +927,6 @@ var GLOBALS = {
 
 
     cacheCode: function(args) {
-    debugger
         let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
         GLOBALS.codeCacheV2[  args.codeId  ] =
         {
@@ -3273,7 +3272,7 @@ if (typeName == "horiz_scroll_control") {
 }
 
 
-if (GLOBALS.isComponentTypeLoaded(typeName))
+if (GLOBALS.isComponentTypeCached(typeName))
 {
     for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: typeName})) {
         let propertyName = oneProperty.name
@@ -3291,7 +3290,7 @@ if (GLOBALS.isComponentTypeLoaded(typeName))
 
                         }
                         if (otherComponentName != typeName) {
-                            if (GLOBALS.isComponentTypeLoaded(otherComponentName)) {
+                            if (GLOBALS.isComponentTypeCached(otherComponentName)) {
                                 if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
                                     let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
                                     for (let otherProperty of otherProperties){
@@ -3381,7 +3380,7 @@ if (GLOBALS.isComponentTypeLoaded(typeName))
 //debugger
 //}
                         if (otherComponentName != typeName) {
-                            if (GLOBALS.isComponentTypeLoaded(otherComponentName)) {
+                            if (GLOBALS.isComponentTypeCached(otherComponentName)) {
                                 if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
                                     let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
                                     for (let otherProperty of otherProperties){
@@ -4275,9 +4274,6 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
     console.log("    argComponentsToLoad := " + JSON.stringify(argComponentsToLoad,null,2))
     console.log("    argsToPassToUiComponents := " + JSON.stringify(argsToPassToUiComponents,null,2))
     console.log("")
-    if (argComponentsToLoad && (typeof argComponentsToLoad === 'string') && argComponentsToLoad.startsWith("COMP_")) {
-        debugger
-    }
 
     /*
     ________________________________________
@@ -4321,12 +4317,16 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                      | contains all the UI control definitions
                      |____________________________________________________________
     */
+
     let loadedStatic = false
     if (GLOBALS.isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
+            if (componentType.startsWith("homepage")) {
+                debugger
+            }
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeLoaded(componentType))) {
+            if (GLOBALS.isStaticHtmlPageApp && GLOBALS.baseComponentIdReturnsCommitId[ componentType ] && (!GLOBALS.isComponentTypeCached(componentType))) {
                 //console.log("loadUiComponentsV4: 2")
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
@@ -4384,7 +4384,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             //
             // if we have haven't cached the component (given the Type) then put it on the list of things to load
             //
-            } else if (componentType && (!GLOBALS.isComponentTypeLoaded(componentType))) {
+            } else if (componentType && (!GLOBALS.isComponentTypeCached(componentType))) {
                 componentsItemsToLoad.push(componentTuple)
 
             //
@@ -4556,7 +4556,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  |__________________________________ */
                                  //zzz
         if (!GLOBALS.getCommitId({baseComponentId: baseComponentId})) {
-        //if (!GLOBALS.isComponentTypeLoaded(baseComponentId)) {
+        //if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
             let codeId = await getIpfsHash(  code  )
             GLOBALS.cacheCode(  {codeId: codeId,    code: code}  )
         }

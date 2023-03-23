@@ -485,7 +485,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   }
 
                   mm.loaded_app[baseComponentId] = true
-                  //GLOBALS.isComponentTypeLoaded[baseComponentId] = false
+                  //GLOBALS.isComponentTypeCached[baseComponentId] = false
                   GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
                   //await loadUiComponentsV4(baseComponentId)
                   mm.intro_apps.push( app  )

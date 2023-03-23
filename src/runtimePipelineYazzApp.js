@@ -34,10 +34,10 @@
                 <br>
                 <div>
 
-                  IPFS: {{GLOBALS.isComponentTypeLoaded(debug_component)?GLOBALS.getCommitId({baseComponentId: debug_component}):""}}
+                  IPFS: {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCommitId({baseComponentId: debug_component}):""}}
                 </div>
                 <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-                  {{GLOBALS.isComponentTypeLoaded(debug_component)?GLOBALS.getCodeForComponent({baseComponentId: debug_component}):""}}
+                  {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCodeForComponent({baseComponentId: debug_component}):""}}
           </pre>
 
               </div>
@@ -2558,7 +2558,7 @@
                         for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                         {
                             let newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                            if (!GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
+                            if (!GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
                                 compsToLoad.push(
                                     {
                                         baseComponentId:   newItem.base_component_id,
@@ -3174,7 +3174,7 @@
                                 // ---------------------------------------------------------
 
                                 let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
-                                if (GLOBALS.isComponentTypeLoaded(componentId)) {
+                                if (GLOBALS.isComponentTypeCached(componentId)) {
                                     let cachedComponentPropertiesDefinition = mm.getControlProperties(mm.model.forms[formName].components[compenentInFormIndex].base_component_id)
                                     if (isValidObject(cachedComponentPropertiesDefinition)) {
                                         for (let cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
@@ -5415,7 +5415,7 @@ ${origCode}
                                   |__________________________________
                  */
                             mm.refresh++
-                            if (!GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
+                            if (!GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
                                 //debugger
                                 //zzz
                                 if (newItem.code_id) {
@@ -5427,12 +5427,12 @@ ${origCode}
                             }
 
                             //qqqDONE
-                            //if (GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
+                            //if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
                             //    newItem.code_id = GLOBALS.getCommitId({baseComponentId: newItem.base_component_id})
 
                             //    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                             //if (isValidObject(compEvaled1)) {
-                            if (GLOBALS.isComponentTypeLoaded(newItem.base_component_id)) {
+                            if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
                                 //newItem.code_id = compEvaled1.code_id
                                 newItem.code_id = GLOBALS.getCommitId({baseComponentId: newItem.base_component_id})
                                 //let compEvaled = compEvaled1.properties
