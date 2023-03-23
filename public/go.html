@@ -862,9 +862,6 @@ var GLOBALS = {
 
     isComponentTypeCached: function(baseComponentId) {
         if (baseComponentId) {
-            //if (GLOBALS.componentTypeCache[baseComponentId]) {
-            //    return true
-            //}
             if (GLOBALS.getCommitIdForBaseComponentId(baseComponentId)) {
                 return true
             }
@@ -983,7 +980,7 @@ var GLOBALS = {
 
 
     getAllLoadedTypeNames: function() {
-        return Object.keys(GLOBALS.componentTypeCache)
+        return Object.keys(GLOBALS.baseComponentIdReturnsCommitId)
     }
     ,
 
