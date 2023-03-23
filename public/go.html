@@ -4355,9 +4355,6 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
     if (GLOBALS.isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-            if (componentType.startsWith("homepage")) {
-                debugger
-            }
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
             if (GLOBALS.isStaticHtmlPageApp && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
                 //console.log("loadUiComponentsV4: 2")
@@ -4396,6 +4393,10 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         for (let  componentTuple  of  whichComponentsToLoadAsTuples  ) {
             let componentType       = componentTuple.baseComponentId
             let componentCodeId     = componentTuple.codeId
+
+            if (componentType.startsWith("COMP_")) {
+                debugger
+            }
 
             //
             // if we have cached the component then run it
