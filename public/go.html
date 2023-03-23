@@ -831,9 +831,7 @@ var GLOBALS = {
             if (GLOBALS.codeCache[codeId]) {
                 return GLOBALS.codeCache[codeId].code
             }
-        } //else {
-        //    return  GLOBALS.componentTypeCache[args.baseComponentId].code
-        //}
+        }
         throw "getCodeForComponent: Can't find code for {" + JSON.stringify(args,null,2) + "}"
         return null
     }
@@ -924,8 +922,6 @@ var GLOBALS = {
         }
 
 
-
-
         if (codeId) {
             if (GLOBALS.codeCache[codeId]) {
                 if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
@@ -997,6 +993,7 @@ var GLOBALS = {
 
         GLOBALS.baseComponentIdReturnsCommitId[baseComponentId] = args.codeId
 
+
         //
         // Add the components code
         //
@@ -1005,11 +1002,17 @@ var GLOBALS = {
             code_id:            args.codeId,
             component_type:     "SYSTEM",
             base_component_id:  baseComponentId
-            }
+        }
+
+        let properties = yz.getValueOfCodeString(args.code, "properties",")//properties")
+        if (isValidObject(properties)) {
+            GLOBALS.codeCache[   args.codeId  ].properties   = properties
+        } else {
+            GLOBALS.codeCache[   args.codeId  ].properties   = []
+        }
 
         if (!GLOBALS.componentTypeCache[baseComponentId]) {
             GLOBALS.componentTypeCache[baseComponentId] = new Object()
-            let properties = yz.getValueOfCodeString(args.code, "properties",")//properties")
 
             GLOBALS.componentTypeCache[baseComponentId].code         = args.code
             GLOBALS.componentTypeCache[baseComponentId].code_id      = args.codeId
@@ -1019,6 +1022,8 @@ var GLOBALS = {
                 GLOBALS.componentTypeCache[baseComponentId].properties   = []
             }
         }
+
+
 
     }
     ,
