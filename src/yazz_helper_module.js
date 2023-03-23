@@ -943,7 +943,7 @@ let newCode =  `
     
     
     
-    GLOBALS.cacheCode(
+    GLOBALS.cacheThisComponentCode(
         {   
             codeId:             "${sha1sum}",
             code:               /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
@@ -1003,7 +1003,7 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
     let newCode2 =  `
         
         
-        GLOBALS.cacheCode(
+        GLOBALS.cacheThisComponentCode(
         {   
             codeId:             "${results[i].sha1}",
             code:                unescape(\`${newcodeEs}\`)

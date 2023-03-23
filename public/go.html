@@ -991,7 +991,7 @@ var GLOBALS = {
     ,
 
 
-    cacheCode: function(args) {
+    cacheThisComponentCode: function(args) {
         let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
 
         GLOBALS.baseComponentIdReturnsCommitId[baseComponentId] = args.codeId
@@ -4594,7 +4594,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
         if (!GLOBALS.getCommitId({baseComponentId: baseComponentId})) {
         //if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
             let codeId = await getIpfsHash(  code  )
-            GLOBALS.cacheCode(  {codeId: codeId,    code: code}  )
+            GLOBALS.cacheThisComponentCode(  {codeId: codeId,    code: code}  )
         }
 
 
