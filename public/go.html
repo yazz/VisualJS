@@ -993,10 +993,7 @@ var GLOBALS = {
 
     cacheCode: function(args) {
         let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
-        GLOBALS.codeCacheV2[  args.codeId  ] =
-        {
-            code:   args.code
-        }
+
         GLOBALS.baseComponentIdReturnsCommitId[baseComponentId] = args.codeId
 
         //
@@ -1026,7 +1023,7 @@ var GLOBALS = {
     ,
 
     pointBaseComponentIdAtCode: function(args) {
-        GLOBALS.componentTypeCacheV2[  args.baseComponentId  ] = args.codeId
+        GLOBALS.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
     }
     ,
 
@@ -1062,35 +1059,6 @@ var GLOBALS = {
     // "Qm0x43FFE338..2F1" < - points to a commit ID
     //
     baseComponentIdReturnsCommitId: new Object(),
-
-
-
-    //
-    // This contains the source code for a particular commit ID
-    //
-    // eg:    value: {
-    //                    "async fn {... code here ... }"
-    //                    }
-    //  codeCacheV2["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
-    //  {
-    //      code:               mm.editor_text,
-    //      component_type:     "SYSTEM",
-    //      libs:               [],
-    //      code_id:            mm.code_id,
-    //      base_component_id:  baseCompIdFromSrcCode
-    //  }
-    //
-    codeCacheV2: new Object(),
-
-    //
-    // This is a cache for types using the Base Component ID as an index. It caches the following:
-    // - code
-    // - code_id
-    // - properties
-    //
-    componentTypeCacheV2: new Object(),
-
-
 }
 
 
