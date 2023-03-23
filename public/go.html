@@ -4359,7 +4359,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 debugger
             }
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (GLOBALS.isStaticHtmlPageApp && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
+            if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitId({baseComponentId: componentType })  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
                 //console.log("loadUiComponentsV4: 2")
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
