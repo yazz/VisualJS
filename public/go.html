@@ -1007,21 +1007,6 @@ var GLOBALS = {
         } else {
             GLOBALS.codeCache[   args.codeId  ].properties   = []
         }
-
-        if (!GLOBALS.componentTypeCache[baseComponentId]) {
-            GLOBALS.componentTypeCache[baseComponentId] = new Object()
-
-            GLOBALS.componentTypeCache[baseComponentId].code         = args.code
-            GLOBALS.componentTypeCache[baseComponentId].code_id      = args.codeId
-            if (isValidObject(properties)) {
-                GLOBALS.componentTypeCache[baseComponentId].properties   = properties
-            } else {
-                GLOBALS.componentTypeCache[baseComponentId].properties   = []
-            }
-        }
-
-
-
     }
     ,
 
@@ -1049,13 +1034,6 @@ var GLOBALS = {
     //
     codeCache: new Object(),
 
-    //
-    // This is a cache for types using the Base Component ID as an index. It caches the following:
-    // - code
-    // - code_id
-    // - properties
-    //
-    componentTypeCache: new Object(),
 
     //
     // maps the base component ID to the commit ID
