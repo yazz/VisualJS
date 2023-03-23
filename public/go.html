@@ -875,6 +875,71 @@ var GLOBALS = {
     ,
 
 
+
+
+    isComponentLoaded: function(args) {
+        let codeId = null
+        if (args.codeId) {
+            codeId = args.codeId
+        } else if (args.baseComponentId) {
+            codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+        }
+        if (codeId) {
+            if (codeCache[codeId]) {
+                if (codeCache[codeId].uiComponentLoaded) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    ,
+
+    setComponentLoaded: function(args) {
+        let previousCodeId = null
+        let previousCachedCode = null
+        let previousBaseComponentId = null
+        let codeId = null
+
+        if (args.codeId) {
+            codeId = args.codeId
+        } else if (args.baseComponentId) {
+            codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+        }
+
+        if (codeId) {
+            previousCachedCode = GLOBALS.codeCache[  codeId  ]
+            if (previousCachedCode) {
+                previousBaseComponentId = GLOBALS.codeCache[  codeId  ].base_component_id
+                if (previousBaseComponentId) {
+                    previousCodeId = GLOBALS.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
+                    if (previousCodeId) {
+                        if (codeCache[previousCodeId]) {
+                            if (codeCache[codeId].uiComponentLoaded) = false
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+        if (codeId) {
+            if (GLOBALS.codeCache[codeId]) {
+                if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    ,
+
+
+
+
+
     getTypeForCommitId: function(codeId) {
         return GLOBALS.codeCache[codeId].base_component_id
     }
