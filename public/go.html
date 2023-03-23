@@ -885,8 +885,8 @@ var GLOBALS = {
             codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
         }
         if (codeId) {
-            if (codeCache[codeId]) {
-                if (codeCache[codeId].uiComponentLoaded) {
+            if (GLOBALS.codeCache[codeId]) {
+                if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
                     return true
                 }
             }
@@ -896,10 +896,10 @@ var GLOBALS = {
     ,
 
     setComponentLoaded: function(args) {
-        let previousCodeId = null
-        let previousCachedCode = null
+        let previousCodeId          = null
+        let previousCachedCode      = null
         let previousBaseComponentId = null
-        let codeId = null
+        let codeId                  = null
 
         if (args.codeId) {
             codeId = args.codeId
@@ -914,8 +914,8 @@ var GLOBALS = {
                 if (previousBaseComponentId) {
                     previousCodeId = GLOBALS.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
                     if (previousCodeId) {
-                        if (codeCache[previousCodeId]) {
-                            if (codeCache[codeId].uiComponentLoaded) = false
+                        if (GLOBALS.codeCache[previousCodeId]) {
+                            GLOBALS.codeCache[previousCodeId].uiComponentLoaded = false
                         }
                     }
                 }
