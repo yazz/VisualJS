@@ -810,9 +810,9 @@ var GLOBALS = {
     // CODE CACHES
     //----------------------------------------------------
 
-    getCommitIdForBaseComponentId: function (args) {
-        if (args.baseComponentId) {
-            return GLOBALS.baseComponentIdReturnsCommitId[ args.baseComponentId ]
+    getCommitIdForBaseComponentId: function (baseComponentId) {
+        if (baseComponentId) {
+            return GLOBALS.baseComponentIdReturnsCommitId[ baseComponentId ]
         }
     }
     ,
@@ -867,7 +867,7 @@ var GLOBALS = {
             //if (GLOBALS.componentTypeCache[baseComponentId]) {
             //    return true
             //}
-            if (GLOBALS.getCommitIdForBaseComponentId({baseComponentId: baseComponentId})) {
+            if (GLOBALS.getCommitIdForBaseComponentId(baseComponentId)) {
                 return true
             }
         }
@@ -953,7 +953,7 @@ var GLOBALS = {
         let useDb =  null
         let codeId = args.codeId
         if (!codeId ) {
-            codeId = GLOBALS.getCommitIdForBaseComponentId({baseComponentId: args.baseComponentId})
+            codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
         }
         if (!codeId ) {
              return args.baseComponentId
@@ -4360,12 +4360,12 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 debugger
             }
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-            if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId({baseComponentId: componentType })  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
+            if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId(componentType)  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
                 //console.log("loadUiComponentsV4: 2")
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
                 //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
-                let newDataCodeId   = GLOBALS.getCommitIdForBaseComponentId({baseComponentId: componentType })
+                let newDataCodeId   = GLOBALS.getCommitIdForBaseComponentId( componentType )
                 let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
                 let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
@@ -4567,7 +4567,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
         baseComponentId = GLOBALS.getTypeForCommitId(codeId)
     } else if (args.baseComponentId) {
         baseComponentId = args.baseComponentId
-        codeId = GLOBALS.getCommitIdForBaseComponentId({baseComponentId: args.baseComponentId})
+        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
     }
 
     try {
@@ -4592,7 +4592,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  | to use
                                  |__________________________________ */
                                  //zzz
-        if (!GLOBALS.getCommitIdForBaseComponentId({baseComponentId: baseComponentId})) {
+        if (!GLOBALS.getCommitIdForBaseComponentId( baseComponentId )) {
         //if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
             let codeId = await getIpfsHash(  code  )
             GLOBALS.cacheThisComponentCode(  {codeId: codeId,    code: code}  )

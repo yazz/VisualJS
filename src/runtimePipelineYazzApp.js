@@ -34,7 +34,7 @@
                 <br>
                 <div>
 
-                  IPFS: {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCommitIdForBaseComponentId({baseComponentId: debug_component}):""}}
+                  IPFS: {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCommitIdForBaseComponentId( debug_component ):""}}
                 </div>
                 <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
                   {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCodeForComponent({baseComponentId: debug_component}):""}}
@@ -5428,13 +5428,13 @@ ${origCode}
 
                             //qqqDONE
                             //if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
-                            //    newItem.code_id = GLOBALS.getCommitIdForBaseComponentId({baseComponentId: newItem.base_component_id})
+                            //    newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
 
                             //    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                             //if (isValidObject(compEvaled1)) {
                             if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
                                 //newItem.code_id = compEvaled1.code_id
-                                newItem.code_id = GLOBALS.getCommitIdForBaseComponentId({baseComponentId: newItem.base_component_id})
+                                newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
                                 //let compEvaled = compEvaled1.properties
                                 let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                                 if (isValidObject(compEvaled)) {

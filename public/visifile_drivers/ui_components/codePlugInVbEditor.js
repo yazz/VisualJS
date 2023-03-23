@@ -48,7 +48,7 @@ uses_javascript_libraries(["advanced_bundle"])
           <br>
           <div>
 
-            IPFS: {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCommitIdForBaseComponentId({baseComponentid: debug_component}):""}}
+            IPFS: {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCommitIdForBaseComponentId( debug_component ):""}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
             {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCodeForComponent({baseComponentid: debug_component}):""}}
@@ -5446,7 +5446,7 @@ ${origCode}
                 }
 
                 if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
-                        newItem.code_id = GLOBALS.getCommitIdForBaseComponentId({baseComponentId: newItem.base_component_id})
+                        newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
                        let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                        if (isValidObject(compEvaled)) {
                            for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
