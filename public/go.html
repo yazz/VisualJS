@@ -831,9 +831,10 @@ var GLOBALS = {
             if (GLOBALS.codeCache[codeId]) {
                 return GLOBALS.codeCache[codeId].code
             }
-        } else {
-            return  GLOBALS.componentTypeCache[args.baseComponentId].code
-        }
+        } //else {
+        //    return  GLOBALS.componentTypeCache[args.baseComponentId].code
+        //}
+        throw "getCodeForComponent: Can't find code for {" + JSON.stringify(args,null,2) + "}"
         return null
     }
     ,
