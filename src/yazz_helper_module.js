@@ -962,6 +962,9 @@ let newCode =  `
 //
 // Add the subcomponents code
 //
+if (baseComponentId == "homepage") {
+    //debugger
+}
 let results = await mm.getSubComponents(code)
 for (let i = 0  ;   i < results.length;    i ++ ) {
     if (!results[i].child_code_id) {
@@ -997,13 +1000,22 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
     results[i].code = sqlr2.code
 
     let newcodeEs = escape("(" + results[i].code.toString() + ")")
-    let newCode2 =  `GLOBALS.codeCache["${results[i].sha1}"] = {
-        "code": unescape(\`${newcodeEs}\`),
-        "code_id": "${results[i].sha1}",
-        "base_component_id": "${results[i].child_base_component_id}"
-        }
+    let newCode2 =  `
+        
+        
+        GLOBALS.cacheCode(
+        {   
+            codeId:             "${results[i].sha1}",
+            code:                unescape(\`${newcodeEs}\`)
+        })
     
-        GLOBALS.baseComponentIdReturnsCommitId["${results[i].child_base_component_id}"] = "${results[i].sha1}"
+        GLOBALS.pointBaseComponentIdAtCode(
+        {   
+            baseComponentId:    "${results[i].child_base_component_id}",
+            codeId:             "${results[i].sha1}"
+        })
+    
+        
     `
     newCode += newCode2
 }
