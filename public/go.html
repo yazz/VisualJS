@@ -852,7 +852,7 @@ var GLOBALS = {
 
     getControlPropertyDefns: function(args) {
         if (args.baseComponentId) {
-            return GLOBALS.componentTypeCache[args.baseComponentId].properties
+            return GLOBALS.codeCache[GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)].properties
         }
     }
     ,
