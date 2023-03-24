@@ -2344,25 +2344,20 @@ var globalEventBus = new Vue();
 //lll
 let newAppArgs = []
 async function prepareApp(  id,  bbase_component_id,  args  ) {
-//alert(id)
-//alert(JSON.stringify(args,null,2))
-base_component_id = bbase_component_id
-GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
-//alert(base_component_id)
+debugger
+    base_component_id = bbase_component_id
+    GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
+    let rootElement = "app_" + id
+    if ((mainMoonApp.cards[id - 1].card.base_component_id != base_component_id) ||
+        (!newAppArgs[id])) {
 
-//console.log(" prepareApp base_component_id: " + base_component_id)
-//alert(JSON.stringify(args,null,2))
-let rootElement = "app_" + id
-if ((mainMoonApp.cards[id - 1].card.base_component_id != base_component_id) ||
-(!newAppArgs[id])) {
-newAppArgs[id] = args
-}
-//alert(JSON.stringify(newAppArgs[id],null,2))
+        newAppArgs[id] = args
+    }
 
-await loadUiComponentsV4(base_component_id)
-if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
-loadAppIntoElement(base_component_id, rootElement)
-}
+    await loadUiComponentsV4(base_component_id)
+    if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
+        loadAppIntoElement(base_component_id, rootElement)
+    }
 
 }
 
