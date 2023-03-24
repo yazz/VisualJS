@@ -3277,9 +3277,38 @@ properties: listOfProperties
 return results
 }
 
-function indexComponent(typeName) {
+
+
+
+
+
+
+
+/*
+________________________________________
+|                                      |
+|        indexComponent                |
+|                                      |
+|______________________________________|
+This indexes all the linked properties to a component type
+__________
+| PARAMS |______________________________________________________________
+|
+|     typeName
+|     --------
+|________________________________________________________________________ */
+function indexComponent(  typeName  ) {
     try {
-        GLOBALS.linkedProperties[typeName] = {
+
+        /*
+        ____________________________________________________________
+        |    indexComponent
+        |_________________________
+                                 | Set up a blank entry for this
+                                 | component in the "linkedProperties"
+                                 | data structure
+                                 |__________________________________ */
+        GLOBALS.linkedProperties[  typeName ] = {
             incoming: {
                 me: {},
                 them: {}
@@ -3291,12 +3320,29 @@ function indexComponent(typeName) {
             }
         }
 
+
+
+
+        /*
+        ____________________________________________________________
+        |    indexComponent
+        |_________________________
+                                 | Debug a control type
+                                 |__________________________________ */
         if (typeName == "horiz_scroll_control") {
             //debugger
-
         }
 
 
+
+        /*
+        ____________________________________________________________
+        |    indexComponent
+        |_________________________
+                                 | Set up a blank entry for this
+                                 | component in the "linkedProperties"
+                                 | data structure
+                                 |__________________________________ */
         if (GLOBALS.isComponentTypeCached(typeName)) {
             for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: typeName})) {
                 let propertyName = oneProperty.name
