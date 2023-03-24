@@ -745,7 +745,7 @@ var GLOBALS = {
     //
     runtimePipelines: new Object(),
 
-//zzz
+
 
     getPipelineCodeFromServer: async function(fileName) {
         let resultsCode = await postToYazzReturnJson(
@@ -995,7 +995,7 @@ var GLOBALS = {
     ,
 
 
-
+//zzz
 
     getAllLoadedControlTypeNames: function() {
         let listOfAllComponents = Object.keys(GLOBALS.baseComponentIdReturnsCommitId)
@@ -1005,7 +1005,7 @@ var GLOBALS = {
                 listOfControls.push(aComponentType)
             }
         }
-        return listOfControls
+        return listOfControls.reverse()
     }
     ,
 
@@ -3340,9 +3340,13 @@ function indexComponent(typeName) {
 
                                                             GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
 
-
-                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName]) {
-                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
+                                                            try {
+                                                                if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName]) {
+                                                                    GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
+                                                                }
+                                                            } catch(err) {
+                                                            //zzz
+                                                                debugger
                                                             }
                                                             if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
                                                                 GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
@@ -4589,7 +4593,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
                                  | added to the type database then add it
                                  | to use
                                  |__________________________________ */
-                                 //zzz
+
         if (!GLOBALS.getCommitIdForBaseComponentId( baseComponentId )) {
         //if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
             let codeId = await getIpfsHash(  code  )
@@ -4705,7 +4709,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
 
 
-//zzz
+
         /*
         ____________________________________________________________
         |    enhanceYazzSourceCodeBeforeRunning
