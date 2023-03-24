@@ -3345,18 +3345,24 @@ function indexComponent(  typeName  ) {
         ____________________________________________________________
         |    indexComponent
         |_________________________
-                                 | Set up a blank entry for this
-                                 | component in the "linkedProperties"
-                                 | data structure
+                                 | Go through and match up all
+                                 | incoming and outgoing links
                                  |__________________________________ */
         if (GLOBALS.isComponentTypeCached(typeName)) {
             for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: typeName})) {
                 let propertyName = oneProperty.name
                 if (propertyName) {
 
-                    //
-                    // match my ACCEPT TYPES with TYPES coming from other components
-                    //
+
+
+
+                    /*
+                    ____________________________________________________________
+                    |    indexComponent
+                    |_________________________
+                                             | match my ACCEPT TYPES with TYPES
+                                             |  coming from other components
+                                             |__________________________________ */
                     if (oneProperty.accept_types) {
                         let acceptTypes = Object.keys(oneProperty.accept_types)
                         for (let acceptType of acceptTypes) {
