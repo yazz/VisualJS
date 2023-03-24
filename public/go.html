@@ -3297,7 +3297,13 @@ __________
 |     typeName
 |     --------
 |________________________________________________________________________ */
+globinIndexComponent = false
 function indexComponent(  typeName  ) {
+    if (globinIndexComponent) {
+        debugger
+        return
+    }
+    globinIndexComponent = true
     try {
 
         /*
@@ -3519,6 +3525,7 @@ function indexComponent(  typeName  ) {
 
         console.log(err)
     }
+    globinIndexComponent = false
 }
 
 
