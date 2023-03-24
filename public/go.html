@@ -3252,222 +3252,218 @@ properties: listOfProperties
 return results
 }
 
-function indexComponent(typeName){
+function indexComponent(typeName) {
 //return
-GLOBALS.linkedProperties[typeName] = {
-incoming: {
-me: {
+    GLOBALS.linkedProperties[typeName] = {
+        incoming: {
+            me: {},
+            them: {}
 
-},
-them: {
+        },
+        outgoing: {
+            me: {},
+            them: {}
+        }
+    }
 
-}
-
-},
-outgoing: {
-me: {
-
-},
-them: {
-
-}
-}
-}
-
-if (typeName == "horiz_scroll_control") {
+    if (typeName == "horiz_scroll_control") {
 //debugger
 
-}
+    }
 
 
-if (GLOBALS.isComponentTypeCached(typeName))
-{
-    for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: typeName})) {
-        let propertyName = oneProperty.name
-        if (propertyName) {
+    if (GLOBALS.isComponentTypeCached(typeName)) {
+        for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: typeName})) {
+            let propertyName = oneProperty.name
+            if (propertyName) {
 
 //
 // match my ACCEPT TYPES with TYPES coming from other components
 //
-            if (oneProperty.accept_types) {
-                let acceptTypes = Object.keys(oneProperty.accept_types)
-                for (let acceptType of acceptTypes) {
+                if (oneProperty.accept_types) {
+                    let acceptTypes = Object.keys(oneProperty.accept_types)
+                    for (let acceptType of acceptTypes) {
 
-                    for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()){
-                        if (otherComponentName == "database_control") {
+                        for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()) {
+                            if (otherComponentName == "database_control") {
 
-                        }
-                        if (otherComponentName != typeName) {
-                            if (GLOBALS.isComponentTypeCached(otherComponentName)) {
-                                if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
-                                    let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
-                                    for (let otherProperty of otherProperties){
-                                        if (otherProperty.types) {
-                                            for (let otherPropertyType of Object.keys(otherProperty.types)){
-                                                if (otherPropertyType == acceptType) {
+                            }
+                            if (otherComponentName != typeName) {
+                                if (GLOBALS.isComponentTypeCached(otherComponentName)) {
+                                    if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
+                                        let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
+                                        for (let otherProperty of otherProperties) {
+                                            if (otherProperty.types) {
+                                                for (let otherPropertyType of Object.keys(otherProperty.types)) {
+                                                    if (otherPropertyType == acceptType) {
 
 //console.log("        Found Match for " + acceptType)
-                                                    if (!GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName]) {
-                                                        GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName]={}
+                                                        if (!GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName]) {
+                                                            GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id]) {
+                                                            GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
+                                                        }
+                                                        GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+
+                                                        if (!GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id]) {
+                                                            GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
+                                                            GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName] = {}
+                                                        }
+
+                                                        GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
+
+
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
+                                                        }
+
+
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me) {
+                                                            GLOBALS.linkedProperties[otherComponentName].outgoing.me = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
+                                                        }
+
+
                                                     }
-                                                    if (! GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id] ) {
-                                                        GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
-                                                    }
-                                                    GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
-
-                                                    if (!GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id]) {
-                                                        GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id]={}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
-                                                        GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName]={}
-                                                    }
-
-                                                    GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
-
-
-
-
-
-
-
-
-
-
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
-                                                    }
-
-
-
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me) {
-                                                        GLOBALS.linkedProperties[otherComponentName].outgoing.me = {}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id] = {}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
-                                                    }
-
-
-
                                                 }
                                             }
                                         }
                                     }
                                 }
+
                             }
-
                         }
+
                     }
-
                 }
-            }
-
-
 
 
 //
 // match my TYPES with ACCEPT_TYPES to other components
 //
-            if (oneProperty.types) {
-                let types = Object.keys(oneProperty.types)
-                for (let myType of types) {
+                if (oneProperty.types) {
+                    let types = Object.keys(oneProperty.types)
+                    for (let myType of types) {
 //console.log("    " + myType)
-                    for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()){
+                        for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()) {
 //if (otherComponentName == "table_control") {
 //debugger
 //}
-                        if (otherComponentName != typeName) {
-                            if (GLOBALS.isComponentTypeCached(otherComponentName)) {
-                                if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
-                                    let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
-                                    for (let otherProperty of otherProperties){
-                                        if (otherProperty.accept_types) {
-                                            for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)){
-                                                if (otherPropertyAcceptType == myType) {
+                            if (otherComponentName != typeName) {
+                                if (GLOBALS.isComponentTypeCached(otherComponentName)) {
+                                    if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
+                                        let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
+                                        for (let otherProperty of otherProperties) {
+                                            if (otherProperty.accept_types) {
+                                                for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)) {
+                                                    if (otherPropertyAcceptType == myType) {
 //debugger
 //console.log("        Found Match for " + myType)
-                                                    if (!GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName]) {
-                                                        GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName]={}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
-                                                        GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
-                                                    }
-                                                    GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                        if (!GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName]) {
+                                                            GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
+                                                            GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
+                                                        }
+                                                        GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-                                                    if (!GLOBALS.linkedProperties[typeName].outgoing.me) {
-                                                        GLOBALS.linkedProperties[typeName].outgoing.me = {}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id]) {
-                                                        GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id] = {}
-                                                    }
+                                                        if (!GLOBALS.linkedProperties[typeName].outgoing.me) {
+                                                            GLOBALS.linkedProperties[typeName].outgoing.me = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id]) {
+                                                            GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id] = {}
+                                                        }
 
-                                                    if (!GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
-                                                        GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
-                                                    }
-                                                    GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
-
-
+                                                        if (!GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
+                                                            GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
+                                                        }
+                                                        GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
 
 
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName]={}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id]={}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
-                                                    }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
+                                                        }
 
 
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].incoming.me) {
+                                                            GLOBALS.linkedProperties[otherComponentName].incoming.me = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
+                                                        }
+                                                        if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                            GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
+                                                        }
 
 
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].incoming.me) {
-                                                        GLOBALS.linkedProperties[otherComponentName].incoming.me={}
                                                     }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id]={}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
-                                                    }
-                                                    if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
-                                                        GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
-                                                    }
-
-
                                                 }
                                             }
                                         }
                                     }
                                 }
+
                             }
-
                         }
+
                     }
-
                 }
+
+
             }
-
-
-
         }
+
     }
 
 }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var listElm = null
 var params = {}
 
@@ -4332,7 +4328,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
             if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId(componentType)  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
-                //console.log("loadUiComponentsV4: 2")
+                console.log("loadUiComponentsV4: " + componentType)
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
                 //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
@@ -4342,9 +4338,10 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
 
                 await checkLibsV3(libsForCode)
-                if (componentType.startsWith("COMP_")) {
-                    debugger
+                if (componentType.startsWith("label_control")) {
+                    //debugger
                 }
+
                 let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeForCommit})
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 GLOBALS.setComponentLoaded({codeId: newDataCodeId})
@@ -4630,6 +4627,10 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
             trcode2 = getDebugCode(baseComponentId,  trcode2)
         } else if (component_type == "VB") {
             //console.log("Component to index: " + componentRecord.base_component_id)
+            if (baseComponentId.startsWith("label_control")) {
+                debugger
+            }
+
             indexComponent( baseComponentId  )
         }
 
