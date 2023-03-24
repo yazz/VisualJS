@@ -3398,14 +3398,10 @@ function indexComponent(  typeName  ) {
 
                                                             GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
 
-                                                            try {
-                                                                if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName]) {
-                                                                    GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
-                                                                }
-                                                            } catch(err) {
-                                                            //zzz
-                                                                debugger
+                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName]) {
+                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
                                                             }
+
                                                             if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
                                                                 GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
                                                             }
@@ -4718,7 +4714,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
         } else if (component_type == "VB") {
             //console.log("Component to index: " + componentRecord.base_component_id)
             if (baseComponentId.startsWith("label_control")) {
-                debugger
+                //debugger
             }
 
             indexComponent( baseComponentId  )
