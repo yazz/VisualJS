@@ -978,18 +978,43 @@ var GLOBALS = {
 
 
 
+    isControl: function(args) {
+        let codeId = args.codeId
+        if (!codeId ) {
+            codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+        }
+        if (codeId) {
+            if (GLOBALS.codeCache[codeId]) {
+                if (GLOBALS.codeCache[codeId].component_type == "VB") {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    ,
 
-    getAllLoadedTypeNames: function() {
-        return Object.keys(GLOBALS.baseComponentIdReturnsCommitId)
+
+
+
+    getAllLoadedControlTypeNames: function() {
+        let listOfAllComponents = Object.keys(GLOBALS.baseComponentIdReturnsCommitId)
+        let listOfControls = []
+        for (let aComponentType of listOfAllComponents) {
+            if (GLOBALS.isControl({baseComponentId: aComponentType})) {
+                listOfControls.push(aComponentType)
+            }
+        }
+        return listOfControls
     }
     ,
 
 
     cacheThisComponentCode: function(args) {
         let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
+        let componentType   = yz.getValueOfCodeString(args.code, "component_type")
 
         GLOBALS.baseComponentIdReturnsCommitId[baseComponentId] = args.codeId
-
 
         //
         // Add the components code
@@ -997,7 +1022,7 @@ var GLOBALS = {
         GLOBALS.codeCache[   args.codeId  ] = {
             code:               args.code,
             code_id:            args.codeId,
-            component_type:     "SYSTEM",
+            component_type:     componentType,
             base_component_id:  baseComponentId
         }
 
@@ -3284,7 +3309,7 @@ function indexComponent(typeName) {
                     let acceptTypes = Object.keys(oneProperty.accept_types)
                     for (let acceptType of acceptTypes) {
 
-                        for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()) {
+                        for (let otherComponentName of GLOBALS.getAllLoadedControlTypeNames()) {
                             if (otherComponentName == "database_control") {
 
                             }
@@ -3362,7 +3387,7 @@ function indexComponent(typeName) {
                     let types = Object.keys(oneProperty.types)
                     for (let myType of types) {
 //console.log("    " + myType)
-                        for (let otherComponentName of GLOBALS.getAllLoadedTypeNames()) {
+                        for (let otherComponentName of GLOBALS.getAllLoadedControlTypeNames()) {
 //if (otherComponentName == "table_control") {
 //debugger
 //}
