@@ -4356,7 +4356,6 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 console.log("loadUiComponentsV4: " + componentType)
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
-                //let newDataCodeId   = GLOBALS.baseComponentIdReturnsCommitId[ componentType ]
                 let newDataCodeId   = GLOBALS.getCommitIdForBaseComponentId( componentType )
                 let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
                 let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
