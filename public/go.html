@@ -2344,7 +2344,6 @@ var globalEventBus = new Vue();
 //lll
 let newAppArgs = []
 async function prepareApp(  id,  bbase_component_id,  args  ) {
-debugger
     base_component_id = bbase_component_id
     GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
     let rootElement = "app_" + id
@@ -4331,9 +4330,6 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
     if (GLOBALS.isStaticHtmlPageApp) {
         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-            if (componentType.startsWith("app_editor_3")) {
-                debugger
-            }
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
             if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId(componentType)  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
                 //console.log("loadUiComponentsV4: 2")
@@ -4346,6 +4342,9 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
 
                 await checkLibsV3(libsForCode)
+                if (componentType.startsWith("COMP_")) {
+                    debugger
+                }
                 let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeForCommit})
                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                 GLOBALS.setComponentLoaded({codeId: newDataCodeId})
@@ -4758,7 +4757,7 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
                 }
                 if (baseComponentId.startsWith("COMP_")) {
-                    await saveDebugTextOnServer(trcode2, "z.js")
+                        //await saveDebugTextOnServer(trcode2, "z.js")
                 }
             }
         }
