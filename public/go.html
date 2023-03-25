@@ -1014,8 +1014,6 @@ var GLOBALS = {
         let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
         let componentType   = yz.getValueOfCodeString(args.code, "component_type")
 
-        GLOBALS.baseComponentIdReturnsCommitId[baseComponentId] = args.codeId
-
         //
         // Add the components code
         //
@@ -1032,11 +1030,24 @@ var GLOBALS = {
         } else {
             GLOBALS.codeCache[   args.codeId  ].properties   = []
         }
+
+
+        GLOBALS.pointBaseComponentIdAtCode(
+            {
+                baseComponentId:    baseComponentId,
+                codeId:             args.codeId
+            })
     }
     ,
 
     pointBaseComponentIdAtCode: function(args) {
         GLOBALS.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
+
+        if (GLOBALS.isControl({baseComponentId: args.baseComponentId})) {
+        debugger
+            indexComponent( args.baseComponentId  )
+        }
+
     }
     ,
 
@@ -3297,7 +3308,7 @@ __________
 |     typeName
 |     --------
 |________________________________________________________________________ */
-globinIndexComponent = false
+var globinIndexComponent = false
 function indexComponent(  typeName  ) {
     if (globinIndexComponent) {
         debugger
@@ -4716,8 +4727,6 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
             if (baseComponentId.startsWith("label_control")) {
                 //debugger
             }
-
-            indexComponent( baseComponentId  )
         }
 
 
