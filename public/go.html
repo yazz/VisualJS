@@ -49,7 +49,10 @@ var web3loaded              = false
 var disableAutoSave         = false;
 var pageInitialised         = false
 var executeOnPageLoad       = null
-
+var diffJsloaded            = false
+var ideToolsloaded          = false
+var visCssloaded            = false
+var ipfsServerloaded        = false
 
 
 
@@ -108,7 +111,6 @@ var useVisJs = async function() {
 
 
 
-var ipfsServerloaded = false
 var useIpfsServer = async function() {
     if (!ipfsServerloaded) {
         let promise = new Promise(async function(returnfn) {
@@ -135,8 +137,6 @@ var useIpfsServer = async function() {
 
 
 
-
-var visCssloaded = false
 var useVisCss = async function() {
 if (!visCssloaded) {
 //debugger
@@ -189,7 +189,6 @@ web3loaded = true
 }
 }
 
-var ideToolsloaded = false
 var useIdeTools = async function() {
 if (!ideToolsloaded) {
 //debugger
@@ -211,7 +210,6 @@ let ret = await promise
 
 
 
-var diffJsloaded = false
 var useDiffJs = async function() {
 if (!diffJsloaded) {
 //debugger
