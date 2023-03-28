@@ -2002,8 +2002,6 @@ async function initFn() {
                 return {
                     count:              1
                     ,
-                    is_gui_app:         true
-                    ,
                     console_output:     ""
                     ,
                     selected_card:      -1
@@ -2299,18 +2297,15 @@ class="loader">
 </div>
 
 
-<div v-if='!is_gui_app' style="padding:10px;"><pre id="console_id" style="color: white;">{{console_output}}</pre></div>
 
-
-<template   v-if='is_gui_app'
-v-for="item  in  cards" >
-<div v-if="item.id == selected_card"
-style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
-<card_component :item='item' :visible='true' :element_id='"current_card"'
-:full_screen='true'
-:is_static='is_static' :card_selected='true'>
-</card_component>
-</div>
+<template   v-for="item  in  cards" >
+            <div    v-if="item.id == selected_card"
+                    style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
+                    <card_component :item='item' :visible='true' :element_id='"current_card"'
+                                    :full_screen='true'
+                                    :is_static='is_static' :card_selected='true'>
+                    </card_component>
+            </div>
 
 </template>
 
@@ -2320,15 +2315,14 @@ style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 2
 
 
 
-<template   v-for="item  in  cards"
-v-if='is_gui_app'>
+<template   v-for="item  in  cards">
 
-<div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
-<card_component :item='item' :visible='true' :element_id='"card_" + item.id'
-:full_screen='false'
-:is_static='is_static' :card_selected='(item.id == selected_card)'>
-</card_component>
-</div>
+    <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
+        <card_component :item='item' :visible='true' :element_id='"card_" + item.id'
+                        :full_screen='false'
+                        :is_static='is_static' :card_selected='(item.id == selected_card)'>
+        </card_component>
+    </div>
 </template>
 
 <div style="height: 200px;">
@@ -2636,10 +2630,6 @@ socket.on('env_vars',async function(data) {
             //console.log(envName)
             var valueEnvVar = data.value[envName]
             var cmddd = '($' + envName + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
-
-            if (mainMoonApp.is_gui_app) {
-                console.log(cmddd)
-            }
 
             eval(cmddd)
 
@@ -4762,28 +4752,19 @@ async function enhanceYazzSourceCodeBeforeRunning(args) {
 
 
 async function runYazzSourceCode(trcode2, args, callbackFn) {
-    //Don't run any server code
-    if (trcode2.toString().includes("only_run_on_server(true)")) {
-        mainMoonApp.console_output  = ""
-        mainMoonApp.is_gui_app      = false
-    } else if (!trcode2.toString().includes("Vue.")) {
-        mainMoonApp.console_output = ""
-        mainMoonApp.is_gui_app = false
-    } else {
-        let fnfn = eval( trcode2  )
-        if (trcode2.indexOf("async ")  == -1) {
-            let fnfnRes = fnfn(args)
-            //if (isValidObject(callbackFn)) {
-            if (callbackFn) {
-                callbackFn(fnfnRes)
-            }
+    let fnfn = eval( trcode2  )
+    if (trcode2.indexOf("async ")  == -1) {
+        let fnfnRes = fnfn(args)
+        //if (isValidObject(callbackFn)) {
+        if (callbackFn) {
+            callbackFn(fnfnRes)
+        }
 
-        } else {
-            let fnfnRes = await fnfn(args)
-            //if (isValidObject(callbackFn)) {
-            if (callbackFn) {
-                callbackFn(fnfnRes)
-            }
+    } else {
+        let fnfnRes = await fnfn(args)
+        //if (isValidObject(callbackFn)) {
+        if (callbackFn) {
+            callbackFn(fnfnRes)
         }
     }
 }
