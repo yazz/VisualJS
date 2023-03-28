@@ -2417,61 +2417,53 @@ function loadAppIntoElement(tagName, rootElement) {
 
 
 function add_card(payload) {
-
-let ccy = document.getElementById('wrapper').scrollTop
-mainMoonApp.cards.push(payload);
-setTimeout(function() {
-document.getElementById('wrapper').scrollTop = ccy
-},100)
-
+    let ccy = document.getElementById('wrapper').scrollTop
+    mainMoonApp.cards.push(payload);
+    setTimeout(function() {
+        document.getElementById('wrapper').scrollTop = ccy
+    },100)
 }
 
-function update_card(payload) {
-//console.log("update_card: " + JSON.stringify(payload,null,2))
-for (let i = 0; i < mainMoonApp.cards.length; i++) {
-if (mainMoonApp.cards[i].id == payload.id) {
-mainMoonApp.cards[i].card.hide_header           = payload.card.hide_header
-mainMoonApp.cards[i].card.name                  = payload.card.name
-mainMoonApp.cards[i].card.base_component_id     = payload.card.base_component_id
-mainMoonApp.cards[i].card.code_id               = payload.card.code_id
-mainMoonApp.cards[i].card.display_name          = payload.card.display_name
-mainMoonApp.cards[i].card.type                  = payload.card.type
-}
-}
-}
 
 
 function refresh() {
-mainMoonApp.count += 1;
+    mainMoonApp.count += 1;
 }
 
 
 
 function getPosition(el) {
-let xPos = 0;
-let yPos = 0;
+    let xPos = 0;
+    let yPos = 0;
 
-while (el) {
-if (el.tagName == "BODY") {
-// deal with browser quirks with body/window/document and page scroll
-let xScroll = el.scrollLeft || document.documentElement.scrollLeft;
-let yScroll = el.scrollTop || document.documentElement.scrollTop;
+    while (el) {
+        if (el.tagName == "BODY") {
+            // deal with browser quirks with body/window/document and page scroll
+            let xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+            let yScroll = el.scrollTop || document.documentElement.scrollTop;
 
-xPos += (el.offsetLeft - xScroll + el.clientLeft);
-yPos += (el.offsetTop - yScroll + el.clientTop);
-} else {
-// for all other non-BODY elements
-xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
-yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+            xPos += (el.offsetLeft - xScroll + el.clientLeft);
+            yPos += (el.offsetTop - yScroll + el.clientTop);
+        } else {
+            // for all other non-BODY elements
+            xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+            yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+        }
+
+        el = el.offsetParent;
+    }
+    return {
+        x: xPos,
+        y: yPos
+    };
 }
 
-el = el.offsetParent;
-}
-return {
-x: xPos,
-y: yPos
-};
-}
+
+
+
+
+
+
 async function select_card(id) {
 if (mainMoonApp.selected_card == id) {
 return;
@@ -3558,18 +3550,6 @@ mousedown = false
 
 
 
-function closeCard() {
-autoScroll = false
-setTimeout(async function(){
-await select_card(-1)
-},200)
-}
-
-
-function alj(jj) {
-alert(JSON.stringify(jj,null,2))
-}
-
 
 
 function isValidObject(variable){
@@ -3581,16 +3561,11 @@ function isValidObject(variable){
 
 
 
-
-
-function is_app(t) {
-
-}
 function uuidv4() {
-return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-return v.toString(16);
-});
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 
 

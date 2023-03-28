@@ -7662,7 +7662,6 @@ return {}
                                 mm.model.forms[oldval] = null
                                 //alert(this.active_form)
 
-                                //alj(this.form_runtime_info[val])
                                 //mm.refresh ++
                                 //mm.updateAllFormCaches()
                                 mm.selectForm(val)
