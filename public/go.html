@@ -54,7 +54,7 @@ var ideToolsloaded          = false
 var visCssloaded            = false
 var ipfsServerloaded        = false
 var d3loaded                = false
-
+var chartsJsloaded          = false
 
 
 async function onPageInitialized(doCode) {
@@ -230,23 +230,26 @@ var useDiffJs = async function() {
 
 
 var useD3 = async function() {
-if (!d3loaded) {
-//debugger
-let promise = new Promise(returnfn => {
-let loadD3LibScript = document.createElement('script');
-loadD3LibScript.src = "/js_libs/d3.js";
-document.head.appendChild(loadD3LibScript);
-loadD3LibScript.onload = function () {
-try {
-} catch (error) {
+    if (!d3loaded) {
+        let promise = new Promise(returnfn => {
+            let loadD3LibScript = document.createElement('script');
+            loadD3LibScript.src = "/js_libs/d3.js";
+            document.head.appendChild(loadD3LibScript);
+            loadD3LibScript.onload = function () {
+                try {
+                } catch (error) {
+                }
+                d3loaded = true
+                returnfn()
+            };
+        })
+        let ret = await promise
+    }
 }
-d3loaded = true
-returnfn()
-};
-})
-let ret = await promise
-}
-}
+
+
+
+
 
 
 
@@ -258,7 +261,8 @@ let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
 "To stop hackers using your wallet, here's " +
 "a unique message ID they can't guess: "
 
-var chartsJsloaded = false
+
+
 var useChartsJs = async function() {
 
 if (!chartsJsloaded) {
