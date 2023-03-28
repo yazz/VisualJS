@@ -2435,68 +2435,49 @@ function getPosition(el) {
 
 
 async function select_card(id) {
-if (mainMoonApp.selected_card == id) {
-return;
-}
-if (mainMoonApp.selected_card != -1) {
-if (id != -1) {
-document.querySelector('#card_' + mainMoonApp.selected_card).classList.remove("expand");
-}
-document.querySelector('#card_' + mainMoonApp.selected_card).classList.add('contract');
+    if (mainMoonApp.selected_card == id) {
+        return;
+    }
+    if (mainMoonApp.selected_card != -1) {
+        if (id != -1) {
+            document.querySelector('#card_' + mainMoonApp.selected_card).classList.remove("expand");
+        }
+        document.querySelector('#card_' + mainMoonApp.selected_card).classList.add('contract');
+    }
 
-//alert(document.querySelector('#card_' + id))
-}
-
-if (id != -1) {
-let elmnt = document.querySelector('#card_' + id);
-if (elmnt) {
-//elmnt.scrollIntoView({  alignToTop: 'true',
-//                        bahaviour: 'smooth'});
-//document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
-if (GLOBALS.isStaticHtmlPageApp) {
-mainMoonApp.selected_card = id;
-setTimeout(async function() {
-let thisApp = mainMoonApp.cards[id - 1]
-//alert("id: " + JSON.stringify(thisApp,null,2))
-//alert("thisApp: " + JSON.stringify(thisApp,null,2))
-//alert("thisApp.id: " + JSON.stringify(thisApp.id,null,2))
-//alert("thisApp.card.base_component_id: " + JSON.stringify(thisApp.card.base_component_id,null,2))
-//console.log(JSON.stringify(mainMoonApp.cards[id - 1],null,2))
-if (mainMoonApp.cards[id - 1].card.fn) {
-setTimeout( mainMoonApp.cards[id - 1].card.fn, 3000)
-//alert(1)
-}
-if (thisApp.card.base_component_id) {
-await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
-}
-},200)
-
-} else {
-document.querySelector('#card_' + id).classList.remove('contract');
-document.querySelector('#card_' + id).classList.add('expand');
-setTimeout(function() {
-mainMoonApp.selected_card = id;
-setTimeout(async function() {
-let thisApp = mainMoonApp.cards[id - 1]
-//alert("id: " + JSON.stringify(thisApp,null,2))
-//alert("thisApp: " + JSON.stringify(thisApp,null,2))
-//alert("thisApp.id: " + JSON.stringify(thisApp.id,null,2))
-//alert("thisApp.card.base_component_id: " + JSON.stringify(thisApp.card.base_component_id,null,2))
-//console.log(JSON.stringify(mainMoonApp.cards[id - 1],null,2))
-if (mainMoonApp.cards[id - 1].card.fn) {
-setTimeout( mainMoonApp.cards[id - 1].card.fn, 3000)
-//alert(1)
-}
-if (thisApp.card.base_component_id) {
-await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
-}
-},200)
-},1000)
-}
-
-
-}
-}
+    if (id != -1) {
+        let elmnt = document.querySelector('#card_' + id);
+        if (elmnt) {
+            if (GLOBALS.isStaticHtmlPageApp) {
+                mainMoonApp.selected_card = id;
+                setTimeout(async function() {
+                    let thisApp = mainMoonApp.cards[id - 1]
+                    if (mainMoonApp.cards[id - 1].card.fn) {
+                        setTimeout( mainMoonApp.cards[id - 1].card.fn, 3000)
+                    }
+                    if (thisApp.card.base_component_id) {
+                    await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
+                    }
+                },200)
+            } else {
+                document.querySelector('#card_' + id).classList.remove('contract');
+                document.querySelector('#card_' + id).classList.add('expand');
+                setTimeout(function()
+                    {
+                        mainMoonApp.selected_card = id;
+                        setTimeout(async function() {
+                            let thisApp = mainMoonApp.cards[id - 1]
+                            if (mainMoonApp.cards[id - 1].card.fn) {
+                                setTimeout( mainMoonApp.cards[id - 1].card.fn, 3000)
+                            }
+                            if (thisApp.card.base_component_id) {
+                                await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
+                            }
+                        },200)
+                    },1000)
+            }
+        }
+    }
 
 }
 
