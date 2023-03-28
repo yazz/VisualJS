@@ -55,7 +55,10 @@ var visCssloaded            = false
 var ipfsServerloaded        = false
 var d3loaded                = false
 var chartsJsloaded          = false
-
+var tabulatorJsLoaded       = false
+var estraverseloaded        = false
+var esCodeGenLoaded         = false
+var testObject              = null; // Use this to test elements at debug time
 
 async function onPageInitialized(doCode) {
     executeOnPageLoad = doCode
@@ -298,7 +301,6 @@ let ret = await promise
 
 
 
-var estraverseloaded = false
 var useEstraverse = async function() {
 
 if (!estraverseloaded) {
@@ -328,8 +330,6 @@ let ret = await promise
 
 
 
-
-var esCodeGenLoaded = false
 var useEsCodeGen = async function() {
 if (!esCodeGenLoaded) {
 //debugger
@@ -362,7 +362,7 @@ let ret = await promise
 
 
 
-var tabulatorJsLoaded = false
+
 var useTabulatorJs = async function() {
 
 if (!tabulatorJsLoaded) {
@@ -540,8 +540,6 @@ return true
 }
 
 
-
-var testObject = null; // Use this to test elements at debug time
 /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
 /*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
 
