@@ -39,14 +39,16 @@ async function getIpfsHash(sometext) {
     }
 }
 
-var mousedown=false;
-var saveCodeViaWebWorker = null
-var worker = null;
-var ipfs = null
-var web3loaded = false
-var disableAutoSave = false;
-var pageInitialised = false
-var executeOnPageLoad = null
+var mainMoonApp             = null
+var visJsloaded             = false
+var mousedown               = false;
+var saveCodeViaWebWorker    = null
+var worker                  = null;
+var ipfs                    = null
+var web3loaded              = false
+var disableAutoSave         = false;
+var pageInitialised         = false
+var executeOnPageLoad       = null
 
 
 
@@ -86,7 +88,6 @@ async function onPageInitialized(doCode) {
 
 
 
-var visJsloaded = false
 var useVisJs = async function() {
     if (!visJsloaded) {
         //debugger
@@ -2481,7 +2482,7 @@ async function select_card(id) {
 
 }
 
-var mainMoonApp = null
+
 
 
 
