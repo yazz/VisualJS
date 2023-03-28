@@ -59,6 +59,11 @@ var tabulatorJsLoaded       = false
 var estraverseloaded        = false
 var esCodeGenLoaded         = false
 var testObject              = null; // Use this to test elements at debug time
+var params                  = {}
+var autoScroll              = false;
+var nextItem                = 1;
+var wait_and_select_app     = null
+
 
 async function onPageInitialized(doCode) {
     executeOnPageLoad = doCode
@@ -3454,12 +3459,6 @@ function indexComponent(  typeName  ) {
 
 
 
-var params = {}
-
-var autoScroll = false;
-var autoId = 0;
-var nextItem = 1;
-var wait_and_select_app = null
 
 
 
