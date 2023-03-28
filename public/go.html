@@ -2024,35 +2024,8 @@ async function initFn() {
             }
         });
 
-        listElm = document.querySelector('#wrapper');
 
-        // Add 20 items.
-        var loadMore = function() {
-            if (!GLOBALS.isStaticHtmlPageApp) {
-                for (let i = 0; i < 1; i++) {
-                    let nextIndex = nextItem - 1;
-                    if (nextItem <= defaultCards.length) {
-                        add_card( {id: nextItem++, card: defaultCards[nextIndex]});
-                        refresh();
-                    }
-                }
-            }
-        }
 
-        listElm.addEventListener('scroll', function(event)
-        {
-        let element = event.target;
-        if (element.scrollHeight - element.scrollTop <= (element.clientHeight + 10))
-        {
-        //console.log('scrolled');
-        loadMore();
-        //alert("load")
-        }
-        });
-        // Initially load some items.
-        for (let i=0; i < 20; i++) {
-        loadMore();
-        }
 
 
 
@@ -2531,16 +2504,6 @@ var mainMoonApp = null
 
 
 
-//ccc
-var defaultCards = [
-{
-html:
-`<div>
-</div>
-`
-}
-
-];
 
 
 
@@ -3516,7 +3479,6 @@ function indexComponent(  typeName  ) {
 
 
 
-var listElm = null
 var params = {}
 
 var autoScroll = false;
