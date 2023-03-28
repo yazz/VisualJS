@@ -2482,11 +2482,9 @@ async function select_card(id) {
 
 
 populateCache()
+
+
 function populateCache() {
-
-
-
-
 //***ADD_STATIC_CODE
 }
 
@@ -2586,12 +2584,9 @@ message_type: "browser_asks_server_for_data"
 
 
 socket.on('uploaded_app_as_file_from_server',async function(data) {
-
-//console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-if (data.client_file_upload_id == file_upload_uuid) {
-//alert("File uploaded: " + JSON.stringify(data.base_component_id,null,2))
-globalEventBus.$emit('new-appshare-app-uploaded', data.base_component_id);
-}
+    if (data.client_file_upload_id == file_upload_uuid) {
+        globalEventBus.$emit('new-appshare-app-uploaded', data.base_component_id);
+    }
 });
 
 
