@@ -39,7 +39,7 @@ async function getIpfsHash(sometext) {
     }
 }
 
-
+var mousedown=false;
 var saveCodeViaWebWorker = null
 var worker = null;
 var ipfs = null
@@ -1997,49 +1997,46 @@ async function initFn() {
 
 
         mainMoonApp = new Vue({
-        el: "#infinite-list"
-        ,
-        data: function() {
-        return {
-        count: 1
-        ,
-        is_gui_app:              true
-        ,
-        console_output:         ""
-        ,
-        selected_card: -1
-        ,
-        cards: []
-        ,
-        show_loader: false
-        ,
-        is_static: false
-        ,
-        local_app:                    false
-
-        }
-        }
-        ,
-        mounted: async function(){
-        this.local_app = localAppshareApp
-
-
-        }
+            el: "#infinite-list"
+            ,
+            data: function() {
+                return {
+                    count:              1
+                    ,
+                    is_gui_app:         true
+                    ,
+                    console_output:     ""
+                    ,
+                    selected_card:      -1
+                    ,
+                    cards:              []
+                    ,
+                    show_loader:        false
+                    ,
+                    is_static:          false
+                    ,
+                    local_app:          false
+                }
+            }
+            ,
+            mounted: async function(){
+                this.local_app = localAppshareApp
+            }
         });
 
         listElm = document.querySelector('#wrapper');
 
         // Add 20 items.
         var loadMore = function() {
-        if (!GLOBALS.isStaticHtmlPageApp) {
-        for (let i = 0; i < 1; i++) {
-        let nextIndex = nextItem - 1;
-        if (nextItem <= defaultCards.length) {
-        add_card( {id: nextItem++, card: defaultCards[nextIndex]});
-        refresh();
-        }
-        }
-        }
+            if (!GLOBALS.isStaticHtmlPageApp) {
+                for (let i = 0; i < 1; i++) {
+                    let nextIndex = nextItem - 1;
+                    if (nextItem <= defaultCards.length) {
+                        add_card( {id: nextItem++, card: defaultCards[nextIndex]});
+                        refresh();
+                    }
+                }
+            }
         }
 
         listElm.addEventListener('scroll', function(event)
@@ -3532,13 +3529,16 @@ var wait_and_select_app = null
 
 
 function onscrolled() {
-if (mousedown) {
-autoScroll = false;
-//select_card(-1)
-//console.log("onscroll")
-}
+    if (mousedown) {
+        autoScroll = false;
+    }
 };
-var mousedown=false;
+
+
+
+
+
+
 function onemousedown() {
 //console.log("onmousedown")
 mousedown = true
