@@ -2397,23 +2397,19 @@ async function prepareApp(  id,  bbase_component_id,  args  ) {
 
 
 function loadAppIntoElement(tagName, rootElement) {
-if (!mainMoonApp.is_gui_app) {
-return
-}
+    if (!document.getElementById(rootElement)) {
+        let newRootId = rootElement.substring(4)
+        let newCardId = "app_container_" + newRootId
+        let newAppId = "app_" + newRootId
+        //alert("Creating: " + newAppId + " under " + newCardId)
+        document.getElementById(newCardId).innerHTML = ""
+    }
 
-if (!document.getElementById(rootElement)) {
-let newRootId = rootElement.substring(4)
-let newCardId = "app_container_" + newRootId
-let newAppId = "app_" + newRootId
-//alert("Creating: " + newAppId + " under " + newCardId)
-document.getElementById(newCardId).innerHTML = ""
-
-}
-
-new Vue({
-template: `<${tagName} app_base_component_id='${editAppShareApp}' v-bind:card_index='1'></${tagName}>`,
-el: "#" + rootElement
-})
+    new Vue(
+        {
+            template:   `<${tagName} app_base_component_id='${editAppShareApp}' v-bind:card_index='1'></${tagName}>`,
+            el:         "#" + rootElement
+        })
 }
 
 
