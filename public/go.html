@@ -53,6 +53,7 @@ var diffJsloaded            = false
 var ideToolsloaded          = false
 var visCssloaded            = false
 var ipfsServerloaded        = false
+var d3loaded                = false
 
 
 
@@ -156,78 +157,71 @@ visCssloaded = true
 
 
 var useWeb3 = async function() {
+    if (!web3loaded) {
+        let loadWeb3LibScript = document.createElement('script');
+        loadWeb3LibScript.src = "/js_libs/web3.min.js";
 
-if (!web3loaded) {
-//debugger
-let loadWeb3LibScript = document.createElement('script');
-loadWeb3LibScript.src = "/js_libs/web3.min.js";
+        document.head.appendChild(loadWeb3LibScript);
+        loadWeb3LibScript.onload = function () {
+            try {
+                window.ethereum.request({method: "eth_requestAccounts"});
+                web3 = new Web3(window.ethereum);
+                (async function () {
+                    //await switchBlockchainNetwork('1')   //eth mainnet
+                    //await switchBlockchainNetwork('97')   //binance testnet
+                    //await switchBlockchainNetwork('80001')   //polygon testnet
+                    await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
+                })()
+            } catch (error) {
 
-document.head.appendChild(loadWeb3LibScript);
-loadWeb3LibScript.onload = function () {
-//debugger
-try {
-window.ethereum.request({method: "eth_requestAccounts"});
-
-web3 = new Web3(window.ethereum);
-
-
-(async function () {
-
-//await switchBlockchainNetwork('1')   //eth mainnet
-//await switchBlockchainNetwork('97')   //binance testnet
-//await switchBlockchainNetwork('80001')   //polygon testnet
-await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
-
-})()
-
-
-} catch (error) {
-
-}
-web3loaded = true
-};
-}
+            }
+            web3loaded = true
+        };
+    }
 }
 
 var useIdeTools = async function() {
-if (!ideToolsloaded) {
-//debugger
-let promise = new Promise(returnfn => {
-let loadIdeToolsLibScript = document.createElement('script');
-loadIdeToolsLibScript.src = "/js_libs/idetools.js";
-document.head.appendChild(loadIdeToolsLibScript);
-loadIdeToolsLibScript.onload = function () {
-try {
-} catch (error) {
+    if (!ideToolsloaded) {
+        //debugger
+        let promise = new Promise(returnfn => {
+            let loadIdeToolsLibScript = document.createElement('script');
+            loadIdeToolsLibScript.src = "/js_libs/idetools.js";
+            document.head.appendChild(loadIdeToolsLibScript);
+            loadIdeToolsLibScript.onload = function () {
+                try {
+                } catch (error) {
+                }
+                ideToolsloaded = true
+                returnfn()
+            };
+        })
+        let ret = await promise
+    }
 }
-ideToolsloaded = true
-returnfn()
-};
-})
-let ret = await promise
-}
-}
+
+
+
+
 
 
 
 var useDiffJs = async function() {
-if (!diffJsloaded) {
-//debugger
-let promise = new Promise(returnfn => {
-let loadDiffJsScript = document.createElement('script');
-loadDiffJsScript.src = "/js_libs/diff.js";
-document.head.appendChild(loadDiffJsScript);
-loadDiffJsScript.onload = function () {
-try {
-} catch (error) {
+    if (!diffJsloaded) {
+        let promise = new Promise(returnfn => {
+            let loadDiffJsScript = document.createElement('script');
+            loadDiffJsScript.src = "/js_libs/diff.js";
+            document.head.appendChild(loadDiffJsScript);
+            loadDiffJsScript.onload = function () {
+                try {
+                } catch (error) {
+                }
+                diffJsloaded = true
+                returnfn()
+            };
+        })
+        let ret = await promise
+    }
 }
-diffJsloaded = true
-returnfn()
-};
-})
-let ret = await promise
-}
-}
 
 
 
@@ -235,7 +229,6 @@ let ret = await promise
 
 
 
-var d3loaded = false
 var useD3 = async function() {
 if (!d3loaded) {
 //debugger
