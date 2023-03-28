@@ -2400,8 +2400,6 @@ function loadAppIntoElement(tagName, rootElement) {
     if (!document.getElementById(rootElement)) {
         let newRootId = rootElement.substring(4)
         let newCardId = "app_container_" + newRootId
-        let newAppId = "app_" + newRootId
-        //alert("Creating: " + newAppId + " under " + newCardId)
         document.getElementById(newCardId).innerHTML = ""
     }
 
@@ -2414,34 +2412,6 @@ function loadAppIntoElement(tagName, rootElement) {
 
 
 
-function loadContent(  data_id,  data_name  ) {
-//
-// _______
-// Browser  --Send me a preview of a document--  Server
-// _______
-//
-//console.log("**1) browser_asks_server_for_document_preview")
-sendToServerViaWebSocket({
-message_type:   "browser_asks_server_for_document_preview",
-data_id:         data_id,
-data_name:       data_name
-});
-}
-
-
-
-function openContent(  data_id  ) {
-//
-// _______
-// Browser  --Send me a preview of a document--  Server
-// _______
-//
-//console.log("**1) browser_asks_server_to_open_document_natively")
-sendToServerViaWebSocket({
-message_type:   "browser_asks_server_to_open_document_natively",
-data_id:         data_id
-});
-}
 
 
 
