@@ -1731,11 +1731,20 @@ End of app preview menu
            |________________________________________________________________________ */
 
            copyApp: async function( appId , newAppId, codeId) {
-               let mm = this
+
+               let mm       = this
                let copyArgs = {}
-               if (appId) {copyArgs.base_component_id = appId}
-               if (newAppId) {copyArgs.new_base_component_id = newAppId}
-               if (codeId) {copyArgs.code_id = codeId}
+
+               if (appId) {
+                   copyArgs.base_component_id = appId
+               }
+               if (newAppId) {
+                   copyArgs.new_base_component_id = newAppId
+               }
+               if (codeId) {
+                   copyArgs.code_id = codeId
+               }
+
                let result = await getFromYazzReturnJson("/copy_component_get",copyArgs)
                if (isValidObject(result)) {
                     mm.$root.$emit('message', {
@@ -1746,6 +1755,8 @@ End of app preview menu
 
                 }
                 setTimeout(async function() {
+                    debugger
+
                     await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id })
                         setTimeout(async function() {
                             mm.refresh++
@@ -1905,7 +1916,6 @@ End of app preview menu
            |
             ------------------------------------------------------------------------------ */
             load_new_version_of_edited_app: async function ( options ) {
-
                 /*   --------------------------------------
                     |    load_new_version_of_edited_app    |
                      ----------------               -------
@@ -1943,7 +1953,7 @@ End of app preview menu
                     return
                 }
 
-                mm.component_display_name       = null
+                mm.component_display_name   = null
                 mm.app_loaded               = true
                 mm.execution_timeline       = executionTimeline
                 mm.execution_code           = executionCode
@@ -1995,6 +2005,12 @@ End of app preview menu
 
                                 codeId = results[0].id
                                 mm.code_id = codeId
+                                GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                GLOBALS.pointBaseComponentIdAtCode(
+                                    {
+                                        baseComponentId:    mm.base_component_id,
+                                        codeId:             codeId
+                                    })
 
                                 this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
 
