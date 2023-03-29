@@ -2095,6 +2095,15 @@ End of app preview menu
                                 editorName = newEditor
                             }
 //debugger
+                            let bci = yz.getValueOfCodeString(code.toString(),"base_component_id")
+
+                            GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                            GLOBALS.pointBaseComponentIdAtCode(
+                                {
+                                    baseComponentId:    bci,
+                                    codeId:             codeId
+                                })
+
                             await loadUiComponentsV4( editorName, {text: code} )
                             mm.refresh++
 
@@ -2199,6 +2208,14 @@ End of app preview menu
                                     if (newEditor) {
                                         editorName = newEditor
                                     }
+
+
+                                    GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                    GLOBALS.pointBaseComponentIdAtCode(
+                                        {
+                                            baseComponentId:    baseComponentId,
+                                            codeId:             codeId
+                                        })
 
                                     await loadUiComponentsV4( editorName, {text: code} )
                                     mm.refresh++
