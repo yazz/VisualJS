@@ -1203,169 +1203,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     })
                 },
 
-
-                // editing apps on the home screen
-                addLogoForApp:              async function( baseComponentId) {
-                    /* Given the base component ID of a component, insert the logo image into the
-                    local cache stored in "app_logos"
-                    ________________________________________
-                    |                                      |
-                    |           addLogoForApp              |
-                    |                                      |
-                    |______________________________________|
-                    Given the base component ID of a component, insert the logo image into the
-                    local cache stored in "app_logos"
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |________________________________________________________________________ */
-                    let mm = this
-
-                    let results2 = await sqliteQuery(
-                        `select  
-                            base_component_id,  
-                            app_icon_data as logo_url   
-                        from  
-                            yz_cache_released_components  
-                        inner JOIN 
-                            icon_images ON yz_cache_released_components.icon_image_id = icon_images.id 
-                        where 
-                            component_type = 'app'
-                                and 
-                            base_component_id = '${baseComponentId}'`)
-
-                    if (results2.length > 0) {
-                        mm.app_logos[baseComponentId] = results2[0].logo_url
-                    } else {
-                        mm.app_logos[baseComponentId] = "/driver_icons/blocks.png"
-                    }
-
-                    mm.refresh++
-
-                },
-                addToEditableAppsAndEdit:   async function( ipfsHash ) {
-                    /* Given the commit ID of an app in the app store, download it and edit it
-                    ________________________________________
-                    |                                      |
-                    |       addToEditableAppsAndEdit       |
-                    |                                      |
-                    |______________________________________|
-                    Given the commit ID of an app in the app store, download it and edit it
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     ipfsHash
-                    |     --------
-                    |________________________________________________________________________ */
-                    let mm                = this
-                    this.open_file_name   = ""
-                    this.open_file_path   = "/"
-                    saveCodeToFile        = null
-
-                    let result = (await sqliteQuery(
-                        `select  
-                        base_component_id,  
-                        display_name   
-                    from  
-                        system_code  
-                    where 
-                        id = '${ipfsHash}'`))[0]
-
-
-                    await mm.addLogoForApp(result.base_component_id)
-
-                    await mm.addEditableApp(result.base_component_id, result.display_name)
-                    setTimeout(async function() {
-                        //mm.runAppInNewBrowserTab(result.base_component_id)
-                        //debugger
-                        hideProgressBar()
-                        mm.highlightApp(result.base_component_id)
-                        await mm.editApp(result.base_component_id)
-                    },50)
-                },
-                highlightApp:               function(       baseComponentId) {
-                    /*  highlightApp shows an app as larger on the home screen, like when selected
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId   The base component ID of the highlighted app
-                    |     ---------------
-                    |
-                    |________________________________________________________________________ */
-                    let mm = this
-                    setTimeout(function() {
-                        mm.currentlyHighlightedBaseComponentId = baseComponentId
-                        let a = document.getElementById("downloaded_apps")
-                        if (!a) {
-                            return
-                        }
-                        let itemLeft = document.getElementById("appid_" + baseComponentId)
-                        if (!itemLeft) {
-                            return
-                        }
-                        a.scrollLeft = itemLeft.offsetLeft
-                        mm.disableHighlightApp = true
-                        setTimeout(function() {
-                            mm.disableHighlightApp = false
-                        },4000)
-                    },150)
-                },
-                runAppInNewBrowserTab:      async function( baseComponentId) {
-                    /* Given the base component ID of an app, open that app in a separate
-                    browser tab as an app
-                    ________________________________________
-                    |                                      |
-                    |      runAppInNewBrowserTab           |
-                    |                                      |
-                    |______________________________________|
-                    Given the base component ID of an app, open that app in a separate
-                    browser tab as an app
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |________________________________________________________________________ */
-                    let mm = this
-                    window.open(
-                        location.protocol +
-                        "//" + location.hostname + ":" +
-                        location.port + "/app/" + baseComponentId + ".html"
-                        ,
-                        baseComponentId)
-                    mm.refresh++
-                },
-                renameApp:                  async function( baseComponentId, displayName) {
-                    /* rename App
-                    ________________________________________
-                    |                                      |
-                    |             renameApp                |
-                    |                                      |
-                    |______________________________________|
-                    Given the base component ID of an app and a new display name, rename
-                    the app on the homepage (Only works for editable apps)
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |
-                    |     displayName
-                    |     -----------
-                    |________________________________________________________________________ */
-                    let mm = this
-                    for (let thisApp of mm.editable_app_list) {
-                        if (thisApp) {
-                            if (thisApp.base_component_id ==  baseComponentId) {
-                                thisApp.displayName = displayName
-                            }
-                        }
-                    }
-                    mm.refresh++
-                    return null
-                },
+                // amend the edited apps
                 addEditableApp:             async function( baseComponentId, displayName, other) {
                     /* Given the base component ID of an app, a new display name, and
                     some other data, add a new editable app to the homepage
@@ -1420,6 +1258,212 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
                     return null
                 },
+                renameApp:                  async function( baseComponentId, displayName) {
+                    /* rename App
+                    ________________________________________
+                    |                                      |
+                    |             renameApp                |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of an app and a new display name, rename
+                    the app on the homepage (Only works for editable apps)
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |
+                    |     displayName
+                    |     -----------
+                    |________________________________________________________________________ */
+                    let mm = this
+                    for (let thisApp of mm.editable_app_list) {
+                        if (thisApp) {
+                            if (thisApp.base_component_id ==  baseComponentId) {
+                                thisApp.displayName = displayName
+                            }
+                        }
+                    }
+                    mm.refresh++
+                    return null
+                },
+                addToEditableAppsAndEdit:   async function( ipfsHash ) {
+                    /* Given the commit ID of an app in the app store, download it and edit it
+                    ________________________________________
+                    |                                      |
+                    |       addToEditableAppsAndEdit       |
+                    |                                      |
+                    |______________________________________|
+                    Given the commit ID of an app in the app store, download it and edit it
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     ipfsHash
+                    |     --------
+                    |________________________________________________________________________ */
+                    let mm                = this
+                    this.open_file_name   = ""
+                    this.open_file_path   = "/"
+                    saveCodeToFile        = null
+
+                    let result = (await sqliteQuery(
+                        `select  
+                        base_component_id,  
+                        display_name   
+                    from  
+                        system_code  
+                    where 
+                        id = '${ipfsHash}'`))[0]
+
+
+                    await mm.addLogoForApp(result.base_component_id)
+
+                    await mm.addEditableApp(result.base_component_id, result.display_name)
+                    setTimeout(async function() {
+                        //mm.runAppInNewBrowserTab(result.base_component_id)
+                        //debugger
+                        hideProgressBar()
+                        mm.highlightApp(result.base_component_id)
+                        await mm.editApp(result.base_component_id)
+                    },50)
+                },
+                copyAndEditApp:             async function( compInfo ) {
+                    /* copyAndEditApp
+                    ________________________________________
+                    |                                      |
+                    |        copyAndEditApp                |
+                    |                                      |
+                    |______________________________________|
+                    Given some app info, take an existing app and make a new copy of it, and edit
+                    that copy
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     compInfo    A map containing optional items:
+                    |     --------    {
+                    |                       base_component_id
+                    |                       code_id
+                    |                 }
+                    |________________________________________________________________________ */
+                    let mm                = this
+                    let baseComponentId   = compInfo.base_component_id
+                    let codeId            = compInfo.code_id
+
+                    globalEventBus.$emit('hide_settings', {});
+
+                    this.open_file_name   = ""
+                    this.open_file_path   = "/"
+                    saveCodeToFile        = null
+
+                    let result = await getFromYazzReturnJson("/copy_component_get",
+                        {
+                            base_component_id: baseComponentId
+                            ,
+                            code_id: codeId?codeId:""
+                        })
+
+                    await mm.addLogoForApp(result.base_component_id)
+
+                    await mm.addEditableApp(result.base_component_id, result.new_display_name, {codeId: result.code_id})
+                    setTimeout(function() {
+                        mm.editApp(result.base_component_id)
+                    },50)
+                },
+
+
+                // general app list stuff
+                addLogoForApp:              async function( baseComponentId) {
+                    /* Given the base component ID of a component, insert the logo image into the
+                    local cache stored in "app_logos"
+                    ________________________________________
+                    |                                      |
+                    |           addLogoForApp              |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of a component, insert the logo image into the
+                    local cache stored in "app_logos"
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |________________________________________________________________________ */
+                    let mm = this
+
+                    let results2 = await sqliteQuery(
+                        `select  
+                            base_component_id,  
+                            app_icon_data as logo_url   
+                        from  
+                            yz_cache_released_components  
+                        inner JOIN 
+                            icon_images ON yz_cache_released_components.icon_image_id = icon_images.id 
+                        where 
+                            component_type = 'app'
+                                and 
+                            base_component_id = '${baseComponentId}'`)
+
+                    if (results2.length > 0) {
+                        mm.app_logos[baseComponentId] = results2[0].logo_url
+                    } else {
+                        mm.app_logos[baseComponentId] = "/driver_icons/blocks.png"
+                    }
+
+                    mm.refresh++
+
+                },
+                highlightApp:               function(       baseComponentId) {
+                    /*  highlightApp shows an app as larger on the home screen, like when selected
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId   The base component ID of the highlighted app
+                    |     ---------------
+                    |
+                    |________________________________________________________________________ */
+                    let mm = this
+                    setTimeout(function() {
+                        mm.currentlyHighlightedBaseComponentId = baseComponentId
+                        let a = document.getElementById("downloaded_apps")
+                        if (!a) {
+                            return
+                        }
+                        let itemLeft = document.getElementById("appid_" + baseComponentId)
+                        if (!itemLeft) {
+                            return
+                        }
+                        a.scrollLeft = itemLeft.offsetLeft
+                        mm.disableHighlightApp = true
+                        setTimeout(function() {
+                            mm.disableHighlightApp = false
+                        },4000)
+                    },150)
+                },
+                runAppInNewBrowserTab:      async function( baseComponentId) {
+                    /* Given the base component ID of an app, open that app in a separate
+                    browser tab as an app
+                    ________________________________________
+                    |                                      |
+                    |      runAppInNewBrowserTab           |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of an app, open that app in a separate
+                    browser tab as an app
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |________________________________________________________________________ */
+                    let mm = this
+                    window.open(
+                        location.protocol +
+                        "//" + location.hostname + ":" +
+                        location.port + "/app/" + baseComponentId + ".html"
+                        ,
+                        baseComponentId)
+                    mm.refresh++
+                },
                 downloadAndRunApp:          async function( ipfsHash ) {
                     /* downloadAndRunApp
                     ________________________________________
@@ -1456,48 +1500,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       await mm.highlightApp(result.base_component_id)
                       await mm.runAppInNewBrowserTab(result.base_component_id)
 
-                  },50)
-                },
-                copyAndEditApp:             async function( compInfo ) {
-                    /* copyAndEditApp
-                    ________________________________________
-                    |                                      |
-                    |        copyAndEditApp                |
-                    |                                      |
-                    |______________________________________|
-                    Given some app info, take an existing app and make a new copy of it, and edit
-                    that copy
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     compInfo    A map containing optional items:
-                    |     --------    {
-                    |                       base_component_id
-                    |                       code_id
-                    |                 }
-                    |________________________________________________________________________ */
-                  let mm                = this
-                  let baseComponentId   = compInfo.base_component_id
-                  let codeId            = compInfo.code_id
-
-                  globalEventBus.$emit('hide_settings', {});
-
-                  this.open_file_name   = ""
-                  this.open_file_path   = "/"
-                  saveCodeToFile        = null
-
-                  let result = await getFromYazzReturnJson("/copy_component_get",
-                      {
-                          base_component_id: baseComponentId
-                          ,
-                          code_id: codeId?codeId:""
-                      })
-
-                  await mm.addLogoForApp(result.base_component_id)
-
-                  await mm.addEditableApp(result.base_component_id, result.new_display_name, {codeId: result.code_id})
-                  setTimeout(function() {
-                      mm.editApp(result.base_component_id)
                   },50)
                 },
                 editApp:                    async function( baseComponentId, codeId) {
