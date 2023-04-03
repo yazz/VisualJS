@@ -65,10 +65,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     ------------------------------------------------------------------------------ */
     Vue.component(
         'homepage',
-
-        // Everything in the Vue object stored in the following structure
         {
-            // the template contains the HTML
             template: `<div   v-bind:refresh='refresh'
                         style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
                 
@@ -644,15 +641,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         
                     </div>
                 </div>`,
-
-            /* data for the Vue object
-            __________
-            | ITEMS  |______________________________________________________________
-            |
-            |     hideImportButtons
-            |     -----------------  Which tab
-            |________________________________________________________________________ */
             data: function() {
+                /* data for the Vue object
+                __________
+                | ITEMS  |______________________________________________________________
+                |
+                |     hideImportButtons
+                |     -----------------  Which tab
+                |________________________________________________________________________ */
                 return {
                             editingBaseComponentId:                 null,
 
@@ -672,22 +668,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             debugMode:                              false
                         }
             },
-
-            /* mounted - when the Vue component is first loaded
-            ________________________________________
-            |                                      |
-            |             mounted                  |
-            |                                      |
-            |______________________________________|
-            This sets up:
-             - The "d" key as a debug key
-            __________
-            | PARAMS |______________________________________________________________
-            |
-            |     NONE
-            |     ----
-            |________________________________________________________________________ */
             mounted: async function() {
+                /* mounted - when the Vue component is first loaded
+                ________________________________________
+                |                                      |
+                |             mounted                  |
+                |                                      |
+                |______________________________________|
+                This sets up:
+                 - The "d" key as a debug key
+                __________
+                | PARAMS |______________________________________________________________
+                |
+                |     NONE
+                |     ----
+                |________________________________________________________________________ */
                 let mm = this
 
 
@@ -956,8 +951,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
                 })
               },
-
-            // all the methods for the object
             methods: {
                 // local filesystem stuff
                 openFile:                   async function() {
