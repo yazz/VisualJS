@@ -2646,23 +2646,16 @@ async function startServices() {
             next();
         });
 
-
-        //------------------------------------------------------------------------------
-        // Show the default page for the different domains
-        //------------------------------------------------------------------------------
-
-
-
         app.get('/', function (req, res, next) {
+            //------------------------------------------------------------------------------
+            // Show the default page for the different domains
+            //------------------------------------------------------------------------------
             //console.log("calling main page")
             //console.log("jaeger: " + jaegercollector)
             //console.log("app.get('/'): ")
             //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             return getRoot(req, res, next);
         })
-
-
-
         app.get('/copy_component_get', async function (req, res, next) {
             let userid              = await getUserId(req)
             let baseComponentId     = req.query.base_component_id
@@ -2685,10 +2678,7 @@ async function startServices() {
             ));
 
         })
-
-
-
-            app.get('/update_code_tags', async function (req, res, next) {
+        app.get('/update_code_tags', async function (req, res, next) {
             let userid          = await getUserId(req)
 
             await yz.updateCodeTags(
@@ -2704,8 +2694,6 @@ async function startServices() {
             ));
 
         })
-
-
         app.get('/get_code_commit', async function (req, res, next) {
             //console.log("calling main page")
             //console.log("jaeger: " + jaegercollector)
@@ -2723,10 +2711,6 @@ async function startServices() {
             ));
 
         })
-
-
-
-
         app.post('/call_component', async function (req, res) {
             console.log("app.post('/call_component'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
@@ -2739,11 +2723,6 @@ async function startServices() {
                 topApps
             ));
         })
-
-
-
-
-
         app.post('/submit_comment', async function (req, res) {
             console.log("app.post('/submit_comment'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
@@ -2799,31 +2778,27 @@ async function startServices() {
             },500)
 
         });
-
-
-
-
-        /*
-        ________________________________________
-        |                                      |
-        |       POST /save_debug_text          |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     componentSearchDetails    Some text
-        |     ----------------------    can go here
-        |                               and on the
-        |                               following lines
-        |
-        |     second param              Some text
-        |     ------------              can go here
-        |                               and on the
-        |                               following lines
-        |________________________________________________________________________ */
         app.post('/save_debug_text', async function (req, res) {
+            /*
+            ________________________________________
+            |                                      |
+            |       POST /save_debug_text          |
+            |                                      |
+            |______________________________________|
+            Function description
+            __________
+            | PARAMS |______________________________________________________________
+            |
+            |     componentSearchDetails    Some text
+            |     ----------------------    can go here
+            |                               and on the
+            |                               following lines
+            |
+            |     second param              Some text
+            |     ------------              can go here
+            |                               and on the
+            |                               following lines
+            |________________________________________________________________________ */
             let textInput       = req.body.textInput
             let fileLocation    = req.body.fileLocation
             fs.writeFileSync(fileLocation, textInput);
@@ -2832,53 +2807,39 @@ async function startServices() {
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({status: "OK"}))
         })
-
-
-
-
-
-
-
-
-
-
-        /*
-        ________________________________________
-        |                                      |
-        |       POST /save_debug_text          |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     componentSearchDetails    Some text
-        |     ----------------------    can go here
-        |                               and on the
-        |                               following lines
-        |
-        |     second param              Some text
-        |     ------------              can go here
-        |                               and on the
-        |                               following lines
-        |________________________________________________________________________ */
         app.post('/get_pipeline_code', async function (req, res) {
+            /*
+            ________________________________________
+            |                                      |
+            |       POST /save_debug_text          |
+            |                                      |
+            |______________________________________|
+            Function description
+            __________
+            | PARAMS |______________________________________________________________
+            |
+            |     componentSearchDetails    Some text
+            |     ----------------------    can go here
+            |                               and on the
+            |                               following lines
+            |
+            |     second param              Some text
+            |     ------------              can go here
+            |                               and on the
+            |                               following lines
+            |________________________________________________________________________ */
             let pipelineFileName        = req.body.pipelineFileName
             let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
 //zzz
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({value: fileOut}))
         })
-
-
-
-
-        /*
-                            POST    '/load_ui_components_v3'
-
-                            Loads a bunch of components
-         */
         app.post('/load_ui_components_v3', async function (req, res) {
+            /*
+                                POST    '/load_ui_components_v3'
+
+                                Loads a bunch of components
+             */
             let inputComponentsToLoad       = req.body.find_components.items
             let outputComponents            = []
 
@@ -2994,11 +2955,6 @@ async function startServices() {
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify(decorateResult))
         })
-
-
-
-
-
         app.post('/post_test', async function (req, res) {
             console.log("app.post('/post_test'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
@@ -3010,12 +2966,6 @@ async function startServices() {
             ));
 
         });
-
-
-
-
-
-
         app.post('/get_comments_for_component', async function (req, res) {
             let baseComponentId = req.body.value.base_component_id
             let commentsAndRatings = await getCommentsForComponent(baseComponentId)
@@ -3034,8 +2984,6 @@ async function startServices() {
             ));
 
         });
-
-
         app.get('/login_with_metamask', async function (req, res) {
             console.log("app.post('/login_with_metamask'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
@@ -3068,10 +3016,6 @@ async function startServices() {
             ));
 
         });
-
-
-
-
         app.get('/check_metamask_seed', async function (req, res) {
             try {
 
@@ -3150,8 +3094,6 @@ async function startServices() {
             }
 
         });
-
-
         app.get('/bulk_calculate_branch_strength_for_component', async function (req, res) {
             console.log("app.post('/bulk_calculate_branch_strength_for_component'): ")
             let baseComponentId = req.query.baseComponentId;
@@ -3253,11 +3195,6 @@ async function startServices() {
                 }
             ));
         });
-
-
-
-
-
         app.get('/get_version_history_v2', async function (req, res) {
 
             console.log("app.post('/get_version_history_v2'): ")
@@ -3287,14 +3224,6 @@ async function startServices() {
             ));
 
         });
-
-
-
-
-
-
-
-
         app.get('/get_version_future', async function (req, res) {
 
             console.log("app.post('/get_version_future'): ")
@@ -3318,16 +3247,6 @@ async function startServices() {
             ));
 
         });
-
-
-
-
-
-
-
-
-
-
         app.post('/editable_apps', async function (req, res) {
 
             //console.log("app.post('/editable_apps'): ")
@@ -3404,7 +3323,6 @@ async function startServices() {
             ));
 
         });
-
         app.post('/topapps', async function (req, res) {
             //console.log("app.post('/topapps'): ")
             //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
@@ -3492,8 +3410,6 @@ async function startServices() {
             ));
 
         });
-
-
         app.get('/live-check',(req,res)=> {
 
            outputDebug("Live check passed")
@@ -3508,15 +3424,12 @@ async function startServices() {
                 res.status(500).send('Readiness check did not pass');
             }
         });
-
-        //------------------------------------------------------------------------------
-        // Allow an app to be edited
-        //------------------------------------------------------------------------------
         app.get('/edit/*', function (req, res) {
+            //------------------------------------------------------------------------------
+            // Allow an app to be edited
+            //------------------------------------------------------------------------------
         	return getEditApp(req, res);
         })
-
-
         app.post('/add_or_update_app', async function (req, res) {
 console.log("/add_or_update_app")
             let baseComponentIdLocal = req.body.base_component_id
@@ -3536,10 +3449,6 @@ console.log("/add_or_update_app:ipfsHash := " + ipfsHash)
 console.log("/add_or_update_app:addOrUpdateDriver completed")
             res.status(200).send('Code registered');
         })
-
-
-
-
         /* what happens if we register a false or bad IPFS address? All code sent here
          *  should be validated */
         app.post('/register_ipfs_content_for_client', async function (req, res) {
@@ -3550,10 +3459,9 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             await registerIPFS(ipfsHash);
             res.status(200).send('IPFS content registered');
         })
-
-
         app.use("/files",   express.static(path.join(userData, '/files/')));
         app.use("/weights",   express.static(path.join(userData, '/weights/')));
+
 
         function getAppNameFromHtml() {
 
@@ -3566,6 +3474,8 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let appName = appHtmlFile.split('.').slice(0, -1).join('.')
             return appName
         }
+
+
         //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
         app.get('/app/*', function (req, res, next) {
             console.log("app.get('/app'): ")
@@ -3592,23 +3502,12 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
         })
-
         //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
-
         app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
         app.use(            express.static(path.join(__dirname, '../public/')))
         app.use(bodyParser.json()); // support json encoded bodies
         app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
         //app.use(useragent.express())
-
-
-
-
-
-
-
-
-
 
         app.post("/save_code" , async function (req, res) {
 
@@ -3656,13 +3555,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(saveResult))
         });
-
-
-
-
-
-
-
         app.post("/save_code_v3" , async function (req, res) {
 
             let userid          = await getUserId(req)
@@ -3711,11 +3603,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify(saveResult))
         });
-
-
-
-
-
         app.post("/load_component" , async function (req, res) {
 
 
@@ -3723,16 +3610,11 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({return: "from load component"}))
         });
-
-
-
         app.post("/save_component" , async function (req, res) {
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end(JSON.stringify({return: "from save component"}))
         });
-
-
         app.post("/get_commit_hash_id" , async function (req, res) {
             //
             // get stuff
@@ -3745,7 +3627,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 ipfsHash: ipfsHash,
             }))
         })
-
         app.post("/bookmark_commit" , async function (req, res) {
             //
             // get stuff
@@ -3765,11 +3646,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 ipfsHash:   ipfsHash,
             }))
         })
-
-
-
-
-
         app.post("/release_commit" , async function (req, res) {
             //
             // get stuff
@@ -3790,14 +3666,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 ipfsHash:   ipfsHash,
             }))
         })
-
-
-
-
-
-
-
-
         app.post("/copy_component" , async function (req, res) {
             //
             // get stuff
@@ -4000,36 +3868,23 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 return:     srcText
                 }))
         });
-
-
-
-
-
-
         app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
             console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
             return file_uploadSingleFn(req, res, next);
         });
-
-
-
-
         app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
             console.log("File upload: " + JSON.stringify(req.file.originalname,null,2))
             return file_uploadSingleFn(req, res, next);
         });
-
         app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
             return file_uploadFn(req, res, next);
         });
-
         app.get('/code_upload', function (req, res, next) {
             code_uploadFn(req, res);
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end("Done");
         });
-
         app.get('/file_name_load', function (req, res, next) {
             //console.log("Hit file_name_load")
             file_name_load(req, res);
@@ -4037,10 +3892,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
             res.end("Done");
         });
-
-
-
-
         app.get('/lock', function (req, res) {
             return lockFn(req, res);
         })
