@@ -1016,7 +1016,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     xmlhttp.open("POST","/file_open_single",true);
                     xmlhttp.send(formData);
                 },
-                selectOpenFileOrFolder:     async function(fileOrFolder) {
+                selectOpenFileOrFolder:     async function( fileOrFolder) {
                     /* selectOpenFileOrFolder
                     ________________________________________
                     |                                      |
@@ -1212,7 +1212,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
                 // editing apps on the home screen
-                addLogoForApp:              async function(baseComponentId) {
+                addLogoForApp:              async function( baseComponentId) {
                     /* Given the base component ID of a component, insert the logo image into the
                     local cache stored in "app_logos"
                     ________________________________________
@@ -1292,7 +1292,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         await mm.editApp(result.base_component_id)
                     },50)
                 },
-                highlightApp:               function(baseComponentId) {
+                highlightApp:               function(       baseComponentId) {
                     /*  highlightApp shows an app as larger on the home screen, like when selected
                     __________
                     | PARAMS |______________________________________________________________
@@ -1319,7 +1319,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         },4000)
                     },150)
                 },
-                runAppInNewBrowserTab:      async function(baseComponentId) {
+                runAppInNewBrowserTab:      async function( baseComponentId) {
                     /* Given the base component ID of an app, open that app in a separate
                     browser tab as an app
                     ________________________________________
@@ -1344,7 +1344,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         baseComponentId)
                     mm.refresh++
                 },
-                renameApp:                  async function(baseComponentId, displayName) {
+                renameApp:                  async function( baseComponentId, displayName) {
                     /* rename App
                     ________________________________________
                     |                                      |
@@ -1373,7 +1373,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.refresh++
                     return null
                 },
-                addEditableApp:             async function(baseComponentId, displayName, other) {
+                addEditableApp:             async function( baseComponentId, displayName, other) {
                     /* Given the base component ID of an app, a new display name, and
                     some other data, add a new editable app to the homepage
 
@@ -1507,7 +1507,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       mm.editApp(result.base_component_id)
                   },50)
                 },
-                editApp:                    async function(baseComponentId, codeId) {
+                editApp:                    async function( baseComponentId, codeId) {
                     /* editApp
                     ________________________________________
                     |                                      |
