@@ -3105,15 +3105,14 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 optionsForSave.userId = userid
             }
 
-
-            saveResult =await yz.saveCodeV3(
+            saveResult = await yz.saveCodeV3(
                 dbsearch,
                 req.body.value.code,
                 optionsForSave)
 
-            savedCode = req.body.value.code
+            savedCode       = req.body.value.code
             baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
-            parentHash = yz.getValueOfCodeString(savedCode,"parent_hash")
+            parentHash      = yz.getValueOfCodeString(savedCode,"parent_hash")
 
             parentCodeTag = await yz.getQuickSqlOneRow(
                 dbsearch,
@@ -3128,15 +3127,14 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             }
 
             await yz.executeQuickSql(
-                dbsearch,
-
+                dbsearch
+                ,
                 `insert into 
                     code_tags 
                     (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
                  values  
                      (?,?,?,?,?)
                      `,
-
                 [  uuidv1(),   baseComponentId,  "TIP", saveResult.code_id,  "" ])
 
 
