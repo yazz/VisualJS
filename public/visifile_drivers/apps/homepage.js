@@ -959,261 +959,275 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
             // all the methods for the object
             methods: {
-                /*  highlightApp shows an app as larger on the homescreen, like when selected
-                ______________________________________
-                ______________________________________
-                ______________________________________
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     baseComponentId   The base component ID of the highlighted app
-                |     ---------------
-                |
-                |________________________________________________________________________ */
-                highlightApp: function(baseComponentId) {
-                  let mm = this
-                  setTimeout(function() {
-                      mm.currentlyHighlightedBaseComponentId = baseComponentId
-                      let a = document.getElementById("downloaded_apps")
-                      if (!a) {
-                        return
-                      }
-                      let itemLeft = document.getElementById("appid_" + baseComponentId)
-                      if (!itemLeft) {
-                          return
-                      }
-                      a.scrollLeft=itemLeft.offsetLeft
-                      mm.disableHighlightApp = true
-                      setTimeout(function() {
-                        mm.disableHighlightApp = false
-                      },4000)
-                  },150)
-              },
-
-                /* loadAppStoreApps - Load the apps from the app store
-                ________________________________________
-                |                                      |
-                |           loadAppStoreApps           |
-                |                                      |
-                |______________________________________|
-                Load the apps from the app store
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                loadAppStoreApps: async function() {
-              let mm = this
-
-              let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/topapps"
-              fetch(openfileurl,
-              {
-                  method: 'post',
-                  credentials: "include"
-                  })
-                  .then((response) => response.json())
-                  .then(function(responseJson)
-                  {
-                      for (let rt=0;rt<responseJson.length; rt++) {
-
-                          for (let thisApp of mm.appstore_apps) {
-                              if (thisApp.base_component_id ==  responseJson[rt].id) {
-                                continue
-                              }
-                          }
-                          mm.appstore_apps.push(responseJson[rt])
-                          mm.app_logos[responseJson[rt].id] = responseJson[rt].logo
-                    }
-
-                  }).catch(err => {
-                  //error block
-              })
-            },
-
-                /* Show the file open dialog box
-                ________________________________________
-                |                                      |
-                |                   openFile           |
-                |                                      |
-                |______________________________________|
-                Show the file open dialog box. This is mostly used for Electron or desktop
-                applications
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                openFile: async function() {
-                  //alert(1)
-                 //document.getElementById("openfilefromhomepage").click();
-                 this.showFilePicker = true
-                 let result = await callComponent(
-                                     {
-                                         base_component_id: "serverGetHomeDir" }
-                                         ,{ })
-                if (result) {
-                    this.open_file_path = result.value
-                }
-                let result2 = await callComponent(
-                                    {
-                                        base_component_id: "serverFolderContents"  }
-                                        ,{
-                                                path: this.open_file_path
-                                        })
-                if (result2) {
-                   this.open_file_list = result2
-                }
-                },
-
-                /* selectOpenFileOrFolder
-                ________________________________________
-                |                                      |
-                |          selectOpenFileOrFolder      |
-                |                                      |
-                |______________________________________|
-                Navigate when opening a file. This is mostly used for Electron or desktop
-                applications
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                selectOpenFileOrFolder: async function(fileOrFolder) {
-                //
-                // if this is a folder
-                //
-                if (fileOrFolder.type == "folder") {
-                    if (isWin) {
-                        this.open_file_path += "\\" + fileOrFolder.name
-                    } else {
-                        this.open_file_path += "/" + fileOrFolder.name
-                    }
-                   let result2 = await callComponent(
-                                       {
-                                           base_component_id: "serverFolderContents"}
-                                           ,{
-                                                   path: this.open_file_path
-                                           })
-                  if (result2) {
-                      this.open_file_list = result2
-                  }
-
-
-                //
-                // otherwise if this is a file
-                //
-                } else {
-                  this.showFilePicker=false
-                  this.open_file_name = this.open_file_path + "/" + fileOrFolder.name
-
-
-                  //alert(this.open_file_name)
-                  saveCodeToFile = this.open_file_name
-
-                  file_upload_uuid = uuidv4()
-                  let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
-                  //console.log("openfileurl:= " + openfileurl)
-                  callAjax( openfileurl,
-                      function(res) {
-                          console.log(res)
-                      })
-
-                }
-
-                //
-                },
-
-                /* Navigate when opening a file
-                ________________________________________
-                |                                      |
-                |          chosenFolderUp              |
-                |                                      |
-                |______________________________________|
-                Navigate when opening a file. This is mostly used for Electron or desktop
-                applications
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                chosenFolderUp:  async function() {
+                // local filesystem stuff
+                openFile:                   async function() {
+                    /* Show the file open dialog box
+                    ________________________________________
+                    |                                      |
+                    |                   openFile           |
+                    |                                      |
+                    |______________________________________|
+                    Show the file open dialog box. This is mostly used for Electron or desktop
+                    applications
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     NONE
+                    |________________________________________________________________________ */
                     //alert(1)
-                   //document.getElementById("openfilefromhomepage").click();
-                   let lastFolderIndex = null
-                   //debugger
+                    //document.getElementById("openfilefromhomepage").click();
+                    this.showFilePicker = true
+                    let result = await callComponent(
+                        {
+                            base_component_id: "serverGetHomeDir" }
+                        ,{ })
+                    if (result) {
+                        this.open_file_path = result.value
+                    }
+                    let result2 = await callComponent(
+                        {
+                            base_component_id: "serverFolderContents"  }
+                        ,{
+                            path: this.open_file_path
+                        })
+                    if (result2) {
+                        this.open_file_list = result2
+                    }
+                },
+                openFileChange:             function() {
+                    /* openFileChange
+                    ________________________________________
+                    |                                      |
+                    |      openFileChange                  |
+                    |                                      |
+                    |______________________________________|
+                    Related to accessing components stored in files
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     NONE
+                    |________________________________________________________________________ */
+                    let xmlhttp= window.XMLHttpRequest ?
+                        new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
-                   if (isWin) {
-                       lastFolderIndex = this.open_file_path.lastIndexOf("\\")
-                       if (lastFolderIndex == (this.open_file_path.length - 1)) {
-                           this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
-                           lastFolderIndex = this.open_file_path.lastIndexOf("\\")
-                       }
+                    let form = document.getElementById('openfilefromhomepageform');
+                    let formData = new FormData(form);
 
-                       //
-                       // if we have gone all the way up to c: then we may not find a
-                       // final backslash (\) symbol
-                       //
-                       if (lastFolderIndex == -1) {
-                           this.open_file_path = this.open_file_path.substring(0,2) + "\\"
+                    xmlhttp.open("POST","/file_open_single",true);
+                    xmlhttp.send(formData);
+                },
+                selectOpenFileOrFolder:     async function(fileOrFolder) {
+                    /* selectOpenFileOrFolder
+                    ________________________________________
+                    |                                      |
+                    |          selectOpenFileOrFolder      |
+                    |                                      |
+                    |______________________________________|
+                    Navigate when opening a file. This is mostly used for Electron or desktop
+                    applications
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     NONE
+                    |________________________________________________________________________ */
+                    //
+                    // if this is a folder
+                    //
+                    if (fileOrFolder.type == "folder") {
+                        if (isWin) {
+                            this.open_file_path += "\\" + fileOrFolder.name
+                        } else {
+                            this.open_file_path += "/" + fileOrFolder.name
+                        }
+                        let result2 = await callComponent(
+                            {
+                                base_component_id: "serverFolderContents"}
+                            ,{
+                                path: this.open_file_path
+                            })
+                        if (result2) {
+                            this.open_file_list = result2
+                        }
 
 
-                       } else {
-                           this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
-                       }
-                   } else {
-                       lastFolderIndex = this.open_file_path.lastIndexOf("/")
-                       this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
-                   }
+                        //
+                        // otherwise if this is a file
+                        //
+                    } else {
+                        this.showFilePicker=false
+                        this.open_file_name = this.open_file_path + "/" + fileOrFolder.name
 
 
-                      let result2 = await callComponent(
-                                          {
-                                              base_component_id: "serverFolderContents"}
-                                              ,{
-                                                      path: this.open_file_path
-                                              })
-                     if (result2) {
-                         this.open_file_list = result2
-                     }
+                        //alert(this.open_file_name)
+                        saveCodeToFile = this.open_file_name
+
+                        file_upload_uuid = uuidv4()
+                        let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
+                        //console.log("openfileurl:= " + openfileurl)
+                        callAjax( openfileurl,
+                            function(res) {
+                                console.log(res)
+                            })
+
+                    }
+
+                    //
+                },
+                chosenFolderUp:             async function() {
+                    /* Navigate when opening a file
+                    ________________________________________
+                    |                                      |
+                    |          chosenFolderUp              |
+                    |                                      |
+                    |______________________________________|
+                    Navigate when opening a file. This is mostly used for Electron or desktop
+                    applications
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     NONE
+                    |________________________________________________________________________ */
+                    //alert(1)
+                    //document.getElementById("openfilefromhomepage").click();
+                    let lastFolderIndex = null
+                    //debugger
+
+                    if (isWin) {
+                        lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+                        if (lastFolderIndex == (this.open_file_path.length - 1)) {
+                            this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
+                            lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+                        }
+
+                        //
+                        // if we have gone all the way up to c: then we may not find a
+                        // final backslash (\) symbol
+                        //
+                        if (lastFolderIndex == -1) {
+                            this.open_file_path = this.open_file_path.substring(0,2) + "\\"
+
+
+                        } else {
+                            this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
+                        }
+                    } else {
+                        lastFolderIndex = this.open_file_path.lastIndexOf("/")
+                        this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
+                    }
+
+
+                    let result2 = await callComponent(
+                        {
+                            base_component_id: "serverFolderContents"}
+                        ,{
+                            path: this.open_file_path
+                        })
+                    if (result2) {
+                        this.open_file_list = result2
+                    }
 
 
                 },
-
-                /* Import a file. This is mostly used for Electron or desktop
-                applications
-                ________________________________________
-                |                                      |
-                |               importApp              |
-                |                                      |
-                |______________________________________|
-                Import a file. This is mostly used for Electron or desktop
-                applications
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                importApp: function() {
+                importApp:                  function() {
+                    /* Import a file. This is mostly used for Electron or desktop
+                    applications
+                    ________________________________________
+                    |                                      |
+                    |               importApp              |
+                    |                                      |
+                    |______________________________________|
+                    Import a file. This is mostly used for Electron or desktop
+                    applications
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     NONE
+                    |________________________________________________________________________ */
                     saveCodeToFile = null
                     document.getElementById("uploadfilefromhomepage").click();
                 },
+                submitFormAjax:             function() {
+                    /* submitFormAjax
+                    ________________________________________
+                    |                                      |
+                    |      submitFormAjax                  |
+                    |                                      |
+                    |______________________________________|
+                    Used when uploading a file
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     NONE
+                    |________________________________________________________________________ */
+                    let xmlhttp= window.XMLHttpRequest ?
+                        new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
-                /* Given the base component ID of a component, insert the logo image into the
-                local cache stored in "app_logos"
-                ________________________________________
-                |                                      |
-                |           addLogoForApp              |
-                |                                      |
-                |______________________________________|
-                Given the base component ID of a component, insert the logo image into the
-                local cache stored in "app_logos"
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     baseComponentId
-                |     ---------------
-                |________________________________________________________________________ */
-                addLogoForApp: async function(baseComponentId) {
+                    let form = document.getElementById('uploadfilefromhomepageform');
+                    let formData = new FormData(form);
+
+                    xmlhttp.open("POST","/file_upload_single",true);
+                    xmlhttp.send(formData);
+                },
+
+                // load apps from app store
+                loadAppStoreApps:           async function() {
+                    /* loadAppStoreApps - Load the apps from the app store
+                    ________________________________________
+                    |                                      |
+                    |           loadAppStoreApps           |
+                    |                                      |
+                    |______________________________________|
+                    Load the apps from the app store
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     NONE
+                    |________________________________________________________________________ */
+                    let mm = this
+
+                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/topapps"
+                    fetch(openfileurl,
+                        {
+                            method: 'post',
+                            credentials: "include"
+                        })
+                        .then((response) => response.json())
+                        .then(function(responseJson)
+                        {
+                            for (let rt=0;rt<responseJson.length; rt++) {
+
+                                for (let thisApp of mm.appstore_apps) {
+                                    if (thisApp.base_component_id ==  responseJson[rt].id) {
+                                        continue
+                                    }
+                                }
+                                mm.appstore_apps.push(responseJson[rt])
+                                mm.app_logos[responseJson[rt].id] = responseJson[rt].logo
+                            }
+
+                        }).catch(err => {
+                        //error block
+                    })
+                },
+
+
+                // editing apps on the home screen
+                addLogoForApp:              async function(baseComponentId) {
+                    /* Given the base component ID of a component, insert the logo image into the
+                    local cache stored in "app_logos"
+                    ________________________________________
+                    |                                      |
+                    |           addLogoForApp              |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of a component, insert the logo image into the
+                    local cache stored in "app_logos"
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |________________________________________________________________________ */
                     let mm = this
 
                     let results2 = await sqliteQuery(
@@ -1238,23 +1252,89 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.refresh++
 
                 },
+                addToEditableAppsAndEdit:   async function( ipfsHash ) {
+                    /* Given the commit ID of an app in the app store, download it and edit it
+                    ________________________________________
+                    |                                      |
+                    |       addToEditableAppsAndEdit       |
+                    |                                      |
+                    |______________________________________|
+                    Given the commit ID of an app in the app store, download it and edit it
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     ipfsHash
+                    |     --------
+                    |________________________________________________________________________ */
+                    let mm                = this
+                    this.open_file_name   = ""
+                    this.open_file_path   = "/"
+                    saveCodeToFile        = null
 
-                /* Given the base component ID of an app, open that app in a separate
-                browser tab as an app
-                ________________________________________
-                |                                      |
-                |      runAppInNewBrowserTab           |
-                |                                      |
-                |______________________________________|
-                Given the base component ID of an app, open that app in a separate
-                browser tab as an app
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     baseComponentId
-                |     ---------------
-                |________________________________________________________________________ */
-                runAppInNewBrowserTab: async function(baseComponentId) {
+                    let result = (await sqliteQuery(
+                        `select  
+                        base_component_id,  
+                        display_name   
+                    from  
+                        system_code  
+                    where 
+                        id = '${ipfsHash}'`))[0]
+
+
+                    await mm.addLogoForApp(result.base_component_id)
+
+                    await mm.addEditableApp(result.base_component_id, result.display_name)
+                    setTimeout(async function() {
+                        //mm.runAppInNewBrowserTab(result.base_component_id)
+                        //debugger
+                        hideProgressBar()
+                        mm.highlightApp(result.base_component_id)
+                        await mm.editApp(result.base_component_id)
+                    },50)
+                },
+                highlightApp:               function(baseComponentId) {
+                    /*  highlightApp shows an app as larger on the home screen, like when selected
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId   The base component ID of the highlighted app
+                    |     ---------------
+                    |
+                    |________________________________________________________________________ */
+                    let mm = this
+                    setTimeout(function() {
+                        mm.currentlyHighlightedBaseComponentId = baseComponentId
+                        let a = document.getElementById("downloaded_apps")
+                        if (!a) {
+                            return
+                        }
+                        let itemLeft = document.getElementById("appid_" + baseComponentId)
+                        if (!itemLeft) {
+                            return
+                        }
+                        a.scrollLeft = itemLeft.offsetLeft
+                        mm.disableHighlightApp = true
+                        setTimeout(function() {
+                            mm.disableHighlightApp = false
+                        },4000)
+                    },150)
+                },
+                runAppInNewBrowserTab:      async function(baseComponentId) {
+                    /* Given the base component ID of an app, open that app in a separate
+                    browser tab as an app
+                    ________________________________________
+                    |                                      |
+                    |      runAppInNewBrowserTab           |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of an app, open that app in a separate
+                    browser tab as an app
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |________________________________________________________________________ */
                     let mm = this
                     window.open(
                         location.protocol +
@@ -1264,25 +1344,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         baseComponentId)
                     mm.refresh++
                 },
-
-                /* rename App
-                ________________________________________
-                |                                      |
-                |             renameApp                |
-                |                                      |
-                |______________________________________|
-                Given the base component ID of an app and a new display name, rename
-                the app on the homepage (Only works for editable apps)
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     baseComponentId
-                |     ---------------
-                |
-                |     displayName
-                |     -----------
-                |________________________________________________________________________ */
-                renameApp: async function(baseComponentId, displayName) {
+                renameApp:                  async function(baseComponentId, displayName) {
+                    /* rename App
+                    ________________________________________
+                    |                                      |
+                    |             renameApp                |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of an app and a new display name, rename
+                    the app on the homepage (Only works for editable apps)
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |
+                    |     displayName
+                    |     -----------
+                    |________________________________________________________________________ */
                     let mm = this
                     for (let thisApp of mm.editable_app_list) {
                         if (thisApp) {
@@ -1294,30 +1373,29 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.refresh++
                     return null
                 },
+                addEditableApp:             async function(baseComponentId, displayName, other) {
+                    /* Given the base component ID of an app, a new display name, and
+                    some other data, add a new editable app to the homepage
 
-                /* Given the base component ID of an app, a new display name, and
-                some other data, add a new editable app to the homepage
-
-                ________________________________________
-                |                                      |
-                |        addEditableApp                |
-                |                                      |
-                |______________________________________|
-                Given the base component ID of an app, a new display name, and
-                some other data, add a new editable app to the homepage
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     baseComponentId
-                |     ---------------
-                |
-                |     displayName
-                |     -----------
-                |
-                |     other
-                |     -----
-                |________________________________________________________________________ */
-                addEditableApp: async function(baseComponentId, displayName, other) {
+                    ________________________________________
+                    |                                      |
+                    |        addEditableApp                |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of an app, a new display name, and
+                    some other data, add a new editable app to the homepage
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |
+                    |     displayName
+                    |     -----------
+                    |
+                    |     other
+                    |     -----
+                    |________________________________________________________________________ */
                     debugger
                     let mm = this
                     if (baseComponentId) {
@@ -1349,21 +1427,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
                     return null
                 },
-
-                /* downloadAndRunApp
-                ________________________________________
-                |                                      |
-                |           downloadAndRunApp          |
-                |                                      |
-                |______________________________________|
-                Given the commit ID of an app in the app store, download it and run it
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     ipfsHash
-                |     --------
-                |________________________________________________________________________ */
-                downloadAndRunApp: async function( ipfsHash ) {
+                downloadAndRunApp:          async function( ipfsHash ) {
+                    /* downloadAndRunApp
+                    ________________________________________
+                    |                                      |
+                    |           downloadAndRunApp          |
+                    |                                      |
+                    |______________________________________|
+                    Given the commit ID of an app in the app store, download it and run it
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     ipfsHash
+                    |     --------
+                    |________________________________________________________________________ */
                   let mm                = this
                   this.open_file_name   = ""
                   this.open_file_path   = "/"
@@ -1388,25 +1465,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                   },50)
                 },
-
-                /* copyAndEditApp
-                ________________________________________
-                |                                      |
-                |        copyAndEditApp                |
-                |                                      |
-                |______________________________________|
-                Given some app info, take an existing app and make a new copy of it, and edit
-                that copy
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     compInfo    A map containing optional items:
-                |     --------    {
-                |                       base_component_id
-                |                       code_id
-                |                 }
-                |________________________________________________________________________ */
-                copyAndEditApp: async function( compInfo ) {
+                copyAndEditApp:             async function( compInfo ) {
+                    /* copyAndEditApp
+                    ________________________________________
+                    |                                      |
+                    |        copyAndEditApp                |
+                    |                                      |
+                    |______________________________________|
+                    Given some app info, take an existing app and make a new copy of it, and edit
+                    that copy
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     compInfo    A map containing optional items:
+                    |     --------    {
+                    |                       base_component_id
+                    |                       code_id
+                    |                 }
+                    |________________________________________________________________________ */
                   let mm                = this
                   let baseComponentId   = compInfo.base_component_id
                   let codeId            = compInfo.code_id
@@ -1431,113 +1507,25 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       mm.editApp(result.base_component_id)
                   },50)
                 },
-
-                /* submitFormAjax
-                ________________________________________
-                |                                      |
-                |      submitFormAjax                  |
-                |                                      |
-                |______________________________________|
-                Used when uploading a file
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                submitFormAjax: function() {
-                let xmlhttp= window.XMLHttpRequest ?
-                    new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-
-                let form = document.getElementById('uploadfilefromhomepageform');
-                let formData = new FormData(form);
-
-                xmlhttp.open("POST","/file_upload_single",true);
-                xmlhttp.send(formData);
-                },
-
-                /* openFileChange
-                ________________________________________
-                |                                      |
-                |      openFileChange                  |
-                |                                      |
-                |______________________________________|
-                Related to accessing components stored in files
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                openFileChange: function() {
-                let xmlhttp= window.XMLHttpRequest ?
-                new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-
-                let form = document.getElementById('openfilefromhomepageform');
-                let formData = new FormData(form);
-
-                xmlhttp.open("POST","/file_open_single",true);
-                xmlhttp.send(formData);
-                },
-
-                /* Given the commit ID of an app in the app store, download it and edit it
-                ________________________________________
-                |                                      |
-                |       addToEditableAppsAndEdit       |
-                |                                      |
-                |______________________________________|
-                Given the commit ID of an app in the app store, download it and edit it
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     ipfsHash
-                |     --------
-                |________________________________________________________________________ */
-                addToEditableAppsAndEdit: async function( ipfsHash ) {
-                let mm                = this
-                this.open_file_name   = ""
-                this.open_file_path   = "/"
-                saveCodeToFile        = null
-
-                let result = (await sqliteQuery(
-                    `select  
-                        base_component_id,  
-                        display_name   
-                    from  
-                        system_code  
-                    where 
-                        id = '${ipfsHash}'`))[0]
-
-
-                await mm.addLogoForApp(result.base_component_id)
-
-                await mm.addEditableApp(result.base_component_id, result.display_name)
-                setTimeout(async function() {
-                    //mm.runAppInNewBrowserTab(result.base_component_id)
-                    //debugger
-                    hideProgressBar()
-                    mm.highlightApp(result.base_component_id)
-                    await mm.editApp(result.base_component_id)
-                },50)
-                },
-
-                /* editApp
-                ________________________________________
-                |                                      |
-                |             editApp                  |
-                |                                      |
-                |______________________________________|
-                Allows an app to be edited given either the base component ID or
-                the commit ID
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     baseComponentId
-                |     ----  The "base_component_id" of the app to load
-                |
-                |     codeId
-                |     ------  The commit ID of the app to load
-                |
-                |________________________________________________________________________ */
-                editApp: async function(baseComponentId, codeId) {
+                editApp:                    async function(baseComponentId, codeId) {
+                    /* editApp
+                    ________________________________________
+                    |                                      |
+                    |             editApp                  |
+                    |                                      |
+                    |______________________________________|
+                    Allows an app to be edited given either the base component ID or
+                    the commit ID
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ----  The "base_component_id" of the app to load
+                    |
+                    |     codeId
+                    |     ------  The commit ID of the app to load
+                    |
+                    |________________________________________________________________________ */
                 let mm = this
 
                 globalEventBus.$emit('hide_settings', {});
