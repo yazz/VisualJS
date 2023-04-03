@@ -602,25 +602,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
         //console.log("message type from child: " + JSON.stringify(msg.message_type,null,2))
 
 
-        //------------------------------------------------------------------------------
-        //
-        //
-        //
-        //
-        //
-        //------------------------------------------------------------------------------
-        if (msg.message_type == "save_code") {
-
-             let saveResult = await yz.saveCodeV3(
-                                                dbsearch,
-                                                msg.code,
-                                                msg.options)
-
-
-
-
-
-
     //------------------------------------------------------------------------------
     //
     // This is the last thing that happens when AppShare is started
@@ -628,7 +609,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
     //
     //
     //------------------------------------------------------------------------------
-    } else if (msg.message_type == "drivers_loaded_by_child") {
+    if (msg.message_type == "drivers_loaded_by_child") {
         await finalizeYazzLoading();
 
 
@@ -3107,52 +3088,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
         app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
         //app.use(useragent.express())
 
-        app.post("/save_code" , async function (req, res) {
 
-            let userid = await getUserId(req)
-            let optionsForSave = req.body.value.options
-            optionsForSave.userId = userid
-
-          //console.log("save_code " )
-          //console.log("          base_component_id :" + JSON.stringify(req.body.value.base_component_id ,null,2))
-          //console.log("          code_id :" + JSON.stringify(req.body.value.code_id ,null,2))
-          //console.log("          code :" + JSON.stringify(req.body.value.code ,null,2))
-          //console.log("          options :" + JSON.stringify(req.body.value.options ,null,2))
-            //console.log("    " + JSON.stringify(req,null,2) )
-          let saveResult =await yz.saveCodeV3(
-                                              dbsearch,
-                                             req.body.value.code,
-                                             req.body.value.options)
-            let savedCode = await yz.getCodeForCommit(dbsearch, saveResult.code_id)
-            let parentHash = await yz.getValueOfCodeString(savedCode,"parent_hash")
-
-            let parentCodeTag = await yz.getQuickSqlOneRow(
-                 dbsearch,
-                "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
-                 [parentHash])
-
-            if (parentCodeTag) {
-                await yz.executeQuickSql(
-                     dbsearch,
-                    "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
-                     [parentHash])
-            }
-            await yz.executeQuickSql(
-                dbsearch,
-
-                `insert into 
-                    code_tags 
-                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
-                 values  
-                     (?,?,?,?,?)
-                     `,
-
-                    [  uuidv1(),   req.body.value.base_component_id,  "TIP", saveResult.code_id,  "" ])
-
-
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify(saveResult))
-        });
         app.post("/save_code_v3" , async function (req, res) {
 
             let userid          = await getUserId(req)
