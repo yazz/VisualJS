@@ -65,6 +65,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     ------------------------------------------------------------------------------ */
     Vue.component(
         'homepage',
+
         {
             template: `<div   v-bind:refresh='refresh'
                         style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
@@ -1164,8 +1165,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 // load apps from app store
                 loadAppStoreApps:           async function() {
-                    /* loadAppStoreApps - Load the apps from the app store
-                    ________________________________________
+                    /* ____________________________________
                     |                                      |
                     |           loadAppStoreApps           |
                     |                                      |

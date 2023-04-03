@@ -11,36 +11,29 @@ const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 let testBuffer = new Buffer("");
 console.log("Starting...")
 console.log("Testing IPFS...")
-    ipfs.files.add(testBuffer, function (err, file) {
-        if (err) {
-          console.log("....................................Err: " + err);
-        } else {
-            isIPFSConnected = true
+ipfs.files.add(testBuffer, function (err, file) {
+    if (err) {
+      console.log("....................................Err: " + err);
+    } else {
+        isIPFSConnected = true
 
-        }
-        //console.log("....................................file: " + JSON.stringify(file,null,2))
-        let thehash = file[0].hash
-        //const validCID = "QmRntL1Gam7vDMNSsHbcUrWjueMJdJsBgF1wn1bx5pYcfo"
-        const validCID = thehash
+    }
+    //console.log("....................................file: " + JSON.stringify(file,null,2))
+    let thehash = file[0].hash
+    //const validCID = "QmRntL1Gam7vDMNSsHbcUrWjueMJdJsBgF1wn1bx5pYcfo"
+    const validCID = thehash
 
-        ipfs.files.get(validCID, function (err, files) {
-            files.forEach((file) => {
-                console.log("....................................file.path: " + file.path)
-                //console.log(file.content.toString('utf8'))
-                console.log("....................................file.path: " + file.path)
-            })
+    ipfs.files.get(validCID, function (err, files) {
+        files.forEach((file) => {
+            console.log("....................................file.path: " + file.path)
+            //console.log(file.content.toString('utf8'))
+            console.log("....................................file.path: " + file.path)
         })
-      })
+    })
+  })
 
-
-
-
-console.log("Done")
-      //process.exit()
-
-let showProgress = false
-let showDebug = false
-
+let showProgress                        = false
+let showDebug                           = false
 let childProcessNameInScheduler
 let processesInUse                      = new Object()
 let tryAgain                            = true
@@ -48,48 +41,45 @@ let nextCallId                          = 0
 let callList                            = new Object
 let processesRetryingCount              = 0
 let localappdata
-let visifile = null
-const path = require("path");
-const url = require('url');
-let fork            = require2('child_process');
-let fs = require2('fs');
-let ip = require2('ip');
-let isWin         = /^win/.test(process.platform);
-let isLinux       = /^linux/.test(process.platform);
-let isMac       = /^darwin/.test(process.platform);
-let mainNodeProcessStarted = false;
-let restRoutes = new Object()
-let envVars = new Object()
-let systemReady = false;
-let httpServer = null;
-let merkleJsonLib = require("merkle-json")
-let merkleJson = new merkleJsonLib.MerkleJson();
-
+let visifile                            = null
+const path                              = require("path");
+const url                               = require('url');
+let fork                                = require2('child_process');
+let fs                                  = require2('fs');
+let ip                                  = require2('ip');
+let isWin                               = /^win/.test(process.platform);
+let isLinux                             = /^linux/.test(process.platform);
+let isMac                               = /^darwin/.test(process.platform);
+let mainNodeProcessStarted              = false;
+let restRoutes                          = new Object()
+let envVars                             = new Object()
+let systemReady                         = false;
+let httpServer                          = null;
+let merkleJsonLib                       = require("merkle-json")
+let merkleJson                          = new merkleJsonLib.MerkleJson();
 let username                            = "Unknown user";
-let isDocker        = require2('is-docker');
-let ls = require2('ls-sync');
-let rimraf = require2("rimraf");
-let forge = require2('node-forge');
-let db_helper                   = require("./db_helper")
+let isDocker                            = require2('is-docker');
+let ls                                  = require2('ls-sync');
+let rimraf                              = require2("rimraf");
+let forge                               = require2('node-forge');
+let db_helper                           = require("./db_helper")
 
-let pidusage        = require2("pidusage");
-let mkdirp          = require2('mkdirp')
-let rmdir           = require2('rmdir-sync');
-let uuidv1          = require2('uuid/v1');
-let express         = require2('express')
-let http            = require2('http')
-let https           = require2('https');
-let app             = express()
-let startupType     = null
-let startupDelay    = 0
-let isCodeTtyCode   = false
-let yazzInstanceId  = uuidv1()
-let certOptions     = null
-let crypto                      = require('crypto');
-
-let callbackIndex = 0;
-let callbackList = new Object()
-
+let pidusage                            = require2("pidusage");
+let mkdirp                              = require2('mkdirp')
+let rmdir                               = require2('rmdir-sync');
+let uuidv1                              = require2('uuid/v1');
+let express                             = require2('express')
+let http                                = require2('http')
+let https                               = require2('https');
+let app                                 = express()
+let startupType                         = null
+let startupDelay                        = 0
+let isCodeTtyCode                       = false
+let yazzInstanceId                      = uuidv1()
+let certOptions                         = null
+let crypto                              = require('crypto');
+let callbackIndex                       = 0;
+let callbackList                        = new Object()
 
 let stmtInsertIpfsHash;
 let stmtInsertSession;
@@ -97,24 +87,18 @@ let stmtInsertSessionWithNewUserId;
 let stmtInsertMetaMaskLogin;
 let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
-
 let stmtInsertReleasedComponentListItem;
 let stmtUpdateReleasedComponentList;
 let stmtInsertIconImageData;
-
-
-
-
 let setProcessToRunning;
 let setProcessToIdle;
 let setProcessRunningDurationMs;
 let insertIntoProcessTable              = null;
 let updateProcessTable                  = null;
+let expressWs                           = require2('express-ws')(app);
 
-let expressWs       = require2('express-ws')(app);
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
-
 let nodeModulesPath = process.cwd()
 if (process.execPath) {
     let vjsPos = process.execPath.indexOf("vjs")
@@ -129,12 +113,7 @@ if (process.execPath) {
 //console.log("")
 //console.log("nodeModulesPath: " + nodeModulesPath)
 //console.log("")
-
-
 outputDebug("Platform: " + process.platform)
-
-
-
 outputDebug("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
 
 
@@ -146,15 +125,8 @@ if (process.env.OPENSHIFT_NODEJS_IP) {
     //    username = os.userInfo().username.toLowerCase();
     //}
 }
-
-let LOCAL_HOME = process.env.HOME
-
+let LOCAL_HOME                          = process.env.HOME
 outputDebug('LOCAL_HOME:' + LOCAL_HOME);
-
-
-
-
-
 function outputToBrowser(txt) {
     //let line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
     let line = txt.toString().replace(/\'/g , "").toString()
@@ -170,15 +142,10 @@ function outputToBrowser(txt) {
 
 }
 
-
-
-
 //
 // We set the HOME environment variable if we are running in OpenShift
 //
 outputDebug('DOCKER CHECK...');
-
-
 if (isDocker()) {
 
     outputDebug('Running inside a Linux container');
@@ -198,34 +165,23 @@ function require2(npath) {
 
 
 
-let request         = require2("request");
-let perf            = require('./perf')
-let compression     = require2('compression')
-
-let program         = require2('commander');
-let bodyParser      = require2('body-parser');
-let multer          = require2('multer');
-let cors            = require2('cors')
-let yz              = require('./yazz_helper_module')
-
-
-
-
-
-let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
+let request                             = require2("request");
+let perf                                = require('./perf')
+let compression                         = require2('compression')
+let program                             = require2('commander');
+let bodyParser                          = require2('body-parser');
+let multer                              = require2('multer');
+let cors                                = require2('cors')
+let yz                                  = require('./yazz_helper_module')
+let sqlNodePath                         = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
-let sqlite3                     = null
-sqlite3                     = require(sqlNodePath);
-
-
-let os              = require2('os')
-
-
-let Keycloak =      require2('keycloak-connect');
-let session =       require2('express-session');
-let memoryStore = new session.MemoryStore();
-
-let kk = {
+let sqlite3                             = null
+sqlite3                                 = require(sqlNodePath);
+let os                                  = require2('os')
+let Keycloak                            = require2('keycloak-connect');
+let session                             = require2('express-session');
+let memoryStore                         = new session.MemoryStore();
+let kk                                  = {
   "realm":              "yazz",
   "auth-server-url":    "http://127.0.0.1:8080/auth",
   "ssl-required":       "external",
@@ -233,33 +189,23 @@ let kk = {
   "public-client":       true,
   "confidential-port":   0
 }
-
-let sessObj     = session({
+let sessObj                             = session({
                       secret:               'some secret',
                       resave:                false,
                       saveUninitialized:     true,
                       store:                 memoryStore
                     })
-
-
-let keycloak    = new Keycloak({
+let keycloak                            = new Keycloak({
                         store: memoryStore
                     },kk);
-
-
-
-
-
-
 let upload
-
-let dbPath = null
-
-let dbsearch = null
-let userData = null
-let appDbs = {}
-
+let dbPath                              = null
+let dbsearch                            = null
+let userData                            = null
+let appDbs                              = {}
 let port;
+
+
 function setPort(addrv) {
     port = addrv
     yz.port = addrv
@@ -280,21 +226,16 @@ hostaddressintranet = ip.address();
 setPort(80)
 
 
-let socket          = null
-
-
-let io = null;
-let forkedProcesses = new Object();
+let socket                              = null
+let io                                  = null;
+let forkedProcesses                     = new Object();
 let timeout                             = 0;
-
-
-
 let serverwebsockets                    = [];
 let portrange                           = 3000
 let locked;
 let useHttps;
 let hideimportbuttons;
-let serverProtocol                       = "http";
+let serverProtocol                      = "http";
 let privateKey;
 let publicCertificate;
 let caCertificate1;
@@ -303,15 +244,7 @@ let caCertificate3;
 let hostcount  							= 0;
 let queuedResponses                     = new Object();
 let queuedResponseSeqNum                = 1;
-let executionProcessCount                       = 6;
-
-
-
-
-
-
-
-
+let executionProcessCount               = 6;
 
 
 
@@ -326,39 +259,31 @@ app.use(keycloak.middleware({
 }));
 
 
-let inmemcalc = false
-let totalMem = 0
-let returnedmemCount = 0
-let allForked=[]
-const apiMetrics = require2('prometheus-api-metrics');
+let inmemcalc                           = false
+let totalMem                            = 0
+let returnedmemCount                    = 0
+let allForked                           = []
+const apiMetrics                        = require2('prometheus-api-metrics');
 app.use(apiMetrics())
-const Prometheus = require2('prom-client');
+const Prometheus                        = require2('prom-client');
 
-const yazzMemoryUsageMetric = new Prometheus.Gauge({
+const yazzMemoryUsageMetric             = new Prometheus.Gauge({
   name: 'yazz_total_memory_bytes',
   help: 'Total Memory Usage'
 });
-const yazzProcessMainMemoryUsageMetric = new Prometheus.Gauge({
+const yazzProcessMainMemoryUsageMetric  = new Prometheus.Gauge({
   name: 'yazz_node_process_main_memory_bytes',
   help: 'Memory Usage for Yazz NodeJS process "main"'
 });
-
-
-
-
-let stdin = process.openStdin();
-
-let inputStdin = "";
+let stdin                               = process.openStdin();
+let inputStdin                          = "";
 
 stdin.on('data', function(chunk) {
   inputStdin += chunk;
 });
-
 stdin.on('end', function() {
     outputDebug("inputStdin: " + inputStdin)
 });
-
-
 
 
 if (process.argv.length > 1) {
@@ -420,11 +345,9 @@ if (process.argv.length > 1) {
     program.usehost = null
     program.hideimportbuttons = true
 }
-let semver = require2('semver')
-const initJaegerTracer = require2("jaeger-client").initTracer;
-const {Tags, FORMAT_HTTP_HEADERS} = require2('opentracing')
-
-
+let semver                              = require2('semver')
+const initJaegerTracer                  = require2("jaeger-client").initTracer;
+const {Tags, FORMAT_HTTP_HEADERS}       = require2('opentracing')
 
 
 
@@ -448,20 +371,20 @@ if (program.showdebug == 'true') {
 }
 outputDebug("       showDebug: " + showDebug);
 
-let ipfsFolder = "ipfs_cache"
+let ipfsFolder                          = "ipfs_cache"
 if (program.ipfs_folder) {
     ipfsFolder = program.ipfs_folder
 }
 let fullIpfsFolderPath
 
 
-let showStats = false
+let showStats                           = false
 if (program.showstats == 'true') {
     showStats = true;
 }
 outputDebug("       showStats: " + showStats );
 
-let useSelfSignedHttps = false
+let useSelfSignedHttps                  = false
 if (program.useselfsignedhttps == 'true') {
     useSelfSignedHttps = true;
 }
@@ -470,7 +393,7 @@ outputDebug("       useSelfSignedHttps: " + useSelfSignedHttps );
 
 
 
-let statsInterval = -1
+let statsInterval                       = -1
 if (program.statsinterval > 0) {
     statsInterval = program.statsinterval;
 }
@@ -487,14 +410,14 @@ outputDebug("       executionProcessCount: " + executionProcessCount );
 
 
 
-let maxProcessesCountToRetry = 10
+let maxProcessesCountToRetry            = 10
 if (program.maxprocessesretry > 0) {
     maxProcessesCountToRetry = program.maxprocessesretry;
 }
 outputDebug("       maxProcessesCountToRetry: " + maxProcessesCountToRetry );
 
 
-let maxJobProcessDurationMs = 10000
+let maxJobProcessDurationMs             = 10000
 if (program.maxJobProcessDurationMs > 0) {
     maxJobProcessDurationMs = program.maxJobProcessDurationMs;
 }
@@ -503,8 +426,8 @@ outputDebug("       maxJobProcessDurationMs: " + maxJobProcessDurationMs );
 
 
 
-let listOfEnvs = process.env
-let envNames = Object.keys(listOfEnvs)
+let listOfEnvs                          = process.env
+let envNames                            = Object.keys(listOfEnvs)
 for (let i=0 ;i< envNames.length; i++){
     let envName = envNames[i].replace(/[^a-zA-Z0-9]/g,'_');
     outputDebug("Env let  " + envName + ": " + listOfEnvs[envName])
@@ -519,7 +442,7 @@ if (isValidObject(envVars.virtualprocessors)) {
 // --------------------------------
 // sort out the host IP settings
 // --------------------------------
-envVars.IP_ADDRESS = ip.address()
+envVars.IP_ADDRESS                      = ip.address()
 
 if (program.host == "") {
     program.host = ip.address()
