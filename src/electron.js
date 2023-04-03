@@ -3090,26 +3090,32 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
 
 
         app.post("/save_code_v3" , async function (req, res) {
+            let userid
+            let optionsForSave
+            let saveResult
+            let savedCode
+            let baseComponentId
+            let parentHash
+            let parentCodeTag
 
-            let userid          = await getUserId(req)
-            let optionsForSave  = req.body.value.options
+            userid          = await getUserId(req)
+            optionsForSave  = req.body.value.options
 
             if (optionsForSave) {
                 optionsForSave.userId = userid
             }
 
 
-            let saveResult =await yz.saveCodeV3(
+            saveResult =await yz.saveCodeV3(
                 dbsearch,
                 req.body.value.code,
                 optionsForSave)
 
-            let savedCode = req.body.value.code
-            let baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
-            let parentHash = yz.getValueOfCodeString(savedCode,"parent_hash")
-            let codeHash = await yz.getIpfsHash(savedCode)
+            savedCode = req.body.value.code
+            baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
+            parentHash = yz.getValueOfCodeString(savedCode,"parent_hash")
 
-            let parentCodeTag = await yz.getQuickSqlOneRow(
+            parentCodeTag = await yz.getQuickSqlOneRow(
                 dbsearch,
                 "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
                 [parentHash])
