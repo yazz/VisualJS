@@ -31,7 +31,6 @@ ipfs.files.add(testBuffer, function (err, file) {
         })
     })
   })
-
 let showProgress                        = false
 let showDebug                           = false
 let childProcessNameInScheduler
@@ -80,7 +79,6 @@ let certOptions                         = null
 let crypto                              = require('crypto');
 let callbackIndex                       = 0;
 let callbackList                        = new Object()
-
 let stmtInsertIpfsHash;
 let stmtInsertSession;
 let stmtInsertSessionWithNewUserId;
@@ -96,7 +94,6 @@ let setProcessRunningDurationMs;
 let insertIntoProcessTable              = null;
 let updateProcessTable                  = null;
 let expressWs                           = require2('express-ws')(app);
-
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 let nodeModulesPath = process.cwd()
@@ -115,8 +112,6 @@ if (process.execPath) {
 //console.log("")
 outputDebug("Platform: " + process.platform)
 outputDebug("process.env.OPENSHIFT_NODEJS_IP:= " + process.env.OPENSHIFT_NODEJS_IP)
-
-
 if (process.env.OPENSHIFT_NODEJS_IP) {
     username = "node"
 } else {
@@ -141,7 +136,6 @@ function outputToBrowser(txt) {
     }
 
 }
-
 //
 // We set the HOME environment variable if we are running in OpenShift
 //
@@ -154,17 +148,12 @@ if (isDocker()) {
 } else {
     outputDebug('NOT running inside a Linux container');
 }
-
 if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
     LOCAL_HOME = "/home/node"
 }
-
 function require2(npath) {
     return require(path.join(".",npath))
 }
-
-
-
 let request                             = require2("request");
 let perf                                = require('./perf')
 let compression                         = require2('compression')
@@ -204,8 +193,6 @@ let dbsearch                            = null
 let userData                            = null
 let appDbs                              = {}
 let port;
-
-
 function setPort(addrv) {
     port = addrv
     yz.port = addrv
@@ -220,12 +207,9 @@ if (isWin) {
 } else {
     setHostAddress("0.0.0.0")//ip.address();
 }
-
 let hostaddressintranet;
 hostaddressintranet = ip.address();
 setPort(80)
-
-
 let socket                              = null
 let io                                  = null;
 let forkedProcesses                     = new Object();
@@ -245,20 +229,14 @@ let hostcount  							= 0;
 let queuedResponses                     = new Object();
 let queuedResponseSeqNum                = 1;
 let executionProcessCount               = 6;
-
-
-
 app.use(compression())
 app.use(sessObj);
 app.use(express.json({ limit: '200mb' }));
 app.use(cookieParser());
-
 app.use(keycloak.middleware({
           logout: '/c',
           admin: '/ad'
 }));
-
-
 let inmemcalc                           = false
 let totalMem                            = 0
 let returnedmemCount                    = 0
@@ -266,7 +244,6 @@ let allForked                           = []
 const apiMetrics                        = require2('prometheus-api-metrics');
 app.use(apiMetrics())
 const Prometheus                        = require2('prom-client');
-
 const yazzMemoryUsageMetric             = new Prometheus.Gauge({
   name: 'yazz_total_memory_bytes',
   help: 'Total Memory Usage'
@@ -277,15 +254,12 @@ const yazzProcessMainMemoryUsageMetric  = new Prometheus.Gauge({
 });
 let stdin                               = process.openStdin();
 let inputStdin                          = "";
-
 stdin.on('data', function(chunk) {
   inputStdin += chunk;
 });
 stdin.on('end', function() {
     outputDebug("inputStdin: " + inputStdin)
 });
-
-
 if (process.argv.length > 1) {
 
     program
@@ -348,14 +322,9 @@ if (process.argv.length > 1) {
 let semver                              = require2('semver')
 const initJaegerTracer                  = require2("jaeger-client").initTracer;
 const {Tags, FORMAT_HTTP_HEADERS}       = require2('opentracing')
-
-
-
 if (program.showprogress == 'true') {
     showProgress = true;
 }
-
-
 function outputDebug(text) {
     if (showDebug) {
          console.log(text);
@@ -370,62 +339,40 @@ if (program.showdebug == 'true') {
 
 }
 outputDebug("       showDebug: " + showDebug);
-
 let ipfsFolder                          = "ipfs_cache"
 if (program.ipfs_folder) {
     ipfsFolder = program.ipfs_folder
 }
 let fullIpfsFolderPath
-
-
 let showStats                           = false
 if (program.showstats == 'true') {
     showStats = true;
 }
 outputDebug("       showStats: " + showStats );
-
 let useSelfSignedHttps                  = false
 if (program.useselfsignedhttps == 'true') {
     useSelfSignedHttps = true;
 }
 outputDebug("       useSelfSignedHttps: " + useSelfSignedHttps );
-
-
-
-
 let statsInterval                       = -1
 if (program.statsinterval > 0) {
     statsInterval = program.statsinterval;
 }
 outputDebug("       statsInterval: " + statsInterval );
-
-
-
 if (program.virtualprocessors > 0) {
     executionProcessCount = program.virtualprocessors;
 }
 outputDebug("       executionProcessCount: " + executionProcessCount );
-
-
-
-
-
 let maxProcessesCountToRetry            = 10
 if (program.maxprocessesretry > 0) {
     maxProcessesCountToRetry = program.maxprocessesretry;
 }
 outputDebug("       maxProcessesCountToRetry: " + maxProcessesCountToRetry );
-
-
 let maxJobProcessDurationMs             = 10000
 if (program.maxJobProcessDurationMs > 0) {
     maxJobProcessDurationMs = program.maxJobProcessDurationMs;
 }
 outputDebug("       maxJobProcessDurationMs: " + maxJobProcessDurationMs );
-
-
-
-
 let listOfEnvs                          = process.env
 let envNames                            = Object.keys(listOfEnvs)
 for (let i=0 ;i< envNames.length; i++){
@@ -437,33 +384,26 @@ for (let i=0 ;i< envNames.length; i++){
 if (isValidObject(envVars.virtualprocessors)) {
     executionProcessCount = envVars.virtualprocessors
 }
-
-
 // --------------------------------
 // sort out the host IP settings
 // --------------------------------
 envVars.IP_ADDRESS                      = ip.address()
-
 if (program.host == "") {
     program.host = ip.address()
 }
 envVars.HOST = program.host
 console.log("$HOST = " + envVars.HOST)
-
 if (program.hostport == -1) {
     program.hostport = 80
 }
 envVars.HOSTPORT = program.hostport
 console.log("$HOSTPORT = " + envVars.HOSTPORT)
-
 if (program.https == "none") {
     program.https = "false"
 }
 useHttps = (program.https == 'true');
 envVars.USEHTTPS = useHttps
 console.log("$USEHTTPS = " + envVars.USEHTTPS)
-
-
 // --------------------------------------
 // sort out the central host IP settings
 // --------------------------------------
@@ -472,13 +412,11 @@ if (program.centralhost == "") {
 }
 envVars.CENTRALHOST = program.centralhost
 console.log("$CENTRALHOST = " + envVars.CENTRALHOST)
-
 if (program.centralhostport == -1) {
     program.centralhostport = 80
 }
 envVars.CENTRALHOSTPORT = program.centralhostport
 console.log("$CENTRALHOSTPORT = " + envVars.CENTRALHOSTPORT)
-
 let centralHostHttps = true
 if (program.centralhosthttps == 'none') {
     program.centralhosthttps = 'false'
@@ -489,19 +427,11 @@ if (program.centralhosthttps == 'false') {
 outputDebug("       centralHostHttps: " + centralHostHttps );
 envVars.CENTRALHOSTHTTPS = centralHostHttps
 console.log("$CENTRALHOSTHTTPS = " + envVars.CENTRALHOSTHTTPS)
-
-
-
-
-
-
 let jaegerConfig = null
 let jaegercollector = program.jaegercollector;
 if (isValidObject(envVars.jaegercollector)) {
     jaegercollector = envVars.jaegercollector
 }
-
-
 let tracer = null
 const jaegerOptions = { };
 if (jaegercollector) {
@@ -518,7 +448,6 @@ if (jaegercollector) {
     }
     console.log("Trying to connect to Jaeger at " + jaegercollector)
 }
-
 function isValidObject(variable){
     if ((typeof variable !== 'undefined') && (variable != null)) {
         return true
@@ -526,11 +455,8 @@ function isValidObject(variable){
     return false
 }
 outputDebug('Starting services');
-
 let debug = false;
 outputDebug("NodeJS version: " + process.versions.node);
-
-
 if (semver.gt(process.versions.node, '6.9.0')) {
     outputDebug("NodeJS version > 6.9 " );
 }
@@ -543,22 +469,13 @@ if (program.debug == 'true') {
     outputDebug("       debug: false" );
 
 };
-
-
-
-
 let deleteOnExit = (program.deleteonexit == 'true');
 outputDebug("deleteOnExit: " + deleteOnExit)
-
-
-
 let deleteOnStartup = (program.deleteonstartup == 'true');
 outputDebug("deleteOnStartup: " + deleteOnStartup)
-
 locked = (program.locked == 'true');
 hideimportbuttons = (program.hideimportbuttons == 'true');
 envVars.HIDEIMPORTBUTTONS = hideimportbuttons
-
 if (useSelfSignedHttps) {
     forge.options.usePureJavaScript = true;
 
@@ -606,7 +523,6 @@ if (useSelfSignedHttps) {
     useHttps = true
     envVars.USEHTTPS = useHttps
 }
-
 if (useHttps) {
     serverProtocol = "https"
 }
@@ -617,13 +533,10 @@ caCertificate1 = program.cacert1;
 caCertificate2 = program.cacert2;
 caCertificate3 = program.cacert3;
 let useHost = program.usehost;
-
 if (useHost) {
     setHostAddress(useHost)
     outputDebug("USE Host: " + useHost)
 }
-
-
 setPort(program.port);
 outputDebug("port: " + port)
 let runapp = program.runapp
@@ -5311,6 +5224,7 @@ function processor_free (msg) {
             });
         })
 }
+function function_call_response (msg) {
 //-----------------------------------------------------------------------------------------
 //
 //                                   function_call_response
@@ -5318,7 +5232,6 @@ function processor_free (msg) {
 // This is called to return the response of a call
 //
 //-----------------------------------------------------------------------------------------
-function function_call_response (msg) {
 
    //console.log("*) Response received at Scheduler ")
    //console.log("*) result generated by call ID: " + msg.called_call_id)
