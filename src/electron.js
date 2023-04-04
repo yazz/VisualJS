@@ -2118,7 +2118,7 @@ function keycloakProtector(params) {
     }
 }
 
-async function createNewTip(savedCode, saveResult) {
+async function createNewTip(savedCode, codeId) {
     let parentCodeTag
     let baseComponentId
     let parentHash
@@ -2147,7 +2147,7 @@ async function createNewTip(savedCode, saveResult) {
                  values  
                      (?,?,?,?,?)
                      `,
-        [uuidv1(), baseComponentId, "TIP", saveResult.code_id, ""])
+        [uuidv1(), baseComponentId, "TIP", codeId, ""])
 }
 
 async function startServices() {
@@ -3141,7 +3141,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 optionsForSave)
 
             savedCode       = req.body.value.code
-            await createNewTip(savedCode, saveResult);
+            await createNewTip(savedCode, saveResult.code_id);
 
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
