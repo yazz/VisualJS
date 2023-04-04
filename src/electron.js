@@ -2117,6 +2117,32 @@ function keycloakProtector(params) {
         }, sqlite3.OPEN_READONLY)
     }
 }
+
+async function createNewTip(parentCodeTag, parentHash, baseComponentId, saveResult) {
+    parentCodeTag = await yz.getQuickSqlOneRow(
+        dbsearch,
+        "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+        [parentHash])
+
+    if (parentCodeTag) {
+        await yz.executeQuickSql(
+            dbsearch,
+            "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+            [parentHash])
+    }
+
+    await yz.executeQuickSql(
+        dbsearch
+        ,
+        `insert into 
+                    code_tags 
+                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
+                 values  
+                     (?,?,?,?,?)
+                     `,
+        [uuidv1(), baseComponentId, "TIP", saveResult.code_id, ""])
+}
+
 async function startServices() {
 //------------------------------------------------------------
 // This starts all the system services
@@ -3113,29 +3139,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             savedCode       = req.body.value.code
             baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
             parentHash      = yz.getValueOfCodeString(savedCode,"parent_hash")
-
-            parentCodeTag = await yz.getQuickSqlOneRow(
-                dbsearch,
-                "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
-                [parentHash])
-
-            if (parentCodeTag) {
-                await yz.executeQuickSql(
-                    dbsearch,
-                    "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
-                    [parentHash])
-            }
-
-            await yz.executeQuickSql(
-                dbsearch
-                ,
-                `insert into 
-                    code_tags 
-                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
-                 values  
-                     (?,?,?,?,?)
-                     `,
-                [  uuidv1(),   baseComponentId,  "TIP", saveResult.code_id,  "" ])
+            await createNewTip(parentCodeTag, parentHash, baseComponentId, saveResult);
 
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
