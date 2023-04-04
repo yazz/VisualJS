@@ -3854,12 +3854,12 @@ function finishInit() {
 let globalStartTimer = new Date().getTime()
 let globalEndTimer = new Date().getTime()
 let globalTimerCounter = 0
-function resetTimer(messageToStart) {
+function        resetTimer(messageToStart) {
   console.log("Starting timer for: " + messageToStart)
   globalStartTimer = new Date().getTime()
   globalTimerCounter = 0
 }
-function showTimer(optionalMessage) {
+function        showTimer(optionalMessage) {
   globalEndTimer = new Date().getTime()
   globalTimerCounter ++
   let theTimerText = optionalMessage
@@ -3868,7 +3868,7 @@ function showTimer(optionalMessage) {
   }
   console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
 }
-function setUpSql() {
+function        setUpSql() {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                        setUpSql                                         //
@@ -3980,7 +3980,7 @@ function setUpSql() {
 
     //console.log("setUpSql done   ")
 }
-async function save_code_from_upload(msg) {
+async function  save_code_from_upload(msg) {
     /*
     ________________________________________
     |                                      |
@@ -4010,7 +4010,7 @@ async function save_code_from_upload(msg) {
                 client_file_upload_id:   msg.client_file_upload_id
             })
 }
-function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
+function        ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
     /*
     _____________________________________________________________________________
     |                                                                           |
@@ -4039,7 +4039,7 @@ function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
 
           });
 }
-async function evalLocalSystemDriver(location, options) {
+async function  evalLocalSystemDriver(location, options) {
 //------------------------------------------------------------------------------
 //
 //
@@ -4057,11 +4057,11 @@ async function evalLocalSystemDriver(location, options) {
     }
     return ret
 }
-async function saveJsonItemToIpfs(jsonItem) {
+async function  saveJsonItemToIpfs(jsonItem) {
     let jsonString = JSON.stringify(jsonItem,null,2)
     await  saveItemToIpfs(jsonString)
 }
-async function saveItemToIpfs(srcCode) {
+async function  saveItemToIpfs(srcCode) {
     outputDebug("*** saveItemToIpfs: *** : " )
     let promise = new Promise(async function(returnfn) {
         let justHash = null
@@ -4107,7 +4107,7 @@ async function saveItemToIpfs(srcCode) {
     let ipfsHash = await promise
     return ipfsHash
 }
-async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
+async function  sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
     let centralHost = program.centralhost
     let centralPort = program.centralhostport
     let promise = new Promise(async function(returnfn) {
@@ -4155,7 +4155,7 @@ async function sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
     await promise
     return
 }
-async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
+async function  insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
@@ -4172,10 +4172,10 @@ async function insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pi
     let ipfsHash = await promise
     return ipfsHash
 }
-async function registerIPFS(ipfs_hash) {
+async function  registerIPFS(ipfs_hash) {
     await insertIpfsHashRecord(ipfs_hash,null,null,null)
 }
-async function loadComponentFromIpfs(ipfsHash) {
+async function  loadComponentFromIpfs(ipfsHash) {
     outputDebug("*** loadComponentFromIpfs: *** : " )
 
     let promise = new Promise(async function(returnfn) {
@@ -4258,7 +4258,7 @@ async function loadComponentFromIpfs(ipfsHash) {
     let ret = await promise
     return ret
 }
-async function addOrUpdateDriver(  codeString ,options ) {
+async function  addOrUpdateDriver(  codeString ,options ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -4286,18 +4286,18 @@ async function addOrUpdateDriver(  codeString ,options ) {
 
       }
 }
-function localComponentPath(localPath) {
+function        localComponentPath(localPath) {
  return path.join(__dirname, '../public/visifile_drivers' + localPath)
 }
-async function evalHtmlComponentFromPath(srcPath){
+async function  evalHtmlComponentFromPath(srcPath){
     let ret = await evalLocalSystemDriver(     localComponentPath(srcPath),{save_html: true, username: "default", version: "latest"})
     return ret
 }
-async function evalComponentFromPath(srcPath){
+async function  evalComponentFromPath(srcPath){
     let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
     return ret
 }
-async function releaseComponentFromPath(srcPath){
+async function  releaseComponentFromPath(srcPath){
     try {
         let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
         await releaseCode(ret.codeId)
@@ -4307,7 +4307,7 @@ async function releaseComponentFromPath(srcPath){
         console.log(err)
     }
 }
-async function setUpComponentsLocally() {
+async function  setUpComponentsLocally() {
 //------------------------------------------------------------------------------
 //
 //
@@ -4530,10 +4530,10 @@ async function setUpComponentsLocally() {
 
     await drivers_loaded_by_child()
 }
-function setUpPredefinedComponents() {
+function        setUpPredefinedComponents() {
     setUpComponentsLocally();
 }
-async function drivers_loaded_by_child() {
+async function  drivers_loaded_by_child() {
 //------------------------------------------------------------------------------
     //
     // This is the last thing that happens when AppShare is started
@@ -4543,12 +4543,12 @@ async function drivers_loaded_by_child() {
     //------------------------------------------------------------------------------
           await finalizeYazzLoading();
 }
-function createTables() {
+function        createTables() {
   db_helper.createTables(dbsearch,
           createdTablesInChild)
 
 }
-async function createdTablesInChild() {
+async function  createdTablesInChild() {
 //------------------------------------------------------------------------------
 //
 //
@@ -4581,7 +4581,7 @@ async function createdTablesInChild() {
         }
     }
 }
-function callDriverMethod(msg) {
+function        callDriverMethod(msg) {
 
     callDriverMethodPart2( msg.find_component, msg.args, function(result) {
         if (msg.seq_num_local) {
@@ -4601,7 +4601,7 @@ function callDriverMethod(msg) {
         }
     })
   }
-function callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
+function        callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -4621,7 +4621,7 @@ function callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
         caller_call_id:      -1
     });
 }
-function return_add_local_driver_results_msg(msg) {
+function        return_add_local_driver_results_msg(msg) {
 //------------------------------------------------------------------------------
 //
 //
@@ -4644,7 +4644,7 @@ function return_add_local_driver_results_msg(msg) {
 
     newres = null;
 }
-function ipcChildReturningCallComponentResponse(msg) {
+function        ipcChildReturningCallComponentResponse(msg) {
 //------------------------------------------------------------------------------
 //
 //
@@ -4664,7 +4664,7 @@ function ipcChildReturningCallComponentResponse(msg) {
                                     seq_num:          msg.seq_num_browser
                                  });
 }
-function function_call_request(msg) {
+function        function_call_request(msg) {
 //------------------------------------------------------------------------------
 //
 //
@@ -4682,7 +4682,7 @@ function function_call_request(msg) {
                                             caller_call_id:        msg.caller_call_id
                                           });
 }
-function return_response_to_function_caller(msg) {
+function        return_response_to_function_caller(msg) {
 
 
        // console.log("*) result received to caller " );
@@ -4690,7 +4690,7 @@ function return_response_to_function_caller(msg) {
        // console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
 }
-function updateRunningTimeForprocess() {
+function        updateRunningTimeForprocess() {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                          updateRunningTimeForprocess                                    //
@@ -4726,8 +4726,7 @@ function updateRunningTimeForprocess() {
                     })
         })
 }
-//setInterval(updateRunningTimeForprocess,1000)
-function findLongRunningProcesses() {
+function        findLongRunningProcesses() {
         console.log("Checking processes")
 
         dbsearch.serialize(
@@ -4753,8 +4752,7 @@ function findLongRunningProcesses() {
                     })
         })
 }
-//setInterval(findLongRunningProcesses,1000)
-function killProcess(processName, callbackIndex) {
+function        killProcess(processName, callbackIndex) {
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
@@ -4773,7 +4771,7 @@ function killProcess(processName, callbackIndex) {
             });
         })
 }
-function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
+function        scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                            scheduleJobWithCodeId                                        //
@@ -4841,7 +4839,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
         }
     }
 }
-function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args) {
+function        sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                   sendToProcess                                         //
@@ -4873,7 +4871,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
             });
         })
 }
-function execute_code_in_exe_child_process (msg) {
+function        execute_code_in_exe_child_process (msg) {
 //------------------------------------------------------------------------------
 //
 //
@@ -4892,7 +4890,7 @@ function execute_code_in_exe_child_process (msg) {
                                                 base_component_id:   msg.base_component_id
                                               });
 }
-function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
+function        sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                   sendJobToProcessName                                  //
@@ -4928,7 +4926,7 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
     }, sqlite3.OPEN_READONLY)
 
 }
-function startNode (msg) {
+function        startNode (msg) {
 //-----------------------------------------------------------------------------------------
 //
 //                                  startNode
@@ -4992,7 +4990,7 @@ function startNode (msg) {
              })
 
 }
-function function_call_requestPart2 (msg) {
+function        function_call_requestPart2 (msg) {
 //-----------------------------------------------------------------------------------------
 //
 //                                   function_call_request
@@ -5035,7 +5033,7 @@ function function_call_requestPart2 (msg) {
         }, sqlite3.OPEN_READONLY)
     }
 }
-function processor_free (msg) {
+function        processor_free (msg) {
     //-----------------------------------------------------------------------------------------
     //
     //                                   processor_free
@@ -5054,7 +5052,7 @@ function processor_free (msg) {
             });
         })
 }
-function function_call_response (msg) {
+function        function_call_response (msg) {
 //-----------------------------------------------------------------------------------------
 //
 //                                   function_call_response
@@ -5092,7 +5090,7 @@ function function_call_response (msg) {
                                             result:              msg.result
                                         });
                       }
-async function parseCode(code) {
+async function  parseCode(code) {
 
     let baseComponentIdOfItem = yz.getValueOfCodeString(code,"base_component_id")
 
@@ -5132,7 +5130,7 @@ async function parseCode(code) {
         readWriteStatus: readWriteStatus
     }
 }
-async function getCommentsForComponent(baseComponentId) {
+async function  getCommentsForComponent(baseComponentId) {
     let promise = new Promise(async function (returnfn) {
 
         dbsearch.serialize(
@@ -5186,7 +5184,7 @@ async function getCommentsForComponent(baseComponentId) {
     let ret = await promise
     return ret
 }
-async function insertCommentIntoDb(args) {
+async function  insertCommentIntoDb(args) {
     let promise = new Promise(async function(returnfn) {
 
         let promise2 = new Promise(async function(returnfn2) {
@@ -5214,7 +5212,7 @@ async function insertCommentIntoDb(args) {
 
     })
 }
-async function getUserIdFromYazzCookie(yazzCookie) {
+async function  getUserIdFromYazzCookie(yazzCookie) {
     let sessionId = await getSessionIdFromYazzCookie(yazzCookie)
 
     let promise = new Promise(async function(returnfn) {
@@ -5246,7 +5244,7 @@ async function getUserIdFromYazzCookie(yazzCookie) {
     return userId
 
 }
-async function getUserId(req) {
+async function  getUserId(req) {
     let sessionId = await getSessionId(req)
 
     let promise = new Promise(async function(returnfn) {
@@ -5277,7 +5275,7 @@ async function getUserId(req) {
     let userId = await promise
     return userId
 }
-async function getSessionId(req) {
+async function  getSessionId(req) {
     let promise = new Promise(async function(returnfn) {
         dbsearch.serialize(
             function() {
@@ -5308,7 +5306,7 @@ async function getSessionId(req) {
     let sessionId = await promise
     return sessionId
 }
-async function getSessionIdFromYazzCookie(yazzCookie) {
+async function  getSessionIdFromYazzCookie(yazzCookie) {
     let promise = new Promise(async function(returnfn) {
         dbsearch.serialize(
             function() {
@@ -5339,7 +5337,7 @@ async function getSessionIdFromYazzCookie(yazzCookie) {
     let sessionId = await promise
     return sessionId
 }
-async function getCookieRecord(cookieValue) {
+async function  getCookieRecord(cookieValue) {
     let promise = new Promise(async function(returnfn) {
         dbsearch.serialize(
             function() {
@@ -5367,7 +5365,7 @@ async function getCookieRecord(cookieValue) {
     let cookeResult = await promise
     return cookeResult
 }
-async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
+async function  createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
@@ -5392,7 +5390,7 @@ async function createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
     return ipfsHash
     return ""
 }
-async function getRowForCommit(commitId) {
+async function  getRowForCommit(commitId) {
     let commitStructure = null
     let excludeCommitId = null
     let thisCommit = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
@@ -5425,7 +5423,7 @@ async function getRowForCommit(commitId) {
 
     return commitStructure
 }
-async function getPreviousCommitsFor(args) {
+async function  getPreviousCommitsFor(args) {
     let commitId = args.commitId
     let parentCommitId = args.parentCommitId
 
@@ -5460,7 +5458,7 @@ async function getPreviousCommitsFor(args) {
     }
     return []
 }
-async function getFutureCommitsFor(args) {
+async function  getFutureCommitsFor(args) {
     let commitId = args.commitId
 
     let numPrevious = 100000000
@@ -5495,7 +5493,7 @@ async function getFutureCommitsFor(args) {
 
     return []
 }
-async function releaseCode(commitId) {
+async function  releaseCode(commitId) {
     let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString = codeRecord.code
     let parsedCode = await parseCode(codeString)
@@ -5573,7 +5571,7 @@ async function releaseCode(commitId) {
     return ret2
 
 }
-async function copyAppshareApp(args) {
+async function  copyAppshareApp(args) {
     /*
     base_component_id("copyApp")
     description("copyAppshareApp function")
@@ -5770,3 +5768,6 @@ async function copyAppshareApp(args) {
 
     return ret
 }
+
+//setInterval(updateRunningTimeForprocess,1000)
+//setInterval(findLongRunningProcesses,1000)
