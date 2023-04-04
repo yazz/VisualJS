@@ -42,15 +42,11 @@ let processesRetryingCount              = 0
 let localappdata
 let visifile                            = null
 const path                              = require("path");
-const url                               = require('url');
 let fork                                = require2('child_process');
 let fs                                  = require2('fs');
 let ip                                  = require2('ip');
 let isWin                               = /^win/.test(process.platform);
-let isLinux                             = /^linux/.test(process.platform);
-let isMac                               = /^darwin/.test(process.platform);
 let mainNodeProcessStarted              = false;
-let restRoutes                          = new Object()
 let envVars                             = new Object()
 let systemReady                         = false;
 let httpServer                          = null;
@@ -65,7 +61,6 @@ let db_helper                           = require("./db_helper")
 
 let pidusage                            = require2("pidusage");
 let mkdirp                              = require2('mkdirp')
-let rmdir                               = require2('rmdir-sync');
 let uuidv1                              = require2('uuid/v1');
 let express                             = require2('express')
 let http                                = require2('http')
@@ -93,7 +88,7 @@ let setProcessToIdle;
 let setProcessRunningDurationMs;
 let insertIntoProcessTable              = null;
 let updateProcessTable                  = null;
-let expressWs                           = require2('express-ws')(app);
+
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 let nodeModulesPath = process.cwd()
@@ -154,8 +149,6 @@ if (!isValidObject(LOCAL_HOME) || (LOCAL_HOME == "/")) {
 function require2(npath) {
     return require(path.join(".",npath))
 }
-let request                             = require2("request");
-let perf                                = require('./perf')
 let compression                         = require2('compression')
 let program                             = require2('commander');
 let bodyParser                          = require2('body-parser');
@@ -166,7 +159,6 @@ let sqlNodePath                         = path.join(nodeModulesPath,'node_module
 //console.log("sqlNodePath: " + sqlNodePath)
 let sqlite3                             = null
 sqlite3                                 = require(sqlNodePath);
-let os                                  = require2('os')
 let Keycloak                            = require2('keycloak-connect');
 let session                             = require2('express-session');
 let memoryStore                         = new session.MemoryStore();
@@ -213,7 +205,6 @@ setPort(80)
 let socket                              = null
 let io                                  = null;
 let forkedProcesses                     = new Object();
-let timeout                             = 0;
 let serverwebsockets                    = [];
 let portrange                           = 3000
 let locked;
