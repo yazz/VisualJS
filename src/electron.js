@@ -4036,9 +4036,8 @@ async function  createNewTip(savedCode, codeId, userId) {
     |                                      |
     |______________________________________|
     Create a new code tip for the current code. This code tip
-    moves the TIP tag forward for the code. But the code can have
-    multiple tips, so this wouldn't make sense. The tip only makes
-    sense for the current user editing the code
+    moves the TIP tag forward for the code. The code can have
+    multiple tips, one for each user editing the code
     __________
     | PARAMS |______________________________________________________________
     |
