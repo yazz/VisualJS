@@ -541,7 +541,13 @@ if (!isNumber(port)) {
     }
 };
 outputDebug('Yazz node local hostname: ' + ip.address() + ' ')
-function setUpChildListeners(processName, fileName, debugPort) {
+let shuttingDown = false;
+let globalStartTimer = new Date().getTime()
+let globalEndTimer = new Date().getTime()
+let globalTimerCounter = 0
+
+
+function        setUpChildListeners(processName, fileName, debugPort) {
 
     forkedProcesses[processName].on('close', async function() {
         if (!shuttingDown) {
@@ -817,7 +823,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
     });
 }
-function setupForkedProcess(  processName,  fileName,  debugPort  ) {
+function        setupForkedProcess(  processName,  fileName,  debugPort  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -877,7 +883,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     outputDebug("Started subprocess '" + processName + "' ")
 
 }
-function sendOverWebSockets(data) {
+function        sendOverWebSockets(data) {
     let ll = serverwebsockets.length;
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
     for (let i =0 ; i < ll; i++ ) {
@@ -894,10 +900,10 @@ function sendOverWebSockets(data) {
         }
     }
 }
-function isNumber(n) {
+function        isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
-async function setupVisifileParams() {
+async function  setupVisifileParams() {
 
 
     outputDebug('-------* Port: ' + port);
@@ -906,7 +912,7 @@ async function setupVisifileParams() {
 	//console.log('addr: '+ ip.address());
 	//hostaddress = ip.address();
 }
-function shutDown() {
+function        shutDown() {
     outputDebug(" shutDown() called")
     if (!shuttingDown) {
         shuttingDown = true;
@@ -954,7 +960,7 @@ function shutDown() {
 
 
 }
-function deleteYazzDataWindows(dddd) {
+function        deleteYazzDataWindows(dddd) {
   outputDebug("deleteYazzDataWindows")
   if (dddd.length > 6) {
     let ff = 'timeout 8 && rd /s /q "' + dddd + '"'
@@ -969,7 +975,7 @@ function deleteYazzDataWindows(dddd) {
                 })
     }
   }
-function deleteYazzDataV2(dddd) {
+function        deleteYazzDataV2(dddd) {
 
     if ( fs.existsSync( dddd ) ) {
         outputDebug("----------------------------------")
@@ -988,7 +994,7 @@ function deleteYazzDataV2(dddd) {
     outputDebug("After delete" )
     outputDebug("----------------------------------")
 }
-function deleteYazzData(dddd) {
+function        deleteYazzData(dddd) {
     fork.exec('sleep 3 && cd "' + dddd + '" && rm -rf app_dbs apps uploads files *.visi*', function(err, stdout, stderr) {
         if (err) {
             // node couldn't execute the command
@@ -996,7 +1002,7 @@ function deleteYazzData(dddd) {
             }
         })
 }
-function getPort () {
+function        getPort () {
     outputDebug('** called getPort v2')
 
 
@@ -1053,7 +1059,7 @@ function getPort () {
 
     })
 }
-async function checkForJSLoaded() {
+async function  checkForJSLoaded() {
 //------------------------------------------------------------------------------------------
 //
 //                                          checkForJSLoaded
@@ -1252,7 +1258,7 @@ async function checkForJSLoaded() {
 
      return
 }
-async function isTtyCode() {
+async function  isTtyCode() {
 //------------------------------------------------------------------------------------------
 //
 //                                          checkForJSLoaded
@@ -1345,7 +1351,7 @@ async function isTtyCode() {
 
      return ttyCodeRet
 }
-function isFrontEndOnlyCode(code) {
+function        isFrontEndOnlyCode(code) {
     if (!code){
         return false
     }
@@ -1355,20 +1361,20 @@ function isFrontEndOnlyCode(code) {
     if (code.indexOf("rest_api(") != -1) { return false }
     return false
 }
-function sendToBrowserViaWebSocket(aws, msg) {
+function        sendToBrowserViaWebSocket(aws, msg) {
 // ============================================================
 // This sends a message to a specific websocket
 // ============================================================
     aws.emit(msg.type,msg);
 }
-function isLocalMachine(req) {
+function        isLocalMachine(req) {
     if ((req.ip == '127.0.0.1') || (hostaddress == req.ip) || (hostaddress == "0.0.0.0")) {  // this is the correct line to use
     //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
         return true;
     };
     return false;
 }
-function canAccess(req,res) {
+function        canAccess(req,res) {
 //------------------------------------------------------------------------------
 // test if allowed
 //------------------------------------------------------------------------------
@@ -1382,7 +1388,7 @@ function canAccess(req,res) {
     res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their Yazz account");
     return false;
 };
-function runOnPageExists(req, res, homepage) {
+function        runOnPageExists(req, res, homepage) {
 
     if (fs.existsSync(homepage)) {
         if (!canAccess(req,res)) {
@@ -1397,7 +1403,7 @@ function runOnPageExists(req, res, homepage) {
 
 
 }
-function isRequestFromMobile(req) {
+function        isRequestFromMobile(req) {
     let uasource = req.headers['user-agent']
     let uaval = useragent.parse(uasource);
 
@@ -1409,7 +1415,7 @@ function isRequestFromMobile(req) {
     //console.log("uaval: "  + JSON.stringify(uaval,null,2))
     return isMobile
 }
-function getRoot(req, res, next) {
+function        getRoot(req, res, next) {
 	hostcount++;
 
     //console.log("Host: " + req.headers.host + ", " + hostcount);
@@ -1541,7 +1547,7 @@ function getRoot(req, res, next) {
 
 
 }
-function getEditApp(req, res) {
+function        getEditApp(req, res) {
 	hostcount++;
 
     // I dont know why sockets.io calls .map files here
@@ -1569,7 +1575,7 @@ function getEditApp(req, res) {
     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     res.end(newStaticFileContent);
 }
-function websocketFn(ws) {
+function        websocketFn(ws) {
     serverwebsockets.push(ws);
     sendToBrowserViaWebSocket(ws, {type: "socket_connected"});
     sendOverWebSockets({
@@ -1742,7 +1748,7 @@ function websocketFn(ws) {
         }
     });
 };
-function file_uploadSingleFn(req, res) {
+function        file_uploadSingleFn(req, res) {
       //console.log('-----  file_uploadSingle  --------------');
       //console.log(req.file);
       //console.log("**FILE** " + JSON.stringify(Object.keys(req)));
@@ -1834,7 +1840,7 @@ function file_uploadSingleFn(req, res) {
 
 
 };
-function file_uploadFn(req, res, next) {
+function        file_uploadFn(req, res, next) {
       //console.log('-------------------------------------------------------------------------------------');
       //console.log('-------------------------------------------------------------------------------------');
       //console.log('-------------------------------------------------------------------------------------');
@@ -1920,12 +1926,12 @@ function file_uploadFn(req, res, next) {
     }
 
 };
-function file_name_load(req, res, next) {
+function        file_name_load(req, res, next) {
       //console.log("params: " + JSON.stringify(req.query,null,2))
       loadAppFromFile(  req.query.file_name_load,
                         req.query.client_file_upload_id)
 };
-function loadAppFromFile(localp,client_file_upload_id) {
+function        loadAppFromFile(localp,client_file_upload_id) {
     console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
     let readIn = fs.readFileSync(localp).toString()
     let bci = yz.getValueOfCodeString(readIn, "base_component_id")
@@ -1946,7 +1952,7 @@ function loadAppFromFile(localp,client_file_upload_id) {
                                      });
 
 }
-function code_uploadFn(req, res) {
+function        code_uploadFn(req, res) {
 
     save_code_from_upload({
                                             message_type:           "save_code_from_upload",
@@ -1959,7 +1965,7 @@ function code_uploadFn(req, res) {
 
 
 };
-function keycloakProtector(params) {
+function        keycloakProtector(params) {
     return function(req,res,next) {
         next()
         return
@@ -2002,7 +2008,7 @@ function keycloakProtector(params) {
         }, sqlite3.OPEN_READONLY)
     }
 }
-async function createNewTip(savedCode, codeId, userId) {
+async function  createNewTip(savedCode, codeId, userId) {
     /*
     Create a new code tip for the current code. This code tip
     moves the TIP tag forward for the code. But the code can have
@@ -2039,7 +2045,7 @@ async function createNewTip(savedCode, codeId, userId) {
                      `,
         [uuidv1(), baseComponentId, "TIP", codeId, userId])
 }
-async function startServices() {
+async function  startServices() {
 //------------------------------------------------------------
 // This starts all the system services
 //------------------------------------------------------------
@@ -3429,7 +3435,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
     },1000)
 
 }
-async function findLocalIpfsContent() {
+async function  findLocalIpfsContent() {
     fs.readdir(fullIpfsFolderPath, async function (err, files) {
         if (err) {
             return console.error(err);
@@ -3477,7 +3483,7 @@ async function findLocalIpfsContent() {
     })
 
 }
-async function finalizeYazzLoading() {
+async function  finalizeYazzLoading() {
     setUpSql();
     if (!isCodeTtyCode) {
         console.log(`
@@ -3596,10 +3602,10 @@ console.log("Network Host Address. Click to open: " + serverProtocol + "://" + h
 
     systemReady = true
 }
-function bytesToMb(bytes) {
+function        bytesToMb(bytes) {
     return (bytes / 1024 ) / 1024
 }
-function getChildMem(childProcessName,stats) {
+function        getChildMem(childProcessName,stats) {
     let memoryused = 0
     if (stats) {
         memoryused = stats.memory ;
@@ -3609,7 +3615,7 @@ function getChildMem(childProcessName,stats) {
         outputDebug(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
     }
 }
-function usePid(childProcessName,childprocess) {
+function        usePid(childProcessName,childprocess) {
     pidusage(childprocess.pid, function (err, stats) {
         getChildMem(childProcessName,stats)
         returnedmemCount ++
@@ -3626,7 +3632,7 @@ function usePid(childProcessName,childprocess) {
     });
 
 }
-function readCerts() {
+function        readCerts() {
 //------------------------------------------------------------------------------
 //
 //
@@ -3665,13 +3671,6 @@ function readCerts() {
     }
     return caCertsRet
 }
-let shuttingDown = false;
-let globalStartTimer = new Date().getTime()
-let globalEndTimer = new Date().getTime()
-let globalTimerCounter = 0
-
-
-
 function        findSystemDataDirectoryAndStart() {
     console.log("userData : " + userData)
     console.log("username : " + username)
