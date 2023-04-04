@@ -67,7 +67,6 @@ let https                               = require2('https');
 let app                                 = express()
 let startupType                         = null
 let startupDelay                        = 0
-let isCodeTtyCode                       = false
 let yazzInstanceId                      = uuidv1()
 let certOptions                         = null
 let crypto                              = require('crypto');
@@ -910,6 +909,7 @@ function        isNumber(n) {
 }
 
 
+// startup and shutdown
 function        shutDown() {
     outputDebug(" shutDown() called")
     if (!shuttingDown) {
@@ -1256,99 +1256,8 @@ async function  checkForJSLoaded() {
 
      return
 }
-async function  isTtyCode() {
-//------------------------------------------------------------------------------------------
-//
-//                                          checkForJSLoaded
-//
-// This checks to see if AppShare is started with custom code. This code is
-// then loaded into AppShare either as a web app or it is run as a UI app
-//
-//
-//
-//------------------------------------------------------------------------------------------
-    outputDebug("*********** In isTtyCode() ************")
-
-    if (isValidObject(envVars.loadjsurl)) {
-        loadjsurl = envVars.loadjsurl
-    }
-
-    //
-    // load JS code from file
-    //
-    if (isValidObject(envVars.loadjsfile)) {
-        loadjsfile = envVars.loadjsfile
-    }
 
 
-    //console.log("process.argv.length : " + process.argv.length )
-    //console.log("process.argv[2] : " + process.argv[2] )
-    try {
-        if ((process.argv[2]) && (process.argv[2].startsWith("http://") || process.argv[2].startsWith("https://") )) {
-            loadjsurl = process.argv[2]
-
-        } else if ((process.argv[2]) && (process.argv[2].endsWith(".js") || process.argv[2].endsWith(".pilot") || process.argv[2].endsWith(".jsa") || process.argv[2].endsWith(".vjs") || process.argv[2].endsWith(".yazz"))) {
-            loadjsfile = process.argv[2]
-
-        } else if ((process.argv[2]) && (!process.argv[2].startsWith("--"))) {
-            loadjscode = process.argv[2]
-            outputDebug("load code: " + loadjscode )
-            //console.log("load code: " + loadjscode )
-        }
-    } catch(err) {
-        console.log("Error in checkForJSLoaded: " + err)
-    }
-
-
-
-    if (isValidObject(envVars.loadjscode)) {
-        loadjscode = envVars.loadjscode
-    }
-
-
-    let promise = new Promise(async function(returnFn) {
-        if (isValidObject(loadjsurl)) {
-            let jsUrl = loadjsurl
-            https.get(jsUrl, (resp) => {
-              let data = '';
-
-              resp.on('data', (chunk) => {
-                data += chunk;
-              });
-
-              resp.on('end', () => {
-                  let ttyCode = isFrontEndOnlyCode(data)
-                  returnFn(!ttyCode)
-              });
-
-            }).on("error", (err) => {
-              outputDebug("Error: " + err.message);
-              returnFn(false)
-            });
-
-
-
-        } else if (isValidObject(loadjsfile)) {
-            let jsFile = loadjsfile
-
-            let data2 = fs.readFileSync(jsFile).toString()
-            let ttyCode = isFrontEndOnlyCode(data2)
-            returnFn(!ttyCode)
-
-         } else if (isValidObject(loadjscode)) {
-             let ttyCode = isFrontEndOnlyCode(loadjscode)
-             returnFn(!ttyCode)
-
-         } else {
-             returnFn(false)
-
-         }
-     })
-     let ttyCodeRet = await promise
-
-
-     return ttyCodeRet
-}
 function        isFrontEndOnlyCode(code) {
     if (!code){
         return false
@@ -2044,214 +1953,437 @@ async function  createNewTip(savedCode, codeId, userId) {
         [uuidv1(), baseComponentId, "TIP", codeId, userId])
 }
 async function  startServices() {
-//------------------------------------------------------------
-// This starts all the system services
-//------------------------------------------------------------
-    if (!isCodeTtyCode) {
-        if (useHttps) {
+    //------------------------------------------------------------
+    // This starts all the system services
+    //------------------------------------------------------------
+    if (useHttps) {
 
-            let app2             = express()
+        let app2             = express()
 
-            let newhttp = http.createServer(app2);
-            app2.use(compression())
-            app2.get('/', function (req, res, next) {
-                return getRoot(req, res, next);
-            })
-
-
-            app2.get('*', function(req, res) {
-                 if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-                    outputDebug("path: " + req.path)
-
-                    let rty = req.path
-                    if (req.path == "/canlabs") {
-                        rty = "/canlabs/index.html"
-                    }
-
-                    let fileNameRead = path.join(__dirname, '../public' + rty)
-                    res.end(fs.readFileSync(fileNameRead));
+        let newhttp = http.createServer(app2);
+        app2.use(compression())
+        app2.get('/', function (req, res, next) {
+            return getRoot(req, res, next);
+        })
 
 
-                 } else if (  req.path.indexOf(".well-known") != -1  ) {
-                    let fileNameRead = path.join(__dirname, '../public' + req.path)
-                    res.end(fs.readFileSync(fileNameRead));
+        app2.get('*', function(req, res) {
+             if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
+                outputDebug("path: " + req.path)
+
+                let rty = req.path
+                if (req.path == "/canlabs") {
+                    rty = "/canlabs/index.html"
+                }
+
+                let fileNameRead = path.join(__dirname, '../public' + rty)
+                res.end(fs.readFileSync(fileNameRead));
 
 
-                 } else {
-                     //outputDebug("Redirect HTTP to HTTPS")
-                     res.redirect('https://' + req.headers.host + req.url);
-                 }
-            })
+             } else if (  req.path.indexOf(".well-known") != -1  ) {
+                let fileNameRead = path.join(__dirname, '../public' + req.path)
+                res.end(fs.readFileSync(fileNameRead));
 
-            newhttp.listen(80);
+
+             } else {
+                 //outputDebug("Redirect HTTP to HTTPS")
+                 res.redirect('https://' + req.headers.host + req.url);
+             }
+        })
+
+        newhttp.listen(80);
+    }
+
+
+    app.use(compression())
+    app.use(cors({ origin: '*' }));
+    app.use(async function (req, res, next) {
+
+        let oneof = false;
+        if(req.headers.origin) {
+            res.header('Access-Control-Allow-Origin', req.headers.origin);
+            oneof = true;
+        }
+        if(req.headers['access-control-request-method']) {
+            res.header('Access-Control-Allow-Methods', req.headers['access-control-request-method']);
+            oneof = true;
+        }
+        if(req.headers['access-control-request-headers']) {
+            res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
+            oneof = true;
+        }
+        if(oneof) {
+            res.header('Access-Control-Max-Age', 60 * 60 * 24 * 365);
         }
 
 
-        app.use(compression())
-        app.use(cors({ origin: '*' }));
-        app.use(async function (req, res, next) {
-
-            let oneof = false;
-            if(req.headers.origin) {
-                res.header('Access-Control-Allow-Origin', req.headers.origin);
-                oneof = true;
-            }
-            if(req.headers['access-control-request-method']) {
-                res.header('Access-Control-Allow-Methods', req.headers['access-control-request-method']);
-                oneof = true;
-            }
-            if(req.headers['access-control-request-headers']) {
-                res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
-                oneof = true;
-            }
-            if(oneof) {
-                res.header('Access-Control-Max-Age', 60 * 60 * 24 * 365);
-            }
+        // Set to true if you need the website to include cookies in the requests sent
+        // to the API (e.g. in case you use sessions)
+        res.setHeader('Access-Control-Allow-Credentials', true);
 
 
-            // Set to true if you need the website to include cookies in the requests sent
-            // to the API (e.g. in case you use sessions)
-            res.setHeader('Access-Control-Allow-Credentials', true);
+        let userAgentString = req.headers['user-agent']
+        let hostCookieSentTo = req.host
+        let cookie = req.cookies.yazz;
 
 
-            let userAgentString = req.headers['user-agent']
-            let hostCookieSentTo = req.host
-            let cookie = req.cookies.yazz;
+        let from_device_type = userAgentString
+        if (typeof userAgentString  !== 'undefined') {
+            if (typeof cookie === undefined) {
+                // no: set a new cookie
+                let randomNumber =  uuidv1()
+                res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
+                await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
+                //console.log('cookie created successfully');
+            } else {
+                // yes, cookie was already present
+                //console.log('cookie exists', cookie);
 
-
-            let from_device_type = userAgentString
-            if (typeof userAgentString  !== 'undefined') {
-                if (typeof cookie === undefined) {
-                    // no: set a new cookie
+                //
+                // check if cookie exists in the DB. If not then set a new cookie
+                //
+                let cookieRecord = await getCookieRecord(cookie)
+                if (cookieRecord == null) {
                     let randomNumber =  uuidv1()
                     res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
                     await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
-                    //console.log('cookie created successfully');
-                } else {
-                    // yes, cookie was already present
-                    //console.log('cookie exists', cookie);
+                    //console.log('No cookie found in Yazz DB, cookie created successfully');
+                }
 
-                    //
-                    // check if cookie exists in the DB. If not then set a new cookie
-                    //
-                    let cookieRecord = await getCookieRecord(cookie)
-                    if (cookieRecord == null) {
-                        let randomNumber =  uuidv1()
-                        res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
-                        await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
-                        //console.log('No cookie found in Yazz DB, cookie created successfully');
-                    }
+            }
+        }
 
+
+
+        // Pass to next layer of middleware
+        next();
+    });
+
+    app.get('/', function (req, res, next) {
+        //------------------------------------------------------------------------------
+        // Show the default page for the different domains
+        //------------------------------------------------------------------------------
+        //console.log("calling main page")
+        //console.log("jaeger: " + jaegercollector)
+        //console.log("app.get('/'): ")
+        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        return getRoot(req, res, next);
+    })
+    app.get('/copy_component_get', async function (req, res, next) {
+        let userid              = await getUserId(req)
+        let baseComponentId     = req.query.base_component_id
+        let codeId              = req.query.code_id
+        let newBaseComponentId  = req.query.new_base_component_id
+
+        let args =
+            {
+                base_component_id: baseComponentId
+                ,
+                code_id: codeId
+                ,
+                new_base_component_id: newBaseComponentId
+            }
+
+        let response = await copyAppshareApp(args)
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            response
+        ));
+
+    })
+    app.get('/update_code_tags', async function (req, res, next) {
+        let userid          = await getUserId(req)
+
+        await yz.updateCodeTags(
+            dbsearch,
+            {
+                baseComponentId:    req.query.baseComponentId,
+                userId:             userid,
+                sha1sum:            req.query.sha1sum
+            })
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {status: "Done"}
+        ));
+
+    })
+    app.get('/get_code_commit', async function (req, res, next) {
+        //console.log("calling main page")
+        //console.log("jaeger: " + jaegercollector)
+        let commitId = req.query.commit_id;
+
+
+        let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
+        let codeString = codeRecord.code
+
+        console.log("app.get('/'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {code: codeString}
+        ));
+
+    })
+    app.post('/call_component', async function (req, res) {
+        console.log("app.post('/call_component'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
+
+        let topApps = []
+        //let baseComponentId = req.body.value.base_component_id
+        //let baseComponentIdVersion = req.body.value.base_component_id_version
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+    })
+    app.post('/submit_comment', async function (req, res) {
+        console.log("app.post('/submit_comment'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        let topApps = []
+        let baseComponentId = req.body.value.base_component_id
+        let baseComponentIdVersion = req.body.value.base_component_id_version
+        let newComment = req.body.value.comment
+        let newRating = req.body.value.rating
+        let newDateAndTime = new Date().getTime()
+
+
+        await insertCommentIntoDb(
+            {
+                baseComponentId:        baseComponentId,
+                baseComponentIdVersion: baseComponentIdVersion,
+                newComment:             newComment,
+                newRating:              newRating,
+                dateAndTime:            newDateAndTime
+            }
+        )
+        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
+
+        topApps =
+        {
+            status: "ok"
+            ,
+
+            comments_and_ratings: commentsAndRatings
+        }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+
+        setTimeout(async function() {
+            let ipfsHash = await saveJsonItemToIpfs(
+                {
+                    type: "COMPONENT_COMMENT",
+                    format: "JSON'",
+                    type_: "component_type('COMPONENT_COMMENT')",
+                    format_: "format('JSON')",
+                    date_and_time: newDateAndTime,
+                    base_component_id: baseComponentId,
+                    base_component_id_version: baseComponentIdVersion,
+                    comment: newComment,
+                    rating: newRating
+                }
+
+            )
+            let afdsfds=ipfsHash
+        },500)
+
+    });
+    app.post('/save_debug_text', async function (req, res) {
+        /*
+        ________________________________________
+        |                                      |
+        |       POST /save_debug_text          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     componentSearchDetails    Some text
+        |     ----------------------    can go here
+        |                               and on the
+        |                               following lines
+        |
+        |     second param              Some text
+        |     ------------              can go here
+        |                               and on the
+        |                               following lines
+        |________________________________________________________________________ */
+        let textInput       = req.body.textInput
+        let fileLocation    = req.body.fileLocation
+        fs.writeFileSync(fileLocation, textInput);
+
+//zzz
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({status: "OK"}))
+    })
+    app.post('/get_pipeline_code', async function (req, res) {
+        /*
+        ________________________________________
+        |                                      |
+        |       POST /save_debug_text          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     componentSearchDetails    Some text
+        |     ----------------------    can go here
+        |                               and on the
+        |                               following lines
+        |
+        |     second param              Some text
+        |     ------------              can go here
+        |                               and on the
+        |                               following lines
+        |________________________________________________________________________ */
+        let pipelineFileName        = req.body.pipelineFileName
+        let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
+//zzz
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({value: fileOut}))
+    })
+    app.post('/load_ui_components_v3', async function (req, res) {
+        /*
+                            POST    '/load_ui_components_v3'
+
+                            Loads a bunch of components
+         */
+        let inputComponentsToLoad       = req.body.find_components.items
+        let outputComponents            = []
+
+
+        //----------------------------------------------------------------------------
+        // Go through all the components
+        //----------------------------------------------------------------------------
+        for (let componentItem    of    inputComponentsToLoad ) {
+            let resultsRow = null
+
+
+
+
+            //----------------------------------------------------------------------------
+            // if IPFS Hash given
+            //----------------------------------------------------------------------------
+        if (componentItem.codeId) {
+            componentItem.ipfsHashId = componentItem.codeId
+
+            resultsRow = await yz.getQuickSqlOneRow(
+                dbsearch
+                ,
+                `
+                        SELECT  
+                            system_code.*  
+                        FROM
+                            system_code  
+                        WHERE  
+                            id  = ?
+                        `
+                ,
+                componentItem.codeId)
+
+            //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
+
+
+
+
+
+            //----------------------------------------------------------------------------
+            // if baseComponentId given
+            //----------------------------------------------------------------------------
+            } else if (componentItem.baseComponentId) {
+                resultsRow = await yz.getQuickSqlOneRow(
+                    dbsearch
+                    ,
+                    `
+                    SELECT  
+                        system_code.*  
+                    FROM   
+                        system_code, 
+                        yz_cache_released_components   
+                    WHERE  
+                        yz_cache_released_components.base_component_id = ?
+                            and   
+                        yz_cache_released_components.ipfs_hash = system_code.id 
+                    `
+                    ,
+                    componentItem.baseComponentId)
+
+                if (!resultsRow) {
+                    resultsRow = await yz.getQuickSqlOneRow(
+                        dbsearch
+                        ,
+                        `
+                        SELECT  
+                            system_code.*  
+                        FROM
+                            system_code  
+                        WHERE  
+                            base_component_id  = ?
+                        order by 
+                            creation_timestamp limit 1  
+                        `
+                        ,
+                        componentItem.baseComponentId)
                 }
             }
 
 
 
-            // Pass to next layer of middleware
-            next();
-        });
 
-        app.get('/', function (req, res, next) {
-            //------------------------------------------------------------------------------
-            // Show the default page for the different domains
-            //------------------------------------------------------------------------------
-            //console.log("calling main page")
-            //console.log("jaeger: " + jaegercollector)
-            //console.log("app.get('/'): ")
-            //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            return getRoot(req, res, next);
-        })
-        app.get('/copy_component_get', async function (req, res, next) {
-            let userid              = await getUserId(req)
-            let baseComponentId     = req.query.base_component_id
-            let codeId              = req.query.code_id
-            let newBaseComponentId  = req.query.new_base_component_id
 
-            let args =
-                {
-                    base_component_id: baseComponentId
+
+
+
+
+
+
+
+
+            //----------------------------------------------------------------------------
+            // Add the libs
+            //----------------------------------------------------------------------------
+            if (resultsRow) {
+                let codeId = resultsRow.id
+                let results2 = await yz.getQuickSql(
+                    dbsearch
                     ,
-                    code_id: codeId
+                    "SELECT dependency_name FROM app_dependencies where code_id = ?; "
                     ,
-                    new_base_component_id: newBaseComponentId
-                }
-
-            let response = await copyAppshareApp(args)
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                response
-            ));
-
-        })
-        app.get('/update_code_tags', async function (req, res, next) {
-            let userid          = await getUserId(req)
-
-            await yz.updateCodeTags(
-                dbsearch,
-                {
-                    baseComponentId:    req.query.baseComponentId,
-                    userId:             userid,
-                    sha1sum:            req.query.sha1sum
-                })
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                {status: "Done"}
-            ));
-
-        })
-        app.get('/get_code_commit', async function (req, res, next) {
-            //console.log("calling main page")
-            //console.log("jaeger: " + jaegercollector)
-            let commitId = req.query.commit_id;
+                    codeId)
+                resultsRow.libs = results2
+                outputComponents.push(resultsRow)
+            }
+        }
 
 
-            let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
-            let codeString = codeRecord.code
+        //----------------------------------------------------------------------------
+        // return the result to the API caller
+        //----------------------------------------------------------------------------
+        let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(decorateResult))
+    })
+    app.post('/post_test', async function (req, res) {
+        console.log("app.post('/post_test'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
-            console.log("app.get('/'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                {code: codeString}
-            ));
+        res.writeHead(200, {'Content-Type': 'application/json'});
 
-        })
-        app.post('/call_component', async function (req, res) {
-            console.log("app.post('/call_component'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
+        res.end(JSON.stringify(
+            []
+        ));
 
-            let topApps = []
-            //let baseComponentId = req.body.value.base_component_id
-            //let baseComponentIdVersion = req.body.value.base_component_id_version
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                topApps
-            ));
-        })
-        app.post('/submit_comment', async function (req, res) {
-            console.log("app.post('/submit_comment'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+    });
+    app.post('/get_comments_for_component', async function (req, res) {
+        let baseComponentId = req.body.value.base_component_id
+        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
 
-            let topApps = []
-            let baseComponentId = req.body.value.base_component_id
-            let baseComponentIdVersion = req.body.value.base_component_id_version
-            let newComment = req.body.value.comment
-            let newRating = req.body.value.rating
-            let newDateAndTime = new Date().getTime()
-
-
-            await insertCommentIntoDb(
-                {
-                    baseComponentId:        baseComponentId,
-                    baseComponentIdVersion: baseComponentIdVersion,
-                    newComment:             newComment,
-                    newRating:              newRating,
-                    dateAndTime:            newDateAndTime
-                }
-            )
-            let commentsAndRatings = await getCommentsForComponent(baseComponentId)
-
-            topApps =
+        topApps =
             {
                 status: "ok"
                 ,
@@ -2259,619 +2391,384 @@ async function  startServices() {
                 comments_and_ratings: commentsAndRatings
             }
 
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                topApps
-            ));
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
 
-            setTimeout(async function() {
-                let ipfsHash = await saveJsonItemToIpfs(
-                    {
-                        type: "COMPONENT_COMMENT",
-                        format: "JSON'",
-                        type_: "component_type('COMPONENT_COMMENT')",
-                        format_: "format('JSON')",
-                        date_and_time: newDateAndTime,
-                        base_component_id: baseComponentId,
-                        base_component_id_version: baseComponentIdVersion,
-                        comment: newComment,
-                        rating: newRating
-                    }
-
-                )
-                let afdsfds=ipfsHash
-            },500)
-
-        });
-        app.post('/save_debug_text', async function (req, res) {
-            /*
-            ________________________________________
-            |                                      |
-            |       POST /save_debug_text          |
-            |                                      |
-            |______________________________________|
-            Function description
-            __________
-            | PARAMS |______________________________________________________________
-            |
-            |     componentSearchDetails    Some text
-            |     ----------------------    can go here
-            |                               and on the
-            |                               following lines
-            |
-            |     second param              Some text
-            |     ------------              can go here
-            |                               and on the
-            |                               following lines
-            |________________________________________________________________________ */
-            let textInput       = req.body.textInput
-            let fileLocation    = req.body.fileLocation
-            fs.writeFileSync(fileLocation, textInput);
-
-//zzz
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify({status: "OK"}))
-        })
-        app.post('/get_pipeline_code', async function (req, res) {
-            /*
-            ________________________________________
-            |                                      |
-            |       POST /save_debug_text          |
-            |                                      |
-            |______________________________________|
-            Function description
-            __________
-            | PARAMS |______________________________________________________________
-            |
-            |     componentSearchDetails    Some text
-            |     ----------------------    can go here
-            |                               and on the
-            |                               following lines
-            |
-            |     second param              Some text
-            |     ------------              can go here
-            |                               and on the
-            |                               following lines
-            |________________________________________________________________________ */
-            let pipelineFileName        = req.body.pipelineFileName
-            let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
-//zzz
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify({value: fileOut}))
-        })
-        app.post('/load_ui_components_v3', async function (req, res) {
-            /*
-                                POST    '/load_ui_components_v3'
-
-                                Loads a bunch of components
-             */
-            let inputComponentsToLoad       = req.body.find_components.items
-            let outputComponents            = []
+    });
+    app.get('/login_with_metamask', async function (req, res) {
+        console.log("app.post('/login_with_metamask'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let metamaskAccId = req.query.metamask_account_id;
 
 
-            //----------------------------------------------------------------------------
-            // Go through all the components
-            //----------------------------------------------------------------------------
-            for (let componentItem    of    inputComponentsToLoad ) {
-                let resultsRow = null
+        let sessionId = await getSessionId(req,res)
 
+        let promise = new Promise(async function(returnfn) {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
 
+                let newRandomSeed = uuidv1()
+                let timestampNow = new Date().getTime()
 
-
-                //----------------------------------------------------------------------------
-                // if IPFS Hash given
-                //----------------------------------------------------------------------------
-            if (componentItem.codeId) {
-                componentItem.ipfsHashId = componentItem.codeId
-
-                resultsRow = await yz.getQuickSqlOneRow(
-                    dbsearch
-                    ,
-                    `
-                            SELECT  
-                                system_code.*  
-                            FROM
-                                system_code  
-                            WHERE  
-                                id  = ?
-                            `
-                    ,
-                    componentItem.codeId)
-
-                //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
-
-
-
-
-
-                //----------------------------------------------------------------------------
-                // if baseComponentId given
-                //----------------------------------------------------------------------------
-                } else if (componentItem.baseComponentId) {
-                    resultsRow = await yz.getQuickSqlOneRow(
-                        dbsearch
-                        ,
-                        `
-                        SELECT  
-                            system_code.*  
-                        FROM   
-                            system_code, 
-                            yz_cache_released_components   
-                        WHERE  
-                            yz_cache_released_components.base_component_id = ?
-                                and   
-                            yz_cache_released_components.ipfs_hash = system_code.id 
-                        `
-                        ,
-                        componentItem.baseComponentId)
-
-                    if (!resultsRow) {
-                        resultsRow = await yz.getQuickSqlOneRow(
-                            dbsearch
-                            ,
-                            `
-                            SELECT  
-                                system_code.*  
-                            FROM
-                                system_code  
-                            WHERE  
-                                base_component_id  = ?
-                            order by 
-                                creation_timestamp limit 1  
-                            `
-                            ,
-                            componentItem.baseComponentId)
-                    }
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-                //----------------------------------------------------------------------------
-                // Add the libs
-                //----------------------------------------------------------------------------
-                if (resultsRow) {
-                    let codeId = resultsRow.id
-                    let results2 = await yz.getQuickSql(
-                        dbsearch
-                        ,
-                        "SELECT dependency_name FROM app_dependencies where code_id = ?; "
-                        ,
-                        codeId)
-                    resultsRow.libs = results2
-                    outputComponents.push(resultsRow)
-                }
-            }
-
-
-            //----------------------------------------------------------------------------
-            // return the result to the API caller
-            //----------------------------------------------------------------------------
-            let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(decorateResult))
-        })
-        app.post('/post_test', async function (req, res) {
-            console.log("app.post('/post_test'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-            res.writeHead(200, {'Content-Type': 'application/json'});
-
-            res.end(JSON.stringify(
-                []
-            ));
-
-        });
-        app.post('/get_comments_for_component', async function (req, res) {
-            let baseComponentId = req.body.value.base_component_id
-            let commentsAndRatings = await getCommentsForComponent(baseComponentId)
-
-            topApps =
-                {
-                    status: "ok"
-                    ,
-
-                    comments_and_ratings: commentsAndRatings
-                }
-
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(
-                topApps
-            ));
-
-        });
-        app.get('/login_with_metamask', async function (req, res) {
-            console.log("app.post('/login_with_metamask'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let metamaskAccId = req.query.metamask_account_id;
-
-
-            let sessionId = await getSessionId(req,res)
-
-            let promise = new Promise(async function(returnfn) {
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
-
-                    let newRandomSeed = uuidv1()
-                    let timestampNow = new Date().getTime()
-
-                    stmtInsertMetaMaskLogin.run(uuidv1(), metamaskAccId ,newRandomSeed, timestampNow)
-                    dbsearch.run("commit")
-                    returnfn({
-                        seed: newRandomSeed
-                    })
+                stmtInsertMetaMaskLogin.run(uuidv1(), metamaskAccId ,newRandomSeed, timestampNow)
+                dbsearch.run("commit")
+                returnfn({
+                    seed: newRandomSeed
                 })
-
             })
-            let ret = await promise
 
-            res.writeHead(200, {'Content-Type': 'application/json'});
+        })
+        let ret = await promise
 
-            res.end(JSON.stringify(
-                ret
-            ));
+        res.writeHead(200, {'Content-Type': 'application/json'});
 
-        });
-        app.get('/check_metamask_seed', async function (req, res) {
-            try {
+        res.end(JSON.stringify(
+            ret
+        ));
 
-            console.log("app.get('/check_metamask_seed'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let metamaskAccId = req.query.metamask_account_id;
-            let signedTx = req.query.signedTx;
-            let randomLoginSeed = req.query.random_seed;
-            let sessionId = await getSessionId(req)
+    });
+    app.get('/check_metamask_seed', async function (req, res) {
+        try {
 
-            let promise = new Promise(async function(returnfn) {
+        console.log("app.get('/check_metamask_seed'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let metamaskAccId = req.query.metamask_account_id;
+        let signedTx = req.query.signedTx;
+        let randomLoginSeed = req.query.random_seed;
+        let sessionId = await getSessionId(req)
 
-                dbsearch.serialize(
-                    function() {
-                        dbsearch.all(
-                            " select " +
-                            "     *  " +
-                            " from    " +
-                            "     metamask_logins " +
-                            " where     " +
-                            "     random_seed = ? " +
-                            " order by " +
-                            "     created_timestamp DESC "
-                            ,
-                            [randomLoginSeed]
-                            ,
-                            async function(err, rows) {
-                                if (rows.length == 0 ) {
-                                    returnfn({error: "No record found for account"})
+        let promise = new Promise(async function(returnfn) {
+
+            dbsearch.serialize(
+                function() {
+                    dbsearch.all(
+                        " select " +
+                        "     *  " +
+                        " from    " +
+                        "     metamask_logins " +
+                        " where     " +
+                        "     random_seed = ? " +
+                        " order by " +
+                        "     created_timestamp DESC "
+                        ,
+                        [randomLoginSeed]
+                        ,
+                        async function(err, rows) {
+                            if (rows.length == 0 ) {
+                                returnfn({error: "No record found for account"})
+                            } else {
+                                let firstRow = rows[0]
+                                let signMessage = req.query.sign_message;
+                                let sessionId = await getSessionId(req)
+                                let ret={}
+                                const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
+
+                                if (recoveredSigner == metamaskAccId) {
+                                    ret.status = "Ok"
+
+                                    let login_hashed_id = merkleJson.hash({
+                                        metamask_account_id: metamaskAccId
+                                    })
+
+                                    let promise1 = new Promise(async function(returnfn2) {
+                                        dbsearch.serialize(function() {
+                                            dbsearch.run("begin exclusive transaction");
+                                            stmtInsertUser.run(login_hashed_id, "METAMASK")
+                                            stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
+                                            stmtInsertSessionWithNewUserId.run(login_hashed_id,sessionId)
+                                            dbsearch.run("commit")
+                                            returnfn2()
+                                        })
+
+                                    })
+                                    await promise1
                                 } else {
-                                    let firstRow = rows[0]
-                                    let signMessage = req.query.sign_message;
-                                    let sessionId = await getSessionId(req)
-                                    let ret={}
-                                    const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
-
-                                    if (recoveredSigner == metamaskAccId) {
-                                        ret.status = "Ok"
-
-                                        let login_hashed_id = merkleJson.hash({
-                                            metamask_account_id: metamaskAccId
-                                        })
-
-                                        let promise1 = new Promise(async function(returnfn2) {
-                                            dbsearch.serialize(function() {
-                                                dbsearch.run("begin exclusive transaction");
-                                                stmtInsertUser.run(login_hashed_id, "METAMASK")
-                                                stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
-                                                stmtInsertSessionWithNewUserId.run(login_hashed_id,sessionId)
-                                                dbsearch.run("commit")
-                                                returnfn2()
-                                            })
-
-                                        })
-                                        await promise1
-                                    } else {
-                                        ret.error = "Invalid signature"
-                                    }
-                                    returnfn(ret)
-
+                                    ret.error = "Invalid signature"
                                 }
+                                returnfn(ret)
 
                             }
-                        );
-                    }, sqlite3.OPEN_READONLY)
-            })
-            let ret = await promise
-            res.writeHead(200, {'Content-Type': 'application/json'});
 
-            res.end(JSON.stringify(
-                ret
-            ));
-            } catch(err2)
-            {
-                let x=1
-            }
+                        }
+                    );
+                }, sqlite3.OPEN_READONLY)
+        })
+        let ret = await promise
+        res.writeHead(200, {'Content-Type': 'application/json'});
 
-        });
-        app.get('/bulk_calculate_branch_strength_for_component', async function (req, res) {
-            console.log("app.post('/bulk_calculate_branch_strength_for_component'): ")
-            let baseComponentId = req.query.baseComponentId;
+        res.end(JSON.stringify(
+            ret
+        ));
+        } catch(err2)
+        {
+            let x=1
+        }
 
-            //
-            // first find all the tips
-            //
-            let allTips = await yz.getQuickSql(
-                dbsearch,
+    });
+    app.get('/bulk_calculate_branch_strength_for_component', async function (req, res) {
+        console.log("app.post('/bulk_calculate_branch_strength_for_component'): ")
+        let baseComponentId = req.query.baseComponentId;
 
-                `select  
-                    fk_system_code_id  
-                from  
-                    code_tags  
-                where  
-                    base_component_id = ? 
-                        and 
-                    code_tag = 'TIP'  `,
+        //
+        // first find all the tips
+        //
+        let allTips = await yz.getQuickSql(
+            dbsearch,
 
-                [baseComponentId]
-                )
+            `select  
+                fk_system_code_id  
+            from  
+                code_tags  
+            where  
+                base_component_id = ? 
+                    and 
+                code_tag = 'TIP'  `,
 
-            for (tip of allTips) {
-
-                let numCommitsRow = await yz.getQuickSqlOneRow(
-                    dbsearch,
-                    `with RECURSIVE
-                    parents_of(id2, parent_id2) as (
-                        select id, parent_id from system_code where id = ?
-                            union all
-                        select id, parent_id from system_code,parents_of  where id = parent_id2
-                            limit 10
-                    )
-                select count(*) as num_commits from parents_of`
-                    ,
-                    [tip.fk_system_code_id])
-                let numCommits = numCommitsRow.num_commits
-
-
-
-                await yz.executeQuickSql(
-                    dbsearch,
-
-                    `update 
-                    system_code  
-               set  
-                    score = ?  
-                where  
-                    id = ? `,
-
-                    [numCommits, tip.fk_system_code_id]
-                )
-                await yz.executeQuickSql(
-                    dbsearch,
-
-                    `update 
-                    code_tags  
-               set  
-                    main_score = ?  
-                where  
-                    base_component_id = ? 
-                        and 
-                    fk_system_code_id = ?  
-                        and 
-                    code_tag = 'TIP'  `,
-
-                    [numCommits, baseComponentId, tip.fk_system_code_id ]
-                )
-            }
-
-
-
-
-
-
-            let updatedTips = await yz.getQuickSql(
-                dbsearch,
-
-                `select  
-                    fk_system_code_id  , main_score
-                from  
-                    code_tags  
-                where  
-                    base_component_id = ? 
-                        and 
-                    code_tag = 'TIP'  `,
-
-                [baseComponentId]
+            [baseComponentId]
             )
 
+        for (tip of allTips) {
 
-            res.writeHead(200, {'Content-Type': 'application/json'});
-
-            res.end(JSON.stringify(
-                {
-                    baseComponentId: baseComponentId
-                    ,
-                    tips: updatedTips
-                }
-            ));
-        });
-        app.get('/get_version_history_v2', async function (req, res) {
-
-            console.log("app.post('/get_version_history_v2'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let topApps = []
-            let baseComponentIdToFind = req.query.id;
-            let sessionId = await getSessionId(req)
-            let lastCommitId = req.query.commit_id
-            let currentReturnRows = []
-
-            let selectedCommitRow = await getRowForCommit(lastCommitId)
-            currentReturnRows.push(selectedCommitRow)
-            let returnRows = await getPreviousCommitsFor(
-                {
-                    commitId: selectedCommitRow.id
-                    ,
-                    parentCommitId: selectedCommitRow.parent_commit_id
-                    ,
-                    returnRows: currentReturnRows
-                })
+            let numCommitsRow = await yz.getQuickSqlOneRow(
+                dbsearch,
+                `with RECURSIVE
+                parents_of(id2, parent_id2) as (
+                    select id, parent_id from system_code where id = ?
+                        union all
+                    select id, parent_id from system_code,parents_of  where id = parent_id2
+                        limit 10
+                )
+            select count(*) as num_commits from parents_of`
+                ,
+                [tip.fk_system_code_id])
+            let numCommits = numCommitsRow.num_commits
 
 
-            res.writeHead(200, {'Content-Type': 'application/json'});
 
-            res.end(JSON.stringify(
-                returnRows
-            ));
+            await yz.executeQuickSql(
+                dbsearch,
 
-        });
-        app.get('/get_version_future', async function (req, res) {
+                `update 
+                system_code  
+           set  
+                score = ?  
+            where  
+                id = ? `,
 
-            console.log("app.post('/get_version_future'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let commitId = req.query.commit_id
-            let currentReturnRows = []
+                [numCommits, tip.fk_system_code_id]
+            )
+            await yz.executeQuickSql(
+                dbsearch,
 
-            let firstRow = await getRowForCommit(commitId)
-            currentReturnRows.push(firstRow)
-            let returnRows = await getFutureCommitsFor(
-                {
-                    commitId: commitId
-                    ,
-                    returnRows: currentReturnRows
-                })
+                `update 
+                code_tags  
+           set  
+                main_score = ?  
+            where  
+                base_component_id = ? 
+                    and 
+                fk_system_code_id = ?  
+                    and 
+                code_tag = 'TIP'  `,
 
-            res.writeHead(200, {'Content-Type': 'application/json'});
+                [numCommits, baseComponentId, tip.fk_system_code_id ]
+            )
+        }
 
-            res.end(JSON.stringify(
-                returnRows
-            ));
 
-        });
-        app.post('/editable_apps', async function (req, res) {
 
-            //console.log("app.post('/editable_apps'): ")
-            //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let editableApps = []
-            let userId = await getUserId(req)
 
-            let promise = new Promise(async function(returnfn) {
 
-                dbsearch.serialize(
-                    function() {
-                        dbsearch.all( `SELECT
-                                            system_code.id,
-                                            system_code.base_component_id,
-                                            system_code.read_write_status,
-                                            system_code.display_name
-                                       FROM
-                                            code_tags, system_code
-                                        WHERE
-                                            code_tags.fk_user_id = ?
-                                                AND
-                                            code_tags.fk_system_code_id = system_code.id
-                                                AND
-                                            code_tags.code_tag = "EDIT"`
-                            ,
-                            [userId]
-                            ,
-                            async function(err, rows) {
-                                let returnRows = []
-                                if (!err) {
-                                    try {
-                                        if (rows.length > 0) {
-                                            for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
-                                                let thisRow = rows[rowIndex]
-                                                returnRows.push(
-                                                    {
-                                                        base_component_id: thisRow.base_component_id
-                                                        ,
-                                                        logo: ""
-                                                        ,
-                                                        ipfs_hash: thisRow.id
-                                                        ,
-                                                        display_name: thisRow.display_name
-                                                    })
-                                            }
+
+        let updatedTips = await yz.getQuickSql(
+            dbsearch,
+
+            `select  
+                fk_system_code_id  , main_score
+            from  
+                code_tags  
+            where  
+                base_component_id = ? 
+                    and 
+                code_tag = 'TIP'  `,
+
+            [baseComponentId]
+        )
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            {
+                baseComponentId: baseComponentId
+                ,
+                tips: updatedTips
+            }
+        ));
+    });
+    app.get('/get_version_history_v2', async function (req, res) {
+
+        console.log("app.post('/get_version_history_v2'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let topApps = []
+        let baseComponentIdToFind = req.query.id;
+        let sessionId = await getSessionId(req)
+        let lastCommitId = req.query.commit_id
+        let currentReturnRows = []
+
+        let selectedCommitRow = await getRowForCommit(lastCommitId)
+        currentReturnRows.push(selectedCommitRow)
+        let returnRows = await getPreviousCommitsFor(
+            {
+                commitId: selectedCommitRow.id
+                ,
+                parentCommitId: selectedCommitRow.parent_commit_id
+                ,
+                returnRows: currentReturnRows
+            })
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            returnRows
+        ));
+
+    });
+    app.get('/get_version_future', async function (req, res) {
+
+        console.log("app.post('/get_version_future'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let commitId = req.query.commit_id
+        let currentReturnRows = []
+
+        let firstRow = await getRowForCommit(commitId)
+        currentReturnRows.push(firstRow)
+        let returnRows = await getFutureCommitsFor(
+            {
+                commitId: commitId
+                ,
+                returnRows: currentReturnRows
+            })
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            returnRows
+        ));
+
+    });
+    app.post('/editable_apps', async function (req, res) {
+
+        //console.log("app.post('/editable_apps'): ")
+        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let editableApps = []
+        let userId = await getUserId(req)
+
+        let promise = new Promise(async function(returnfn) {
+
+            dbsearch.serialize(
+                function() {
+                    dbsearch.all( `SELECT
+                                        system_code.id,
+                                        system_code.base_component_id,
+                                        system_code.read_write_status,
+                                        system_code.display_name
+                                   FROM
+                                        code_tags, system_code
+                                    WHERE
+                                        code_tags.fk_user_id = ?
+                                            AND
+                                        code_tags.fk_system_code_id = system_code.id
+                                            AND
+                                        code_tags.code_tag = "EDIT"`
+                        ,
+                        [userId]
+                        ,
+                        async function(err, rows) {
+                            let returnRows = []
+                            if (!err) {
+                                try {
+                                    if (rows.length > 0) {
+                                        for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
+                                            let thisRow = rows[rowIndex]
+                                            returnRows.push(
+                                                {
+                                                    base_component_id: thisRow.base_component_id
+                                                    ,
+                                                    logo: ""
+                                                    ,
+                                                    ipfs_hash: thisRow.id
+                                                    ,
+                                                    display_name: thisRow.display_name
+                                                })
                                         }
-
-
-
-
-                                    } catch(err) {
-                                        console.log(err);
-                                        let stack = new Error().stack
-                                        console.log( stack )
-                                    } finally {
-                                        returnfn(returnRows)
                                     }
 
-                                } else {
+
+
+
+                                } catch(err) {
                                     console.log(err);
+                                    let stack = new Error().stack
+                                    console.log( stack )
+                                } finally {
+                                    returnfn(returnRows)
                                 }
+
+                            } else {
+                                console.log(err);
                             }
-                        );
-                    }, sqlite3.OPEN_READONLY)
-            })
-            let ret = await promise
+                        }
+                    );
+                }, sqlite3.OPEN_READONLY)
+        })
+        let ret = await promise
 
-            editableApps = ret
+        editableApps = ret
 
-            res.writeHead(200, {'Content-Type': 'application/json'});
+        res.writeHead(200, {'Content-Type': 'application/json'});
 
-            res.end(JSON.stringify(
-                editableApps
-            ));
+        res.end(JSON.stringify(
+            editableApps
+        ));
 
-        });
-        app.post('/topapps', async function (req, res) {
-            //console.log("app.post('/topapps'): ")
-            //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let topApps = []
-            let sessionId = await getSessionId(req)
+    });
+    app.post('/topapps', async function (req, res) {
+        //console.log("app.post('/topapps'): ")
+        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let topApps = []
+        let sessionId = await getSessionId(req)
 
-            let promise = new Promise(async function(returnfn) {
+        let promise = new Promise(async function(returnfn) {
 
-                dbsearch.serialize(
-                    function() {
-                        dbsearch.all(
-                            " select  " +
-                            "     distinct(yz_cache_released_components.id), component_name, app_icon_data, ipfs_hash, yz_cache_released_components.base_component_id " +
-                            " from " +
-                            "     yz_cache_released_components " +
-                            " inner JOIN " +
-                            "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
-                            " and " +
-                            "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
-                            ,
-                            []
-                            ,
-                            async function(err, rows) {
-                                let returnRows = []
-                                if (!err) {
-                                    try {
-                                        if (rows.length > 0) {
-                                            for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
-                                                let thisRow = rows[rowIndex]
-                                                returnRows.push(
-                                                    {
+            dbsearch.serialize(
+                function() {
+                    dbsearch.all(
+                        " select  " +
+                        "     distinct(yz_cache_released_components.id), component_name, app_icon_data, ipfs_hash, yz_cache_released_components.base_component_id " +
+                        " from " +
+                        "     yz_cache_released_components " +
+                        " inner JOIN " +
+                        "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
+                        " and " +
+                        "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
+                        ,
+                        []
+                        ,
+                        async function(err, rows) {
+                            let returnRows = []
+                            if (!err) {
+                                try {
+                                    if (rows.length > 0) {
+                                        for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
+                                            let thisRow = rows[rowIndex]
+                                            returnRows.push(
+                                                {
 
-                                                        data: {
-                                                            id:                 thisRow.base_component_id
-                                                            ,
-                                                            base_component_id:  thisRow.base_component_id
-                                                            ,
-                                                            logo:               thisRow.app_icon_data
-                                                            ,
-                                                            ipfs_hash:          thisRow.ipfs_hash
-                                                            ,
-                                                            display_name:       thisRow.app_name
-                                                        }
-                                                        ,
+                                                    data: {
                                                         id:                 thisRow.base_component_id
                                                         ,
                                                         base_component_id:  thisRow.base_component_id
@@ -2881,455 +2778,465 @@ async function  startServices() {
                                                         ipfs_hash:          thisRow.ipfs_hash
                                                         ,
                                                         display_name:       thisRow.app_name
+                                                    }
+                                                    ,
+                                                    id:                 thisRow.base_component_id
+                                                    ,
+                                                    base_component_id:  thisRow.base_component_id
+                                                    ,
+                                                    logo:               thisRow.app_icon_data
+                                                    ,
+                                                    ipfs_hash:          thisRow.ipfs_hash
+                                                    ,
+                                                    display_name:       thisRow.app_name
 
-                                                    })
-                                            }
+                                                })
                                         }
-
-
-
-
-                                    } catch(err) {
-                                        console.log(err);
-                                        let stack = new Error().stack
-                                        console.log( stack )
-                                    } finally {
-                                        returnfn(returnRows)
                                     }
 
-                                } else {
+
+
+
+                                } catch(err) {
                                     console.log(err);
+                                    let stack = new Error().stack
+                                    console.log( stack )
+                                } finally {
+                                    returnfn(returnRows)
                                 }
+
+                            } else {
+                                console.log(err);
                             }
-                        );
-                    }, sqlite3.OPEN_READONLY)
-            })
-            let ret = await promise
-
-            topApps = ret
-
-            res.writeHead(200, {'Content-Type': 'application/json'});
-
-            res.end(JSON.stringify(
-                topApps
-            ));
-
-        });
-        app.get('/live-check',(req,res)=> {
-
-           outputDebug("Live check passed")
-           res.send ("Live check passed");
-        });
-        app.get('/readiness-check',(req,res)=> {
-            if (systemReady) {
-                outputDebug("Readiness check passed")
-                res.send ("Readiness check passed");
-            } else {
-                outputDebug("Readiness check failed")
-                res.status(500).send('Readiness check did not pass');
-            }
-        });
-        app.get('/edit/*', function (req, res) {
-            //------------------------------------------------------------------------------
-            // Allow an app to be edited
-            //------------------------------------------------------------------------------
-        	return getEditApp(req, res);
+                        }
+                    );
+                }, sqlite3.OPEN_READONLY)
         })
-        app.post('/add_or_update_app', async function (req, res) {
+        let ret = await promise
+
+        topApps = ret
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            topApps
+        ));
+
+    });
+    app.get('/live-check',(req,res)=> {
+
+       outputDebug("Live check passed")
+       res.send ("Live check passed");
+    });
+    app.get('/readiness-check',(req,res)=> {
+        if (systemReady) {
+            outputDebug("Readiness check passed")
+            res.send ("Readiness check passed");
+        } else {
+            outputDebug("Readiness check failed")
+            res.status(500).send('Readiness check did not pass');
+        }
+    });
+    app.get('/edit/*', function (req, res) {
+        //------------------------------------------------------------------------------
+        // Allow an app to be edited
+        //------------------------------------------------------------------------------
+        return getEditApp(req, res);
+    })
+    app.post('/add_or_update_app', async function (req, res) {
 console.log("/add_or_update_app")
-            let baseComponentIdLocal = req.body.base_component_id
+        let baseComponentIdLocal = req.body.base_component_id
 console.log("/add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
-            let srcCode = req.body.src_code
+        let srcCode = req.body.src_code
 console.log("/add_or_update_app:srcCode := " + srcCode.length)
-            let ipfsHash = req.body.ipfs_hash
+        let ipfsHash = req.body.ipfs_hash
 console.log("/add_or_update_app:ipfsHash := " + ipfsHash)
 
-            await addOrUpdateDriver(srcCode ,
-                                    {
-                                     save_html: true,
-                                     username: "default",
-                                     reponame: baseComponentIdLocal,
-                                     version: "latest",
-                                     ipfsHashId: ipfsHash})
+        await addOrUpdateDriver(srcCode ,
+                                {
+                                 save_html: true,
+                                 username: "default",
+                                 reponame: baseComponentIdLocal,
+                                 version: "latest",
+                                 ipfsHashId: ipfsHash})
 console.log("/add_or_update_app:addOrUpdateDriver completed")
-            res.status(200).send('Code registered');
-        })
-        /* what happens if we register a false or bad IPFS address? All code sent here
-         *  should be validated */
-        app.post('/register_ipfs_content_for_client', async function (req, res) {
+        res.status(200).send('Code registered');
+    })
+    /* what happens if we register a false or bad IPFS address? All code sent here
+     *  should be validated */
+    app.post('/register_ipfs_content_for_client', async function (req, res) {
 
-            let ipfsHash = req.body.ipfs_hash
-            let ipfsContent = req.body.ipfs_content
-            let parsedCode = await parseCode(ipfsContent)
-            await registerIPFS(ipfsHash);
-            res.status(200).send('IPFS content registered');
-        })
-        app.use("/files",   express.static(path.join(userData, '/files/')));
-        app.use("/weights",   express.static(path.join(userData, '/weights/')));
+        let ipfsHash = req.body.ipfs_hash
+        let ipfsContent = req.body.ipfs_content
+        let parsedCode = await parseCode(ipfsContent)
+        await registerIPFS(ipfsHash);
+        res.status(200).send('IPFS content registered');
+    })
+    app.use("/files",   express.static(path.join(userData, '/files/')));
+    app.use("/weights",   express.static(path.join(userData, '/weights/')));
 
 
 
-        function getBaseComponentIdFromRequest(req){
-            let parts = req.path.split('/');
-            let appHtmlFile = parts.pop() || parts.pop();
+    function getBaseComponentIdFromRequest(req){
+        let parts = req.path.split('/');
+        let appHtmlFile = parts.pop() || parts.pop();
 
-            let appName = appHtmlFile.split('.').slice(0, -1).join('.')
-            return appName
+        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
+        return appName
+    }
+
+
+    //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
+    app.get('/app/*', function (req, res, next) {
+        console.log("app.get('/app'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        if (req.kauth) {
+            outputDebug('Keycloak details from server:')
+            outputDebug(req.kauth.grant)
+        }
+        let parts = req.path.split('/');
+        let appHtmlFile = parts.pop() || parts.pop();
+
+        //console.log("appHtemlFile: " + appHtmlFile);
+
+        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
+        //console.log("appName: " + appName);
+
+         //console.log("path: " + path);
+
+         let appFilePath = path.join(userData, 'apps/' + appHtmlFile)
+         let fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
+         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+         res.end(fileC2);
+
+
+    })
+    //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
+    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+    app.use(            express.static(path.join(__dirname, '../public/')))
+    app.use(bodyParser.json()); // support json encoded bodies
+    app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
+    //app.use(useragent.express())
+
+
+    app.post("/save_code_v3" , async function (req, res) {
+        let userid
+        let optionsForSave
+        let saveResult
+        let savedCode
+
+        userid          = await getUserId(req)
+        optionsForSave  = req.body.value.options
+
+        if (optionsForSave) {
+            optionsForSave.userId = userid
+        }
+
+        saveResult = await yz.saveCodeV3(
+            dbsearch,
+            req.body.value.code,
+            optionsForSave)
+
+        savedCode       = req.body.value.code
+        await createNewTip(savedCode, saveResult.code_id, userid);
+
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify(saveResult))
+    });
+    app.post("/load_component" , async function (req, res) {
+
+
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({return: "from load component"}))
+    });
+    app.post("/save_component" , async function (req, res) {
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({return: "from save component"}))
+    });
+    app.post("/get_commit_hash_id" , async function (req, res) {
+        //
+        // get stuff
+        //
+        let code = req.body.text;
+
+        let ipfsHash = await OnlyIpfsHash.of(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash: ipfsHash,
+        }))
+    })
+    app.post("/bookmark_commit" , async function (req, res) {
+        //
+        // get stuff
+        //
+        let ipfsHash = req.body.value.code_id;
+        let version = req.body.value.version;
+        let userId = req.body.value.user_id;
+
+
+        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        await yz.tagVersion(dbsearch, ipfsHash, code)
+
+
+        //let parsedCode = await parseCode(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   ipfsHash,
+        }))
+    })
+    app.post("/release_commit" , async function (req, res) {
+        //
+        // get stuff
+        //
+        let ipfsHash = req.body.value.code_id;
+        let version = req.body.value.version;
+        let userId = req.body.value.user_id;
+
+
+        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        await yz.tagVersion(dbsearch, ipfsHash, code)
+        await releaseCode(ipfsHash, code)
+
+
+        //let parsedCode = await parseCode(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   ipfsHash,
+        }))
+    })
+    app.post("/copy_component" , async function (req, res) {
+        //
+        // get stuff
+        //
+        let copy_base_component_id = req.body.value.base_component_id;
+        let copy_image_data = req.body.value.image_data;
+
+
+        //
+        // copy the main EVM control
+        //
+        let srcText = fs.readFileSync(
+                                path.join(__dirname,
+                                '../public/visifile_drivers/' + req.body.value.relative_filename_to_copy)
+                                ,
+                                'utf8')
+
+        //
+        // give the new smart contract control a new name
+        //
+        let componentToCopyBaseComponentId = yz.getValueOfCodeString(srcText,"base_component_id")
+        srcText = srcText.replaceAll(componentToCopyBaseComponentId, copy_base_component_id)
+
+
+        //
+        // design_time_html
+        //
+        let design_time_html = req.body.value.design_time_html
+        if ( design_time_html ) {
+            srcText = yz.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
         }
 
 
-        //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
-        app.get('/app/*', function (req, res, next) {
-            console.log("app.get('/app'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        //
+        // DESIGN TIME MOUNTED CODE
+        //
+        let designTimeMountedCode = req.body.value.design_time_mounted_code
+        if (designTimeMountedCode) {
+            srcText = yz.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
+        }
 
-            if (req.kauth) {
-                outputDebug('Keycloak details from server:')
-                outputDebug(req.kauth.grant)
+
+
+        //
+        // RUN TIME MOUNTED CODE
+        //
+        let runtimeMountedCode = req.body.value.runtime_mounted_code
+        if (runtimeMountedCode) {
+            srcText = yz.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
+        }
+
+
+
+        //
+        // VARS CODE
+        //
+        let varsCode = req.body.value.vars_code
+        if (varsCode) {
+            srcText = yz.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
+        }
+
+
+
+
+        //
+        // run_time_html
+        //
+        let run_time_html = req.body.value.run_time_html
+        if (run_time_html) {
+            srcText = yz.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
+        }
+
+
+
+
+
+
+        //
+        // give the new smart contract control a new icon logo
+        //
+        if (copy_image_data) {
+            let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
+            if (logoValue) {
+                srcText = yz.deleteCodeString(srcText, "logo_url")
             }
-            let parts = req.path.split('/');
-            let appHtmlFile = parts.pop() || parts.pop();
-
-            //console.log("appHtemlFile: " + appHtmlFile);
-
-            let appName = appHtmlFile.split('.').slice(0, -1).join('.')
-            //console.log("appName: " + appName);
-
-             //console.log("path: " + path);
-
-             let appFilePath = path.join(userData, 'apps/' + appHtmlFile)
-             let fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
-             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-             res.end(fileC2);
+            srcText = yz.insertCodeString(srcText, "logo_url",copy_image_data)
+        }
 
 
-        })
-        //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
-        app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-        app.use(            express.static(path.join(__dirname, '../public/')))
-        app.use(bodyParser.json()); // support json encoded bodies
-        app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
-        //app.use(useragent.express())
 
 
-        app.post("/save_code_v3" , async function (req, res) {
-            let userid
-            let optionsForSave
-            let saveResult
-            let savedCode
 
-            userid          = await getUserId(req)
-            optionsForSave  = req.body.value.options
-
-            if (optionsForSave) {
-                optionsForSave.userId = userid
+        //
+        // give the new component a new logo
+        //
+        if (req.body.value.logo_url) {
+            let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
+            if (logoValue) {
+                srcText = yz.deleteCodeString(srcText, "logo_url")
             }
-
-            saveResult = await yz.saveCodeV3(
-                dbsearch,
-                req.body.value.code,
-                optionsForSave)
-
-            savedCode       = req.body.value.code
-            await createNewTip(savedCode, saveResult.code_id, userid);
+            srcText = yz.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
+        }
 
 
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify(saveResult))
-        });
-        app.post("/load_component" , async function (req, res) {
+        //
+        // copy over some properties defaults from the existing component
+        //
+        let default_property_values = req.body.value.default_property_values;
+        let propertiesToChange = Object.keys(default_property_values)
+        for (let propertyToChangeIndex = 0; propertyToChangeIndex < propertiesToChange.length;propertyToChangeIndex++){
+            let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
+            let propertyValue = default_property_values[propertyNameToChange]
+            srcText = yz.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
+        }
+
+
+        //
+        // create some new properties in the new component
+        //
+        let newProperties = req.body.value.new_properties;
+        for ( let newPropertyIndex = 0 ; newPropertyIndex < newProperties.length ; newPropertyIndex++ ){
+            let newProperty = newProperties[newPropertyIndex]
+            srcText = yz.addProperty(srcText,newProperty)
+        }
+
+
+        //
+        // create new methods in the new component
+        //
+        let newMethods = req.body.value.new_methods;
+        if (newMethods) {
+            for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
+                let newMethod = newMethods[newMethodIndex]
+                srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
+            }
+        }
 
 
 
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify({return: "from load component"}))
-        });
-        app.post("/save_component" , async function (req, res) {
 
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify({return: "from save component"}))
-        });
-        app.post("/get_commit_hash_id" , async function (req, res) {
-            //
-            // get stuff
-            //
-            let code = req.body.text;
+        //
+        // create new methods in the new component
+        //
+        let newMethodsV2 = req.body.value.new_methods_v2;
+        if (newMethodsV2) {
+            for ( let newMethodIndex = 0 ; newMethodIndex < newMethodsV2.length ; newMethodIndex++ ){
+                let newMethod = newMethodsV2[newMethodIndex]
+                srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
+                let newMethodProperty = newMethod.properties
+                srcText = yz.addProperty(srcText,newMethodProperty)
+            }
+        }
 
-            let ipfsHash = await OnlyIpfsHash.of(code)
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify({
-                ipfsHash: ipfsHash,
+
+
+        //
+        // Delete any IPFS from the component class. Unfortunately this can't be stored in IPFS itself
+        //
+        let properties = yz.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
+        srcText = yz.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
+        for (let irte = 0 ; irte < properties.length ; irte++ ) {
+            let brje = properties[irte]
+            if (brje) {
+                if (brje.id == "ipfs_hash_id") {
+                    brje.default = ""//ipfsHash
+                }
+            }
+        }
+        srcText = yz.insertCodeString(  srcText,
+            "properties",
+            properties,
+            ")//prope" + "rties")
+
+
+
+
+        //fs.writeFileSync( "z.txt",  srcText.toString() )
+
+
+
+
+
+
+
+
+
+
+        //
+        // save the new smart contract component
+        //
+        let codeRet = await addOrUpdateDriver(srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
+        let codeId = codeRet.codeId
+
+
+
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   codeId,
+            return:     srcText
             }))
-        })
-        app.post("/bookmark_commit" , async function (req, res) {
-            //
-            // get stuff
-            //
-            let ipfsHash = req.body.value.code_id;
-            let version = req.body.value.version;
-            let userId = req.body.value.user_id;
-
-
-            let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
-            await yz.tagVersion(dbsearch, ipfsHash, code)
-
-
-            //let parsedCode = await parseCode(code)
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify({
-                ipfsHash:   ipfsHash,
-            }))
-        })
-        app.post("/release_commit" , async function (req, res) {
-            //
-            // get stuff
-            //
-            let ipfsHash = req.body.value.code_id;
-            let version = req.body.value.version;
-            let userId = req.body.value.user_id;
-
-
-            let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
-            await yz.tagVersion(dbsearch, ipfsHash, code)
-            await releaseCode(ipfsHash, code)
-
-
-            //let parsedCode = await parseCode(code)
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify({
-                ipfsHash:   ipfsHash,
-            }))
-        })
-        app.post("/copy_component" , async function (req, res) {
-            //
-            // get stuff
-            //
-            let copy_base_component_id = req.body.value.base_component_id;
-            let copy_image_data = req.body.value.image_data;
-
-
-            //
-            // copy the main EVM control
-            //
-            let srcText = fs.readFileSync(
-                                    path.join(__dirname,
-                                    '../public/visifile_drivers/' + req.body.value.relative_filename_to_copy)
-                                    ,
-                                    'utf8')
-
-            //
-            // give the new smart contract control a new name
-            //
-            let componentToCopyBaseComponentId = yz.getValueOfCodeString(srcText,"base_component_id")
-            srcText = srcText.replaceAll(componentToCopyBaseComponentId, copy_base_component_id)
-
-
-            //
-            // design_time_html
-            //
-            let design_time_html = req.body.value.design_time_html
-            if ( design_time_html ) {
-                srcText = yz.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
-            }
-
-
-            //
-            // DESIGN TIME MOUNTED CODE
-            //
-            let designTimeMountedCode = req.body.value.design_time_mounted_code
-            if (designTimeMountedCode) {
-                srcText = yz.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
-            }
-
-
-
-            //
-            // RUN TIME MOUNTED CODE
-            //
-            let runtimeMountedCode = req.body.value.runtime_mounted_code
-            if (runtimeMountedCode) {
-                srcText = yz.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
-            }
-
-
-
-            //
-            // VARS CODE
-            //
-            let varsCode = req.body.value.vars_code
-            if (varsCode) {
-                srcText = yz.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
-            }
-
-
-
-
-            //
-            // run_time_html
-            //
-            let run_time_html = req.body.value.run_time_html
-            if (run_time_html) {
-                srcText = yz.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
-            }
-
-
-
-
-
-
-            //
-            // give the new smart contract control a new icon logo
-            //
-            if (copy_image_data) {
-                let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
-                if (logoValue) {
-                    srcText = yz.deleteCodeString(srcText, "logo_url")
-                }
-                srcText = yz.insertCodeString(srcText, "logo_url",copy_image_data)
-            }
-
-
-
-
-
-            //
-            // give the new component a new logo
-            //
-            if (req.body.value.logo_url) {
-                let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
-                if (logoValue) {
-                    srcText = yz.deleteCodeString(srcText, "logo_url")
-                }
-                srcText = yz.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
-            }
-
-
-            //
-            // copy over some properties defaults from the existing component
-            //
-            let default_property_values = req.body.value.default_property_values;
-            let propertiesToChange = Object.keys(default_property_values)
-            for (let propertyToChangeIndex = 0; propertyToChangeIndex < propertiesToChange.length;propertyToChangeIndex++){
-                let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
-                let propertyValue = default_property_values[propertyNameToChange]
-                srcText = yz.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
-            }
-
-
-            //
-            // create some new properties in the new component
-            //
-            let newProperties = req.body.value.new_properties;
-            for ( let newPropertyIndex = 0 ; newPropertyIndex < newProperties.length ; newPropertyIndex++ ){
-                let newProperty = newProperties[newPropertyIndex]
-                srcText = yz.addProperty(srcText,newProperty)
-            }
-
-
-            //
-            // create new methods in the new component
-            //
-            let newMethods = req.body.value.new_methods;
-            if (newMethods) {
-                for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
-                    let newMethod = newMethods[newMethodIndex]
-                    srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
-                }
-            }
-
-
-
-
-            //
-            // create new methods in the new component
-            //
-            let newMethodsV2 = req.body.value.new_methods_v2;
-            if (newMethodsV2) {
-                for ( let newMethodIndex = 0 ; newMethodIndex < newMethodsV2.length ; newMethodIndex++ ){
-                    let newMethod = newMethodsV2[newMethodIndex]
-                    srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
-                    let newMethodProperty = newMethod.properties
-                    srcText = yz.addProperty(srcText,newMethodProperty)
-                }
-            }
-
-
-
-            //
-            // Delete any IPFS from the component class. Unfortunately this can't be stored in IPFS itself
-            //
-            let properties = yz.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
-            srcText = yz.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
-            for (let irte = 0 ; irte < properties.length ; irte++ ) {
-                let brje = properties[irte]
-                if (brje) {
-                    if (brje.id == "ipfs_hash_id") {
-                        brje.default = ""//ipfsHash
-                    }
-                }
-            }
-            srcText = yz.insertCodeString(  srcText,
-                "properties",
-                properties,
-                ")//prope" + "rties")
-
-
-
-
-            //fs.writeFileSync( "z.txt",  srcText.toString() )
-
-
-
-
-
-
-
-
-
-
-            //
-            // save the new smart contract component
-            //
-            let codeRet = await addOrUpdateDriver(srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
-            let codeId = codeRet.codeId
-
-
-
-
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end(JSON.stringify({
-                ipfsHash:   codeId,
-                return:     srcText
-                }))
-        });
-        app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
-            console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
-            return file_uploadSingleFn(req, res, next);
-        });
-        app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
-            console.log("File upload: " + JSON.stringify(req.file.originalname,null,2))
-            return file_uploadSingleFn(req, res, next);
-        });
-        app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
-            return file_uploadFn(req, res, next);
-        });
-        app.get('/code_upload', function (req, res, next) {
-            code_uploadFn(req, res);
-
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end("Done");
-        });
-        app.get('/file_name_load', function (req, res, next) {
-            //console.log("Hit file_name_load")
-            file_name_load(req, res);
-
-            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            res.end("Done");
-        });
-        app.get('/lock', function (req, res) {
-            return lockFn(req, res);
-        })
-    }
+    });
+    app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
+        console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
+        return file_uploadSingleFn(req, res, next);
+    });
+    app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
+        console.log("File upload: " + JSON.stringify(req.file.originalname,null,2))
+        return file_uploadSingleFn(req, res, next);
+    });
+    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
+        return file_uploadFn(req, res, next);
+    });
+    app.get('/code_upload', function (req, res, next) {
+        code_uploadFn(req, res);
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end("Done");
+    });
+    app.get('/file_name_load', function (req, res, next) {
+        //console.log("Hit file_name_load")
+        file_name_load(req, res);
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end("Done");
+    });
+    app.get('/lock', function (req, res) {
+        return lockFn(req, res);
+    })
 
     process.on('uncaughtException', function (err) {
       outputDebug(err);
@@ -3344,57 +3251,51 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
     //------------------------------------------------------------------------------
     // start the web server
     //------------------------------------------------------------------------------
-    if (!isCodeTtyCode) {
-        if (useHttps) {
-            if (!certOptions) {
-                let caCerts = readCerts()
-                certOptions = {
-                  key: fs.readFileSync(privateKey, 'utf8'),
-                  cert: fs.readFileSync(publicCertificate, 'utf8'),
-                  ca: caCerts
-                }
+    if (useHttps) {
+        if (!certOptions) {
+            let caCerts = readCerts()
+            certOptions = {
+              key: fs.readFileSync(privateKey, 'utf8'),
+              cert: fs.readFileSync(publicCertificate, 'utf8'),
+              ca: caCerts
             }
-            certOptions.requestCert = true
-            certOptions.rejectUnauthorized = false
-
-            httpServer = https.createServer(certOptions,app)
-
-        } else {
-            httpServer = http.createServer(app)
-
         }
-        socket = require2('socket.io')(http)
-        httpServer.listen(port, hostaddress, function () {
+        certOptions.requestCert = true
+        certOptions.rejectUnauthorized = false
 
-                outputDebug("****HOST=" + hostaddress + "HOST****\n");
-                outputDebug("****PORT=" + port+ "PORT****\n");
-                outputDebug('Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
+        httpServer = https.createServer(certOptions,app)
 
+    } else {
+        httpServer = http.createServer(app)
 
-
-
-            //
-            // We dont listen on websockets here with socket.io as often they stop working!!!
-            // Crazy, I know!!!! So we removed websockets from the list of transports below
-            //
-            io = socket.listen(httpServer, {
-                log: false,
-                agent: false,
-                origins: '*:*',
-                transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
-            });
-
-            io.on('connection', function (sck) {
-                let connt = JSON.stringify(sck.conn.transport,null,2);
-                websocketFn(sck)
-            });
-
-        })
     }
+    socket = require2('socket.io')(http)
+    httpServer.listen(port, hostaddress, function () {
+
+            outputDebug("****HOST=" + hostaddress + "HOST****\n");
+            outputDebug("****PORT=" + port+ "PORT****\n");
+            outputDebug('Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
 
 
 
 
+        //
+        // We dont listen on websockets here with socket.io as often they stop working!!!
+        // Crazy, I know!!!! So we removed websockets from the list of transports below
+        //
+        io = socket.listen(httpServer, {
+            log: false,
+            agent: false,
+            origins: '*:*',
+            transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
+        });
+
+        io.on('connection', function (sck) {
+            let connt = JSON.stringify(sck.conn.transport,null,2);
+            websocketFn(sck)
+        });
+
+    })
 
     childProcessNameInScheduler            = "forkedExeScheduler"
 
@@ -3421,14 +3322,8 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
         await checkForJSLoaded();
         await findLocalIpfsContent();
 
-
-        if (isCodeTtyCode) {
-            await finalizeYazzLoading()
-        } else {
-            setUpSql()
-            setUpPredefinedComponents({message_type:       'setUpPredefinedComponents'});
-        }
-
+        setUpSql()
+        setUpPredefinedComponents({message_type:       'setUpPredefinedComponents'});
 
     },1000)
 
@@ -3483,120 +3378,51 @@ async function  findLocalIpfsContent() {
 }
 async function  finalizeYazzLoading() {
     setUpSql();
-    if (!isCodeTtyCode) {
-        console.log(`
-          YYYYYYY       YYYYYYY
-          Y:::::Y       Y:::::Y
-          Y:::::Y       Y:::::Y
-          Y::::::Y     Y::::::Y
-          YYY:::::Y   Y:::::YYYaaaaaaaaaaaaa   zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-             Y:::::Y Y:::::Y   a::::::::::::a  z:::::::::::::::zz:::::::::::::::z
-              Y:::::Y:::::Y    aaaaaaaaa:::::a z::::::::::::::z z::::::::::::::z
-               Y:::::::::Y              a::::a zzzzzzzz::::::z  zzzzzzzz::::::z
-                Y:::::::Y        aaaaaaa:::::a       z::::::z         z::::::z
-                 Y:::::Y       aa::::::::::::a      z::::::z         z::::::z
-                 Y:::::Y      a::::aaaa::::::a     z::::::z         z::::::z
-                 Y:::::Y     a::::a    a:::::a    z::::::z         z::::::z
-                 Y:::::Y     a::::a    a:::::a   z::::::zzzzzzzz  z::::::zzzzzzzz
-              YYYY:::::YYYY  a:::::aaaa::::::a  z::::::::::::::z z::::::::::::::z
-              Y:::::::::::Y   a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
-              YYYYYYYYYYYYY    aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+    console.log(`
+      YYYYYYY       YYYYYYY
+      Y:::::Y       Y:::::Y
+      Y:::::Y       Y:::::Y
+      Y::::::Y     Y::::::Y
+      YYY:::::Y   Y:::::YYYaaaaaaaaaaaaa   zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+         Y:::::Y Y:::::Y   a::::::::::::a  z:::::::::::::::zz:::::::::::::::z
+          Y:::::Y:::::Y    aaaaaaaaa:::::a z::::::::::::::z z::::::::::::::z
+           Y:::::::::Y              a::::a zzzzzzzz::::::z  zzzzzzzz::::::z
+            Y:::::::Y        aaaaaaa:::::a       z::::::z         z::::::z
+             Y:::::Y       aa::::::::::::a      z::::::z         z::::::z
+             Y:::::Y      a::::aaaa::::::a     z::::::z         z::::::z
+             Y:::::Y     a::::a    a:::::a    z::::::z         z::::::z
+             Y:::::Y     a::::a    a:::::a   z::::::zzzzzzzz  z::::::zzzzzzzz
+          YYYY:::::YYYY  a:::::aaaa::::::a  z::::::::::::::z z::::::::::::::z
+          Y:::::::::::Y   a::::::::::aa:::az:::::::::::::::zz:::::::::::::::z
+          YYYYYYYYYYYYY    aaaaaaaaaa  aaaazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 
 
 
-           222222222222222         000000000      222222222222222     222222222222222
-          2:::::::::::::::22     00:::::::::00   2:::::::::::::::22  2:::::::::::::::22
-          2::::::222222:::::2  00:::::::::::::00 2::::::222222:::::2 2::::::222222:::::2
-          2222222     2:::::2 0:::::::000:::::::02222222     2:::::2 2222222     2:::::2
-                      2:::::2 0::::::0   0::::::0            2:::::2             2:::::2
-                      2:::::2 0:::::0     0:::::0            2:::::2             2:::::2
-                   2222::::2  0:::::0     0:::::0         2222::::2           2222::::2
-              22222::::::22   0:::::0 000 0:::::0    22222::::::22       22222::::::22
-            22::::::::222     0:::::0 000 0:::::0  22::::::::222       22::::::::222
-           2:::::22222        0:::::0     0:::::0 2:::::22222         2:::::22222
-          2:::::2             0:::::0     0:::::02:::::2             2:::::2
-          2:::::2             0::::::0   0::::::02:::::2             2:::::2
-          2:::::2       2222220:::::::000:::::::02:::::2       2222222:::::2       222222
-          2::::::2222222:::::2 00:::::::::::::00 2::::::2222222:::::22::::::2222222:::::2
-          2::::::::::::::::::2   00:::::::::00   2::::::::::::::::::22::::::::::::::::::2
-          22222222222222222222     000000000     2222222222222222222222222222222222222222
+       222222222222222         000000000      222222222222222     222222222222222
+      2:::::::::::::::22     00:::::::::00   2:::::::::::::::22  2:::::::::::::::22
+      2::::::222222:::::2  00:::::::::::::00 2::::::222222:::::2 2::::::222222:::::2
+      2222222     2:::::2 0:::::::000:::::::02222222     2:::::2 2222222     2:::::2
+                  2:::::2 0::::::0   0::::::0            2:::::2             2:::::2
+                  2:::::2 0:::::0     0:::::0            2:::::2             2:::::2
+               2222::::2  0:::::0     0:::::0         2222::::2           2222::::2
+          22222::::::22   0:::::0 000 0:::::0    22222::::::22       22222::::::22
+        22::::::::222     0:::::0 000 0:::::0  22::::::::222       22::::::::222
+       2:::::22222        0:::::0     0:::::0 2:::::22222         2:::::22222
+      2:::::2             0:::::0     0:::::02:::::2             2:::::2
+      2:::::2             0::::::0   0::::::02:::::2             2:::::2
+      2:::::2       2222220:::::::000:::::::02:::::2       2222222:::::2       222222
+      2::::::2222222:::::2 00:::::::::::::00 2::::::2222222:::::22::::::2222222:::::2
+      2::::::::::::::::::2   00:::::::::00   2::::::::::::::::::22::::::::::::::::::2
+      22222222222222222222     000000000     2222222222222222222222222222222222222222
 
-`)
+    `)
 
-console.log("\nAppShare Instance ID: " + yazzInstanceId );
-console.log("\nRunning " + executionProcessCount + " virtual processors");
-console.log("\nAppShare started on:");
-let localAddress =  hostaddress + ':' + port
-console.log("Local Machine Address: " + localAddress);
-console.log("Network Host Address. Click to open: " + serverProtocol + "://" + hostaddressintranet + ':' + port)
-
-
-} else {
-
-
-                let parsedInput = null
-                try {
-                    parsedInput = eval("(" + inputStdin + ")");
-                } catch(qwe) {
-                    //console.log("Err: " + qwe);
-                    try {
-                        let pss = "('" + inputStdin + "')";
-                        pss = pss.replace(/(\r\n|\n|\r)/gm, "");
-                        parsedInput = eval(pss);
-                    } catch(ex) {
-                        //console.log(ex)
-                    }
-                }
-                //console.log("client args:" + JSON.stringify( parsedInput,null,2))
-
-                //console.log("Parsed: " + JSON.stringify(parsedInput));
-
-                (async function() {
-                let promise = new Promise(async function(returnFn) {
-                    let seqNum = queuedResponseSeqNum;
-                    queuedResponseSeqNum ++;
-                    queuedResponses[ seqNum ] = function(value) {
-                        returnFn(value)
-                    }
-
-                    if(startupType == "RUN_SERVER_CODE") {
-                        setTimeout(function(){
-                            callDriverMethod({
-                                            message_type:          "callDriverMethod",
-                                            find_component:         {
-                                                                        base_component_id: runapp
-                                                                    }
-                                                                    ,
-                                            args:                   parsedInput
-                                                                    ,
-                                            seq_num_parent:         null,
-                                            seq_num_browser:        null,
-                                            seq_num_local:          seqNum,
-                                        });
-                        },startupDelay)
-
-
-                    } else {
-
-                                }
-
-
-
-                })
-                let ret = await promise
-                //console.log("ret: "  +  JSON.stringify(ret,null,2))
-
-                if (ret.value) {
-                    //console.log(JSON.stringify(ret.value,null,2));
-                    process.stdout.write(JSON.stringify(ret.value,null,2));
-                    process.stdout.write('\n');
-                    //console.log("Who let the dogs out!");
-                }
-
-                //shutDown();
-                process.exit();
-            })()
-    }
+    console.log("\nAppShare Instance ID: " + yazzInstanceId );
+    console.log("\nRunning " + executionProcessCount + " virtual processors");
+    console.log("\nAppShare started on:");
+    let localAddress =  hostaddress + ':' + port
+    console.log("Local Machine Address: " + localAddress);
+    console.log("Network Host Address. Click to open: " + serverProtocol + "://" + hostaddressintranet + ':' + port)
 
     systemReady = true
 }
@@ -4531,22 +4357,8 @@ async function  createdTablesInChild() {
         mainNodeProcessStarted = true
         outputDebug("createdTablesInChild")
 
-
-
-
-        isCodeTtyCode = await isTtyCode()
-        //console.log("isCodeTtyCode:= " + isCodeTtyCode)
-
-
-
-        if (isCodeTtyCode) {
-            await startServices()
-        } else {
-            console.log("Loading Yazz. Please wait a few minutes ... ")
-            getPort()
-
-
-        }
+        console.log("Loading Yazz. Please wait a few minutes ... ")
+        getPort()
     }
 }
 function        callDriverMethod(msg) {
