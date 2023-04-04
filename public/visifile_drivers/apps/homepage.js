@@ -1227,7 +1227,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |     other
                     |     -----
                     |________________________________________________________________________ */
-                    debugger
                     let mm = this
                     if (baseComponentId) {
                         for (let thisApp of mm.editable_app_list) {
