@@ -884,7 +884,7 @@ function        setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 }
 
-// networking helper to send data to the browser via websocker
+// networking helper to send data to the browser via websockets
 function        sendOverWebSockets(data) {
     let ll = serverwebsockets.length;
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
@@ -902,10 +902,108 @@ function        sendOverWebSockets(data) {
         }
     }
 }
+function        sendToBrowserViaWebSocket(aws, msg) {
+// ============================================================
+// This sends a message to a specific websocket
+// ============================================================
+    aws.emit(msg.type,msg);
+}
 
 // JS helper fns
 function        isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
+}
+function        isLocalMachine(req) {
+    if ((req.ip == '127.0.0.1') || (hostaddress == req.ip) || (hostaddress == "0.0.0.0")) {  // this is the correct line to use
+        //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
+        return true;
+    };
+    return false;
+}
+function        canAccess(req,res) {
+//------------------------------------------------------------------------------
+// test if allowed
+//------------------------------------------------------------------------------
+    if (!locked) {
+        return true;
+    };
+    if (isLocalMachine(req) ) {
+        return true;
+    };
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their Yazz account");
+    return false;
+};
+function        runOnPageExists(req, res, homepage) {
+
+    if (fs.existsSync(homepage)) {
+        if (!canAccess(req,res)) {
+            return;
+        }
+        res.end(fs.readFileSync(homepage));
+    } else {
+        setTimeout(function() {
+            runOnPageExists(req, res, homepage)
+        },3000)
+    }
+
+
+}
+function        isRequestFromMobile(req) {
+    let uasource = req.headers['user-agent']
+    let uaval = useragent.parse(uasource);
+
+    // a Boolean that tells you if the request
+    // is from a mobile device
+    let isMobile = uaval.isMobile
+    if (!isMobile) {
+    }
+    //console.log("uaval: "  + JSON.stringify(uaval,null,2))
+    return isMobile
+}
+function        bytesToMb(bytes) {
+    return (bytes / 1024 ) / 1024
+}
+function        getChildMem(childProcessName,stats) {
+    let memoryused = 0
+    if (stats) {
+        memoryused = stats.memory ;
+        totalMem += memoryused
+    }
+    if (showStats) {
+        outputDebug(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
+    }
+}
+function        usePid(childProcessName,childprocess) {
+    pidusage(childprocess.pid, function (err, stats) {
+        getChildMem(childProcessName,stats)
+        returnedmemCount ++
+        if (returnedmemCount == allForked.length) {
+            if (showStats) {
+                outputDebug("------------------------------------")
+                outputDebug(" TOTAL MEM = " + bytesToMb(totalMem) + " MB")
+                outputDebug("------------------------------------")
+            }
+            inmemcalc = false
+            yazzMemoryUsageMetric.set(totalMem)
+
+        }
+    });
+
+}
+function        resetTimer(messageToStart) {
+    console.log("Starting timer for: " + messageToStart)
+    globalStartTimer = new Date().getTime()
+    globalTimerCounter = 0
+}
+function        showTimer(optionalMessage) {
+    globalEndTimer = new Date().getTime()
+    globalTimerCounter ++
+    let theTimerText = optionalMessage
+    if (!theTimerText) {
+        theTimerText = "" + globalTimerCounter
+    }
+    console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
 }
 
 
@@ -1237,2116 +1335,6 @@ async function  checkForJSLoaded() {
 
      return
 }
-
-
-function        sendToBrowserViaWebSocket(aws, msg) {
-// ============================================================
-// This sends a message to a specific websocket
-// ============================================================
-    aws.emit(msg.type,msg);
-}
-function        isLocalMachine(req) {
-    if ((req.ip == '127.0.0.1') || (hostaddress == req.ip) || (hostaddress == "0.0.0.0")) {  // this is the correct line to use
-    //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
-        return true;
-    };
-    return false;
-}
-function        canAccess(req,res) {
-//------------------------------------------------------------------------------
-// test if allowed
-//------------------------------------------------------------------------------
-    if (!locked) {
-        return true;
-    };
-    if (isLocalMachine(req) ) {
-        return true;
-    };
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their Yazz account");
-    return false;
-};
-function        runOnPageExists(req, res, homepage) {
-
-    if (fs.existsSync(homepage)) {
-        if (!canAccess(req,res)) {
-            return;
-        }
-        res.end(fs.readFileSync(homepage));
-    } else {
-        setTimeout(function() {
-            runOnPageExists(req, res, homepage)
-        },3000)
-    }
-
-
-}
-function        isRequestFromMobile(req) {
-    let uasource = req.headers['user-agent']
-    let uaval = useragent.parse(uasource);
-
-    // a Boolean that tells you if the request
-    // is from a mobile device
-    let isMobile = uaval.isMobile
-    if (!isMobile) {
-    }
-    //console.log("uaval: "  + JSON.stringify(uaval,null,2))
-    return isMobile
-}
-function        getRoot(req, res, next) {
-	hostcount++;
-
-    //console.log("Host: " + req.headers.host + ", " + hostcount);
-	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
-	let isMobile = isRequestFromMobile(req)
-
-    let homepage = path.join(__dirname, '../public/go.html')
-    //let homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
-    //let homepageUrl = serverProtocol + '://www.yazz.com'
-    let homepageUrl = 'https://yazz.com/app/homepage.html'
-    if (isMobile) {
-        homepageUrl = 'https://yazz.com/app/mobilehomepage.html'
-    }
-    //console.log("req.headers.host: " + req.headers.host)
-	if (req.headers.host) {
-        if (req.query.goto) {
-            outputDebug("*** FOUND goto")
-            res.end(fs.readFileSync(homepage));
-            return
-        }
-        if (req.query.embed) {
-            outputDebug("*** FOUND embed")
-            res.end(fs.readFileSync(homepage));
-            return
-        }
-        if (req.headers.host.toLowerCase().endsWith('www.yazz.com')) {
-		res.writeHead(301,
-			{Location: homepageUrl }
-			);
-			res.end();
-			return;
-		};
-        if (req.headers.host.toLowerCase().endsWith('yazz.com')) {
-            res.writeHead(301,
-                {Location: homepageUrl }
-            );
-            res.end();
-            return;
-        };
-        if (req.headers.host.toLowerCase().endsWith('dannea.com')) {
-		res.writeHead(301,
-			{Location: homepageUrl }
-			);
-			res.end();
-			return;
-		};
-		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-		res.writeHead(301,
-			{Location: 'http://canlabs.com/canlabs/index.html'}
-			);
-			res.end();
-			return;
-		};
-		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
-		res.writeHead(301,
-			{Location: homepageUrl }
-			);
-			res.end();
-			return;
-		};
-		if (req.headers.host.toLowerCase().endsWith('visifile.com')) {
-		res.writeHead(301,
-			{Location: homepageUrl }
-			);
-			res.end();
-			return;
-		};
-		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
-		res.writeHead(301,
-			{Location: homepageUrl}
-			);
-			res.end();
-			return;
-		};
-        if (req.headers.host.toLowerCase().endsWith('appshare.co')) {
-		res.writeHead(301,
-			{Location: homepageUrl }
-			);
-			res.end();
-			return;
-		};
-	};
-
-    if (isValidObject(envVars.YAZZ_RUN_APP)) {
-        runapp = envVars.YAZZ_RUN_APP
-    }
-
-    if (runhtml && (!req.query.goto) && (!req.query.embed)) {
-        homepage = runhtml
-        runOnPageExists(req,res,homepage)
-        return
-    } else if (runapp && (!req.query.goto) && (!req.query.embed)) {
-        homepage = path.join( userData, 'apps/' + runapp + '.html' )
-        runOnPageExists(req,res,homepage)
-        return
-
-
-
-
-
-    } else if (loadjsurl && (!req.query.goto) && (!req.query.embed)) {
-        homepage = path.join( userData, 'apps/' + runapp + '.html' )
-        runOnPageExists(req,res,homepage)
-        return
-
-
-    } else if (loadjsfile && (!req.query.goto) && (!req.query.embed)) {
-        homepage = path.join( userData, 'apps/' + runapp + '.html' )
-        runOnPageExists(req,res,homepage)
-        return
-
-    } else if (loadjscode && (!req.query.goto) && (!req.query.embed)) {
-        homepage = path.join( userData, 'apps/' + runapp + '.html' )
-        runOnPageExists(req,res,homepage)
-        return
-
-
-    } else {
-
-        if (isMobile) {
-            homepage = path.join( userData, 'apps/mobilehomepage.html' )
-        } else {
-            homepage = path.join( userData, 'apps/homepage.html' )
-        }
-        runOnPageExists(req,res,homepage)
-        return
-    }
-    outputDebug("Serving: " + homepage)
-
-
-}
-function        getEditApp(req, res) {
-	hostcount++;
-
-    // I dont know why sockets.io calls .map files here
-    if (req.path.endsWith(".map")) {
-        return
-    }
-    let parts = req.path.split('/');
-    let lastSegment = parts.pop() || parts.pop();
-
-    outputDebug("URL PATH: " + lastSegment);
-	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
-
-
-
-    //
-    // send the edit page
-    //
-    let homepage = path.join(__dirname, '../public/go.html')
-    let baseComponentId = lastSegment
-    let newStaticFileContent = fs.readFileSync(homepage)
-    newStaticFileContent = newStaticFileContent.toString().replace("let editAppShareApp = null", "let editAppShareApp = '" + baseComponentId + "'")
-
-
-
-    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-    res.end(newStaticFileContent);
-}
-function        websocketFn(ws) {
-    serverwebsockets.push(ws);
-    sendToBrowserViaWebSocket(ws, {type: "socket_connected"});
-    sendOverWebSockets({
-                          type:   "env_vars",
-                          value:   envVars
-                          });
-    //console.log('Socket connected : ' + serverwebsockets.length);
-    sendOverWebSockets({
-                          type:   "network_ip_address_intranet",
-                          value:   hostaddressintranet
-                          });
-    sendOverWebSockets({
-                        type:   "send_is_win",
-                        value:   isWin
-                        });
-
-    ws.on('message', async function(msg) {
-        let receivedMessage = eval("(" + msg + ")");
-
-        let userId = await getUserIdFromYazzCookie(receivedMessage.cookie)
-
-        //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
-
-        // if we get the message "server_get_all_queries" from the web browser
-        if (receivedMessage.message_type == "server_get_all_queries") {
-
-            let seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = ws;
-
-
-
-
-
-
-
-
-
-
-        //                                  ______
-        // Browser  --Send me your data-->  Server
-        //                                  ______
-        //
-        } else if (receivedMessage.message_type == "edit_static_app") {
-            outputDebug("*** server got message from static app: edit_static_app")
-            let sql_data = receivedMessage.sql_data
-            let code_fn = receivedMessage.code_fn
-
-
-            save_code_from_upload({
-                    message_type:           "save_code_from_upload",
-                    base_component_id:      receivedMessage.base_component_id,
-                    parent_hash:            null,
-                    code:                   code_fn,
-                    client_file_upload_id:  -1,
-                    options:                {save_html: true, fast_forward_database_to_latest_revision: true},
-                    sqlite_data:            sql_data
-               });
-
-
-
-            sendToBrowserViaWebSocket(  ws,
-                                        {
-                                            type:       "edit_static_app_url"
-                                            ,
-
-                                            url:        receivedMessage.host_editor_address +
-                                                        "/edit/" +
-                                                        receivedMessage.base_component_id
-                                            ,
-
-                                            size_of_db: "" + (sql_data?sql_data.length:0)
-                                            ,
-                                            code_fn: "" + (code_fn?code_fn.length:0)
-
-                                        });
-
-
-
-        //                                  ______
-        // Browser  --Send me your data-->  Server
-        //                                  ______
-        //
-        } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
-
-            let seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = ws;
-
-
-
-
-
-
-
-
-    } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
-
-        let seqNum = queuedResponseSeqNum;
-        queuedResponseSeqNum ++;
-        queuedResponses[seqNum] = ws;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // --------------------------------------------------------------------
-        //
-        //                         browser_calls_component_via_web_socket
-        //
-        // "browser_calls_component_via_web_socket" is used to call server side apps/code.
-        //
-        //
-        //
-        // --------------------------------------------------------------------
-        } else if (receivedMessage.message_type == "browser_calls_component_via_web_socket") {
-
-            // Use an integer counter to identify whoever was
-            // calling the server function (in this case a web browser with
-            // a web socket). We need to do this as there may be several
-            // web browsers connected to this one server
-            let seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[ seqNum ] = ws;
-
-
-            if (receivedMessage.find_component && receivedMessage.find_component.base_component_id == "systemFunctionAppSql") {
-
-                let resultOfSql = await executeSqliteForApp(  receivedMessage.args  )
-                sendToBrowserViaWebSocket(
-                                             ws
-                                             ,
-                                             {
-                                                type:            "ws_to_browser_call_component_results",
-                                                value:            resultOfSql,
-                                                seq_num:          receivedMessage.seqNum
-                                             });
-
-
-
-            } else {
-                receivedMessage.args.user_id = userId
-                callDriverMethod({
-                                message_type:          "callDriverMethod",
-                                find_component:         receivedMessage.find_component,
-                                args:                   receivedMessage.args,
-                                seq_num_parent:         seqNum,
-                                seq_num_browser:        receivedMessage.seqNum
-                            });
-            }
-
-        }
-    });
-};
-function        file_uploadSingleFn(req, res) {
-      //console.log('-----  file_uploadSingle  --------------');
-      //console.log(req.file);
-      //console.log("**FILE** " + JSON.stringify(Object.keys(req)));
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-
-      //console.log(JSON.stringify(req.files.length));
-      //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
-      let client_file_upload_id = req.body.client_file_upload_id
-      //console.log("**client_file_upload_id** " + JSON.stringify(client_file_upload_id));
-      //console.log(    "    next: " + JSON.stringify(next));
-
-      res.status( 200 ).send( req.file );
-
-      //console.log('Loading saved Creator app' );
-      let ifile = req.file
-      //console.log("        " + JSON.stringify(ifile));
-      let ext = ifile.originalname.split('.').pop();
-      ext = ext.toLowerCase();
-      //console.log('Ext: ' + ext);
-      if ((ext == "html") || (ext == "html")) {
-      let localp2;
-      localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-          let localp = localp2 + '.' + ext;
-          fs.renameSync(localp2, localp);
-          let readIn = fs.readFileSync(localp).toString()
-          //console.log('');
-          //console.log('Local saved path: ' + localp);
-          let indexStart = readIn.indexOf("/*APP_START*/")
-          let indexEnd = readIn.indexOf("/*APP_END*/")
-          //console.log(`indexStart: ${indexStart}`)
-          //console.log(`indexEnd: ${indexEnd}`)
-          if ((indexStart > 0) && (indexEnd > 0)) {
-            indexStart += 13 + 10
-            indexEnd -= 2
-            let tts = readIn.substring(indexStart,indexEnd)
-            //console.log(tts)
-            let ytr = unescape(tts)
-            outputDebug("SENDING FROM UPLOAD___=+++****")
-            let bci = yz.getValueOfCodeString(ytr, "base_component_id")
-
-            let indexStart = readIn.indexOf("/*APP_START*/")
-            let indexEnd = readIn.indexOf("/*APP_END*/")
-
-            let indexOfSqliteData = readIn.indexOf("let sqlitedata = '")
-            let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
-
-            let sqlitedatafromupload = null
-            if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
-                sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
-                                                                    indexOfSqliteDataEnd)
-            }
-
-            save_code_from_upload({
-                                                message_type:           "save_code_from_upload",
-                                                base_component_id:      bci,
-                                                parent_hash:            null,
-                                                code:                   ytr,
-                                                client_file_upload_id:  client_file_upload_id,
-                                                options:                {save_html: true, fast_forward_database_to_latest_revision: true},
-                                                sqlite_data:            sqlitedatafromupload
-                                           });
-          }
-      } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz") )  {
-              let localp2;
-              localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-              let localp = localp2 + '.' + ext;
-              fs.renameSync(localp2, localp);
-              let readIn = fs.readFileSync(localp).toString()
-              let bci = yz.getValueOfCodeString(readIn, "base_component_id")
-
-
-
-              save_code_from_upload({
-                                                    message_type:           "save_code_from_upload",
-                                                    base_component_id:      bci,
-                                                    parent_hash:            null,
-                                                    code:                   readIn,
-                                                    client_file_upload_id:  client_file_upload_id,
-                                                    options:                {save_html: true, fast_forward_database_to_latest_revision: false},
-                                                    sqlite_data:            ""
-                                               });
-
-      } else {
-        outputDebug('Ignoring file ');
-
-      }
-
-
-};
-function        file_uploadFn(req, res, next) {
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-      //console.log('-------------------------------------------------------------------------------------');
-
-      //console.log(JSON.stringify(req.files.length));
-      //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
-      let client_file_upload_id = req.body.client_file_upload_id
-      //console.log("**FILES** " + JSON.stringify(req.files));
-      //console.log(    "    next: " + JSON.stringify(next));
-
-
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      //console.log('......................................................................................');
-      res.status( 200 ).send( req.files );
-
-      let ll = req.files.length;
-      for (let i = 0; i < ll ; i ++) {
-          //console.log('Loading saved Creator app' );
-          let ifile = req.files[i];
-          //console.log("        " + JSON.stringify(ifile));
-          let ext = ifile.originalname.split('.').pop();
-          ext = ext.toLowerCase();
-          //console.log('Ext: ' + ext);
-          if ((ext == "html") || (ext == "html")) {
-          let localp2;
-          localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-              let localp = localp2 + '.' + ext;
-              fs.renameSync(localp2, localp);
-              let readIn = fs.readFileSync(localp).toString()
-              //console.log('');
-              //console.log('Local saved path: ' + localp);
-              let indexStart = readIn.indexOf("/*APP_START*/")
-              let indexEnd = readIn.indexOf("/*APP_END*/")
-              //console.log(`indexStart: ${indexStart}`)
-              //console.log(`indexEnd: ${indexEnd}`)
-              if ((indexStart > 0) && (indexEnd > 0)) {
-                indexStart += 13 + 10
-                indexEnd -= 2
-                let tts = readIn.substring(indexStart,indexEnd)
-                //console.log(tts)
-                let ytr = unescape(tts)
-                outputDebug("SENDINF FROM UPLAOD___=+++****")
-                let bci = yz.getValueOfCodeString(ytr, "base_component_id")
-
-                let indexStart = readIn.indexOf("/*APP_START*/")
-                let indexEnd = readIn.indexOf("/*APP_END*/")
-
-                let indexOfSqliteData = readIn.indexOf("let sqlitedata = '")
-                let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
-
-                let sqlitedatafromupload = null
-                if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
-                    sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
-                                                                        indexOfSqliteDataEnd)
-                }
-
-                save_code_from_upload({
-                                                    message_type:           "save_code_from_upload",
-                                                    base_component_id:      bci,
-                                                    parent_hash:            null,
-                                                    code:                   ytr,
-                                                    client_file_upload_id:  client_file_upload_id,
-                                                    options:                {save_html: true, fast_forward_database_to_latest_revision: true},
-                                                    sqlite_data:            sqlitedatafromupload
-                                               });
-              }
-          } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz")  )  {
-                  let localp2;
-                  localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-                  let localp = localp2 + '.' + ext;
-                  fs.renameSync(localp2, localp);
-                  loadAppFromFile(localp,client_file_upload_id)
-          } else {
-            outputDebug('Ignoring file ');
-
-          }
-
-    }
-
-};
-function        file_name_load(req, res, next) {
-      //console.log("params: " + JSON.stringify(req.query,null,2))
-      loadAppFromFile(  req.query.file_name_load,
-                        req.query.client_file_upload_id)
-};
-function        loadAppFromFile(localp,client_file_upload_id) {
-    console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
-    let readIn = fs.readFileSync(localp).toString()
-    let bci = yz.getValueOfCodeString(readIn, "base_component_id")
-
-
-
-    save_code_from_upload({
-                                          message_type:           "save_code_from_upload",
-                                          base_component_id:      bci,
-                                          parent_hash:            null,
-                                          code:                   readIn,
-                                          client_file_upload_id:  client_file_upload_id,
-                                          options:                {
-                                              save_html: true,
-                                              fast_forward_database_to_latest_revision: false,
-                                              save_code_to_file: localp
-                                          },                                          sqlite_data:            ""
-                                     });
-
-}
-function        code_uploadFn(req, res) {
-
-    save_code_from_upload({
-                                            message_type:           "save_code_from_upload",
-                                            parent_hash:            null,
-                                            code:                   "function(args) {  /* rest_api('test3') */ return {ab: 163}}",
-                                            options:                {save_html: true},
-                                            sqlite_data:            ""
-                                       });
-
-
-
-};
-function        keycloakProtector(params) {
-    return function(req,res,next) {
-        next()
-        return
-        let appName2=null
-        if (params.compIdFromReqFn) {
-            appName2 = params.compIdFromReqFn(req)
-        }
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                    "SELECT  code  FROM  yz_cache_released_components  WHERE  base_component_id = ? ; ",
-                    appName2,
-
-                    function(err, results)
-                    {
-                        if (results.length == 0) {
-                            outputDebug("Could not find component : " + appName2)
-                        } else {
-                            outputDebug("Found code for : " + appName2)
-                            let fileC = results[0].code.toString()
-                            //console.log("Code : " + fileC)
-
-                            let sscode = yz.getValueOfCodeString(fileC,"keycloak",")//keycloak")
-                            //console.log("sscode:" + sscode)
-
-
-                            if (sscode) {
-                                //let ssval = eval( "(" + sscode + ")")
-                                //console.log("keycloak: " + JSON.stringify(sscode,null,2))
-
-                                keycloak.protect()(req, res, next)
-
-                            } else {
-                                next()
-                            }
-
-                        }
-
-                    })
-        }, sqlite3.OPEN_READONLY)
-    }
-}
-async function  createNewTip(savedCode, codeId, userId) {
-    /*
-    Create a new code tip for the current code. This code tip
-    moves the TIP tag forward for the code. But the code can have
-    multiple tips, so this wouldn't make sense. The tip only makes
-    sense for the current user editing the code
-     */
-    let parentCodeTag
-    let baseComponentId
-    let parentHash
-
-    baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
-    parentHash      = yz.getValueOfCodeString(savedCode,"parent_hash")
-
-    parentCodeTag = await yz.getQuickSqlOneRow(
-        dbsearch,
-        "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
-        [parentHash, userId])
-
-    if (parentCodeTag) {
-        await yz.executeQuickSql(
-            dbsearch,
-            "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
-            [parentHash])
-    }
-
-    await yz.executeQuickSql(
-        dbsearch
-        ,
-        `insert into 
-                    code_tags 
-                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
-                 values  
-                     (?,?,?,?,?)
-                     `,
-        [uuidv1(), baseComponentId, "TIP", codeId, userId])
-}
-async function  startServices() {
-    //------------------------------------------------------------
-    // This starts all the system services
-    //------------------------------------------------------------
-    if (useHttps) {
-
-        let app2             = express()
-
-        let newhttp = http.createServer(app2);
-        app2.use(compression())
-        app2.get('/', function (req, res, next) {
-            return getRoot(req, res, next);
-        })
-
-
-        app2.get('*', function(req, res) {
-             if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-                outputDebug("path: " + req.path)
-
-                let rty = req.path
-                if (req.path == "/canlabs") {
-                    rty = "/canlabs/index.html"
-                }
-
-                let fileNameRead = path.join(__dirname, '../public' + rty)
-                res.end(fs.readFileSync(fileNameRead));
-
-
-             } else if (  req.path.indexOf(".well-known") != -1  ) {
-                let fileNameRead = path.join(__dirname, '../public' + req.path)
-                res.end(fs.readFileSync(fileNameRead));
-
-
-             } else {
-                 //outputDebug("Redirect HTTP to HTTPS")
-                 res.redirect('https://' + req.headers.host + req.url);
-             }
-        })
-
-        newhttp.listen(80);
-    }
-
-
-    app.use(compression())
-    app.use(cors({ origin: '*' }));
-    app.use(async function (req, res, next) {
-
-        let oneof = false;
-        if(req.headers.origin) {
-            res.header('Access-Control-Allow-Origin', req.headers.origin);
-            oneof = true;
-        }
-        if(req.headers['access-control-request-method']) {
-            res.header('Access-Control-Allow-Methods', req.headers['access-control-request-method']);
-            oneof = true;
-        }
-        if(req.headers['access-control-request-headers']) {
-            res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
-            oneof = true;
-        }
-        if(oneof) {
-            res.header('Access-Control-Max-Age', 60 * 60 * 24 * 365);
-        }
-
-
-        // Set to true if you need the website to include cookies in the requests sent
-        // to the API (e.g. in case you use sessions)
-        res.setHeader('Access-Control-Allow-Credentials', true);
-
-
-        let userAgentString = req.headers['user-agent']
-        let hostCookieSentTo = req.host
-        let cookie = req.cookies.yazz;
-
-
-        let from_device_type = userAgentString
-        if (typeof userAgentString  !== 'undefined') {
-            if (typeof cookie === undefined) {
-                // no: set a new cookie
-                let randomNumber =  uuidv1()
-                res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
-                await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
-                //console.log('cookie created successfully');
-            } else {
-                // yes, cookie was already present
-                //console.log('cookie exists', cookie);
-
-                //
-                // check if cookie exists in the DB. If not then set a new cookie
-                //
-                let cookieRecord = await getCookieRecord(cookie)
-                if (cookieRecord == null) {
-                    let randomNumber =  uuidv1()
-                    res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
-                    await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
-                    //console.log('No cookie found in Yazz DB, cookie created successfully');
-                }
-
-            }
-        }
-
-
-
-        // Pass to next layer of middleware
-        next();
-    });
-
-    app.get('/', function (req, res, next) {
-        //------------------------------------------------------------------------------
-        // Show the default page for the different domains
-        //------------------------------------------------------------------------------
-        //console.log("calling main page")
-        //console.log("jaeger: " + jaegercollector)
-        //console.log("app.get('/'): ")
-        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        return getRoot(req, res, next);
-    })
-    app.get('/copy_component_get', async function (req, res, next) {
-        let userid              = await getUserId(req)
-        let baseComponentId     = req.query.base_component_id
-        let codeId              = req.query.code_id
-        let newBaseComponentId  = req.query.new_base_component_id
-
-        let args =
-            {
-                base_component_id: baseComponentId
-                ,
-                code_id: codeId
-                ,
-                new_base_component_id: newBaseComponentId
-            }
-
-        let response = await copyAppshareApp(args)
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            response
-        ));
-
-    })
-    app.get('/update_code_tags', async function (req, res, next) {
-        let userid          = await getUserId(req)
-
-        await yz.updateCodeTags(
-            dbsearch,
-            {
-                baseComponentId:    req.query.baseComponentId,
-                userId:             userid,
-                sha1sum:            req.query.sha1sum
-            })
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            {status: "Done"}
-        ));
-
-    })
-    app.get('/get_code_commit', async function (req, res, next) {
-        //console.log("calling main page")
-        //console.log("jaeger: " + jaegercollector)
-        let commitId = req.query.commit_id;
-
-
-        let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
-        let codeString = codeRecord.code
-
-        console.log("app.get('/'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            {code: codeString}
-        ));
-
-    })
-    app.post('/call_component', async function (req, res) {
-        console.log("app.post('/call_component'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
-
-        let topApps = []
-        //let baseComponentId = req.body.value.base_component_id
-        //let baseComponentIdVersion = req.body.value.base_component_id_version
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            topApps
-        ));
-    })
-    app.post('/submit_comment', async function (req, res) {
-        console.log("app.post('/submit_comment'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-        let topApps = []
-        let baseComponentId = req.body.value.base_component_id
-        let baseComponentIdVersion = req.body.value.base_component_id_version
-        let newComment = req.body.value.comment
-        let newRating = req.body.value.rating
-        let newDateAndTime = new Date().getTime()
-
-
-        await insertCommentIntoDb(
-            {
-                baseComponentId:        baseComponentId,
-                baseComponentIdVersion: baseComponentIdVersion,
-                newComment:             newComment,
-                newRating:              newRating,
-                dateAndTime:            newDateAndTime
-            }
-        )
-        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
-
-        topApps =
-        {
-            status: "ok"
-            ,
-
-            comments_and_ratings: commentsAndRatings
-        }
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            topApps
-        ));
-
-        setTimeout(async function() {
-            let ipfsHash = await saveJsonItemToIpfs(
-                {
-                    type: "COMPONENT_COMMENT",
-                    format: "JSON'",
-                    type_: "component_type('COMPONENT_COMMENT')",
-                    format_: "format('JSON')",
-                    date_and_time: newDateAndTime,
-                    base_component_id: baseComponentId,
-                    base_component_id_version: baseComponentIdVersion,
-                    comment: newComment,
-                    rating: newRating
-                }
-
-            )
-            let afdsfds=ipfsHash
-        },500)
-
-    });
-    app.post('/save_debug_text', async function (req, res) {
-        /*
-        ________________________________________
-        |                                      |
-        |       POST /save_debug_text          |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     componentSearchDetails    Some text
-        |     ----------------------    can go here
-        |                               and on the
-        |                               following lines
-        |
-        |     second param              Some text
-        |     ------------              can go here
-        |                               and on the
-        |                               following lines
-        |________________________________________________________________________ */
-        let textInput       = req.body.textInput
-        let fileLocation    = req.body.fileLocation
-        fs.writeFileSync(fileLocation, textInput);
-
-//zzz
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({status: "OK"}))
-    })
-    app.post('/get_pipeline_code', async function (req, res) {
-        /*
-        ________________________________________
-        |                                      |
-        |       POST /save_debug_text          |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     componentSearchDetails    Some text
-        |     ----------------------    can go here
-        |                               and on the
-        |                               following lines
-        |
-        |     second param              Some text
-        |     ------------              can go here
-        |                               and on the
-        |                               following lines
-        |________________________________________________________________________ */
-        let pipelineFileName        = req.body.pipelineFileName
-        let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
-//zzz
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({value: fileOut}))
-    })
-    app.post('/load_ui_components_v3', async function (req, res) {
-        /*
-                            POST    '/load_ui_components_v3'
-
-                            Loads a bunch of components
-         */
-        let inputComponentsToLoad       = req.body.find_components.items
-        let outputComponents            = []
-
-
-        //----------------------------------------------------------------------------
-        // Go through all the components
-        //----------------------------------------------------------------------------
-        for (let componentItem    of    inputComponentsToLoad ) {
-            let resultsRow = null
-
-
-
-
-            //----------------------------------------------------------------------------
-            // if IPFS Hash given
-            //----------------------------------------------------------------------------
-        if (componentItem.codeId) {
-            componentItem.ipfsHashId = componentItem.codeId
-
-            resultsRow = await yz.getQuickSqlOneRow(
-                dbsearch
-                ,
-                `
-                        SELECT  
-                            system_code.*  
-                        FROM
-                            system_code  
-                        WHERE  
-                            id  = ?
-                        `
-                ,
-                componentItem.codeId)
-
-            //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
-
-
-
-
-
-            //----------------------------------------------------------------------------
-            // if baseComponentId given
-            //----------------------------------------------------------------------------
-            } else if (componentItem.baseComponentId) {
-                resultsRow = await yz.getQuickSqlOneRow(
-                    dbsearch
-                    ,
-                    `
-                    SELECT  
-                        system_code.*  
-                    FROM   
-                        system_code, 
-                        yz_cache_released_components   
-                    WHERE  
-                        yz_cache_released_components.base_component_id = ?
-                            and   
-                        yz_cache_released_components.ipfs_hash = system_code.id 
-                    `
-                    ,
-                    componentItem.baseComponentId)
-
-                if (!resultsRow) {
-                    resultsRow = await yz.getQuickSqlOneRow(
-                        dbsearch
-                        ,
-                        `
-                        SELECT  
-                            system_code.*  
-                        FROM
-                            system_code  
-                        WHERE  
-                            base_component_id  = ?
-                        order by 
-                            creation_timestamp limit 1  
-                        `
-                        ,
-                        componentItem.baseComponentId)
-                }
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //----------------------------------------------------------------------------
-            // Add the libs
-            //----------------------------------------------------------------------------
-            if (resultsRow) {
-                let codeId = resultsRow.id
-                let results2 = await yz.getQuickSql(
-                    dbsearch
-                    ,
-                    "SELECT dependency_name FROM app_dependencies where code_id = ?; "
-                    ,
-                    codeId)
-                resultsRow.libs = results2
-                outputComponents.push(resultsRow)
-            }
-        }
-
-
-        //----------------------------------------------------------------------------
-        // return the result to the API caller
-        //----------------------------------------------------------------------------
-        let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(decorateResult))
-    })
-    app.post('/post_test', async function (req, res) {
-        console.log("app.post('/post_test'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            []
-        ));
-
-    });
-    app.post('/get_comments_for_component', async function (req, res) {
-        let baseComponentId = req.body.value.base_component_id
-        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
-
-        topApps =
-            {
-                status: "ok"
-                ,
-
-                comments_and_ratings: commentsAndRatings
-            }
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            topApps
-        ));
-
-    });
-    app.get('/login_with_metamask', async function (req, res) {
-        console.log("app.post('/login_with_metamask'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let metamaskAccId = req.query.metamask_account_id;
-
-
-        let sessionId = await getSessionId(req,res)
-
-        let promise = new Promise(async function(returnfn) {
-            dbsearch.serialize(function() {
-                dbsearch.run("begin exclusive transaction");
-
-                let newRandomSeed = uuidv1()
-                let timestampNow = new Date().getTime()
-
-                stmtInsertMetaMaskLogin.run(uuidv1(), metamaskAccId ,newRandomSeed, timestampNow)
-                dbsearch.run("commit")
-                returnfn({
-                    seed: newRandomSeed
-                })
-            })
-
-        })
-        let ret = await promise
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            ret
-        ));
-
-    });
-    app.get('/check_metamask_seed', async function (req, res) {
-        try {
-
-        console.log("app.get('/check_metamask_seed'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let metamaskAccId = req.query.metamask_account_id;
-        let signedTx = req.query.signedTx;
-        let randomLoginSeed = req.query.random_seed;
-        let sessionId = await getSessionId(req)
-
-        let promise = new Promise(async function(returnfn) {
-
-            dbsearch.serialize(
-                function() {
-                    dbsearch.all(
-                        " select " +
-                        "     *  " +
-                        " from    " +
-                        "     metamask_logins " +
-                        " where     " +
-                        "     random_seed = ? " +
-                        " order by " +
-                        "     created_timestamp DESC "
-                        ,
-                        [randomLoginSeed]
-                        ,
-                        async function(err, rows) {
-                            if (rows.length == 0 ) {
-                                returnfn({error: "No record found for account"})
-                            } else {
-                                let firstRow = rows[0]
-                                let signMessage = req.query.sign_message;
-                                let sessionId = await getSessionId(req)
-                                let ret={}
-                                const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
-
-                                if (recoveredSigner == metamaskAccId) {
-                                    ret.status = "Ok"
-
-                                    let login_hashed_id = merkleJson.hash({
-                                        metamask_account_id: metamaskAccId
-                                    })
-
-                                    let promise1 = new Promise(async function(returnfn2) {
-                                        dbsearch.serialize(function() {
-                                            dbsearch.run("begin exclusive transaction");
-                                            stmtInsertUser.run(login_hashed_id, "METAMASK")
-                                            stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
-                                            stmtInsertSessionWithNewUserId.run(login_hashed_id,sessionId)
-                                            dbsearch.run("commit")
-                                            returnfn2()
-                                        })
-
-                                    })
-                                    await promise1
-                                } else {
-                                    ret.error = "Invalid signature"
-                                }
-                                returnfn(ret)
-
-                            }
-
-                        }
-                    );
-                }, sqlite3.OPEN_READONLY)
-        })
-        let ret = await promise
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            ret
-        ));
-        } catch(err2)
-        {
-            let x=1
-        }
-
-    });
-    app.get('/bulk_calculate_branch_strength_for_component', async function (req, res) {
-        console.log("app.post('/bulk_calculate_branch_strength_for_component'): ")
-        let baseComponentId = req.query.baseComponentId;
-
-        //
-        // first find all the tips
-        //
-        let allTips = await yz.getQuickSql(
-            dbsearch,
-
-            `select  
-                fk_system_code_id  
-            from  
-                code_tags  
-            where  
-                base_component_id = ? 
-                    and 
-                code_tag = 'TIP'  `,
-
-            [baseComponentId]
-            )
-
-        for (tip of allTips) {
-
-            let numCommitsRow = await yz.getQuickSqlOneRow(
-                dbsearch,
-                `with RECURSIVE
-                parents_of(id2, parent_id2) as (
-                    select id, parent_id from system_code where id = ?
-                        union all
-                    select id, parent_id from system_code,parents_of  where id = parent_id2
-                        limit 10
-                )
-            select count(*) as num_commits from parents_of`
-                ,
-                [tip.fk_system_code_id])
-            let numCommits = numCommitsRow.num_commits
-
-
-
-            await yz.executeQuickSql(
-                dbsearch,
-
-                `update 
-                system_code  
-           set  
-                score = ?  
-            where  
-                id = ? `,
-
-                [numCommits, tip.fk_system_code_id]
-            )
-            await yz.executeQuickSql(
-                dbsearch,
-
-                `update 
-                code_tags  
-           set  
-                main_score = ?  
-            where  
-                base_component_id = ? 
-                    and 
-                fk_system_code_id = ?  
-                    and 
-                code_tag = 'TIP'  `,
-
-                [numCommits, baseComponentId, tip.fk_system_code_id ]
-            )
-        }
-
-
-
-
-
-
-        let updatedTips = await yz.getQuickSql(
-            dbsearch,
-
-            `select  
-                fk_system_code_id  , main_score
-            from  
-                code_tags  
-            where  
-                base_component_id = ? 
-                    and 
-                code_tag = 'TIP'  `,
-
-            [baseComponentId]
-        )
-
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            {
-                baseComponentId: baseComponentId
-                ,
-                tips: updatedTips
-            }
-        ));
-    });
-    app.get('/get_version_history_v2', async function (req, res) {
-
-        console.log("app.post('/get_version_history_v2'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let topApps = []
-        let baseComponentIdToFind = req.query.id;
-        let sessionId = await getSessionId(req)
-        let lastCommitId = req.query.commit_id
-        let currentReturnRows = []
-
-        let selectedCommitRow = await getRowForCommit(lastCommitId)
-        currentReturnRows.push(selectedCommitRow)
-        let returnRows = await getPreviousCommitsFor(
-            {
-                commitId: selectedCommitRow.id
-                ,
-                parentCommitId: selectedCommitRow.parent_commit_id
-                ,
-                returnRows: currentReturnRows
-            })
-
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            returnRows
-        ));
-
-    });
-    app.get('/get_version_future', async function (req, res) {
-
-        console.log("app.post('/get_version_future'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let commitId = req.query.commit_id
-        let currentReturnRows = []
-
-        let firstRow = await getRowForCommit(commitId)
-        currentReturnRows.push(firstRow)
-        let returnRows = await getFutureCommitsFor(
-            {
-                commitId: commitId
-                ,
-                returnRows: currentReturnRows
-            })
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            returnRows
-        ));
-
-    });
-    app.post('/editable_apps', async function (req, res) {
-
-        //console.log("app.post('/editable_apps'): ")
-        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let editableApps = []
-        let userId = await getUserId(req)
-
-        let promise = new Promise(async function(returnfn) {
-
-            dbsearch.serialize(
-                function() {
-                    dbsearch.all( `SELECT
-                                        system_code.id,
-                                        system_code.base_component_id,
-                                        system_code.read_write_status,
-                                        system_code.display_name
-                                   FROM
-                                        code_tags, system_code
-                                    WHERE
-                                        code_tags.fk_user_id = ?
-                                            AND
-                                        code_tags.fk_system_code_id = system_code.id
-                                            AND
-                                        code_tags.code_tag = "EDIT"`
-                        ,
-                        [userId]
-                        ,
-                        async function(err, rows) {
-                            let returnRows = []
-                            if (!err) {
-                                try {
-                                    if (rows.length > 0) {
-                                        for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
-                                            let thisRow = rows[rowIndex]
-                                            returnRows.push(
-                                                {
-                                                    base_component_id: thisRow.base_component_id
-                                                    ,
-                                                    logo: ""
-                                                    ,
-                                                    ipfs_hash: thisRow.id
-                                                    ,
-                                                    display_name: thisRow.display_name
-                                                })
-                                        }
-                                    }
-
-
-
-
-                                } catch(err) {
-                                    console.log(err);
-                                    let stack = new Error().stack
-                                    console.log( stack )
-                                } finally {
-                                    returnfn(returnRows)
-                                }
-
-                            } else {
-                                console.log(err);
-                            }
-                        }
-                    );
-                }, sqlite3.OPEN_READONLY)
-        })
-        let ret = await promise
-
-        editableApps = ret
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            editableApps
-        ));
-
-    });
-    app.post('/topapps', async function (req, res) {
-        //console.log("app.post('/topapps'): ")
-        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let topApps = []
-        let sessionId = await getSessionId(req)
-
-        let promise = new Promise(async function(returnfn) {
-
-            dbsearch.serialize(
-                function() {
-                    dbsearch.all(
-                        " select  " +
-                        "     distinct(yz_cache_released_components.id), component_name, app_icon_data, ipfs_hash, yz_cache_released_components.base_component_id " +
-                        " from " +
-                        "     yz_cache_released_components " +
-                        " inner JOIN " +
-                        "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
-                        " and " +
-                        "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
-                        ,
-                        []
-                        ,
-                        async function(err, rows) {
-                            let returnRows = []
-                            if (!err) {
-                                try {
-                                    if (rows.length > 0) {
-                                        for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
-                                            let thisRow = rows[rowIndex]
-                                            returnRows.push(
-                                                {
-
-                                                    data: {
-                                                        id:                 thisRow.base_component_id
-                                                        ,
-                                                        base_component_id:  thisRow.base_component_id
-                                                        ,
-                                                        logo:               thisRow.app_icon_data
-                                                        ,
-                                                        ipfs_hash:          thisRow.ipfs_hash
-                                                        ,
-                                                        display_name:       thisRow.app_name
-                                                    }
-                                                    ,
-                                                    id:                 thisRow.base_component_id
-                                                    ,
-                                                    base_component_id:  thisRow.base_component_id
-                                                    ,
-                                                    logo:               thisRow.app_icon_data
-                                                    ,
-                                                    ipfs_hash:          thisRow.ipfs_hash
-                                                    ,
-                                                    display_name:       thisRow.app_name
-
-                                                })
-                                        }
-                                    }
-
-
-
-
-                                } catch(err) {
-                                    console.log(err);
-                                    let stack = new Error().stack
-                                    console.log( stack )
-                                } finally {
-                                    returnfn(returnRows)
-                                }
-
-                            } else {
-                                console.log(err);
-                            }
-                        }
-                    );
-                }, sqlite3.OPEN_READONLY)
-        })
-        let ret = await promise
-
-        topApps = ret
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            topApps
-        ));
-
-    });
-    app.get('/live-check',(req,res)=> {
-
-       outputDebug("Live check passed")
-       res.send ("Live check passed");
-    });
-    app.get('/readiness-check',(req,res)=> {
-        if (systemReady) {
-            outputDebug("Readiness check passed")
-            res.send ("Readiness check passed");
-        } else {
-            outputDebug("Readiness check failed")
-            res.status(500).send('Readiness check did not pass');
-        }
-    });
-    app.get('/edit/*', function (req, res) {
-        //------------------------------------------------------------------------------
-        // Allow an app to be edited
-        //------------------------------------------------------------------------------
-        return getEditApp(req, res);
-    })
-    app.post('/add_or_update_app', async function (req, res) {
-console.log("/add_or_update_app")
-        let baseComponentIdLocal = req.body.base_component_id
-console.log("/add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
-        let srcCode = req.body.src_code
-console.log("/add_or_update_app:srcCode := " + srcCode.length)
-        let ipfsHash = req.body.ipfs_hash
-console.log("/add_or_update_app:ipfsHash := " + ipfsHash)
-
-        await addOrUpdateDriver(srcCode ,
-                                {
-                                 save_html: true,
-                                 username: "default",
-                                 reponame: baseComponentIdLocal,
-                                 version: "latest",
-                                 ipfsHashId: ipfsHash})
-console.log("/add_or_update_app:addOrUpdateDriver completed")
-        res.status(200).send('Code registered');
-    })
-    /* what happens if we register a false or bad IPFS address? All code sent here
-     *  should be validated */
-    app.post('/register_ipfs_content_for_client', async function (req, res) {
-
-        let ipfsHash = req.body.ipfs_hash
-        let ipfsContent = req.body.ipfs_content
-        let parsedCode = await parseCode(ipfsContent)
-        await registerIPFS(ipfsHash);
-        res.status(200).send('IPFS content registered');
-    })
-    app.use("/files",   express.static(path.join(userData, '/files/')));
-    app.use("/weights",   express.static(path.join(userData, '/weights/')));
-
-
-
-    function getBaseComponentIdFromRequest(req){
-        let parts = req.path.split('/');
-        let appHtmlFile = parts.pop() || parts.pop();
-
-        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        return appName
-    }
-
-
-    //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
-    app.get('/app/*', function (req, res, next) {
-        console.log("app.get('/app'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-        if (req.kauth) {
-            outputDebug('Keycloak details from server:')
-            outputDebug(req.kauth.grant)
-        }
-        let parts = req.path.split('/');
-        let appHtmlFile = parts.pop() || parts.pop();
-
-        //console.log("appHtemlFile: " + appHtmlFile);
-
-        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        //console.log("appName: " + appName);
-
-         //console.log("path: " + path);
-
-         let appFilePath = path.join(userData, 'apps/' + appHtmlFile)
-         let fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
-         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-         res.end(fileC2);
-
-
-    })
-    //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
-    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-    app.use(            express.static(path.join(__dirname, '../public/')))
-    app.use(bodyParser.json()); // support json encoded bodies
-    app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
-    //app.use(useragent.express())
-
-
-    app.post("/save_code_v3" , async function (req, res) {
-        let userid
-        let optionsForSave
-        let saveResult
-        let savedCode
-
-        userid          = await getUserId(req)
-        optionsForSave  = req.body.value.options
-
-        if (optionsForSave) {
-            optionsForSave.userId = userid
-        }
-
-        saveResult = await yz.saveCodeV3(
-            dbsearch,
-            req.body.value.code,
-            optionsForSave)
-
-        savedCode       = req.body.value.code
-        await createNewTip(savedCode, saveResult.code_id, userid);
-
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify(saveResult))
-    });
-    app.post("/load_component" , async function (req, res) {
-
-
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({return: "from load component"}))
-    });
-    app.post("/save_component" , async function (req, res) {
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({return: "from save component"}))
-    });
-    app.post("/get_commit_hash_id" , async function (req, res) {
-        //
-        // get stuff
-        //
-        let code = req.body.text;
-
-        let ipfsHash = await OnlyIpfsHash.of(code)
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash: ipfsHash,
-        }))
-    })
-    app.post("/bookmark_commit" , async function (req, res) {
-        //
-        // get stuff
-        //
-        let ipfsHash = req.body.value.code_id;
-        let version = req.body.value.version;
-        let userId = req.body.value.user_id;
-
-
-        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
-        await yz.tagVersion(dbsearch, ipfsHash, code)
-
-
-        //let parsedCode = await parseCode(code)
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash:   ipfsHash,
-        }))
-    })
-    app.post("/release_commit" , async function (req, res) {
-        //
-        // get stuff
-        //
-        let ipfsHash = req.body.value.code_id;
-        let version = req.body.value.version;
-        let userId = req.body.value.user_id;
-
-
-        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
-        await yz.tagVersion(dbsearch, ipfsHash, code)
-        await releaseCode(ipfsHash, code)
-
-
-        //let parsedCode = await parseCode(code)
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash:   ipfsHash,
-        }))
-    })
-    app.post("/copy_component" , async function (req, res) {
-        //
-        // get stuff
-        //
-        let copy_base_component_id = req.body.value.base_component_id;
-        let copy_image_data = req.body.value.image_data;
-
-
-        //
-        // copy the main EVM control
-        //
-        let srcText = fs.readFileSync(
-                                path.join(__dirname,
-                                '../public/visifile_drivers/' + req.body.value.relative_filename_to_copy)
-                                ,
-                                'utf8')
-
-        //
-        // give the new smart contract control a new name
-        //
-        let componentToCopyBaseComponentId = yz.getValueOfCodeString(srcText,"base_component_id")
-        srcText = srcText.replaceAll(componentToCopyBaseComponentId, copy_base_component_id)
-
-
-        //
-        // design_time_html
-        //
-        let design_time_html = req.body.value.design_time_html
-        if ( design_time_html ) {
-            srcText = yz.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
-        }
-
-
-        //
-        // DESIGN TIME MOUNTED CODE
-        //
-        let designTimeMountedCode = req.body.value.design_time_mounted_code
-        if (designTimeMountedCode) {
-            srcText = yz.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
-        }
-
-
-
-        //
-        // RUN TIME MOUNTED CODE
-        //
-        let runtimeMountedCode = req.body.value.runtime_mounted_code
-        if (runtimeMountedCode) {
-            srcText = yz.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
-        }
-
-
-
-        //
-        // VARS CODE
-        //
-        let varsCode = req.body.value.vars_code
-        if (varsCode) {
-            srcText = yz.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
-        }
-
-
-
-
-        //
-        // run_time_html
-        //
-        let run_time_html = req.body.value.run_time_html
-        if (run_time_html) {
-            srcText = yz.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
-        }
-
-
-
-
-
-
-        //
-        // give the new smart contract control a new icon logo
-        //
-        if (copy_image_data) {
-            let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
-            if (logoValue) {
-                srcText = yz.deleteCodeString(srcText, "logo_url")
-            }
-            srcText = yz.insertCodeString(srcText, "logo_url",copy_image_data)
-        }
-
-
-
-
-
-        //
-        // give the new component a new logo
-        //
-        if (req.body.value.logo_url) {
-            let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
-            if (logoValue) {
-                srcText = yz.deleteCodeString(srcText, "logo_url")
-            }
-            srcText = yz.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
-        }
-
-
-        //
-        // copy over some properties defaults from the existing component
-        //
-        let default_property_values = req.body.value.default_property_values;
-        let propertiesToChange = Object.keys(default_property_values)
-        for (let propertyToChangeIndex = 0; propertyToChangeIndex < propertiesToChange.length;propertyToChangeIndex++){
-            let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
-            let propertyValue = default_property_values[propertyNameToChange]
-            srcText = yz.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
-        }
-
-
-        //
-        // create some new properties in the new component
-        //
-        let newProperties = req.body.value.new_properties;
-        for ( let newPropertyIndex = 0 ; newPropertyIndex < newProperties.length ; newPropertyIndex++ ){
-            let newProperty = newProperties[newPropertyIndex]
-            srcText = yz.addProperty(srcText,newProperty)
-        }
-
-
-        //
-        // create new methods in the new component
-        //
-        let newMethods = req.body.value.new_methods;
-        if (newMethods) {
-            for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
-                let newMethod = newMethods[newMethodIndex]
-                srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
-            }
-        }
-
-
-
-
-        //
-        // create new methods in the new component
-        //
-        let newMethodsV2 = req.body.value.new_methods_v2;
-        if (newMethodsV2) {
-            for ( let newMethodIndex = 0 ; newMethodIndex < newMethodsV2.length ; newMethodIndex++ ){
-                let newMethod = newMethodsV2[newMethodIndex]
-                srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
-                let newMethodProperty = newMethod.properties
-                srcText = yz.addProperty(srcText,newMethodProperty)
-            }
-        }
-
-
-
-        //
-        // Delete any IPFS from the component class. Unfortunately this can't be stored in IPFS itself
-        //
-        let properties = yz.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
-        srcText = yz.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
-        for (let irte = 0 ; irte < properties.length ; irte++ ) {
-            let brje = properties[irte]
-            if (brje) {
-                if (brje.id == "ipfs_hash_id") {
-                    brje.default = ""//ipfsHash
-                }
-            }
-        }
-        srcText = yz.insertCodeString(  srcText,
-            "properties",
-            properties,
-            ")//prope" + "rties")
-
-
-
-
-        //fs.writeFileSync( "z.txt",  srcText.toString() )
-
-
-
-
-
-
-
-
-
-
-        //
-        // save the new smart contract component
-        //
-        let codeRet = await addOrUpdateDriver(srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
-        let codeId = codeRet.codeId
-
-
-
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash:   codeId,
-            return:     srcText
-            }))
-    });
-    app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
-        console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
-        return file_uploadSingleFn(req, res, next);
-    });
-    app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
-        console.log("File upload: " + JSON.stringify(req.file.originalname,null,2))
-        return file_uploadSingleFn(req, res, next);
-    });
-    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
-        return file_uploadFn(req, res, next);
-    });
-    app.get('/code_upload', function (req, res, next) {
-        code_uploadFn(req, res);
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end("Done");
-    });
-    app.get('/file_name_load', function (req, res, next) {
-        //console.log("Hit file_name_load")
-        file_name_load(req, res);
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end("Done");
-    });
-    app.get('/lock', function (req, res) {
-        return lockFn(req, res);
-    })
-
-    process.on('uncaughtException', function (err) {
-      outputDebug(err);
-    })
-
-
-
-
-
-
-
-    //------------------------------------------------------------------------------
-    // start the web server
-    //------------------------------------------------------------------------------
-    if (useHttps) {
-        if (!certOptions) {
-            let caCerts = readCerts()
-            certOptions = {
-              key: fs.readFileSync(privateKey, 'utf8'),
-              cert: fs.readFileSync(publicCertificate, 'utf8'),
-              ca: caCerts
-            }
-        }
-        certOptions.requestCert = true
-        certOptions.rejectUnauthorized = false
-
-        httpServer = https.createServer(certOptions,app)
-
-    } else {
-        httpServer = http.createServer(app)
-
-    }
-    socket = require2('socket.io')(http)
-    httpServer.listen(port, hostaddress, function () {
-
-            outputDebug("****HOST=" + hostaddress + "HOST****\n");
-            outputDebug("****PORT=" + port+ "PORT****\n");
-            outputDebug('Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
-
-
-
-
-        //
-        // We dont listen on websockets here with socket.io as often they stop working!!!
-        // Crazy, I know!!!! So we removed websockets from the list of transports below
-        //
-        io = socket.listen(httpServer, {
-            log: false,
-            agent: false,
-            origins: '*:*',
-            transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
-        });
-
-        io.on('connection', function (sck) {
-            let connt = JSON.stringify(sck.conn.transport,null,2);
-            websocketFn(sck)
-        });
-
-    })
-
-    childProcessNameInScheduler            = "forkedExeScheduler"
-
-
-
-
-
-
-    for (let i=0;i<executionProcessCount; i++ ) {
-        let exeProcName = "forkedExeProcess" + i
-            setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
-    }
-
-      //console.log('addr: '+ hostaddress + ":" + port);
-
-
-
-
-
-    setTimeout(async function(){
-        //--------------------------------------------------------
-    	// Check if any JS is loaded
-    	//--------------------------------------------------------
-        await checkForJSLoaded();
-        await findLocalIpfsContent();
-
-        setUpSql()
-        setUpPredefinedComponents({message_type:       'setUpPredefinedComponents'});
-
-    },1000)
-
-}
-async function  findLocalIpfsContent() {
-    fs.readdir(fullIpfsFolderPath, async function (err, files) {
-        if (err) {
-            return console.error(err);
-        }
-
-        for (let fileindex=0;fileindex<files.length;fileindex++){
-            let ipfsHashFileName = files[fileindex]
-            if (ipfsHashFileName.length > 10) {
-                try
-                {
-                    //console.log("ipfsHashFileName: " + ipfsHashFileName);
-
-                    let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
-                    let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
-
-                    let itemType = yz.getValueOfCodeString(ipfsContent,"component_type")
-                    if (itemType == "COMPONENT_COMMENT") {
-                        let formatType = yz.getValueOfCodeString(ipfsContent,"format")
-                        if (formatType == "JSON") {
-                            let jsonComment = JSON.parse(ipfsContent)
-                            await insertCommentIntoDb(
-                                {
-                                    baseComponentId:        jsonComment.base_component_id,
-                                    baseComponentIdVersion: jsonComment.base_component_id_version,
-                                    newComment:             jsonComment.comment,
-                                    newRating:              jsonComment.rating,
-                                    dateAndTime:            jsonComment.date_and_time
-                                }
-                            )
-                        }
-                    } else if (itemType == "APP") {
-                        let parsedCode = await parseCode(ipfsContent)
-                        parsedCode.ipfsHash = ipfsHashFileName
-                        await registerIPFS(ipfsHashFileName);
-                    }
-                    //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
-                }
-                catch(exp)
-                {
-                    console.log("ipfsHashFileName : " + ipfsHashFileName + " ERROR!" + exp);
-                }
-
-            }
-        }
-    })
-
-}
 async function  finalizeYazzLoading() {
     setUpSql();
     console.log(`
@@ -3396,681 +1384,6 @@ async function  finalizeYazzLoading() {
     console.log("Network Host Address. Click to open: " + serverProtocol + "://" + hostaddressintranet + ':' + port)
 
     systemReady = true
-}
-function        bytesToMb(bytes) {
-    return (bytes / 1024 ) / 1024
-}
-function        getChildMem(childProcessName,stats) {
-    let memoryused = 0
-    if (stats) {
-        memoryused = stats.memory ;
-        totalMem += memoryused
-    }
-    if (showStats) {
-        outputDebug(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
-    }
-}
-function        usePid(childProcessName,childprocess) {
-    pidusage(childprocess.pid, function (err, stats) {
-        getChildMem(childProcessName,stats)
-        returnedmemCount ++
-        if (returnedmemCount == allForked.length) {
-            if (showStats) {
-                outputDebug("------------------------------------")
-                outputDebug(" TOTAL MEM = " + bytesToMb(totalMem) + " MB")
-                outputDebug("------------------------------------")
-            }
-            inmemcalc = false
-            yazzMemoryUsageMetric.set(totalMem)
-
-        }
-    });
-
-}
-function        readCerts() {
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-    outputDebug("Checking CA certs" )
-    outputDebug("-----------------" )
-    outputDebug("" )
-    outputDebug("CA Cert 1 = " + caCertificate1)
-    outputDebug("CA Cert 2 = " + caCertificate2)
-    outputDebug("CA Cert 3 = " + caCertificate3)
-    outputDebug("" )
-    outputDebug("" )
-
-
-    let caCertsRet = []
-    if (caCertificate1) {
-        outputDebug("CA Cert 1 = " + caCertificate1)
-        let fff = fs.readFileSync(caCertificate1, 'utf8')
-        outputDebug("  = " + fff)
-        caCertsRet.push(fff)
-    }
-    if (caCertificate2) {
-        outputDebug("CA Cert 2 = " + caCertificate2)
-        let fff = fs.readFileSync(caCertificate2, 'utf8')
-        outputDebug("  = " + fff)
-        caCertsRet.push(fff)
-    }
-    if (caCertificate3) {
-        outputDebug("CA Cert 3 = " + caCertificate3)
-        let fff = fs.readFileSync(caCertificate3, 'utf8')
-        outputDebug("  = " + fff)
-        caCertsRet.push(fff)
-    }
-    return caCertsRet
-}
-function        findSystemDataDirectoryAndStart() {
-    console.log("userData : " + userData)
-    console.log("username : " + username)
-    dbPath = path.join(userData, username + '.visi')
-
-
-    if (deleteOnStartup) {
-        outputDebug("deleting dir :" + userData)
-        if (userData.length > 6) {
-            deleteYazzDataV2(userData)
-        }
-    }
-    let uploadPath = path.join(userData,  'uploads/')
-
-    outputDebug("LOCAL_HOME: " + LOCAL_HOME)
-    outputDebug("userData: " + userData)
-    outputDebug("uploadPath: " + uploadPath)
-
-    upload = multer( { dest: uploadPath});
-
-
-
-    if (!fs.existsSync( path.join(userData,  'uploads') )) {
-        mkdirp.sync(path.join(userData,  'uploads'));
-    }
-    if (!fs.existsSync( path.join(userData,  'files') )) {
-        mkdirp.sync(path.join(userData,  'files'));
-    }
-    if (!fs.existsSync( path.join(userData,  'apps') )) {
-        mkdirp.sync(path.join(userData,  'apps'));
-    }
-    if (!fs.existsSync( path.join(userData,  'app_dbs') )) {
-        mkdirp.sync(path.join(userData,  'app_dbs'));
-    }
-
-    if (!fs.existsSync(  path.join(userData,  ipfsFolder) )) {
-        mkdirp.sync(path.join(userData,  ipfsFolder));
-    }
-    fullIpfsFolderPath = path.join(userData,  ipfsFolder)
-
-    outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-    outputDebug("Local home data path: " + LOCAL_HOME)
-    outputDebug("userData: " + JSON.stringify(userData ,null,2))
-    outputDebug("process.env keys: " + Object.keys(process.env))
-
-
-
-
-    dbsearch = new sqlite3.Database(dbPath);
-    dbsearch.run("PRAGMA journal_mode=WAL;")
-
-}
-async function  executeSqliteForApp( args ) {
-    if (!args.sql) {
-        return []
-    }
-    let getSqlResults = new Promise(returnResult => {
-        //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
-        //console.log("args: " + JSON.stringify(args,null,2))
-        let appDb = null
-        if (appDbs[args.base_component_id]) {
-            appDb = appDbs[args.base_component_id]
-            //console.log("Using cached db " + args.base_component_id)
-        } else {
-            let dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
-            appDb = new sqlite3.Database(dbPath);
-            appDb.run("PRAGMA journal_mode=WAL;")
-            appDbs[args.base_component_id] = appDb
-        }
-
-        if (args.sql.toLocaleLowerCase().trim().startsWith("select")) {
-            //console.log("Read only query " + args.sql)
-            appDb.serialize(
-                function() {
-                    appDb.all(
-                        args.sql
-                        ,
-                        args.params
-                        ,
-
-                        function(err, results)
-                        {
-                            returnResult(results)
-                        })
-                }, sqlite3.OPEN_READONLY)
-        } else {
-            appDb.serialize(
-                function() {
-                    appDb.run("begin deferred transaction");
-                    appDb.run(args.sql, args.params)
-                    appDb.run("commit");
-                    appDb.run("PRAGMA wal_checkpoint;")
-                    returnResult([])
-                })
-        }
-    })
-
-
-    let res = await getSqlResults
-    return res
-}
-function        finishInit() {
-
-
-    process.on('exit', function() {
-        shutDown();
-    });
-    process.on('quit', function() {
-        shutDown();
-    });
-    process.on("SIGINT", function () {
-        shutDown();
-        process.exit()
-    });
-
-    createTables()
-
-
-
-    //------------------------------------------------------------------------------
-    //
-    //
-    //
-    //
-    //
-    //------------------------------------------------------------------------------
-
-    if (statsInterval > 0) {
-        setInterval(function(){
-            if (!inmemcalc) {
-                inmemcalc = true
-                totalMem = 0
-                const used = process.memoryUsage().heapUsed ;
-                totalMem += used
-                yazzProcessMainMemoryUsageMetric.set(used)
-                if (showStats) {
-                    outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
-                }
-                allForked = Object.keys(forkedProcesses)
-                returnedmemCount = 0
-                for (let ttt=0; ttt< allForked.length; ttt++) {
-                    let childProcessName = allForked[ttt]
-                    const childprocess = forkedProcesses[childProcessName]
-
-                    usePid(childProcessName,childprocess)
-                }
-            }
-        },(statsInterval * 1000))
-    }
-
-
-
-}
-function        resetTimer(messageToStart) {
-  console.log("Starting timer for: " + messageToStart)
-  globalStartTimer = new Date().getTime()
-  globalTimerCounter = 0
-}
-function        showTimer(optionalMessage) {
-  globalEndTimer = new Date().getTime()
-  globalTimerCounter ++
-  let theTimerText = optionalMessage
-  if (!theTimerText) {
-    theTimerText = "" + globalTimerCounter
-  }
-  console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
-}
-function        setUpSql() {
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                        setUpSql                                         //
-//                                                                                         //
-//   This sets up the SqlLite prepared statements                                          //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-    //console.log("setUpSql    ")
-
-
-
-    stmtInsertComment = dbsearch.prepare(" insert or replace into comments_and_ratings " +
-        "    (id, base_component_id, version , comment, rating, date_and_time) " +
-        " values " +
-        "    (?,?,?,?,?,?);");
-
-
-    stmtInsertCookie = dbsearch.prepare(" insert or replace into cookies " +
-        "    (id,  created_timestamp, cookie_name, cookie_value, fk_session_id, host_cookie_sent_to, from_device_type ) " +
-        " values " +
-        "    (?, ?, ?, ?, ? , ? , ?);");
-
-    stmtInsertUser = dbsearch.prepare(" insert or replace into users " +
-        "    (id, user_type) " +
-        " values " +
-        "    (?, ?);");
-
-    stmtInsertMetaMaskLogin =  dbsearch.prepare(" insert or replace into metamask_logins " +
-        "    (id , account_id , random_seed , created_timestamp ) " +
-        " values " +
-        "    (?, ?, ?, ?);");
-
-
-    stmtSetMetaMaskLoginSuccedded =  dbsearch.prepare(" update metamask_logins " +
-        "   set  confirmed_login  = 'TRUE' , fk_session_id = ? " +
-        " where " +
-        "    random_seed =?;");
-    //
-
-    stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
-        "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +
-        " values " +
-        "    (?, ?, ?, ?, ?);");
-
-    stmtInsertSessionWithNewUserId = dbsearch.prepare(" update sessions " +
-        "    set fk_user_id = ? where id = ? ");
-
-    stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
-        "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
-        " values " +
-        "    ( ?, ?, ?, ? );");
-
-
-    stmtInsertReleasedComponentListItem = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               yz_cache_released_components
-                                                    (   id  ,  base_component_id  ,  component_name  ,  component_type, 
-                                                        component_description  ,  icon_image_id  ,  
-                                                        ipfs_hash , version,read_write_status, code )
-                                               values (?,?,?,?,?,?,?,?,?,?)`)
-
-
-    stmtUpdateReleasedComponentList = dbsearch.prepare(`update yz_cache_released_components 
-                                            set 
-                                                ipfs_hash = ?  
-                                            where
-                                               base_component_id  = ?
-                                               `)
-
-
-    stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               icon_images
-                                                    (  id  ,  app_icon_data  )
-                                               values (?,?)`)
-
-
-
-
-
-
-
-
-
-
-
-
-          setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', component_type = ?,  running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ? AND yazz_instance_id = ?");
-
-          setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ? AND yazz_instance_id = ?");
-          setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ? AND yazz_instance_id = ?");
-
-          insertIntoProcessTable = dbsearch.prepare(
-              " insert into "+
-              "     system_process_info (yazz_instance_id, process, process_id, running_since, status, job_priority) " +
-              " values " +
-              "     (?,?,?,?,?,?)")
-
-          updateProcessTable = dbsearch.prepare(
-              "UPDATE  system_process_info " +
-              "      SET process_id = ?, running_since = ?, status = ?, job_priority = ? " +
-              "WHERE " +
-              "     yazz_instance_id = ? AND process = ? ")
-
-    //console.log("setUpSql done   ")
-}
-async function  save_code_from_upload(msg) {
-    /*
-    ________________________________________
-    |                                      |
-    |       save_code_from_upload          |
-    |                                      |
-    |______________________________________|
-    Function description
-    __________
-    | PARAMS |______________________________________________________________
-    |
-    |     msg    Some text
-    |     ---
-    |________________________________________________________________________ */
-    let ret = await yz.saveCodeV3(  dbsearch  ,  msg.code  , msg.options);
-    if (msg.sqlite_data) {
-            let b = Buffer.from(msg.sqlite_data, 'base64')
-            let sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
-            fs.writeFileSync(sqliteAppDbPath, b);
-    }
-
-
-    ipc_child_returning_uploaded_app_as_file_in_child_response(
-            {
-                message_type:           'ipc_child_returning_uploaded_app_as_file_in_child_response',
-                code_id:                 ret.code_id,
-                base_component_id:       ret.base_component_id,
-                client_file_upload_id:   msg.client_file_upload_id
-            })
-}
-function        ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
-    /*
-    _____________________________________________________________________________
-    |                                                                           |
-    |       ipc_child_returning_uploaded_app_as_file_in_child_response          |
-    |                                                                           |
-    |___________________________________________________________________________|
-    Function description
-    __________
-    | PARAMS |______________________________________________________________
-    |
-    |     msg    Some text
-    |     ---
-    |________________________________________________________________________ */
-
-      outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
-
-      // ______
-      // Server  --1 data item-->  Browser
-      // ______
-      //
-      sendOverWebSockets({
-                            type:                 "uploaded_app_as_file_from_server",
-                            code_id:               msg.code_id,
-                            base_component_id:     msg.base_component_id,
-                            client_file_upload_id: msg.client_file_upload_id
-
-          });
-}
-async function  evalLocalSystemDriver(location, options) {
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-    outputDebug("*** Loading driver from: *** : " + location)
-    let ret
-    try {
-        let evalDriver = fs.readFileSync(location);
-    	ret = await addOrUpdateDriver(evalDriver,options)
-    } catch (error) {
-        outputDebug(error)
-    }
-    return ret
-}
-async function  saveJsonItemToIpfs(jsonItem) {
-    let jsonString = JSON.stringify(jsonItem,null,2)
-    await  saveItemToIpfs(jsonString)
-}
-async function  saveItemToIpfs(srcCode) {
-    outputDebug("*** saveItemToIpfs: *** : " )
-    let promise = new Promise(async function(returnfn) {
-        let justHash = null
-        try {
-            //console.log("Starting...")
-
-            justHash = await OnlyIpfsHash.of(srcCode)
-            let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
-            fs.writeFileSync(fullIpfsFilePath, srcCode);
-            await insertIpfsHashRecord(justHash,null,null,null)
-            await sendIpfsHashToCentralServer(justHash, srcCode)
-
-
-            if (isIPFSConnected) {
-                let testBuffer = new Buffer(srcCode);
-                ipfs.files.add(testBuffer, function (err, file) {
-                    if (err) {
-                        console.log("....................................Err: " + err);
-                    }
-                    console.log("....................................file: " + JSON.stringify(file, null, 2))
-                    let thehash = file[0].hash
-                    //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
-                    const validCID = thehash
-
-                    ipfs.files.get(validCID, function (err, files) {
-                        files.forEach((file) => {
-                            console.log("....................................file.path: " + file.path)
-                            console.log(file.content.toString('utf8'))
-                            console.log("....................................file.path: " + file.path)
-                            returnfn(thehash)
-                        })
-                    })
-                })
-            } else {
-                returnfn(justHash)
-            }
-
-        } catch (error) {
-            outputDebug(error)
-            returnfn(justHash)
-        }
-    })
-    let ipfsHash = await promise
-    return ipfsHash
-}
-async function  sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
-    let centralHost = program.centralhost
-    let centralPort = program.centralhostport
-    let promise = new Promise(async function(returnfn) {
-        try {
-            const dataString = JSON.stringify(
-                {
-                    ipfs_hash: ipfs_hash,
-                    ipfs_content: ipfsContent
-                })
-
-            let options = {
-                host: centralHost,
-                port: centralPort,
-                path: '/register_ipfs_content_for_client',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': dataString.length
-                }
-            };
-//https
-            let theHttpsConn = http
-            if (useHttps) {
-                theHttpsConn = https
-            }
-            let req = theHttpsConn.request(options, function(res) {
-                //console.log('STATUS: ' + res.statusCode);
-                //console.log('HEADERS: ' + JSON.stringify(res.headers));
-                res.setEncoding('utf8');
-                res.on('data', function (chunk) {
-                    //console.log('BODY: ' + chunk);
-                });
-                res.on('end', function () {
-                    //console.log('end: ' );
-                });
-            });
-            req.write(dataString)
-            req.end()
-            returnfn()
-        } catch(er) {
-            console.log(er)
-            returnfn()
-        }
-    })
-    await promise
-    return
-}
-async function  insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
-    let promise = new Promise(async function(returnfn) {
-        try {
-            dbsearch.serialize(function() {
-                dbsearch.run("begin exclusive transaction");
-                stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
-                dbsearch.run("commit")
-                returnfn()
-            })
-        } catch(er) {
-            console.log(er)
-            returnfn()
-        }
-    })
-    let ipfsHash = await promise
-    return ipfsHash
-}
-async function  registerIPFS(ipfs_hash) {
-    await insertIpfsHashRecord(ipfs_hash,null,null,null)
-}
-async function  loadComponentFromIpfs(ipfsHash) {
-    outputDebug("*** loadComponentFromIpfs: *** : " )
-
-    let promise = new Promise(async function(returnfn) {
-        try
-        {
-            let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
-            let srcCode = fs.readFileSync(fullIpfsFilePath);
-            let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
-
-
-
-               /* let properties = yz.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-                srcCode = yz.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
-                for (let irte = 0 ; irte < properties.length ; irte++ ) {
-                    let brje = properties[irte]
-                    if (brje.id == "ipfs_hash_id") {
-                        brje.default = ipfsHash
-                    }
-                }
-
-                srcCode = yz.insertCodeString(  srcCode,
-                    "properties",
-                    properties,
-                    ")//prope" + "rties")*/
-
-                await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
-
-                console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
-                returnfn("Done")
-
-            } catch (error) {
-                try
-                {
-
-                ipfs.files.get(ipfsHash, function (err, files) {
-                    files.forEach(async function(file) {
-                        console.log("....................................Loading component from IPFS: " + file.path)
-                        //console.log(file.content.toString('utf8'))
-                        srcCode = file.content.toString('utf8')
-
-
-
-                        let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
-
-
-
-                        let properties = yz.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-                        srcCode = yz.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
-                        for (let irte = 0 ; irte < properties.length ; irte++ ) {
-                            let brje = properties[irte]
-                            if (brje.id == "ipfs_hash_id") {
-                                brje.default = ipfsHash
-                            }
-                        }
-
-                        srcCode = yz.insertCodeString(  srcCode,
-                            "properties",
-                            properties,
-                            ")//prope" + "rties")
-
-
-
-                        let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
-                        fs.writeFileSync(fullIpfsFilePath, srcCode);
-
-                        await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
-
-                        console.log("....................................Loading component fro IPFS: " + file.path)
-                    })
-                    returnfn("Done")
-                })
-            } catch (error) {
-                outputDebug(error)
-            }
-        }
-
-
-
-    })
-    let ret = await promise
-    return ret
-}
-async function  addOrUpdateDriver(  codeString ,options ) {
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-
-    try {
-
-        let saveRet = await yz.saveCodeV3(dbsearch,    codeString  ,options);
-        let codeId = null
-        if (saveRet) {
-            codeId = saveRet.code_id
-        }
-        return {codeId: codeId}
-
-
-
-      } catch(err) {
-          console.log(err);
-          let stack = new Error().stack
-          console.log( stack )
-          return {error: err}
-
-      }
-}
-function        localComponentPath(localPath) {
- return path.join(__dirname, '../public/visifile_drivers' + localPath)
-}
-async function  evalHtmlComponentFromPath(srcPath){
-    let ret = await evalLocalSystemDriver(     localComponentPath(srcPath),{save_html: true, username: "default", version: "latest"})
-    return ret
-}
-async function  evalComponentFromPath(srcPath){
-    let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
-    return ret
-}
-async function  releaseComponentFromPath(srcPath){
-    try {
-        let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
-        await releaseCode(ret.codeId)
-
-        return ret
-    } catch (err) {
-        console.log(err)
-    }
 }
 async function  setUpComponentsLocally() {
 //------------------------------------------------------------------------------
@@ -4306,11 +1619,11 @@ async function  drivers_loaded_by_child() {
     //
     //
     //------------------------------------------------------------------------------
-          await finalizeYazzLoading();
+    await finalizeYazzLoading();
 }
 function        createTables() {
-  db_helper.createTables(dbsearch,
-          createdTablesInChild)
+    db_helper.createTables(dbsearch,
+        createdTablesInChild)
 
 }
 async function  createdTablesInChild() {
@@ -4332,6 +1645,1298 @@ async function  createdTablesInChild() {
         getPort()
     }
 }
+function        finishInit() {
+
+
+    process.on('exit', function() {
+        shutDown();
+    });
+    process.on('quit', function() {
+        shutDown();
+    });
+    process.on("SIGINT", function () {
+        shutDown();
+        process.exit()
+    });
+
+    createTables()
+
+
+
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
+
+    if (statsInterval > 0) {
+        setInterval(function(){
+            if (!inmemcalc) {
+                inmemcalc = true
+                totalMem = 0
+                const used = process.memoryUsage().heapUsed ;
+                totalMem += used
+                yazzProcessMainMemoryUsageMetric.set(used)
+                if (showStats) {
+                    outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
+                }
+                allForked = Object.keys(forkedProcesses)
+                returnedmemCount = 0
+                for (let ttt=0; ttt< allForked.length; ttt++) {
+                    let childProcessName = allForked[ttt]
+                    const childprocess = forkedProcesses[childProcessName]
+
+                    usePid(childProcessName,childprocess)
+                }
+            }
+        },(statsInterval * 1000))
+    }
+
+
+
+}
+function        setUpSql() {
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                        setUpSql                                         //
+//                                                                                         //
+//   This sets up the SqlLite prepared statements                                          //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+    //console.log("setUpSql    ")
+
+
+
+    stmtInsertComment = dbsearch.prepare(" insert or replace into comments_and_ratings " +
+        "    (id, base_component_id, version , comment, rating, date_and_time) " +
+        " values " +
+        "    (?,?,?,?,?,?);");
+
+
+    stmtInsertCookie = dbsearch.prepare(" insert or replace into cookies " +
+        "    (id,  created_timestamp, cookie_name, cookie_value, fk_session_id, host_cookie_sent_to, from_device_type ) " +
+        " values " +
+        "    (?, ?, ?, ?, ? , ? , ?);");
+
+    stmtInsertUser = dbsearch.prepare(" insert or replace into users " +
+        "    (id, user_type) " +
+        " values " +
+        "    (?, ?);");
+
+    stmtInsertMetaMaskLogin =  dbsearch.prepare(" insert or replace into metamask_logins " +
+        "    (id , account_id , random_seed , created_timestamp ) " +
+        " values " +
+        "    (?, ?, ?, ?);");
+
+
+    stmtSetMetaMaskLoginSuccedded =  dbsearch.prepare(" update metamask_logins " +
+        "   set  confirmed_login  = 'TRUE' , fk_session_id = ? " +
+        " where " +
+        "    random_seed =?;");
+    //
+
+    stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
+        "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +
+        " values " +
+        "    (?, ?, ?, ?, ?);");
+
+    stmtInsertSessionWithNewUserId = dbsearch.prepare(" update sessions " +
+        "    set fk_user_id = ? where id = ? ");
+
+    stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
+        "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
+        " values " +
+        "    ( ?, ?, ?, ? );");
+
+
+    stmtInsertReleasedComponentListItem = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               yz_cache_released_components
+                                                    (   id  ,  base_component_id  ,  component_name  ,  component_type, 
+                                                        component_description  ,  icon_image_id  ,  
+                                                        ipfs_hash , version,read_write_status, code )
+                                               values (?,?,?,?,?,?,?,?,?,?)`)
+
+
+    stmtUpdateReleasedComponentList = dbsearch.prepare(`update yz_cache_released_components 
+                                            set 
+                                                ipfs_hash = ?  
+                                            where
+                                               base_component_id  = ?
+                                               `)
+
+
+    stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
+                                                    into
+                                               icon_images
+                                                    (  id  ,  app_icon_data  )
+                                               values (?,?)`)
+
+
+
+
+
+
+
+
+
+
+
+
+    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', component_type = ?,  running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ? AND yazz_instance_id = ?");
+
+    setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ? AND yazz_instance_id = ?");
+    setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ? AND yazz_instance_id = ?");
+
+    insertIntoProcessTable = dbsearch.prepare(
+        " insert into "+
+        "     system_process_info (yazz_instance_id, process, process_id, running_since, status, job_priority) " +
+        " values " +
+        "     (?,?,?,?,?,?)")
+
+    updateProcessTable = dbsearch.prepare(
+        "UPDATE  system_process_info " +
+        "      SET process_id = ?, running_since = ?, status = ?, job_priority = ? " +
+        "WHERE " +
+        "     yazz_instance_id = ? AND process = ? ")
+
+    //console.log("setUpSql done   ")
+}
+function        findSystemDataDirectoryAndStart() {
+    console.log("userData : " + userData)
+    console.log("username : " + username)
+    dbPath = path.join(userData, username + '.visi')
+
+
+    if (deleteOnStartup) {
+        outputDebug("deleting dir :" + userData)
+        if (userData.length > 6) {
+            deleteYazzDataV2(userData)
+        }
+    }
+    let uploadPath = path.join(userData,  'uploads/')
+
+    outputDebug("LOCAL_HOME: " + LOCAL_HOME)
+    outputDebug("userData: " + userData)
+    outputDebug("uploadPath: " + uploadPath)
+
+    upload = multer( { dest: uploadPath});
+
+
+
+    if (!fs.existsSync( path.join(userData,  'uploads') )) {
+        mkdirp.sync(path.join(userData,  'uploads'));
+    }
+    if (!fs.existsSync( path.join(userData,  'files') )) {
+        mkdirp.sync(path.join(userData,  'files'));
+    }
+    if (!fs.existsSync( path.join(userData,  'apps') )) {
+        mkdirp.sync(path.join(userData,  'apps'));
+    }
+    if (!fs.existsSync( path.join(userData,  'app_dbs') )) {
+        mkdirp.sync(path.join(userData,  'app_dbs'));
+    }
+
+    if (!fs.existsSync(  path.join(userData,  ipfsFolder) )) {
+        mkdirp.sync(path.join(userData,  ipfsFolder));
+    }
+    fullIpfsFolderPath = path.join(userData,  ipfsFolder)
+
+    outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
+    outputDebug("Local home data path: " + LOCAL_HOME)
+    outputDebug("userData: " + JSON.stringify(userData ,null,2))
+    outputDebug("process.env keys: " + Object.keys(process.env))
+
+
+
+
+    dbsearch = new sqlite3.Database(dbPath);
+    dbsearch.run("PRAGMA journal_mode=WAL;")
+
+}
+
+
+// HTTP helper functions
+function        getRoot(req, res, next) {
+	hostcount++;
+
+    //console.log("Host: " + req.headers.host + ", " + hostcount);
+	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
+	let isMobile = isRequestFromMobile(req)
+
+    let homepage = path.join(__dirname, '../public/go.html')
+    //let homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
+    //let homepageUrl = serverProtocol + '://www.yazz.com'
+    let homepageUrl = 'https://yazz.com/app/homepage.html'
+    if (isMobile) {
+        homepageUrl = 'https://yazz.com/app/mobilehomepage.html'
+    }
+    //console.log("req.headers.host: " + req.headers.host)
+	if (req.headers.host) {
+        if (req.query.goto) {
+            outputDebug("*** FOUND goto")
+            res.end(fs.readFileSync(homepage));
+            return
+        }
+        if (req.query.embed) {
+            outputDebug("*** FOUND embed")
+            res.end(fs.readFileSync(homepage));
+            return
+        }
+        if (req.headers.host.toLowerCase().endsWith('www.yazz.com')) {
+		res.writeHead(301,
+			{Location: homepageUrl }
+			);
+			res.end();
+			return;
+		};
+        if (req.headers.host.toLowerCase().endsWith('yazz.com')) {
+            res.writeHead(301,
+                {Location: homepageUrl }
+            );
+            res.end();
+            return;
+        };
+        if (req.headers.host.toLowerCase().endsWith('dannea.com')) {
+		res.writeHead(301,
+			{Location: homepageUrl }
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
+		res.writeHead(301,
+			{Location: 'http://canlabs.com/canlabs/index.html'}
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
+		res.writeHead(301,
+			{Location: homepageUrl }
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('visifile.com')) {
+		res.writeHead(301,
+			{Location: homepageUrl }
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
+		res.writeHead(301,
+			{Location: homepageUrl}
+			);
+			res.end();
+			return;
+		};
+        if (req.headers.host.toLowerCase().endsWith('appshare.co')) {
+		res.writeHead(301,
+			{Location: homepageUrl }
+			);
+			res.end();
+			return;
+		};
+	};
+
+    if (isValidObject(envVars.YAZZ_RUN_APP)) {
+        runapp = envVars.YAZZ_RUN_APP
+    }
+
+    if (runhtml && (!req.query.goto) && (!req.query.embed)) {
+        homepage = runhtml
+        runOnPageExists(req,res,homepage)
+        return
+    } else if (runapp && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
+
+
+
+
+
+    } else if (loadjsurl && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
+
+
+    } else if (loadjsfile && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
+
+    } else if (loadjscode && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
+
+
+    } else {
+
+        if (isMobile) {
+            homepage = path.join( userData, 'apps/mobilehomepage.html' )
+        } else {
+            homepage = path.join( userData, 'apps/homepage.html' )
+        }
+        runOnPageExists(req,res,homepage)
+        return
+    }
+    outputDebug("Serving: " + homepage)
+
+
+}
+function        keycloakProtector(params) {
+    return function(req,res,next) {
+        next()
+        return
+        let appName2=null
+        if (params.compIdFromReqFn) {
+            appName2 = params.compIdFromReqFn(req)
+        }
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    "SELECT  code  FROM  yz_cache_released_components  WHERE  base_component_id = ? ; ",
+                    appName2,
+
+                    function(err, results)
+                    {
+                        if (results.length == 0) {
+                            outputDebug("Could not find component : " + appName2)
+                        } else {
+                            outputDebug("Found code for : " + appName2)
+                            let fileC = results[0].code.toString()
+                            //console.log("Code : " + fileC)
+
+                            let sscode = yz.getValueOfCodeString(fileC,"keycloak",")//keycloak")
+                            //console.log("sscode:" + sscode)
+
+
+                            if (sscode) {
+                                //let ssval = eval( "(" + sscode + ")")
+                                //console.log("keycloak: " + JSON.stringify(sscode,null,2))
+
+                                keycloak.protect()(req, res, next)
+
+                            } else {
+                                next()
+                            }
+
+                        }
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    }
+}
+async function  getUserIdFromYazzCookie(yazzCookie) {
+    let sessionId = await getSessionIdFromYazzCookie(yazzCookie)
+
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            fk_user_id
+                      FROM 
+                            sessions
+                      where 
+                            id  = ? `
+                    ,
+                    [sessionId]
+                    ,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0].fk_user_id)
+                        }
+                        returnfn(null)
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+
+    let userId = await promise
+    return userId
+
+}
+async function  getUserId(req) {
+    let sessionId = await getSessionId(req)
+
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            fk_user_id
+                      FROM 
+                            sessions
+                      where 
+                            id  = ? `
+                    ,
+                    [sessionId]
+                    ,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0].fk_user_id)
+                        }
+                        returnfn(null)
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+
+    let userId = await promise
+    return userId
+}
+async function  getSessionId(req) {
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            sessions.id 
+                      FROM 
+                            sessions,cookies
+                      where 
+                            sessions.id = cookies.fk_session_id
+                            and
+                            cookie_value = ? `
+                    ,
+                    [req.cookies.yazz]
+                    ,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0].id)
+                        }
+                        returnfn(null)
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+
+    let sessionId = await promise
+    return sessionId
+}
+async function  getSessionIdFromYazzCookie(yazzCookie) {
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            sessions.id 
+                      FROM 
+                            sessions,cookies
+                      where 
+                            sessions.id = cookies.fk_session_id
+                            and
+                            cookie_value = ? `
+                    ,
+                    [yazzCookie]
+                    ,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0].id)
+                        }
+                        returnfn(null)
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+
+    let sessionId = await promise
+    return sessionId
+}
+async function  getCookieRecord(cookieValue) {
+    let promise = new Promise(async function(returnfn) {
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    `select 
+                            id,  created_timestamp, cookie_name, cookie_value, fk_session_id 
+                      FROM 
+                            cookies
+                      where 
+                            cookie_value = ? `
+                    ,
+                    [cookieValue]
+                    ,
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+                            returnfn(results[0])
+                        } else {
+                            returnfn(null)
+                        }
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    })
+    let cookeResult = await promise
+    return cookeResult
+}
+async function  createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
+    let promise = new Promise(async function(returnfn) {
+        try {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
+
+                let newSessionid = uuidv1()
+                let timestampNow = new Date().getTime()
+                let anonymousUserId = uuidv1()
+                stmtInsertUser.run(anonymousUserId, "ANONYMOUS")
+                stmtInsertSession.run(newSessionid,timestampNow,timestampNow, 1, anonymousUserId)
+
+                stmtInsertCookie.run(uuidv1(),timestampNow,"yazz",cookie,newSessionid, hostCookieSentTo, from_device_type)
+                dbsearch.run("commit")
+                returnfn()
+            })
+        } catch(er) {
+            console.log(er)
+            returnfn()
+        }
+    })
+    let ipfsHash = await promise
+    return ipfsHash
+    return ""
+}
+function        readCerts() {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+    outputDebug("Checking CA certs" )
+    outputDebug("-----------------" )
+    outputDebug("" )
+    outputDebug("CA Cert 1 = " + caCertificate1)
+    outputDebug("CA Cert 2 = " + caCertificate2)
+    outputDebug("CA Cert 3 = " + caCertificate3)
+    outputDebug("" )
+    outputDebug("" )
+
+
+    let caCertsRet = []
+    if (caCertificate1) {
+        outputDebug("CA Cert 1 = " + caCertificate1)
+        let fff = fs.readFileSync(caCertificate1, 'utf8')
+        outputDebug("  = " + fff)
+        caCertsRet.push(fff)
+    }
+    if (caCertificate2) {
+        outputDebug("CA Cert 2 = " + caCertificate2)
+        let fff = fs.readFileSync(caCertificate2, 'utf8')
+        outputDebug("  = " + fff)
+        caCertsRet.push(fff)
+    }
+    if (caCertificate3) {
+        outputDebug("CA Cert 3 = " + caCertificate3)
+        let fff = fs.readFileSync(caCertificate3, 'utf8')
+        outputDebug("  = " + fff)
+        caCertsRet.push(fff)
+    }
+    return caCertsRet
+}
+
+
+//upload app helper fns
+function        file_uploadSingleFn(req, res) {
+    //console.log('-----  file_uploadSingle  --------------');
+    //console.log(req.file);
+    //console.log("**FILE** " + JSON.stringify(Object.keys(req)));
+    //console.log('-------------------------------------------------------------------------------------');
+    //console.log('-------------------------------------------------------------------------------------');
+    //console.log('-------------------------------------------------------------------------------------');
+
+    //console.log(JSON.stringify(req.files.length));
+    //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
+    let client_file_upload_id = req.body.client_file_upload_id
+    //console.log("**client_file_upload_id** " + JSON.stringify(client_file_upload_id));
+    //console.log(    "    next: " + JSON.stringify(next));
+
+    res.status( 200 ).send( req.file );
+
+    //console.log('Loading saved Creator app' );
+    let ifile = req.file
+    //console.log("        " + JSON.stringify(ifile));
+    let ext = ifile.originalname.split('.').pop();
+    ext = ext.toLowerCase();
+    //console.log('Ext: ' + ext);
+    if ((ext == "html") || (ext == "html")) {
+        let localp2;
+        localp2 =  path.join(userData,  'uploads/' + ifile.filename);
+        let localp = localp2 + '.' + ext;
+        fs.renameSync(localp2, localp);
+        let readIn = fs.readFileSync(localp).toString()
+        //console.log('');
+        //console.log('Local saved path: ' + localp);
+        let indexStart = readIn.indexOf("/*APP_START*/")
+        let indexEnd = readIn.indexOf("/*APP_END*/")
+        //console.log(`indexStart: ${indexStart}`)
+        //console.log(`indexEnd: ${indexEnd}`)
+        if ((indexStart > 0) && (indexEnd > 0)) {
+            indexStart += 13 + 10
+            indexEnd -= 2
+            let tts = readIn.substring(indexStart,indexEnd)
+            //console.log(tts)
+            let ytr = unescape(tts)
+            outputDebug("SENDING FROM UPLOAD___=+++****")
+            let bci = yz.getValueOfCodeString(ytr, "base_component_id")
+
+            let indexStart = readIn.indexOf("/*APP_START*/")
+            let indexEnd = readIn.indexOf("/*APP_END*/")
+
+            let indexOfSqliteData = readIn.indexOf("let sqlitedata = '")
+            let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
+
+            let sqlitedatafromupload = null
+            if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
+                sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
+                    indexOfSqliteDataEnd)
+            }
+
+            save_code_from_upload({
+                message_type:           "save_code_from_upload",
+                base_component_id:      bci,
+                parent_hash:            null,
+                code:                   ytr,
+                client_file_upload_id:  client_file_upload_id,
+                options:                {save_html: true, fast_forward_database_to_latest_revision: true},
+                sqlite_data:            sqlitedatafromupload
+            });
+        }
+    } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz") )  {
+        let localp2;
+        localp2 =  path.join(userData,  'uploads/' + ifile.filename);
+        let localp = localp2 + '.' + ext;
+        fs.renameSync(localp2, localp);
+        let readIn = fs.readFileSync(localp).toString()
+        let bci = yz.getValueOfCodeString(readIn, "base_component_id")
+
+
+
+        save_code_from_upload({
+            message_type:           "save_code_from_upload",
+            base_component_id:      bci,
+            parent_hash:            null,
+            code:                   readIn,
+            client_file_upload_id:  client_file_upload_id,
+            options:                {save_html: true, fast_forward_database_to_latest_revision: false},
+            sqlite_data:            ""
+        });
+
+    } else {
+        outputDebug('Ignoring file ');
+
+    }
+
+
+};
+function        file_uploadFn(req, res, next) {
+    //console.log('-------------------------------------------------------------------------------------');
+    //console.log('-------------------------------------------------------------------------------------');
+    //console.log('-------------------------------------------------------------------------------------');
+    //console.log('-------------------------------------------------------------------------------------');
+    //console.log('-------------------------------------------------------------------------------------');
+
+    //console.log(JSON.stringify(req.files.length));
+    //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
+    let client_file_upload_id = req.body.client_file_upload_id
+    //console.log("**FILES** " + JSON.stringify(req.files));
+    //console.log(    "    next: " + JSON.stringify(next));
+
+
+    //console.log('......................................................................................');
+    //console.log('......................................................................................');
+    //console.log('......................................................................................');
+    //console.log('......................................................................................');
+    //console.log('......................................................................................');
+    res.status( 200 ).send( req.files );
+
+    let ll = req.files.length;
+    for (let i = 0; i < ll ; i ++) {
+        //console.log('Loading saved Creator app' );
+        let ifile = req.files[i];
+        //console.log("        " + JSON.stringify(ifile));
+        let ext = ifile.originalname.split('.').pop();
+        ext = ext.toLowerCase();
+        //console.log('Ext: ' + ext);
+        if ((ext == "html") || (ext == "html")) {
+            let localp2;
+            localp2 =  path.join(userData,  'uploads/' + ifile.filename);
+            let localp = localp2 + '.' + ext;
+            fs.renameSync(localp2, localp);
+            let readIn = fs.readFileSync(localp).toString()
+            //console.log('');
+            //console.log('Local saved path: ' + localp);
+            let indexStart = readIn.indexOf("/*APP_START*/")
+            let indexEnd = readIn.indexOf("/*APP_END*/")
+            //console.log(`indexStart: ${indexStart}`)
+            //console.log(`indexEnd: ${indexEnd}`)
+            if ((indexStart > 0) && (indexEnd > 0)) {
+                indexStart += 13 + 10
+                indexEnd -= 2
+                let tts = readIn.substring(indexStart,indexEnd)
+                //console.log(tts)
+                let ytr = unescape(tts)
+                outputDebug("SENDINF FROM UPLAOD___=+++****")
+                let bci = yz.getValueOfCodeString(ytr, "base_component_id")
+
+                let indexStart = readIn.indexOf("/*APP_START*/")
+                let indexEnd = readIn.indexOf("/*APP_END*/")
+
+                let indexOfSqliteData = readIn.indexOf("let sqlitedata = '")
+                let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
+
+                let sqlitedatafromupload = null
+                if ((indexOfSqliteData != -1) && (indexOfSqliteDataEnd != -1)) {
+                    sqlitedatafromupload = readIn.substring( indexOfSqliteData + 18,
+                        indexOfSqliteDataEnd)
+                }
+
+                save_code_from_upload({
+                    message_type:           "save_code_from_upload",
+                    base_component_id:      bci,
+                    parent_hash:            null,
+                    code:                   ytr,
+                    client_file_upload_id:  client_file_upload_id,
+                    options:                {save_html: true, fast_forward_database_to_latest_revision: true},
+                    sqlite_data:            sqlitedatafromupload
+                });
+            }
+        } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz")  )  {
+            let localp2;
+            localp2 =  path.join(userData,  'uploads/' + ifile.filename);
+            let localp = localp2 + '.' + ext;
+            fs.renameSync(localp2, localp);
+            loadAppFromFile(localp,client_file_upload_id)
+        } else {
+            outputDebug('Ignoring file ');
+
+        }
+
+    }
+
+};
+function        file_name_load(req, res, next) {
+    //console.log("params: " + JSON.stringify(req.query,null,2))
+    loadAppFromFile(  req.query.file_name_load,
+        req.query.client_file_upload_id)
+};
+function        loadAppFromFile(localp,client_file_upload_id) {
+    console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
+    let readIn = fs.readFileSync(localp).toString()
+    let bci = yz.getValueOfCodeString(readIn, "base_component_id")
+
+
+
+    save_code_from_upload({
+        message_type:           "save_code_from_upload",
+        base_component_id:      bci,
+        parent_hash:            null,
+        code:                   readIn,
+        client_file_upload_id:  client_file_upload_id,
+        options:                {
+            save_html: true,
+            fast_forward_database_to_latest_revision: false,
+            save_code_to_file: localp
+        },                                          sqlite_data:            ""
+    });
+
+}
+function        code_uploadFn(req, res) {
+
+    save_code_from_upload({
+        message_type:           "save_code_from_upload",
+        parent_hash:            null,
+        code:                   "function(args) {  /* rest_api('test3') */ return {ab: 163}}",
+        options:                {save_html: true},
+        sqlite_data:            ""
+    });
+
+
+
+};
+async function  save_code_from_upload(msg) {
+    /*
+    ________________________________________
+    |                                      |
+    |       save_code_from_upload          |
+    |                                      |
+    |______________________________________|
+    Function description
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     msg    Some text
+    |     ---
+    |________________________________________________________________________ */
+    let ret = await yz.saveCodeV3(  dbsearch  ,  msg.code  , msg.options);
+    if (msg.sqlite_data) {
+        let b = Buffer.from(msg.sqlite_data, 'base64')
+        let sqliteAppDbPath = path.join( userData, 'app_dbs/' + msg.base_component_id + '.visi' )
+        fs.writeFileSync(sqliteAppDbPath, b);
+    }
+
+
+    ipc_child_returning_uploaded_app_as_file_in_child_response(
+        {
+            message_type:           'ipc_child_returning_uploaded_app_as_file_in_child_response',
+            code_id:                 ret.code_id,
+            base_component_id:       ret.base_component_id,
+            client_file_upload_id:   msg.client_file_upload_id
+        })
+}
+
+
+
+// edit app helper fns
+function        getEditApp(req, res) {
+	hostcount++;
+
+    // I dont know why sockets.io calls .map files here
+    if (req.path.endsWith(".map")) {
+        return
+    }
+    let parts = req.path.split('/');
+    let lastSegment = parts.pop() || parts.pop();
+
+    outputDebug("URL PATH: " + lastSegment);
+	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
+
+
+
+    //
+    // send the edit page
+    //
+    let homepage = path.join(__dirname, '../public/go.html')
+    let baseComponentId = lastSegment
+    let newStaticFileContent = fs.readFileSync(homepage)
+    newStaticFileContent = newStaticFileContent.toString().replace("let editAppShareApp = null", "let editAppShareApp = '" + baseComponentId + "'")
+
+
+
+    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+    res.end(newStaticFileContent);
+}
+
+
+
+// IPFS helpers
+async function  findLocalIpfsContent() {
+    fs.readdir(fullIpfsFolderPath, async function (err, files) {
+        if (err) {
+            return console.error(err);
+        }
+
+        for (let fileindex=0;fileindex<files.length;fileindex++){
+            let ipfsHashFileName = files[fileindex]
+            if (ipfsHashFileName.length > 10) {
+                try
+                {
+                    //console.log("ipfsHashFileName: " + ipfsHashFileName);
+
+                    let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
+                    let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
+
+                    let itemType = yz.getValueOfCodeString(ipfsContent,"component_type")
+                    if (itemType == "COMPONENT_COMMENT") {
+                        let formatType = yz.getValueOfCodeString(ipfsContent,"format")
+                        if (formatType == "JSON") {
+                            let jsonComment = JSON.parse(ipfsContent)
+                            await insertCommentIntoDb(
+                                {
+                                    baseComponentId:        jsonComment.base_component_id,
+                                    baseComponentIdVersion: jsonComment.base_component_id_version,
+                                    newComment:             jsonComment.comment,
+                                    newRating:              jsonComment.rating,
+                                    dateAndTime:            jsonComment.date_and_time
+                                }
+                            )
+                        }
+                    } else if (itemType == "APP") {
+                        let parsedCode = await parseCode(ipfsContent)
+                        parsedCode.ipfsHash = ipfsHashFileName
+                        await registerIPFS(ipfsHashFileName);
+                    }
+                    //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
+                }
+                catch(exp)
+                {
+                    console.log("ipfsHashFileName : " + ipfsHashFileName + " ERROR!" + exp);
+                }
+
+            }
+        }
+    })
+
+}
+async function  registerIPFS(ipfs_hash) {
+    await insertIpfsHashRecord(ipfs_hash,null,null,null)
+}
+async function  loadComponentFromIpfs(ipfsHash) {
+    outputDebug("*** loadComponentFromIpfs: *** : " )
+
+    let promise = new Promise(async function(returnfn) {
+        try
+        {
+            let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
+            let srcCode = fs.readFileSync(fullIpfsFilePath);
+            let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
+
+
+
+            /* let properties = yz.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+             srcCode = yz.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+             for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                 let brje = properties[irte]
+                 if (brje.id == "ipfs_hash_id") {
+                     brje.default = ipfsHash
+                 }
+             }
+
+             srcCode = yz.insertCodeString(  srcCode,
+                 "properties",
+                 properties,
+                 ")//prope" + "rties")*/
+
+            await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
+
+            console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
+            returnfn("Done")
+
+        } catch (error) {
+            try
+            {
+
+                ipfs.files.get(ipfsHash, function (err, files) {
+                    files.forEach(async function(file) {
+                        console.log("....................................Loading component from IPFS: " + file.path)
+                        //console.log(file.content.toString('utf8'))
+                        srcCode = file.content.toString('utf8')
+
+
+
+                        let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
+
+
+
+                        let properties = yz.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                        srcCode = yz.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+                        for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                            let brje = properties[irte]
+                            if (brje.id == "ipfs_hash_id") {
+                                brje.default = ipfsHash
+                            }
+                        }
+
+                        srcCode = yz.insertCodeString(  srcCode,
+                            "properties",
+                            properties,
+                            ")//prope" + "rties")
+
+
+
+                        let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
+                        fs.writeFileSync(fullIpfsFilePath, srcCode);
+
+                        await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
+
+                        console.log("....................................Loading component fro IPFS: " + file.path)
+                    })
+                    returnfn("Done")
+                })
+            } catch (error) {
+                outputDebug(error)
+            }
+        }
+
+
+
+    })
+    let ret = await promise
+    return ret
+}
+async function  saveJsonItemToIpfs(jsonItem) {
+    let jsonString = JSON.stringify(jsonItem,null,2)
+    await  saveItemToIpfs(jsonString)
+}
+async function  saveItemToIpfs(srcCode) {
+    outputDebug("*** saveItemToIpfs: *** : " )
+    let promise = new Promise(async function(returnfn) {
+        let justHash = null
+        try {
+            //console.log("Starting...")
+
+            justHash = await OnlyIpfsHash.of(srcCode)
+            let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
+            fs.writeFileSync(fullIpfsFilePath, srcCode);
+            await insertIpfsHashRecord(justHash,null,null,null)
+            await sendIpfsHashToCentralServer(justHash, srcCode)
+
+
+            if (isIPFSConnected) {
+                let testBuffer = new Buffer(srcCode);
+                ipfs.files.add(testBuffer, function (err, file) {
+                    if (err) {
+                        console.log("....................................Err: " + err);
+                    }
+                    console.log("....................................file: " + JSON.stringify(file, null, 2))
+                    let thehash = file[0].hash
+                    //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
+                    const validCID = thehash
+
+                    ipfs.files.get(validCID, function (err, files) {
+                        files.forEach((file) => {
+                            console.log("....................................file.path: " + file.path)
+                            console.log(file.content.toString('utf8'))
+                            console.log("....................................file.path: " + file.path)
+                            returnfn(thehash)
+                        })
+                    })
+                })
+            } else {
+                returnfn(justHash)
+            }
+
+        } catch (error) {
+            outputDebug(error)
+            returnfn(justHash)
+        }
+    })
+    let ipfsHash = await promise
+    return ipfsHash
+}
+async function  sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
+    let centralHost = program.centralhost
+    let centralPort = program.centralhostport
+    let promise = new Promise(async function(returnfn) {
+        try {
+            const dataString = JSON.stringify(
+                {
+                    ipfs_hash: ipfs_hash,
+                    ipfs_content: ipfsContent
+                })
+
+            let options = {
+                host: centralHost,
+                port: centralPort,
+                path: '/register_ipfs_content_for_client',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': dataString.length
+                }
+            };
+//https
+            let theHttpsConn = http
+            if (useHttps) {
+                theHttpsConn = https
+            }
+            let req = theHttpsConn.request(options, function(res) {
+                //console.log('STATUS: ' + res.statusCode);
+                //console.log('HEADERS: ' + JSON.stringify(res.headers));
+                res.setEncoding('utf8');
+                res.on('data', function (chunk) {
+                    //console.log('BODY: ' + chunk);
+                });
+                res.on('end', function () {
+                    //console.log('end: ' );
+                });
+            });
+            req.write(dataString)
+            req.end()
+            returnfn()
+        } catch(er) {
+            console.log(er)
+            returnfn()
+        }
+    })
+    await promise
+    return
+}
+async function  insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
+    let promise = new Promise(async function(returnfn) {
+        try {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
+                stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
+                dbsearch.run("commit")
+                returnfn()
+            })
+        } catch(er) {
+            console.log(er)
+            returnfn()
+        }
+    })
+    let ipfsHash = await promise
+    return ipfsHash
+}
+
+
+
+
+
+// Yazz OS helper methods
+function        function_call_requestPart2 (msg) {
+//-----------------------------------------------------------------------------------------
+//
+//                                   function_call_request
+//
+// This is called to call code.
+//
+//-----------------------------------------------------------------------------------------
+
+    if (msg.find_component.code_id) {
+        scheduleJobWithCodeId(  msg.find_component.code_id,
+            msg.args,
+            msg.caller_call_id,
+            msg.callback_index)
+
+
+
+    } else if (msg.find_component.base_component_id) {
+        //console.log("In msg.find_component.base_component_id")
+        dbsearch.serialize(
+            function() {
+                let stmt = dbsearch.all(
+                    "SELECT  ipfs_hash as id  FROM  yz_cache_released_components  where  base_component_id = ?; ",
+
+                    msg.find_component.base_component_id,
+
+                    function(err, results)
+                    {
+                        if (results && (results.length > 0)) {
+                            //console.log("    msg.find_component.base_component_id: " + msg.find_component.base_component_id  + " = " + results[0].id)
+                            scheduleJobWithCodeId(  results[0].id,
+                                msg.args,
+                                msg.caller_call_id,
+                                msg.callback_index)
+                            //callbackFn(results[0].id);
+                        } else {
+                            console.log("    msg.find_component.base_component_id: Could not find " +   msg.find_component.base_component_id)
+                        }
+
+                    })
+            }, sqlite3.OPEN_READONLY)
+    }
+}
+function        processor_free (msg) {
+    //-----------------------------------------------------------------------------------------
+    //
+    //                                   processor_free
+    //
+    // This is called whenever one of the code processors is free. They should only be allowed
+    // to process one thing at a time
+    //
+    //-----------------------------------------------------------------------------------------
+    dbsearch.serialize(
+        function() {
+            dbsearch.run("begin exclusive transaction");
+            setProcessToIdle.run(msg.child_process_name, yazzInstanceId)
+
+            dbsearch.run("commit", function() {
+                processesInUse[msg.child_process_name] = false
+            });
+        })
+}
+function        function_call_response (msg) {
+//-----------------------------------------------------------------------------------------
+//
+//                                   function_call_response
+//
+// This is called to return the response of a call
+//
+//-----------------------------------------------------------------------------------------
+
+    //console.log("*) Response received at Scheduler ")
+    //console.log("*) result generated by call ID: " + msg.called_call_id)
+    let callDetails = callList[msg.called_call_id]
+    //console.log("*) call details: " + JSON.stringify(msg,null,2))
+
+    if (callDetails == null) {
+        console.log("In Scheduler:function_call_response   callList    is not set for : " + JSON.stringify(msg,null,2))
+        return
+    }
+    let parentCallId = callDetails.parent_call_id
+    //console.log("*) parent call ID: " + JSON.stringify(parentCallId,null,2))
+
+    let processName
+    if (parentCallId == -1) {
+        processName = "forked"
+    } else {
+        let parentCallDetails = callList[parentCallId]
+        //console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
+        //console.log("*) Response: " + JSON.stringify(msg.result,null,2))
+        processName = parentCallDetails.process_name
+    }
+
+    //console.log("msg.callback_index returned: " + msg.callback_index)
+    return_response_to_function_caller({     message_type:       "return_response_to_function_caller" ,
+        child_process_name:  processName,
+        callback_index:      msg.callback_index,
+        result:              msg.result
+    });
+}
+async function  parseCode(code) {
+
+    let baseComponentIdOfItem = yz.getValueOfCodeString(code,"base_component_id")
+
+    let itemName = yz.getValueOfCodeString(code,"display_name")
+
+    let iconUrl = yz.getValueOfCodeString(code,"logo_url")
+
+    let ipfsHashId = await OnlyIpfsHash.of(code)
+
+    let readWriteStatus = ""
+    let rws = yz.getValueOfCodeString(code,"read_only")
+    if (rws) {
+        if (rws == true) {
+            readWriteStatus = "read"
+        }
+    }
+
+    let componentType = ""
+    if (yz.getValueOfCodeString(code,"component_type") == "SYSTEM") {
+        componentType = "system"
+    } else if (yz.getValueOfCodeString(code,"component_type") == "APP") {
+        componentType = "app"
+    } else if (yz.getValueOfCodeString(code,"component_type") == "VB") {
+        componentType = "component"
+    }
+    return {
+        ipfsHashId: ipfsHashId
+        ,
+        name: itemName
+        ,
+        type: componentType
+        ,
+        logo: iconUrl
+        ,
+        baseComponentId: baseComponentIdOfItem
+        ,
+        readWriteStatus: readWriteStatus
+    }
+}
 function        callDriverMethod(msg) {
 
     callDriverMethodPart2( msg.find_component, msg.args, function(result) {
@@ -4351,7 +2956,7 @@ function        callDriverMethod(msg) {
                 })
         }
     })
-  }
+}
 function        callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
 //------------------------------------------------------------------------------
 //
@@ -4388,8 +2993,8 @@ function        return_add_local_driver_results_msg(msg) {
         newCallbackFn(msg.result)
     } else {
         newCallbackFn({
-                            error: msg.error
-                        })
+            error: msg.error
+        })
     }
 
 
@@ -4407,13 +3012,13 @@ function        ipcChildReturningCallComponentResponse(msg) {
     let new_ws = queuedResponses[ msg.seq_num_parent ]
 
     sendToBrowserViaWebSocket(
-                                 new_ws
-                                 ,
-                                 {
-                                    type:            "ws_to_browser_call_component_results",
-                                    value:            msg.result,
-                                    seq_num:          msg.seq_num_browser
-                                 });
+        new_ws
+        ,
+        {
+            type:            "ws_to_browser_call_component_results",
+            value:            msg.result,
+            seq_num:          msg.seq_num_browser
+        });
 }
 function        function_call_request(msg) {
 //------------------------------------------------------------------------------
@@ -4425,21 +3030,21 @@ function        function_call_request(msg) {
 //------------------------------------------------------------------------------
 
     function_call_requestPart2({
-                                            message_type:         "function_call_request",
-                                            child_process_name:    msg.child_process_name,
-                                            find_component:        msg.find_component,
-                                            args:                  msg.args,
-                                            callback_index:        msg.callback_index,
-                                            caller_call_id:        msg.caller_call_id
-                                          });
+        message_type:         "function_call_request",
+        child_process_name:    msg.child_process_name,
+        find_component:        msg.find_component,
+        args:                  msg.args,
+        callback_index:        msg.callback_index,
+        caller_call_id:        msg.caller_call_id
+    });
 }
 function        return_response_to_function_caller(msg) {
 
 
-       // console.log("*) result received to caller " );
-       // console.log("*)  callback_index:" + msg.callback_index );
-       // console.log("*)  result:        " + msg.result );
-        callbackList[ msg.callback_index ](msg.result)
+    // console.log("*) result received to caller " );
+    // console.log("*)  callback_index:" + msg.callback_index );
+    // console.log("*)  result:        " + msg.result );
+    callbackList[ msg.callback_index ](msg.result)
 }
 function        updateRunningTimeForprocess() {
 //-----------------------------------------------------------------------------------------//
@@ -4449,58 +3054,58 @@ function        updateRunningTimeForprocess() {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-        //console.log("Checking processes")
+    //console.log("Checking processes")
 
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                  "SELECT * FROM system_process_info where  status = 'RUNNING'  AND  yazz_instance_id = ?; "
-                  ,
-                  [  yazzInstanceId  ]
-                  ,
+    dbsearch.serialize(
+        function() {
+            let stmt = dbsearch.all(
+                "SELECT * FROM system_process_info where  status = 'RUNNING'  AND  yazz_instance_id = ?; "
+                ,
+                [  yazzInstanceId  ]
+                ,
 
-                    function(err, results)
-                    {
-                        if (results) {
-                           let timeNow = new Date().getTime();
-                           dbsearch.run("begin exclusive transaction");
-                           for (let ii = 0 ; ii < results.length ; ii++ ) {
-                               let thisProcess = results[ii]
-                               let startTime = thisProcess.running_start_time_ms
-                               let duration = timeNow - startTime
-                               setProcessRunningDurationMs.run(duration, thisProcess.process, yazzInstanceId)
-                           }
-                           dbsearch.run("commit", function() {
-                           });
+                function(err, results)
+                {
+                    if (results) {
+                        let timeNow = new Date().getTime();
+                        dbsearch.run("begin exclusive transaction");
+                        for (let ii = 0 ; ii < results.length ; ii++ ) {
+                            let thisProcess = results[ii]
+                            let startTime = thisProcess.running_start_time_ms
+                            let duration = timeNow - startTime
+                            setProcessRunningDurationMs.run(duration, thisProcess.process, yazzInstanceId)
                         }
+                        dbsearch.run("commit", function() {
+                        });
+                    }
 
-                    })
+                })
         })
 }
 function        findLongRunningProcesses() {
-        console.log("Checking processes")
+    console.log("Checking processes")
 
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                  "SELECT * FROM system_process_info where  status = 'RUNNING' and event_duration_ms > ?  and  yazz_instance_id = ?; "
-                  ,
-                  [  maxJobProcessDurationMs  ,  yazzInstanceId  ]
-                  ,
-                    function(err, results)
-                    {
-                        if (results) {
-                           dbsearch.run("begin exclusive transaction");
-                           for (let ii = 0 ; ii < results.length ; ii++ ) {
-                               let thisProcess = results[ii]
-                               console.log(thisProcess)
-                               //killProcess(thisProcess.process, thisProcess.callback_index)
-                           }
-                           dbsearch.run("commit", function() {
-                           });
+    dbsearch.serialize(
+        function() {
+            let stmt = dbsearch.all(
+                "SELECT * FROM system_process_info where  status = 'RUNNING' and event_duration_ms > ?  and  yazz_instance_id = ?; "
+                ,
+                [  maxJobProcessDurationMs  ,  yazzInstanceId  ]
+                ,
+                function(err, results)
+                {
+                    if (results) {
+                        dbsearch.run("begin exclusive transaction");
+                        for (let ii = 0 ; ii < results.length ; ii++ ) {
+                            let thisProcess = results[ii]
+                            console.log(thisProcess)
+                            //killProcess(thisProcess.process, thisProcess.callback_index)
                         }
+                        dbsearch.run("commit", function() {
+                        });
+                    }
 
-                    })
+                })
         })
 }
 function        killProcess(processName, callbackIndex) {
@@ -4512,13 +3117,13 @@ function        killProcess(processName, callbackIndex) {
             dbsearch.run("commit", function() {
                 processesInUse[processName] = false
                 return_response_to_function_caller({     message_type:       "return_response_to_function_caller" ,
-                                   child_process_name:  processName,
-                                   callback_index:      callbackIndex,
-                                   result:              {error: {
-                                                            text: "Request timeout",
-                                                            code: 408
-                                   }}
-                               });
+                    child_process_name:  processName,
+                    callback_index:      callbackIndex,
+                    result:              {error: {
+                            text: "Request timeout",
+                            code: 408
+                        }}
+                });
             });
         })
 }
@@ -4577,13 +3182,13 @@ function        scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex
                 },2000)
             } else {
                 return_response_to_function_caller({     message_type:       "return_response_to_function_caller" ,
-                                   child_process_name:  processName,
-                                   callback_index:      callbackIndex,
-                                   result:              {error: {
-                                                            text: "Yazz Server too busy",
-                                                            code: 503
-                                   }}
-                               });
+                    child_process_name:  processName,
+                    callback_index:      callbackIndex,
+                    result:              {error: {
+                            text: "Yazz Server too busy",
+                            code: 503
+                        }}
+                });
             }
 
 
@@ -4602,7 +3207,7 @@ function        sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processNa
     let newCallId = nextCallId ++
 
     callList[  newCallId  ] = {     process_name:       processName,
-                                    parent_call_id:     parentCallId        }
+        parent_call_id:     parentCallId        }
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
@@ -4612,13 +3217,13 @@ function        sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processNa
 
             dbsearch.run("commit", function() {
                 execute_code_in_exe_child_process({  message_type:       "execute_code_in_exe_child_process" ,
-                                child_process_name:  processName,
-                                code_id:             id,
-                                args:                args,
-                                call_id:             newCallId,
-                                callback_index:      callbackIndex,
-                                base_component_id:   base_component_id
-                                });
+                    child_process_name:  processName,
+                    code_id:             id,
+                    args:                args,
+                    call_id:             newCallId,
+                    callback_index:      callbackIndex,
+                    base_component_id:   base_component_id
+                });
             });
         })
 }
@@ -4631,15 +3236,15 @@ function        execute_code_in_exe_child_process (msg) {
 //
 //------------------------------------------------------------------------------
 
-        forkedProcesses[msg.child_process_name].send({
-                                                message_type:       "execute_code",
-                                                code:                msg.code,
-                                                callback_index:      msg.callback_index,
-                                                code_id:             msg.code_id,
-                                                args:                msg.args,
-                                                call_id:             msg.call_id,
-                                                base_component_id:   msg.base_component_id
-                                              });
+    forkedProcesses[msg.child_process_name].send({
+        message_type:       "execute_code",
+        code:                msg.code,
+        callback_index:      msg.callback_index,
+        code_id:             msg.code_id,
+        args:                msg.args,
+        call_id:             msg.call_id,
+        base_component_id:   msg.base_component_id
+    });
 }
 function        sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
 //-----------------------------------------------------------------------------------------//
@@ -4663,18 +3268,18 @@ function        sendJobToProcessName(id, args, processName, parentCallId, callba
 
 
                             sendToProcess(  id,
-                                            parentCallId,
-                                            callbackIndex,
-                                            processName,
-                                            results[0].base_component_id,
-                                            args)
+                                parentCallId,
+                                callbackIndex,
+                                processName,
+                                results[0].base_component_id,
+                                args)
 
 
 
                         }
                     }
                 })
-    }, sqlite3.OPEN_READONLY)
+        }, sqlite3.OPEN_READONLY)
 
 }
 function        startNode (msg) {
@@ -4689,196 +3294,204 @@ function        startNode (msg) {
 //-----------------------------------------------------------------------------------------
 
 
-     //console.log(" --- Started Node --- ")
-     //console.log("     Node ID: " + msg.node_id)
-     //console.log("     Process ID: " + msg.child_process_id)
-     //console.log("     Started: " + msg.started)
-     dbsearch.serialize(
-         function() {
-             let stmt = dbsearch.all(
-               "SELECT * FROM system_process_info where  yazz_instance_id = ?  AND  process = ?; "
-               ,
-               [  yazzInstanceId  ,  msg.node_id  ]
-               ,
-
-                 function(err, results)
-                 {
-                     if (results.length == 0)  {
-                         dbsearch.serialize(
-                             function() {
-                                 dbsearch.run("begin exclusive transaction");
-                                 insertIntoProcessTable.run(
-                                     yazzInstanceId,
-                                     msg.node_id,
-                                     msg.child_process_id,
-                                     msg.started,
-                                     "IDLE",
-                                     null
-                                     )
-                                 dbsearch.run("commit", function() {
-                                        processesInUse[msg.node_id] = false
-                                 });
-                         })
-
-                     } else {
-                         dbsearch.serialize(
-                             function() {
-                                 dbsearch.run("begin exclusive transaction");
-                                 updateProcessTable.run(
-                                     msg.child_process_id,
-                                     msg.started,
-                                     "IDLE",
-                                     null,
-                                     yazzInstanceId,
-                                     msg.node_id
-                                 )
-                                 dbsearch.run("commit", function() {
-                                        processesInUse[msg.node_id] = false
-                                 });
-                         })
-                     }
-                 })
-             })
-
-}
-function        function_call_requestPart2 (msg) {
-//-----------------------------------------------------------------------------------------
-//
-//                                   function_call_request
-//
-// This is called to call code.
-//
-//-----------------------------------------------------------------------------------------
-
-    if (msg.find_component.code_id) {
-       scheduleJobWithCodeId(  msg.find_component.code_id,
-                               msg.args,
-                               msg.caller_call_id,
-                               msg.callback_index)
-
-
-
-    } else if (msg.find_component.base_component_id) {
-        //console.log("In msg.find_component.base_component_id")
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                  "SELECT  ipfs_hash as id  FROM  yz_cache_released_components  where  base_component_id = ?; ",
-
-                   msg.find_component.base_component_id,
-
-                    function(err, results)
-                    {
-                        if (results && (results.length > 0)) {
-                            //console.log("    msg.find_component.base_component_id: " + msg.find_component.base_component_id  + " = " + results[0].id)
-                           scheduleJobWithCodeId(  results[0].id,
-                                                   msg.args,
-                                                   msg.caller_call_id,
-                                                   msg.callback_index)
-                            //callbackFn(results[0].id);
-                        } else {
-                            console.log("    msg.find_component.base_component_id: Could not find " +   msg.find_component.base_component_id)
-                        }
-
-                    })
-        }, sqlite3.OPEN_READONLY)
-    }
-}
-function        processor_free (msg) {
-    //-----------------------------------------------------------------------------------------
-    //
-    //                                   processor_free
-    //
-    // This is called whenever one of the code processors is free. They should only be allowed
-    // to process one thing at a time
-    //
-    //-----------------------------------------------------------------------------------------
+    //console.log(" --- Started Node --- ")
+    //console.log("     Node ID: " + msg.node_id)
+    //console.log("     Process ID: " + msg.child_process_id)
+    //console.log("     Started: " + msg.started)
     dbsearch.serialize(
         function() {
-            dbsearch.run("begin exclusive transaction");
-            setProcessToIdle.run(msg.child_process_name, yazzInstanceId)
+            let stmt = dbsearch.all(
+                "SELECT * FROM system_process_info where  yazz_instance_id = ?  AND  process = ?; "
+                ,
+                [  yazzInstanceId  ,  msg.node_id  ]
+                ,
 
-            dbsearch.run("commit", function() {
-                processesInUse[msg.child_process_name] = false
-            });
+                function(err, results)
+                {
+                    if (results.length == 0)  {
+                        dbsearch.serialize(
+                            function() {
+                                dbsearch.run("begin exclusive transaction");
+                                insertIntoProcessTable.run(
+                                    yazzInstanceId,
+                                    msg.node_id,
+                                    msg.child_process_id,
+                                    msg.started,
+                                    "IDLE",
+                                    null
+                                )
+                                dbsearch.run("commit", function() {
+                                    processesInUse[msg.node_id] = false
+                                });
+                            })
+
+                    } else {
+                        dbsearch.serialize(
+                            function() {
+                                dbsearch.run("begin exclusive transaction");
+                                updateProcessTable.run(
+                                    msg.child_process_id,
+                                    msg.started,
+                                    "IDLE",
+                                    null,
+                                    yazzInstanceId,
+                                    msg.node_id
+                                )
+                                dbsearch.run("commit", function() {
+                                    processesInUse[msg.node_id] = false
+                                });
+                            })
+                    }
+                })
         })
+
 }
-function        function_call_response (msg) {
-//-----------------------------------------------------------------------------------------
-//
-//                                   function_call_response
-//
-// This is called to return the response of a call
-//
-//-----------------------------------------------------------------------------------------
-
-   //console.log("*) Response received at Scheduler ")
-   //console.log("*) result generated by call ID: " + msg.called_call_id)
-   let callDetails = callList[msg.called_call_id]
-   //console.log("*) call details: " + JSON.stringify(msg,null,2))
-
-   if (callDetails == null) {
-      console.log("In Scheduler:function_call_response   callList    is not set for : " + JSON.stringify(msg,null,2))
-      return
-   }
-   let parentCallId = callDetails.parent_call_id
-   //console.log("*) parent call ID: " + JSON.stringify(parentCallId,null,2))
-
-   let processName
-   if (parentCallId == -1) {
-       processName = "forked"
-   } else {
-       let parentCallDetails = callList[parentCallId]
-       //console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
-       //console.log("*) Response: " + JSON.stringify(msg.result,null,2))
-       processName = parentCallDetails.process_name
-   }
-
-   //console.log("msg.callback_index returned: " + msg.callback_index)
-   return_response_to_function_caller({     message_type:       "return_response_to_function_caller" ,
-                                            child_process_name:  processName,
-                                            callback_index:      msg.callback_index,
-                                            result:              msg.result
-                                        });
-                      }
-async function  parseCode(code) {
-
-    let baseComponentIdOfItem = yz.getValueOfCodeString(code,"base_component_id")
-
-    let itemName = yz.getValueOfCodeString(code,"display_name")
-
-    let iconUrl = yz.getValueOfCodeString(code,"logo_url")
-
-    let ipfsHashId = await OnlyIpfsHash.of(code)
-
-    let readWriteStatus = ""
-    let rws = yz.getValueOfCodeString(code,"read_only")
-    if (rws) {
-        if (rws == true) {
-            readWriteStatus = "read"
+async function  executeSqliteForApp( args ) {
+    if (!args.sql) {
+        return []
+    }
+    let getSqlResults = new Promise(returnResult => {
+        //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
+        //console.log("args: " + JSON.stringify(args,null,2))
+        let appDb = null
+        if (appDbs[args.base_component_id]) {
+            appDb = appDbs[args.base_component_id]
+            //console.log("Using cached db " + args.base_component_id)
+        } else {
+            let dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
+            appDb = new sqlite3.Database(dbPath);
+            appDb.run("PRAGMA journal_mode=WAL;")
+            appDbs[args.base_component_id] = appDb
         }
-    }
 
-    let componentType = ""
-    if (yz.getValueOfCodeString(code,"component_type") == "SYSTEM") {
-        componentType = "system"
-    } else if (yz.getValueOfCodeString(code,"component_type") == "APP") {
-        componentType = "app"
-    } else if (yz.getValueOfCodeString(code,"component_type") == "VB") {
-        componentType = "component"
+        if (args.sql.toLocaleLowerCase().trim().startsWith("select")) {
+            //console.log("Read only query " + args.sql)
+            appDb.serialize(
+                function() {
+                    appDb.all(
+                        args.sql
+                        ,
+                        args.params
+                        ,
+
+                        function(err, results)
+                        {
+                            returnResult(results)
+                        })
+                }, sqlite3.OPEN_READONLY)
+        } else {
+            appDb.serialize(
+                function() {
+                    appDb.run("begin deferred transaction");
+                    appDb.run(args.sql, args.params)
+                    appDb.run("commit");
+                    appDb.run("PRAGMA wal_checkpoint;")
+                    returnResult([])
+                })
+        }
+    })
+
+
+    let res = await getSqlResults
+    return res
+}
+function        ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
+    /*
+    _____________________________________________________________________________
+    |                                                                           |
+    |       ipc_child_returning_uploaded_app_as_file_in_child_response          |
+    |                                                                           |
+    |___________________________________________________________________________|
+    Function description
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     msg    Some text
+    |     ---
+    |________________________________________________________________________ */
+
+      outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
+
+      // ______
+      // Server  --1 data item-->  Browser
+      // ______
+      //
+      sendOverWebSockets({
+                            type:                 "uploaded_app_as_file_from_server",
+                            code_id:               msg.code_id,
+                            base_component_id:     msg.base_component_id,
+                            client_file_upload_id: msg.client_file_upload_id
+
+          });
+}
+async function  evalLocalSystemDriver(location, options) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+    outputDebug("*** Loading driver from: *** : " + location)
+    let ret
+    try {
+        let evalDriver = fs.readFileSync(location);
+    	ret = await addOrUpdateDriver(evalDriver,options)
+    } catch (error) {
+        outputDebug(error)
     }
-    return {
-        ipfsHashId: ipfsHashId
-        ,
-        name: itemName
-        ,
-        type: componentType
-        ,
-        logo: iconUrl
-        ,
-        baseComponentId: baseComponentIdOfItem
-        ,
-        readWriteStatus: readWriteStatus
+    return ret
+}
+async function  addOrUpdateDriver(  codeString ,options ) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
+
+    try {
+
+        let saveRet = await yz.saveCodeV3(dbsearch,    codeString  ,options);
+        let codeId = null
+        if (saveRet) {
+            codeId = saveRet.code_id
+        }
+        return {codeId: codeId}
+
+
+
+      } catch(err) {
+          console.log(err);
+          let stack = new Error().stack
+          console.log( stack )
+          return {error: err}
+
+      }
+}
+function        localComponentPath(localPath) {
+ return path.join(__dirname, '../public/visifile_drivers' + localPath)
+}
+async function  evalHtmlComponentFromPath(srcPath){
+    let ret = await evalLocalSystemDriver(     localComponentPath(srcPath),{save_html: true, username: "default", version: "latest"})
+    return ret
+}
+async function  evalComponentFromPath(srcPath){
+    let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
+    return ret
+}
+
+
+// component release helpers
+async function  releaseComponentFromPath(srcPath){
+    try {
+        let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
+        await releaseCode(ret.codeId)
+
+        return ret
+    } catch (err) {
+        console.log(err)
     }
 }
 async function  getCommentsForComponent(baseComponentId) {
@@ -4963,184 +3576,11 @@ async function  insertCommentIntoDb(args) {
 
     })
 }
-async function  getUserIdFromYazzCookie(yazzCookie) {
-    let sessionId = await getSessionIdFromYazzCookie(yazzCookie)
 
-    let promise = new Promise(async function(returnfn) {
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                    `select 
-                            fk_user_id
-                      FROM 
-                            sessions
-                      where 
-                            id  = ? `
-                    ,
-                    [sessionId]
-                    ,
 
-                    function(err, results)
-                    {
-                        if (results.length > 0) {
-                            returnfn(results[0].fk_user_id)
-                        }
-                        returnfn(null)
 
-                    })
-            }, sqlite3.OPEN_READONLY)
-    })
 
-    let userId = await promise
-    return userId
-
-}
-async function  getUserId(req) {
-    let sessionId = await getSessionId(req)
-
-    let promise = new Promise(async function(returnfn) {
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                    `select 
-                            fk_user_id
-                      FROM 
-                            sessions
-                      where 
-                            id  = ? `
-                    ,
-                    [sessionId]
-                    ,
-
-                    function(err, results)
-                    {
-                        if (results.length > 0) {
-                            returnfn(results[0].fk_user_id)
-                        }
-                        returnfn(null)
-
-                    })
-            }, sqlite3.OPEN_READONLY)
-    })
-
-    let userId = await promise
-    return userId
-}
-async function  getSessionId(req) {
-    let promise = new Promise(async function(returnfn) {
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                    `select 
-                            sessions.id 
-                      FROM 
-                            sessions,cookies
-                      where 
-                            sessions.id = cookies.fk_session_id
-                            and
-                            cookie_value = ? `
-                            ,
-                            [req.cookies.yazz]
-                            ,
-
-                    function(err, results)
-                    {
-                        if (results.length > 0) {
-                            returnfn(results[0].id)
-                        }
-                        returnfn(null)
-
-                    })
-            }, sqlite3.OPEN_READONLY)
-    })
-
-    let sessionId = await promise
-    return sessionId
-}
-async function  getSessionIdFromYazzCookie(yazzCookie) {
-    let promise = new Promise(async function(returnfn) {
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                    `select 
-                            sessions.id 
-                      FROM 
-                            sessions,cookies
-                      where 
-                            sessions.id = cookies.fk_session_id
-                            and
-                            cookie_value = ? `
-                    ,
-                    [yazzCookie]
-                    ,
-
-                    function(err, results)
-                    {
-                        if (results.length > 0) {
-                            returnfn(results[0].id)
-                        }
-                        returnfn(null)
-
-                    })
-            }, sqlite3.OPEN_READONLY)
-    })
-
-    let sessionId = await promise
-    return sessionId
-}
-async function  getCookieRecord(cookieValue) {
-    let promise = new Promise(async function(returnfn) {
-        dbsearch.serialize(
-            function() {
-                let stmt = dbsearch.all(
-                    `select 
-                            id,  created_timestamp, cookie_name, cookie_value, fk_session_id 
-                      FROM 
-                            cookies
-                      where 
-                            cookie_value = ? `
-                            ,
-                    [cookieValue]
-                    ,
-                    function(err, results)
-                    {
-                        if (results.length > 0) {
-                            returnfn(results[0])
-                        } else {
-                            returnfn(null)
-                        }
-
-                    })
-            }, sqlite3.OPEN_READONLY)
-    })
-    let cookeResult = await promise
-    return cookeResult
-}
-async function  createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
-    let promise = new Promise(async function(returnfn) {
-        try {
-            dbsearch.serialize(function() {
-                dbsearch.run("begin exclusive transaction");
-
-                let newSessionid = uuidv1()
-                let timestampNow = new Date().getTime()
-                let anonymousUserId = uuidv1()
-                stmtInsertUser.run(anonymousUserId, "ANONYMOUS")
-                stmtInsertSession.run(newSessionid,timestampNow,timestampNow, 1, anonymousUserId)
-
-                stmtInsertCookie.run(uuidv1(),timestampNow,"yazz",cookie,newSessionid, hostCookieSentTo, from_device_type)
-                dbsearch.run("commit")
-                returnfn()
-            })
-        } catch(er) {
-            console.log(er)
-            returnfn()
-        }
-    })
-    let ipfsHash = await promise
-    return ipfsHash
-    return ""
-}
+// code commit helpers
 async function  getRowForCommit(commitId) {
     let commitStructure = null
     let excludeCommitId = null
@@ -5518,6 +3958,1596 @@ async function  copyAppshareApp(args) {
 
 
     return ret
+}
+async function  createNewTip(savedCode, codeId, userId) {
+    /*
+    Create a new code tip for the current code. This code tip
+    moves the TIP tag forward for the code. But the code can have
+    multiple tips, so this wouldn't make sense. The tip only makes
+    sense for the current user editing the code
+     */
+    let parentCodeTag
+    let baseComponentId
+    let parentHash
+
+    baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
+    parentHash      = yz.getValueOfCodeString(savedCode,"parent_hash")
+
+    parentCodeTag = await yz.getQuickSqlOneRow(
+        dbsearch,
+        "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
+        [parentHash, userId])
+
+    if (parentCodeTag) {
+        await yz.executeQuickSql(
+            dbsearch,
+            "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+            [parentHash])
+    }
+
+    await yz.executeQuickSql(
+        dbsearch
+        ,
+        `insert into 
+                    code_tags 
+                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
+                 values  
+                     (?,?,?,?,?)
+                     `,
+        [uuidv1(), baseComponentId, "TIP", codeId, userId])
+}
+
+
+
+// REST APIs and websocket helpers
+function        websocketFn(ws) {
+    serverwebsockets.push(ws);
+    sendToBrowserViaWebSocket(ws, {type: "socket_connected"});
+    sendOverWebSockets({
+        type:   "env_vars",
+        value:   envVars
+    });
+    //console.log('Socket connected : ' + serverwebsockets.length);
+    sendOverWebSockets({
+        type:   "network_ip_address_intranet",
+        value:   hostaddressintranet
+    });
+    sendOverWebSockets({
+        type:   "send_is_win",
+        value:   isWin
+    });
+
+    ws.on('message', async function(msg) {
+        let receivedMessage = eval("(" + msg + ")");
+
+        let userId = await getUserIdFromYazzCookie(receivedMessage.cookie)
+
+        //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
+
+        // if we get the message "server_get_all_queries" from the web browser
+        if (receivedMessage.message_type == "server_get_all_queries") {
+
+            let seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+
+
+
+
+
+
+
+
+
+
+            //                                  ______
+            // Browser  --Send me your data-->  Server
+            //                                  ______
+            //
+        } else if (receivedMessage.message_type == "edit_static_app") {
+            outputDebug("*** server got message from static app: edit_static_app")
+            let sql_data = receivedMessage.sql_data
+            let code_fn = receivedMessage.code_fn
+
+
+            save_code_from_upload({
+                message_type:           "save_code_from_upload",
+                base_component_id:      receivedMessage.base_component_id,
+                parent_hash:            null,
+                code:                   code_fn,
+                client_file_upload_id:  -1,
+                options:                {save_html: true, fast_forward_database_to_latest_revision: true},
+                sqlite_data:            sql_data
+            });
+
+
+
+            sendToBrowserViaWebSocket(  ws,
+                {
+                    type:       "edit_static_app_url"
+                    ,
+
+                    url:        receivedMessage.host_editor_address +
+                        "/edit/" +
+                        receivedMessage.base_component_id
+                    ,
+
+                    size_of_db: "" + (sql_data?sql_data.length:0)
+                    ,
+                    code_fn: "" + (code_fn?code_fn.length:0)
+
+                });
+
+
+
+            //                                  ______
+            // Browser  --Send me your data-->  Server
+            //                                  ______
+            //
+        } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
+
+            let seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+
+
+
+
+
+
+
+
+        } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
+
+            let seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // --------------------------------------------------------------------
+            //
+            //                         browser_calls_component_via_web_socket
+            //
+            // "browser_calls_component_via_web_socket" is used to call server side apps/code.
+            //
+            //
+            //
+            // --------------------------------------------------------------------
+        } else if (receivedMessage.message_type == "browser_calls_component_via_web_socket") {
+
+            // Use an integer counter to identify whoever was
+            // calling the server function (in this case a web browser with
+            // a web socket). We need to do this as there may be several
+            // web browsers connected to this one server
+            let seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[ seqNum ] = ws;
+
+
+            if (receivedMessage.find_component && receivedMessage.find_component.base_component_id == "systemFunctionAppSql") {
+
+                let resultOfSql = await executeSqliteForApp(  receivedMessage.args  )
+                sendToBrowserViaWebSocket(
+                    ws
+                    ,
+                    {
+                        type:            "ws_to_browser_call_component_results",
+                        value:            resultOfSql,
+                        seq_num:          receivedMessage.seqNum
+                    });
+
+
+
+            } else {
+                receivedMessage.args.user_id = userId
+                callDriverMethod({
+                    message_type:          "callDriverMethod",
+                    find_component:         receivedMessage.find_component,
+                    args:                   receivedMessage.args,
+                    seq_num_parent:         seqNum,
+                    seq_num_browser:        receivedMessage.seqNum
+                });
+            }
+
+        }
+    });
+};
+async function  startServices() {
+    //------------------------------------------------------------
+    // This starts all the system services
+    //------------------------------------------------------------
+    if (useHttps) {
+
+        let app2             = express()
+
+        let newhttp = http.createServer(app2);
+        app2.use(compression())
+        app2.get('/', function (req, res, next) {
+            return getRoot(req, res, next);
+        })
+
+
+        app2.get('*', function(req, res) {
+            if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
+                outputDebug("path: " + req.path)
+
+                let rty = req.path
+                if (req.path == "/canlabs") {
+                    rty = "/canlabs/index.html"
+                }
+
+                let fileNameRead = path.join(__dirname, '../public' + rty)
+                res.end(fs.readFileSync(fileNameRead));
+
+
+            } else if (  req.path.indexOf(".well-known") != -1  ) {
+                let fileNameRead = path.join(__dirname, '../public' + req.path)
+                res.end(fs.readFileSync(fileNameRead));
+
+
+            } else {
+                //outputDebug("Redirect HTTP to HTTPS")
+                res.redirect('https://' + req.headers.host + req.url);
+            }
+        })
+
+        newhttp.listen(80);
+    }
+
+
+    app.use(compression())
+    app.use(cors({ origin: '*' }));
+    app.use(async function (req, res, next) {
+
+        let oneof = false;
+        if(req.headers.origin) {
+            res.header('Access-Control-Allow-Origin', req.headers.origin);
+            oneof = true;
+        }
+        if(req.headers['access-control-request-method']) {
+            res.header('Access-Control-Allow-Methods', req.headers['access-control-request-method']);
+            oneof = true;
+        }
+        if(req.headers['access-control-request-headers']) {
+            res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
+            oneof = true;
+        }
+        if(oneof) {
+            res.header('Access-Control-Max-Age', 60 * 60 * 24 * 365);
+        }
+
+
+        // Set to true if you need the website to include cookies in the requests sent
+        // to the API (e.g. in case you use sessions)
+        res.setHeader('Access-Control-Allow-Credentials', true);
+
+
+        let userAgentString = req.headers['user-agent']
+        let hostCookieSentTo = req.host
+        let cookie = req.cookies.yazz;
+
+
+        let from_device_type = userAgentString
+        if (typeof userAgentString  !== 'undefined') {
+            if (typeof cookie === undefined) {
+                // no: set a new cookie
+                let randomNumber =  uuidv1()
+                res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
+                await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
+                //console.log('cookie created successfully');
+            } else {
+                // yes, cookie was already present
+                //console.log('cookie exists', cookie);
+
+                //
+                // check if cookie exists in the DB. If not then set a new cookie
+                //
+                let cookieRecord = await getCookieRecord(cookie)
+                if (cookieRecord == null) {
+                    let randomNumber =  uuidv1()
+                    res.cookie('yazz',randomNumber, { maxAge: 900000, httpOnly: false });
+                    await createCookieInDb(randomNumber, hostCookieSentTo, from_device_type)
+                    //console.log('No cookie found in Yazz DB, cookie created successfully');
+                }
+
+            }
+        }
+
+
+
+        // Pass to next layer of middleware
+        next();
+    });
+
+    app.get('/', function (req, res, next) {
+        //------------------------------------------------------------------------------
+        // Show the default page for the different domains
+        //------------------------------------------------------------------------------
+        //console.log("calling main page")
+        //console.log("jaeger: " + jaegercollector)
+        //console.log("app.get('/'): ")
+        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        return getRoot(req, res, next);
+    })
+    app.get('/copy_component_get', async function (req, res, next) {
+        let userid              = await getUserId(req)
+        let baseComponentId     = req.query.base_component_id
+        let codeId              = req.query.code_id
+        let newBaseComponentId  = req.query.new_base_component_id
+
+        let args =
+            {
+                base_component_id: baseComponentId
+                ,
+                code_id: codeId
+                ,
+                new_base_component_id: newBaseComponentId
+            }
+
+        let response = await copyAppshareApp(args)
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            response
+        ));
+
+    })
+    app.get('/update_code_tags', async function (req, res, next) {
+        let userid          = await getUserId(req)
+
+        await yz.updateCodeTags(
+            dbsearch,
+            {
+                baseComponentId:    req.query.baseComponentId,
+                userId:             userid,
+                sha1sum:            req.query.sha1sum
+            })
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {status: "Done"}
+        ));
+
+    })
+    app.get('/get_code_commit', async function (req, res, next) {
+        //console.log("calling main page")
+        //console.log("jaeger: " + jaegercollector)
+        let commitId = req.query.commit_id;
+
+
+        let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
+        let codeString = codeRecord.code
+
+        console.log("app.get('/'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {code: codeString}
+        ));
+
+    })
+    app.post('/call_component', async function (req, res) {
+        console.log("app.post('/call_component'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
+
+        let topApps = []
+        //let baseComponentId = req.body.value.base_component_id
+        //let baseComponentIdVersion = req.body.value.base_component_id_version
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+    })
+    app.post('/submit_comment', async function (req, res) {
+        console.log("app.post('/submit_comment'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        let topApps = []
+        let baseComponentId = req.body.value.base_component_id
+        let baseComponentIdVersion = req.body.value.base_component_id_version
+        let newComment = req.body.value.comment
+        let newRating = req.body.value.rating
+        let newDateAndTime = new Date().getTime()
+
+
+        await insertCommentIntoDb(
+            {
+                baseComponentId:        baseComponentId,
+                baseComponentIdVersion: baseComponentIdVersion,
+                newComment:             newComment,
+                newRating:              newRating,
+                dateAndTime:            newDateAndTime
+            }
+        )
+        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
+
+        topApps =
+            {
+                status: "ok"
+                ,
+
+                comments_and_ratings: commentsAndRatings
+            }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+
+        setTimeout(async function() {
+            let ipfsHash = await saveJsonItemToIpfs(
+                {
+                    type: "COMPONENT_COMMENT",
+                    format: "JSON'",
+                    type_: "component_type('COMPONENT_COMMENT')",
+                    format_: "format('JSON')",
+                    date_and_time: newDateAndTime,
+                    base_component_id: baseComponentId,
+                    base_component_id_version: baseComponentIdVersion,
+                    comment: newComment,
+                    rating: newRating
+                }
+
+            )
+            let afdsfds=ipfsHash
+        },500)
+
+    });
+    app.post('/save_debug_text', async function (req, res) {
+        /*
+        ________________________________________
+        |                                      |
+        |       POST /save_debug_text          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     componentSearchDetails    Some text
+        |     ----------------------    can go here
+        |                               and on the
+        |                               following lines
+        |
+        |     second param              Some text
+        |     ------------              can go here
+        |                               and on the
+        |                               following lines
+        |________________________________________________________________________ */
+        let textInput       = req.body.textInput
+        let fileLocation    = req.body.fileLocation
+        fs.writeFileSync(fileLocation, textInput);
+
+//zzz
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({status: "OK"}))
+    })
+    app.post('/get_pipeline_code', async function (req, res) {
+        /*
+        ________________________________________
+        |                                      |
+        |       POST /save_debug_text          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     componentSearchDetails    Some text
+        |     ----------------------    can go here
+        |                               and on the
+        |                               following lines
+        |
+        |     second param              Some text
+        |     ------------              can go here
+        |                               and on the
+        |                               following lines
+        |________________________________________________________________________ */
+        let pipelineFileName        = req.body.pipelineFileName
+        let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
+//zzz
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({value: fileOut}))
+    })
+    app.post('/load_ui_components_v3', async function (req, res) {
+        /*
+                            POST    '/load_ui_components_v3'
+
+                            Loads a bunch of components
+         */
+        let inputComponentsToLoad       = req.body.find_components.items
+        let outputComponents            = []
+
+
+        //----------------------------------------------------------------------------
+        // Go through all the components
+        //----------------------------------------------------------------------------
+        for (let componentItem    of    inputComponentsToLoad ) {
+            let resultsRow = null
+
+
+
+
+            //----------------------------------------------------------------------------
+            // if IPFS Hash given
+            //----------------------------------------------------------------------------
+            if (componentItem.codeId) {
+                componentItem.ipfsHashId = componentItem.codeId
+
+                resultsRow = await yz.getQuickSqlOneRow(
+                    dbsearch
+                    ,
+                    `
+                        SELECT  
+                            system_code.*  
+                        FROM
+                            system_code  
+                        WHERE  
+                            id  = ?
+                        `
+                    ,
+                    componentItem.codeId)
+
+                //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
+
+
+
+
+
+                //----------------------------------------------------------------------------
+                // if baseComponentId given
+                //----------------------------------------------------------------------------
+            } else if (componentItem.baseComponentId) {
+                resultsRow = await yz.getQuickSqlOneRow(
+                    dbsearch
+                    ,
+                    `
+                    SELECT  
+                        system_code.*  
+                    FROM   
+                        system_code, 
+                        yz_cache_released_components   
+                    WHERE  
+                        yz_cache_released_components.base_component_id = ?
+                            and   
+                        yz_cache_released_components.ipfs_hash = system_code.id 
+                    `
+                    ,
+                    componentItem.baseComponentId)
+
+                if (!resultsRow) {
+                    resultsRow = await yz.getQuickSqlOneRow(
+                        dbsearch
+                        ,
+                        `
+                        SELECT  
+                            system_code.*  
+                        FROM
+                            system_code  
+                        WHERE  
+                            base_component_id  = ?
+                        order by 
+                            creation_timestamp limit 1  
+                        `
+                        ,
+                        componentItem.baseComponentId)
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //----------------------------------------------------------------------------
+            // Add the libs
+            //----------------------------------------------------------------------------
+            if (resultsRow) {
+                let codeId = resultsRow.id
+                let results2 = await yz.getQuickSql(
+                    dbsearch
+                    ,
+                    "SELECT dependency_name FROM app_dependencies where code_id = ?; "
+                    ,
+                    codeId)
+                resultsRow.libs = results2
+                outputComponents.push(resultsRow)
+            }
+        }
+
+
+        //----------------------------------------------------------------------------
+        // return the result to the API caller
+        //----------------------------------------------------------------------------
+        let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(decorateResult))
+    })
+    app.post('/post_test', async function (req, res) {
+        console.log("app.post('/post_test'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            []
+        ));
+
+    });
+    app.post('/get_comments_for_component', async function (req, res) {
+        let baseComponentId = req.body.value.base_component_id
+        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
+
+        topApps =
+            {
+                status: "ok"
+                ,
+
+                comments_and_ratings: commentsAndRatings
+            }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+
+    });
+    app.get('/login_with_metamask', async function (req, res) {
+        console.log("app.post('/login_with_metamask'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let metamaskAccId = req.query.metamask_account_id;
+
+
+        let sessionId = await getSessionId(req,res)
+
+        let promise = new Promise(async function(returnfn) {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
+
+                let newRandomSeed = uuidv1()
+                let timestampNow = new Date().getTime()
+
+                stmtInsertMetaMaskLogin.run(uuidv1(), metamaskAccId ,newRandomSeed, timestampNow)
+                dbsearch.run("commit")
+                returnfn({
+                    seed: newRandomSeed
+                })
+            })
+
+        })
+        let ret = await promise
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            ret
+        ));
+
+    });
+    app.get('/check_metamask_seed', async function (req, res) {
+        try {
+
+            console.log("app.get('/check_metamask_seed'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            let metamaskAccId = req.query.metamask_account_id;
+            let signedTx = req.query.signedTx;
+            let randomLoginSeed = req.query.random_seed;
+            let sessionId = await getSessionId(req)
+
+            let promise = new Promise(async function(returnfn) {
+
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            " select " +
+                            "     *  " +
+                            " from    " +
+                            "     metamask_logins " +
+                            " where     " +
+                            "     random_seed = ? " +
+                            " order by " +
+                            "     created_timestamp DESC "
+                            ,
+                            [randomLoginSeed]
+                            ,
+                            async function(err, rows) {
+                                if (rows.length == 0 ) {
+                                    returnfn({error: "No record found for account"})
+                                } else {
+                                    let firstRow = rows[0]
+                                    let signMessage = req.query.sign_message;
+                                    let sessionId = await getSessionId(req)
+                                    let ret={}
+                                    const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
+
+                                    if (recoveredSigner == metamaskAccId) {
+                                        ret.status = "Ok"
+
+                                        let login_hashed_id = merkleJson.hash({
+                                            metamask_account_id: metamaskAccId
+                                        })
+
+                                        let promise1 = new Promise(async function(returnfn2) {
+                                            dbsearch.serialize(function() {
+                                                dbsearch.run("begin exclusive transaction");
+                                                stmtInsertUser.run(login_hashed_id, "METAMASK")
+                                                stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
+                                                stmtInsertSessionWithNewUserId.run(login_hashed_id,sessionId)
+                                                dbsearch.run("commit")
+                                                returnfn2()
+                                            })
+
+                                        })
+                                        await promise1
+                                    } else {
+                                        ret.error = "Invalid signature"
+                                    }
+                                    returnfn(ret)
+
+                                }
+
+                            }
+                        );
+                    }, sqlite3.OPEN_READONLY)
+            })
+            let ret = await promise
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                ret
+            ));
+        } catch(err2)
+        {
+            let x=1
+        }
+
+    });
+    app.get('/bulk_calculate_branch_strength_for_component', async function (req, res) {
+        console.log("app.post('/bulk_calculate_branch_strength_for_component'): ")
+        let baseComponentId = req.query.baseComponentId;
+
+        //
+        // first find all the tips
+        //
+        let allTips = await yz.getQuickSql(
+            dbsearch,
+
+            `select  
+                fk_system_code_id  
+            from  
+                code_tags  
+            where  
+                base_component_id = ? 
+                    and 
+                code_tag = 'TIP'  `,
+
+            [baseComponentId]
+        )
+
+        for (tip of allTips) {
+
+            let numCommitsRow = await yz.getQuickSqlOneRow(
+                dbsearch,
+                `with RECURSIVE
+                parents_of(id2, parent_id2) as (
+                    select id, parent_id from system_code where id = ?
+                        union all
+                    select id, parent_id from system_code,parents_of  where id = parent_id2
+                        limit 10
+                )
+            select count(*) as num_commits from parents_of`
+                ,
+                [tip.fk_system_code_id])
+            let numCommits = numCommitsRow.num_commits
+
+
+
+            await yz.executeQuickSql(
+                dbsearch,
+
+                `update 
+                system_code  
+           set  
+                score = ?  
+            where  
+                id = ? `,
+
+                [numCommits, tip.fk_system_code_id]
+            )
+            await yz.executeQuickSql(
+                dbsearch,
+
+                `update 
+                code_tags  
+           set  
+                main_score = ?  
+            where  
+                base_component_id = ? 
+                    and 
+                fk_system_code_id = ?  
+                    and 
+                code_tag = 'TIP'  `,
+
+                [numCommits, baseComponentId, tip.fk_system_code_id ]
+            )
+        }
+
+
+
+
+
+
+        let updatedTips = await yz.getQuickSql(
+            dbsearch,
+
+            `select  
+                fk_system_code_id  , main_score
+            from  
+                code_tags  
+            where  
+                base_component_id = ? 
+                    and 
+                code_tag = 'TIP'  `,
+
+            [baseComponentId]
+        )
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            {
+                baseComponentId: baseComponentId
+                ,
+                tips: updatedTips
+            }
+        ));
+    });
+    app.get('/get_version_history_v2', async function (req, res) {
+
+        console.log("app.post('/get_version_history_v2'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let topApps = []
+        let baseComponentIdToFind = req.query.id;
+        let sessionId = await getSessionId(req)
+        let lastCommitId = req.query.commit_id
+        let currentReturnRows = []
+
+        let selectedCommitRow = await getRowForCommit(lastCommitId)
+        currentReturnRows.push(selectedCommitRow)
+        let returnRows = await getPreviousCommitsFor(
+            {
+                commitId: selectedCommitRow.id
+                ,
+                parentCommitId: selectedCommitRow.parent_commit_id
+                ,
+                returnRows: currentReturnRows
+            })
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            returnRows
+        ));
+
+    });
+    app.get('/get_version_future', async function (req, res) {
+
+        console.log("app.post('/get_version_future'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let commitId = req.query.commit_id
+        let currentReturnRows = []
+
+        let firstRow = await getRowForCommit(commitId)
+        currentReturnRows.push(firstRow)
+        let returnRows = await getFutureCommitsFor(
+            {
+                commitId: commitId
+                ,
+                returnRows: currentReturnRows
+            })
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            returnRows
+        ));
+
+    });
+    app.post('/editable_apps', async function (req, res) {
+
+        //console.log("app.post('/editable_apps'): ")
+        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let editableApps = []
+        let userId = await getUserId(req)
+
+        let promise = new Promise(async function(returnfn) {
+
+            dbsearch.serialize(
+                function() {
+                    dbsearch.all( `SELECT
+                                        system_code.id,
+                                        system_code.base_component_id,
+                                        system_code.read_write_status,
+                                        system_code.display_name
+                                   FROM
+                                        code_tags, system_code
+                                    WHERE
+                                        code_tags.fk_user_id = ?
+                                            AND
+                                        code_tags.fk_system_code_id = system_code.id
+                                            AND
+                                        code_tags.code_tag = "EDIT"`
+                        ,
+                        [userId]
+                        ,
+                        async function(err, rows) {
+                            let returnRows = []
+                            if (!err) {
+                                try {
+                                    if (rows.length > 0) {
+                                        for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
+                                            let thisRow = rows[rowIndex]
+                                            returnRows.push(
+                                                {
+                                                    base_component_id: thisRow.base_component_id
+                                                    ,
+                                                    logo: ""
+                                                    ,
+                                                    ipfs_hash: thisRow.id
+                                                    ,
+                                                    display_name: thisRow.display_name
+                                                })
+                                        }
+                                    }
+
+
+
+
+                                } catch(err) {
+                                    console.log(err);
+                                    let stack = new Error().stack
+                                    console.log( stack )
+                                } finally {
+                                    returnfn(returnRows)
+                                }
+
+                            } else {
+                                console.log(err);
+                            }
+                        }
+                    );
+                }, sqlite3.OPEN_READONLY)
+        })
+        let ret = await promise
+
+        editableApps = ret
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            editableApps
+        ));
+
+    });
+    app.post('/topapps', async function (req, res) {
+        //console.log("app.post('/topapps'): ")
+        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let topApps = []
+        let sessionId = await getSessionId(req)
+
+        let promise = new Promise(async function(returnfn) {
+
+            dbsearch.serialize(
+                function() {
+                    dbsearch.all(
+                        " select  " +
+                        "     distinct(yz_cache_released_components.id), component_name, app_icon_data, ipfs_hash, yz_cache_released_components.base_component_id " +
+                        " from " +
+                        "     yz_cache_released_components " +
+                        " inner JOIN " +
+                        "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
+                        " and " +
+                        "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
+                        ,
+                        []
+                        ,
+                        async function(err, rows) {
+                            let returnRows = []
+                            if (!err) {
+                                try {
+                                    if (rows.length > 0) {
+                                        for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
+                                            let thisRow = rows[rowIndex]
+                                            returnRows.push(
+                                                {
+
+                                                    data: {
+                                                        id:                 thisRow.base_component_id
+                                                        ,
+                                                        base_component_id:  thisRow.base_component_id
+                                                        ,
+                                                        logo:               thisRow.app_icon_data
+                                                        ,
+                                                        ipfs_hash:          thisRow.ipfs_hash
+                                                        ,
+                                                        display_name:       thisRow.app_name
+                                                    }
+                                                    ,
+                                                    id:                 thisRow.base_component_id
+                                                    ,
+                                                    base_component_id:  thisRow.base_component_id
+                                                    ,
+                                                    logo:               thisRow.app_icon_data
+                                                    ,
+                                                    ipfs_hash:          thisRow.ipfs_hash
+                                                    ,
+                                                    display_name:       thisRow.app_name
+
+                                                })
+                                        }
+                                    }
+
+
+
+
+                                } catch(err) {
+                                    console.log(err);
+                                    let stack = new Error().stack
+                                    console.log( stack )
+                                } finally {
+                                    returnfn(returnRows)
+                                }
+
+                            } else {
+                                console.log(err);
+                            }
+                        }
+                    );
+                }, sqlite3.OPEN_READONLY)
+        })
+        let ret = await promise
+
+        topApps = ret
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            topApps
+        ));
+
+    });
+    app.get('/live-check',(req,res)=> {
+
+        outputDebug("Live check passed")
+        res.send ("Live check passed");
+    });
+    app.get('/readiness-check',(req,res)=> {
+        if (systemReady) {
+            outputDebug("Readiness check passed")
+            res.send ("Readiness check passed");
+        } else {
+            outputDebug("Readiness check failed")
+            res.status(500).send('Readiness check did not pass');
+        }
+    });
+    app.get('/edit/*', function (req, res) {
+        //------------------------------------------------------------------------------
+        // Allow an app to be edited
+        //------------------------------------------------------------------------------
+        return getEditApp(req, res);
+    })
+    app.post('/add_or_update_app', async function (req, res) {
+        console.log("/add_or_update_app")
+        let baseComponentIdLocal = req.body.base_component_id
+        console.log("/add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
+        let srcCode = req.body.src_code
+        console.log("/add_or_update_app:srcCode := " + srcCode.length)
+        let ipfsHash = req.body.ipfs_hash
+        console.log("/add_or_update_app:ipfsHash := " + ipfsHash)
+
+        await addOrUpdateDriver(srcCode ,
+            {
+                save_html: true,
+                username: "default",
+                reponame: baseComponentIdLocal,
+                version: "latest",
+                ipfsHashId: ipfsHash})
+        console.log("/add_or_update_app:addOrUpdateDriver completed")
+        res.status(200).send('Code registered');
+    })
+    /* what happens if we register a false or bad IPFS address? All code sent here
+     *  should be validated */
+    app.post('/register_ipfs_content_for_client', async function (req, res) {
+
+        let ipfsHash = req.body.ipfs_hash
+        let ipfsContent = req.body.ipfs_content
+        let parsedCode = await parseCode(ipfsContent)
+        await registerIPFS(ipfsHash);
+        res.status(200).send('IPFS content registered');
+    })
+    app.use("/files",   express.static(path.join(userData, '/files/')));
+    app.use("/weights",   express.static(path.join(userData, '/weights/')));
+
+
+
+    function getBaseComponentIdFromRequest(req){
+        let parts = req.path.split('/');
+        let appHtmlFile = parts.pop() || parts.pop();
+
+        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
+        return appName
+    }
+
+
+    //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
+    app.get('/app/*', function (req, res, next) {
+        console.log("app.get('/app'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        if (req.kauth) {
+            outputDebug('Keycloak details from server:')
+            outputDebug(req.kauth.grant)
+        }
+        let parts = req.path.split('/');
+        let appHtmlFile = parts.pop() || parts.pop();
+
+        //console.log("appHtemlFile: " + appHtmlFile);
+
+        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
+        //console.log("appName: " + appName);
+
+        //console.log("path: " + path);
+
+        let appFilePath = path.join(userData, 'apps/' + appHtmlFile)
+        let fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(fileC2);
+
+
+    })
+    //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
+    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+    app.use(            express.static(path.join(__dirname, '../public/')))
+    app.use(bodyParser.json()); // support json encoded bodies
+    app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
+    //app.use(useragent.express())
+
+
+    app.post("/save_code_v3" , async function (req, res) {
+        let userid
+        let optionsForSave
+        let saveResult
+        let savedCode
+
+        userid          = await getUserId(req)
+        optionsForSave  = req.body.value.options
+
+        if (optionsForSave) {
+            optionsForSave.userId = userid
+        }
+
+        saveResult = await yz.saveCodeV3(
+            dbsearch,
+            req.body.value.code,
+            optionsForSave)
+
+        savedCode       = req.body.value.code
+        await createNewTip(savedCode, saveResult.code_id, userid);
+
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify(saveResult))
+    });
+    app.post("/load_component" , async function (req, res) {
+
+
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({return: "from load component"}))
+    });
+    app.post("/save_component" , async function (req, res) {
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({return: "from save component"}))
+    });
+    app.post("/get_commit_hash_id" , async function (req, res) {
+        //
+        // get stuff
+        //
+        let code = req.body.text;
+
+        let ipfsHash = await OnlyIpfsHash.of(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash: ipfsHash,
+        }))
+    })
+    app.post("/bookmark_commit" , async function (req, res) {
+        //
+        // get stuff
+        //
+        let ipfsHash = req.body.value.code_id;
+        let version = req.body.value.version;
+        let userId = req.body.value.user_id;
+
+
+        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        await yz.tagVersion(dbsearch, ipfsHash, code)
+
+
+        //let parsedCode = await parseCode(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   ipfsHash,
+        }))
+    })
+    app.post("/release_commit" , async function (req, res) {
+        //
+        // get stuff
+        //
+        let ipfsHash = req.body.value.code_id;
+        let version = req.body.value.version;
+        let userId = req.body.value.user_id;
+
+
+        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        await yz.tagVersion(dbsearch, ipfsHash, code)
+        await releaseCode(ipfsHash, code)
+
+
+        //let parsedCode = await parseCode(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   ipfsHash,
+        }))
+    })
+    app.post("/copy_component" , async function (req, res) {
+        //
+        // get stuff
+        //
+        let copy_base_component_id = req.body.value.base_component_id;
+        let copy_image_data = req.body.value.image_data;
+
+
+        //
+        // copy the main EVM control
+        //
+        let srcText = fs.readFileSync(
+            path.join(__dirname,
+                '../public/visifile_drivers/' + req.body.value.relative_filename_to_copy)
+            ,
+            'utf8')
+
+        //
+        // give the new smart contract control a new name
+        //
+        let componentToCopyBaseComponentId = yz.getValueOfCodeString(srcText,"base_component_id")
+        srcText = srcText.replaceAll(componentToCopyBaseComponentId, copy_base_component_id)
+
+
+        //
+        // design_time_html
+        //
+        let design_time_html = req.body.value.design_time_html
+        if ( design_time_html ) {
+            srcText = yz.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
+        }
+
+
+        //
+        // DESIGN TIME MOUNTED CODE
+        //
+        let designTimeMountedCode = req.body.value.design_time_mounted_code
+        if (designTimeMountedCode) {
+            srcText = yz.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
+        }
+
+
+
+        //
+        // RUN TIME MOUNTED CODE
+        //
+        let runtimeMountedCode = req.body.value.runtime_mounted_code
+        if (runtimeMountedCode) {
+            srcText = yz.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
+        }
+
+
+
+        //
+        // VARS CODE
+        //
+        let varsCode = req.body.value.vars_code
+        if (varsCode) {
+            srcText = yz.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
+        }
+
+
+
+
+        //
+        // run_time_html
+        //
+        let run_time_html = req.body.value.run_time_html
+        if (run_time_html) {
+            srcText = yz.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
+        }
+
+
+
+
+
+
+        //
+        // give the new smart contract control a new icon logo
+        //
+        if (copy_image_data) {
+            let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
+            if (logoValue) {
+                srcText = yz.deleteCodeString(srcText, "logo_url")
+            }
+            srcText = yz.insertCodeString(srcText, "logo_url",copy_image_data)
+        }
+
+
+
+
+
+        //
+        // give the new component a new logo
+        //
+        if (req.body.value.logo_url) {
+            let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
+            if (logoValue) {
+                srcText = yz.deleteCodeString(srcText, "logo_url")
+            }
+            srcText = yz.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
+        }
+
+
+        //
+        // copy over some properties defaults from the existing component
+        //
+        let default_property_values = req.body.value.default_property_values;
+        let propertiesToChange = Object.keys(default_property_values)
+        for (let propertyToChangeIndex = 0; propertyToChangeIndex < propertiesToChange.length;propertyToChangeIndex++){
+            let propertyNameToChange = propertiesToChange[propertyToChangeIndex]
+            let propertyValue = default_property_values[propertyNameToChange]
+            srcText = yz.replacePropertyValue(srcText,propertyNameToChange,propertyValue)
+        }
+
+
+        //
+        // create some new properties in the new component
+        //
+        let newProperties = req.body.value.new_properties;
+        for ( let newPropertyIndex = 0 ; newPropertyIndex < newProperties.length ; newPropertyIndex++ ){
+            let newProperty = newProperties[newPropertyIndex]
+            srcText = yz.addProperty(srcText,newProperty)
+        }
+
+
+        //
+        // create new methods in the new component
+        //
+        let newMethods = req.body.value.new_methods;
+        if (newMethods) {
+            for ( let newMethodIndex = 0 ; newMethodIndex < newMethods.length ; newMethodIndex++ ){
+                let newMethod = newMethods[newMethodIndex]
+                srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
+            }
+        }
+
+
+
+
+        //
+        // create new methods in the new component
+        //
+        let newMethodsV2 = req.body.value.new_methods_v2;
+        if (newMethodsV2) {
+            for ( let newMethodIndex = 0 ; newMethodIndex < newMethodsV2.length ; newMethodIndex++ ){
+                let newMethod = newMethodsV2[newMethodIndex]
+                srcText = yz.addMethod(srcText,"\n\n\n"+newMethod.code+"\n,\n\n")
+                let newMethodProperty = newMethod.properties
+                srcText = yz.addProperty(srcText,newMethodProperty)
+            }
+        }
+
+
+
+        //
+        // Delete any IPFS from the component class. Unfortunately this can't be stored in IPFS itself
+        //
+        let properties = yz.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
+        srcText = yz.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
+        for (let irte = 0 ; irte < properties.length ; irte++ ) {
+            let brje = properties[irte]
+            if (brje) {
+                if (brje.id == "ipfs_hash_id") {
+                    brje.default = ""//ipfsHash
+                }
+            }
+        }
+        srcText = yz.insertCodeString(  srcText,
+            "properties",
+            properties,
+            ")//prope" + "rties")
+
+
+
+
+        //fs.writeFileSync( "z.txt",  srcText.toString() )
+
+
+
+
+
+
+
+
+
+
+        //
+        // save the new smart contract component
+        //
+        let codeRet = await addOrUpdateDriver(srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
+        let codeId = codeRet.codeId
+
+
+
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   codeId,
+            return:     srcText
+        }))
+    });
+    app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
+        console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
+        return file_uploadSingleFn(req, res, next);
+    });
+    app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
+        console.log("File upload: " + JSON.stringify(req.file.originalname,null,2))
+        return file_uploadSingleFn(req, res, next);
+    });
+    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
+        return file_uploadFn(req, res, next);
+    });
+    app.get('/code_upload', function (req, res, next) {
+        code_uploadFn(req, res);
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end("Done");
+    });
+    app.get('/file_name_load', function (req, res, next) {
+        //console.log("Hit file_name_load")
+        file_name_load(req, res);
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end("Done");
+    });
+    app.get('/lock', function (req, res) {
+        return lockFn(req, res);
+    })
+
+    process.on('uncaughtException', function (err) {
+        outputDebug(err);
+    })
+
+
+
+
+
+
+
+    //------------------------------------------------------------------------------
+    // start the web server
+    //------------------------------------------------------------------------------
+    if (useHttps) {
+        if (!certOptions) {
+            let caCerts = readCerts()
+            certOptions = {
+                key: fs.readFileSync(privateKey, 'utf8'),
+                cert: fs.readFileSync(publicCertificate, 'utf8'),
+                ca: caCerts
+            }
+        }
+        certOptions.requestCert = true
+        certOptions.rejectUnauthorized = false
+
+        httpServer = https.createServer(certOptions,app)
+
+    } else {
+        httpServer = http.createServer(app)
+
+    }
+    socket = require2('socket.io')(http)
+    httpServer.listen(port, hostaddress, function () {
+
+        outputDebug("****HOST=" + hostaddress + "HOST****\n");
+        outputDebug("****PORT=" + port+ "PORT****\n");
+        outputDebug('Started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
+
+
+
+
+        //
+        // We dont listen on websockets here with socket.io as often they stop working!!!
+        // Crazy, I know!!!! So we removed websockets from the list of transports below
+        //
+        io = socket.listen(httpServer, {
+            log: false,
+            agent: false,
+            origins: '*:*',
+            transports: ['htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
+        });
+
+        io.on('connection', function (sck) {
+            let connt = JSON.stringify(sck.conn.transport,null,2);
+            websocketFn(sck)
+        });
+
+    })
+
+    childProcessNameInScheduler            = "forkedExeScheduler"
+
+
+
+
+
+
+    for (let i=0;i<executionProcessCount; i++ ) {
+        let exeProcName = "forkedExeProcess" + i
+        setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
+    }
+
+    //console.log('addr: '+ hostaddress + ":" + port);
+
+
+
+
+
+    setTimeout(async function(){
+        //--------------------------------------------------------
+        // Check if any JS is loaded
+        //--------------------------------------------------------
+        await checkForJSLoaded();
+        await findLocalIpfsContent();
+
+        setUpSql()
+        setUpPredefinedComponents({message_type:       'setUpPredefinedComponents'});
+
+    },1000)
+
 }
 
 
