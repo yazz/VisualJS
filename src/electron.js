@@ -2118,7 +2118,14 @@ function keycloakProtector(params) {
     }
 }
 
-async function createNewTip(parentCodeTag, parentHash, baseComponentId, saveResult) {
+async function createNewTip(savedCode, saveResult) {
+    let parentCodeTag
+    let baseComponentId
+    let parentHash
+
+    baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
+    parentHash      = yz.getValueOfCodeString(savedCode,"parent_hash")
+
     parentCodeTag = await yz.getQuickSqlOneRow(
         dbsearch,
         "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
@@ -3120,9 +3127,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
             let optionsForSave
             let saveResult
             let savedCode
-            let baseComponentId
-            let parentHash
-            let parentCodeTag
 
             userid          = await getUserId(req)
             optionsForSave  = req.body.value.options
@@ -3137,9 +3141,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 optionsForSave)
 
             savedCode       = req.body.value.code
-            baseComponentId = yz.getValueOfCodeString(savedCode,"base_component_id")
-            parentHash      = yz.getValueOfCodeString(savedCode,"parent_hash")
-            await createNewTip(parentCodeTag, parentHash, baseComponentId, saveResult);
+            await createNewTip(savedCode, saveResult);
 
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
