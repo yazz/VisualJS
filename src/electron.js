@@ -2118,7 +2118,13 @@ function keycloakProtector(params) {
     }
 }
 
-async function createNewTip(savedCode, codeId) {
+async function createNewTip(savedCode, codeId, userId) {
+    /*
+    Create a new code tip for the current code. This code tip
+    moves the TIP tag forward for the code. But the code can have
+    multiple tips, so this wouldn't make sense. The tip only makes
+    sense for the current user editing the code
+     */
     let parentCodeTag
     let baseComponentId
     let parentHash
@@ -2147,7 +2153,7 @@ async function createNewTip(savedCode, codeId) {
                  values  
                      (?,?,?,?,?)
                      `,
-        [uuidv1(), baseComponentId, "TIP", codeId, ""])
+        [uuidv1(), baseComponentId, "TIP", codeId, userId])
 }
 
 async function startServices() {
@@ -3141,7 +3147,7 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
                 optionsForSave)
 
             savedCode       = req.body.value.code
-            await createNewTip(savedCode, saveResult.code_id);
+            await createNewTip(savedCode, saveResult.code_id, userid);
 
 
             res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
