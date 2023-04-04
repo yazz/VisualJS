@@ -748,7 +748,7 @@ function        setUpChildListeners(processName, fileName, debugPort) {
           function_call_response({
                                                   message_type:         "function_call_response",
                                                   child_process_name:    msg.child_process_name,
-                                                  base_component_id:           msg.base_component_id,
+                                                  base_component_id:     msg.base_component_id,
                                                   result:                msg.result,
                                                   callback_index:        msg.callback_index,
                                                   called_call_id:        msg.called_call_id

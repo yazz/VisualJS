@@ -296,26 +296,7 @@ function executeCode(  callId  ,  codeId  , args  ,  base_component_id  ) {
 
                         var code = results[0].code.toString()
                         try {
-                            if (isFrontEndOnlyCode( code )) {
-                                process.send({  message_type:         "function_call_response" ,
-                                                result:
-                                                {
-                                                    error: "cannot run UI component on server for : " +
-                                                            base_component_id,
-                                                },
-                                                child_process_name:    childProcessName,
-                                                base_component_id:     currentDriver,
-                                                callback_index:        currentCallbackIndex,
-                                                called_call_id:        callId
-                                                });
-                                //console.log("*) Result process call ID: " + callId);
-                                inUseIndex --
 
-
-
-
-                            // backend code
-                            } else {
 //console.log(code)
                                 var fnfn = eval("(" + code + ")")
                                 if (code.indexOf("function*") != -1) {
@@ -370,7 +351,7 @@ function executeCode(  callId  ,  codeId  , args  ,  base_component_id  ) {
                                     inUseIndex --
                                 }
 
-                            }
+
 
 
                             } catch (errM) {
