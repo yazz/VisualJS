@@ -3665,39 +3665,14 @@ function readCerts() {
     }
     return caCertsRet
 }
-setupVisifileParams();
-{
-    outputDebug("process.platform = " + process.platform)
-
-
-    if (process.platform === "win32") {
-        let rl = require2("readline").createInterface({
-          input: process.stdin,
-          output: process.stdout
-        });
-
-        rl.on("SIGINT", function () {
-            shutDown();
-            process.exit();
-        });
-    }
+let shuttingDown = false;
+let globalStartTimer = new Date().getTime()
+let globalEndTimer = new Date().getTime()
+let globalTimerCounter = 0
 
 
 
-    if (isWin) {
-        outputDebug("Running as Windows")
-        localappdata  = process.env.LOCALAPPDATA
-    	userData = path.join(localappdata, '/Yazz/')
-    } else {
-
-        outputDebug("Running as Linux/Mac")
-    	userData =  path.join(LOCAL_HOME, 'Yazz')
-    }
-    yz.userData = userData
-    findSystemDataDirectoryAndStart()
-    finishInit()
-}
-function findSystemDataDirectoryAndStart() {
+function        findSystemDataDirectoryAndStart() {
     console.log("userData : " + userData)
     console.log("username : " + username)
     dbPath = path.join(userData, username + '.visi')
@@ -3706,7 +3681,7 @@ function findSystemDataDirectoryAndStart() {
     if (deleteOnStartup) {
         outputDebug("deleting dir :" + userData)
         if (userData.length > 6) {
-                deleteYazzDataV2(userData)
+            deleteYazzDataV2(userData)
         }
     }
     let uploadPath = path.join(userData,  'uploads/')
@@ -3749,7 +3724,7 @@ function findSystemDataDirectoryAndStart() {
     dbsearch.run("PRAGMA journal_mode=WAL;")
 
 }
-async function executeSqliteForApp( args ) {
+async function  executeSqliteForApp( args ) {
     if (!args.sql) {
         return []
     }
@@ -3781,7 +3756,7 @@ async function executeSqliteForApp( args ) {
                         {
                             returnResult(results)
                         })
-             }, sqlite3.OPEN_READONLY)
+                }, sqlite3.OPEN_READONLY)
         } else {
             appDb.serialize(
                 function() {
@@ -3790,7 +3765,7 @@ async function executeSqliteForApp( args ) {
                     appDb.run("commit");
                     appDb.run("PRAGMA wal_checkpoint;")
                     returnResult([])
-             })
+                })
         }
     })
 
@@ -3798,15 +3773,14 @@ async function executeSqliteForApp( args ) {
     let res = await getSqlResults
     return res
 }
-let shuttingDown = false;
-function finishInit() {
+function        finishInit() {
 
 
     process.on('exit', function() {
         shutDown();
-      });
+    });
     process.on('quit', function() {
-      shutDown();
+        shutDown();
     });
     process.on("SIGINT", function () {
         shutDown();
@@ -3825,35 +3799,32 @@ function finishInit() {
     //
     //------------------------------------------------------------------------------
 
-        if (statsInterval > 0) {
-            setInterval(function(){
-                if (!inmemcalc) {
-                    inmemcalc = true
-                    totalMem = 0
-                    const used = process.memoryUsage().heapUsed ;
-                    totalMem += used
-                    yazzProcessMainMemoryUsageMetric.set(used)
-                    if (showStats) {
-                        outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
-                    }
-                    allForked = Object.keys(forkedProcesses)
-                    returnedmemCount = 0
-                    for (let ttt=0; ttt< allForked.length; ttt++) {
-                        let childProcessName = allForked[ttt]
-                        const childprocess = forkedProcesses[childProcessName]
-
-                        usePid(childProcessName,childprocess)
-                    }
+    if (statsInterval > 0) {
+        setInterval(function(){
+            if (!inmemcalc) {
+                inmemcalc = true
+                totalMem = 0
+                const used = process.memoryUsage().heapUsed ;
+                totalMem += used
+                yazzProcessMainMemoryUsageMetric.set(used)
+                if (showStats) {
+                    outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
                 }
-            },(statsInterval * 1000))
-        }
+                allForked = Object.keys(forkedProcesses)
+                returnedmemCount = 0
+                for (let ttt=0; ttt< allForked.length; ttt++) {
+                    let childProcessName = allForked[ttt]
+                    const childprocess = forkedProcesses[childProcessName]
+
+                    usePid(childProcessName,childprocess)
+                }
+            }
+        },(statsInterval * 1000))
+    }
 
 
 
 }
-let globalStartTimer = new Date().getTime()
-let globalEndTimer = new Date().getTime()
-let globalTimerCounter = 0
 function        resetTimer(messageToStart) {
   console.log("Starting timer for: " + messageToStart)
   globalStartTimer = new Date().getTime()
@@ -5768,6 +5739,41 @@ async function  copyAppshareApp(args) {
 
     return ret
 }
+
+
+setupVisifileParams();
+{
+    outputDebug("process.platform = " + process.platform)
+
+
+    if (process.platform === "win32") {
+        let rl = require2("readline").createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+
+        rl.on("SIGINT", function () {
+            shutDown();
+            process.exit();
+        });
+    }
+
+
+
+    if (isWin) {
+        outputDebug("Running as Windows")
+        localappdata  = process.env.LOCALAPPDATA
+        userData = path.join(localappdata, '/Yazz/')
+    } else {
+
+        outputDebug("Running as Linux/Mac")
+        userData =  path.join(LOCAL_HOME, 'Yazz')
+    }
+    yz.userData = userData
+    findSystemDataDirectoryAndStart()
+    finishInit()
+}
+
 
 //setInterval(updateRunningTimeForprocess,1000)
 //setInterval(findLongRunningProcesses,1000)
