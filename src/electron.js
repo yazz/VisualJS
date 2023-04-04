@@ -547,6 +547,7 @@ let globalEndTimer = new Date().getTime()
 let globalTimerCounter = 0
 
 
+// set up the processes
 function        setUpChildListeners(processName, fileName, debugPort) {
 
     forkedProcesses[processName].on('close', async function() {
@@ -883,6 +884,8 @@ function        setupForkedProcess(  processName,  fileName,  debugPort  ) {
     outputDebug("Started subprocess '" + processName + "' ")
 
 }
+
+// networking helper to send data to the browser via websocker
 function        sendOverWebSockets(data) {
     let ll = serverwebsockets.length;
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
@@ -900,18 +903,13 @@ function        sendOverWebSockets(data) {
         }
     }
 }
+
+// JS helper fns
 function        isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
-async function  setupVisifileParams() {
 
 
-    outputDebug('-------* Port: ' + port);
-    outputDebug( ip.address() );
-
-	//console.log('addr: '+ ip.address());
-	//hostaddress = ip.address();
-}
 function        shutDown() {
     outputDebug(" shutDown() called")
     if (!shuttingDown) {
@@ -5740,8 +5738,10 @@ async function  copyAppshareApp(args) {
 }
 
 
-setupVisifileParams();
 {
+    outputDebug('-------* Port: ' + port);
+    outputDebug( ip.address() );
+
     outputDebug("process.platform = " + process.platform)
 
 
