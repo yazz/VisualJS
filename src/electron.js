@@ -1365,67 +1365,10 @@ function isFrontEndOnlyCode(code) {
     if (code.indexOf("rest_api(") != -1) { return false }
     return false
 }
-function mkdirSync(dirPath) {
-    try {
-        mkdirp.sync(dirPath)
-    } catch (err) {
-        //if (err.code !== 'EEXIST') throw err
-    }
-}
-function outputToConsole(text) {
-    let c = console;
-    c.log(text);
-}
-function copyFileSync( source, target ) {
 
-    let targetFile = target;
 
-    //if target is a directory a new file with the same name will be created
-    if ( fs.existsSync( target ) ) {
-        if ( fs.lstatSync( target ).isDirectory() ) {
-            targetFile = path.join( target, path.basename( source ) );
-        }
-    }
 
-    fs.writeFileSync(targetFile, fs.readFileSync(source));
-}
-function copyFolderRecursiveSync( source, target ) {
-    //console.log('çopy from: '+ source + ' to ' + target);
-    let files = [];
 
-    //check if folder needs to be created or integrated
-    let targetFolder = path.join( target, path.basename( source ) );
-    if ( !fs.existsSync( targetFolder ) ) {
-        fs.mkdirSync( targetFolder );
-    }
-
-    //copy
-    if ( fs.lstatSync( source ).isDirectory() ) {
-        try {
-            files = fs.readdirSync( source );
-            files.forEach( function ( file ) {
-                let curSource = path.join( source, file );
-                if ( fs.lstatSync( curSource ).isDirectory() ) {
-                    try {
-                        copyFolderRecursiveSync( curSource, targetFolder );
-                    } catch(err) {
-                        outputDebug(err)
-                    }
-                } else {
-                    try {
-                        copyFileSync( curSource, targetFolder );
-        				//console.log('copying:  ' + targetFolder);
-                    } catch(err) {
-                        outputDebug(err)
-                    }
-                }
-            } );
-
-        } catch(err) {
-            outputDebug(err)
-        }
-    }
-}
 // ============================================================
 // This sends a message to a specific websocket
 // ============================================================
@@ -1453,50 +1396,7 @@ function canAccess(req,res) {
     res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their Yazz account");
     return false;
 };
-function extractHostname(url) {
-    let hostname;
-    //find & remove protocol (http, ftp, etc.) and get hostname
 
-    if (url.indexOf("://") > -1) {
-        hostname = url.split('/')[2];
-    }
-    else {
-        hostname = url.split('/')[0];
-    }
-
-    //find & remove port number
-    hostname = hostname.split(':')[0];
-    //find & remove "?"
-    hostname = hostname.split('?')[0];
-
-    return hostname;
-}
-function extractRootDomain(url) {
-    let domain = extractHostname(url),
-        splitArr = domain.split('.'),
-        arrLen = splitArr.length;
-
-    //extracting the root domain here
-    if (arrLen > 2) {
-        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
-    }
-    return domain;
-}
-function findViafromString(inp) {
-    if (inp == null) {
-        return "";
-    }
-
-    let ll = inp.split(' ');
-    for (let i=0; i< ll.length ; i++){
-        if (ll[i] != null) {
-            if (ll[i].indexOf(":") != -1) {
-                return extractRootDomain(ll[i]);
-            }
-        }
-    }
-    return "";
-}
 function runOnPageExists(req, res, homepage) {
 
     if (fs.existsSync(homepage)) {
@@ -3081,9 +2981,6 @@ console.log("/add_or_update_app:addOrUpdateDriver completed")
         app.use("/weights",   express.static(path.join(userData, '/weights/')));
 
 
-        function getAppNameFromHtml() {
-
-        }
 
         function getBaseComponentIdFromRequest(req){
             let parts = req.path.split('/');
