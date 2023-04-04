@@ -2134,8 +2134,8 @@ async function createNewTip(savedCode, codeId, userId) {
 
     parentCodeTag = await yz.getQuickSqlOneRow(
         dbsearch,
-        "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
-        [parentHash])
+        "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
+        [parentHash, userId])
 
     if (parentCodeTag) {
         await yz.executeQuickSql(
