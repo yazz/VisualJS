@@ -3581,9 +3581,22 @@ async function  insertCommentIntoDb(args) {
 
 
 // code commit helpers
-async function  getRowForCommit(commitId) {
+async function  getRowForCommit(  commitId  ) {
+    /*
+    ________________________________________
+    |                                      |
+    |         getRowForCommit              |
+    |                                      |
+    |______________________________________|
+    This is mostly used for the history function in the UI
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     commitId
+    |     --------
+    |________________________________________________________________________ */
+
     let commitStructure = null
-    let excludeCommitId = null
     let thisCommit = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
     let getFutureCommitsSql = "select  id  from   system_code  where  parent_id = ? "
     let parentCommits = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
@@ -3597,24 +3610,41 @@ async function  getRowForCommit(commitId) {
             changesList = JSON.parse(thisCommit.code_changes)
             commitStructure =
                 {
-                    id: thisCommit.id,
-                    ipfs_hash_id: thisCommit.id,
+                    id:                 thisCommit.id,
+                    ipfs_hash_id:       thisCommit.id,
                     creation_timestamp: thisCommit.creation_timestamp,
-                    num_changes: thisCommit.num_changes,
-                    changes: changesList,
-                    base_component_id: thisCommit.base_component_id,
-                    parent_commit_id: thisCommit.parent_id,
-                    user_id: thisCommit.fk_user_id,
-                    descendants: parentCommits,
-                    code_tags: codeTags
+                    num_changes:        thisCommit.num_changes,
+                    changes:            changesList,
+                    base_component_id:  thisCommit.base_component_id,
+                    parent_commit_id:   thisCommit.parent_id,
+                    user_id:            thisCommit.fk_user_id,
+                    descendants:        parentCommits,
+                    code_tags:          codeTags
                 }
         } catch (err) {
         }
     }
-
     return commitStructure
 }
 async function  getPreviousCommitsFor(args) {
+    /*
+    ________________________________________
+    |                                      |
+    |     getPreviousCommitsFor            |
+    |                                      |
+    |______________________________________|
+    This is mostly used for the history function in the UI
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     args
+    |     ---- {
+    |              commitId
+    |              parentCommitId
+    |              numPrevious
+    |          }
+    |________________________________________________________________________ */
+
     let commitId = args.commitId
     let parentCommitId = args.parentCommitId
 
@@ -3630,7 +3660,6 @@ async function  getPreviousCommitsFor(args) {
     }
 
     let parentCommitRow = await getRowForCommit( parentCommitId  )
-
 
     if (parentCommitRow) {
         returnRows.push(parentCommitRow)
@@ -3650,6 +3679,24 @@ async function  getPreviousCommitsFor(args) {
     return []
 }
 async function  getFutureCommitsFor(args) {
+    /*
+    ________________________________________
+    |                                      |
+    |         getFutureCommitsFor          |
+    |                                      |
+    |______________________________________|
+    This is mostly used for the history function in the UI
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     args
+    |     ---- {
+    |              commitId
+    |              returnRows
+    |              numPrevious
+    |          }
+    |________________________________________________________________________ */
+
     let commitId = args.commitId
 
     let numPrevious = 100000000
@@ -3685,6 +3732,21 @@ async function  getFutureCommitsFor(args) {
     return []
 }
 async function  releaseCode(commitId) {
+    /*
+    ________________________________________
+    |                                      |
+    |            releaseCode               |
+    |                                      |
+    |______________________________________|
+    Used to release code. This will try to make the current commit ID the live version of
+    the code.
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     commitId
+    |     --------
+    |________________________________________________________________________ */
+
     let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString = codeRecord.code
     let parsedCode = await parseCode(codeString)
@@ -3764,11 +3826,18 @@ async function  releaseCode(commitId) {
 }
 async function  copyAppshareApp(args) {
     /*
-    base_component_id("copyApp")
-    description("copyAppshareApp function")
-    load_once_from_file(true)
-    only_run_on_server(true)
-    */
+    ________________________________________
+    |                                      |
+    |            copyAppshareApp           |
+    |                                      |
+    |______________________________________|
+    copies an app
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     args
+    |     ----
+    |________________________________________________________________________ */
     console.log("Called async function copyAppshareApp(args) {")
     let userId = args.user_id
 
@@ -3961,11 +4030,21 @@ async function  copyAppshareApp(args) {
 }
 async function  createNewTip(savedCode, codeId, userId) {
     /*
+    ________________________________________
+    |                                      |
+    |               createNewTip           |
+    |                                      |
+    |______________________________________|
     Create a new code tip for the current code. This code tip
     moves the TIP tag forward for the code. But the code can have
     multiple tips, so this wouldn't make sense. The tip only makes
     sense for the current user editing the code
-     */
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     args
+    |     ----
+    |________________________________________________________________________ */
     let parentCodeTag
     let baseComponentId
     let parentHash
