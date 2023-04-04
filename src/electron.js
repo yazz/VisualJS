@@ -58,7 +58,6 @@ let ls                                  = require2('ls-sync');
 let rimraf                              = require2("rimraf");
 let forge                               = require2('node-forge');
 let db_helper                           = require("./db_helper")
-
 let pidusage                            = require2("pidusage");
 let mkdirp                              = require2('mkdirp')
 let uuidv1                              = require2('uuid/v1');
@@ -818,14 +817,14 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
     });
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 function setupForkedProcess(  processName,  fileName,  debugPort  ) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
     let debugArgs = [];
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
@@ -1054,6 +1053,7 @@ function getPort () {
 
     })
 }
+async function checkForJSLoaded() {
 //------------------------------------------------------------------------------------------
 //
 //                                          checkForJSLoaded
@@ -1064,7 +1064,6 @@ function getPort () {
 //
 //
 //------------------------------------------------------------------------------------------
-async function checkForJSLoaded() {
     outputDebug("*********** In checkForJSLoaded() ************")
 
     if (isValidObject(envVars.loadjsurl)) {
@@ -1253,6 +1252,7 @@ async function checkForJSLoaded() {
 
      return
 }
+async function isTtyCode() {
 //------------------------------------------------------------------------------------------
 //
 //                                          checkForJSLoaded
@@ -1263,7 +1263,6 @@ async function checkForJSLoaded() {
 //
 //
 //------------------------------------------------------------------------------------------
-async function isTtyCode() {
     outputDebug("*********** In isTtyCode() ************")
 
     if (isValidObject(envVars.loadjsurl)) {
@@ -1356,14 +1355,10 @@ function isFrontEndOnlyCode(code) {
     if (code.indexOf("rest_api(") != -1) { return false }
     return false
 }
-
-
-
-
+function sendToBrowserViaWebSocket(aws, msg) {
 // ============================================================
 // This sends a message to a specific websocket
 // ============================================================
-function sendToBrowserViaWebSocket(aws, msg) {
     aws.emit(msg.type,msg);
 }
 function isLocalMachine(req) {
@@ -1373,10 +1368,10 @@ function isLocalMachine(req) {
     };
     return false;
 }
+function canAccess(req,res) {
 //------------------------------------------------------------------------------
 // test if allowed
 //------------------------------------------------------------------------------
-function canAccess(req,res) {
     if (!locked) {
         return true;
     };
@@ -1387,7 +1382,6 @@ function canAccess(req,res) {
     res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their Yazz account");
     return false;
 };
-
 function runOnPageExists(req, res, homepage) {
 
     if (fs.existsSync(homepage)) {
@@ -2008,7 +2002,6 @@ function keycloakProtector(params) {
         }, sqlite3.OPEN_READONLY)
     }
 }
-
 async function createNewTip(savedCode, codeId, userId) {
     /*
     Create a new code tip for the current code. This code tip
@@ -2046,7 +2039,6 @@ async function createNewTip(savedCode, codeId, userId) {
                      `,
         [uuidv1(), baseComponentId, "TIP", codeId, userId])
 }
-
 async function startServices() {
 //------------------------------------------------------------
 // This starts all the system services
@@ -3634,14 +3626,14 @@ function usePid(childProcessName,childprocess) {
     });
 
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 function readCerts() {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
     outputDebug("Checking CA certs" )
     outputDebug("-----------------" )
     outputDebug("" )
@@ -3876,6 +3868,7 @@ function showTimer(optionalMessage) {
   }
   console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
 }
+function setUpSql() {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                        setUpSql                                         //
@@ -3888,7 +3881,6 @@ function showTimer(optionalMessage) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function setUpSql() {
     //console.log("setUpSql    ")
 
 
@@ -3988,20 +3980,20 @@ function setUpSql() {
 
     //console.log("setUpSql done   ")
 }
-/*
-________________________________________
-|                                      |
-|       save_code_from_upload          |
-|                                      |
-|______________________________________|
-Function description
-__________
-| PARAMS |______________________________________________________________
-|
-|     msg    Some text
-|     ---
-|________________________________________________________________________ */
 async function save_code_from_upload(msg) {
+    /*
+    ________________________________________
+    |                                      |
+    |       save_code_from_upload          |
+    |                                      |
+    |______________________________________|
+    Function description
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     msg    Some text
+    |     ---
+    |________________________________________________________________________ */
     let ret = await yz.saveCodeV3(  dbsearch  ,  msg.code  , msg.options);
     if (msg.sqlite_data) {
             let b = Buffer.from(msg.sqlite_data, 'base64')
@@ -4018,20 +4010,20 @@ async function save_code_from_upload(msg) {
                 client_file_upload_id:   msg.client_file_upload_id
             })
 }
-/*
-_____________________________________________________________________________
-|                                                                           |
-|       ipc_child_returning_uploaded_app_as_file_in_child_response          |
-|                                                                           |
-|___________________________________________________________________________|
-Function description
-__________
-| PARAMS |______________________________________________________________
-|
-|     msg    Some text
-|     ---
-|________________________________________________________________________ */
 function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
+    /*
+    _____________________________________________________________________________
+    |                                                                           |
+    |       ipc_child_returning_uploaded_app_as_file_in_child_response          |
+    |                                                                           |
+    |___________________________________________________________________________|
+    Function description
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     msg    Some text
+    |     ---
+    |________________________________________________________________________ */
 
       outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
 
@@ -4047,14 +4039,14 @@ function ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
 
           });
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 async function evalLocalSystemDriver(location, options) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
     outputDebug("*** Loading driver from: *** : " + location)
     let ret
     try {
@@ -4266,14 +4258,14 @@ async function loadComponentFromIpfs(ipfsHash) {
     let ret = await promise
     return ret
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 async function addOrUpdateDriver(  codeString ,options ) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 
     try {
 
@@ -4315,14 +4307,14 @@ async function releaseComponentFromPath(srcPath){
         console.log(err)
     }
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 async function setUpComponentsLocally() {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
     //await evalComponentFromPath('/glb.js')
     //await evalComponentFromPath('/csv.js')
     //await evalComponentFromPath('/glb.js')
@@ -4541,6 +4533,7 @@ async function setUpComponentsLocally() {
 function setUpPredefinedComponents() {
     setUpComponentsLocally();
 }
+async function drivers_loaded_by_child() {
 //------------------------------------------------------------------------------
     //
     // This is the last thing that happens when AppShare is started
@@ -4548,7 +4541,6 @@ function setUpPredefinedComponents() {
     //
     //
     //------------------------------------------------------------------------------
-async function drivers_loaded_by_child() {
           await finalizeYazzLoading();
 }
 function createTables() {
@@ -4556,14 +4548,14 @@ function createTables() {
           createdTablesInChild)
 
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 async function createdTablesInChild() {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 
     outputDebug("mainNodeProcessStarted: " + mainNodeProcessStarted)
 
@@ -4609,14 +4601,14 @@ function callDriverMethod(msg) {
         }
     })
   }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 function callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 
     //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     let useCallbackIndex = callbackIndex ++
@@ -4629,14 +4621,14 @@ function callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
         caller_call_id:      -1
     });
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 function return_add_local_driver_results_msg(msg) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
     //console.log("6 - return_get_search_results: " + msg.returned);
     let rett = eval("(" + msg.success + ")");
     let newCallbackFn = queuedResponses[ msg.seq_num_local ]
@@ -4652,14 +4644,14 @@ function return_add_local_driver_results_msg(msg) {
 
     newres = null;
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 function ipcChildReturningCallComponentResponse(msg) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 
     let new_ws = queuedResponses[ msg.seq_num_parent ]
 
@@ -4672,14 +4664,14 @@ function ipcChildReturningCallComponentResponse(msg) {
                                     seq_num:          msg.seq_num_browser
                                  });
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 function function_call_request(msg) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 
     function_call_requestPart2({
                                             message_type:         "function_call_request",
@@ -4698,6 +4690,7 @@ function return_response_to_function_caller(msg) {
        // console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
 }
+function updateRunningTimeForprocess() {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                          updateRunningTimeForprocess                                    //
@@ -4705,7 +4698,6 @@ function return_response_to_function_caller(msg) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function updateRunningTimeForprocess() {
         //console.log("Checking processes")
 
         dbsearch.serialize(
@@ -4781,6 +4773,7 @@ function killProcess(processName, callbackIndex) {
             });
         })
 }
+function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                            scheduleJobWithCodeId                                        //
@@ -4788,7 +4781,6 @@ function killProcess(processName, callbackIndex) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 
     let processToUse = null
     let processNames = Object.keys(processesInUse)
@@ -4849,6 +4841,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
         }
     }
 }
+function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                   sendToProcess                                         //
@@ -4856,7 +4849,6 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args) {
 
     let newCallId = nextCallId ++
 
@@ -4881,14 +4873,14 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
             });
         })
 }
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
 function execute_code_in_exe_child_process (msg) {
+//------------------------------------------------------------------------------
+//
+//
+//
+//
+//
+//------------------------------------------------------------------------------
 
         forkedProcesses[msg.child_process_name].send({
                                                 message_type:       "execute_code",
@@ -4900,6 +4892,7 @@ function execute_code_in_exe_child_process (msg) {
                                                 base_component_id:   msg.base_component_id
                                               });
 }
+function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                   sendJobToProcessName                                  //
@@ -4907,7 +4900,6 @@ function execute_code_in_exe_child_process (msg) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
 
     dbsearch.serialize(
         function() {
@@ -4936,6 +4928,7 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
     }, sqlite3.OPEN_READONLY)
 
 }
+function startNode (msg) {
 //-----------------------------------------------------------------------------------------
 //
 //                                  startNode
@@ -4945,7 +4938,6 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
 // ready to accept requests
 //
 //-----------------------------------------------------------------------------------------
-function startNode (msg) {
 
 
      //console.log(" --- Started Node --- ")
@@ -5000,6 +4992,7 @@ function startNode (msg) {
              })
 
 }
+function function_call_requestPart2 (msg) {
 //-----------------------------------------------------------------------------------------
 //
 //                                   function_call_request
@@ -5007,7 +5000,6 @@ function startNode (msg) {
 // This is called to call code.
 //
 //-----------------------------------------------------------------------------------------
-function function_call_requestPart2 (msg) {
 
     if (msg.find_component.code_id) {
        scheduleJobWithCodeId(  msg.find_component.code_id,
@@ -5043,17 +5035,15 @@ function function_call_requestPart2 (msg) {
         }, sqlite3.OPEN_READONLY)
     }
 }
-//-----------------------------------------------------------------------------------------
-//
-//                                   processor_free
-//
-// This is called whenever one of the code processors is free. They should only be allowed
-// to process one thing at a time
-//
-//-----------------------------------------------------------------------------------------
 function processor_free (msg) {
-
-
+    //-----------------------------------------------------------------------------------------
+    //
+    //                                   processor_free
+    //
+    // This is called whenever one of the code processors is free. They should only be allowed
+    // to process one thing at a time
+    //
+    //-----------------------------------------------------------------------------------------
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
