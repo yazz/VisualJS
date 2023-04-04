@@ -412,18 +412,6 @@ process.on('uncaughtException', function (err) {
 
 
 
-
-function isFrontEndOnlyCode(code) {
-    if (code.indexOf("Vue.") != -1) { return true }
-    if (code.indexOf("only_run_on_server(") != -1) { return false }
-    if (code.indexOf("only_run_on_frontend(") != -1) { return true }
-    if (code.indexOf("rest_api(") != -1) { return false }
-    return false
-}
-//pure_function
-
-
-
 function callComponentNonAsync( driverName, args, callbackFn ) {
 
     inUseIndex ++

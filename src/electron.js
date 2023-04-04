@@ -1155,16 +1155,8 @@ async function  checkForJSLoaded() {
                                                     })} ) ()
 
                 runapp = baseComponentIdForUrl
-                let frontEndCode = isFrontEndOnlyCode(data)
-                //console.log("frontEndCode: " + frontEndCode)
-                if (frontEndCode){
-                    //inputStdin = loadjscode
-                } else {
-                    //console.log("runapp: " + runapp)
-                    //console.log("inputStdin: " + inputStdin)
-                    startupType = "RUN_SERVER_CODE"
-                    startupDelay = 1000
-                }
+                startupType = "RUN_SERVER_CODE"
+                startupDelay = 1000
                 returnFn()
               });
 
@@ -1195,16 +1187,11 @@ async function  checkForJSLoaded() {
                                                                    })
                                                                                 })()
              runapp = baseComponentIdForFile
-             let frontEndCode = isFrontEndOnlyCode(data2)
              //console.log("frontEndCode: " + frontEndCode)
-             if (frontEndCode){
-                 //inputStdin = loadjscode
-             } else {
-                 //console.log("runapp: " + runapp)
-                 //console.log("inputStdin: " + inputStdin)
-                 startupType = "RUN_SERVER_CODE"
-                 startupDelay = 1000
-             }
+             //console.log("runapp: " + runapp)
+             //console.log("inputStdin: " + inputStdin)
+             startupType = "RUN_SERVER_CODE"
+             startupDelay = 1000
              returnFn()
 
          } else if (isValidObject(loadjscode)) {
@@ -1234,16 +1221,10 @@ async function  checkForJSLoaded() {
               runapp = baseComponentIdForCode
               //console.log("baseComponentIdForCode: " + baseComponentIdForCode)
               //console.log("runapp: " + runapp)
-              let frontEndCode = isFrontEndOnlyCode(loadjscode)
-              //console.log("frontEndCode: " + frontEndCode)
-              if (frontEndCode){
-                  //inputStdin = loadjscode
-              } else {
-                  //console.log("runapp: " + runapp)
-                  //console.log("inputStdin: " + inputStdin)
-                  startupType = "RUN_SERVER_CODE"
-                  startupDelay = 1000
-              }
+              //console.log("runapp: " + runapp)
+              //console.log("inputStdin: " + inputStdin)
+              startupType = "RUN_SERVER_CODE"
+              startupDelay = 1000
               returnFn()
 
          } else {
@@ -1258,16 +1239,6 @@ async function  checkForJSLoaded() {
 }
 
 
-function        isFrontEndOnlyCode(code) {
-    if (!code){
-        return false
-    }
-    if (code.indexOf("Vue.") != -1) { return true }
-    if (code.indexOf("only_run_on_server(") != -1) { return false }
-    if (code.indexOf("only_run_on_frontend(") != -1) { return true }
-    if (code.indexOf("rest_api(") != -1) { return false }
-    return false
-}
 function        sendToBrowserViaWebSocket(aws, msg) {
 // ============================================================
 // This sends a message to a specific websocket
