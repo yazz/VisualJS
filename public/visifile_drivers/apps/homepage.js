@@ -730,7 +730,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |_________________________
                                              | get the editable apps
                                              |__________________________________ */
-                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/editable_apps"
+                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_load_editable_apps"
                     fetch(openfileurl,
                         {
                             method: 'post',
@@ -1178,7 +1178,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |________________________________________________________________________ */
                     let mm = this
 
-                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/topapps"
+                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_load_topapps"
                     fetch(openfileurl,
                         {
                             method: 'post',
@@ -1354,7 +1354,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     this.open_file_path   = "/"
                     saveCodeToFile        = null
 
-                    let result = await getFromYazzReturnJson("/copy_component_get",
+                    let result = await getFromYazzReturnJson("/http_get_copy_component",
                         {
                             base_component_id: baseComponentId
                             ,

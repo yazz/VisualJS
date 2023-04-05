@@ -666,7 +666,7 @@ load_once_from_file(true)
          getHistory_v3: async function () {
              //debugger
              let mm = this
-             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_history_v2?" +
+             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_history_v2?" +
                  new URLSearchParams({
                      id: mm.baseComponentId,
                      commit_id: mm.currentCommithashId
@@ -713,7 +713,7 @@ load_once_from_file(true)
              //debugger
              let mm = this
 
-             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/get_version_future?" +
+             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_future?" +
                  new URLSearchParams({
                      commit_id: commitId
                  })
@@ -796,7 +796,7 @@ load_once_from_file(true)
             let mm = this
             mm.showCode='commit'
 
-            let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: mm.previewedCommitId})
+            let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
             mm.commitCode = responseJson.code
         }
         ,
@@ -816,7 +816,7 @@ load_once_from_file(true)
              let mm = this
              //alert("Checking out commit: " + mm.lockedSelectedCommit)
              let responseJson = await getFromYazzReturnJson(
-                                        "/bulk_calculate_branch_strength_for_component",
+                                        "/http_get_bulk_calculate_branch_strength_for_component",
                                         {
                                             commit_id:          mm.lockedSelectedCommit,
                                             baseComponentId:    mm.baseComponentId
@@ -831,7 +831,7 @@ load_once_from_file(true)
              //debugger
              let mm = this
              //alert("Checking out commit: " + mm.lockedSelectedCommit)
-             let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: mm.lockedSelectedCommit})
+             let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
              mm.text = responseJson.code
 
              mm.$root.$emit(
@@ -842,7 +842,7 @@ load_once_from_file(true)
 
 //zzz
             //debugger
-             let responseJson2 = await getFromYazzReturnJson("/update_code_tags",
+             let responseJson2 = await getFromYazzReturnJson("/http_get_update_code_tags",
                 {
                     sha1sum:            mm.lockedSelectedCommit,
                     baseComponentId:    mm.baseComponentId
@@ -868,9 +868,9 @@ load_once_from_file(true)
             if (!parentid) {
                 return
             }
-            let responseJson = await getFromYazzReturnJson("/get_code_commit", {commit_id: commitId})
+            let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: commitId})
             mm.commitCode = responseJson.code
-            let responseJson2 = await getFromYazzReturnJson("/get_code_commit", {commit_id: parentid})
+            let responseJson2 = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: parentid})
             mm.parentCommitCode = responseJson2.code
 
 

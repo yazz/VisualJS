@@ -748,7 +748,7 @@ var GLOBALS = {
 
     getPipelineCodeFromServer: async function(fileName) {
         let resultsCode = await postToYazzReturnJson(
-            "/get_pipeline_code",
+            "/http_post_load_pipeline_code",
             {
                 pipelineFileName:  fileName
             })
@@ -1568,7 +1568,7 @@ async function initFn() {
         updateComments: async function() {
         let mm                           = this
         let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
-        location.port + "/get_comments_for_component" + "/" +
+        location.port + "/http_post_load_comments_for_component" + "/" +
         "?"
 
         callAjaxPost(newrestUrl
@@ -1608,7 +1608,7 @@ async function initFn() {
 
 
         let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
-        location.port + "/submit_comment" + "/" +
+        location.port + "/http_post_submit_comment" + "/" +
         "?"
 
         callAjaxPost(newrestUrl
@@ -1658,7 +1658,7 @@ async function initFn() {
                         setTimeout(async function() {
                             let accs        = await web3.eth.getAccounts()
                             let accNo       = accs[0]
-                            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/login_with_metamask?" +
+                            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_login_with_metamask?" +
                                 new URLSearchParams({
                                     metamask_account_id: accNo
                                 })
@@ -1673,7 +1673,7 @@ async function initFn() {
                                 let signMessage =   signMessageTemplate + seed
                                 let signedTx = await mm.signTransactionV2(signMessage)
 
-                                let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/check_metamask_seed?" +
+                                let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
                                 new URLSearchParams({
                                     metamask_account_id: accNo
                                     ,
@@ -4360,7 +4360,7 @@ async function loadUiComponentsV4( argComponentsToLoad, argsToPassToUiComponents
         if (componentsItemsToLoad.length > 0) {
             let promise = new Promise(async function(returnfn) {
                 let resultsUi = await postToYazzReturnJson(
-                    "/load_ui_components_v3",
+                    "/http_post_load_ui_components_v3",
                     {
                         find_components:  {items: componentsItemsToLoad},
                     })
@@ -4800,7 +4800,7 @@ __________
 |________________________________________________________________________ */
 async function saveDebugTextOnServer(textInput, fileLocation) {
     let resultsUi = await postToYazzReturnJson(
-        "/save_debug_text",
+        "/http_post_save_debug_text",
         {
             textInput:      textInput,
             fileLocation:   fileLocation

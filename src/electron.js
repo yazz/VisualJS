@@ -4363,7 +4363,7 @@ async function  startServices() {
         //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         return getRoot(req, res, next);
     })
-    app.get('/copy_component_get', async function (req, res, next) {
+    app.get('/http_get_copy_component', async function (req, res, next) {
         let userid              = await getUserId(req)
         let baseComponentId     = req.query.base_component_id
         let codeId              = req.query.code_id
@@ -4385,7 +4385,7 @@ async function  startServices() {
         ));
 
     })
-    app.get('/update_code_tags', async function (req, res, next) {
+    app.get('/http_get_update_code_tags', async function (req, res, next) {
         let userid          = await getUserId(req)
 
         await yz.updateCodeTags(
@@ -4401,7 +4401,7 @@ async function  startServices() {
         ));
 
     })
-    app.get('/get_code_commit', async function (req, res, next) {
+    app.get('/http_get_load_code_commit', async function (req, res, next) {
         //console.log("calling main page")
         //console.log("jaeger: " + jaegercollector)
         let commitId = req.query.commit_id;
@@ -4418,8 +4418,9 @@ async function  startServices() {
         ));
 
     })
-    app.post('/call_component', async function (req, res) {
-        console.log("app.post('/call_component'): ")
+    app.post('/http_post_call_component', async function (req, res) {
+        //currently neverused. Still needs to be implemented
+        console.log("app.post('/http_post_call_component'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
 
         let topApps = []
@@ -4430,8 +4431,8 @@ async function  startServices() {
             topApps
         ));
     })
-    app.post('/submit_comment', async function (req, res) {
-        console.log("app.post('/submit_comment'): ")
+    app.post('/http_post_submit_comment', async function (req, res) {
+        console.log("app.post('/http_post_submit_comment'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
         let topApps = []
@@ -4485,11 +4486,11 @@ async function  startServices() {
         },500)
 
     });
-    app.post('/save_debug_text', async function (req, res) {
+    app.post('/http_post_save_debug_text', async function (req, res) {
         /*
         ________________________________________
         |                                      |
-        |       POST /save_debug_text          |
+        |       POST /http_post_save_debug_text          |
         |                                      |
         |______________________________________|
         Function description
@@ -4514,11 +4515,11 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({status: "OK"}))
     })
-    app.post('/get_pipeline_code', async function (req, res) {
+    app.post('/http_post_load_pipeline_code', async function (req, res) {
         /*
         ________________________________________
         |                                      |
-        |       POST /save_debug_text          |
+        |       POST /http_post_save_debug_text          |
         |                                      |
         |______________________________________|
         Function description
@@ -4541,9 +4542,9 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({value: fileOut}))
     })
-    app.post('/load_ui_components_v3', async function (req, res) {
+    app.post('/http_post_load_ui_components_v3', async function (req, res) {
         /*
-                            POST    '/load_ui_components_v3'
+                            POST    '/http_post_load_ui_components_v3'
 
                             Loads a bunch of components
          */
@@ -4662,8 +4663,8 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(decorateResult))
     })
-    app.post('/post_test', async function (req, res) {
-        console.log("app.post('/post_test'): ")
+    app.post('/http_post_test', async function (req, res) {
+        console.log("app.post('/http_post_test'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
         res.writeHead(200, {'Content-Type': 'application/json'});
@@ -4673,7 +4674,7 @@ async function  startServices() {
         ));
 
     });
-    app.post('/get_comments_for_component', async function (req, res) {
+    app.post('/http_post_load_comments_for_component', async function (req, res) {
         let baseComponentId = req.body.value.base_component_id
         let commentsAndRatings = await getCommentsForComponent(baseComponentId)
 
@@ -4691,8 +4692,8 @@ async function  startServices() {
         ));
 
     });
-    app.get('/login_with_metamask', async function (req, res) {
-        console.log("app.post('/login_with_metamask'): ")
+    app.get('/http_get_login_with_metamask', async function (req, res) {
+        console.log("app.post('/http_get_login_with_metamask'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         let metamaskAccId = req.query.metamask_account_id;
 
@@ -4723,10 +4724,10 @@ async function  startServices() {
         ));
 
     });
-    app.get('/check_metamask_seed', async function (req, res) {
+    app.get('/http_get_check_metamask_seed', async function (req, res) {
         try {
 
-            console.log("app.get('/check_metamask_seed'): ")
+            console.log("app.get('/http_get_check_metamask_seed'): ")
             console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
             let metamaskAccId = req.query.metamask_account_id;
             let signedTx = req.query.signedTx;
@@ -4801,8 +4802,8 @@ async function  startServices() {
         }
 
     });
-    app.get('/bulk_calculate_branch_strength_for_component', async function (req, res) {
-        console.log("app.post('/bulk_calculate_branch_strength_for_component'): ")
+    app.get('/http_get_bulk_calculate_branch_strength_for_component', async function (req, res) {
+        console.log("app.post('/http_get_bulk_calculate_branch_strength_for_component'): ")
         let baseComponentId = req.query.baseComponentId;
 
         //
@@ -4902,9 +4903,9 @@ async function  startServices() {
             }
         ));
     });
-    app.get('/get_version_history_v2', async function (req, res) {
+    app.get('/http_get_load_version_history_v2', async function (req, res) {
 
-        console.log("app.post('/get_version_history_v2'): ")
+        console.log("app.post('/http_get_load_version_history_v2'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         let topApps = []
         let baseComponentIdToFind = req.query.id;
@@ -4931,9 +4932,9 @@ async function  startServices() {
         ));
 
     });
-    app.get('/get_version_future', async function (req, res) {
+    app.get('/http_get_load_version_future', async function (req, res) {
 
-        console.log("app.post('/get_version_future'): ")
+        console.log("app.get('/http_get_load_version_future'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         let commitId = req.query.commit_id
         let currentReturnRows = []
@@ -4954,9 +4955,9 @@ async function  startServices() {
         ));
 
     });
-    app.post('/editable_apps', async function (req, res) {
+    app.post('/http_post_load_editable_apps', async function (req, res) {
 
-        //console.log("app.post('/editable_apps'): ")
+        //console.log("app.post('/http_post_load_editable_apps'): ")
         //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         let editableApps = []
         let userId = await getUserId(req)
@@ -5030,8 +5031,8 @@ async function  startServices() {
         ));
 
     });
-    app.post('/topapps', async function (req, res) {
-        //console.log("app.post('/topapps'): ")
+    app.post('/http_post_load_topapps', async function (req, res) {
+        //console.log("app.post('/http_post_load_topapps'): ")
         //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         let topApps = []
         let sessionId = await getSessionId(req)

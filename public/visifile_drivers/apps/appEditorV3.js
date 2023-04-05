@@ -1745,7 +1745,7 @@ End of app preview menu
                    copyArgs.code_id = codeId
                }
 
-               let result = await getFromYazzReturnJson("/copy_component_get",copyArgs)
+               let result = await getFromYazzReturnJson("/http_get_copy_component",copyArgs)
                if (isValidObject(result)) {
                     mm.$root.$emit('message', {
                                                     type:               "insert_app_at",
