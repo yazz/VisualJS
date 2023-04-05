@@ -2528,7 +2528,7 @@ staticAppSocket.on('socket_connected',function(data){
 
 staticAppSocket.send(JSON.stringify(
 {
-message_type:           "edit_static_app",
+message_type:           "ws_edit_static_app",
 host_editor_address:     hostEditorAddress,
 sql_data:                sqlitedata,
 code_fn:                 code_fn,
@@ -2570,7 +2570,7 @@ setTimeout(function(){
 
 setInterval(function() {
 sendToServerViaWebSocket({
-message_type: "browser_asks_server_for_data"
+message_type: "ws_browser_asks_server_for_data"
 });
 }, 5000)
 
@@ -4431,7 +4431,7 @@ async function callComponent(  componentSearchDetails,  fnCallArgs  ) {
         componentCallsListArgsSent[seqNum]  = fnCallArgs
 
         sendToServerViaWebSocket({
-            message_type:   "browser_calls_component_via_web_socket",
+            message_type:   "ws_browser_calls_component_via_web_socket",
             find_component: componentSearchDetails,
             args:           fnCallArgs,
             seqNum:         seqNum

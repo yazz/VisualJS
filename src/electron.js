@@ -4122,8 +4122,8 @@ function        websocketFn(ws) {
             // Browser  --Send me your data-->  Server
             //                                  ______
             //
-        } else if (receivedMessage.message_type == "edit_static_app") {
-            outputDebug("*** server got message from static app: edit_static_app")
+        } else if (receivedMessage.message_type == "ws_edit_static_app") {
+            outputDebug("*** server got message from static app: ws_edit_static_app")
             let sql_data = receivedMessage.sql_data
             let code_fn = receivedMessage.code_fn
 
@@ -4162,20 +4162,7 @@ function        websocketFn(ws) {
             // Browser  --Send me your data-->  Server
             //                                  ______
             //
-        } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
-
-            let seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = ws;
-
-
-
-
-
-
-
-
-        } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
+        } else if (receivedMessage.message_type == "ws_browser_asks_server_for_data") {
 
             let seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
@@ -4203,16 +4190,24 @@ function        websocketFn(ws) {
 
 
 
+
+
+
+
+
+
+
+
             // --------------------------------------------------------------------
             //
-            //                         browser_calls_component_via_web_socket
+            //                         ws_browser_calls_component_via_web_socket
             //
-            // "browser_calls_component_via_web_socket" is used to call server side apps/code.
+            // "ws_browser_calls_component_via_web_socket" is used to call server side apps/code.
             //
             //
             //
             // --------------------------------------------------------------------
-        } else if (receivedMessage.message_type == "browser_calls_component_via_web_socket") {
+        } else if (receivedMessage.message_type == "ws_browser_calls_component_via_web_socket") {
 
             // Use an integer counter to identify whoever was
             // calling the server function (in this case a web browser with
