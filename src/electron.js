@@ -5226,18 +5226,17 @@ async function  startServices() {
         res.end(JSON.stringify(saveResult))
     });
     app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
-        let userid              = await getUserId(req)
+        let userId              = await getUserId(req)
         let baseComponentId     = req.query.base_component_id
         let codeId              = req.query.code_id
         let newBaseComponentId  = req.query.new_base_component_id
 
         let args =
             {
-                base_component_id: baseComponentId
-                ,
-                code_id: codeId
-                ,
-                new_base_component_id: newBaseComponentId
+                base_component_id:      baseComponentId,
+                code_id:                codeId,
+                new_base_component_id:  newBaseComponentId,
+                user_id:                userId
             }
 
         let response = await copyAppshareApp(args)
