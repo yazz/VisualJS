@@ -5150,7 +5150,7 @@ async function  startServices() {
             topApps
         ));
     })
-    app.post(   "/http_post_load_commit_hash_id" ,                          async function (req, res) {
+    app.post(   "/http_post_extract_commit_hash_id_from_code" ,             async function (req, res) {
         //
         // get stuff
         //
@@ -5247,7 +5247,7 @@ async function  startServices() {
         ));
 
     })
-    app.post(   "/http_post_generate_component" ,                               async function (req, res) {
+    app.post(   "/http_post_generate_component" ,                           async function (req, res) {
         //
         // get stuff
         //

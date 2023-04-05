@@ -32,7 +32,7 @@ async function getIpfsHash(sometext) {
         return ret.path
     } else {
         let resulthash = await postToYazzReturnJson(
-            "/http_post_load_commit_hash_id",
+            "/http_post_extract_commit_hash_id_from_code",
             {text: sometext}
         )
         return resulthash.ipfsHash
