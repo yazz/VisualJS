@@ -4080,7 +4080,7 @@ async function  createNewTip(savedCode, codeId, userId) {
 // REST APIs and websocket helpers
 function        websocketFn(ws) {
     serverwebsockets.push(ws);
-    sendToBrowserViaWebSocket(ws, {type: "socket_connected"});
+    sendToBrowserViaWebSocket(ws, {type: "ws_socket_connected"});
     sendOverWebSockets({
         type:   "env_vars",
         value:   envVars

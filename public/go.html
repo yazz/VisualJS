@@ -2522,7 +2522,7 @@ staticAppSocket = io(hostEditorAddress);
 
 
 //console.log('opening web socketio');
-staticAppSocket.on('socket_connected',function(data){
+staticAppSocket.on('ws_socket_connected',function(data){
 //console.log("Connected: " + JSON.stringify(data,null,2));
 //alert("Connected 2")
 
@@ -2556,7 +2556,7 @@ function setupWebSocket(host, port)
 //console.log('opening web socketio');
 socket = io();
 //console.log('opening web socketio');
-socket.on('socket_connected',function(data){
+socket.on('ws_socket_connected',function(data){
 GLOBALS.online = true
 //console.log("Connected: " + JSON.stringify(data,null,2));
 
