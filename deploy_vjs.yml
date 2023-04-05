@@ -34,7 +34,7 @@ objects:
             readinessProbe:
                 failureThreshold: 3
                 httpGet:
-                  path: /readiness-check
+                  path: /http_get_readiness_check
                   port: 3000
                   scheme: HTTP
                 periodSeconds: 10

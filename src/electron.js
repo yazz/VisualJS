@@ -4340,7 +4340,7 @@ async function  startServices() {
         next();
     });
 
-    app.get('/', function (req, res, next) {
+    app.get(    '/',                                                        function (req, res, next) {
         //------------------------------------------------------------------------------
         // Show the default page for the different domains
         //------------------------------------------------------------------------------
@@ -4350,7 +4350,7 @@ async function  startServices() {
         //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         return getRoot(req, res, next);
     })
-    app.get('/http_get_copy_component', async function (req, res, next) {
+    app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
         let userid              = await getUserId(req)
         let baseComponentId     = req.query.base_component_id
         let codeId              = req.query.code_id
@@ -4372,7 +4372,7 @@ async function  startServices() {
         ));
 
     })
-    app.get('/http_get_update_code_tags', async function (req, res, next) {
+    app.get(    '/http_get_update_code_tags',                               async function (req, res, next) {
         let userid          = await getUserId(req)
 
         await yz.updateCodeTags(
@@ -4388,7 +4388,7 @@ async function  startServices() {
         ));
 
     })
-    app.get('/http_get_load_code_commit', async function (req, res, next) {
+    app.get(    '/http_get_load_code_commit',                               async function (req, res, next) {
         //console.log("calling main page")
         //console.log("jaeger: " + jaegercollector)
         let commitId = req.query.commit_id;
@@ -4405,7 +4405,7 @@ async function  startServices() {
         ));
 
     })
-    app.post('/http_post_call_component', async function (req, res) {
+    app.post(   '/http_post_call_component',                                async function (req, res) {
         //currently neverused. Still needs to be implemented
         console.log("app.post('/http_post_call_component'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
@@ -4418,7 +4418,7 @@ async function  startServices() {
             topApps
         ));
     })
-    app.post('/http_post_submit_comment', async function (req, res) {
+    app.post(   '/http_post_submit_comment',                                async function (req, res) {
         console.log("app.post('/http_post_submit_comment'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
@@ -4473,7 +4473,7 @@ async function  startServices() {
         },500)
 
     });
-    app.post('/http_post_save_debug_text', async function (req, res) {
+    app.post(   '/http_post_save_debug_text',                               async function (req, res) {
         /*
         ________________________________________
         |                                      |
@@ -4502,7 +4502,7 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({status: "OK"}))
     })
-    app.post('/http_post_load_pipeline_code', async function (req, res) {
+    app.post(   '/http_post_load_pipeline_code',                            async function (req, res) {
         /*
         ________________________________________
         |                                      |
@@ -4529,7 +4529,7 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({value: fileOut}))
     })
-    app.post('/http_post_load_ui_components_v3', async function (req, res) {
+    app.post(   '/http_post_load_ui_components_v3',                         async function (req, res) {
         /*
                             POST    '/http_post_load_ui_components_v3'
 
@@ -4650,7 +4650,7 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(decorateResult))
     })
-    app.post('/http_post_test', async function (req, res) {
+    app.post(   '/http_post_test',                                          async function (req, res) {
         console.log("app.post('/http_post_test'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
@@ -4661,7 +4661,7 @@ async function  startServices() {
         ));
 
     });
-    app.post('/http_post_load_comments_for_component', async function (req, res) {
+    app.post(   '/http_post_load_comments_for_component',                   async function (req, res) {
         let baseComponentId = req.body.value.base_component_id
         let commentsAndRatings = await getCommentsForComponent(baseComponentId)
 
@@ -4679,7 +4679,7 @@ async function  startServices() {
         ));
 
     });
-    app.get('/http_get_login_with_metamask', async function (req, res) {
+    app.get(    '/http_get_login_with_metamask',                            async function (req, res) {
         console.log("app.post('/http_get_login_with_metamask'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         let metamaskAccId = req.query.metamask_account_id;
@@ -4711,7 +4711,7 @@ async function  startServices() {
         ));
 
     });
-    app.get('/http_get_check_metamask_seed', async function (req, res) {
+    app.get(    '/http_get_check_metamask_seed',                            async function (req, res) {
         try {
 
             console.log("app.get('/http_get_check_metamask_seed'): ")
@@ -4789,7 +4789,7 @@ async function  startServices() {
         }
 
     });
-    app.get('/http_get_bulk_calculate_branch_strength_for_component', async function (req, res) {
+    app.get(    '/http_get_bulk_calculate_branch_strength_for_component',   async function (req, res) {
         console.log("app.post('/http_get_bulk_calculate_branch_strength_for_component'): ")
         let baseComponentId = req.query.baseComponentId;
 
@@ -4890,7 +4890,7 @@ async function  startServices() {
             }
         ));
     });
-    app.get('/http_get_load_version_history_v2', async function (req, res) {
+    app.get(    '/http_get_load_version_history_v2',                        async function (req, res) {
 
         console.log("app.post('/http_get_load_version_history_v2'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
@@ -4919,7 +4919,7 @@ async function  startServices() {
         ));
 
     });
-    app.get('/http_get_load_version_future', async function (req, res) {
+    app.get(    '/http_get_load_version_future',                            async function (req, res) {
 
         console.log("app.get('/http_get_load_version_future'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
@@ -4942,7 +4942,7 @@ async function  startServices() {
         ));
 
     });
-    app.post('/http_post_load_editable_apps', async function (req, res) {
+    app.post(   '/http_post_load_editable_apps',                            async function (req, res) {
 
         //console.log("app.post('/http_post_load_editable_apps'): ")
         //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
@@ -5018,7 +5018,7 @@ async function  startServices() {
         ));
 
     });
-    app.post('/http_post_load_topapps', async function (req, res) {
+    app.post(   '/http_post_load_topapps',                                  async function (req, res) {
         //console.log("app.post('/http_post_load_topapps'): ")
         //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         let topApps = []
@@ -5105,12 +5105,12 @@ async function  startServices() {
         ));
 
     });
-    app.get('/http_get_live_check',(req,res)=> {
+    app.get(    '/http_get_live_check',                                     (req,res)=> {
 
         outputDebug("Live check passed")
         res.send ("Live check passed");
     });
-    app.get('/readiness-check',(req,res)=> {
+    app.get(    '/http_get_readiness_check',                                (req,res)=> {
         if (systemReady) {
             outputDebug("Readiness check passed")
             res.send ("Readiness check passed");
@@ -5119,13 +5119,13 @@ async function  startServices() {
             res.status(500).send('Readiness check did not pass');
         }
     });
-    app.get('/http_get_edit/*', function (req, res) {
+    app.get(    '/http_get_edit/*',                                         function (req, res) {
         //------------------------------------------------------------------------------
         // Allow an app to be edited
         //------------------------------------------------------------------------------
         return getEditApp(req, res);
     })
-    app.post('/http_post_add_or_update_app', async function (req, res) {
+    app.post(   '/http_post_add_or_update_app',                             async function (req, res) {
         console.log("/http_post_add_or_update_app")
         let baseComponentIdLocal = req.body.base_component_id
         console.log("/http_post_add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
@@ -5144,9 +5144,9 @@ async function  startServices() {
         console.log("/http_post_add_or_update_app:addOrUpdateDriver completed")
         res.status(200).send('Code registered');
     })
-    /* what happens if we register a false or bad IPFS address? All code sent here
-     *  should be validated */
-    app.post('/http_post_register_ipfs_content_for_client', async function (req, res) {
+    app.post(   '/http_post_register_ipfs_content_for_client',              async function (req, res) {
+        /* what happens if we register a false or bad IPFS address? All code sent here
+         *  should be validated */
 
         let ipfsHash = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
@@ -5154,10 +5154,12 @@ async function  startServices() {
         await registerIPFS(ipfsHash);
         res.status(200).send('IPFS content registered');
     })
+
+
+
+
     app.use("/files",   express.static(path.join(userData, '/files/')));
     app.use("/weights",   express.static(path.join(userData, '/weights/')));
-
-
 
     function getBaseComponentIdFromRequest(req){
         let parts = req.path.split('/');
