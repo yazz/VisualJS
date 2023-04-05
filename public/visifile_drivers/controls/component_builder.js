@@ -929,7 +929,7 @@ logo_url("/driver_icons/builder.png")
                 }
 
 
-                  callAjaxPost("/http_post_copy_component",
+                  callAjaxPost("/http_post_generate_component",
                   {
                       relative_filename_to_copy:    "controls/component_builder.js"
                       ,

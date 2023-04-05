@@ -5171,28 +5171,6 @@ async function  startServices() {
         //------------------------------------------------------------------------------
         return getEditApp(req, res);
     })
-    app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
-        let userid              = await getUserId(req)
-        let baseComponentId     = req.query.base_component_id
-        let codeId              = req.query.code_id
-        let newBaseComponentId  = req.query.new_base_component_id
-
-        let args =
-            {
-                base_component_id: baseComponentId
-                ,
-                code_id: codeId
-                ,
-                new_base_component_id: newBaseComponentId
-            }
-
-        let response = await copyAppshareApp(args)
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            response
-        ));
-
-    })
     app.post(   '/http_post_add_or_update_app',                             async function (req, res) {
         console.log("/http_post_add_or_update_app")
         let baseComponentIdLocal = req.body.base_component_id
@@ -5247,7 +5225,29 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify(saveResult))
     });
-    app.post(   "/http_post_copy_component" ,                               async function (req, res) {
+    app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
+        let userid              = await getUserId(req)
+        let baseComponentId     = req.query.base_component_id
+        let codeId              = req.query.code_id
+        let newBaseComponentId  = req.query.new_base_component_id
+
+        let args =
+            {
+                base_component_id: baseComponentId
+                ,
+                code_id: codeId
+                ,
+                new_base_component_id: newBaseComponentId
+            }
+
+        let response = await copyAppshareApp(args)
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            response
+        ));
+
+    })
+    app.post(   "/http_post_generate_component" ,                               async function (req, res) {
         //
         // get stuff
         //
