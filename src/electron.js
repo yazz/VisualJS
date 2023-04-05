@@ -5154,56 +5154,6 @@ async function  startServices() {
         await registerIPFS(ipfsHash);
         res.status(200).send('IPFS content registered');
     })
-
-
-
-
-    app.use("/files",   express.static(path.join(userData, '/files/')));
-    app.use("/weights",   express.static(path.join(userData, '/weights/')));
-
-    function getBaseComponentIdFromRequest(req){
-        let parts = req.path.split('/');
-        let appHtmlFile = parts.pop() || parts.pop();
-
-        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        return appName
-    }
-
-
-    //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
-    app.get('/app/*', function (req, res, next) {
-        console.log("app.get('/app'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-        if (req.kauth) {
-            outputDebug('Keycloak details from server:')
-            outputDebug(req.kauth.grant)
-        }
-        let parts = req.path.split('/');
-        let appHtmlFile = parts.pop() || parts.pop();
-
-        //console.log("appHtemlFile: " + appHtmlFile);
-
-        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
-        //console.log("appName: " + appName);
-
-        //console.log("path: " + path);
-
-        let appFilePath = path.join(userData, 'apps/' + appHtmlFile)
-        let fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(fileC2);
-
-
-    })
-    //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
-    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-    app.use(            express.static(path.join(__dirname, '../public/')))
-    app.use(bodyParser.json()); // support json encoded bodies
-    app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
-    //app.use(useragent.express())
-
-
     app.post("/http_post_save_code_v3" , async function (req, res) {
         let userid
         let optionsForSave
@@ -5500,6 +5450,56 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end("Done");
     });
+
+
+
+    app.use("/files",   express.static(path.join(userData, '/files/')));
+    app.use("/weights",   express.static(path.join(userData, '/weights/')));
+
+    function getBaseComponentIdFromRequest(req){
+        let parts = req.path.split('/');
+        let appHtmlFile = parts.pop() || parts.pop();
+
+        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
+        return appName
+    }
+
+
+    //app.get('/app/*', keycloakProtector({compIdFromReqFn: getBaseComponentIdFromRequest}), function (req, res, next) {
+    app.get('/app/*', function (req, res, next) {
+        console.log("app.get('/app'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        if (req.kauth) {
+            outputDebug('Keycloak details from server:')
+            outputDebug(req.kauth.grant)
+        }
+        let parts = req.path.split('/');
+        let appHtmlFile = parts.pop() || parts.pop();
+
+        //console.log("appHtemlFile: " + appHtmlFile);
+
+        let appName = appHtmlFile.split('.').slice(0, -1).join('.')
+        //console.log("appName: " + appName);
+
+        //console.log("path: " + path);
+
+        let appFilePath = path.join(userData, 'apps/' + appHtmlFile)
+        let fileC2 = fs.readFileSync(appFilePath, 'utf8').toString()
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(fileC2);
+
+
+    })
+    //app.use("/app_dbs", express.static(path.join(userData, '/app_dbs/')));
+    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+    app.use(            express.static(path.join(__dirname, '../public/')))
+    app.use(bodyParser.json()); // support json encoded bodies
+    app.use(bodyParser.urlencoded({ extended: true , limit: '50mb'})); // support encoded bodies
+    //app.use(useragent.express())
+
+
+
 
     process.on('uncaughtException', function (err) {
         outputDebug(err);
