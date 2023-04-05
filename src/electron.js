@@ -4142,7 +4142,7 @@ function        websocketFn(ws) {
 
             sendToBrowserViaWebSocket(  ws,
                 {
-                    type:       "edit_static_app_url"
+                    type:       "ws_edit_static_app_url"
                     ,
 
                     url:        receivedMessage.host_editor_address +
