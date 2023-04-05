@@ -5154,7 +5154,7 @@ async function  startServices() {
         await registerIPFS(ipfsHash);
         res.status(200).send('IPFS content registered');
     })
-    app.post("/http_post_save_code_v3" , async function (req, res) {
+    app.post(   "/http_post_save_code_v3" ,                                 async function (req, res) {
         let userid
         let optionsForSave
         let saveResult
@@ -5179,7 +5179,7 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify(saveResult))
     });
-    app.post("/http_post_load_commit_hash_id" , async function (req, res) {
+    app.post(   "/http_post_load_commit_hash_id" ,                          async function (req, res) {
         //
         // get stuff
         //
@@ -5191,7 +5191,7 @@ async function  startServices() {
             ipfsHash: ipfsHash,
         }))
     })
-    app.post("/http_post_bookmark_commit" , async function (req, res) {
+    app.post(   "/http_post_bookmark_commit" ,                              async function (req, res) {
         //
         // get stuff
         //
@@ -5210,7 +5210,7 @@ async function  startServices() {
             ipfsHash:   ipfsHash,
         }))
     })
-    app.post("/http_post_release_commit" , async function (req, res) {
+    app.post(   "/http_post_release_commit" ,                               async function (req, res) {
         //
         // get stuff
         //
@@ -5230,7 +5230,7 @@ async function  startServices() {
             ipfsHash:   ipfsHash,
         }))
     })
-    app.post("/http_post_copy_component" , async function (req, res) {
+    app.post(   "/http_post_copy_component" ,                               async function (req, res) {
         //
         // get stuff
         //
@@ -5432,18 +5432,18 @@ async function  startServices() {
             return:     srcText
         }))
     });
-    app.post('/http_post_file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
+    app.post(   '/http_post_file_open_single',                              upload.single( 'openfilefromhomepage' ), function (req, res, next) {
         console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
         return file_uploadSingleFn(req, res, next);
     });
-    app.post('/http_post_file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
+    app.post(   '/http_post_file_upload_single',                            upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
         console.log("File upload: " + JSON.stringify(req.file.originalname,null,2))
         return file_uploadSingleFn(req, res, next);
     });
-    app.post('/http_post_file_upload', upload.array( 'file' ), function (req, res, next) {
+    app.post(   '/http_post_file_upload',                                   upload.array( 'file' ), function (req, res, next) {
         return file_uploadFn(req, res, next);
     });
-    app.get('/http_get_file_name_load', function (req, res, next) {
+    app.get(    '/http_get_file_name_load',                                 function (req, res, next) {
         //console.log("Hit http_get_file_name_load")
         file_name_load(req, res);
 
