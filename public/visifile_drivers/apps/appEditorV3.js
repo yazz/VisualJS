@@ -1791,7 +1791,7 @@ End of app preview menu
                    let mm = this
                    showProgressBar()
 
-                   let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/bookmark_commit"
+                   let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_bookmark_commit"
                    callAjaxPost(postAppUrl,
                        {
                            code_id:                  mm.code_id
@@ -1830,7 +1830,7 @@ End of app preview menu
                    let mm = this
                    showProgressBar()
 
-                   let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/release_commit"
+                   let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_release_commit"
                    callAjaxPost(postAppUrl,
                        {
                            code_id:                  mm.code_id

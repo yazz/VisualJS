@@ -43,7 +43,7 @@ objects:
             livenessProbe:
                         failureThreshold: 3
                         httpGet:
-                          path: /live-check
+                          path: /http_get_live_check
                           port: 3000
                           scheme: HTTP
                         periodSeconds: 10

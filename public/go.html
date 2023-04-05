@@ -32,7 +32,7 @@ async function getIpfsHash(sometext) {
         return ret.path
     } else {
         let resulthash = await postToYazzReturnJson(
-            "/get_commit_hash_id",
+            "/http_post_load_commit_hash_id",
             {text: sometext}
         )
         return resulthash.ipfsHash
@@ -2123,7 +2123,7 @@ async function initFn() {
         }
         };
         var myDropzone = new Dropzone("body#mydropzone", {
-        url: "/file_upload"
+        url: "/http_post_file_upload"
         ,
         createImageThumbnails: false
         ,
@@ -4087,7 +4087,7 @@ async function webWorkerPostToYazzReturnJson(host, hostPort, urlToPost, postPara
             //console.log("in web worker, code: " +  code.length )
             //console.log("in web worker, options: " +  JSON.stringify(options,null,2)  )
 
-            await webWorkerPostToYazzReturnJson(host, hostPort, "/save_code_v3",
+            await webWorkerPostToYazzReturnJson(host, hostPort, "/http_post_save_code_v3",
             {
                 value: {
                     code:       code,

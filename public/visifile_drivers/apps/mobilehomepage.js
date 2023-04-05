@@ -401,7 +401,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
          },
          openFileElectron() {
 
-                //let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
+                //let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
                 let openfileurl = "/electron_file_open"
 
                 //console.log("openfileurl:= " + openfileurl)
@@ -506,7 +506,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             let form = document.getElementById('uploadfilefromhomepageform');
             let formData = new FormData(form);
 
-            xmlhttp.open("POST","/file_upload_single",true);
+            xmlhttp.open("POST","/http_post_file_upload_single",true);
             xmlhttp.send(formData);
         }
         ,
@@ -519,7 +519,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
           let form = document.getElementById('openfilefromhomepageform');
           let formData = new FormData(form);
 
-          xmlhttp.open("POST","/file_open_single",true);
+          xmlhttp.open("POST","/http_post_file_open_single",true);
           xmlhttp.send(formData);
       }
 

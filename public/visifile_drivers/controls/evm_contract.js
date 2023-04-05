@@ -465,7 +465,7 @@ return sdf
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
                   debugger
                   //debugger
-                  callAjaxPost("/copy_component",
+                  callAjaxPost("/http_post_copy_component",
                   {
                        relative_filename_to_copy:    "controls/evm_contract.js"
                        ,
@@ -491,10 +491,6 @@ return sdf
                   }
                   ,
                   async function(response){
-                    showTimer("in 'save_component' response")
-                    //alert(response)
-                    //debugger
-
                     let responseJson = JSON.parse(response)
                     mm.$root.$emit('message', {
                                                     type:             "load_controls",

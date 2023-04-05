@@ -929,7 +929,7 @@ logo_url("/driver_icons/builder.png")
                 }
 
 
-                  callAjaxPost("/copy_component",
+                  callAjaxPost("/http_post_copy_component",
                   {
                       relative_filename_to_copy:    "controls/component_builder.js"
                       ,
@@ -959,10 +959,6 @@ logo_url("/driver_icons/builder.png")
                   }
                   ,
                   async function(response){
-                    showTimer("in 'save_component' response")
-                    //alert(response)
-                    //debugger
-
                     let responseJson = JSON.parse(response)
                     mm.$root.$emit('message', {
                                                     type:             "load_controls",

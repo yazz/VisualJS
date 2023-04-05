@@ -2463,19 +2463,6 @@ function        loadAppFromFile(localp,client_file_upload_id) {
     });
 
 }
-function        code_uploadFn(req, res) {
-
-    save_code_from_upload({
-        message_type:           "save_code_from_upload",
-        parent_hash:            null,
-        code:                   "function(args) {  /* rest_api('test3') */ return {ab: 163}}",
-        options:                {save_html: true},
-        sqlite_data:            ""
-    });
-
-
-
-};
 async function  save_code_from_upload(msg) {
     /*
     ________________________________________
@@ -2740,7 +2727,7 @@ async function  sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
             let options = {
                 host: centralHost,
                 port: centralPort,
-                path: '/register_ipfs_content_for_client',
+                path: '/http_post_register_ipfs_content_for_client',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -4146,7 +4133,7 @@ function        websocketFn(ws) {
                     ,
 
                     url:        receivedMessage.host_editor_address +
-                        "/edit/" +
+                        "/http_get_edit/" +
                         receivedMessage.base_component_id
                     ,
 
@@ -5118,7 +5105,7 @@ async function  startServices() {
         ));
 
     });
-    app.get('/live-check',(req,res)=> {
+    app.get('/http_get_live_check',(req,res)=> {
 
         outputDebug("Live check passed")
         res.send ("Live check passed");
@@ -5132,20 +5119,20 @@ async function  startServices() {
             res.status(500).send('Readiness check did not pass');
         }
     });
-    app.get('/edit/*', function (req, res) {
+    app.get('/http_get_edit/*', function (req, res) {
         //------------------------------------------------------------------------------
         // Allow an app to be edited
         //------------------------------------------------------------------------------
         return getEditApp(req, res);
     })
-    app.post('/add_or_update_app', async function (req, res) {
-        console.log("/add_or_update_app")
+    app.post('/http_post_add_or_update_app', async function (req, res) {
+        console.log("/http_post_add_or_update_app")
         let baseComponentIdLocal = req.body.base_component_id
-        console.log("/add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
+        console.log("/http_post_add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
         let srcCode = req.body.src_code
-        console.log("/add_or_update_app:srcCode := " + srcCode.length)
+        console.log("/http_post_add_or_update_app:srcCode := " + srcCode.length)
         let ipfsHash = req.body.ipfs_hash
-        console.log("/add_or_update_app:ipfsHash := " + ipfsHash)
+        console.log("/http_post_add_or_update_app:ipfsHash := " + ipfsHash)
 
         await addOrUpdateDriver(srcCode ,
             {
@@ -5154,12 +5141,12 @@ async function  startServices() {
                 reponame: baseComponentIdLocal,
                 version: "latest",
                 ipfsHashId: ipfsHash})
-        console.log("/add_or_update_app:addOrUpdateDriver completed")
+        console.log("/http_post_add_or_update_app:addOrUpdateDriver completed")
         res.status(200).send('Code registered');
     })
     /* what happens if we register a false or bad IPFS address? All code sent here
      *  should be validated */
-    app.post('/register_ipfs_content_for_client', async function (req, res) {
+    app.post('/http_post_register_ipfs_content_for_client', async function (req, res) {
 
         let ipfsHash = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
@@ -5215,7 +5202,7 @@ async function  startServices() {
     //app.use(useragent.express())
 
 
-    app.post("/save_code_v3" , async function (req, res) {
+    app.post("/http_post_save_code_v3" , async function (req, res) {
         let userid
         let optionsForSave
         let saveResult
@@ -5240,19 +5227,7 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify(saveResult))
     });
-    app.post("/load_component" , async function (req, res) {
-
-
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({return: "from load component"}))
-    });
-    app.post("/save_component" , async function (req, res) {
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({return: "from save component"}))
-    });
-    app.post("/get_commit_hash_id" , async function (req, res) {
+    app.post("/http_post_load_commit_hash_id" , async function (req, res) {
         //
         // get stuff
         //
@@ -5264,7 +5239,7 @@ async function  startServices() {
             ipfsHash: ipfsHash,
         }))
     })
-    app.post("/bookmark_commit" , async function (req, res) {
+    app.post("/http_post_bookmark_commit" , async function (req, res) {
         //
         // get stuff
         //
@@ -5283,7 +5258,7 @@ async function  startServices() {
             ipfsHash:   ipfsHash,
         }))
     })
-    app.post("/release_commit" , async function (req, res) {
+    app.post("/http_post_release_commit" , async function (req, res) {
         //
         // get stuff
         //
@@ -5303,7 +5278,7 @@ async function  startServices() {
             ipfsHash:   ipfsHash,
         }))
     })
-    app.post("/copy_component" , async function (req, res) {
+    app.post("/http_post_copy_component" , async function (req, res) {
         //
         // get stuff
         //
@@ -5505,33 +5480,24 @@ async function  startServices() {
             return:     srcText
         }))
     });
-    app.post('/file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
+    app.post('/http_post_file_open_single', upload.single( 'openfilefromhomepage' ), function (req, res, next) {
         console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
         return file_uploadSingleFn(req, res, next);
     });
-    app.post('/file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
+    app.post('/http_post_file_upload_single', upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
         console.log("File upload: " + JSON.stringify(req.file.originalname,null,2))
         return file_uploadSingleFn(req, res, next);
     });
-    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
+    app.post('/http_post_file_upload', upload.array( 'file' ), function (req, res, next) {
         return file_uploadFn(req, res, next);
     });
-    app.get('/code_upload', function (req, res, next) {
-        code_uploadFn(req, res);
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end("Done");
-    });
-    app.get('/file_name_load', function (req, res, next) {
-        //console.log("Hit file_name_load")
+    app.get('/http_get_file_name_load', function (req, res, next) {
+        //console.log("Hit http_get_file_name_load")
         file_name_load(req, res);
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end("Done");
     });
-    app.get('/lock', function (req, res) {
-        return lockFn(req, res);
-    })
 
     process.on('uncaughtException', function (err) {
         outputDebug(err);

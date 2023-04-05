@@ -267,7 +267,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                         method="POST"
                                         style="display:none;"
                                         enctype="multipart/form-data"
-                                        action="/file_upload_single"  >
+                                        action="/http_post_file_upload_single"  >
                 
                                 <input  type="file"
                                         id="uploadfilefromhomepage"
@@ -283,7 +283,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                         method="POST"
                                         style="display:none;"
                                         enctype="multipart/form-data"
-                                        action="/file_open_single"  >
+                                        action="/http_post_file_open_single"  >
                 
                                 <input  type="file"
                                         id="openfilefromhomepage"
@@ -1007,7 +1007,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     let form = document.getElementById('openfilefromhomepageform');
                     let formData = new FormData(form);
 
-                    xmlhttp.open("POST","/file_open_single",true);
+                    xmlhttp.open("POST","/http_post_file_open_single",true);
                     xmlhttp.send(formData);
                 },
                 selectOpenFileOrFolder:     async function( fileOrFolder) {
@@ -1056,7 +1056,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         saveCodeToFile = this.open_file_name
 
                         file_upload_uuid = uuidv4()
-                        let openfileurl = "/file_name_load?file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
+                        let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
                         //console.log("openfileurl:= " + openfileurl)
                         callAjax( openfileurl,
                             function(res) {
@@ -1159,7 +1159,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     let form = document.getElementById('uploadfilefromhomepageform');
                     let formData = new FormData(form);
 
-                    xmlhttp.open("POST","/file_upload_single",true);
+                    xmlhttp.open("POST","/http_post_file_upload_single",true);
                     xmlhttp.send(formData);
                 },
 
