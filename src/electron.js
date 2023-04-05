@@ -4340,6 +4340,7 @@ async function  startServices() {
         next();
     });
 
+    // serve the main HTML pages
     app.get(    '/',                                                        function (req, res, next) {
         //------------------------------------------------------------------------------
         // Show the default page for the different domains
@@ -4350,598 +4351,8 @@ async function  startServices() {
         //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         return getRoot(req, res, next);
     })
-    app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
-        let userid              = await getUserId(req)
-        let baseComponentId     = req.query.base_component_id
-        let codeId              = req.query.code_id
-        let newBaseComponentId  = req.query.new_base_component_id
 
-        let args =
-            {
-                base_component_id: baseComponentId
-                ,
-                code_id: codeId
-                ,
-                new_base_component_id: newBaseComponentId
-            }
-
-        let response = await copyAppshareApp(args)
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            response
-        ));
-
-    })
-    app.get(    '/http_get_update_code_tags',                               async function (req, res, next) {
-        let userid          = await getUserId(req)
-
-        await yz.updateCodeTags(
-            dbsearch,
-            {
-                baseComponentId:    req.query.baseComponentId,
-                userId:             userid,
-                sha1sum:            req.query.sha1sum
-            })
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            {status: "Done"}
-        ));
-
-    })
-    app.get(    '/http_get_load_code_commit',                               async function (req, res, next) {
-        //console.log("calling main page")
-        //console.log("jaeger: " + jaegercollector)
-        let commitId = req.query.commit_id;
-
-
-        let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
-        let codeString = codeRecord.code
-
-        console.log("app.get('/'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            {code: codeString}
-        ));
-
-    })
-    app.post(   '/http_post_call_component',                                async function (req, res) {
-        //currently neverused. Still needs to be implemented
-        console.log("app.post('/http_post_call_component'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
-
-        let topApps = []
-        //let baseComponentId = req.body.value.base_component_id
-        //let baseComponentIdVersion = req.body.value.base_component_id_version
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            topApps
-        ));
-    })
-    app.post(   '/http_post_submit_comment',                                async function (req, res) {
-        console.log("app.post('/http_post_submit_comment'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-        let topApps = []
-        let baseComponentId = req.body.value.base_component_id
-        let baseComponentIdVersion = req.body.value.base_component_id_version
-        let newComment = req.body.value.comment
-        let newRating = req.body.value.rating
-        let newDateAndTime = new Date().getTime()
-
-
-        await insertCommentIntoDb(
-            {
-                baseComponentId:        baseComponentId,
-                baseComponentIdVersion: baseComponentIdVersion,
-                newComment:             newComment,
-                newRating:              newRating,
-                dateAndTime:            newDateAndTime
-            }
-        )
-        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
-
-        topApps =
-            {
-                status: "ok"
-                ,
-
-                comments_and_ratings: commentsAndRatings
-            }
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            topApps
-        ));
-
-        setTimeout(async function() {
-            let ipfsHash = await saveJsonItemToIpfs(
-                {
-                    type: "COMPONENT_COMMENT",
-                    format: "JSON'",
-                    type_: "component_type('COMPONENT_COMMENT')",
-                    format_: "format('JSON')",
-                    date_and_time: newDateAndTime,
-                    base_component_id: baseComponentId,
-                    base_component_id_version: baseComponentIdVersion,
-                    comment: newComment,
-                    rating: newRating
-                }
-
-            )
-            let afdsfds=ipfsHash
-        },500)
-
-    });
-    app.post(   '/http_post_save_debug_text',                               async function (req, res) {
-        /*
-        ________________________________________
-        |                                      |
-        |       POST /http_post_save_debug_text          |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     componentSearchDetails    Some text
-        |     ----------------------    can go here
-        |                               and on the
-        |                               following lines
-        |
-        |     second param              Some text
-        |     ------------              can go here
-        |                               and on the
-        |                               following lines
-        |________________________________________________________________________ */
-        let textInput       = req.body.textInput
-        let fileLocation    = req.body.fileLocation
-        fs.writeFileSync(fileLocation, textInput);
-
-//zzz
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({status: "OK"}))
-    })
-    app.post(   '/http_post_load_pipeline_code',                            async function (req, res) {
-        /*
-        ________________________________________
-        |                                      |
-        |       POST /http_post_save_debug_text          |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     componentSearchDetails    Some text
-        |     ----------------------    can go here
-        |                               and on the
-        |                               following lines
-        |
-        |     second param              Some text
-        |     ------------              can go here
-        |                               and on the
-        |                               following lines
-        |________________________________________________________________________ */
-        let pipelineFileName        = req.body.pipelineFileName
-        let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
-//zzz
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({value: fileOut}))
-    })
-    app.post(   '/http_post_load_ui_components_v3',                         async function (req, res) {
-        /*
-                            POST    '/http_post_load_ui_components_v3'
-
-                            Loads a bunch of components
-         */
-        let inputComponentsToLoad       = req.body.find_components.items
-        let outputComponents            = []
-
-
-        //----------------------------------------------------------------------------
-        // Go through all the components
-        //----------------------------------------------------------------------------
-        for (let componentItem    of    inputComponentsToLoad ) {
-            let resultsRow = null
-
-
-
-
-            //----------------------------------------------------------------------------
-            // if IPFS Hash given
-            //----------------------------------------------------------------------------
-            if (componentItem.codeId) {
-                componentItem.ipfsHashId = componentItem.codeId
-
-                resultsRow = await yz.getQuickSqlOneRow(
-                    dbsearch
-                    ,
-                    `
-                        SELECT  
-                            system_code.*  
-                        FROM
-                            system_code  
-                        WHERE  
-                            id  = ?
-                        `
-                    ,
-                    componentItem.codeId)
-
-                //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
-
-
-
-
-
-                //----------------------------------------------------------------------------
-                // if baseComponentId given
-                //----------------------------------------------------------------------------
-            } else if (componentItem.baseComponentId) {
-                resultsRow = await yz.getQuickSqlOneRow(
-                    dbsearch
-                    ,
-                    `
-                    SELECT  
-                        system_code.*  
-                    FROM   
-                        system_code, 
-                        yz_cache_released_components   
-                    WHERE  
-                        yz_cache_released_components.base_component_id = ?
-                            and   
-                        yz_cache_released_components.ipfs_hash = system_code.id 
-                    `
-                    ,
-                    componentItem.baseComponentId)
-
-                if (!resultsRow) {
-                    resultsRow = await yz.getQuickSqlOneRow(
-                        dbsearch
-                        ,
-                        `
-                        SELECT  
-                            system_code.*  
-                        FROM
-                            system_code  
-                        WHERE  
-                            base_component_id  = ?
-                        order by 
-                            creation_timestamp limit 1  
-                        `
-                        ,
-                        componentItem.baseComponentId)
-                }
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //----------------------------------------------------------------------------
-            // Add the libs
-            //----------------------------------------------------------------------------
-            if (resultsRow) {
-                let codeId = resultsRow.id
-                let results2 = await yz.getQuickSql(
-                    dbsearch
-                    ,
-                    "SELECT dependency_name FROM app_dependencies where code_id = ?; "
-                    ,
-                    codeId)
-                resultsRow.libs = results2
-                outputComponents.push(resultsRow)
-            }
-        }
-
-
-        //----------------------------------------------------------------------------
-        // return the result to the API caller
-        //----------------------------------------------------------------------------
-        let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(decorateResult))
-    })
-    app.post(   '/http_post_test',                                          async function (req, res) {
-        console.log("app.post('/http_post_test'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            []
-        ));
-
-    });
-    app.post(   '/http_post_load_comments_for_component',                   async function (req, res) {
-        let baseComponentId = req.body.value.base_component_id
-        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
-
-        topApps =
-            {
-                status: "ok"
-                ,
-
-                comments_and_ratings: commentsAndRatings
-            }
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            topApps
-        ));
-
-    });
-    app.get(    '/http_get_login_with_metamask',                            async function (req, res) {
-        console.log("app.post('/http_get_login_with_metamask'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let metamaskAccId = req.query.metamask_account_id;
-
-
-        let sessionId = await getSessionId(req,res)
-
-        let promise = new Promise(async function(returnfn) {
-            dbsearch.serialize(function() {
-                dbsearch.run("begin exclusive transaction");
-
-                let newRandomSeed = uuidv1()
-                let timestampNow = new Date().getTime()
-
-                stmtInsertMetaMaskLogin.run(uuidv1(), metamaskAccId ,newRandomSeed, timestampNow)
-                dbsearch.run("commit")
-                returnfn({
-                    seed: newRandomSeed
-                })
-            })
-
-        })
-        let ret = await promise
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            ret
-        ));
-
-    });
-    app.get(    '/http_get_check_metamask_seed',                            async function (req, res) {
-        try {
-
-            console.log("app.get('/http_get_check_metamask_seed'): ")
-            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-            let metamaskAccId = req.query.metamask_account_id;
-            let signedTx = req.query.signedTx;
-            let randomLoginSeed = req.query.random_seed;
-            let sessionId = await getSessionId(req)
-
-            let promise = new Promise(async function(returnfn) {
-
-                dbsearch.serialize(
-                    function() {
-                        dbsearch.all(
-                            " select " +
-                            "     *  " +
-                            " from    " +
-                            "     metamask_logins " +
-                            " where     " +
-                            "     random_seed = ? " +
-                            " order by " +
-                            "     created_timestamp DESC "
-                            ,
-                            [randomLoginSeed]
-                            ,
-                            async function(err, rows) {
-                                if (rows.length == 0 ) {
-                                    returnfn({error: "No record found for account"})
-                                } else {
-                                    let firstRow = rows[0]
-                                    let signMessage = req.query.sign_message;
-                                    let sessionId = await getSessionId(req)
-                                    let ret={}
-                                    const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
-
-                                    if (recoveredSigner == metamaskAccId) {
-                                        ret.status = "Ok"
-
-                                        let login_hashed_id = merkleJson.hash({
-                                            metamask_account_id: metamaskAccId
-                                        })
-
-                                        let promise1 = new Promise(async function(returnfn2) {
-                                            dbsearch.serialize(function() {
-                                                dbsearch.run("begin exclusive transaction");
-                                                stmtInsertUser.run(login_hashed_id, "METAMASK")
-                                                stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
-                                                stmtInsertSessionWithNewUserId.run(login_hashed_id,sessionId)
-                                                dbsearch.run("commit")
-                                                returnfn2()
-                                            })
-
-                                        })
-                                        await promise1
-                                    } else {
-                                        ret.error = "Invalid signature"
-                                    }
-                                    returnfn(ret)
-
-                                }
-
-                            }
-                        );
-                    }, sqlite3.OPEN_READONLY)
-            })
-            let ret = await promise
-            res.writeHead(200, {'Content-Type': 'application/json'});
-
-            res.end(JSON.stringify(
-                ret
-            ));
-        } catch(err2)
-        {
-            let x=1
-        }
-
-    });
-    app.get(    '/http_get_bulk_calculate_branch_strength_for_component',   async function (req, res) {
-        console.log("app.post('/http_get_bulk_calculate_branch_strength_for_component'): ")
-        let baseComponentId = req.query.baseComponentId;
-
-        //
-        // first find all the tips
-        //
-        let allTips = await yz.getQuickSql(
-            dbsearch,
-
-            `select  
-                fk_system_code_id  
-            from  
-                code_tags  
-            where  
-                base_component_id = ? 
-                    and 
-                code_tag = 'TIP'  `,
-
-            [baseComponentId]
-        )
-
-        for (tip of allTips) {
-
-            let numCommitsRow = await yz.getQuickSqlOneRow(
-                dbsearch,
-                `with RECURSIVE
-                parents_of(id2, parent_id2) as (
-                    select id, parent_id from system_code where id = ?
-                        union all
-                    select id, parent_id from system_code,parents_of  where id = parent_id2
-                        limit 10
-                )
-            select count(*) as num_commits from parents_of`
-                ,
-                [tip.fk_system_code_id])
-            let numCommits = numCommitsRow.num_commits
-
-
-
-            await yz.executeQuickSql(
-                dbsearch,
-
-                `update 
-                system_code  
-           set  
-                score = ?  
-            where  
-                id = ? `,
-
-                [numCommits, tip.fk_system_code_id]
-            )
-            await yz.executeQuickSql(
-                dbsearch,
-
-                `update 
-                code_tags  
-           set  
-                main_score = ?  
-            where  
-                base_component_id = ? 
-                    and 
-                fk_system_code_id = ?  
-                    and 
-                code_tag = 'TIP'  `,
-
-                [numCommits, baseComponentId, tip.fk_system_code_id ]
-            )
-        }
-
-
-
-
-
-
-        let updatedTips = await yz.getQuickSql(
-            dbsearch,
-
-            `select  
-                fk_system_code_id  , main_score
-            from  
-                code_tags  
-            where  
-                base_component_id = ? 
-                    and 
-                code_tag = 'TIP'  `,
-
-            [baseComponentId]
-        )
-
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            {
-                baseComponentId: baseComponentId
-                ,
-                tips: updatedTips
-            }
-        ));
-    });
-    app.get(    '/http_get_load_version_history_v2',                        async function (req, res) {
-
-        console.log("app.post('/http_get_load_version_history_v2'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let topApps = []
-        let baseComponentIdToFind = req.query.id;
-        let sessionId = await getSessionId(req)
-        let lastCommitId = req.query.commit_id
-        let currentReturnRows = []
-
-        let selectedCommitRow = await getRowForCommit(lastCommitId)
-        currentReturnRows.push(selectedCommitRow)
-        let returnRows = await getPreviousCommitsFor(
-            {
-                commitId: selectedCommitRow.id
-                ,
-                parentCommitId: selectedCommitRow.parent_commit_id
-                ,
-                returnRows: currentReturnRows
-            })
-
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            returnRows
-        ));
-
-    });
-    app.get(    '/http_get_load_version_future',                            async function (req, res) {
-
-        console.log("app.get('/http_get_load_version_future'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let commitId = req.query.commit_id
-        let currentReturnRows = []
-
-        let firstRow = await getRowForCommit(commitId)
-        currentReturnRows.push(firstRow)
-        let returnRows = await getFutureCommitsFor(
-            {
-                commitId: commitId
-                ,
-                returnRows: currentReturnRows
-            })
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            returnRows
-        ));
-
-    });
+    // app store helpers
     app.post(   '/http_post_load_editable_apps',                            async function (req, res) {
 
         //console.log("app.post('/http_post_load_editable_apps'): ")
@@ -5105,6 +4516,231 @@ async function  startServices() {
         ));
 
     });
+    app.post(   '/http_post_submit_comment',                                async function (req, res) {
+        console.log("app.post('/http_post_submit_comment'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        let topApps = []
+        let baseComponentId = req.body.value.base_component_id
+        let baseComponentIdVersion = req.body.value.base_component_id_version
+        let newComment = req.body.value.comment
+        let newRating = req.body.value.rating
+        let newDateAndTime = new Date().getTime()
+
+
+        await insertCommentIntoDb(
+            {
+                baseComponentId:        baseComponentId,
+                baseComponentIdVersion: baseComponentIdVersion,
+                newComment:             newComment,
+                newRating:              newRating,
+                dateAndTime:            newDateAndTime
+            }
+        )
+        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
+
+        topApps =
+            {
+                status: "ok"
+                ,
+
+                comments_and_ratings: commentsAndRatings
+            }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+
+        setTimeout(async function() {
+            let ipfsHash = await saveJsonItemToIpfs(
+                {
+                    type: "COMPONENT_COMMENT",
+                    format: "JSON'",
+                    type_: "component_type('COMPONENT_COMMENT')",
+                    format_: "format('JSON')",
+                    date_and_time: newDateAndTime,
+                    base_component_id: baseComponentId,
+                    base_component_id_version: baseComponentIdVersion,
+                    comment: newComment,
+                    rating: newRating
+                }
+
+            )
+            let afdsfds=ipfsHash
+        },500)
+
+    });
+    app.post(   '/http_post_load_comments_for_component',                   async function (req, res) {
+        let baseComponentId = req.body.value.base_component_id
+        let commentsAndRatings = await getCommentsForComponent(baseComponentId)
+
+        topApps =
+            {
+                status: "ok"
+                ,
+
+                comments_and_ratings: commentsAndRatings
+            }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+
+    });
+    app.get(    '/http_get_login_with_metamask',                            async function (req, res) {
+        console.log("app.post('/http_get_login_with_metamask'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let metamaskAccId = req.query.metamask_account_id;
+
+
+        let sessionId = await getSessionId(req,res)
+
+        let promise = new Promise(async function(returnfn) {
+            dbsearch.serialize(function() {
+                dbsearch.run("begin exclusive transaction");
+
+                let newRandomSeed = uuidv1()
+                let timestampNow = new Date().getTime()
+
+                stmtInsertMetaMaskLogin.run(uuidv1(), metamaskAccId ,newRandomSeed, timestampNow)
+                dbsearch.run("commit")
+                returnfn({
+                    seed: newRandomSeed
+                })
+            })
+
+        })
+        let ret = await promise
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            ret
+        ));
+
+    });
+    app.get(    '/http_get_check_metamask_seed',                            async function (req, res) {
+        try {
+
+            console.log("app.get('/http_get_check_metamask_seed'): ")
+            console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+            let metamaskAccId = req.query.metamask_account_id;
+            let signedTx = req.query.signedTx;
+            let randomLoginSeed = req.query.random_seed;
+            let sessionId = await getSessionId(req)
+
+            let promise = new Promise(async function(returnfn) {
+
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            " select " +
+                            "     *  " +
+                            " from    " +
+                            "     metamask_logins " +
+                            " where     " +
+                            "     random_seed = ? " +
+                            " order by " +
+                            "     created_timestamp DESC "
+                            ,
+                            [randomLoginSeed]
+                            ,
+                            async function(err, rows) {
+                                if (rows.length == 0 ) {
+                                    returnfn({error: "No record found for account"})
+                                } else {
+                                    let firstRow = rows[0]
+                                    let signMessage = req.query.sign_message;
+                                    let sessionId = await getSessionId(req)
+                                    let ret={}
+                                    const recoveredSigner = web3.eth.accounts.recover(signMessage, signedTx);
+
+                                    if (recoveredSigner == metamaskAccId) {
+                                        ret.status = "Ok"
+
+                                        let login_hashed_id = merkleJson.hash({
+                                            metamask_account_id: metamaskAccId
+                                        })
+
+                                        let promise1 = new Promise(async function(returnfn2) {
+                                            dbsearch.serialize(function() {
+                                                dbsearch.run("begin exclusive transaction");
+                                                stmtInsertUser.run(login_hashed_id, "METAMASK")
+                                                stmtSetMetaMaskLoginSuccedded.run(sessionId, randomLoginSeed)
+                                                stmtInsertSessionWithNewUserId.run(login_hashed_id,sessionId)
+                                                dbsearch.run("commit")
+                                                returnfn2()
+                                            })
+
+                                        })
+                                        await promise1
+                                    } else {
+                                        ret.error = "Invalid signature"
+                                    }
+                                    returnfn(ret)
+
+                                }
+
+                            }
+                        );
+                    }, sqlite3.OPEN_READONLY)
+            })
+            let ret = await promise
+            res.writeHead(200, {'Content-Type': 'application/json'});
+
+            res.end(JSON.stringify(
+                ret
+            ));
+        } catch(err2)
+        {
+            let x=1
+        }
+
+    });
+
+    // debug helpers
+    app.post(   '/http_post_save_debug_text',                               async function (req, res) {
+        /*
+        ________________________________________
+        |                                      |
+        |       POST /http_post_save_debug_text          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     componentSearchDetails    Some text
+        |     ----------------------    can go here
+        |                               and on the
+        |                               following lines
+        |
+        |     second param              Some text
+        |     ------------              can go here
+        |                               and on the
+        |                               following lines
+        |________________________________________________________________________ */
+        let textInput       = req.body.textInput
+        let fileLocation    = req.body.fileLocation
+        fs.writeFileSync(fileLocation, textInput);
+
+//zzz
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({status: "OK"}))
+    })
+    app.post(   '/http_post_test',                                          async function (req, res) {
+        console.log("app.post('/http_post_test'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            []
+        ));
+
+    });
     app.get(    '/http_get_live_check',                                     (req,res)=> {
 
         outputDebug("Live check passed")
@@ -5119,11 +4755,443 @@ async function  startServices() {
             res.status(500).send('Readiness check did not pass');
         }
     });
+
+
+
+
+    // source code helpers
+    app.get(    '/http_get_update_code_tags',                               async function (req, res, next) {
+        let userid          = await getUserId(req)
+
+        await yz.updateCodeTags(
+            dbsearch,
+            {
+                baseComponentId:    req.query.baseComponentId,
+                userId:             userid,
+                sha1sum:            req.query.sha1sum
+            })
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {status: "Done"}
+        ));
+
+    })
+    app.get(    '/http_get_load_code_commit',                               async function (req, res, next) {
+        //console.log("calling main page")
+        //console.log("jaeger: " + jaegercollector)
+        let commitId = req.query.commit_id;
+
+
+        let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
+        let codeString = codeRecord.code
+
+        console.log("app.get('/'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {code: codeString}
+        ));
+
+    })
+    app.post(   '/http_post_load_pipeline_code',                            async function (req, res) {
+        /*
+        ________________________________________
+        |                                      |
+        |       POST /http_post_save_debug_text          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     componentSearchDetails    Some text
+        |     ----------------------    can go here
+        |                               and on the
+        |                               following lines
+        |
+        |     second param              Some text
+        |     ------------              can go here
+        |                               and on the
+        |                               following lines
+        |________________________________________________________________________ */
+        let pipelineFileName        = req.body.pipelineFileName
+        let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
+//zzz
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({value: fileOut}))
+    })
+    app.get(    '/http_get_bulk_calculate_branch_strength_for_component',   async function (req, res) {
+        console.log("app.post('/http_get_bulk_calculate_branch_strength_for_component'): ")
+        let baseComponentId = req.query.baseComponentId;
+
+        //
+        // first find all the tips
+        //
+        let allTips = await yz.getQuickSql(
+            dbsearch,
+
+            `select  
+                fk_system_code_id  
+            from  
+                code_tags  
+            where  
+                base_component_id = ? 
+                    and 
+                code_tag = 'TIP'  `,
+
+            [baseComponentId]
+        )
+
+        for (tip of allTips) {
+
+            let numCommitsRow = await yz.getQuickSqlOneRow(
+                dbsearch,
+                `with RECURSIVE
+                parents_of(id2, parent_id2) as (
+                    select id, parent_id from system_code where id = ?
+                        union all
+                    select id, parent_id from system_code,parents_of  where id = parent_id2
+                        limit 10
+                )
+            select count(*) as num_commits from parents_of`
+                ,
+                [tip.fk_system_code_id])
+            let numCommits = numCommitsRow.num_commits
+
+
+
+            await yz.executeQuickSql(
+                dbsearch,
+
+                `update 
+                system_code  
+           set  
+                score = ?  
+            where  
+                id = ? `,
+
+                [numCommits, tip.fk_system_code_id]
+            )
+            await yz.executeQuickSql(
+                dbsearch,
+
+                `update 
+                code_tags  
+           set  
+                main_score = ?  
+            where  
+                base_component_id = ? 
+                    and 
+                fk_system_code_id = ?  
+                    and 
+                code_tag = 'TIP'  `,
+
+                [numCommits, baseComponentId, tip.fk_system_code_id ]
+            )
+        }
+
+
+
+
+
+
+        let updatedTips = await yz.getQuickSql(
+            dbsearch,
+
+            `select  
+                fk_system_code_id  , main_score
+            from  
+                code_tags  
+            where  
+                base_component_id = ? 
+                    and 
+                code_tag = 'TIP'  `,
+
+            [baseComponentId]
+        )
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            {
+                baseComponentId: baseComponentId
+                ,
+                tips: updatedTips
+            }
+        ));
+    });
+    app.get(    '/http_get_load_version_history_v2',                        async function (req, res) {
+
+        console.log("app.post('/http_get_load_version_history_v2'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let topApps = []
+        let baseComponentIdToFind = req.query.id;
+        let sessionId = await getSessionId(req)
+        let lastCommitId = req.query.commit_id
+        let currentReturnRows = []
+
+        let selectedCommitRow = await getRowForCommit(lastCommitId)
+        currentReturnRows.push(selectedCommitRow)
+        let returnRows = await getPreviousCommitsFor(
+            {
+                commitId: selectedCommitRow.id
+                ,
+                parentCommitId: selectedCommitRow.parent_commit_id
+                ,
+                returnRows: currentReturnRows
+            })
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            returnRows
+        ));
+
+    });
+    app.get(    '/http_get_load_version_future',                            async function (req, res) {
+
+        console.log("app.get('/http_get_load_version_future'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+        let commitId = req.query.commit_id
+        let currentReturnRows = []
+
+        let firstRow = await getRowForCommit(commitId)
+        currentReturnRows.push(firstRow)
+        let returnRows = await getFutureCommitsFor(
+            {
+                commitId: commitId
+                ,
+                returnRows: currentReturnRows
+            })
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+
+        res.end(JSON.stringify(
+            returnRows
+        ));
+
+    });
+    app.post(   "/http_post_bookmark_commit" ,                              async function (req, res) {
+        //
+        // get stuff
+        //
+        let ipfsHash = req.body.value.code_id;
+        let version = req.body.value.version;
+        let userId = req.body.value.user_id;
+
+
+        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        await yz.tagVersion(dbsearch, ipfsHash, code)
+
+
+        //let parsedCode = await parseCode(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   ipfsHash,
+        }))
+    })
+    app.post(   "/http_post_release_commit" ,                               async function (req, res) {
+        //
+        // get stuff
+        //
+        let ipfsHash = req.body.value.code_id;
+        let version = req.body.value.version;
+        let userId = req.body.value.user_id;
+
+
+        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        await yz.tagVersion(dbsearch, ipfsHash, code)
+        await releaseCode(ipfsHash, code)
+
+
+        //let parsedCode = await parseCode(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   ipfsHash,
+        }))
+    })
+
+
+
+    // load component helpers
+    app.post(   '/http_post_load_ui_components_v3',                         async function (req, res) {
+        /*
+                            POST    '/http_post_load_ui_components_v3'
+
+                            Loads a bunch of components
+         */
+        let inputComponentsToLoad       = req.body.find_components.items
+        let outputComponents            = []
+
+
+        //----------------------------------------------------------------------------
+        // Go through all the components
+        //----------------------------------------------------------------------------
+        for (let componentItem    of    inputComponentsToLoad ) {
+            let resultsRow = null
+
+
+
+
+            //----------------------------------------------------------------------------
+            // if IPFS Hash given
+            //----------------------------------------------------------------------------
+            if (componentItem.codeId) {
+                componentItem.ipfsHashId = componentItem.codeId
+
+                resultsRow = await yz.getQuickSqlOneRow(
+                    dbsearch
+                    ,
+                    `
+                        SELECT  
+                            system_code.*  
+                        FROM
+                            system_code  
+                        WHERE  
+                            id  = ?
+                        `
+                    ,
+                    componentItem.codeId)
+
+                //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
+
+
+
+
+
+                //----------------------------------------------------------------------------
+                // if baseComponentId given
+                //----------------------------------------------------------------------------
+            } else if (componentItem.baseComponentId) {
+                resultsRow = await yz.getQuickSqlOneRow(
+                    dbsearch
+                    ,
+                    `
+                    SELECT  
+                        system_code.*  
+                    FROM   
+                        system_code, 
+                        yz_cache_released_components   
+                    WHERE  
+                        yz_cache_released_components.base_component_id = ?
+                            and   
+                        yz_cache_released_components.ipfs_hash = system_code.id 
+                    `
+                    ,
+                    componentItem.baseComponentId)
+
+                if (!resultsRow) {
+                    resultsRow = await yz.getQuickSqlOneRow(
+                        dbsearch
+                        ,
+                        `
+                        SELECT  
+                            system_code.*  
+                        FROM
+                            system_code  
+                        WHERE  
+                            base_component_id  = ?
+                        order by 
+                            creation_timestamp limit 1  
+                        `
+                        ,
+                        componentItem.baseComponentId)
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //----------------------------------------------------------------------------
+            // Add the libs
+            //----------------------------------------------------------------------------
+            if (resultsRow) {
+                let codeId = resultsRow.id
+                let results2 = await yz.getQuickSql(
+                    dbsearch
+                    ,
+                    "SELECT dependency_name FROM app_dependencies where code_id = ?; "
+                    ,
+                    codeId)
+                resultsRow.libs = results2
+                outputComponents.push(resultsRow)
+            }
+        }
+
+
+        //----------------------------------------------------------------------------
+        // return the result to the API caller
+        //----------------------------------------------------------------------------
+        let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(decorateResult))
+    })
+    app.post(   '/http_post_call_component',                                async function (req, res) {
+        //currently neverused. Still needs to be implemented
+        console.log("app.post('/http_post_call_component'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
+
+        let topApps = []
+        //let baseComponentId = req.body.value.base_component_id
+        //let baseComponentIdVersion = req.body.value.base_component_id_version
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+    })
+    app.post(   "/http_post_load_commit_hash_id" ,                          async function (req, res) {
+        //
+        // get stuff
+        //
+        let code = req.body.text;
+
+        let ipfsHash = await OnlyIpfsHash.of(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash: ipfsHash,
+        }))
+    })
+
+
+    // edit/save component helpers
     app.get(    '/http_get_edit/*',                                         function (req, res) {
         //------------------------------------------------------------------------------
         // Allow an app to be edited
         //------------------------------------------------------------------------------
         return getEditApp(req, res);
+    })
+    app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
+        let userid              = await getUserId(req)
+        let baseComponentId     = req.query.base_component_id
+        let codeId              = req.query.code_id
+        let newBaseComponentId  = req.query.new_base_component_id
+
+        let args =
+            {
+                base_component_id: baseComponentId
+                ,
+                code_id: codeId
+                ,
+                new_base_component_id: newBaseComponentId
+            }
+
+        let response = await copyAppshareApp(args)
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            response
+        ));
+
     })
     app.post(   '/http_post_add_or_update_app',                             async function (req, res) {
         console.log("/http_post_add_or_update_app")
@@ -5179,57 +5247,6 @@ async function  startServices() {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify(saveResult))
     });
-    app.post(   "/http_post_load_commit_hash_id" ,                          async function (req, res) {
-        //
-        // get stuff
-        //
-        let code = req.body.text;
-
-        let ipfsHash = await OnlyIpfsHash.of(code)
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash: ipfsHash,
-        }))
-    })
-    app.post(   "/http_post_bookmark_commit" ,                              async function (req, res) {
-        //
-        // get stuff
-        //
-        let ipfsHash = req.body.value.code_id;
-        let version = req.body.value.version;
-        let userId = req.body.value.user_id;
-
-
-        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
-        await yz.tagVersion(dbsearch, ipfsHash, code)
-
-
-        //let parsedCode = await parseCode(code)
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash:   ipfsHash,
-        }))
-    })
-    app.post(   "/http_post_release_commit" ,                               async function (req, res) {
-        //
-        // get stuff
-        //
-        let ipfsHash = req.body.value.code_id;
-        let version = req.body.value.version;
-        let userId = req.body.value.user_id;
-
-
-        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
-        await yz.tagVersion(dbsearch, ipfsHash, code)
-        await releaseCode(ipfsHash, code)
-
-
-        //let parsedCode = await parseCode(code)
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash:   ipfsHash,
-        }))
-    })
     app.post(   "/http_post_copy_component" ,                               async function (req, res) {
         //
         // get stuff
@@ -5432,6 +5449,8 @@ async function  startServices() {
             return:     srcText
         }))
     });
+
+    //file upload helpers
     app.post(   '/http_post_file_open_single',                              upload.single( 'openfilefromhomepage' ), function (req, res, next) {
         console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
         return file_uploadSingleFn(req, res, next);
