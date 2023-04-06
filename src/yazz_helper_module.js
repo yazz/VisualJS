@@ -22,6 +22,7 @@ let copyMigration;
 
 
 module.exports = {
+    //setup this module
     setup:                          async function(thisDb) {
         stmtInsertNewCode = thisDb.prepare(
             `insert into
@@ -96,6 +97,8 @@ module.exports = {
     `
         );
 },
+
+    //manipulate code meta data
     insertCodeString:               function(code,st, vall ,optionalEnd) {
     let endIndicator = ")"
     if (optionalEnd) {
@@ -154,6 +157,8 @@ return code
             }
             return null
     },
+
+    //text retreival and replacement
     replaceBetween:                 function(target, start, end, replaceWith) {
                                         let startIndex = target.indexOf(start) + start.length
                                         let endIndex = target.indexOf(end)
@@ -187,6 +192,8 @@ return code
       }
       return code
     },
+
+    //manipulate components
     addProperty:                    function(code, newProperty) {
         let properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
         if (properties) {
@@ -215,12 +222,40 @@ return code
 
         return code
     },
+    getChildDetails:                async function(subComponent) {
+        let newSubComponent = {
+            baseComponentId: subComponent,
+            codeId:          subComponent
+        }
+        return newSubComponent
+    },
+    getSubComponents:               async function (srcCode) {
+        let yz = this
+
+        let subC = yz.getValueOfCodeString(srcCode,"sub_components")
+        if (!subC) {
+            return []
+        }
+        let retRes = []
+        for (let subComponent  of  subC) {
+            if (typeof subComponent === 'string' || subComponent instanceof String) {
+                retRes.push({child_base_component_id: subComponent})
+            } else {
+                retRes.push(subComponent)
+            }
+        }
+        return retRes
+    },
+
+    //general JS helpers
     isValidObject:                  function (variable){
         if ((typeof variable !== 'undefined') && (variable != null)) {
             return true
         }
         return false
     },
+
+    //Internal SQLite DB helpers
     getQuickSqlOneRow:              async function (thisDb, sql ,params) {
         let rows = await this.getQuickSql(thisDb,sql,params)
         if (rows.length == 0) {
@@ -271,6 +306,8 @@ return code
         let ret = await promise
         return ret
     },
+
+    //code commit helpers
     tagVersion:                     async function (thisDb, ipfs_hash, srcCode ) {
         let baseComponentId = this.getValueOfCodeString(srcCode,"base_component_id")
         let dateTime = new Date().toString()
@@ -487,6 +524,8 @@ return code
             console.log(ewr)
         }
     },
+
+    //code save helpers
     copyFile:                       function (source, target, cb) {
         //------------------------------------------------------------------------------
         //
@@ -1139,30 +1178,8 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
         let ret = await promise
         return ret
     },
-    getChildDetails:                async function(subComponent) {
-        let newSubComponent = {
-            baseComponentId: subComponent,
-            codeId:          subComponent
-        }
-        return newSubComponent
-    },
-    getSubComponents:               async function (srcCode) {
-        let yz = this
 
-        let subC = yz.getValueOfCodeString(srcCode,"sub_components")
-        if (!subC) {
-            return []
-        }
-        let retRes = []
-        for (let subComponent  of  subC) {
-            if (typeof subComponent === 'string' || subComponent instanceof String) {
-                retRes.push({child_base_component_id: subComponent})
-            } else {
-                retRes.push(subComponent)
-            }
-        }
-        return retRes
-    },
+    //code execution helpers
     getPipelineCode:                async function(args) {
         /*
         ________________________________________
