@@ -1,7 +1,6 @@
 const OnlyIpfsHash = require("ipfs-only-hash");
 const path = require("path");
 let sqlite3                     = require('sqlite3');
-let stmtInsertNewCode
 let stmtInsertIntoCodeTags
 let uuidv1          = require('uuid/v1');
 let stmtDeleteDependencies
@@ -22,16 +21,6 @@ let copyMigration;
 module.exports = {
     //setup this module
     setup:                          async function(thisDb) {
-        stmtInsertNewCode = thisDb.prepare(
-            `insert into
-                 system_code  
-                     (id, parent_id, code, base_component_id, 
-                      display_name, creation_timestamp, 
-                      logo_url, visibility,use_db, editors, read_write_status,properties, 
-                      component_type, edit_file_path, 
-                      code_changes, num_changes, fk_user_id, score, score_reason) 
-              values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
 
         stmtInsertIntoCodeTags = thisDb.prepare(`insert or ignore
@@ -513,7 +502,6 @@ return code
         }
     },
     clearLinkedTypesInDB: async function(thisDb, baseComponentId, properties) {
-        //zzz
         let mm = this
         await mm.executeQuickSql(thisDb," delete from  component_property_types   where   base_component_id = ?",[baseComponentId]);
         await mm.executeQuickSql(thisDb," delete from  component_property_accept_types   where   base_component_id = ?", [baseComponentId]);
@@ -551,6 +539,24 @@ return code
             }
         }
 
+    },
+    insertNewCode: async function(thisDb, params) {
+        let mm = this
+        mm.executeQuickSql(
+            thisDb
+            ,
+            `insert into
+                 system_code  
+                     (id, parent_id, code, base_component_id, 
+                      display_name, creation_timestamp, 
+                      logo_url, visibility,use_db, editors, read_write_status,properties, 
+                      component_type, edit_file_path, 
+                      code_changes, num_changes, fk_user_id, score, score_reason) 
+              values 
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+            ,
+            params
+        )
     },
     //code save helpers
     copyFile:                       function (source, target, cb) {
@@ -692,29 +698,30 @@ return code
                         console.log("SHA do not match")
                     }
 
-                    thisDb.serialize(async function() {
-                        thisDb.run("begin exclusive transaction");
-                        stmtInsertNewCode.run(
-                            sha1sum,
-                            parentHash,
-                            code,
-                            baseComponentId,
-                            displayName,
-                            updatedTimestamp,
-                            logoUrl,
-                            visibility,
-                            useDb,
-                            editors,
-                            readWriteStatus,
-                            propertiesAsJsonString,
-                            controlType,
-                            save_code_to_file,
-                            codeChangesStr,
-                            numCodeChanges,
-                            userId,
-                            1,
-                            "1 point for being committed"
-                        )
+                        await mm.insertNewCode(
+                            thisDb
+                            ,
+                            [
+                                sha1sum,
+                                parentHash,
+                                code,
+                                baseComponentId,
+                                displayName,
+                                updatedTimestamp,
+                                logoUrl,
+                                visibility,
+                                useDb,
+                                editors,
+                                readWriteStatus,
+                                propertiesAsJsonString,
+                                controlType,
+                                save_code_to_file,
+                                codeChangesStr,
+                                numCodeChanges,
+                                userId,
+                                1,
+                                "1 point for being committed"
+                            ])
 
 
                         if (existingCodeTags) {
@@ -1040,7 +1047,6 @@ newCode += newCode2
                             base_component_id:  baseComponentId
                         })
 
-                    })
                 } catch(err) {
                     console.log(err)
                 }
