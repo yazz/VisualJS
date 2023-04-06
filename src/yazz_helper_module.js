@@ -28,12 +28,12 @@ module.exports = {
             `insert into
                  system_code  
                      (id, parent_id, code, base_component_id, 
-                      display_name, creation_timestamp,component_options, 
+                      display_name, creation_timestamp, 
                       logo_url, visibility,use_db, editors, read_write_status,properties, 
                       component_type, edit_file_path, 
                       code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
 
         stmtInsertIntoCodeTags = thisDb.prepare(`insert or ignore
@@ -573,11 +573,14 @@ return code
         // ********** get info from the code **********
         let baseComponentId     = mm.getValueOfCodeString(code,"base_component_id")
         let parentHash          = mm.getValueOfCodeString(code,"parent_hash")
-        let componentOptions    = null
         let visibility          = mm.getValueOfCodeString(code,"visibility")
         let logoUrl             = mm.getValueOfCodeString(code,"logo_url")
         let updatedTimestamp    = mm.getValueOfCodeString(code, "updated_timestamp")
-        let readOnly = mm.getValueOfCodeString(code,"read_only")
+        let readOnly            = mm.getValueOfCodeString(code,"read_only")
+        let displayName         = mm.getValueOfCodeString(code,"display_name")
+        let useDb               = mm.getValueOfCodeString(code,"use_db")
+        let editors2            = mm.getValueOfCodeString(code,"editors")
+        let controlType         = mm.getValueOfCodeString(code,"component_type")
 
 
 
@@ -601,14 +604,6 @@ return code
             }
 
 
-            if (mm.getValueOfCodeString(code,"hide_header")) {
-                componentOptions = "HIDE_HEADER"
-            }
-
-            let displayName = mm.getValueOfCodeString(code,"display_name")
-            let useDb = mm.getValueOfCodeString(code,"use_db")
-            let editors2 = mm.getValueOfCodeString(code,"editors")
-            let controlType = mm.getValueOfCodeString(code,"component_type")
 
             let editors = null
             if (editors2) {
@@ -725,7 +720,6 @@ return code
                                                 baseComponentId,
                                                 displayName,
                                                 updatedTimestamp,
-                                                componentOptions,
                                                 logoUrl,
                                                 visibility,
                                                 useDb,

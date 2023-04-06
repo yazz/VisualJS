@@ -282,14 +282,13 @@ function executeCode(  callId  ,  codeId  , args  ,  base_component_id  ) {
     dbsearch.serialize(
         function() {
             dbsearch.all(
-                "SELECT base_component_id,component_options,code,properties FROM system_code where id  = ?; ",
+                "SELECT base_component_id,code,properties FROM system_code where id  = ?; ",
                 codeId,
 
                 function(err, results)
                 {
                     if (results.length > 0) {
                         currentDriver           = results[0].base_component_id
-                        var componentOptions    = results[0].component_options
                         currentCodeID           = codeId
                         currentArgs             = args
                         var properties          = results[0].properties
