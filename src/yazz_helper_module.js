@@ -561,14 +561,27 @@ return code
         return ipfsHash
     },
     saveCodeV3:                     async function ( thisDb, code , options) {
+        // ********** setup **********
         let mm = this
         await mm.setup(thisDb)
         if (code) {
             code = code.toString()
         }
-        let baseComponentId = mm.getValueOfCodeString(code,"base_component_id")
-        let parentHash = mm.getValueOfCodeString(code,"parent_hash")
 
+
+
+        // ********** get info from the code **********
+        let baseComponentId     = mm.getValueOfCodeString(code,"base_component_id")
+        let parentHash          = mm.getValueOfCodeString(code,"parent_hash")
+        let componentOptions    = null
+        let visibility          = mm.getValueOfCodeString(code,"visibility")
+        let logoUrl             = mm.getValueOfCodeString(code,"logo_url")
+        let updatedTimestamp    = mm.getValueOfCodeString(code, "updated_timestamp")
+        let readOnly = mm.getValueOfCodeString(code,"read_only")
+
+
+
+        // ********** get info from the code **********
         let promise = new Promise(async function(returnFn) {
             if (options) {
                 if (options.app) {
@@ -587,30 +600,6 @@ return code
     }`
             }
 
-            //showTimer("    baseComponentId := " + baseComponentId)
-
-
-            // if we don't want to reload this file then don't update the timestamp
-            let updatedTimestamp = mm.getValueOfCodeString(code, "updated_timestamp")
-            if (!updatedTimestamp) {
-                updatedTimestamp = mm.getValueOfCodeString(code, "created_timestamp")
-            }
-
-            //showTimer(`3`)
-
-
-            let componentOptions = null
-
-            let visibility = null
-            visibility = mm.getValueOfCodeString(code,"visibility")
-
-            //showTimer(`4`)
-
-
-            let logoUrl = mm.getValueOfCodeString(code,"logo_url")
-
-
-
 
             let interfaces = ""
             let interfaces2 = mm.getValueOfCodeString(code,"interfaces")
@@ -620,18 +609,11 @@ return code
                 }
             }
 
-            //showTimer(`5`)
-
-            let readOnly = mm.getValueOfCodeString(code,"read_only")
             if (mm.getValueOfCodeString(code,"hide_header")) {
                 componentOptions = "HIDE_HEADER"
             }
 
-            //showTimer(`6`)
-
-
             let displayName = mm.getValueOfCodeString(code,"display_name")
-
             let useDb = mm.getValueOfCodeString(code,"use_db")
             let editors2 = mm.getValueOfCodeString(code,"editors")
             let controlType = mm.getValueOfCodeString(code,"component_type")
