@@ -524,7 +524,12 @@ return code
             console.log(ewr)
         }
     },
-
+    clearLinkedTypesInDB: async function(thisDb, baseComponentId) {
+        //zzz
+        let mm = this
+        mm.executeQuickSql(thisDb," delete from  component_property_types   where   base_component_id = ?",[baseComponentId]);
+        mm.executeQuickSql(thisDb," delete from  component_property_accept_types   where   base_component_id = ?", [baseComponentId]);
+    },
     //code save helpers
     copyFile:                       function (source, target, cb) {
         //------------------------------------------------------------------------------
@@ -595,6 +600,7 @@ return code
         let propertiesAsJsonString                  = null
         let existingCodeTags                        = null
         let existingCodeAlreadyInSystemCodeTable
+        let save_code_to_file                       = null
 
         let promise = new Promise(async function(returnFn) {
 
@@ -634,40 +640,36 @@ return code
 
 
 
-            // ********** data to store in the internal sqlite database **********
+            // ********** if the code is not already stored tehn store it  **********
             existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
             existingCodeAlreadyInSystemCodeTable = await mm.getQuickSqlOneRow(
                 thisDb,
-                " select  " +
-                "     id " +
-                " from " +
-                "     system_code " +
-                " where " +
-                "     id = ?;",
-                [sha1sum])
+
+            `select  
+                     id 
+                 from 
+                     system_code 
+                 where
+                     id = ?;`
+                ,
+        [sha1sum])
 
             if ((existingCodeAlreadyInSystemCodeTable == null) || readOnly || (options && options.allowAppToWorkOffline)){
                 try {
 
                     if (controlType == "VB") {
-                        //showTimer(`7`)
-
-                        ////showTimer("VB: " + baseComponentId)
-                        stmtDeleteTypesForComponentProperty.run(baseComponentId)
-                        stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
+                        await mm.clearLinkedTypesInDB(baseComponentId)
+                        //zzz
                         if (properties) {
                             for (let rttte = 0; rttte < properties.length ; rttte++ ) {
                                 let prop = properties[rttte]
-
 
                                 if (prop.types) {
                                     let labelKeys = Object.keys(prop.types)
                                     for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                                         stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2])
-
                                     }
                                 }
-                                //showTimer(`9`)
                                 if (prop.accept_types) {
                                     let labelKeys = Object.keys(prop.accept_types)
                                     for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
@@ -675,7 +677,6 @@ return code
                                             baseComponentId,
                                             prop.id,
                                             labelKeys[rttte2])
-
                                     }
                                 }
                             }
@@ -686,11 +687,6 @@ return code
 
 
 
-
-
-                    ////showTimer("Saving in Sqlite: " + parentHash)
-                    ////showTimer("Saving in Sqlite: " + code)
-                    let save_code_to_file = null
                     //showTimer(`10`)
                     let sha1sum2  = await OnlyIpfsHash.of(code)
                     if (sha1sum2 != sha1sum) {
