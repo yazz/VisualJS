@@ -1136,6 +1136,27 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
         return ret
     },
     updateCodeTags:                 async function(thisDb, args) {
+
+        /*
+        ________________________________________
+        |                                      |
+        |           updateCodeTags             |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     thisDb
+        |     ------
+        |
+        |     args
+        |     ----    {
+        |                   baseComponentId
+        |                   userId
+        |                   sha1sum
+        |             }
+        |________________________________________________________________________ */
         let mm                  = this
         let baseComponentId     = args.baseComponentId
         let userId              = args.userId
