@@ -586,15 +586,15 @@ return code
 
 
         // set up local vars
-        let editors                 = null
-        let readWriteStatus         = null
-        let codeChangesStr          = null
-        let numCodeChanges          = null
-        let sha1sum                 = await OnlyIpfsHash.of(code)
-        let userId                  = null
-        let propertiesAsJsonString  = null
-        let existingCodeTags        = null
-
+        let editors                                 = null
+        let readWriteStatus                         = null
+        let codeChangesStr                          = null
+        let numCodeChanges                          = null
+        let sha1sum                                 = await OnlyIpfsHash.of(code)
+        let userId                                  = null
+        let propertiesAsJsonString                  = null
+        let existingCodeTags                        = null
+        let existingCodeAlreadyInSystemCodeTable
 
         let promise = new Promise(async function(returnFn) {
 
@@ -636,7 +636,7 @@ return code
 
             // ********** data to store in the internal sqlite database **********
             existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
-            let existingCodeAlreadyInSystemCodeTable = await mm.getQuickSqlOneRow(
+            existingCodeAlreadyInSystemCodeTable = await mm.getQuickSqlOneRow(
                 thisDb,
                 " select  " +
                 "     id " +
@@ -646,7 +646,6 @@ return code
                 "     id = ?;",
                 [sha1sum])
 
-            ////showTimer("existingCodeAlreadyInSystemCodeTable.length:   " + existingCodeAlreadyInSystemCodeTable.length)
             if ((existingCodeAlreadyInSystemCodeTable == null) || readOnly || (options && options.allowAppToWorkOffline)){
                 try {
 
