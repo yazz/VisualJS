@@ -586,13 +586,14 @@ return code
 
 
         // set up local vars
-        let editors             = null
-        let readWriteStatus     = null
-        let codeChangesStr      = null
-        let numCodeChanges      = null
-        let sha1sum             = await OnlyIpfsHash.of(code)
-        let userId              = null
-        let propertiesAsJsonString    = null
+        let editors                 = null
+        let readWriteStatus         = null
+        let codeChangesStr          = null
+        let numCodeChanges          = null
+        let sha1sum                 = await OnlyIpfsHash.of(code)
+        let userId                  = null
+        let propertiesAsJsonString  = null
+        let existingCodeTags        = null
 
 
         let promise = new Promise(async function(returnFn) {
@@ -610,32 +611,31 @@ return code
                     }`
             }
 
+
+
+            // ********** data to store in the internal sqlite database **********
             if (editors2) {
                 editors = JSON.stringify(editors2,null,2)
             }
             if (readOnly) {
                 readWriteStatus = "READ"
             }
-
-
             if (codeChanges) {
                 codeChangesStr = JSON.stringify(codeChanges,null,2)
                 numCodeChanges = codeChanges.length
             }
-
             if (properties) {
                 propertiesAsJsonString = JSON.stringify(properties,null,2)
             }
-
-
-
-
             if (options) {
-                save_code_to_file = options.save_code_to_file
-                userId = options.userId
+                save_code_to_file   = options.save_code_to_file
+                userId              = options.userId
             }
 
-            let existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
+
+
+            // ********** data to store in the internal sqlite database **********
+            existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
             thisDb.serialize(
                 function() {
                     thisDb.all(
