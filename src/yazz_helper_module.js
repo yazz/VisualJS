@@ -6,7 +6,6 @@ let stmtDeleteDependencies
 let stmtDeleteTypesForComponentProperty
 let stmtDeleteAcceptTypesForComponentProperty
 
-let stmtUpdateCommitForCodeTag;
 let stmtInsertDependency
 let fs = require('fs');
 
@@ -32,12 +31,6 @@ module.exports = {
 
         //select name from (select distinct(name) ,count(name) cn from test  where value in (1,2,3)  group by name) where cn = 3
 
-        stmtUpdateCommitForCodeTag = thisDb.prepare(`update
-                                                       code_tags
-                                                            set  fk_system_code_id = ?
-                                                       where
-                                                            base_component_id = ? and code_tag = ? and fk_user_id = ?
-                                               `)
 
 
 
@@ -666,17 +659,18 @@ return code
             [baseComponentId, userId])
 
         if (existingCodeTags) {
-            stmtUpdateCommitForCodeTag.run(
-                sha1sum
-                ,
-                baseComponentId
-                ,
-                "EDIT"
-                ,
-                userId
-            )
+            await mm.executeQuickSql(
+                thisDb,
+                `
+                update
+                   code_tags
+                set  fk_system_code_id = ?
+                   where
+                base_component_id = ? and code_tag = ? and fk_user_id = ?
+               `,
+                [    sha1sum   ,   baseComponentId   ,    "EDIT",   userId   ])
         } else {
-            mm.executeQuickSql(
+            await mm.executeQuickSql(
                 thisDb
                 ,
                 `
@@ -689,7 +683,8 @@ return code
                 [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     sha1sum     ,      userId    ]
             )
         }
-    }, saveCodeV3:                     async function (thisDb, code , options) {
+    },
+    saveCodeV3:                     async function (thisDb, code , options) {
         // ********** setup **********
         let mm = this
         await mm.setup(thisDb)
