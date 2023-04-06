@@ -29,11 +29,11 @@ module.exports = {
                  system_code  
                      (id, parent_id, code, base_component_id, 
                       display_name, creation_timestamp,component_options, 
-                      logo_url, visibility, interfaces,use_db, editors, read_write_status,properties, 
+                      logo_url, visibility,use_db, editors, read_write_status,properties, 
                       component_type, edit_file_path, 
                       code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
 
         stmtInsertIntoCodeTags = thisDb.prepare(`insert or ignore
@@ -601,14 +601,6 @@ return code
             }
 
 
-            let interfaces = ""
-            let interfaces2 = mm.getValueOfCodeString(code,"interfaces")
-            if (interfaces2 && (interfaces2.length > 0)) {
-                for (let rr=0; rr < interfaces2.length; rr ++) {
-                    interfaces += "|  " + interfaces2[ rr ]
-                }
-            }
-
             if (mm.getValueOfCodeString(code,"hide_header")) {
                 componentOptions = "HIDE_HEADER"
             }
@@ -736,7 +728,6 @@ return code
                                                 componentOptions,
                                                 logoUrl,
                                                 visibility,
-                                                interfaces,
                                                 useDb,
                                                 editors,
                                                 readWriteStatus,
