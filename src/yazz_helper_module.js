@@ -669,7 +669,6 @@ return code
 
 
             // ********** if the code is not already stored then store it  **********
-            existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
             existingCodeAlreadyInSystemCodeTable = await mm.getQuickSqlOneRow(
                 thisDb,
 
@@ -695,35 +694,41 @@ return code
                     // ********** if the code has been changed then DO NOT SAVE IT! This is a basic tamper proof mechanism  **********
                     let sha1sum2  = await OnlyIpfsHash.of(code)
                     if (sha1sum2 != sha1sum) {
-                        console.log("SHA do not match")
+                        console.log("Code SHA do not match - code has been changed while saving")
+                        throw "Code SHA do not match - code has been changed while saving"
                     }
 
-                        await mm.insertNewCode(
-                            thisDb
-                            ,
-                            [
-                                sha1sum,
-                                parentHash,
-                                code,
-                                baseComponentId,
-                                displayName,
-                                updatedTimestamp,
-                                logoUrl,
-                                visibility,
-                                useDb,
-                                editors,
-                                readWriteStatus,
-                                propertiesAsJsonString,
-                                controlType,
-                                save_code_to_file,
-                                codeChangesStr,
-                                numCodeChanges,
-                                userId,
-                                1,
-                                "1 point for being committed"
-                            ])
+                    await mm.insertNewCode(
+                        thisDb
+                        ,
+                        [
+                            sha1sum,
+                            parentHash,
+                            code,
+                            baseComponentId,
+                            displayName,
+                            updatedTimestamp,
+                            logoUrl,
+                            visibility,
+                            useDb,
+                            editors,
+                            readWriteStatus,
+                            propertiesAsJsonString,
+                            controlType,
+                            save_code_to_file,
+                            codeChangesStr,
+                            numCodeChanges,
+                            userId,
+                            1,
+                            "1 point for being committed"
+                        ])
 
-
+                        /*await updateCodeTags(thisDb, {
+                            baseComponentId:    baseComponentId,
+                            codeId:             sha1sum,
+                            userId:             userId
+                        })*/
+                        existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
                         if (existingCodeTags) {
                             stmtUpdateCommitForCodeTag.run(
                                 sha1sum
