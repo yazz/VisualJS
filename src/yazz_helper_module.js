@@ -636,7 +636,7 @@ return code
 
             // ********** data to store in the internal sqlite database **********
             existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
-            let rows = await mm.getQuickSql(
+            let existingCodeAlreadyInSystemCodeTable = await mm.getQuickSqlOneRow(
                 thisDb,
                 " select  " +
                 "     id " +
@@ -646,8 +646,8 @@ return code
                 "     id = ?;",
                 [sha1sum])
 
-            ////showTimer("rows.length:   " + rows.length)
-            if ((rows.length == 0) || readOnly || (options && options.allowAppToWorkOffline)){
+            ////showTimer("existingCodeAlreadyInSystemCodeTable.length:   " + existingCodeAlreadyInSystemCodeTable.length)
+            if ((existingCodeAlreadyInSystemCodeTable == null) || readOnly || (options && options.allowAppToWorkOffline)){
                 try {
 
                     if (controlType == "VB") {
