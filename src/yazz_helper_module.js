@@ -571,6 +571,7 @@ return code
 
 
         // ********** get info from the code **********
+        let properties          = mm.getValueOfCodeString(code,"properties",")//properties")
         let baseComponentId     = mm.getValueOfCodeString(code,"base_component_id")
         let parentHash          = mm.getValueOfCodeString(code,"parent_hash")
         let visibility          = mm.getValueOfCodeString(code,"visibility")
@@ -581,11 +582,23 @@ return code
         let useDb               = mm.getValueOfCodeString(code,"use_db")
         let editors2            = mm.getValueOfCodeString(code,"editors")
         let controlType         = mm.getValueOfCodeString(code,"component_type")
+        let codeChanges         = mm.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
 
 
+        // set up local vars
+        let editors             = null
+        let readWriteStatus     = null
+        let codeChangesStr      = null
+        let numCodeChanges      = null
+        let sha1sum             = await OnlyIpfsHash.of(code)
+        let userId              = null
+        let propertiesAsJsonString    = null
 
-        // ********** get info from the code **********
+
         let promise = new Promise(async function(returnFn) {
+
+
+            // ********** check that the code is valid **********
             if (!baseComponentId) {
                 returnFn( {
                     error:  "No base component ID specific"
@@ -594,42 +607,29 @@ return code
             if (!code.toString().substring(0,20).includes("function")) {
                 code =
                     `function() {${code}
-    }`
+                    }`
             }
 
-
-
-            let editors = null
             if (editors2) {
                 editors = JSON.stringify(editors2,null,2)
-
             }
-            let readWriteStatus = null
             if (readOnly) {
                 readWriteStatus = "READ"
             }
 
 
-            let codeChanges = mm.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
-            let codeChangesStr = null
-            let numCodeChanges = null
             if (codeChanges) {
                 codeChangesStr = JSON.stringify(codeChanges,null,2)
                 numCodeChanges = codeChanges.length
             }
 
-            let properties = mm.getValueOfCodeString(code,"properties",")//properties")
             if (properties) {
-                properties = JSON.stringify(properties,null,2)
+                propertiesAsJsonString = JSON.stringify(properties,null,2)
             }
-            let properties2 = mm.getValueOfCodeString(code,"properties",")//properties")
 
 
 
 
-            let sha1sum  = await OnlyIpfsHash.of(code)
-
-            let userId = null
             if (options) {
                 save_code_to_file = options.save_code_to_file
                 userId = options.userId
@@ -660,12 +660,9 @@ return code
                                             ////showTimer("VB: " + baseComponentId)
                                             stmtDeleteTypesForComponentProperty.run(baseComponentId)
                                             stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
-                                            if (properties2) {
-                                                //showTimer(`8`)
-
-                                                ////showTimer("     properties: " + properties2.length)
-                                                for (let rttte = 0; rttte < properties2.length ; rttte++ ) {
-                                                    let prop = properties2[rttte]
+                                            if (properties) {
+                                                for (let rttte = 0; rttte < properties.length ; rttte++ ) {
+                                                    let prop = properties[rttte]
 
 
                                                     if (prop.types) {
@@ -719,7 +716,7 @@ return code
                                                 useDb,
                                                 editors,
                                                 readWriteStatus,
-                                                properties,
+                                                propertiesAsJsonString,
                                                 controlType,
                                                 save_code_to_file,
                                                 codeChangesStr,
