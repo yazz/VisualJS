@@ -593,7 +593,37 @@ return code
         let ipfsHash = await OnlyIpfsHash.of(sometext)
         return ipfsHash
     },
-    saveCodeV3:                     async function ( thisDb, code , options) {
+    processCodeTags: async function (thisDb, args) {
+        let mm              = this
+        let baseComponentId = args.baseComponentId
+        let userId          = args.userId
+        let sha1sum         = args.codeId
+
+        let existingCodeTags = await mm.getQuickSqlOneRow(thisDb, "select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ", [baseComponentId, userId])
+        if (existingCodeTags) {
+            stmtUpdateCommitForCodeTag.run(
+                sha1sum
+                ,
+                baseComponentId
+                ,
+                "EDIT"
+                ,
+                userId
+            )
+        } else {
+            stmtInsertIntoCodeTags.run(
+                uuidv1()
+                ,
+                baseComponentId
+                ,
+                "EDIT"
+                ,
+                sha1sum
+                ,
+                userId
+            )
+        }
+    }, saveCodeV3:                     async function (thisDb, code , options) {
         // ********** setup **********
         let mm = this
         await mm.setup(thisDb)
@@ -626,7 +656,6 @@ return code
         let sha1sum                                 = await OnlyIpfsHash.of(code)
         let userId                                  = null
         let propertiesAsJsonString                  = null
-        let existingCodeTags                        = null
         let existingCodeAlreadyInSystemCodeTable
         let save_code_to_file                       = null
 
@@ -723,40 +752,17 @@ return code
                             "1 point for being committed"
                         ])
 
-                        /*await updateCodeTags(thisDb, {
+                    await mm.processCodeTags(
+                        thisDb
+                        ,
+                        {
                             baseComponentId:    baseComponentId,
                             codeId:             sha1sum,
                             userId:             userId
-                        })*/
-                        existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
-                        if (existingCodeTags) {
-                            stmtUpdateCommitForCodeTag.run(
-                                sha1sum
-                                ,
-                                baseComponentId
-                                ,
-                                "EDIT"
-                                ,
-                                userId
-                            )
-                        } else {
-                            stmtInsertIntoCodeTags.run(
-                                uuidv1()
-                                ,
-                                baseComponentId
-                                ,
-                                "EDIT"
-                                ,
-                                sha1sum
-                                ,
-                                userId
-                            )
-                        }
+                        })
 
 
-
-
-                        stmtDeleteDependencies.run(sha1sum)
+                    stmtDeleteDependencies.run(sha1sum)
 
                         let scriptCode = ""
                         //showTimer(`11`)
