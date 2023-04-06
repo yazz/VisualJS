@@ -586,12 +586,6 @@ return code
 
         // ********** get info from the code **********
         let promise = new Promise(async function(returnFn) {
-            if (options) {
-                if (options.app) {
-                    app = options.app
-                }
-            }
-
             if (!baseComponentId) {
                 returnFn( {
                     error:  "No base component ID specific"
