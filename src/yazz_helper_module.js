@@ -593,6 +593,53 @@ return code
         let ipfsHash = await OnlyIpfsHash.of(sometext)
         return ipfsHash
     },
+    createNewTip: async function  (thisDb, savedCode, codeId, userId) {
+        /*
+        ________________________________________
+        |                                      |
+        |               createNewTip           |
+        |                                      |
+        |______________________________________|
+        Create a new code tip for the current code. This code tip
+        moves the TIP tag forward for the code. The code can have
+        multiple tips, one for each user editing the code
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     args
+        |     ----
+        |________________________________________________________________________ */
+        let parentCodeTag
+        let baseComponentId
+        let parentHash
+        let mm                = this
+
+        baseComponentId = mm.getValueOfCodeString(savedCode,"base_component_id")
+        parentHash      = mm.getValueOfCodeString(savedCode,"parent_hash")
+
+        parentCodeTag = await mm.getQuickSqlOneRow(
+            thisDb,
+            "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
+            [parentHash, userId])
+
+        if (parentCodeTag) {
+            await mm.executeQuickSql(
+                thisDb,
+                "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+                [parentHash])
+        }
+
+        await mm.executeQuickSql(
+            thisDb
+            ,
+            `insert into 
+                    code_tags 
+                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
+                 values  
+                     (?,?,?,?,?)
+                     `,
+            [uuidv1(), baseComponentId, "TIP", codeId, userId])
+    },
     processCodeTags: async function (thisDb, args) {
         /*
         ________________________________________
