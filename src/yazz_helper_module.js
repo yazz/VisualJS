@@ -524,11 +524,34 @@ return code
             console.log(ewr)
         }
     },
-    clearLinkedTypesInDB: async function(thisDb, baseComponentId) {
+    clearLinkedTypesInDB: async function(thisDb, baseComponentId, properties) {
         //zzz
         let mm = this
         await mm.executeQuickSql(thisDb," delete from  component_property_types   where   base_component_id = ?",[baseComponentId]);
         await mm.executeQuickSql(thisDb," delete from  component_property_accept_types   where   base_component_id = ?", [baseComponentId]);
+
+        if (properties) {
+            for (let rttte = 0; rttte < properties.length ; rttte++ ) {
+                let prop = properties[rttte]
+
+                if (prop.types) {
+                    let labelKeys = Object.keys(prop.types)
+                    for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
+                        stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2])
+                    }
+                }
+                if (prop.accept_types) {
+                    let labelKeys = Object.keys(prop.accept_types)
+                    for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
+                        stmtInsertAcceptTypesForComponentProperty.run(
+                            baseComponentId,
+                            prop.id,
+                            labelKeys[rttte2])
+                    }
+                }
+            }
+        }
+
     },
     //code save helpers
     copyFile:                       function (source, target, cb) {
@@ -658,30 +681,8 @@ return code
                 try {
 
                     if (controlType == "VB") {
-                        await mm.clearLinkedTypesInDB(thisDb, baseComponentId)
+                        await mm.clearLinkedTypesInDB(thisDb, baseComponentId, properties)
                         //zzz
-                        if (properties) {
-                            for (let rttte = 0; rttte < properties.length ; rttte++ ) {
-                                let prop = properties[rttte]
-
-                                if (prop.types) {
-                                    let labelKeys = Object.keys(prop.types)
-                                    for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                                        stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2])
-                                    }
-                                }
-                                if (prop.accept_types) {
-                                    let labelKeys = Object.keys(prop.accept_types)
-                                    for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                                        stmtInsertAcceptTypesForComponentProperty.run(
-                                            baseComponentId,
-                                            prop.id,
-                                            labelKeys[rttte2])
-                                    }
-                                }
-                            }
-                        }
-
                     }
 
 
