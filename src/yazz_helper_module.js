@@ -594,12 +594,36 @@ return code
         return ipfsHash
     },
     processCodeTags: async function (thisDb, args) {
+        /*
+        ________________________________________
+        |                                      |
+        |          processCodeTags             |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     thisDb
+        |     ------
+        |
+        |     args
+        |     ----    {
+        |                   baseComponentId
+        |                   userId
+        |                   sha1sum
+        |             }
+        |________________________________________________________________________ */
         let mm              = this
         let baseComponentId = args.baseComponentId
         let userId          = args.userId
         let sha1sum         = args.codeId
 
-        let existingCodeTags = await mm.getQuickSqlOneRow(thisDb, "select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ", [baseComponentId, userId])
+        let existingCodeTags = await mm.getQuickSqlOneRow(
+            thisDb,
+            "select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",
+            [baseComponentId, userId])
+
         if (existingCodeTags) {
             stmtUpdateCommitForCodeTag.run(
                 sha1sum
@@ -1095,71 +1119,6 @@ newCode += newCode2
         let ret = await promise;
         return ret
     },
-    updateCodeTags:                 async function(thisDb, args) {
-
-        /*
-        ________________________________________
-        |                                      |
-        |           updateCodeTags             |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     thisDb
-        |     ------
-        |
-        |     args
-        |     ----    {
-        |                   baseComponentId
-        |                   userId
-        |                   sha1sum
-        |             }
-        |________________________________________________________________________ */
-        let mm                  = this
-        let baseComponentId     = args.baseComponentId
-        let userId              = args.userId
-        let sha1sum             = args.sha1sum
-        let existingCodeTags    = await mm.getQuickSqlOneRow(
-                                    thisDb,
-                                    "select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",
-                                    [baseComponentId, userId])
-        let promise = new Promise( async function(returnfn) {
-            thisDb.serialize(
-                function() {
-                    if (existingCodeTags) {
-                        stmtUpdateCommitForCodeTag.run(
-                            sha1sum
-                            ,
-                            baseComponentId
-                            ,
-                            "EDIT"
-                            ,
-                            userId
-                        )
-                    } else {
-                        stmtInsertIntoCodeTags.run(
-                            uuidv1()
-                            ,
-                            baseComponentId
-                            ,
-                            "EDIT"
-                            ,
-                            sha1sum
-                            ,
-                            userId
-                        )
-                    }
-                    thisDb.run("commit", async function() {
-                        returnfn()
-                    });
-            })
-        })
-        let ret = await promise
-        return ret
-    },
-
     //code execution helpers
     getPipelineCode:                async function(args) {
         /*

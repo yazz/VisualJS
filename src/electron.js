@@ -4763,7 +4763,7 @@ async function  startServices() {
     app.get(    '/http_get_update_code_tags',                               async function (req, res, next) {
         let userid          = await getUserId(req)
 
-        await yz.updateCodeTags(
+        await yz.processCodeTags(
             dbsearch,
             {
                 baseComponentId:    req.query.baseComponentId,
