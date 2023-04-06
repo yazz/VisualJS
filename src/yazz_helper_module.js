@@ -636,194 +636,190 @@ return code
 
             // ********** data to store in the internal sqlite database **********
             existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
-            thisDb.serialize(
-                function() {
-                    thisDb.all(
-                        " select  " +
-                        "     id " +
-                        " from " +
-                        "     system_code " +
-                        " where " +
-                        "     id = ?;"
-                        ,
-                        sha1sum
-                        ,
-                        async function(err, rows) {
-                            if (!err) {
-                                ////showTimer("rows.length:   " + rows.length)
-                                if ((rows.length == 0) || readOnly || (options && options.allowAppToWorkOffline)){
-                                    try {
+            let rows = await mm.getQuickSql(
+                thisDb,
+                " select  " +
+                "     id " +
+                " from " +
+                "     system_code " +
+                " where " +
+                "     id = ?;",
+                [sha1sum])
 
-                                        if (controlType == "VB") {
-                                            //showTimer(`7`)
+            ////showTimer("rows.length:   " + rows.length)
+            if ((rows.length == 0) || readOnly || (options && options.allowAppToWorkOffline)){
+                try {
 
-                                            ////showTimer("VB: " + baseComponentId)
-                                            stmtDeleteTypesForComponentProperty.run(baseComponentId)
-                                            stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
-                                            if (properties) {
-                                                for (let rttte = 0; rttte < properties.length ; rttte++ ) {
-                                                    let prop = properties[rttte]
+                    if (controlType == "VB") {
+                        //showTimer(`7`)
+
+                        ////showTimer("VB: " + baseComponentId)
+                        stmtDeleteTypesForComponentProperty.run(baseComponentId)
+                        stmtDeleteAcceptTypesForComponentProperty.run(baseComponentId)
+                        if (properties) {
+                            for (let rttte = 0; rttte < properties.length ; rttte++ ) {
+                                let prop = properties[rttte]
 
 
-                                                    if (prop.types) {
-                                                        let labelKeys = Object.keys(prop.types)
-                                                        for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                                                            stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2])
+                                if (prop.types) {
+                                    let labelKeys = Object.keys(prop.types)
+                                    for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
+                                        stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2])
 
-                                                        }
-                                                    }
-                                                    //showTimer(`9`)
-                                                    if (prop.accept_types) {
-                                                        let labelKeys = Object.keys(prop.accept_types)
-                                                        for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                                                            stmtInsertAcceptTypesForComponentProperty.run(
-                                                                baseComponentId,
-                                                                prop.id,
-                                                                labelKeys[rttte2])
+                                    }
+                                }
+                                //showTimer(`9`)
+                                if (prop.accept_types) {
+                                    let labelKeys = Object.keys(prop.accept_types)
+                                    for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
+                                        stmtInsertAcceptTypesForComponentProperty.run(
+                                            baseComponentId,
+                                            prop.id,
+                                            labelKeys[rttte2])
 
-                                                        }
-                                                    }
-                                                }
-                                            }
+                                    }
+                                }
+                            }
+                        }
 
-                                        }
+                    }
 
 
 
 
 
 
-                                        ////showTimer("Saving in Sqlite: " + parentHash)
-                                        ////showTimer("Saving in Sqlite: " + code)
-                                        let save_code_to_file = null
-                                        //showTimer(`10`)
-                                        let sha1sum2  = await OnlyIpfsHash.of(code)
-                                        if (sha1sum2 != sha1sum) {
-                                            console.log("SHA do not match")
-                                        }
+                    ////showTimer("Saving in Sqlite: " + parentHash)
+                    ////showTimer("Saving in Sqlite: " + code)
+                    let save_code_to_file = null
+                    //showTimer(`10`)
+                    let sha1sum2  = await OnlyIpfsHash.of(code)
+                    if (sha1sum2 != sha1sum) {
+                        console.log("SHA do not match")
+                    }
 
-                                        thisDb.serialize(async function() {
-                                            thisDb.run("begin exclusive transaction");
-                                            stmtInsertNewCode.run(
-                                                sha1sum,
-                                                parentHash,
-                                                code,
-                                                baseComponentId,
-                                                displayName,
-                                                updatedTimestamp,
-                                                logoUrl,
-                                                visibility,
-                                                useDb,
-                                                editors,
-                                                readWriteStatus,
-                                                propertiesAsJsonString,
-                                                controlType,
-                                                save_code_to_file,
-                                                codeChangesStr,
-                                                numCodeChanges,
-                                                userId,
-                                                1,
-                                                "1 point for being committed"
-                                            )
-
-
-                                            if (existingCodeTags) {
-                                                stmtUpdateCommitForCodeTag.run(
-                                                    sha1sum
-                                                    ,
-                                                    baseComponentId
-                                                    ,
-                                                    "EDIT"
-                                                    ,
-                                                    userId
-                                                )
-                                            } else {
-                                                stmtInsertIntoCodeTags.run(
-                                                    uuidv1()
-                                                    ,
-                                                    baseComponentId
-                                                    ,
-                                                    "EDIT"
-                                                    ,
-                                                    sha1sum
-                                                    ,
-                                                    userId
-                                                )
-                                            }
+                    thisDb.serialize(async function() {
+                        thisDb.run("begin exclusive transaction");
+                        stmtInsertNewCode.run(
+                            sha1sum,
+                            parentHash,
+                            code,
+                            baseComponentId,
+                            displayName,
+                            updatedTimestamp,
+                            logoUrl,
+                            visibility,
+                            useDb,
+                            editors,
+                            readWriteStatus,
+                            propertiesAsJsonString,
+                            controlType,
+                            save_code_to_file,
+                            codeChangesStr,
+                            numCodeChanges,
+                            userId,
+                            1,
+                            "1 point for being committed"
+                        )
 
 
-
-
-                                            stmtDeleteDependencies.run(sha1sum)
-
-                                            let scriptCode = ""
-                                            //showTimer(`11`)
-                                            let jsLibs = mm.getValueOfCodeString(code, "uses_javascript_libraries")
-                                            if (jsLibs) {
-                                                ////showTimer(JSON.stringify(jsLibs,null,2))
-                                                for (let tt = 0; tt < jsLibs.length ; tt++) {
-                                                    scriptCode += `GLOBALS.libLoaded[ "${jsLibs[tt]}" ] = true;
-                                                  `
-                                                    stmtInsertDependency.run(
-                                                        uuidv1(),
-                                                        sha1sum,
-                                                        "js_browser_lib",
-                                                        jsLibs[tt],
-                                                        "latest")
-
-                                                    if ( jsLibs[tt] == "advanced_bundle" ) {
-                                                        //scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/advanced_js_bundle.js') )
-                                                        scriptCode += `
-                                                    `
-                                                    }
-
-
-                                                }
-                                            }
-
-                                            let sqliteCode = ""
-                                            thisDb.run("commit", async function() {
-
-                                            });
-                                            let checkIpfsHash = await mm.saveItemToIpfsCache(code)
-                                            if (checkIpfsHash != sha1sum) {
-                                                console.log("In savev2: checkIpfsHash != sha1sum")
-                                            }
-
-
-
-                                            if (mm.isValidObject(options) && options.save_code_to_file) {
-                                                //showTimer("Saving to file: " + options.save_code_to_file)
-                                                fs.writeFileSync( options.save_code_to_file,  code.toString() )
-                                            }
+                        if (existingCodeTags) {
+                            stmtUpdateCommitForCodeTag.run(
+                                sha1sum
+                                ,
+                                baseComponentId
+                                ,
+                                "EDIT"
+                                ,
+                                userId
+                            )
+                        } else {
+                            stmtInsertIntoCodeTags.run(
+                                uuidv1()
+                                ,
+                                baseComponentId
+                                ,
+                                "EDIT"
+                                ,
+                                sha1sum
+                                ,
+                                userId
+                            )
+                        }
 
 
 
 
-                                            if (mm.isValidObject(options) && options.save_html) {
-                                                //showTimer(`13`)
-                                                //
-                                                // create the static HTML file to link to on the web/intranet
-                                                //
-                                                let origFilePath = path.join(__dirname, '../public/go.html')
-                                                let newStaticFilePath = path.join( mm.userData, 'apps/' + baseComponentId + '.html' )
-                                                let newLocalStaticFilePath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.html' )
-                                                let newLocalJSPath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
-                                                let newLocalYazzPath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                        stmtDeleteDependencies.run(sha1sum)
 
-                                                let newStaticFileContent = fs.readFileSync( origFilePath )
+                        let scriptCode = ""
+                        //showTimer(`11`)
+                        let jsLibs = mm.getValueOfCodeString(code, "uses_javascript_libraries")
+                        if (jsLibs) {
+                            ////showTimer(JSON.stringify(jsLibs,null,2))
+                            for (let tt = 0; tt < jsLibs.length ; tt++) {
+                                scriptCode += `GLOBALS.libLoaded[ "${jsLibs[tt]}" ] = true;
+                              `
+                                stmtInsertDependency.run(
+                                    uuidv1(),
+                                    sha1sum,
+                                    "js_browser_lib",
+                                    jsLibs[tt],
+                                    "latest")
 
-                                                newStaticFileContent = newStaticFileContent.toString().replace("isStaticHtmlPageApp: false", "isStaticHtmlPageApp: true")
+                                if ( jsLibs[tt] == "advanced_bundle" ) {
+                                    //scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/advanced_js_bundle.js') )
+                                    scriptCode += `
+                                `
+                                }
 
-                                                let escapedCode = escape( code.toString() )
+
+                            }
+                        }
+
+                        let sqliteCode = ""
+                        thisDb.run("commit", async function() {
+
+                        });
+                        let checkIpfsHash = await mm.saveItemToIpfsCache(code)
+                        if (checkIpfsHash != sha1sum) {
+                            console.log("In savev2: checkIpfsHash != sha1sum")
+                        }
 
 
-                                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
-                                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
-                                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
-                                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
-                                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
-                                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
+
+                        if (mm.isValidObject(options) && options.save_code_to_file) {
+                            //showTimer("Saving to file: " + options.save_code_to_file)
+                            fs.writeFileSync( options.save_code_to_file,  code.toString() )
+                        }
+
+
+
+
+                        if (mm.isValidObject(options) && options.save_html) {
+                            //showTimer(`13`)
+                            //
+                            // create the static HTML file to link to on the web/intranet
+                            //
+                            let origFilePath = path.join(__dirname, '../public/go.html')
+                            let newStaticFilePath = path.join( mm.userData, 'apps/' + baseComponentId + '.html' )
+                            let newLocalStaticFilePath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.html' )
+                            let newLocalJSPath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                            let newLocalYazzPath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+
+                            let newStaticFileContent = fs.readFileSync( origFilePath )
+
+                            newStaticFileContent = newStaticFileContent.toString().replace("isStaticHtmlPageApp: false", "isStaticHtmlPageApp: true")
+
+                            let escapedCode = escape( code.toString() )
+
+
+                            newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
+                            newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
+                            newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+                            newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+                            newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
+                            newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
 
 let pipelineCode = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzApp.js"})
 let escapedPipelineCode = escape( pipelineCode.toString() )
@@ -831,32 +827,32 @@ let escapedPipelineCode = escape( pipelineCode.toString() )
 
 
 let newCode =  `
-    //
-    // Add the pipelines to the HTML output
-    //
-    GLOBALS.runtimePipelines["APP"] = {}
-    GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
-    GLOBALS.runtimePipelines["APP"].json = eval("(" + GLOBALS.runtimePipelines["APP"].code + ")")
-    
+//
+// Add the pipelines to the HTML output
+//
+GLOBALS.runtimePipelines["APP"] = {}
+GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
+GLOBALS.runtimePipelines["APP"].json = eval("(" + GLOBALS.runtimePipelines["APP"].code + ")")
 
 
-    
-    
-    
-    
-    GLOBALS.cacheThisComponentCode(
-        {   
-            codeId:             "${sha1sum}",
-            code:               /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
-        })
-    
-    GLOBALS.pointBaseComponentIdAtCode(
-        {   
-            baseComponentId:    "${baseComponentId}",
-            codeId:             "${sha1sum}"
-        })
-    
-    `
+
+
+
+
+
+GLOBALS.cacheThisComponentCode(
+{   
+codeId:             "${sha1sum}",
+code:               /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
+})
+
+GLOBALS.pointBaseComponentIdAtCode(
+{   
+baseComponentId:    "${baseComponentId}",
+codeId:             "${sha1sum}"
+})
+
+`
 
 
 
@@ -864,229 +860,224 @@ let newCode =  `
 // Add the subcomponents code
 //
 if (baseComponentId == "homepage") {
-    //debugger
+//debugger
 }
 let results = await mm.getSubComponents(code)
 for (let i = 0  ;   i < results.length;    i ++ ) {
-    if (!results[i].child_code_id) {
+if (!results[i].child_code_id) {
 
-        let sqlR = await mm.getQuickSqlOneRow(
-            thisDb
-            ,
-            "select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
-            ,
-            [  results[i].child_base_component_id  ])
+let sqlR = await mm.getQuickSqlOneRow(
+thisDb
+,
+"select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
+,
+[  results[i].child_base_component_id  ])
 
 
-        if (!sqlR) {
-            sqlR = await mm.getQuickSqlOneRow(
-                thisDb
-                ,
-                "select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
-                ,
-                [  results[i].child_base_component_id  ])
-        }
+if (!sqlR) {
+sqlR = await mm.getQuickSqlOneRow(
+thisDb
+,
+"select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
+,
+[  results[i].child_base_component_id  ])
+}
 
-        results[i].sha1 = sqlR.id
-        results[i].child_code_id = results[i].sha1
-    } else {
-        results[i].sha1 = results[i].child_code_id
-    }
+results[i].sha1 = sqlR.id
+results[i].child_code_id = results[i].sha1
+} else {
+results[i].sha1 = results[i].child_code_id
+}
 
-    let sqlr2 = await mm.getQuickSqlOneRow(
-        thisDb,
-        "select  code  from   system_code where id = ? ",
-        [  results[i].child_code_id  ])
+let sqlr2 = await mm.getQuickSqlOneRow(
+thisDb,
+"select  code  from   system_code where id = ? ",
+[  results[i].child_code_id  ])
 
-    results[i].code = sqlr2.code
+results[i].code = sqlr2.code
 
-    let newcodeEs = escape("(" + results[i].code.toString() + ")")
-    let newCode2 =  `
-        
-        
-        GLOBALS.cacheThisComponentCode(
-        {   
-            codeId:             "${results[i].sha1}",
-            code:                unescape(\`${newcodeEs}\`)
-        })
-    
-        GLOBALS.pointBaseComponentIdAtCode(
-        {   
-            baseComponentId:    "${results[i].child_base_component_id}",
-            codeId:             "${results[i].sha1}"
-        })
-    
-        
-    `
-    newCode += newCode2
+let newcodeEs = escape("(" + results[i].code.toString() + ")")
+let newCode2 =  `
+
+
+GLOBALS.cacheThisComponentCode(
+{   
+codeId:             "${results[i].sha1}",
+code:                unescape(\`${newcodeEs}\`)
+})
+
+GLOBALS.pointBaseComponentIdAtCode(
+{   
+baseComponentId:    "${results[i].child_base_component_id}",
+codeId:             "${results[i].sha1}"
+})
+
+
+`
+newCode += newCode2
 }
 
 
 
 
 
-                                                                //showTimer(`15.1`)
-                                                                newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
+                                            //showTimer(`15.1`)
+                                            newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
 
 
 
-                                                                newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
-                                                                newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
+                                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
+                                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
 
-                                                                //
-                                                                // we use "slice" here as string replace doesn't work with large strings (over 1MB) and most of the aframe and js
-                                                                // code we insert is LARGE!!
-                                                                //
-                                                                let pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
-                                                                newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
-                                                                //showTimer(`15.2`)
-
-
-                                                                //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
-                                                                fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
+                                            //
+                                            // we use "slice" here as string replace doesn't work with large strings (over 1MB) and most of the aframe and js
+                                            // code we insert is LARGE!!
+                                            //
+                                            let pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
+                                            newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
+                                            //showTimer(`15.2`)
 
 
-                                                                //showTimer(`15.3`)
-
-                                                                //
-                                                                // save the standalone app
-                                                                //
-                                                                if (options && options.allowAppToWorkOffline) {
-                                                                    sqliteCode = fs.readFileSync(path.join(__dirname, '../public/sql.js'))
-                                                                    let indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
-                                                                    newStaticFileContent = newStaticFileContent.substring(0, indexOfSqlite) +
-                                                                        sqliteCode +
-                                                                        newStaticFileContent.substring(indexOfSqlite)
-                                                                    newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/", "/*use_local_sqlite_end*/", "let localAppshareApp = true")
-                                                                }
+                                            //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
+                                            fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
 
 
-                                                                //showTimer(`15.4`)
+                                            //showTimer(`15.3`)
 
-                                                                let dbToUse = baseComponentId
-                                                                if (useDb) {
-                                                                    dbToUse = useDb
-                                                                }
-                                                                let sqliteAppDbPath = path.join( mm.userData, 'app_dbs/' + dbToUse + '.visi' )
-
-
-                                                                if (options && options.allowAppToWorkOffline) {
-                                                                    if (fs.existsSync(sqliteAppDbPath)) {
-                                                                        //showTimer(`15.5`)
-                                                                        let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
-                                                                        let indexOfSqliteData = newStaticFileContent.indexOf("let sqlitedata = ''")
-
-
-                                                                        newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
-                                                                            "'" + sqliteAppDbContent + "'//sqlitedata" +
-                                                                            newStaticFileContent.substring(indexOfSqliteData + 19)
-
-                                                                    }
-                                                                }
-                                                                //showTimer(`15.6`)
-
-                                                                fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
-                                                                fs.writeFileSync( newLocalJSPath,  code )
-                                                                fs.writeFileSync( newLocalYazzPath,  code )
-                                                                //showTimer(`15.7`)
-
-
-                                                //showTimer(`15.8`)
+                                            //
+                                            // save the standalone app
+                                            //
+                                            if (options && options.allowAppToWorkOffline) {
+                                                sqliteCode = fs.readFileSync(path.join(__dirname, '../public/sql.js'))
+                                                let indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
+                                                newStaticFileContent = newStaticFileContent.substring(0, indexOfSqlite) +
+                                                    sqliteCode +
+                                                    newStaticFileContent.substring(indexOfSqlite)
+                                                newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/", "/*use_local_sqlite_end*/", "let localAppshareApp = true")
                                             }
-                                            //showTimer(`15.9`)
 
 
+                                            //showTimer(`15.4`)
+
+                                            let dbToUse = baseComponentId
+                                            if (useDb) {
+                                                dbToUse = useDb
+                                            }
+                                            let sqliteAppDbPath = path.join( mm.userData, 'app_dbs/' + dbToUse + '.visi' )
 
 
+                                            if (options && options.allowAppToWorkOffline) {
+                                                if (fs.existsSync(sqliteAppDbPath)) {
+                                                    //showTimer(`15.5`)
+                                                    let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
+                                                    let indexOfSqliteData = newStaticFileContent.indexOf("let sqlitedata = ''")
 
 
-                                            //showTimer(`16`)
+                                                    newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
+                                                        "'" + sqliteAppDbContent + "'//sqlitedata" +
+                                                        newStaticFileContent.substring(indexOfSqliteData + 19)
 
-
-
-                                            //
-                                            // save the app db
-                                            //
-                                            let sqlite = mm.getValueOfCodeString(code, "sqlite",")//sqlite")
-                                            if (sqlite) {
-                                                if (mm.isValidObject(options) && options.copy_db_from) {
-
-                                                    let newBaseid = baseComponentId
-                                                    //
-                                                    // copy the database
-                                                    //
-                                                    let sqliteAppDbPathOld = path.join( mm.userData, 'app_dbs/' + options.copy_db_from + '.visi' )
-                                                    let sqliteAppDbPathNew = path.join( mm.userData, 'app_dbs/' + newBaseid + '.visi' )
-                                                    ////showTimer("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
-                                                    ////showTimer("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
-                                                    mm.copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
-
-                                                    });
-                                                    thisDb.serialize(function() {
-                                                        thisDb.run("begin exclusive transaction");
-                                                        copyMigration.run(  newBaseid,  options.copy_db_from)
-                                                        thisDb.run("commit");
-                                                    })
-
-                                                } else if (mm.isValidObject(options) && options.fast_forward_database_to_latest_revision) {
-                                                    mm.fastForwardToLatestRevision(thisDb, sqlite, baseComponentId)
-
-                                                } else {
-                                                    ////showTimer('updateRevisions(sqlite, baseComponentId)')
-                                                    ////showTimer('    ' + JSON.stringify(options,null,2))
-                                                    mm.updateRevisions(thisDb, sqlite, baseComponentId)
                                                 }
-
                                             }
-                                            //
-                                            // END OF save app db
-                                            //
+                                            //showTimer(`15.6`)
+
+                                            fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
+                                            fs.writeFileSync( newLocalJSPath,  code )
+                                            fs.writeFileSync( newLocalYazzPath,  code )
+                                            //showTimer(`15.7`)
 
 
-                                            //showTimer(`ret 8`)
+                            //showTimer(`15.8`)
+                        }
+                        //showTimer(`15.9`)
 
-                                            returnFn( {
-                                                code_id:            sha1sum,
-                                                base_component_id:  baseComponentId
-                                            })
 
-                                        })
-                                    } catch(err) {
-                                        console.log(err)
-                                    }
 
-                                    //
-                                    // otherwise we only update the static file if our IP address has changed
-                                    //
-                                } else {
-                                    if (options && options.save_html) {
-                                        let oldStaticFilePath = path.join( mm.userData, 'apps/' + baseComponentId + '.html' )
-                                        if (fs.existsSync(oldStaticFilePath)) {
-                                            let oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
 
-                                            let oldHostname = mm.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
-                                            let oldPort = mm.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
 
-                                            if ((oldHostname != mm.hostaddress) || (oldPort != mm.port)) {
-                                                let newStaticFileContent = oldStaticFileContent.toString()
-                                                newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
-                                                newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
-                                                fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
-                                            }
-                                        }
-                                    }
 
-                                    //showTimer(`ret 9`)
-                                    returnFn( {
-                                        code_id:            sha1sum,
-                                        base_component_id:  baseComponentId
-                                    })
-                                }
+                        //showTimer(`16`)
+
+
+
+                        //
+                        // save the app db
+                        //
+                        let sqlite = mm.getValueOfCodeString(code, "sqlite",")//sqlite")
+                        if (sqlite) {
+                            if (mm.isValidObject(options) && options.copy_db_from) {
+
+                                let newBaseid = baseComponentId
+                                //
+                                // copy the database
+                                //
+                                let sqliteAppDbPathOld = path.join( mm.userData, 'app_dbs/' + options.copy_db_from + '.visi' )
+                                let sqliteAppDbPathNew = path.join( mm.userData, 'app_dbs/' + newBaseid + '.visi' )
+                                ////showTimer("sqliteAppDbPathOld: " + sqliteAppDbPathOld)
+                                ////showTimer("sqliteAppDbPathNew: " + sqliteAppDbPathNew)
+                                mm.copyFile(sqliteAppDbPathOld,sqliteAppDbPathNew, async function(){
+
+                                });
+                                thisDb.serialize(function() {
+                                    thisDb.run("begin exclusive transaction");
+                                    copyMigration.run(  newBaseid,  options.copy_db_from)
+                                    thisDb.run("commit");
+                                })
+
+                            } else if (mm.isValidObject(options) && options.fast_forward_database_to_latest_revision) {
+                                mm.fastForwardToLatestRevision(thisDb, sqlite, baseComponentId)
+
+                            } else {
+                                ////showTimer('updateRevisions(sqlite, baseComponentId)')
+                                ////showTimer('    ' + JSON.stringify(options,null,2))
+                                mm.updateRevisions(thisDb, sqlite, baseComponentId)
                             }
 
+                        }
+                        //
+                        // END OF save app db
+                        //
 
+
+                        //showTimer(`ret 8`)
+
+                        returnFn( {
+                            code_id:            sha1sum,
+                            base_component_id:  baseComponentId
                         })
-                }, sqlite3.OPEN_READONLY)
+
+                    })
+                } catch(err) {
+                    console.log(err)
+                }
+
+                //
+                // otherwise we only update the static file if our IP address has changed
+                //
+            } else {
+                if (options && options.save_html) {
+                    let oldStaticFilePath = path.join( mm.userData, 'apps/' + baseComponentId + '.html' )
+                    if (fs.existsSync(oldStaticFilePath)) {
+                        let oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
+
+                        let oldHostname = mm.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
+                        let oldPort = mm.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
+
+                        if ((oldHostname != mm.hostaddress) || (oldPort != mm.port)) {
+                            let newStaticFileContent = oldStaticFileContent.toString()
+                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
+                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
+                            fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
+                        }
+                    }
+                }
+
+                //showTimer(`ret 9`)
+                returnFn( {
+                    code_id:            sha1sum,
+                    base_component_id:  baseComponentId
+                })
+            }
         })
         //showTimer(`ret prom`)
 
