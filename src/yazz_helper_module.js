@@ -527,8 +527,8 @@ return code
     clearLinkedTypesInDB: async function(thisDb, baseComponentId) {
         //zzz
         let mm = this
-        mm.executeQuickSql(thisDb," delete from  component_property_types   where   base_component_id = ?",[baseComponentId]);
-        mm.executeQuickSql(thisDb," delete from  component_property_accept_types   where   base_component_id = ?", [baseComponentId]);
+        await mm.executeQuickSql(thisDb," delete from  component_property_types   where   base_component_id = ?",[baseComponentId]);
+        await mm.executeQuickSql(thisDb," delete from  component_property_accept_types   where   base_component_id = ?", [baseComponentId]);
     },
     //code save helpers
     copyFile:                       function (source, target, cb) {
@@ -658,7 +658,7 @@ return code
                 try {
 
                     if (controlType == "VB") {
-                        await mm.clearLinkedTypesInDB(baseComponentId)
+                        await mm.clearLinkedTypesInDB(thisDb, baseComponentId)
                         //zzz
                         if (properties) {
                             for (let rttte = 0; rttte < properties.length ; rttte++ ) {
