@@ -685,6 +685,30 @@ return code
         }
     },
     saveCodeV3:                     async function (thisDb, code , options) {
+        /*
+        ________________________________________
+        |                                      |
+        |             saveCodeV3               |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     thisDb
+        |     ------
+        |
+        |     options
+        |     -------
+        |
+        |     options
+        |     -------    {
+        |                     baseComponentId
+        |                     userId
+        |                     sha1sum
+        |                }
+        |________________________________________________________________________ */
+
         // ********** setup **********
         let mm = this
         await mm.setup(thisDb)

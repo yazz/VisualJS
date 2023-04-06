@@ -825,12 +825,24 @@ load_once_from_file(true)
              //alert(JSON.stringify(result))
          }
          ,
-
-
          checkoutCode: async function() {
-             //debugger
+
+             /*
+             ________________________________________
+             |                                      |
+             |            checkoutCode              |
+             |                                      |
+             |______________________________________|
+
+             __________
+             | PARAMS |______________________________________________________________
+             |
+             |     NONE
+             |     ----
+             |________________________________________________________________________ */
+
              let mm = this
-             //alert("Checking out commit: " + mm.lockedSelectedCommit)
+
              let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
              mm.text = responseJson.code
 
@@ -840,8 +852,6 @@ load_once_from_file(true)
                      commitId: mm.lockedSelectedCommit
                  })
 
-//zzz
-            //debugger
              let responseJson2 = await getFromYazzReturnJson("/http_get_update_code_tags",
                 {
                     sha1sum:            mm.lockedSelectedCommit,
