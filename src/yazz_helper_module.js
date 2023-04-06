@@ -1,7 +1,6 @@
 const OnlyIpfsHash = require("ipfs-only-hash");
 const path = require("path");
 let sqlite3                     = require('sqlite3');
-let stmtInsertIntoCodeTags
 let uuidv1          = require('uuid/v1');
 let stmtDeleteDependencies
 let stmtDeleteTypesForComponentProperty
@@ -23,11 +22,6 @@ module.exports = {
     setup:                          async function(thisDb) {
 
 
-        stmtInsertIntoCodeTags = thisDb.prepare(`insert or ignore
-                                                    into
-                                               code_tags
-                                                    (id,   base_component_id,   code_tag,   fk_system_code_id,   fk_user_id) 
-                                               values ( ?, ?, ?, ?, ?)`)
 
         stmtDeleteDependencies = thisDb.prepare(" delete from  app_dependencies   where   code_id = ?");
 
@@ -682,16 +676,17 @@ return code
                 userId
             )
         } else {
-            stmtInsertIntoCodeTags.run(
-                uuidv1()
+            mm.executeQuickSql(
+                thisDb
                 ,
-                baseComponentId
+                `
+                insert or ignore
+                    into
+               code_tags
+                    (id,   base_component_id,   code_tag,   fk_system_code_id,   fk_user_id) 
+               values ( ?, ?, ?, ?, ?)`
                 ,
-                "EDIT"
-                ,
-                sha1sum
-                ,
-                userId
+                [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     sha1sum     ,      userId    ]
             )
         }
     }, saveCodeV3:                     async function (thisDb, code , options) {
