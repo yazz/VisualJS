@@ -95,59 +95,48 @@ module.exports = {
 
     `
         );
+},
+    insertCodeString: function(code,st, vall ,optionalEnd) {
+    let endIndicator = ")"
+    if (optionalEnd) {
+    endIndicator = optionalEnd
     }
-    ,
+    let findd = st + "("
+    let startIndexOfComment = code.toString().indexOf("/*")
+    let startIndexOfFn = code.toString().indexOf("{")
 
-     insertCodeString: function(code,st, vall ,optionalEnd) {
-         let endIndicator = ")"
-         if (optionalEnd) {
-             endIndicator = optionalEnd
-         }
-        let findd = st + "("
-        let startIndexOfComment = code.toString().indexOf("/*")
-        let startIndexOfFn = code.toString().indexOf("{")
+    if (startIndexOfFn != -1) {
+    if (startIndexOfComment == -1) {
+    code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
+        code.toString().substring(startIndexOfFn + 1)
+    startIndexOfComment = code.toString().indexOf("/*")
+    }
+    code = code.toString().substring(0,startIndexOfComment + 3) +
+                "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
+                code.toString().substring(startIndexOfComment + 3)
 
-        if (startIndexOfFn != -1) {
-            if (startIndexOfComment == -1) {
-                code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
-                    code.toString().substring(startIndexOfFn + 1)
-                startIndexOfComment = code.toString().indexOf("/*")
-            }
-            code = code.toString().substring(0,startIndexOfComment + 3) +
-                            "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
-                            code.toString().substring(startIndexOfComment + 3)
+    }
 
-        }
-
-        return code
+    return code
 
     },
+    deleteCodeString: function(code,st ,optionalEnd) {
+let endIndicator = ")"
+if (optionalEnd) {
+endIndicator = optionalEnd
+}
+let findd = st + "("
+let codeStart = code.toString().indexOf(findd)
+if (codeStart != -1) {
+let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
 
+code = code.toString().substring(0,codeStart) +
+            code.toString().substring(codeEnd + 1 + endIndicator.length)
 
-
-
-
-
-     deleteCodeString: function(code,st ,optionalEnd) {
-         let endIndicator = ")"
-         if (optionalEnd) {
-             endIndicator = optionalEnd
-         }
-        let findd = st + "("
-        let codeStart = code.toString().indexOf(findd)
-        if (codeStart != -1) {
-            let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
-
-            code = code.toString().substring(0,codeStart) +
-                            code.toString().substring(codeEnd + 1 + endIndicator.length)
-
-            return code
-        }
-        return code
-    },
-
-
-
+return code
+}
+return code
+},
      getValueOfCodeString: function(code, st,optionalEnd) {
         let endIndicator = ")"
         if (optionalEnd) {
@@ -165,22 +154,18 @@ module.exports = {
             }
             return null
     },
-
     replaceBetween: function(target, start, end, replaceWith) {
                                         let startIndex = target.indexOf(start) + start.length
                                         let endIndex = target.indexOf(end)
                                         let newString = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
                                         return newString
-    }
-    ,
+    },
     getBetween: function(target, start, end) {
         let startIndex = target.indexOf(start) + start.length
         let endIndex = target.indexOf(end)
         let newString = target.substring(startIndex,endIndex)
         return newString
-    }
-    ,
-
+    },
     replacePropertyValue: function(code, propertyId, propertyValue) {
       let properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
       if (properties) {
@@ -201,9 +186,7 @@ module.exports = {
                                                      ")//prope" + "rties")
       }
       return code
-    }
-    ,
-
+    },
     addProperty: function(code, newProperty) {
         let properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
         if (properties) {
@@ -217,9 +200,7 @@ module.exports = {
                 ")//prope" + "rties")
         }
         return code
-    }
-    ,
-
+    },
     addMethod: function(code, newMethod) {
          let existingCode = this.getBetween(
              code,
@@ -233,27 +214,20 @@ module.exports = {
             existingCode + newMethod)
 
         return code
-    }
-
-    ,
-
+    },
     isValidObject: function (variable){
         if ((typeof variable !== 'undefined') && (variable != null)) {
             return true
         }
         return false
-    }
-    ,
-
+    },
     getQuickSqlOneRow: async function (thisDb, sql ,params) {
         let rows = await this.getQuickSql(thisDb,sql,params)
         if (rows.length == 0) {
             return null
         }
         return rows[0]
-    }
-    ,
-
+    },
     getQuickSql: async function (thisDb, sql, params) {
         let promise = new Promise(async function(returnfn) {
             thisDb.serialize(
@@ -275,17 +249,7 @@ module.exports = {
         })
         let ret = await promise
         return ret
-    }
-    ,
-
-
-
-
-
-
-
-
-
+    },
     executeQuickSql: async function (thisDb, sql, params) {
         let promise = new Promise(async function(returnfn) {
             try {
@@ -306,14 +270,7 @@ module.exports = {
         })
         let ret = await promise
         return ret
-    }
-
-    ,
-
-
-
-
-
+    },
     tagVersion: async function (thisDb, ipfs_hash, srcCode ) {
         let baseComponentId = this.getValueOfCodeString(srcCode,"base_component_id")
         let dateTime = new Date().toString()
@@ -326,13 +283,7 @@ module.exports = {
          `
             ,
             [ uuidv1()  ,  baseComponentId  ,  dateTime,  ipfs_hash])
-    }
-
-
-
-
-    ,
-
+    },
     getCodeForCommit: async function (thisDb, commitId) {
         let thisCommit = await this.getQuickSqlOneRow(thisDb,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
         if (thisCommit) {
@@ -340,12 +291,7 @@ module.exports = {
         }
 
         return null
-    }
-
-
-
-    ,
-
+    },
     saveItemToIpfsCache: async function (srcCode) {
         //outputDebug("*** saveItemToIpfs: *** : " )
         let promise = new Promise(async function(returnfn) {
@@ -391,11 +337,7 @@ module.exports = {
         })
         let ipfsHash = await promise
         return ipfsHash
-    }
-
-
-    ,
-
+    },
     //------------------------------------------------------------------------------
     //
     //
@@ -482,14 +424,7 @@ module.exports = {
         } catch (ewr) {
             console.log(ewr)
         }
-    }
-
-
-
-
-
-    ,
-
+    },
     //------------------------------------------------------------------------------
     //
     //
@@ -551,14 +486,7 @@ module.exports = {
         } catch (ewr) {
             console.log(ewr)
         }
-    }
-
-
-    ,
-
-
-
-
+    },
     //------------------------------------------------------------------------------
     //
     //
@@ -588,35 +516,11 @@ module.exports = {
                 cbCalled = true;
             }
         }
-    }
-
-
-    ,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    },
     getIpfsHash: async function(sometext) {
         let ipfsHash = await OnlyIpfsHash.of(sometext)
         return ipfsHash
-    }
-    ,
-
-
-
-
-
+    },
     saveCodeV3: async function ( thisDb, code , options) {
         let mm = this
         await mm.setup(thisDb)
@@ -1191,8 +1095,7 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
 
         let ret = await promise;
         return ret
-    }
-    ,
+    },
     updateCodeTags: async function(thisDb, args) {
         let mm                  = this
         let baseComponentId     = args.baseComponentId
@@ -1235,21 +1138,14 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
         })
         let ret = await promise
         return ret
-    }
-
-    ,
+    },
     getChildDetails: async function(subComponent) {
         let newSubComponent = {
             baseComponentId: subComponent,
             codeId:          subComponent
         }
         return newSubComponent
-    }
-    ,
-
-
-
-
+    },
     getSubComponents: async function (srcCode) {
         let yz = this
 
@@ -1266,16 +1162,7 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
             }
         }
         return retRes
-    }
-    ,
-
-
-
-
-
-
-
-
+    },
     /*
     ________________________________________
     |                                      |
@@ -1300,13 +1187,4 @@ for (let i = 0  ;   i < results.length;    i ++ ) {
         let fileOut = fs.readFileSync("src/" + pipelineFileName, 'utf8').toString()
         return fileOut
     }
-
-
-
-
-
-
-
-
-
 }
