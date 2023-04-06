@@ -8,9 +8,7 @@ let stmtDeleteDependencies
 let stmtDeleteTypesForComponentProperty
 let stmtDeleteAcceptTypesForComponentProperty
 
-let stmtInsertTypesForComponentProperty;
 let stmtUpdateCommitForCodeTag;
-let stmtInsertAcceptTypesForComponentProperty;
 let stmtInsertDependency
 let fs = require('fs');
 
@@ -50,11 +48,6 @@ module.exports = {
 
 
         //select name from (select distinct(name) ,count(name) cn from test  where value in (1,2,3)  group by name) where cn = 3
-        stmtInsertTypesForComponentProperty = thisDb.prepare(`insert or ignore
-                                                    into
-                                               component_property_types
-                                                    (base_component_id, property_name , outputs_type )
-                                               values ( ?,?,? )`)
 
         stmtUpdateCommitForCodeTag = thisDb.prepare(`update
                                                        code_tags
@@ -63,11 +56,6 @@ module.exports = {
                                                             base_component_id = ? and code_tag = ? and fk_user_id = ?
                                                `)
 
-        stmtInsertAcceptTypesForComponentProperty = thisDb.prepare(`insert or ignore
-                                                    into
-                                               component_property_accept_types
-                                                    (  base_component_id, property_name , accept_type  )
-                                               values ( ?,?,? )`)
 
 
         stmtInsertDependency = thisDb.prepare(" insert or replace into app_dependencies " +
@@ -537,16 +525,27 @@ return code
                 if (prop.types) {
                     let labelKeys = Object.keys(prop.types)
                     for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                        stmtInsertTypesForComponentProperty.run(baseComponentId, prop.id, labelKeys[rttte2])
+                        await mm.executeQuickSql(thisDb,`insert or ignore
+                                                    into
+                                               component_property_types
+                                                    (base_component_id, property_name , outputs_type )
+                                               values ( ?,?,? )`,
+                            [   baseComponentId, prop.id, labelKeys[rttte2]   ])
+
                     }
                 }
                 if (prop.accept_types) {
                     let labelKeys = Object.keys(prop.accept_types)
                     for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
-                        stmtInsertAcceptTypesForComponentProperty.run(
-                            baseComponentId,
-                            prop.id,
-                            labelKeys[rttte2])
+                        await mm.executeQuickSql(thisDb,`insert or ignore
+                                                    into
+                                               component_property_accept_types
+                                                    (  base_component_id, property_name , accept_type  )
+                                               values ( ?,?,? )`,
+                            [   baseComponentId,
+                                prop.id,
+                                labelKeys[rttte2]   ])
+
                     }
                 }
             }
