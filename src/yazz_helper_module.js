@@ -662,7 +662,7 @@ return code
 
 
 
-            // ********** if the code is not already stored tehn store it  **********
+            // ********** if the code is not already stored then store it  **********
             existingCodeTags = await mm.getQuickSqlOneRow(thisDb,"select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",[baseComponentId, userId])
             existingCodeAlreadyInSystemCodeTable = await mm.getQuickSqlOneRow(
                 thisDb,
@@ -679,15 +679,14 @@ return code
             if ((existingCodeAlreadyInSystemCodeTable == null) || readOnly || (options && options.allowAppToWorkOffline)){
                 try {
 
+
+                    // ********** if this is a UI control then store the linked properties in the DB  **********
                     if (controlType == "VB") {
                         await mm.clearLinkedTypesInDB(thisDb, baseComponentId, properties)
-                        //zzz
                     }
 
 
-
-
-                    //showTimer(`10`)
+                    // ********** if the code has been changed then DO NOT SAVE IT! This is a basic tamper proof mechanism  **********
                     let sha1sum2  = await OnlyIpfsHash.of(code)
                     if (sha1sum2 != sha1sum) {
                         console.log("SHA do not match")
