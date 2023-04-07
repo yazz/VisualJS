@@ -546,8 +546,12 @@ let globalEndTimer = new Date().getTime()
 let globalTimerCounter = 0
 
 
+//
+
 // set up the processes
-function        setUpChildListeners(processName, fileName, debugPort) {
+
+//
+function        setUpChildListeners                     (  processName  , fileName  , debugPort  ) {
 
     forkedProcesses[processName].on('close', async function() {
         if (!shuttingDown) {
@@ -823,7 +827,7 @@ function        setUpChildListeners(processName, fileName, debugPort) {
 
     });
 }
-function        setupForkedProcess(  processName,  fileName,  debugPort  ) {
+function        setupForkedProcess                      (  processName  ,  fileName  ,  debugPort  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -884,8 +888,15 @@ function        setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 }
 
+
+
+
+//
+
 // networking helper to send data to the browser via websockets
-function        sendOverWebSockets(data) {
+
+//
+function        sendOverWebSockets                      (  data  ) {
     let ll = serverwebsockets.length;
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
     for (let i =0 ; i < ll; i++ ) {
@@ -902,25 +913,32 @@ function        sendOverWebSockets(data) {
         }
     }
 }
-function        sendToBrowserViaWebSocket(aws, msg) {
+function        sendToBrowserViaWebSocket               (  aws  ,  msg  ) {
 // ============================================================
 // This sends a message to a specific websocket
 // ============================================================
     aws.emit(msg.type,msg);
 }
 
+
+
+
+//
+
 // JS helper fns
-function        isNumber(n) {
+
+//
+function        isNumber                                (  n  ) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
-function        isLocalMachine(req) {
+function        isLocalMachine                          (  req  ) {
     if ((req.ip == '127.0.0.1') || (hostaddress == req.ip) || (hostaddress == "0.0.0.0")) {  // this is the correct line to use
         //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
         return true;
     };
     return false;
 }
-function        canAccess(req,res) {
+function        canAccess                               (  req  ,  res  ) {
 //------------------------------------------------------------------------------
 // test if allowed
 //------------------------------------------------------------------------------
@@ -934,7 +952,7 @@ function        canAccess(req,res) {
     res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their Yazz account");
     return false;
 };
-function        runOnPageExists(req, res, homepage) {
+function        runOnPageExists                         (  req  ,  res  ,  homepage  ) {
 
     if (fs.existsSync(homepage)) {
         if (!canAccess(req,res)) {
@@ -949,7 +967,7 @@ function        runOnPageExists(req, res, homepage) {
 
 
 }
-function        isRequestFromMobile(req) {
+function        isRequestFromMobile                     (  req  ) {
     let uasource = req.headers['user-agent']
     let uaval = useragent.parse(uasource);
 
@@ -961,10 +979,10 @@ function        isRequestFromMobile(req) {
     //console.log("uaval: "  + JSON.stringify(uaval,null,2))
     return isMobile
 }
-function        bytesToMb(bytes) {
+function        bytesToMb                               (  bytes  ) {
     return (bytes / 1024 ) / 1024
 }
-function        getChildMem(childProcessName,stats) {
+function        getChildMem                             (childProcessName,stats) {
     let memoryused = 0
     if (stats) {
         memoryused = stats.memory ;
@@ -974,7 +992,7 @@ function        getChildMem(childProcessName,stats) {
         outputDebug(`${childProcessName}: ${Math.round(bytesToMb(memoryused) * 100) / 100} MB`);
     }
 }
-function        usePid(childProcessName,childprocess) {
+function        usePid                                  (  childProcessName  ,  childprocess  ) {
     pidusage(childprocess.pid, function (err, stats) {
         getChildMem(childProcessName,stats)
         returnedmemCount ++
@@ -991,12 +1009,12 @@ function        usePid(childProcessName,childprocess) {
     });
 
 }
-function        resetTimer(messageToStart) {
+function        resetTimer                              (  messageToStart  ) {
     console.log("Starting timer for: " + messageToStart)
     globalStartTimer = new Date().getTime()
     globalTimerCounter = 0
 }
-function        showTimer(optionalMessage) {
+function        showTimer                               (  optionalMessage  ) {
     globalEndTimer = new Date().getTime()
     globalTimerCounter ++
     let theTimerText = optionalMessage
@@ -1007,8 +1025,14 @@ function        showTimer(optionalMessage) {
 }
 
 
+
+
+//
+
 // startup and shutdown
-function        shutDown() {
+
+//
+function        shutDown                                (  ) {
     outputDebug(" shutDown() called")
     if (!shuttingDown) {
         shuttingDown = true;
@@ -1056,7 +1080,7 @@ function        shutDown() {
 
 
 }
-function        deleteYazzDataWindows(dddd) {
+function        deleteYazzDataWindows                   (  dddd  ) {
   outputDebug("deleteYazzDataWindows")
   if (dddd.length > 6) {
     let ff = 'timeout 8 && rd /s /q "' + dddd + '"'
@@ -1071,7 +1095,7 @@ function        deleteYazzDataWindows(dddd) {
                 })
     }
   }
-function        deleteYazzDataV2(dddd) {
+function        deleteYazzDataV2                        (  dddd  ) {
 
     if ( fs.existsSync( dddd ) ) {
         outputDebug("----------------------------------")
@@ -1090,7 +1114,7 @@ function        deleteYazzDataV2(dddd) {
     outputDebug("After delete" )
     outputDebug("----------------------------------")
 }
-function        deleteYazzData(dddd) {
+function        deleteYazzData                          (  dddd  ) {
     fork.exec('sleep 3 && cd "' + dddd + '" && rm -rf app_dbs apps uploads files *.visi*', function(err, stdout, stderr) {
         if (err) {
             // node couldn't execute the command
@@ -1098,7 +1122,7 @@ function        deleteYazzData(dddd) {
             }
         })
 }
-function        getPort () {
+function        getPort                                 (  ) {
     outputDebug('** called getPort v2')
 
 
@@ -1155,7 +1179,7 @@ function        getPort () {
 
     })
 }
-async function  checkForJSLoaded() {
+async function  checkForJSLoaded                        (  ) {
 //------------------------------------------------------------------------------------------
 //
 //                                          checkForJSLoaded
@@ -1335,7 +1359,7 @@ async function  checkForJSLoaded() {
 
      return
 }
-async function  finalizeYazzLoading() {
+async function  finalizeYazzLoading                     (  ) {
     setUpSql();
     console.log(`
       YYYYYYY       YYYYYYY
@@ -1385,7 +1409,7 @@ async function  finalizeYazzLoading() {
 
     systemReady = true
 }
-async function  setUpComponentsLocally() {
+async function  setUpComponentsLocally                  (  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -1608,10 +1632,10 @@ async function  setUpComponentsLocally() {
 
     await drivers_loaded_by_child()
 }
-function        setUpPredefinedComponents() {
+function        setUpPredefinedComponents               (  ) {
     setUpComponentsLocally();
 }
-async function  drivers_loaded_by_child() {
+async function  drivers_loaded_by_child                 (  ) {
 //------------------------------------------------------------------------------
     //
     // This is the last thing that happens when AppShare is started
@@ -1621,12 +1645,12 @@ async function  drivers_loaded_by_child() {
     //------------------------------------------------------------------------------
     await finalizeYazzLoading();
 }
-function        createTables() {
+function        createTables                            (  ) {
     db_helper.createTables(dbsearch,
         createdTablesInChild)
 
 }
-async function  createdTablesInChild() {
+async function  createdTablesInChild                    (  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -1645,7 +1669,7 @@ async function  createdTablesInChild() {
         getPort()
     }
 }
-function        finishInit() {
+function        finishInit                              (  ) {
 
 
     process.on('exit', function() {
@@ -1697,7 +1721,7 @@ function        finishInit() {
 
 
 }
-function        setUpSql() {
+function        setUpSql                                (  ) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                        setUpSql                                         //
@@ -1809,7 +1833,7 @@ function        setUpSql() {
 
     //console.log("setUpSql done   ")
 }
-function        findSystemDataDirectoryAndStart() {
+function        findSystemDataDirectoryAndStart         (  ) {
     console.log("userData : " + userData)
     console.log("username : " + username)
     dbPath = path.join(userData, username + '.visi')
@@ -1863,8 +1887,15 @@ function        findSystemDataDirectoryAndStart() {
 }
 
 
+
+
+
+//
+
 // HTTP helper functions
-function        getRoot(req, res, next) {
+
+//
+function        getRoot                                 (  req  ,  res  ,  next  ) {
 	hostcount++;
 
     //console.log("Host: " + req.headers.host + ", " + hostcount);
@@ -1996,7 +2027,7 @@ function        getRoot(req, res, next) {
 
 
 }
-function        keycloakProtector(params) {
+function        keycloakProtector                       (  params  ) {
     return function(req,res,next) {
         next()
         return
@@ -2039,7 +2070,7 @@ function        keycloakProtector(params) {
             }, sqlite3.OPEN_READONLY)
     }
 }
-async function  getUserIdFromYazzCookie(yazzCookie) {
+async function  getUserIdFromYazzCookie                 (  yazzCookie  ) {
     let sessionId = await getSessionIdFromYazzCookie(yazzCookie)
 
     let promise = new Promise(async function(returnfn) {
@@ -2071,7 +2102,7 @@ async function  getUserIdFromYazzCookie(yazzCookie) {
     return userId
 
 }
-async function  getUserId(req) {
+async function  getUserId                               (  req  ) {
     let sessionId = await getSessionId(req)
 
     let promise = new Promise(async function(returnfn) {
@@ -2102,7 +2133,7 @@ async function  getUserId(req) {
     let userId = await promise
     return userId
 }
-async function  getSessionId(req) {
+async function  getSessionId                            (  req  ) {
     let promise = new Promise(async function(returnfn) {
         dbsearch.serialize(
             function() {
@@ -2133,7 +2164,7 @@ async function  getSessionId(req) {
     let sessionId = await promise
     return sessionId
 }
-async function  getSessionIdFromYazzCookie(yazzCookie) {
+async function  getSessionIdFromYazzCookie              (  yazzCookie  ) {
     let promise = new Promise(async function(returnfn) {
         dbsearch.serialize(
             function() {
@@ -2164,7 +2195,7 @@ async function  getSessionIdFromYazzCookie(yazzCookie) {
     let sessionId = await promise
     return sessionId
 }
-async function  getCookieRecord(cookieValue) {
+async function  getCookieRecord                         (  cookieValue  ) {
     let promise = new Promise(async function(returnfn) {
         dbsearch.serialize(
             function() {
@@ -2192,7 +2223,7 @@ async function  getCookieRecord(cookieValue) {
     let cookeResult = await promise
     return cookeResult
 }
-async function  createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
+async function  createCookieInDb                        (  cookie  ,  hostCookieSentTo  ,  from_device_type  ) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
@@ -2217,7 +2248,7 @@ async function  createCookieInDb(cookie, hostCookieSentTo, from_device_type) {
     return ipfsHash
     return ""
 }
-function        readCerts() {
+function        readCerts                               (  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -2258,8 +2289,15 @@ function        readCerts() {
 }
 
 
-//upload app helper fns
-async function  file_uploadSingleFn(req, res) {
+
+
+
+//
+
+// upload app helper fns
+
+//
+async function  file_uploadSingleFn                     (  req  ,  res  ) {
     //console.log('-----  file_uploadSingle  --------------');
     //console.log(req.file);
     //console.log("**FILE** " + JSON.stringify(Object.keys(req)));
@@ -2351,7 +2389,7 @@ async function  file_uploadSingleFn(req, res) {
 
 
 };
-async function  file_uploadFn(req, res, next) {
+async function  file_uploadFn                           (  req  ,  res  ,  next  ) {
     //console.log('-------------------------------------------------------------------------------------');
     //console.log('-------------------------------------------------------------------------------------');
     //console.log('-------------------------------------------------------------------------------------');
@@ -2437,12 +2475,12 @@ async function  file_uploadFn(req, res, next) {
     }
 
 };
-async function  file_name_load(req, res, next) {
+async function  file_name_load                          (  req  ,  res  ,  next  ) {
     //console.log("params: " + JSON.stringify(req.query,null,2))
     await loadAppFromFile(  req.query.file_name_load,
         req.query.client_file_upload_id)
 };
-async function  loadAppFromFile(localp,client_file_upload_id) {
+async function  loadAppFromFile                         (  localp  ,  client_file_upload_id  ) {
     console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
     let readIn = fs.readFileSync(localp).toString()
     let bci = yz.getValueOfCodeString(readIn, "base_component_id")
@@ -2463,7 +2501,7 @@ async function  loadAppFromFile(localp,client_file_upload_id) {
     });
 
 }
-async function  save_code_from_upload(msg) {
+async function  save_code_from_upload                   (  msg  ) {
     /*
     ________________________________________
     |                                      |
@@ -2497,8 +2535,15 @@ async function  save_code_from_upload(msg) {
 
 
 
+
+
+
+//
+
 // edit app helper fns
-function        getEditApp(req, res) {
+
+//
+function        getEditApp                              (  req  ,  res  ) {
 	hostcount++;
 
     // I dont know why sockets.io calls .map files here
@@ -2529,8 +2574,13 @@ function        getEditApp(req, res) {
 
 
 
+
+//
+
 // IPFS helpers
-async function  findLocalIpfsContent() {
+
+//
+async function  findLocalIpfsContent                    (  ) {
     fs.readdir(fullIpfsFolderPath, async function (err, files) {
         if (err) {
             return console.error(err);
@@ -2578,10 +2628,10 @@ async function  findLocalIpfsContent() {
     })
 
 }
-async function  registerIPFS                    (ipfs_hash) {
+async function  registerIPFS                            (  ipfs_hash  ) {
     await insertIpfsHashRecord(ipfs_hash,null,null,null)
 }
-async function  loadComponentFromIpfs           (ipfsHash) {
+async function  loadComponentFromIpfs                   (  ipfsHash  ) {
     outputDebug("*** loadComponentFromIpfs: *** : " )
 
     let promise = new Promise(async function(returnfn) {
@@ -2664,11 +2714,11 @@ async function  loadComponentFromIpfs           (ipfsHash) {
     let ret = await promise
     return ret
 }
-async function  saveJsonItemToIpfs              (jsonItem) {
+async function  saveJsonItemToIpfs                      (  jsonItem  ) {
     let jsonString = JSON.stringify(jsonItem,null,2)
     await  saveItemToIpfs(jsonString)
 }
-async function  saveItemToIpfs                          (srcCode) {
+async function  saveItemToIpfs                          (  srcCode  ) {
     outputDebug("*** saveItemToIpfs: *** : " )
     let promise = new Promise(async function(returnfn) {
         let justHash = null
@@ -2714,7 +2764,7 @@ async function  saveItemToIpfs                          (srcCode) {
     let ipfsHash = await promise
     return ipfsHash
 }
-async function  sendIpfsHashToCentralServer             (ipfs_hash , ipfsContent) {
+async function  sendIpfsHashToCentralServer             (  ipfs_hash  ,  ipfsContent  ) {
     let centralHost = program.centralhost
     let centralPort = program.centralhostport
     let promise = new Promise(async function(returnfn) {
@@ -2762,7 +2812,7 @@ async function  sendIpfsHashToCentralServer             (ipfs_hash , ipfsContent
     await promise
     return
 }
-async function  insertIpfsHashRecord                    (ipfs_hash, content_type, ping_count, last_pinged ) {
+async function  insertIpfsHashRecord                    (  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
@@ -2783,9 +2833,12 @@ async function  insertIpfsHashRecord                    (ipfs_hash, content_type
 
 
 
+//
 
 // Yazz OS helper methods
-function        function_call_requestPart2 (msg) {
+
+//
+function        function_call_requestPart2              (  msg  ) {
 //-----------------------------------------------------------------------------------------
 //
 //                                   function_call_request
@@ -2828,7 +2881,7 @@ function        function_call_requestPart2 (msg) {
             }, sqlite3.OPEN_READONLY)
     }
 }
-function        processor_free (msg) {
+function        processor_free                          (  msg  ) {
     //-----------------------------------------------------------------------------------------
     //
     //                                   processor_free
@@ -2847,7 +2900,7 @@ function        processor_free (msg) {
             });
         })
 }
-function        function_call_response (msg) {
+function        function_call_response                  (  msg  ) {
 //-----------------------------------------------------------------------------------------
 //
 //                                   function_call_response
@@ -2885,7 +2938,7 @@ function        function_call_response (msg) {
         result:              msg.result
     });
 }
-async function  parseCode(code) {
+async function  parseCode                               (  code  ) {
 
     let baseComponentIdOfItem = yz.getValueOfCodeString(code,"base_component_id")
 
@@ -2925,7 +2978,7 @@ async function  parseCode(code) {
         readWriteStatus: readWriteStatus
     }
 }
-function        callDriverMethod(msg) {
+function        callDriverMethod                        (  msg  ) {
 
     callDriverMethodPart2( msg.find_component, msg.args, function(result) {
         if (msg.seq_num_local) {
@@ -2945,7 +2998,7 @@ function        callDriverMethod(msg) {
         }
     })
 }
-function        callDriverMethodPart2                   ( findComponentArgs, args, callbackFn ) {
+function        callDriverMethodPart2                   (  findComponentArgs  ,  args  ,  callbackFn  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -2965,7 +3018,7 @@ function        callDriverMethodPart2                   ( findComponentArgs, arg
         caller_call_id:      -1
     });
 }
-function        return_add_local_driver_results_msg     (msg) {
+function        return_add_local_driver_results_msg     (  msg  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -2988,7 +3041,7 @@ function        return_add_local_driver_results_msg     (msg) {
 
     newres = null;
 }
-function        ipcChildReturningCallComponentResponse  (msg) {
+function        ipcChildReturningCallComponentResponse  (  msg  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -3008,7 +3061,7 @@ function        ipcChildReturningCallComponentResponse  (msg) {
             seq_num:          msg.seq_num_browser
         });
 }
-function        function_call_request(msg) {
+function        function_call_request                   (  msg  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -3026,7 +3079,7 @@ function        function_call_request(msg) {
         caller_call_id:        msg.caller_call_id
     });
 }
-function        return_response_to_function_caller(msg) {
+function        return_response_to_function_caller      (  msg  ) {
 
 
     // console.log("*) result received to caller " );
@@ -3034,7 +3087,7 @@ function        return_response_to_function_caller(msg) {
     // console.log("*)  result:        " + msg.result );
     callbackList[ msg.callback_index ](msg.result)
 }
-function        updateRunningTimeForprocess() {
+function        updateRunningTimeForprocess             (  ) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                          updateRunningTimeForprocess                                    //
@@ -3070,7 +3123,7 @@ function        updateRunningTimeForprocess() {
                 })
         })
 }
-function        findLongRunningProcesses() {
+function        findLongRunningProcesses                (  ) {
     console.log("Checking processes")
 
     dbsearch.serialize(
@@ -3096,7 +3149,7 @@ function        findLongRunningProcesses() {
                 })
         })
 }
-function        killProcess(processName, callbackIndex) {
+function        killProcess                             (  processName  ,  callbackIndex  ) {
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
@@ -3115,7 +3168,7 @@ function        killProcess(processName, callbackIndex) {
             });
         })
 }
-function        scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
+function        scheduleJobWithCodeId                   (  codeId  ,  args  ,  parentCallId  ,  callbackIndex  ) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                            scheduleJobWithCodeId                                        //
@@ -3183,7 +3236,7 @@ function        scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex
         }
     }
 }
-function        sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args) {
+function        sendToProcess                           (  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                   sendToProcess                                         //
@@ -3215,7 +3268,7 @@ function        sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processNa
             });
         })
 }
-function        execute_code_in_exe_child_process (msg) {
+function        execute_code_in_exe_child_process       (  msg  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -3234,7 +3287,7 @@ function        execute_code_in_exe_child_process (msg) {
         base_component_id:   msg.base_component_id
     });
 }
-function        sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
+function        sendJobToProcessName                    (  id  ,  args  ,  processName  ,  parentCallId  ,  callbackIndex  ) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                   sendJobToProcessName                                  //
@@ -3270,7 +3323,7 @@ function        sendJobToProcessName(id, args, processName, parentCallId, callba
         }, sqlite3.OPEN_READONLY)
 
 }
-function        startNode (msg) {
+function        startNode                               (  msg  ) {
 //-----------------------------------------------------------------------------------------
 //
 //                                  startNode
@@ -3334,7 +3387,7 @@ function        startNode (msg) {
         })
 
 }
-async function  executeSqliteForApp                                         ( args ) {
+async function  executeSqliteForApp                     (  args  ) {
     if (!args.sql) {
         return []
     }
@@ -3383,7 +3436,7 @@ async function  executeSqliteForApp                                         ( ar
     let res = await getSqlResults
     return res
 }
-async function  evalLocalSystemDriver(location, options) {
+async function  evalLocalSystemDriver                   (  location , options  ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -3401,7 +3454,7 @@ async function  evalLocalSystemDriver(location, options) {
     }
     return ret
 }
-async function  addOrUpdateDriver(  codeString ,options ) {
+async function  addOrUpdateDriver                       (  codeString  ,  options ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -3429,21 +3482,26 @@ async function  addOrUpdateDriver(  codeString ,options ) {
 
       }
 }
-function        localComponentPath(localPath) {
+function        localComponentPath                      (  localPath  ) {
  return path.join(__dirname, '../public/visifile_drivers' + localPath)
 }
-async function  evalHtmlComponentFromPath(srcPath){
+async function  evalHtmlComponentFromPath               (  srcPath  ){
     let ret = await evalLocalSystemDriver(     localComponentPath(srcPath),{save_html: true, username: "default", version: "latest"})
     return ret
 }
-async function  evalComponentFromPath(srcPath){
+async function  evalComponentFromPath                   (  srcPath  ){
     let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
     return ret
 }
 
 
+
+//
+
 // component release helpers
-async function  releaseComponentFromPath(srcPath){
+
+//
+async function  releaseComponentFromPath                (  srcPath  ){
     try {
         let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
         await releaseCode(ret.codeId)
@@ -3453,7 +3511,7 @@ async function  releaseComponentFromPath(srcPath){
         console.log(err)
     }
 }
-async function  getCommentsForComponent(baseComponentId) {
+async function  getCommentsForComponent                 (  baseComponentId  ) {
     let promise = new Promise(async function (returnfn) {
 
         dbsearch.serialize(
@@ -3507,7 +3565,7 @@ async function  getCommentsForComponent(baseComponentId) {
     let ret = await promise
     return ret
 }
-async function  insertCommentIntoDb(args) {
+async function  insertCommentIntoDb                     (  args  ) {
     let promise = new Promise(async function(returnfn) {
 
         let promise2 = new Promise(async function(returnfn2) {
@@ -3538,9 +3596,12 @@ async function  insertCommentIntoDb(args) {
 
 
 
+//
 
 // code commit helpers
-async function  getRowForCommit(  commitId  ) {
+
+//
+async function  getRowForCommit                         (  commitId  ) {
     /*
     ________________________________________
     |                                      |
@@ -3585,7 +3646,7 @@ async function  getRowForCommit(  commitId  ) {
     }
     return commitStructure
 }
-async function  getPreviousCommitsFor(args) {
+async function  getPreviousCommitsFor                   (  args  ) {
     /*
     ________________________________________
     |                                      |
@@ -3637,7 +3698,7 @@ async function  getPreviousCommitsFor(args) {
     }
     return []
 }
-async function  getFutureCommitsFor(args) {
+async function  getFutureCommitsFor                     (  args  ) {
     /*
     ________________________________________
     |                                      |
@@ -3690,7 +3751,7 @@ async function  getFutureCommitsFor(args) {
 
     return []
 }
-async function  releaseCode(commitId) {
+async function  releaseCode                             (  commitId  ) {
     /*
     ________________________________________
     |                                      |
@@ -3783,7 +3844,7 @@ async function  releaseCode(commitId) {
     return ret2
 
 }
-async function  copyAppshareApp(args) {
+async function  copyAppshareApp                         (  args  ) {
     /*
     ________________________________________
     |                                      |
@@ -3990,8 +4051,12 @@ async function  copyAppshareApp(args) {
 
 
 
+//
+
 // REST APIs and websocket helpers
-function        websocketFn(ws) {
+
+//
+function        websocketFn                             (  ws  ) {
     serverwebsockets.push(ws);
     sendToBrowserViaWebSocket(ws, {type: "ws_socket_connected"});
     sendOverWebSockets({
@@ -4159,7 +4224,7 @@ function        websocketFn(ws) {
         }
     });
 };
-async function  startServices() {
+async function  startServices                           (  ) {
     //------------------------------------------------------------
     // This starts all the system services
     //------------------------------------------------------------
