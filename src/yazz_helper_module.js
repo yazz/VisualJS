@@ -62,6 +62,7 @@ module.exports = {
         );
 },
 
+
     //manipulate code meta data
     insertCodeString:               function(code,st, vall ,optionalEnd) {
     let endIndicator = ")"
@@ -122,7 +123,8 @@ return code
             return null
     },
 
-    //text retreival and replacement
+
+    //text retrieval and replacement
     replaceBetween:                 function(target, start, end, replaceWith) {
                                         let startIndex = target.indexOf(start) + start.length
                                         let endIndex = target.indexOf(end)
@@ -156,6 +158,7 @@ return code
       }
       return code
     },
+
 
     //manipulate components
     addProperty:                    function(code, newProperty) {
@@ -211,6 +214,7 @@ return code
         return retRes
     },
 
+
     //general JS helpers
     isValidObject:                  function (variable){
         if ((typeof variable !== 'undefined') && (variable != null)) {
@@ -218,6 +222,7 @@ return code
         }
         return false
     },
+
 
     //Internal SQLite DB helpers
     getQuickSqlOneRow:              async function (thisDb, sql ,params) {
@@ -270,6 +275,7 @@ return code
         let ret = await promise
         return ret
     },
+
 
     //code commit helpers
     tagVersion:                     async function (thisDb, ipfs_hash, srcCode ) {
@@ -545,6 +551,8 @@ return code
             params
         )
     },
+
+
     //code save helpers
     copyFile:                       function (source, target, cb) {
         //------------------------------------------------------------------------------
@@ -579,110 +587,6 @@ return code
     getIpfsHash:                    async function(sometext) {
         let ipfsHash = await OnlyIpfsHash.of(sometext)
         return ipfsHash
-    },
-    createNewTip: async function  (thisDb, savedCode, codeId, userId) {
-        /*
-        ________________________________________
-        |                                      |
-        |               createNewTip           |
-        |                                      |
-        |______________________________________|
-        Create a new code tip for the current code. This code tip
-        moves the TIP tag forward for the code. The code can have
-        multiple tips, one for each user editing the code
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     args
-        |     ----
-        |________________________________________________________________________ */
-        let parentCodeTag
-        let baseComponentId
-        let parentHash
-        let mm                = this
-
-        baseComponentId = mm.getValueOfCodeString(savedCode,"base_component_id")
-        parentHash      = mm.getValueOfCodeString(savedCode,"parent_hash")
-
-        parentCodeTag = await mm.getQuickSqlOneRow(
-            thisDb,
-            "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
-            [parentHash, userId])
-
-        if (parentCodeTag) {
-            await mm.executeQuickSql(
-                thisDb,
-                "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
-                [parentHash])
-        }
-
-        await mm.executeQuickSql(
-            thisDb
-            ,
-            `insert into 
-                    code_tags 
-                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
-                 values  
-                     (?,?,?,?,?)
-                     `,
-            [uuidv1(), baseComponentId, "TIP", codeId, userId])
-    },
-    processCodeTags: async function (thisDb, args) {
-        /*
-        ________________________________________
-        |                                      |
-        |          processCodeTags             |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     thisDb
-        |     ------
-        |
-        |     args
-        |     ----    {
-        |                   baseComponentId
-        |                   userId
-        |                   sha1sum
-        |             }
-        |________________________________________________________________________ */
-        let mm              = this
-        let baseComponentId = args.baseComponentId
-        let userId          = args.userId
-        let sha1sum         = args.codeId
-
-        let existingCodeTags = await mm.getQuickSqlOneRow(
-            thisDb,
-            "select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",
-            [baseComponentId, userId])
-
-        if (existingCodeTags) {
-            await mm.executeQuickSql(
-                thisDb,
-                `
-                update
-                   code_tags
-                set  fk_system_code_id = ?
-                   where
-                base_component_id = ? and code_tag = ? and fk_user_id = ?
-               `,
-                [    sha1sum   ,   baseComponentId   ,    "EDIT",   userId   ])
-        } else {
-            await mm.executeQuickSql(
-                thisDb
-                ,
-                `
-                insert or ignore
-                    into
-               code_tags
-                    (id,   base_component_id,   code_tag,   fk_system_code_id,   fk_user_id) 
-               values ( ?, ?, ?, ?, ?)`
-                ,
-                [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     sha1sum     ,      userId    ]
-            )
-        }
     },
     saveCodeV3:                     async function (thisDb, code , options) {
         /*
@@ -1180,7 +1084,9 @@ newCode += newCode2
         let ret = await promise;
         return ret
     },
-    //code execution helpers
+
+
+    // code execution helpers
     getPipelineCode:                async function(args) {
         /*
         ________________________________________
@@ -1204,5 +1110,112 @@ newCode += newCode2
         let pipelineFileName = args.pipelineFileName
         let fileOut = fs.readFileSync("src/" + pipelineFileName, 'utf8').toString()
         return fileOut
+    },
+
+
+    // CODE_TAGS
+    createNewTip: async function  (thisDb, savedCode, codeId, userId) {
+        /*
+        ________________________________________
+        |                                      |
+        |               createNewTip           |
+        |                                      |
+        |______________________________________|
+        Create a new code tip for the current code. This code tip
+        moves the TIP tag forward for the code. The code can have
+        multiple tips, one for each user editing the code
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     args
+        |     ----
+        |________________________________________________________________________ */
+        let parentCodeTag
+        let baseComponentId
+        let parentHash
+        let mm                = this
+
+        baseComponentId = mm.getValueOfCodeString(savedCode,"base_component_id")
+        parentHash      = mm.getValueOfCodeString(savedCode,"parent_hash")
+
+        parentCodeTag = await mm.getQuickSqlOneRow(
+            thisDb,
+            "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
+            [parentHash, userId])
+
+        if (parentCodeTag) {
+            await mm.executeQuickSql(
+                thisDb,
+                "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+                [parentHash])
+        }
+
+        await mm.executeQuickSql(
+            thisDb
+            ,
+            `insert into 
+                    code_tags 
+                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
+                 values  
+                     (?,?,?,?,?)
+                     `,
+            [uuidv1(), baseComponentId, "TIP", codeId, userId])
+    },
+    processCodeTags: async function (thisDb, args) {
+        /*
+        ________________________________________
+        |                                      |
+        |          processCodeTags             |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     thisDb
+        |     ------
+        |
+        |     args
+        |     ----    {
+        |                   baseComponentId
+        |                   userId
+        |                   sha1sum
+        |             }
+        |________________________________________________________________________ */
+        let mm              = this
+        let baseComponentId = args.baseComponentId
+        let userId          = args.userId
+        let sha1sum         = args.codeId
+
+        let existingCodeTags = await mm.getQuickSqlOneRow(
+            thisDb,
+            "select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",
+            [baseComponentId, userId])
+
+        if (existingCodeTags) {
+            await mm.executeQuickSql(
+                thisDb,
+                `
+                update
+                   code_tags
+                set  fk_system_code_id = ?
+                   where
+                base_component_id = ? and code_tag = ? and fk_user_id = ?
+               `,
+                [    sha1sum   ,   baseComponentId   ,    "EDIT",   userId   ])
+        } else {
+            await mm.executeQuickSql(
+                thisDb
+                ,
+                `
+                insert or ignore
+                    into
+               code_tags
+                    (id,   base_component_id,   code_tag,   fk_system_code_id,   fk_user_id) 
+               values ( ?, ?, ?, ?, ?)`
+                ,
+                [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     sha1sum     ,      userId    ]
+            )
+        }
     }
 }
