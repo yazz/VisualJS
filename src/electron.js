@@ -2259,7 +2259,7 @@ function        readCerts() {
 
 
 //upload app helper fns
-function        file_uploadSingleFn(req, res) {
+async function        file_uploadSingleFn(req, res) {
     //console.log('-----  file_uploadSingle  --------------');
     //console.log(req.file);
     //console.log("**FILE** " + JSON.stringify(Object.keys(req)));
@@ -2314,7 +2314,7 @@ function        file_uploadSingleFn(req, res) {
                     indexOfSqliteDataEnd)
             }
 
-            save_code_from_upload({
+            await save_code_from_upload({
                 message_type:           "save_code_from_upload",
                 base_component_id:      bci,
                 parent_hash:            null,
@@ -2334,7 +2334,7 @@ function        file_uploadSingleFn(req, res) {
 
 
 
-        save_code_from_upload({
+        await save_code_from_upload({
             message_type:           "save_code_from_upload",
             base_component_id:      bci,
             parent_hash:            null,
@@ -2351,7 +2351,7 @@ function        file_uploadSingleFn(req, res) {
 
 
 };
-function        file_uploadFn(req, res, next) {
+async function        file_uploadFn(req, res, next) {
     //console.log('-------------------------------------------------------------------------------------');
     //console.log('-------------------------------------------------------------------------------------');
     //console.log('-------------------------------------------------------------------------------------');
@@ -2413,7 +2413,7 @@ function        file_uploadFn(req, res, next) {
                         indexOfSqliteDataEnd)
                 }
 
-                save_code_from_upload({
+                await save_code_from_upload({
                     message_type:           "save_code_from_upload",
                     base_component_id:      bci,
                     parent_hash:            null,
@@ -2428,7 +2428,7 @@ function        file_uploadFn(req, res, next) {
             localp2 =  path.join(userData,  'uploads/' + ifile.filename);
             let localp = localp2 + '.' + ext;
             fs.renameSync(localp2, localp);
-            loadAppFromFile(localp,client_file_upload_id)
+            await loadAppFromFile(localp,client_file_upload_id)
         } else {
             outputDebug('Ignoring file ');
 
@@ -2437,19 +2437,19 @@ function        file_uploadFn(req, res, next) {
     }
 
 };
-function        file_name_load(req, res, next) {
+async function        file_name_load(req, res, next) {
     //console.log("params: " + JSON.stringify(req.query,null,2))
-    loadAppFromFile(  req.query.file_name_load,
+    await loadAppFromFile(  req.query.file_name_load,
         req.query.client_file_upload_id)
 };
-function        loadAppFromFile(localp,client_file_upload_id) {
+async function        loadAppFromFile(localp,client_file_upload_id) {
     console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
     let readIn = fs.readFileSync(localp).toString()
     let bci = yz.getValueOfCodeString(readIn, "base_component_id")
 
 
 
-    save_code_from_upload({
+    await save_code_from_upload({
         message_type:           "save_code_from_upload",
         base_component_id:      bci,
         parent_hash:            null,
@@ -4069,7 +4069,7 @@ function        websocketFn(ws) {
             let code_fn = receivedMessage.code_fn
 
 
-            save_code_from_upload({
+            await save_code_from_upload({
                 message_type:           "save_code_from_upload",
                 base_component_id:      receivedMessage.base_component_id,
                 parent_hash:            null,
@@ -5408,16 +5408,16 @@ async function  startServices() {
     });
 
     //file upload helpers
-    app.post(   '/http_post_file_open_single',                              upload.single( 'openfilefromhomepage' ), function (req, res, next) {
+    app.post(   '/http_post_file_open_single',                              upload.single( 'openfilefromhomepage' ), async function (req, res, next) {
         console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
-        return file_uploadSingleFn(req, res, next);
+        return (await file_uploadSingleFn(req, res, next));
     });
-    app.post(   '/http_post_file_upload_single',                            upload.single( 'uploadfilefromhomepage' ), function (req, res, next) {
+    app.post(   '/http_post_file_upload_single',                            upload.single( 'uploadfilefromhomepage' ), async function (req, res, next) {
         console.log("File upload: " + JSON.stringify(req.file.originalname,null,2))
-        return file_uploadSingleFn(req, res, next);
+        return (await file_uploadSingleFn(req, res, next));
     });
-    app.post(   '/http_post_file_upload',                                   upload.array( 'file' ), function (req, res, next) {
-        return file_uploadFn(req, res, next);
+    app.post(   '/http_post_file_upload',                                   upload.array( 'file' ), async function (req, res, next) {
+        return (await file_uploadFn(req, res, next));
     });
     app.get(    '/http_get_file_name_load',                                 function (req, res, next) {
         //console.log("Hit http_get_file_name_load")
