@@ -800,6 +800,7 @@ return code
                             codeId:             sha1sum,
                             userId:             userId
                         })
+                    await mm.createNewTip(thisDb, code, sha1sum, userId)
 
 
                     stmtDeleteDependencies.run(sha1sum)
