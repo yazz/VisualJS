@@ -18,7 +18,7 @@ let copyMigration;
 
 module.exports = {
     //setup this module
-    setup:                          async function(thisDb) {
+    setup:                          async function  (thisDb) {
 
 
 
@@ -64,7 +64,7 @@ module.exports = {
 
 
     //manipulate code meta data
-    insertCodeString:               function(code,st, vall ,optionalEnd) {
+    insertCodeString:               function        (code,st, vall ,optionalEnd) {
     let endIndicator = ")"
     if (optionalEnd) {
     endIndicator = optionalEnd
@@ -88,7 +88,7 @@ module.exports = {
     return code
 
     },
-    deleteCodeString:               function(code,st ,optionalEnd) {
+    deleteCodeString:               function        (code,st ,optionalEnd) {
 let endIndicator = ")"
 if (optionalEnd) {
 endIndicator = optionalEnd
@@ -105,7 +105,7 @@ return code
 }
 return code
 },
-    getValueOfCodeString:           function(code, st,optionalEnd) {
+    getValueOfCodeString:           function        (code, st,optionalEnd) {
         let endIndicator = ")"
         if (optionalEnd) {
             endIndicator = optionalEnd
@@ -125,19 +125,19 @@ return code
 
 
     //text retrieval and replacement
-    replaceBetween:                 function(target, start, end, replaceWith) {
+    replaceBetween:                 function        (target, start, end, replaceWith) {
                                         let startIndex = target.indexOf(start) + start.length
                                         let endIndex = target.indexOf(end)
                                         let newString = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
                                         return newString
     },
-    getBetween:                     function(target, start, end) {
+    getBetween:                     function        (target, start, end) {
         let startIndex = target.indexOf(start) + start.length
         let endIndex = target.indexOf(end)
         let newString = target.substring(startIndex,endIndex)
         return newString
     },
-    replacePropertyValue:           function(code, propertyId, propertyValue) {
+    replacePropertyValue:           function        (code, propertyId, propertyValue) {
       let properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
       if (properties) {
           let index =0;
@@ -161,7 +161,7 @@ return code
 
 
     //manipulate components
-    addProperty:                    function(code, newProperty) {
+    addProperty:                    function        (code, newProperty) {
         let properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
         if (properties) {
             properties.push(newProperty)
@@ -175,7 +175,7 @@ return code
         }
         return code
     },
-    addMethod:                      function(code, newMethod) {
+    addMethod:                      function        (code, newMethod) {
          let existingCode = this.getBetween(
              code,
              "/*NEW_METHODS_START*/",
@@ -189,14 +189,14 @@ return code
 
         return code
     },
-    getChildDetails:                async function(subComponent) {
+    getChildDetails:                async function  (subComponent) {
         let newSubComponent = {
             baseComponentId: subComponent,
             codeId:          subComponent
         }
         return newSubComponent
     },
-    getSubComponents:               async function (srcCode) {
+    getSubComponents:               async function  (srcCode) {
         let yz = this
 
         let subC = yz.getValueOfCodeString(srcCode,"sub_components")
@@ -216,7 +216,7 @@ return code
 
 
     //general JS helpers
-    isValidObject:                  function (variable){
+    isValidObject:                  function        (variable){
         if ((typeof variable !== 'undefined') && (variable != null)) {
             return true
         }
@@ -225,14 +225,14 @@ return code
 
 
     //Internal SQLite DB helpers
-    getQuickSqlOneRow:              async function (thisDb, sql ,params) {
+    getQuickSqlOneRow:              async function  (thisDb, sql ,params) {
         let rows = await this.getQuickSql(thisDb,sql,params)
         if (rows.length == 0) {
             return null
         }
         return rows[0]
     },
-    getQuickSql:                    async function (thisDb, sql, params) {
+    getQuickSql:                    async function  (thisDb, sql, params) {
         let promise = new Promise(async function(returnfn) {
             thisDb.serialize(
                 function() {
@@ -254,7 +254,7 @@ return code
         let ret = await promise
         return ret
     },
-    executeQuickSql:                async function (thisDb, sql, params) {
+    executeQuickSql:                async function  (thisDb, sql, params) {
         let promise = new Promise(async function(returnfn) {
             try {
                 let exeSqlPreparedStmt = thisDb.prepare(sql)
@@ -278,7 +278,7 @@ return code
 
 
     //code commit helpers
-    tagVersion:                     async function (thisDb, ipfs_hash, srcCode ) {
+    tagVersion:                     async function  (thisDb, ipfs_hash, srcCode ) {
         let baseComponentId = this.getValueOfCodeString(srcCode,"base_component_id")
         let dateTime = new Date().toString()
         await this.executeQuickSql(thisDb,
@@ -291,7 +291,7 @@ return code
             ,
             [ uuidv1()  ,  baseComponentId  ,  dateTime,  ipfs_hash])
     },
-    getCodeForCommit:               async function (thisDb, commitId) {
+    getCodeForCommit:               async function  (thisDb, commitId) {
         let thisCommit = await this.getQuickSqlOneRow(thisDb,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
         if (thisCommit) {
             return thisCommit.code
@@ -299,7 +299,7 @@ return code
 
         return null
     },
-    saveItemToIpfsCache:            async function (srcCode) {
+    saveItemToIpfsCache:            async function  (srcCode) {
         //outputDebug("*** saveItemToIpfs: *** : " )
         let promise = new Promise(async function(returnfn) {
             let justHash = null
@@ -345,7 +345,7 @@ return code
         let ipfsHash = await promise
         return ipfsHash
     },
-    updateRevisions:                function (thisDb,sqlite, baseComponentId) {
+    updateRevisions:                function        (thisDb,sqlite, baseComponentId) {
         //------------------------------------------------------------------------------
         //
         //
@@ -432,7 +432,7 @@ return code
             console.log(ewr)
         }
     },
-    fastForwardToLatestRevision:    function (thisDb,sqlite, baseComponentId) {
+    fastForwardToLatestRevision:    function        (thisDb,sqlite, baseComponentId) {
         //------------------------------------------------------------------------------
         //
         //
@@ -494,7 +494,7 @@ return code
             console.log(ewr)
         }
     },
-    clearLinkedTypesInDB: async function(thisDb, baseComponentId, properties) {
+    clearLinkedTypesInDB:           async function  (thisDb, baseComponentId, properties) {
         let mm = this
         await mm.executeQuickSql(thisDb," delete from  component_property_types   where   base_component_id = ?",[baseComponentId]);
         await mm.executeQuickSql(thisDb," delete from  component_property_accept_types   where   base_component_id = ?", [baseComponentId]);
@@ -533,7 +533,7 @@ return code
         }
 
     },
-    insertNewCode: async function(thisDb, params) {
+    insertNewCode:                  async function  (thisDb, params) {
         let mm = this
         mm.executeQuickSql(
             thisDb
@@ -554,7 +554,7 @@ return code
 
 
     //code save helpers
-    copyFile:                       function (source, target, cb) {
+    copyFile:                       function        (source, target, cb) {
         //------------------------------------------------------------------------------
         //
         //
@@ -584,11 +584,11 @@ return code
             }
         }
     },
-    getIpfsHash:                    async function(sometext) {
+    getIpfsHash:                    async function  (sometext) {
         let ipfsHash = await OnlyIpfsHash.of(sometext)
         return ipfsHash
     },
-    saveCodeV3:                     async function (thisDb, code , options) {
+    saveCodeV3:                     async function  (thisDb, code , options) {
         /*
         ________________________________________
         |                                      |
@@ -1087,7 +1087,7 @@ newCode += newCode2
 
 
     // code execution helpers
-    getPipelineCode:                async function(args) {
+    getPipelineCode:                async function  (args) {
         /*
         ________________________________________
         |                                      |
@@ -1114,7 +1114,7 @@ newCode += newCode2
 
 
     // CODE_TAGS
-    createNewTip: async function  (thisDb, savedCode, codeId, userId) {
+    createNewTip:                   async function  (thisDb, savedCode, codeId, userId) {
         /*
         ________________________________________
         |                                      |
@@ -1161,7 +1161,7 @@ newCode += newCode2
                      `,
             [uuidv1(), baseComponentId, "TIP", codeId, userId])
     },
-    processCodeTags: async function (thisDb, args) {
+    processCodeTags:                async function  (thisDb, args) {
         /*
         ________________________________________
         |                                      |
