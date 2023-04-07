@@ -792,7 +792,7 @@ return code
                             "1 point for being committed"
                         ])
 
-                    await mm.pointEditMarkerAtCommitId(
+                    await mm.pointEditMarkerAtCommit(
                         thisDb
                         ,
                         {
@@ -1190,7 +1190,7 @@ newCode += newCode2
         |                                      |
         |______________________________________|
         Create a new code tip for the current code. This code tip
-        moves the TIP tag forward for the code. The code can have
+        moves the TIP tag forward to this commit ID for the code. The code can have
         multiple tips, one for each user editing the code
         __________
         | PARAMS |______________________________________________________________
@@ -1229,11 +1229,11 @@ newCode += newCode2
                      `,
             [uuidv1(), baseComponentId, "TIP", codeId, userId])
     },
-    pointEditMarkerAtCommitId:      async function  (  thisDb  ,  args  ) {
+    pointEditMarkerAtCommit:        async function  (  thisDb  ,  args  ) {
         /*
         ________________________________________
         |                                      |
-        |      pointEditMarkerAtCommitId       |
+        |      pointEditMarkerAtCommit       |
         |                                      |
         |______________________________________|
         This makes sure that the current EDIT marker for some code is set. There can be

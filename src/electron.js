@@ -4751,10 +4751,10 @@ async function  startServices                           (  ) {
 
 
     // source code helpers
-    app.get(    '/http_get_update_code_tags',                               async function (req, res, next) {
+    app.get(    '/http_get_point_edit_marker_at_commit',                               async function (req, res, next) {
         let userid          = await getUserId(req)
 
-        await yz.pointEditMarkerAtCommitId(
+        await yz.pointEditMarkerAtCommit(
             dbsearch,
             {
                 baseComponentId:    req.query.baseComponentId,

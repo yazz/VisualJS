@@ -842,7 +842,7 @@ load_once_from_file(true)
 
 //zzz
             //debugger
-             let responseJson2 = await getFromYazzReturnJson("/http_get_update_code_tags",
+             let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
                 {
                     sha1sum:            mm.lockedSelectedCommit,
                     baseComponentId:    mm.baseComponentId
