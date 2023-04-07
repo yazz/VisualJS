@@ -192,9 +192,9 @@ load_once_from_file(true)
                                 </div>
                                 <br/>
 
-                                    <div><b>Tags:</b> {{commitsV3[previewedCommitId].code_tags.length}}</div>
+                                    <div><b>Tags:</b> {{commitsV3[previewedCommitId].code_tag_list.length}}</div>
                                       <div style="margin-left: 80px;"
-                                           v-for="(item,i) in commitsV3[previewedCommitId].code_tags">
+                                           v-for="(item,i) in commitsV3[previewedCommitId].code_tag_list">
                                         {{ item.code_tag }}
                                         <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
                                       </div>
@@ -626,8 +626,8 @@ load_once_from_file(true)
              let mainContent = commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):"")
              let extraContent = ""
              //debugger
-             if (commitItem.code_tags) {
-                 for (codeTagItem of commitItem.code_tags) {
+             if (commitItem.code_tag_list) {
+                 for (codeTagItem of commitItem.code_tag_list) {
                      if (codeTagItem.code_tag =="TIP") {
                          extraContent = ", TIP"
                          if (codeTagItem.main_score) {
@@ -781,7 +781,7 @@ load_once_from_file(true)
                          base_component_id: responseJson[rt].base_component_id,
                          descendants: responseJson[rt].descendants,
                          parent_id: responseJson[rt].parent_commit_id,
-                         code_tags: responseJson[rt].code_tags
+                         code_tag_list: responseJson[rt].code_tag_list
                      }
                  if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
                      mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp

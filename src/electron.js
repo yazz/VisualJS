@@ -3639,7 +3639,7 @@ async function  getRowForCommit                         (  commitId  ) {
                     parent_commit_id:   thisCommit.parent_id,
                     user_id:            thisCommit.fk_user_id,
                     descendants:        parentCommits,
-                    code_tags:          codeTags
+                    code_tag_list:          codeTags
                 }
         } catch (err) {
         }
