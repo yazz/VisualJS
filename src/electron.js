@@ -3621,7 +3621,7 @@ async function  getRowForCommit                         (  commitId  ) {
     let getFutureCommitsSql = "select  id  from   system_code  where  parent_id = ? "
     let parentCommits = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
 
-    let getCodeTagsSql= "  select  code_tag, main_score  from  code_tags  where fk_system_code_id = ?  "
+    let getCodeTagsSql= "  select  code_tag, main_score  from  code_tags_table  where fk_system_code_id = ?  "
     let codeTags = await yz.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
 
     if (thisCommit) {
@@ -4361,13 +4361,13 @@ async function  startServices                           (  ) {
                                         system_code.read_write_status,
                                         system_code.display_name
                                    FROM
-                                        code_tags, system_code
+                                        code_tags_table, system_code
                                     WHERE
-                                        code_tags.fk_user_id = ?
+                                        code_tags_table.fk_user_id = ?
                                             AND
-                                        code_tags.fk_system_code_id = system_code.id
+                                        code_tags_table.fk_system_code_id = system_code.id
                                             AND
-                                        code_tags.code_tag = "EDIT"`
+                                        code_tags_table.code_tag = "EDIT"`
                         ,
                         [userId]
                         ,
@@ -4824,7 +4824,7 @@ async function  startServices                           (  ) {
             `select  
                 fk_system_code_id  
             from  
-                code_tags  
+                code_tags_table  
             where  
                 base_component_id = ? 
                     and 
@@ -4867,7 +4867,7 @@ async function  startServices                           (  ) {
                 dbsearch,
 
                 `update 
-                code_tags  
+                code_tags_table  
            set  
                 main_score = ?  
             where  
@@ -4892,7 +4892,7 @@ async function  startServices                           (  ) {
             `select  
                 fk_system_code_id  , main_score
             from  
-                code_tags  
+                code_tags_table  
             where  
                 base_component_id = ? 
                     and 

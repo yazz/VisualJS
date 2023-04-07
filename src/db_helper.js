@@ -103,8 +103,8 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS metamask_logins (id TEXT, account_id TEXT, random_seed TEXT, created_timestamp INTEGER, confirmed_login TEXT, fk_session_id TEXT);",
             "CREATE INDEX IF NOT EXISTS metamask_logins_id_idx ON metamask_logins (id);",
 
-            "CREATE TABLE IF NOT EXISTS code_tags (id TEXT, base_component_id TEXT, code_tag TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
-            "CREATE INDEX IF NOT EXISTS code_tags_id_idx           ON code_tags (id);"
+            "CREATE TABLE IF NOT EXISTS code_tags_table (id TEXT, base_component_id TEXT, code_tag TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
+            "CREATE INDEX IF NOT EXISTS code_tags_id_idx           ON code_tags_table (id);"
 
                 ],
 

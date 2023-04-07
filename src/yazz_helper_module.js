@@ -326,7 +326,7 @@ return code
         let dateTime = new Date().toString()
         await this.executeQuickSql(thisDb,
             `insert into 
-            code_tags 
+            code_tags_table 
          (id , base_component_id , code_tag , fk_system_code_id)
             values
          (?,?,?,?) 
@@ -1208,13 +1208,13 @@ newCode += newCode2
 
         parentCodeTag = await mm.getQuickSqlOneRow(
             thisDb,
-            "select id from  code_tags  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
+            "select id from  code_tags_table  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
             [parentHash, userId])
 
         if (parentCodeTag) {
             await mm.executeQuickSql(
                 thisDb,
-                "delete from code_tags  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+                "delete from code_tags_table  where fk_system_code_id = ? and code_tag = 'TIP'  ",
                 [parentHash])
         }
 
@@ -1222,7 +1222,7 @@ newCode += newCode2
             thisDb
             ,
             `insert into 
-                    code_tags 
+                    code_tags_table 
                     (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
                  values  
                      (?,?,?,?,?)
@@ -1259,7 +1259,7 @@ newCode += newCode2
 
         let existingCodeTags = await mm.getQuickSqlOneRow(
             thisDb,
-            "select * from code_tags where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",
+            "select * from code_tags_table where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",
             [baseComponentId, userId])
 
         if (existingCodeTags) {
@@ -1267,7 +1267,7 @@ newCode += newCode2
                 thisDb,
                 `
                 update
-                   code_tags
+                   code_tags_table
                 set  fk_system_code_id = ?
                    where
                     base_component_id = ? 
@@ -1284,7 +1284,7 @@ newCode += newCode2
                 `
                 insert or ignore
                     into
-               code_tags
+               code_tags_table
                     (id,   base_component_id,   code_tag,   fk_system_code_id,   fk_user_id) 
                values ( ?, ?, ?, ?, ?)`
                 ,
