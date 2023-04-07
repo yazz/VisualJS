@@ -4754,7 +4754,7 @@ async function  startServices                           (  ) {
     app.get(    '/http_get_update_code_tags',                               async function (req, res, next) {
         let userid          = await getUserId(req)
 
-        await yz.processCodeTags(
+        await yz.pointEditMarkerAtCommitId(
             dbsearch,
             {
                 baseComponentId:    req.query.baseComponentId,

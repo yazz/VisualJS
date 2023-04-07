@@ -792,7 +792,7 @@ return code
                             "1 point for being committed"
                         ])
 
-                    await mm.processCodeTags(
+                    await mm.pointEditMarkerAtCommitId(
                         thisDb
                         ,
                         {
@@ -1229,14 +1229,16 @@ newCode += newCode2
                      `,
             [uuidv1(), baseComponentId, "TIP", codeId, userId])
     },
-    processCodeTags:                async function  (  thisDb  ,  args  ) {
+    pointEditMarkerAtCommitId:      async function  (  thisDb  ,  args  ) {
         /*
         ________________________________________
         |                                      |
-        |          processCodeTags             |
+        |      pointEditMarkerAtCommitId       |
         |                                      |
         |______________________________________|
-        Function description
+        This makes sure that the current EDIT marker for some code is set. There can be
+        many different users editing the same component, so we need to make sure they
+        each have a unique edit marker
         __________
         | PARAMS |______________________________________________________________
         |
@@ -1268,9 +1270,13 @@ newCode += newCode2
                    code_tags
                 set  fk_system_code_id = ?
                    where
-                base_component_id = ? and code_tag = ? and fk_user_id = ?
+                    base_component_id = ? 
+                        and 
+                    code_tag = "EDIT" 
+                        and 
+                    fk_user_id = ?
                `,
-                [    sha1sum   ,   baseComponentId   ,    "EDIT",   userId   ])
+                [    sha1sum   ,   baseComponentId  ,   userId   ])
         } else {
             await mm.executeQuickSql(
                 thisDb
