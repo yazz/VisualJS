@@ -2259,7 +2259,7 @@ function        readCerts() {
 
 
 //upload app helper fns
-async function        file_uploadSingleFn(req, res) {
+async function  file_uploadSingleFn(req, res) {
     //console.log('-----  file_uploadSingle  --------------');
     //console.log(req.file);
     //console.log("**FILE** " + JSON.stringify(Object.keys(req)));
@@ -2351,7 +2351,7 @@ async function        file_uploadSingleFn(req, res) {
 
 
 };
-async function        file_uploadFn(req, res, next) {
+async function  file_uploadFn(req, res, next) {
     //console.log('-------------------------------------------------------------------------------------');
     //console.log('-------------------------------------------------------------------------------------');
     //console.log('-------------------------------------------------------------------------------------');
@@ -2437,12 +2437,12 @@ async function        file_uploadFn(req, res, next) {
     }
 
 };
-async function        file_name_load(req, res, next) {
+async function  file_name_load(req, res, next) {
     //console.log("params: " + JSON.stringify(req.query,null,2))
     await loadAppFromFile(  req.query.file_name_load,
         req.query.client_file_upload_id)
 };
-async function        loadAppFromFile(localp,client_file_upload_id) {
+async function  loadAppFromFile(localp,client_file_upload_id) {
     console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
     let readIn = fs.readFileSync(localp).toString()
     let bci = yz.getValueOfCodeString(readIn, "base_component_id")
@@ -2485,13 +2485,14 @@ async function  save_code_from_upload(msg) {
     }
 
 
-    ipc_child_returning_uploaded_app_as_file_in_child_response(
-        {
-            message_type:           'ipc_child_returning_uploaded_app_as_file_in_child_response',
-            code_id:                 ret.code_id,
-            base_component_id:       ret.base_component_id,
-            client_file_upload_id:   msg.client_file_upload_id
-        })
+    outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
+    sendOverWebSockets({
+        type:                 "uploaded_app_as_file_from_server",
+        code_id:               ret.code_id,
+        base_component_id:     ret.base_component_id,
+        client_file_upload_id: msg.client_file_upload_id
+
+    });
 }
 
 
@@ -2577,10 +2578,10 @@ async function  findLocalIpfsContent() {
     })
 
 }
-async function  registerIPFS(ipfs_hash) {
+async function  registerIPFS                    (ipfs_hash) {
     await insertIpfsHashRecord(ipfs_hash,null,null,null)
 }
-async function  loadComponentFromIpfs(ipfsHash) {
+async function  loadComponentFromIpfs           (ipfsHash) {
     outputDebug("*** loadComponentFromIpfs: *** : " )
 
     let promise = new Promise(async function(returnfn) {
@@ -2663,11 +2664,11 @@ async function  loadComponentFromIpfs(ipfsHash) {
     let ret = await promise
     return ret
 }
-async function  saveJsonItemToIpfs(jsonItem) {
+async function  saveJsonItemToIpfs              (jsonItem) {
     let jsonString = JSON.stringify(jsonItem,null,2)
     await  saveItemToIpfs(jsonString)
 }
-async function  saveItemToIpfs(srcCode) {
+async function  saveItemToIpfs                          (srcCode) {
     outputDebug("*** saveItemToIpfs: *** : " )
     let promise = new Promise(async function(returnfn) {
         let justHash = null
@@ -2713,7 +2714,7 @@ async function  saveItemToIpfs(srcCode) {
     let ipfsHash = await promise
     return ipfsHash
 }
-async function  sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
+async function  sendIpfsHashToCentralServer             (ipfs_hash , ipfsContent) {
     let centralHost = program.centralhost
     let centralPort = program.centralhostport
     let promise = new Promise(async function(returnfn) {
@@ -2761,7 +2762,7 @@ async function  sendIpfsHashToCentralServer(ipfs_hash , ipfsContent) {
     await promise
     return
 }
-async function  insertIpfsHashRecord(ipfs_hash, content_type, ping_count, last_pinged ) {
+async function  insertIpfsHashRecord                    (ipfs_hash, content_type, ping_count, last_pinged ) {
     let promise = new Promise(async function(returnfn) {
         try {
             dbsearch.serialize(function() {
@@ -2944,7 +2945,7 @@ function        callDriverMethod(msg) {
         }
     })
 }
-function        callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
+function        callDriverMethodPart2                   ( findComponentArgs, args, callbackFn ) {
 //------------------------------------------------------------------------------
 //
 //
@@ -2964,7 +2965,7 @@ function        callDriverMethodPart2( findComponentArgs, args, callbackFn ) {
         caller_call_id:      -1
     });
 }
-function        return_add_local_driver_results_msg(msg) {
+function        return_add_local_driver_results_msg     (msg) {
 //------------------------------------------------------------------------------
 //
 //
@@ -2987,7 +2988,7 @@ function        return_add_local_driver_results_msg(msg) {
 
     newres = null;
 }
-function        ipcChildReturningCallComponentResponse(msg) {
+function        ipcChildReturningCallComponentResponse  (msg) {
 //------------------------------------------------------------------------------
 //
 //
@@ -3333,7 +3334,7 @@ function        startNode (msg) {
         })
 
 }
-async function  executeSqliteForApp( args ) {
+async function  executeSqliteForApp                                         ( args ) {
     if (!args.sql) {
         return []
     }
@@ -3381,35 +3382,6 @@ async function  executeSqliteForApp( args ) {
 
     let res = await getSqlResults
     return res
-}
-function        ipc_child_returning_uploaded_app_as_file_in_child_response(msg) {
-    /*
-    _____________________________________________________________________________
-    |                                                                           |
-    |       ipc_child_returning_uploaded_app_as_file_in_child_response          |
-    |                                                                           |
-    |___________________________________________________________________________|
-    Function description
-    __________
-    | PARAMS |______________________________________________________________
-    |
-    |     msg    Some text
-    |     ---
-    |________________________________________________________________________ */
-
-      outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
-
-      // ______
-      // Server  --1 data item-->  Browser
-      // ______
-      //
-      sendOverWebSockets({
-                            type:                 "uploaded_app_as_file_from_server",
-                            code_id:               msg.code_id,
-                            base_component_id:     msg.base_component_id,
-                            client_file_upload_id: msg.client_file_upload_id
-
-          });
 }
 async function  evalLocalSystemDriver(location, options) {
 //------------------------------------------------------------------------------
