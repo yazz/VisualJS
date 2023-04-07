@@ -1520,23 +1520,24 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |     ------  The commit ID of the app to load
                     |
                     |________________________________________________________________________ */
-                let mm = this
+                    let mm = this
 
-                globalEventBus.$emit('hide_settings', {});
+                    globalEventBus.$emit('hide_settings', {});
 
-                await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
+                    await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
 
-                if (codeId) {
-                    await loadUiComponentsV4([{codeId: codeId}])
-                } else if (baseComponentId) {
-                    if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
-                        await loadUiComponentsV4([{baseComponentId: baseComponentId}])
+                    if (codeId) {
+                        debugger
+                        await loadUiComponentsV4([{codeId: codeId}])
+                    } else if (baseComponentId) {
+                        if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
+                            await loadUiComponentsV4([{baseComponentId: baseComponentId}])
+                        }
                     }
-                }
 
-                this.editingBaseComponentId             = baseComponentId;
-                mm.currentlyHighlightedBaseComponentId  = null
-                mm.refresh ++
+                    this.editingBaseComponentId             = baseComponentId;
+                    mm.currentlyHighlightedBaseComponentId  = null
+                    mm.refresh ++
                 }
             }
         }
