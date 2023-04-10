@@ -1937,7 +1937,7 @@ Pushlist
                                    v-bind:refresh='refresh'
                                    class='btn btn-info'
                                    v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "left: " + ((getLeft(active_form,active_component_index)) - 70) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                    zzz=""
