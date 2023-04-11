@@ -1853,7 +1853,7 @@ Pushlist
                                      v-bind:refresh='refresh'
                                      class='btn btn-danger'
                                      v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "left: " + ((getLeft(active_form,active_component_index)) - 70) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                      v-on:click='$event.stopPropagation();deleteComponent(active_component_index)'>
@@ -1912,7 +1912,7 @@ Pushlist
                                      class='btn btn-info'
                                      v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
                                         "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width / 2) - 15) + "px;" +
-                                        "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 18) +  "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                         zzz="//zzz"
                                      v-on:click='GLOBALS.lastEditingAppBaseComponentId = GLOBALS.editingAppBaseComponentId; GLOBALS.lastEditingAppCodeId = GLOBALS.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
@@ -1937,8 +1937,8 @@ Pushlist
                                    v-bind:refresh='refresh'
                                    class='btn btn-info'
                                    v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) - 70) + "px;" +
-                                        "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
+                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                        "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                    zzz=""
                                    v-on:click='GLOBALS.lastEditingAppBaseComponentId = GLOBALS.editingAppBaseComponentId; GLOBALS.lastEditingAppCodeId = GLOBALS.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
