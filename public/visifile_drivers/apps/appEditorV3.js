@@ -538,16 +538,6 @@ ___________
                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
     
-    
-                <!-- ----------------------------------------------
-                Link to full screen app
-                ---------------------------------------------- -->
-                <div 
-                    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                    >
-                    Full screen mode
-                </div>
-
 
               
                 <!-- ----------------------------------------------
