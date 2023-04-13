@@ -558,16 +558,14 @@ ___________
                 </button>
     
 
-
-                
                 <!-- ----------------------------------------------
                 App Preview Address Bar 
                 ---------------------------------------------- -->
                 <input
                     readonly
                     style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                    v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                    v-on:click='if (preview_type=="app") {let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();}'
+                    v-bind:value='(preview_type=="app")?location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html":"Previewing " + base_component_id'>
                 </input>
                 
                 
