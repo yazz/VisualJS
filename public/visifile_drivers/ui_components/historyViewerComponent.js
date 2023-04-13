@@ -295,6 +295,7 @@ load_once_from_file(true)
          //
          // -----------------------------------------------------
          setText: async function (textValue) {
+             debugger
              let mm =  this
              this.text = textValue
              if (!isValidObject(this.text)) {

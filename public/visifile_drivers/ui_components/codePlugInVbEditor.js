@@ -5237,7 +5237,7 @@ ${origCode}
                          parentName    = parentContainer.name
                      }
 
-                     debugger
+                     //debugger
                      await this.addComponentV2(  offsetX,
                                          offsetY,
                                          data,
