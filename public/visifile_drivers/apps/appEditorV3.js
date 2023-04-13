@@ -563,6 +563,7 @@ ___________
                 ---------------------------------------------- -->
                 <input
                     readonly
+                    v-bind:disabled="(preview_type!='app')"
                     style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                     v-on:click='if (preview_type=="app") {let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();}'
                     v-bind:value='(preview_type=="app")?location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html":"Previewing " + base_component_id'>
@@ -573,11 +574,12 @@ ___________
                 
                 
                 <!-- ----------------------------------------------
-                Saved HTML button
+                "Save As HTML" button
                 ---------------------------------------------- -->
                 <a        
-                    v-on:click='if (!sqlite_data_saved_in_html) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{allowAppToWorkOffline: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
+                    v-on:click='if ((preview_type=="app") && (!sqlite_data_saved_in_html)) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{allowAppToWorkOffline: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
                     v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
+                    v-if="(preview_type=='app')"
                     v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                     v-on:mouseleave='setInfo(null)'
                     v-bind:disabled='sqlite_data_saved_in_html?false:""'
@@ -595,6 +597,7 @@ ___________
                 
                 <a          
                     v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GLOBALS.editingAppBaseComponentId + ".html"'
+                    v-if="(preview_type=='app')"
                     download
                     id="saveHTMLButton"
                     type="button"
@@ -611,7 +614,7 @@ Embed button
 
 ---------------------------------------------- -->
               <a   v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
-                   v-if="show_download_save"
+                   v-if="show_download_save && (preview_type=='app')"
                    v-on:click='setTimeout(async function(){await switchEditor("embed_app_component", {})},100)'
                    v-on:mouseenter='setInfo("Download the JS .yazz file for this app")'
                    v-on:mouseleave='setInfo(null)'
