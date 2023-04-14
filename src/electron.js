@@ -4696,7 +4696,7 @@ async function  startServices                           (  ) {
         /*
         ________________________________________
         |                                      |
-        |       POST /http_post_save_debug_text          |
+        |    POST /http_post_save_debug_text   |
         |                                      |
         |______________________________________|
         Function description
@@ -4717,7 +4717,6 @@ async function  startServices                           (  ) {
         let fileLocation    = req.body.fileLocation
         fs.writeFileSync(fileLocation, textInput);
 
-//zzz
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({status: "OK"}))
     })
@@ -4807,7 +4806,7 @@ async function  startServices                           (  ) {
         |________________________________________________________________________ */
         let pipelineFileName        = req.body.pipelineFileName
         let fileOut                 = await yz.getPipelineCode({pipelineFileName: pipelineFileName })
-//zzz
+
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({value: fileOut}))
     })
@@ -4912,25 +4911,43 @@ async function  startServices                           (  ) {
             }
         ));
     });
+    //zzz
     app.get(    '/http_get_load_version_history_v2',                        async function (req, res) {
+        /*
+        _______________________________________________
+        |                                             |
+        |    POST /http_get_load_version_history_v2   |
+        |                                             |
+        |_____________________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     id            The base component ID of the component
+        |     --
+        |
+        |     commit_id     The commit ID of the component
+        |     ---------
+        |
+        |________________________________________________________________________ */
 
         console.log("app.post('/http_get_load_version_history_v2'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let topApps = []
-        let baseComponentIdToFind = req.query.id;
-        let sessionId = await getSessionId(req)
-        let lastCommitId = req.query.commit_id
-        let currentReturnRows = []
 
-        let selectedCommitRow = await getRowForCommit(lastCommitId)
+        let baseComponentIdToFind   = req.query.id;
+        let sessionId               = await getSessionId(req)
+        let lastCommitId            = req.query.commit_id
+        let currentReturnRows       = []
+        let selectedCommitRow       = await getRowForCommit(lastCommitId)
+
         currentReturnRows.push(selectedCommitRow)
         let returnRows = await getPreviousCommitsFor(
             {
-                commitId: selectedCommitRow.id
+                commitId:       selectedCommitRow.id
                 ,
                 parentCommitId: selectedCommitRow.parent_commit_id
                 ,
-                returnRows: currentReturnRows
+                returnRows:     currentReturnRows
             })
 
 
