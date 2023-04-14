@@ -4931,11 +4931,6 @@ async function  startServices                           (  ) {
         |
         |________________________________________________________________________ */
 
-        console.log("app.post('/http_get_load_version_history_v2'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-
-        let baseComponentIdToFind   = req.query.id;
-        let sessionId               = await getSessionId(req)
         let lastCommitId            = req.query.commit_id
         let currentReturnRows       = []
         let selectedCommitRow       = await getRowForCommit(lastCommitId)
@@ -4952,11 +4947,7 @@ async function  startServices                           (  ) {
 
 
         res.writeHead(200, {'Content-Type': 'application/json'});
-
-        res.end(JSON.stringify(
-            returnRows
-        ));
-
+        res.end(JSON.stringify(   returnRows   ));
     });
     app.get(    '/http_get_load_version_future',                            async function (req, res) {
 
