@@ -8,361 +8,267 @@ load_once_from_file(true)
     let editorDomId     = uuidv4()
     let editor          = null
 
-
     Vue.component("history_viewer_component", {
 
-      // ----------------------------------------------------------------------
-      //
-      //                                     DATA
-      //
-      // ----------------------------------------------------------------------
-
-      data: function () {
+        data: function () {
+        /*
+        ________________________________________
+        |                                      |
+        |                DATA                  |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     NONE
+        |     ----
+        |________________________________________________________________________ */
         return {
-            text:           args.text
-            ,
-
-            commitCode: null
-            ,
-            parentCommitCode: null
-            ,
-            diffText: ""
-            ,
-
-            showCode: "details"
-            ,
-
-
-            firstCommitTimestamps: {}
-            ,
-
-
-            previewedCommitId: null
-            ,
-
-            lockedSelectedCommit: null
-            ,
-
-            currentCommithashId: null
-            ,
-
-
-            baseComponentId: null
-            ,
-
-
-            data: {}
-            ,
-
-
-            timeline: null
-            ,
-
-
-
-            timelineData: new vis.DataSet([])
-            ,
-
-
-
-            commitsV3: {}
-            ,
-
-
-            currentGroupId: 1
-            ,
-
-
-
-            groupColors: {
-                1: {normal: "background-color: lightblue", highlighted: "background-color: blue;color:white;"},
-                2: {normal: "background-color: pink", highlighted: "background-color: red;color:white;"},
-                3: {normal: "background-color: lightgray", highlighted: "background-color: gray;color:white;"},
-                4: {normal: "background-color: yellow", highlighted: "background-color: orange;color:white;"},
-                5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
-            }
-            ,
-
-
-
-            highlightedItems: {}
-            ,
-            inUnHighlightAll: false
-            ,
-
-
-
-            processingMouse: false
-
-
-
-
+        text:                   args.text,
+        commitCode:             null,
+        parentCommitCode:       null,
+        diffText:               "",
+        showCode:               "details",
+        firstCommitTimestamps:  {},
+        previewedCommitId:      null,
+        lockedSelectedCommit:   null,
+        currentCommithashId:    null,
+        baseComponentId:        null,
+        data:                   {},
+        timeline:               null,
+        timelineData:           new vis.DataSet([]),
+        commitsV3:              {},
+        currentGroupId:         1,
+        groupColors:            {
+            1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
+            2: {normal: "background-color: pink",       highlighted: "background-color: red;color:white;"},
+            3: {normal: "background-color: lightgray",  highlighted: "background-color: gray;color:white;"},
+            4: {normal: "background-color: yellow",     highlighted: "background-color: orange;color:white;"},
+            5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
+        },
+        highlightedItems:       {},
+        inUnHighlightAll:       false,
+        processingMouse:        false
         }
-      },
-
-
-
-        // ----------------------------------------------------------------------
-        //
-        //                                    HTML
-        //
-        // ----------------------------------------------------------------------
-
+        },
         template: `<div style='background-color:white; ' >
-
-                      <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
-                        <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
-                        </slot>
-                      </div>
-
-
-                      <!-- ---------------------------------------------------------------------------------------------
-                      Show the new style view 
-                      --------------------------------------------------------------------------------------------- -->
-                      <div  style='overflow: scroll;height:75%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>
-                                 
-                        <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
-
-                          Component History
-                        </div>
-
-
-                        <div style="margin: 10px;"
-                             v-on:mouseenter="onlyHighlightLockedItem()">
-
-                          <button  type=button class='btn btn-dark'
-                                   style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                                   v-on:click="gotoHome()" >Home</button>
-                                   
-                                   
-                          <button  type=button class='btn  btn-primary'
-                                   style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                                   v-on:click="gotoParent()" >&lt;</button>
-
-                          <button  type=button class='btn  btn-primary'
-                                   style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                                   v-on:click="gotoChild()" >&gt;</button>
-
-                          <button  type=button class='btn  btn-primary'
-                                   style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                                   v-on:click="showDetails()" >Details</button>
-
-
-                            <button  type=button class='btn  btn-primary'
-                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                                     v-on:click="showCommit()" >Code</button>
-    
-                            <button  type=button class='btn  btn-info'
-                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                     v-on:click="diffCode()" >Diff</button>
-    
-                            <button  type=button class='btn  btn-info'
-                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                     v-on:click="checkoutCode()" >Checkout</button>
-
         
-                            <button  type=button class='btn  btn-info' 
-                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                     v-if="false"
-                                       v-on:click="calculateBranchStrength()" >Expermintal - caclulate branch strength</button>
-    
-
-                        </div>
-
-                          <div id="visualization_history_timeline">
-                          </div>
-                    
-
-                          <div  id="visualization_commit_details"
-                                style="padding: 10px;">
-                                
-                            <div v-if="(previewedCommitId != null) && (commitsV3[previewedCommitId])">
-                              
-                              <div v-if="showCode=='details'">
-
-                                <div><b>Number of Changes:</b> {{commitsV3[previewedCommitId].num_changes}}</div>
-                                <div v-if="commitsV3[previewedCommitId].changes">
-                                  <div style="margin-left: 80px;"
-                                       v-for="(item,i) in commitsV3[previewedCommitId].changes.slice().reverse()">
-                                    <span v-if="i==(commitsV3[previewedCommitId].changes.length - 1)"><b>First commit</b> - </span>
-                                    <span v-if="i!=(commitsV3[previewedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[previewedCommitId], item.timestamp)) }}</b> - </span>
-
-                                    {{ item.code_change_text }}
-                                  </div>
-                                </div>
-                                <br/>
-
-                                    <div><b>Tags:</b> {{commitsV3[previewedCommitId].code_tag_list.length}}</div>
-                                      <div style="margin-left: 80px;"
-                                           v-for="(item,i) in commitsV3[previewedCommitId].code_tag_list">
-                                        {{ item.code_tag }}
-                                        <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
-                                      </div>
-
-                                  <div v-bind:style="commitsV3[previewedCommitId].id==currentCommithashId?'color:red;fpnt-style:bold;':''">
-                                      <b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}
-                                      <b v-if="commitsV3[previewedCommitId].id==currentCommithashId"> (Current commit)</b>
-                                      </div>
-                                  <div><b>Time:</b> {{msToTime(commitsV3[previewedCommitId].timestamp,{timeOnly: true})}} </div>
-                                  <div><b>User ID:</b> {{commitsV3[previewedCommitId].user_id}}</div>
-                                  <div><b>Parent:</b> {{commitsV3[previewedCommitId].parent_id}}</div>
-                                  <div><b>Type:</b> {{commitsV3[previewedCommitId].base_component_id}}</div>
-                                  <div><b>Descendants:</b>
-                                      <span v-if="commitsV3[previewedCommitId].descendants.length==1">
-                                        ({{commitsV3[previewedCommitId].descendants.length}})
-                                      </span>
-                                    <span v-if="commitsV3[previewedCommitId].descendants.length>1" style="color:red;">
-                                        ({{commitsV3[previewedCommitId].descendants.length}})
-                                      </span>
-                                       
-                                    <span v-for='(descendant,index) in commitsV3[previewedCommitId].descendants'>
-                                      <a href="#"
-                                        v-on:click="jumpToCommitId(descendant.id)" 
-                                            >
-                                            {{descendant.id.substr(0,5)}}...
-                                      </a>  
-                                    </span>
-    
-                                  </div>
-
-
-                              </div>
-
-
-
-
-                              <div style="margin-top: 30px;">
-                                    <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
-    
-                                    <pre  v-if="showCode=='diff'"
-                                          v-html="diffText"></pre>
-                              </div>
-                              
-                              
-                            </div>
-
-                          </div>
+                  <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
+                    <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
+                    </slot>
+                  </div>
+        
+        
+                  <!-- ---------------------------------------------------------------------------------------------
+                  Show the new style view 
+                  --------------------------------------------------------------------------------------------- -->
+                  <div  style='overflow: scroll;height:75%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>
+                             
+                    <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
+        
+                      Component History
+                    </div>
+        
+        
+                    <div style="margin: 10px;"
+                         v-on:mouseenter="onlyHighlightLockedItem()">
+        
+                      <button  type=button class='btn btn-dark'
+                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                               v-on:click="gotoHome()" >Home</button>
+                               
+                               
+                      <button  type=button class='btn  btn-primary'
+                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                               v-on:click="gotoParent()" >&lt;</button>
+        
+                      <button  type=button class='btn  btn-primary'
+                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                               v-on:click="gotoChild()" >&gt;</button>
+        
+                      <button  type=button class='btn  btn-primary'
+                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                               v-on:click="showDetails()" >Details</button>
+        
+        
+                        <button  type=button class='btn  btn-primary'
+                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                                 v-on:click="showCommit()" >Code</button>
+        
+                        <button  type=button class='btn  btn-info'
+                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                 v-on:click="diffCode()" >Diff</button>
+        
+                        <button  type=button class='btn  btn-info'
+                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                 v-on:click="checkoutCode()" >Checkout</button>
+        
+        
+                        <button  type=button class='btn  btn-info' 
+                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                                 v-if="false"
+                                   v-on:click="calculateBranchStrength()" >Expermintal - caclulate branch strength</button>
+        
+        
+                    </div>
+        
+                      <div id="visualization_history_timeline">
                       </div>
+                
+        
+                      <div  id="visualization_commit_details"
+                            style="padding: 10px;">
+                            
+                        <div v-if="(previewedCommitId != null) && (commitsV3[previewedCommitId])">
+                          
+                          <div v-if="showCode=='details'">
+        
+                            <div><b>Number of Changes:</b> {{commitsV3[previewedCommitId].num_changes}}</div>
+                            <div v-if="commitsV3[previewedCommitId].changes">
+                              <div style="margin-left: 80px;"
+                                   v-for="(item,i) in commitsV3[previewedCommitId].changes.slice().reverse()">
+                                <span v-if="i==(commitsV3[previewedCommitId].changes.length - 1)"><b>First commit</b> - </span>
+                                <span v-if="i!=(commitsV3[previewedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[previewedCommitId], item.timestamp)) }}</b> - </span>
+        
+                                {{ item.code_change_text }}
+                              </div>
+                            </div>
+                            <br/>
+        
+                                <div><b>Tags:</b> {{commitsV3[previewedCommitId].code_tag_list.length}}</div>
+                                  <div style="margin-left: 80px;"
+                                       v-for="(item,i) in commitsV3[previewedCommitId].code_tag_list">
+                                    {{ item.code_tag }}
+                                    <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
+                                  </div>
+        
+                              <div v-bind:style="commitsV3[previewedCommitId].id==currentCommithashId?'color:red;fpnt-style:bold;':''">
+                                  <b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}
+                                  <b v-if="commitsV3[previewedCommitId].id==currentCommithashId"> (Current commit)</b>
+                                  </div>
+                              <div><b>Time:</b> {{msToTime(commitsV3[previewedCommitId].timestamp,{timeOnly: true})}} </div>
+                              <div><b>User ID:</b> {{commitsV3[previewedCommitId].user_id}}</div>
+                              <div><b>Parent:</b> {{commitsV3[previewedCommitId].parent_id}}</div>
+                              <div><b>Type:</b> {{commitsV3[previewedCommitId].base_component_id}}</div>
+                              <div><b>Descendants:</b>
+                                  <span v-if="commitsV3[previewedCommitId].descendants.length==1">
+                                    ({{commitsV3[previewedCommitId].descendants.length}})
+                                  </span>
+                                <span v-if="commitsV3[previewedCommitId].descendants.length>1" style="color:red;">
+                                    ({{commitsV3[previewedCommitId].descendants.length}})
+                                  </span>
+                                   
+                                <span v-for='(descendant,index) in commitsV3[previewedCommitId].descendants'>
+                                  <a href="#"
+                                    v-on:click="jumpToCommitId(descendant.id)" 
+                                        >
+                                        {{descendant.id.substr(0,5)}}...
+                                  </a>  
+                                </span>
+        
+                              </div>
+        
+        
+                          </div>
+        
+        
+        
+        
+                          <div style="margin-top: 30px;">
+                                <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
+        
+                                <pre  v-if="showCode=='diff'"
+                                      v-html="diffText"></pre>
+                          </div>
+                          
+                          
+                        </div>
+        
+                      </div>
+                  </div>
+        
+        
+        
+        
+              </div>`,
+        mounted: async function() {
+             //disableAutoSave     = true
+        },
+        methods: {
+            getText: async function () {
+                 // -----------------------------------------------------
+                 //                      getText
+                 //
+                 // This is called to get the SQL definitions
+                 //
+                 //
+                 //
+                 // -----------------------------------------------------
+                 if (!isValidObject(this.text)) {
+                     return null
+                 }
+
+                 return this.text
+             },
+            setText: async function (textValue) {
+                 // -----------------------------------------------------
+                 //                      setText
+                 //
+                 // This is called to set the SQL
+                 //
+                 //
+                 //
+                 // -----------------------------------------------------
+                 debugger
+                 let mm     =  this
+                 this.text  = textValue
+                 if (!isValidObject(this.text)) {
+                     return
+                 }
 
 
+                 this.baseComponentId = yz.getValueOfCodeString(this.text, "base_component_id")
 
-
-                  </div>`
-     ,
-
-
-
-    // ----------------------------------------------------------------------
-    //
-    //                                 mounted
-    //
-    // ----------------------------------------------------------------------
-     mounted: async function() {
-         //disableAutoSave     = true
-
-     },
-     methods: {
-
-
-         // -----------------------------------------------------
-         //                      getText
-         //
-         // This is called to get the SQL definitions
-         //
-         //
-         //
-         // -----------------------------------------------------
-         getText: async function () {
-             if (!isValidObject(this.text)) {
-                 return null
-             }
-
-             return this.text
-         }
-         ,
-
-
-
-
-
-
-         // -----------------------------------------------------
-         //                      setText
-         //
-         // This is called to set the SQL
-         //
-         //
-         //
-         // -----------------------------------------------------
-         setText: async function (textValue) {
-             debugger
-             let mm =  this
-             this.text = textValue
-             if (!isValidObject(this.text)) {
-                 return
-             }
-
-
-
-             this.baseComponentId = yz.getValueOfCodeString(this.text, "base_component_id")
-
-             //debugger
-             this.currentCommithashId = await this.getCurrentCommitId()
-             await this.setupTimeline()
-             setTimeout(async function(){
-                await mm.calculateBranchStrength()
-                 await mm.getHistory_v3()
-             })
-
-
-
-
-
-
-         }
-         ,
-
-
-
-
-
-
-         // ----------------------------------------------------------------------
-         //
-         //                            getCurrentCommitId
-         //
-         // ----------------------------------------------------------------------
-         getCurrentCommitId: async function () {
-             //debugger
-             let mm = this
-             let retVal = null
-             retval = await getIpfsHash( mm.text )
-             return retval
-         }
-         ,
-
-
-
-         // ----------------------------------------------------------------------
-         //
-         //                            setupTimeline
-         //
-         // ----------------------------------------------------------------------
-         setupTimeline: async function () {
-             let mm = this
-             //
-             // get the earliest commit
-             //
-             if (mm.timeline != null ) {
-
+                 //debugger
+                 this.currentCommithashId = await this.getCurrentCommitId()
+                 await this.setupTimeline()
+                 setTimeout(async function(){
+                    await mm.calculateBranchStrength()
+                     await mm.getHistory_v3()
+                 })
+             },
+            getCurrentCommitId: async function () {
+                 // ----------------------------------------------------------------------
+                 //
+                 //                            getCurrentCommitId
+                 //
+                 // ----------------------------------------------------------------------
+                 //debugger
+                 let mm = this
+                 let retVal = null
+                 retval = await getIpfsHash( mm.text )
+                 return retval
+            },
+            setupTimeline: async function () {
+                // ----------------------------------------------------------------------
+                //
+                //                            setupTimeline
+                //
+                // ----------------------------------------------------------------------
+                let mm = this
+                //
+                // get the earliest commit
+                //
+                if (mm.timeline != null ) {
                  mm.timeline.destroy()
                  mm.timeline = null
-             }
-             mm.timelineData = new vis.DataSet([])
-             mm.currentGroupId= 1
+                }
+                mm.timelineData = new vis.DataSet([])
+                mm.currentGroupId= 1
 
 
-             setTimeout(async function() {
+                setTimeout(async function() {
                  let container = document.getElementById('visualization_history_timeline');
 
 
@@ -370,11 +276,9 @@ load_once_from_file(true)
                  let timeNow = new Date().getTime()
                  let time2MinsAgo = new Date().getTime() - (2 * 60 * 1000)
                  let options = {
-                     zoomable: true
-                     ,
-                     start: time2MinsAgo
-                     ,
-                     end: timeNow
+                     zoomable:  true,
+                     start:     time2MinsAgo,
+                     end:       timeNow
                  };
                  let groups = new vis.DataSet()
                  for (let rew = 1; rew < 6; rew++) {
@@ -432,12 +336,9 @@ load_once_from_file(true)
 
 
 
-             },100)
-
-         }
-         ,
-
-         previewItemDetails: async function(commitId) {
+                },100)
+            },
+            previewItemDetails: async function(commitId) {
             try {
                 let mm = this
                 if (commitId) {
@@ -467,11 +368,8 @@ load_once_from_file(true)
             }
 
 
-         }
-         ,
-
-
-         selectItemDetails: async function(commitId) {
+         },
+            selectItemDetails: async function(commitId) {
          //debugger
              let mm = this
              mm.lockedSelectedCommit = commitId
@@ -486,18 +384,14 @@ load_once_from_file(true)
                      }
                  }
              }
-         }
-         ,
-
-         onlyHighlightLockedItem: async function() {
+         },
+            onlyHighlightLockedItem: async function() {
              //debugger
              let mm = this
              mm.highlightItem(mm.lockedSelectedCommit)
              mm.unHighlightAllExceptLockedItem()
-         }
-         ,
-
-         unHighlightAllExceptLockedItem: async function(unhighlightLockedItem) {
+         },
+            unHighlightAllExceptLockedItem: async function(unhighlightLockedItem) {
              //debugger
              let mm = this
             if (mm.inUnHighlightAll) {
@@ -527,10 +421,8 @@ load_once_from_file(true)
                  }
              }
              mm.inUnHighlightAll = false
-         }
-         ,
-
-         highlightItem: async function(commitId, options) {
+         },
+            highlightItem: async function(commitId, options) {
              let mm = this
              try {
                  let itemStyle = ""
@@ -555,79 +447,69 @@ load_once_from_file(true)
                  //debugger
              } finally {
              }
-         }
-         ,
+         },
+            renderCommitsToTimeline: async function () {
+                 // ----------------------------------------------------------------------
+                 //
+                 //                            render commits to timeline
+                 //
+                 // ----------------------------------------------------------------------
+                 let mm = this
+                //debugger
 
-
-         // ----------------------------------------------------------------------
-         //
-         //                            render commits to timeline
-         //
-         // ----------------------------------------------------------------------
-         renderCommitsToTimeline: async function () {
-             let mm = this
-//debugger
-
-            let listOfCommits = Object.keys(mm.commitsV3)
-            let earliestTimestamp = null
-            let earliestCommit = null
-            for (const commitKey of listOfCommits) {
-                let thisCommit = mm.commitsV3[commitKey]
-                if (earliestTimestamp == null) {
-                    earliestTimestamp = thisCommit.timestamp
-                    earliestCommit = commitKey
-                } else if ( thisCommit.timestamp < earliestTimestamp) {
-                    earliestTimestamp = thisCommit.timestamp
-                    earliestCommit = commitKey
+                let listOfCommits = Object.keys(mm.commitsV3)
+                let earliestTimestamp = null
+                let earliestCommit = null
+                for (const commitKey of listOfCommits) {
+                    let thisCommit = mm.commitsV3[commitKey]
+                    if (earliestTimestamp == null) {
+                        earliestTimestamp = thisCommit.timestamp
+                        earliestCommit = commitKey
+                    } else if ( thisCommit.timestamp < earliestTimestamp) {
+                        earliestTimestamp = thisCommit.timestamp
+                        earliestCommit = commitKey
+                    }
                 }
-            }
 
 
-            //
-            // render the timeline items
-            //
-            await mm.renderCommit(earliestCommit)
+                //
+                // render the timeline items
+                //
+                await mm.renderCommit(earliestCommit)
+            },
+            renderCommit: async function (commitId) {
+                // ----------------------------------------------------------------------
+                //
+                //                 renderCommit
+                //
+                // ----------------------------------------------------------------------
+                let mm         = this
+                let commitItem = mm.commitsV3[commitId]
+                let itemStyle  = ""
 
-         }
-         ,
-
-
-
-
-
-         // ----------------------------------------------------------------------
-         //
-         //                 renderCommit
-         //
-         // ----------------------------------------------------------------------
-         renderCommit: async function (commitId) {
-             let mm         = this
-             let commitItem = mm.commitsV3[commitId]
-             let itemStyle  = ""
-
-             if (!commitItem) {
+                if (!commitItem) {
                 return
-             }
+                }
 
-             if (commitItem.parent_id) {
+                if (commitItem.parent_id) {
                 let parentCommitItem = mm.commitsV3[commitItem.parent_id]
                 if (parentCommitItem) {
                     if (parentCommitItem.base_component_id != commitItem.base_component_id) {
                         mm.currentGroupId ++
                     }
                 }
-             }
+                }
 
-             if (commitItem.descendants && (commitItem.descendants.length > 1)) {
+                if (commitItem.descendants && (commitItem.descendants.length > 1)) {
                  itemStyle += "font-weight: bold;"
-             }
-             itemStyle += mm.groupColors[mm.currentGroupId].normal
+                }
+                itemStyle += mm.groupColors[mm.currentGroupId].normal
 
 
-             let mainContent = commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):"")
-             let extraContent = ""
-             //debugger
-             if (commitItem.code_tag_list) {
+                let mainContent = commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):"")
+                let extraContent = ""
+                //debugger
+                if (commitItem.code_tag_list) {
                  for (codeTagItem of commitItem.code_tag_list) {
                      if (codeTagItem.code_tag =="TIP") {
                          extraContent = ", TIP"
@@ -636,8 +518,8 @@ load_once_from_file(true)
                          }
                      }
                  }
-             }
-             mm.timelineData.add(
+                }
+                mm.timelineData.add(
                  {
                      id:        commitItem.id,
                      content:   mainContent + extraContent,
@@ -646,34 +528,29 @@ load_once_from_file(true)
                      style:     itemStyle
                  });
 
-             if (commitItem.descendants) {
+                if (commitItem.descendants) {
                  for (const descendant of commitItem.descendants) {
                      if (mm.commitsV3[descendant.id]) {
                         mm.renderCommit(descendant.id)
                      }
                  }
-             }
-         }
-         ,
-
-
-
-
-         // ----------------------------------------------------------------------
-         //
-         //                 get the history of this commit going backwards
-         //
-         // ----------------------------------------------------------------------
-         getHistory_v3: async function () {
-             //debugger
-             let mm = this
-             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_history_v2?" +
+                }
+            },
+            getHistory_v3: async function () {
+                // ----------------------------------------------------------------------
+                //
+                //                 get the history of this commit going backwards
+                //
+                // ----------------------------------------------------------------------
+                //debugger
+                let mm = this
+                let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_history_v2?" +
                  new URLSearchParams({
                      id: mm.baseComponentId,
                      commit_id: mm.currentCommithashId
                  })
 
-             let promise = new Promise(async function (returnfn) {
+                let promise = new Promise(async function (returnfn) {
                  fetch(openfileurl, {
                      method: 'get',
                      credentials: "include"
@@ -689,37 +566,27 @@ load_once_from_file(true)
                          //error block
                          returnfn()
                      })
-             })
+                })
 
-             let retval = await promise
-             return retval
+                let retval = await promise
+                return retval
 
-         }
-         ,
+            },
+            findFutureCommits: async function (commitId) {
+                // ----------------------------------------------------------------------
+                //
+                //                            findFutureCommits
+                //
+                // ----------------------------------------------------------------------
+                //debugger
+                let mm = this
 
-
-
-
-
-
-
-
-
-         // ----------------------------------------------------------------------
-         //
-         //                            findFutureCommits
-         //
-         // ----------------------------------------------------------------------
-         findFutureCommits: async function (commitId) {
-             //debugger
-             let mm = this
-
-             let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_future?" +
+                let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_future?" +
                  new URLSearchParams({
                      commit_id: commitId
                  })
 
-             let promise = new Promise(async function (returnfn) {
+                let promise = new Promise(async function (returnfn) {
                  fetch(openfileurl, {
                      method: 'get',
                      credentials: "include"
@@ -743,131 +610,107 @@ load_once_from_file(true)
                      //error block
                      returnfn()
                  })
-             })
-             let retval = await promise
-             return retval
+                })
+                let retval = await promise
+                return retval
 
-         }
-         ,
+            },
+            clearDetailsPane: async function() {
+            let mm = this
 
-
-         clearDetailsPane: async function() {
-             let mm = this
-
-             mm.commitCode = null
-             mm.parentCommitCode = null
-             mm.diffText = ""
-         }
-         ,
-
-
-
-         saveResponseToCommitData: async function(responseJson) {
+            mm.commitCode = null
+            mm.parentCommitCode = null
+            mm.diffText = ""
+            },
+            saveResponseToCommitData: async function(responseJson) {
             let mm = this
             //debugger
-             for (let rt = 0; rt < responseJson.length; rt++) {
+            for (let rt = 0; rt < responseJson.length; rt++) {
 
-                 let itemStyle = ""
-                 if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
-                     itemStyle += "background-color:pink;"
-                 }
+            let itemStyle = ""
+            if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
+             itemStyle += "background-color:pink;"
+            }
 
-                 mm.commitsV3[responseJson[rt].id] =
-                     {
-                         id: responseJson[rt].id,
-                         timestamp: responseJson[rt].creation_timestamp,
-                         num_changes: responseJson[rt].num_changes,
-                         changes: responseJson[rt].changes,
-                         user_id: responseJson[rt].user_id,
-                         base_component_id: responseJson[rt].base_component_id,
-                         descendants: responseJson[rt].descendants,
-                         parent_id: responseJson[rt].parent_commit_id,
-                         code_tag_list: responseJson[rt].code_tag_list
-                     }
-                 if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                     mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
-                 }
+            mm.commitsV3[responseJson[rt].id] =
+             {
+                 id: responseJson[rt].id,
+                 timestamp: responseJson[rt].creation_timestamp,
+                 num_changes: responseJson[rt].num_changes,
+                 changes: responseJson[rt].changes,
+                 user_id: responseJson[rt].user_id,
+                 base_component_id: responseJson[rt].base_component_id,
+                 descendants: responseJson[rt].descendants,
+                 parent_id: responseJson[rt].parent_commit_id,
+                 code_tag_list: responseJson[rt].code_tag_list
              }
-        }
-        ,
-
-
-
-        showCommit: async function() {
+            if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+             mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+            }
+            }
+            },
+            showCommit: async function() {
             let mm = this
             mm.showCode='commit'
 
             let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
             mm.commitCode = responseJson.code
-        }
-        ,
-
-
-
-
-         showDetails: async function() {
-             let mm = this
-             mm.showCode='details'
-         }
-         ,
-
-
-         calculateBranchStrength: async function() {
-             //debugger
-             let mm = this
-             //alert("Checking out commit: " + mm.lockedSelectedCommit)
-             let responseJson = await getFromYazzReturnJson(
-                                        "/http_get_bulk_calculate_branch_strength_for_component",
-                                        {
-                                            commit_id:          mm.lockedSelectedCommit,
-                                            baseComponentId:    mm.baseComponentId
-                                            })
-             //let result = responseJson
-             //alert(JSON.stringify(result))
-         }
-         ,
-
-
-         checkoutCode: async function() {
-             //debugger
-             let mm = this
-             //alert("Checking out commit: " + mm.lockedSelectedCommit)
-             let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
-             mm.text = responseJson.code
-
-             mm.$root.$emit(
-                 'message', {
-                     type:   "force_raw_load",
-                     commitId: mm.lockedSelectedCommit
-                 })
-
-//zzz
+            },
+            showDetails: async function() {
+            let mm = this
+            mm.showCode='details'
+            },
+            calculateBranchStrength: async function() {
             //debugger
-             let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
-                {
-                    sha1sum:            mm.lockedSelectedCommit,
-                    baseComponentId:    mm.baseComponentId
-                })
+            let mm = this
+            //alert("Checking out commit: " + mm.lockedSelectedCommit)
+            let responseJson = await getFromYazzReturnJson(
+                                "/http_get_bulk_calculate_branch_strength_for_component",
+                                {
+                                    commit_id:          mm.lockedSelectedCommit,
+                                    baseComponentId:    mm.baseComponentId
+                                    })
+            //let result = responseJson
+            //alert(JSON.stringify(result))
+            },
+            checkoutCode: async function() {
+            //debugger
+            let mm = this
+            //alert("Checking out commit: " + mm.lockedSelectedCommit)
+            let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
+            mm.text = responseJson.code
 
-         }
-         ,
+            mm.$root.$emit(
+            'message', {
+             type:   "force_raw_load",
+             commitId: mm.lockedSelectedCommit
+            })
 
-        diffCode: async function() {
-        //debugger
+            //zzz
+            //debugger
+            let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
+            {
+            sha1sum:            mm.lockedSelectedCommit,
+            baseComponentId:    mm.baseComponentId
+            })
+
+            },
+            diffCode: async function() {
+            //debugger
             let mm = this
             mm.showCode = "diff"
 
             let commitId = mm.previewedCommitId
             if (!commitId) {
-                return
+            return
             }
             let commitItem = mm.commitsV3[commitId]
             if (!commitItem) {
-                return
+            return
             }
             let parentid = commitItem.parent_id
             if (!parentid) {
-                return
+            return
             }
             let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: commitId})
             mm.commitCode = responseJson.code
@@ -876,134 +719,105 @@ load_once_from_file(true)
 
 
             const one = mm.commitCode
-                other = mm.parentCommitCode,
-                color = '';
+            other = mm.parentCommitCode,
+            color = '';
 
             let spanHtml = ""
             const diff = Diff.diffLines(other, one)
             mm.diffText = ""
             diff.forEach((part) => {
-                // green for additions, red for deletions
-                // grey for common parts
-                const color = part.added ? 'green' :
-                    part.removed ? 'red' : 'grey';
-                spanHtml += "<span style='color: " + color + ";'>"
-                spanHtml += part.value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                spanHtml += "</span>"
-                mm.diffText += spanHtml
-                spanHtml = ""
+            // green for additions, red for deletions
+            // grey for common parts
+            const color = part.added ? 'green' :
+            part.removed ? 'red' : 'grey';
+            spanHtml += "<span style='color: " + color + ";'>"
+            spanHtml += part.value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            spanHtml += "</span>"
+            mm.diffText += spanHtml
+            spanHtml = ""
             });
 
 
+            },
+            gotoParent: async function () {
+                // -----------------------------------------------------
+                //                      gotoParent
+                //
+                // Go to the parent of the current history item
+                //
+                //
+                //
+                // -----------------------------------------------------
+
+                let mm = this
+                if (!mm.lockedSelectedCommit) {
+                return
+                }
+
+                let parentId = mm.commitsV3[mm.lockedSelectedCommit].parent_id
+                //alert("goto parent : " + parentId)
+                mm.timeline.moveTo(mm.commitsV3[parentId].timestamp)
+                await mm.selectItemDetails(parentId)
+                mm.highlightItem(parentId)
+                await mm.unHighlightAllExceptLockedItem()
+            },
+            gotoChild: async function () {
+                // -----------------------------------------------------
+                //                      gotoChild
+                //
+                // Go to the child of the current history item
+                //
+                //
+                //
+                // -----------------------------------------------------
+                let mm = this
+                if (!mm.lockedSelectedCommit) {
+                return
+                }
+
+                let descendants = mm.commitsV3[mm.lockedSelectedCommit].descendants
+                if (!descendants) {
+                return
+                }
+                if (descendants.length == 0) {
+                return
+                }
+                //alert("goto child : " + descendants[0].id)
+                let childId = descendants[0].id
+                mm.timeline.moveTo(mm.commitsV3[childId].timestamp)
+                await mm.selectItemDetails(childId)
+                mm.highlightItem(childId)
+                await mm.unHighlightAllExceptLockedItem()
+            },
+            jumpToCommitId: async function (commitId) {
+                // -----------------------------------------------------
+                //                      jumpToCommitId
+                //
+                //
+                // -----------------------------------------------------
+                let mm = this
+                mm.timeline.moveTo(mm.commitsV3[commitId].timestamp)
+                await mm.selectItemDetails(commitId)
+                mm.highlightItem(commitId)
+                await mm.unHighlightAllExceptLockedItem()
+            },
+            gotoHome: async function () {
+                // -----------------------------------------------------
+                //                      gotoHome
+                //
+                // Go to the current commid ID item
+                //
+                //
+                //
+                // -----------------------------------------------------
+
+                let mm = this
+
+                mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
+                await mm.selectItemDetails(mm.currentCommithashId)
+                mm.highlightItem(mm.currentCommithashId)
+                await mm.unHighlightAllExceptLockedItem()
+            }
         }
-
-
-
-
-
-
-        ,
-         // -----------------------------------------------------
-         //                      gotoParent
-         //
-         // Go to the parent of the current history item
-         //
-         //
-         //
-         // -----------------------------------------------------
-         gotoParent: async function () {
-
-             let mm = this
-             if (!mm.lockedSelectedCommit) {
-                return
-             }
-
-             let parentId = mm.commitsV3[mm.lockedSelectedCommit].parent_id
-             //alert("goto parent : " + parentId)
-             mm.timeline.moveTo(mm.commitsV3[parentId].timestamp)
-             await mm.selectItemDetails(parentId)
-             mm.highlightItem(parentId)
-             await mm.unHighlightAllExceptLockedItem()
-         }
-         ,
-
-
-
-
-         // -----------------------------------------------------
-         //                      gotoChild
-         //
-         // Go to the child of the current history item
-         //
-         //
-         //
-         // -----------------------------------------------------
-         gotoChild: async function () {
-             let mm = this
-             if (!mm.lockedSelectedCommit) {
-                 return
-             }
-
-             let descendants = mm.commitsV3[mm.lockedSelectedCommit].descendants
-             if (!descendants) {
-                return
-             }
-             if (descendants.length == 0) {
-                 return
-             }
-             //alert("goto child : " + descendants[0].id)
-             let childId = descendants[0].id
-             mm.timeline.moveTo(mm.commitsV3[childId].timestamp)
-             await mm.selectItemDetails(childId)
-             mm.highlightItem(childId)
-             await mm.unHighlightAllExceptLockedItem()
-         }
-         ,
-
-
-         // -----------------------------------------------------
-         //                      jumpToCommitId
-         //
-
-         //
-         // -----------------------------------------------------
-         jumpToCommitId: async function (commitId) {
-            let mm = this
-            mm.timeline.moveTo(mm.commitsV3[commitId].timestamp)
-            await mm.selectItemDetails(commitId)
-            mm.highlightItem(commitId)
-            await mm.unHighlightAllExceptLockedItem()
-         }
-         ,
-
-
-         // -----------------------------------------------------
-         //                      gotoHome
-         //
-         // Go to the current commid ID item
-         //
-         //
-         //
-         // -----------------------------------------------------
-         gotoHome: async function () {
-
-             let mm = this
-
-             mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
-             await mm.selectItemDetails(mm.currentCommithashId)
-             mm.highlightItem(mm.currentCommithashId)
-             await mm.unHighlightAllExceptLockedItem()
-         }
-
-
-
-     // ----------------------------------------------------------------------
-     //
-     //                           .... end of methods:
-     //
-     // ----------------------------------------------------------------------
-     }
     })
-
-
 }
