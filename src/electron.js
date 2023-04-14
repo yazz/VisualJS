@@ -3616,13 +3616,12 @@ async function  getRowForCommit                         (  commitId  ) {
     |     --------
     |________________________________________________________________________ */
 
-    let commitStructure = null
-    let thisCommit = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
-    let getFutureCommitsSql = "select  id  from   system_code  where  parent_id = ? "
-    let parentCommits = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
-
-    let getCodeTagsSql= "  select  code_tag, main_score  from  code_tags_table  where fk_system_code_id = ?  "
-    let codeTags = await yz.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
+    let commitStructure         = null
+    let thisCommit              = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
+    let getFutureCommitsSql     = "select  id  from   system_code  where  parent_id = ? "
+    let parentCommits           = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
+    let getCodeTagsSql          = "select  code_tag, main_score  from  code_tags_table  where fk_system_code_id = ?  "
+    let codeTags                = await yz.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
 
     if (thisCommit) {
         let changesList = []
