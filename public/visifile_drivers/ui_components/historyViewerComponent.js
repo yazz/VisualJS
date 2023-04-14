@@ -5,9 +5,6 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
 
-    let editorDomId     = uuidv4()
-    let editor          = null
-
     Vue.component("history_viewer_component", {
 
         data: function () {
