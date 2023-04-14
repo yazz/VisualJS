@@ -1,5 +1,7 @@
 function component( args ) {
 /*
+This is an editor component that is used to view the history of a component
+
 base_component_id("history_viewer_component")
 component_type("SYSTEM")
 load_once_from_file(true)
@@ -193,6 +195,8 @@ load_once_from_file(true)
              //disableAutoSave     = true
         },
         methods: {
+
+            // editor interface
             getText:                            async function () {
                  // -----------------------------------------------------
                  //                      getText
@@ -235,6 +239,98 @@ load_once_from_file(true)
                      await mm.getHistory_v3()
                  })
              },
+
+            // setup functions
+            setupTimeline:                      async function () {
+                // ----------------------------------------------------------------------
+                //
+                //                            setupTimeline
+                //
+                // ----------------------------------------------------------------------
+                let mm = this
+                //
+                // get the earliest commit
+                //
+                if (mm.timeline != null ) {
+                    mm.timeline.destroy()
+                    mm.timeline = null
+                }
+                mm.timelineData = new vis.DataSet([])
+                mm.currentGroupId= 1
+
+
+                setTimeout(async function() {
+                    let container = document.getElementById('visualization_history_timeline');
+
+
+                    // Configuration for the Timeline
+                    let timeNow = new Date().getTime()
+                    let time2MinsAgo = new Date().getTime() - (2 * 60 * 1000)
+                    let options = {
+                        zoomable:  true,
+                        start:     time2MinsAgo,
+                        end:       timeNow
+                    };
+                    let groups = new vis.DataSet()
+                    for (let rew = 1; rew < 6; rew++) {
+                        groups.add({
+                            id: rew,
+                            content: "" + rew,
+                            order: rew
+                        });
+                    }
+
+
+                    // Create a Timeline
+                    mm.timeline = new vis.Timeline(container, mm.timelineData, options);
+                    mm.timeline.setGroups(groups)
+                    mm.timeline.on("mouseOver", async function (properties) {
+                        if (mm.processingMouse) {return}
+                        mm.processingMouse = true
+                        await mm.previewItemDetails(properties.item)
+                        mm.processingMouse = false
+                    });
+                    mm.timeline.on("mouseMove", async function (properties) {
+                        if (mm.processingMouse) {return}
+                        mm.processingMouse = true
+                        await mm.previewItemDetails(properties.item)
+                        if (properties.item == null) {
+
+                            await mm.unHighlightAllExceptLockedItem()
+                            if (mm.lockedSelectedCommit) {
+                                mm.onlyHighlightLockedItem()
+                            } else {
+                                mm.previewedCommitId = null
+                                await mm.clearDetailsPane()
+                            }
+                        }
+                        mm.processingMouse = false
+                    });
+                    mm.timeline.on("click", async function (properties) {
+                        if (mm.processingMouse) {return}
+                        mm.processingMouse = true
+                        if (properties.item) {
+                            await mm.selectItemDetails(properties.item)
+                        } else {
+                            await mm.unHighlightAllExceptLockedItem()
+                            mm.previewedCommitId = null
+                            mm.lockedSelectedCommit = null
+                        }
+                        mm.processingMouse = false
+                    });
+
+
+
+                    mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
+                    await mm.selectItemDetails(mm.currentCommithashId)
+                    mm.highlightItem(mm.currentCommithashId)
+
+
+
+                },100)
+            },
+
+            // helper functions
             getCurrentCommitId:                 async function () {
                  // ----------------------------------------------------------------------
                  //
@@ -247,94 +343,8 @@ load_once_from_file(true)
                  retval = await getIpfsHash( mm.text )
                  return retval
             },
-            setupTimeline:                      async function () {
-                // ----------------------------------------------------------------------
-                //
-                //                            setupTimeline
-                //
-                // ----------------------------------------------------------------------
-                let mm = this
-                //
-                // get the earliest commit
-                //
-                if (mm.timeline != null ) {
-                 mm.timeline.destroy()
-                 mm.timeline = null
-                }
-                mm.timelineData = new vis.DataSet([])
-                mm.currentGroupId= 1
 
-
-                setTimeout(async function() {
-                 let container = document.getElementById('visualization_history_timeline');
-
-
-                 // Configuration for the Timeline
-                 let timeNow = new Date().getTime()
-                 let time2MinsAgo = new Date().getTime() - (2 * 60 * 1000)
-                 let options = {
-                     zoomable:  true,
-                     start:     time2MinsAgo,
-                     end:       timeNow
-                 };
-                 let groups = new vis.DataSet()
-                 for (let rew = 1; rew < 6; rew++) {
-                     groups.add({
-                         id: rew,
-                         content: "" + rew,
-                         order: rew
-                     });
-                 }
-
-
-                 // Create a Timeline
-                 mm.timeline = new vis.Timeline(container, mm.timelineData, options);
-                 mm.timeline.setGroups(groups)
-                 mm.timeline.on("mouseOver", async function (properties) {
-                    if (mm.processingMouse) {return}
-                     mm.processingMouse = true
-                     await mm.previewItemDetails(properties.item)
-                     mm.processingMouse = false
-                 });
-                 mm.timeline.on("mouseMove", async function (properties) {
-                     if (mm.processingMouse) {return}
-                     mm.processingMouse = true
-                     await mm.previewItemDetails(properties.item)
-                     if (properties.item == null) {
-
-                         await mm.unHighlightAllExceptLockedItem()
-                         if (mm.lockedSelectedCommit) {
-                             mm.onlyHighlightLockedItem()
-                         } else {
-                             mm.previewedCommitId = null
-                             await mm.clearDetailsPane()
-                         }
-                     }
-                     mm.processingMouse = false
-                 });
-                 mm.timeline.on("click", async function (properties) {
-                     if (mm.processingMouse) {return}
-                     mm.processingMouse = true
-                     if (properties.item) {
-                         await mm.selectItemDetails(properties.item)
-                     } else {
-                         await mm.unHighlightAllExceptLockedItem()
-                         mm.previewedCommitId = null
-                         mm.lockedSelectedCommit = null
-                     }
-                     mm.processingMouse = false
-                 });
-
-
-
-                 mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
-                 await mm.selectItemDetails(mm.currentCommithashId)
-                 mm.highlightItem(mm.currentCommithashId)
-
-
-
-                },100)
-            },
+            // interaction with the timeline UI
             previewItemDetails:                 async function (  commitId  ) {
             try {
                 let mm = this
@@ -533,6 +543,149 @@ load_once_from_file(true)
                  }
                 }
             },
+            clearDetailsPane:                   async function () {
+                let mm = this
+
+                mm.commitCode = null
+                mm.parentCommitCode = null
+                mm.diffText = ""
+            },
+            showCommit:                         async function () {
+                let mm = this
+                mm.showCode='commit'
+
+                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
+                mm.commitCode = responseJson.code
+            },
+            showDetails:                        async function () {
+                let mm = this
+                mm.showCode='details'
+            },
+            diffCode:                           async function () {
+                //debugger
+                let mm = this
+                mm.showCode = "diff"
+
+                let commitId = mm.previewedCommitId
+                if (!commitId) {
+                    return
+                }
+                let commitItem = mm.commitsV3[commitId]
+                if (!commitItem) {
+                    return
+                }
+                let parentid = commitItem.parent_id
+                if (!parentid) {
+                    return
+                }
+                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: commitId})
+                mm.commitCode = responseJson.code
+                let responseJson2 = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: parentid})
+                mm.parentCommitCode = responseJson2.code
+
+
+                const one = mm.commitCode
+                other = mm.parentCommitCode,
+                    color = '';
+
+                let spanHtml = ""
+                const diff = Diff.diffLines(other, one)
+                mm.diffText = ""
+                diff.forEach((part) => {
+                    // green for additions, red for deletions
+                    // grey for common parts
+                    const color = part.added ? 'green' :
+                        part.removed ? 'red' : 'grey';
+                    spanHtml += "<span style='color: " + color + ";'>"
+                    spanHtml += part.value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    spanHtml += "</span>"
+                    mm.diffText += spanHtml
+                    spanHtml = ""
+                });
+
+
+            },
+            gotoParent:                         async function () {
+                // -----------------------------------------------------
+                //                      gotoParent
+                //
+                // Go to the parent of the current history item
+                //
+                //
+                //
+                // -----------------------------------------------------
+
+                let mm = this
+                if (!mm.lockedSelectedCommit) {
+                    return
+                }
+
+                let parentId = mm.commitsV3[mm.lockedSelectedCommit].parent_id
+                //alert("goto parent : " + parentId)
+                mm.timeline.moveTo(mm.commitsV3[parentId].timestamp)
+                await mm.selectItemDetails(parentId)
+                mm.highlightItem(parentId)
+                await mm.unHighlightAllExceptLockedItem()
+            },
+            gotoChild:                          async function () {
+                // -----------------------------------------------------
+                //                      gotoChild
+                //
+                // Go to the child of the current history item
+                //
+                //
+                //
+                // -----------------------------------------------------
+                let mm = this
+                if (!mm.lockedSelectedCommit) {
+                    return
+                }
+
+                let descendants = mm.commitsV3[mm.lockedSelectedCommit].descendants
+                if (!descendants) {
+                    return
+                }
+                if (descendants.length == 0) {
+                    return
+                }
+                //alert("goto child : " + descendants[0].id)
+                let childId = descendants[0].id
+                mm.timeline.moveTo(mm.commitsV3[childId].timestamp)
+                await mm.selectItemDetails(childId)
+                mm.highlightItem(childId)
+                await mm.unHighlightAllExceptLockedItem()
+            },
+            jumpToCommitId:                     async function (  commitId  ) {
+                // -----------------------------------------------------
+                //                      jumpToCommitId
+                //
+                //
+                // -----------------------------------------------------
+                let mm = this
+                mm.timeline.moveTo(mm.commitsV3[commitId].timestamp)
+                await mm.selectItemDetails(commitId)
+                mm.highlightItem(commitId)
+                await mm.unHighlightAllExceptLockedItem()
+            },
+            gotoHome:                           async function () {
+                // -----------------------------------------------------
+                //                      gotoHome
+                //
+                // Go to the current commid ID item
+                //
+                //
+                //
+                // -----------------------------------------------------
+
+                let mm = this
+
+                mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
+                await mm.selectItemDetails(mm.currentCommithashId)
+                mm.highlightItem(mm.currentCommithashId)
+                await mm.unHighlightAllExceptLockedItem()
+            },
+
+            // interaction with the Yazz system
             getHistory_v3:                      async function () {
                 // ----------------------------------------------------------------------
                 //
@@ -612,13 +765,6 @@ load_once_from_file(true)
                 return retval
 
             },
-            clearDetailsPane:                   async function () {
-            let mm = this
-
-            mm.commitCode = null
-            mm.parentCommitCode = null
-            mm.diffText = ""
-            },
             saveResponseToCommitData:           async function (  responseJson  ) {
             let mm = this
             //debugger
@@ -645,17 +791,6 @@ load_once_from_file(true)
              mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
             }
             }
-            },
-            showCommit:                         async function () {
-            let mm = this
-            mm.showCode='commit'
-
-            let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
-            mm.commitCode = responseJson.code
-            },
-            showDetails:                        async function () {
-            let mm = this
-            mm.showCode='details'
             },
             calculateBranchStrength:            async function () {
             //debugger
@@ -691,129 +826,6 @@ load_once_from_file(true)
             baseComponentId:    mm.baseComponentId
             })
 
-            },
-            diffCode:                           async function () {
-            //debugger
-            let mm = this
-            mm.showCode = "diff"
-
-            let commitId = mm.previewedCommitId
-            if (!commitId) {
-            return
-            }
-            let commitItem = mm.commitsV3[commitId]
-            if (!commitItem) {
-            return
-            }
-            let parentid = commitItem.parent_id
-            if (!parentid) {
-            return
-            }
-            let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: commitId})
-            mm.commitCode = responseJson.code
-            let responseJson2 = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: parentid})
-            mm.parentCommitCode = responseJson2.code
-
-
-            const one = mm.commitCode
-            other = mm.parentCommitCode,
-            color = '';
-
-            let spanHtml = ""
-            const diff = Diff.diffLines(other, one)
-            mm.diffText = ""
-            diff.forEach((part) => {
-            // green for additions, red for deletions
-            // grey for common parts
-            const color = part.added ? 'green' :
-            part.removed ? 'red' : 'grey';
-            spanHtml += "<span style='color: " + color + ";'>"
-            spanHtml += part.value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            spanHtml += "</span>"
-            mm.diffText += spanHtml
-            spanHtml = ""
-            });
-
-
-            },
-            gotoParent:                         async function () {
-                // -----------------------------------------------------
-                //                      gotoParent
-                //
-                // Go to the parent of the current history item
-                //
-                //
-                //
-                // -----------------------------------------------------
-
-                let mm = this
-                if (!mm.lockedSelectedCommit) {
-                return
-                }
-
-                let parentId = mm.commitsV3[mm.lockedSelectedCommit].parent_id
-                //alert("goto parent : " + parentId)
-                mm.timeline.moveTo(mm.commitsV3[parentId].timestamp)
-                await mm.selectItemDetails(parentId)
-                mm.highlightItem(parentId)
-                await mm.unHighlightAllExceptLockedItem()
-            },
-            gotoChild:                          async function () {
-                // -----------------------------------------------------
-                //                      gotoChild
-                //
-                // Go to the child of the current history item
-                //
-                //
-                //
-                // -----------------------------------------------------
-                let mm = this
-                if (!mm.lockedSelectedCommit) {
-                return
-                }
-
-                let descendants = mm.commitsV3[mm.lockedSelectedCommit].descendants
-                if (!descendants) {
-                return
-                }
-                if (descendants.length == 0) {
-                return
-                }
-                //alert("goto child : " + descendants[0].id)
-                let childId = descendants[0].id
-                mm.timeline.moveTo(mm.commitsV3[childId].timestamp)
-                await mm.selectItemDetails(childId)
-                mm.highlightItem(childId)
-                await mm.unHighlightAllExceptLockedItem()
-            },
-            jumpToCommitId:                     async function (  commitId  ) {
-                // -----------------------------------------------------
-                //                      jumpToCommitId
-                //
-                //
-                // -----------------------------------------------------
-                let mm = this
-                mm.timeline.moveTo(mm.commitsV3[commitId].timestamp)
-                await mm.selectItemDetails(commitId)
-                mm.highlightItem(commitId)
-                await mm.unHighlightAllExceptLockedItem()
-            },
-            gotoHome:                           async function () {
-                // -----------------------------------------------------
-                //                      gotoHome
-                //
-                // Go to the current commid ID item
-                //
-                //
-                //
-                // -----------------------------------------------------
-
-                let mm = this
-
-                mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
-                await mm.selectItemDetails(mm.currentCommithashId)
-                mm.highlightItem(mm.currentCommithashId)
-                await mm.unHighlightAllExceptLockedItem()
             }
         }
     })
