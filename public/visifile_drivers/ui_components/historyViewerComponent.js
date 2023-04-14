@@ -193,7 +193,7 @@ load_once_from_file(true)
              //disableAutoSave     = true
         },
         methods: {
-            getText: async function () {
+            getText:                            async function () {
                  // -----------------------------------------------------
                  //                      getText
                  //
@@ -208,7 +208,7 @@ load_once_from_file(true)
 
                  return this.text
              },
-            setText: async function (textValue) {
+            setText:                            async function (  textValue  ) {
                  // -----------------------------------------------------
                  //                      setText
                  //
@@ -235,7 +235,7 @@ load_once_from_file(true)
                      await mm.getHistory_v3()
                  })
              },
-            getCurrentCommitId: async function () {
+            getCurrentCommitId:                 async function () {
                  // ----------------------------------------------------------------------
                  //
                  //                            getCurrentCommitId
@@ -247,7 +247,7 @@ load_once_from_file(true)
                  retval = await getIpfsHash( mm.text )
                  return retval
             },
-            setupTimeline: async function () {
+            setupTimeline:                      async function () {
                 // ----------------------------------------------------------------------
                 //
                 //                            setupTimeline
@@ -335,7 +335,7 @@ load_once_from_file(true)
 
                 },100)
             },
-            previewItemDetails: async function(commitId) {
+            previewItemDetails:                 async function (  commitId  ) {
             try {
                 let mm = this
                 if (commitId) {
@@ -366,7 +366,7 @@ load_once_from_file(true)
 
 
          },
-            selectItemDetails: async function(commitId) {
+            selectItemDetails:                  async function (  commitId  ) {
          //debugger
              let mm = this
              mm.lockedSelectedCommit = commitId
@@ -382,13 +382,13 @@ load_once_from_file(true)
                  }
              }
          },
-            onlyHighlightLockedItem: async function() {
+            onlyHighlightLockedItem:            async function () {
              //debugger
              let mm = this
              mm.highlightItem(mm.lockedSelectedCommit)
              mm.unHighlightAllExceptLockedItem()
          },
-            unHighlightAllExceptLockedItem: async function(unhighlightLockedItem) {
+            unHighlightAllExceptLockedItem:     async function (  unhighlightLockedItem  ) {
              //debugger
              let mm = this
             if (mm.inUnHighlightAll) {
@@ -419,7 +419,7 @@ load_once_from_file(true)
              }
              mm.inUnHighlightAll = false
          },
-            highlightItem: async function(commitId, options) {
+            highlightItem:                      async function (  commitId  ,  options  ) {
              let mm = this
              try {
                  let itemStyle = ""
@@ -445,7 +445,7 @@ load_once_from_file(true)
              } finally {
              }
          },
-            renderCommitsToTimeline: async function () {
+            renderCommitsToTimeline:            async function () {
                  // ----------------------------------------------------------------------
                  //
                  //                            render commits to timeline
@@ -474,7 +474,7 @@ load_once_from_file(true)
                 //
                 await mm.renderCommit(earliestCommit)
             },
-            renderCommit: async function (commitId) {
+            renderCommit:                       async function (  commitId  ) {
                 // ----------------------------------------------------------------------
                 //
                 //                 renderCommit
@@ -533,7 +533,7 @@ load_once_from_file(true)
                  }
                 }
             },
-            getHistory_v3: async function () {
+            getHistory_v3:                      async function () {
                 // ----------------------------------------------------------------------
                 //
                 //                 get the history of this commit going backwards
@@ -569,7 +569,7 @@ load_once_from_file(true)
                 return retval
 
             },
-            findFutureCommits: async function (commitId) {
+            findFutureCommits:                  async function (  commitId  ) {
                 // ----------------------------------------------------------------------
                 //
                 //                            findFutureCommits
@@ -612,14 +612,14 @@ load_once_from_file(true)
                 return retval
 
             },
-            clearDetailsPane: async function() {
+            clearDetailsPane:                   async function () {
             let mm = this
 
             mm.commitCode = null
             mm.parentCommitCode = null
             mm.diffText = ""
             },
-            saveResponseToCommitData: async function(responseJson) {
+            saveResponseToCommitData:           async function (  responseJson  ) {
             let mm = this
             //debugger
             for (let rt = 0; rt < responseJson.length; rt++) {
@@ -646,18 +646,18 @@ load_once_from_file(true)
             }
             }
             },
-            showCommit: async function() {
+            showCommit:                         async function () {
             let mm = this
             mm.showCode='commit'
 
             let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
             mm.commitCode = responseJson.code
             },
-            showDetails: async function() {
+            showDetails:                        async function () {
             let mm = this
             mm.showCode='details'
             },
-            calculateBranchStrength: async function() {
+            calculateBranchStrength:            async function () {
             //debugger
             let mm = this
             //alert("Checking out commit: " + mm.lockedSelectedCommit)
@@ -670,7 +670,7 @@ load_once_from_file(true)
             //let result = responseJson
             //alert(JSON.stringify(result))
             },
-            checkoutCode: async function() {
+            checkoutCode:                       async function () {
             //debugger
             let mm = this
             //alert("Checking out commit: " + mm.lockedSelectedCommit)
@@ -692,7 +692,7 @@ load_once_from_file(true)
             })
 
             },
-            diffCode: async function() {
+            diffCode:                           async function () {
             //debugger
             let mm = this
             mm.showCode = "diff"
@@ -736,7 +736,7 @@ load_once_from_file(true)
 
 
             },
-            gotoParent: async function () {
+            gotoParent:                         async function () {
                 // -----------------------------------------------------
                 //                      gotoParent
                 //
@@ -758,7 +758,7 @@ load_once_from_file(true)
                 mm.highlightItem(parentId)
                 await mm.unHighlightAllExceptLockedItem()
             },
-            gotoChild: async function () {
+            gotoChild:                          async function () {
                 // -----------------------------------------------------
                 //                      gotoChild
                 //
@@ -786,7 +786,7 @@ load_once_from_file(true)
                 mm.highlightItem(childId)
                 await mm.unHighlightAllExceptLockedItem()
             },
-            jumpToCommitId: async function (commitId) {
+            jumpToCommitId:                     async function (  commitId  ) {
                 // -----------------------------------------------------
                 //                      jumpToCommitId
                 //
@@ -798,7 +798,7 @@ load_once_from_file(true)
                 mm.highlightItem(commitId)
                 await mm.unHighlightAllExceptLockedItem()
             },
-            gotoHome: async function () {
+            gotoHome:                           async function () {
                 // -----------------------------------------------------
                 //                      gotoHome
                 //
