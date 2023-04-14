@@ -201,10 +201,6 @@ load_once_from_file(true)
                  // -----------------------------------------------------
                  //                      getText
                  //
-                 // This is called to get the SQL definitions
-                 //
-                 //
-                 //
                  // -----------------------------------------------------
                  if (!isValidObject(this.text)) {
                      return null
@@ -213,32 +209,28 @@ load_once_from_file(true)
                  return this.text
              },
             setText:                            async function (  textValue  ) {
-                 // -----------------------------------------------------
-                 //                      setText
-                 //
-                 // This is called to set the SQL
-                 //
-                 //
-                 //
-                 // -----------------------------------------------------
-                 debugger
-                 let mm     =  this
-                 this.text  = textValue
-                 if (!isValidObject(this.text)) {
-                     return
-                 }
+                // -----------------------------------------------------
+                //                      setText
+                //
+                // This is called to set the component state
+                //
+                // -----------------------------------------------------
+                let mm     =  this
+                this.text  = textValue
+                if (!isValidObject(this.text)) {
+                    return
+                }
 
+                this.baseComponentId        = yz.getValueOfCodeString(this.text, "base_component_id")
+                this.currentCommithashId    = await this.getCurrentCommitId()
 
-                 this.baseComponentId = yz.getValueOfCodeString(this.text, "base_component_id")
-
-                 //debugger
-                 this.currentCommithashId = await this.getCurrentCommitId()
-                 await this.setupTimeline()
-                 setTimeout(async function(){
+                await this.setupTimeline()
+                setTimeout(async function(){
                     await mm.calculateBranchStrength()
-                     await mm.getHistory_v3()
-                 })
-             },
+                    debugger
+                    await mm.getHistory_v3()
+                })
+            },
 
             // setup functions
             setupTimeline:                      async function () {
@@ -255,8 +247,8 @@ load_once_from_file(true)
                     mm.timeline.destroy()
                     mm.timeline = null
                 }
-                mm.timelineData = new vis.DataSet([])
-                mm.currentGroupId= 1
+                mm.timelineData     = new vis.DataSet([])
+                mm.currentGroupId   = 1
 
 
                 setTimeout(async function() {
@@ -319,14 +311,9 @@ load_once_from_file(true)
                         mm.processingMouse = false
                     });
 
-
-
                     mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
                     await mm.selectItemDetails(mm.currentCommithashId)
                     mm.highlightItem(mm.currentCommithashId)
-
-
-
                 },100)
             },
 
@@ -338,9 +325,9 @@ load_once_from_file(true)
                  //
                  // ----------------------------------------------------------------------
                  //debugger
-                 let mm = this
+                 let mm     = this
                  let retVal = null
-                 retval = await getIpfsHash( mm.text )
+                 retval     = await getIpfsHash( mm.text )
                  return retval
             },
 
@@ -693,29 +680,34 @@ load_once_from_file(true)
                 //
                 // ----------------------------------------------------------------------
                 //debugger
-                let mm = this
-                let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_history_v2?" +
-                 new URLSearchParams({
-                     id: mm.baseComponentId,
-                     commit_id: mm.currentCommithashId
-                 })
+                let mm          = this
+                let openfileurl =
+                        "http" +
+                        (($HOSTPORT == 443) ? "s" : "") +
+                        "://" + $HOST +
+                        "/http_get_load_version_history_v2?" +
+                         new URLSearchParams({
+                             id:        mm.baseComponentId,
+                             commit_id: mm.currentCommithashId
+                         })
 
                 let promise = new Promise(async function (returnfn) {
-                 fetch(openfileurl, {
-                     method: 'get',
-                     credentials: "include"
-                 })
-                     .then((response) => response.json())
-                     .then(async function (responseJson) {
-                         await mm.saveResponseToCommitData(responseJson)
-                         //debugger
-                         await mm.renderCommitsToTimeline()
-                         returnfn()
-                     })
-                     .catch(err => {
-                         //error block
-                         returnfn()
-                     })
+                    fetch(openfileurl, {
+                        method:         'get',
+                        credentials:    "include"
+                    })
+                    .then((response) => response.json())
+                    .then(async function (responseJson) {
+                        //zzz
+                        await mm.saveResponseToCommitData(responseJson)
+                        //debugger
+                        await mm.renderCommitsToTimeline()
+                        returnfn()
+                    })
+                    .catch(err => {
+                        //error block
+                        returnfn()
+                    })
                 })
 
                 let retval = await promise
@@ -806,26 +798,24 @@ load_once_from_file(true)
             //alert(JSON.stringify(result))
             },
             checkoutCode:                       async function () {
-            //debugger
-            let mm = this
-            //alert("Checking out commit: " + mm.lockedSelectedCommit)
-            let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
-            mm.text = responseJson.code
+                //debugger
+                let mm = this
+                //alert("Checking out commit: " + mm.lockedSelectedCommit)
+                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
+                mm.text = responseJson.code
 
-            mm.$root.$emit(
-            'message', {
-             type:   "force_raw_load",
-             commitId: mm.lockedSelectedCommit
-            })
+                mm.$root.$emit(
+                'message', {
+                 type:   "force_raw_load",
+                 commitId: mm.lockedSelectedCommit
+                })
 
-            //zzz
-            //debugger
-            let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
-            {
-            sha1sum:            mm.lockedSelectedCommit,
-            baseComponentId:    mm.baseComponentId
-            })
-
+                //debugger
+                let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
+                {
+                sha1sum:            mm.lockedSelectedCommit,
+                baseComponentId:    mm.baseComponentId
+                })
             }
         }
     })
