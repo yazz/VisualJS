@@ -266,7 +266,13 @@ load_once_from_file(true)
                 //                            setupTimeline
                 //
                 // ----------------------------------------------------------------------
-                let mm = this
+                let mm              = this
+                let timeNow
+                let time2MinsAgo
+                let options
+                let groups
+                let container
+
                 //
                 // get the earliest commit
                 //
@@ -279,23 +285,22 @@ load_once_from_file(true)
 
 
                 setTimeout(async function() {
-                    let container = document.getElementById('visualization_history_timeline');
+                    // Configure the Timeline
+                    container       = document.getElementById('visualization_history_timeline');
+                    timeNow         = new Date().getTime()
+                    time2MinsAgo    = new Date().getTime() - (2 * 60 * 1000)
+                    groups          = new vis.DataSet()
+                    options         = {
+                                        zoomable:  true,
+                                        start:     time2MinsAgo,
+                                        end:       timeNow
+                                      };
 
-
-                    // Configuration for the Timeline
-                    let timeNow = new Date().getTime()
-                    let time2MinsAgo = new Date().getTime() - (2 * 60 * 1000)
-                    let options = {
-                        zoomable:  true,
-                        start:     time2MinsAgo,
-                        end:       timeNow
-                    };
-                    let groups = new vis.DataSet()
                     for (let rew = 1; rew < 6; rew++) {
                         groups.add({
-                            id: rew,
-                            content: "" + rew,
-                            order: rew
+                            id:         rew,
+                            content:    "" + rew,
+                            order:      rew
                         });
                     }
 
