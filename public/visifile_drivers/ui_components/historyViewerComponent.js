@@ -33,9 +33,6 @@ load_once_from_file(true)
                 diffText:               "",
                 showCode:               "details",
 
-                //
-                firstCommitTimestamps:  {},
-
                 // used to preview and select commits
                 previewedCommitId:      null,
                 lockedSelectedCommit:   null,
@@ -59,8 +56,20 @@ load_once_from_file(true)
                 inUnHighlightAll:       false,
                 processingMouse:        false,
 
+                /* when was the change in a commit first made (each commit can have many changes)
+                eg:
+                    Number of Changes in commit: 5
+                        After a few seconds     - Add component: button_control_115(button_control)
+                        After a few seconds     - Moved component: button_control_114
+                        After a few seconds     - Moved component: button_control_114
+                        After under a second    - Moved component: button_control_114
+                        First commit            - Add component: button_control_114(button_control)
+
+                 */
+                firstCommitTimestamps:  {},
+
                 // list of commits
-                listOfAllCommits:              {}
+                listOfAllCommits:       {}
             }
         },
         template:   `<div style='background-color:white; ' >
