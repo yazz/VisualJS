@@ -33,15 +33,22 @@ load_once_from_file(true)
                 diffText:               "",
                 showCode:               "details",
 
-
+                //
                 firstCommitTimestamps:  {},
+
+                // used to preview and select commits
                 previewedCommitId:      null,
                 lockedSelectedCommit:   null,
                 selectedCommitId:       null,
+
+                // the type of the commit
                 baseComponentId:        null,
-                data:                   {},
+
+                // info for the UI timeline
                 timeline:               null,
                 timelineData:           new vis.DataSet([]),
+
+
                 commitsV3:              {},                     // list of the commits
                 currentGroupId:         1,
                 groupColors:            {
