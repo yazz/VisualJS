@@ -24,15 +24,20 @@ load_once_from_file(true)
             |     ----
             |________________________________________________________________________ */
             return {
+                // the component code
                 text:                   args.text,
+
+                // this is used to show source code and code diffs
                 commitCode:             null,
                 parentCommitCode:       null,
                 diffText:               "",
                 showCode:               "details",
+
+
                 firstCommitTimestamps:  {},
                 previewedCommitId:      null,
                 lockedSelectedCommit:   null,
-                currentCommithashId:    null,
+                selectedCommitId:       null,
                 baseComponentId:        null,
                 data:                   {},
                 timeline:               null,
@@ -142,9 +147,9 @@ load_once_from_file(true)
                                     <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
                                   </div>
         
-                              <div v-bind:style="commitsV3[previewedCommitId].id==currentCommithashId?'color:red;fpnt-style:bold;':''">
+                              <div v-bind:style="commitsV3[previewedCommitId].id==selectedCommitId?'color:red;fpnt-style:bold;':''">
                                   <b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}
-                                  <b v-if="commitsV3[previewedCommitId].id==currentCommithashId"> (Current commit)</b>
+                                  <b v-if="commitsV3[previewedCommitId].id==selectedCommitId"> (Current commit)</b>
                                   </div>
                               <div><b>Time:</b> {{msToTime(commitsV3[previewedCommitId].timestamp,{timeOnly: true})}} </div>
                               <div><b>User ID:</b> {{commitsV3[previewedCommitId].user_id}}</div>
@@ -229,7 +234,7 @@ load_once_from_file(true)
                 }
 
                 this.baseComponentId        = yz.getValueOfCodeString(this.text, "base_component_id")
-                this.currentCommithashId    = await this.getCurrentCommitId()
+                this.selectedCommitId    = await this.getCurrentCommitId()
 
                 await this.setupTimeline()
                 setTimeout(async function(){
@@ -317,9 +322,9 @@ load_once_from_file(true)
                         mm.processingMouse = false
                     });
 
-                    mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
-                    await mm.selectItemDetails(mm.currentCommithashId)
-                    mm.highlightItem(mm.currentCommithashId)
+                    mm.timeline.moveTo(mm.commitsV3[mm.selectedCommitId].timestamp)
+                    await mm.selectItemDetails(mm.selectedCommitId)
+                    mm.highlightItem(mm.selectedCommitId)
                 },100)
             },
 
@@ -672,9 +677,9 @@ load_once_from_file(true)
 
                 let mm = this
 
-                mm.timeline.moveTo(mm.commitsV3[mm.currentCommithashId].timestamp)
-                await mm.selectItemDetails(mm.currentCommithashId)
-                mm.highlightItem(mm.currentCommithashId)
+                mm.timeline.moveTo(mm.commitsV3[mm.selectedCommitId].timestamp)
+                await mm.selectItemDetails(mm.selectedCommitId)
+                mm.highlightItem(mm.selectedCommitId)
                 await mm.unHighlightAllExceptLockedItem()
             },
 
@@ -693,7 +698,7 @@ load_once_from_file(true)
                         "/http_get_load_version_history_v2?" +
                          new URLSearchParams({
                              id:        mm.baseComponentId,
-                             commit_id: mm.currentCommithashId
+                             commit_id: mm.selectedCommitId
                          })
 
                 let promise = new Promise(async function (returnfn) {
