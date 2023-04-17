@@ -10,46 +10,46 @@ load_once_from_file(true)
     Vue.component("history_viewer_component", {
 
         data:       function () {
-        /*
-        ________________________________________
-        |                                      |
-        |                DATA                  |
-        |                                      |
-        |______________________________________|
-        Function description
-        __________
-        | PARAMS |______________________________________________________________
-        |
-        |     NONE
-        |     ----
-        |________________________________________________________________________ */
-        return {
-        text:                   args.text,
-        commitCode:             null,
-        parentCommitCode:       null,
-        diffText:               "",
-        showCode:               "details",
-        firstCommitTimestamps:  {},
-        previewedCommitId:      null,
-        lockedSelectedCommit:   null,
-        currentCommithashId:    null,
-        baseComponentId:        null,
-        data:                   {},
-        timeline:               null,
-        timelineData:           new vis.DataSet([]),
-        commitsV3:              {},                     // list of the commits
-        currentGroupId:         1,
-        groupColors:            {
-            1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
-            2: {normal: "background-color: pink",       highlighted: "background-color: red;color:white;"},
-            3: {normal: "background-color: lightgray",  highlighted: "background-color: gray;color:white;"},
-            4: {normal: "background-color: yellow",     highlighted: "background-color: orange;color:white;"},
-            5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
-        },
-        highlightedItems:       {},
-        inUnHighlightAll:       false,
-        processingMouse:        false
-        }
+            /*
+            ________________________________________
+            |                                      |
+            |                DATA                  |
+            |                                      |
+            |______________________________________|
+            Function description
+            __________
+            | PARAMS |______________________________________________________________
+            |
+            |     NONE
+            |     ----
+            |________________________________________________________________________ */
+            return {
+                text:                   args.text,
+                commitCode:             null,
+                parentCommitCode:       null,
+                diffText:               "",
+                showCode:               "details",
+                firstCommitTimestamps:  {},
+                previewedCommitId:      null,
+                lockedSelectedCommit:   null,
+                currentCommithashId:    null,
+                baseComponentId:        null,
+                data:                   {},
+                timeline:               null,
+                timelineData:           new vis.DataSet([]),
+                commitsV3:              {},                     // list of the commits
+                currentGroupId:         1,
+                groupColors:            {
+                    1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
+                    2: {normal: "background-color: pink",       highlighted: "background-color: red;color:white;"},
+                    3: {normal: "background-color: lightgray",  highlighted: "background-color: gray;color:white;"},
+                    4: {normal: "background-color: yellow",     highlighted: "background-color: orange;color:white;"},
+                    5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
+                },
+                highlightedItems:       {},
+                inUnHighlightAll:       false,
+                processingMouse:        false
+            }
         },
         template:   `<div style='background-color:white; ' >
         
@@ -192,7 +192,6 @@ load_once_from_file(true)
         
               </div>`,
         mounted:    async function() {
-             //disableAutoSave     = true
         },
         methods:    {
 
@@ -209,12 +208,20 @@ load_once_from_file(true)
                  return this.text
              },
             setText:                            async function (  textValue  ) {
-                // -----------------------------------------------------
-                //                      setText
-                //
-                // This is called to set the component state
-                //
-                // -----------------------------------------------------
+
+                /*
+                ________________________________________
+                |                                      |
+                |             setText                  |
+                |                                      |
+                |______________________________________|
+                This is called to set the component state
+                __________
+                | PARAMS |______________________________________________________________
+                |
+                |     textValue     Use the component code to find out what changes
+                |     ---------     have been made to this code
+                |________________________________________________________________________ */
                 let mm     =  this
                 this.text  = textValue
                 if (!isValidObject(this.text)) {
