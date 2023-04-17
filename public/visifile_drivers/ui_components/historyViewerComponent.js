@@ -47,9 +47,6 @@ load_once_from_file(true)
                 // info for the UI timeline
                 timeline:               null,
                 timelineData:           new vis.DataSet([]),
-
-
-                commitsV3:              {},                     // list of the commits
                 currentGroupId:         1,
                 groupColors:            {
                     1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
@@ -60,7 +57,10 @@ load_once_from_file(true)
                 },
                 highlightedItems:       {},
                 inUnHighlightAll:       false,
-                processingMouse:        false
+                processingMouse:        false,
+
+                // list of commits
+                listOfAllCommits:              {}
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -131,46 +131,46 @@ load_once_from_file(true)
                       <div  id="visualization_commit_details"
                             style="padding: 10px;">
                             
-                        <div v-if="(previewedCommitId != null) && (commitsV3[previewedCommitId])">
+                        <div v-if="(previewedCommitId != null) && (listOfAllCommits[previewedCommitId])">
                           
                           <div v-if="showCode=='details'">
         
-                            <div><b>Number of Changes:</b> {{commitsV3[previewedCommitId].num_changes}}</div>
-                            <div v-if="commitsV3[previewedCommitId].changes">
+                            <div><b>Number of Changes:</b> {{listOfAllCommits[previewedCommitId].num_changes}}</div>
+                            <div v-if="listOfAllCommits[previewedCommitId].changes">
                               <div style="margin-left: 80px;"
-                                   v-for="(item,i) in commitsV3[previewedCommitId].changes.slice().reverse()">
-                                <span v-if="i==(commitsV3[previewedCommitId].changes.length - 1)"><b>First commit</b> - </span>
-                                <span v-if="i!=(commitsV3[previewedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[previewedCommitId], item.timestamp)) }}</b> - </span>
+                                   v-for="(item,i) in listOfAllCommits[previewedCommitId].changes.slice().reverse()">
+                                <span v-if="i==(listOfAllCommits[previewedCommitId].changes.length - 1)"><b>First commit</b> - </span>
+                                <span v-if="i!=(listOfAllCommits[previewedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[previewedCommitId], item.timestamp)) }}</b> - </span>
         
                                 {{ item.code_change_text }}
                               </div>
                             </div>
                             <br/>
         
-                                <div><b>Tags:</b> {{commitsV3[previewedCommitId].code_tag_list.length}}</div>
+                                <div><b>Tags:</b> {{listOfAllCommits[previewedCommitId].code_tag_list.length}}</div>
                                   <div style="margin-left: 80px;"
-                                       v-for="(item,i) in commitsV3[previewedCommitId].code_tag_list">
+                                       v-for="(item,i) in listOfAllCommits[previewedCommitId].code_tag_list">
                                     {{ item.code_tag }}
                                     <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
                                   </div>
         
-                              <div v-bind:style="commitsV3[previewedCommitId].id==selectedCommitId?'color:red;fpnt-style:bold;':''">
-                                  <b>Commit ID:</b> {{commitsV3[previewedCommitId].id}}
-                                  <b v-if="commitsV3[previewedCommitId].id==selectedCommitId"> (Current commit)</b>
+                              <div v-bind:style="listOfAllCommits[previewedCommitId].id==selectedCommitId?'color:red;fpnt-style:bold;':''">
+                                  <b>Commit ID:</b> {{listOfAllCommits[previewedCommitId].id}}
+                                  <b v-if="listOfAllCommits[previewedCommitId].id==selectedCommitId"> (Current commit)</b>
                                   </div>
-                              <div><b>Time:</b> {{msToTime(commitsV3[previewedCommitId].timestamp,{timeOnly: true})}} </div>
-                              <div><b>User ID:</b> {{commitsV3[previewedCommitId].user_id}}</div>
-                              <div><b>Parent:</b> {{commitsV3[previewedCommitId].parent_id}}</div>
-                              <div><b>Type:</b> {{commitsV3[previewedCommitId].base_component_id}}</div>
+                              <div><b>Time:</b> {{msToTime(listOfAllCommits[previewedCommitId].timestamp,{timeOnly: true})}} </div>
+                              <div><b>User ID:</b> {{listOfAllCommits[previewedCommitId].user_id}}</div>
+                              <div><b>Parent:</b> {{listOfAllCommits[previewedCommitId].parent_id}}</div>
+                              <div><b>Type:</b> {{listOfAllCommits[previewedCommitId].base_component_id}}</div>
                               <div><b>Descendants:</b>
-                                  <span v-if="commitsV3[previewedCommitId].descendants.length==1">
-                                    ({{commitsV3[previewedCommitId].descendants.length}})
+                                  <span v-if="listOfAllCommits[previewedCommitId].descendants.length==1">
+                                    ({{listOfAllCommits[previewedCommitId].descendants.length}})
                                   </span>
-                                <span v-if="commitsV3[previewedCommitId].descendants.length>1" style="color:red;">
-                                    ({{commitsV3[previewedCommitId].descendants.length}})
+                                <span v-if="listOfAllCommits[previewedCommitId].descendants.length>1" style="color:red;">
+                                    ({{listOfAllCommits[previewedCommitId].descendants.length}})
                                   </span>
                                    
-                                <span v-for='(descendant,index) in commitsV3[previewedCommitId].descendants'>
+                                <span v-for='(descendant,index) in listOfAllCommits[previewedCommitId].descendants'>
                                   <a href="#"
                                     v-on:click="jumpToCommitId(descendant.id)" 
                                         >
@@ -329,7 +329,7 @@ load_once_from_file(true)
                         mm.processingMouse = false
                     });
 
-                    mm.timeline.moveTo(mm.commitsV3[mm.selectedCommitId].timestamp)
+                    mm.timeline.moveTo(mm.listOfAllCommits[mm.selectedCommitId].timestamp)
                     await mm.selectItemDetails(mm.selectedCommitId)
                     mm.highlightItem(mm.selectedCommitId)
                 },100)
@@ -363,7 +363,7 @@ load_once_from_file(true)
                     //await mm.showCommit()
 
 
-                    let thisHistoryItem = mm.commitsV3[commitId]
+                    let thisHistoryItem = mm.listOfAllCommits[commitId]
                     //if (thisHistoryItem.parent_id) {
                     //    mm.highlightItem(thisHistoryItem.parent_id)
                     //}
@@ -389,9 +389,9 @@ load_once_from_file(true)
              mm.showCode='details'
              //await mm.showCommit()
 
-             if (mm.commitsV3[commitId].descendants) {
-                 for(let descendant of mm.commitsV3[commitId].descendants) {
-                     if (!mm.commitsV3[descendant.id]) {
+             if (mm.listOfAllCommits[commitId].descendants) {
+                 for(let descendant of mm.listOfAllCommits[commitId].descendants) {
+                     if (!mm.listOfAllCommits[descendant.id]) {
                          await mm.findFutureCommits(descendant.id)
                      }
                  }
@@ -416,7 +416,7 @@ load_once_from_file(true)
                  if (mm.highlightedItems[highlightedItem]) {
                     if ((unhighlightLockedItem == true) || highlightedItem != mm.lockedSelectedCommit) {
                         let itemStyle = ""
-                        let selectedCommitDataItem = mm.commitsV3[highlightedItem]
+                        let selectedCommitDataItem = mm.listOfAllCommits[highlightedItem]
                         if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
                             itemStyle += "font-weight: bold;"
                         }
@@ -438,7 +438,7 @@ load_once_from_file(true)
              let mm = this
              try {
                  let itemStyle = ""
-                 let selectedCommitDataItem = mm.commitsV3[commitId]
+                 let selectedCommitDataItem = mm.listOfAllCommits[commitId]
                  if (!selectedCommitDataItem) {
                     return
                  }
@@ -469,11 +469,11 @@ load_once_from_file(true)
                  let mm = this
                 //debugger
 
-                let listOfCommits = Object.keys(mm.commitsV3)
+                let listOfCommits = Object.keys(mm.listOfAllCommits)
                 let earliestTimestamp = null
                 let earliestCommit = null
                 for (const commitKey of listOfCommits) {
-                    let thisCommit = mm.commitsV3[commitKey]
+                    let thisCommit = mm.listOfAllCommits[commitKey]
                     if (earliestTimestamp == null) {
                         earliestTimestamp = thisCommit.timestamp
                         earliestCommit = commitKey
@@ -496,7 +496,7 @@ load_once_from_file(true)
                 //
                 // ----------------------------------------------------------------------
                 let mm         = this
-                let commitItem = mm.commitsV3[commitId]
+                let commitItem = mm.listOfAllCommits[commitId]
                 let itemStyle  = ""
 
                 if (!commitItem) {
@@ -504,7 +504,7 @@ load_once_from_file(true)
                 }
 
                 if (commitItem.parent_id) {
-                let parentCommitItem = mm.commitsV3[commitItem.parent_id]
+                let parentCommitItem = mm.listOfAllCommits[commitItem.parent_id]
                 if (parentCommitItem) {
                     if (parentCommitItem.base_component_id != commitItem.base_component_id) {
                         mm.currentGroupId ++
@@ -542,7 +542,7 @@ load_once_from_file(true)
 
                 if (commitItem.descendants) {
                  for (const descendant of commitItem.descendants) {
-                     if (mm.commitsV3[descendant.id]) {
+                     if (mm.listOfAllCommits[descendant.id]) {
                         mm.renderCommit(descendant.id)
                      }
                  }
@@ -575,7 +575,7 @@ load_once_from_file(true)
                 if (!commitId) {
                     return
                 }
-                let commitItem = mm.commitsV3[commitId]
+                let commitItem = mm.listOfAllCommits[commitId]
                 if (!commitItem) {
                     return
                 }
@@ -625,9 +625,9 @@ load_once_from_file(true)
                     return
                 }
 
-                let parentId = mm.commitsV3[mm.lockedSelectedCommit].parent_id
+                let parentId = mm.listOfAllCommits[mm.lockedSelectedCommit].parent_id
                 //alert("goto parent : " + parentId)
-                mm.timeline.moveTo(mm.commitsV3[parentId].timestamp)
+                mm.timeline.moveTo(mm.listOfAllCommits[parentId].timestamp)
                 await mm.selectItemDetails(parentId)
                 mm.highlightItem(parentId)
                 await mm.unHighlightAllExceptLockedItem()
@@ -646,7 +646,7 @@ load_once_from_file(true)
                     return
                 }
 
-                let descendants = mm.commitsV3[mm.lockedSelectedCommit].descendants
+                let descendants = mm.listOfAllCommits[mm.lockedSelectedCommit].descendants
                 if (!descendants) {
                     return
                 }
@@ -655,7 +655,7 @@ load_once_from_file(true)
                 }
                 //alert("goto child : " + descendants[0].id)
                 let childId = descendants[0].id
-                mm.timeline.moveTo(mm.commitsV3[childId].timestamp)
+                mm.timeline.moveTo(mm.listOfAllCommits[childId].timestamp)
                 await mm.selectItemDetails(childId)
                 mm.highlightItem(childId)
                 await mm.unHighlightAllExceptLockedItem()
@@ -667,7 +667,7 @@ load_once_from_file(true)
                 //
                 // -----------------------------------------------------
                 let mm = this
-                mm.timeline.moveTo(mm.commitsV3[commitId].timestamp)
+                mm.timeline.moveTo(mm.listOfAllCommits[commitId].timestamp)
                 await mm.selectItemDetails(commitId)
                 mm.highlightItem(commitId)
                 await mm.unHighlightAllExceptLockedItem()
@@ -684,7 +684,7 @@ load_once_from_file(true)
 
                 let mm = this
 
-                mm.timeline.moveTo(mm.commitsV3[mm.selectedCommitId].timestamp)
+                mm.timeline.moveTo(mm.listOfAllCommits[mm.selectedCommitId].timestamp)
                 await mm.selectItemDetails(mm.selectedCommitId)
                 mm.highlightItem(mm.selectedCommitId)
                 await mm.unHighlightAllExceptLockedItem()
@@ -780,7 +780,7 @@ load_once_from_file(true)
                         itemStyle += "background-color:pink;"
                     }
 
-                    mm.commitsV3[responseJson[rt].id] =
+                    mm.listOfAllCommits[responseJson[rt].id] =
                     {
                         id:                 responseJson[rt].id,
                         timestamp:          responseJson[rt].creation_timestamp,
