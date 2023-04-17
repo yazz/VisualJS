@@ -37,7 +37,7 @@ load_once_from_file(true)
         data:                   {},
         timeline:               null,
         timelineData:           new vis.DataSet([]),
-        commitsV3:              {},
+        commitsV3:              {},                     // list of the commits
         currentGroupId:         1,
         groupColors:            {
             1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
@@ -227,8 +227,7 @@ load_once_from_file(true)
                 await this.setupTimeline()
                 setTimeout(async function(){
                     await mm.calculateBranchStrength()
-                    debugger
-                    await mm.getHistory_v3()
+                    await mm.getCommitHistoryForThisComponent()
                 })
             },
 
@@ -673,13 +672,12 @@ load_once_from_file(true)
             },
 
             // interaction with the Yazz system
-            getHistory_v3:                      async function () {
+            getCommitHistoryForThisComponent:                      async function () {
                 // ----------------------------------------------------------------------
                 //
                 //                 get the history of this commit going backwards
                 //
                 // ----------------------------------------------------------------------
-                //debugger
                 let mm          = this
                 let openfileurl =
                         "http" +
@@ -698,9 +696,7 @@ load_once_from_file(true)
                     })
                     .then((response) => response.json())
                     .then(async function (responseJson) {
-                        //zzz
                         await mm.saveResponseToCommitData(responseJson)
-                        //debugger
                         await mm.renderCommitsToTimeline()
                         returnfn()
                     })
@@ -758,31 +754,29 @@ load_once_from_file(true)
 
             },
             saveResponseToCommitData:           async function (  responseJson  ) {
-            let mm = this
-            //debugger
-            for (let rt = 0; rt < responseJson.length; rt++) {
+                let mm = this
+                for (let rt = 0; rt < responseJson.length; rt++) {
+                    let itemStyle = ""
+                    if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
+                        itemStyle += "background-color:pink;"
+                    }
 
-            let itemStyle = ""
-            if (responseJson[rt].descendants && (responseJson[rt].descendants.length > 1)) {
-             itemStyle += "background-color:pink;"
-            }
-
-            mm.commitsV3[responseJson[rt].id] =
-             {
-                 id: responseJson[rt].id,
-                 timestamp: responseJson[rt].creation_timestamp,
-                 num_changes: responseJson[rt].num_changes,
-                 changes: responseJson[rt].changes,
-                 user_id: responseJson[rt].user_id,
-                 base_component_id: responseJson[rt].base_component_id,
-                 descendants: responseJson[rt].descendants,
-                 parent_id: responseJson[rt].parent_commit_id,
-                 code_tag_list: responseJson[rt].code_tag_list
-             }
-            if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-             mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
-            }
-            }
+                    mm.commitsV3[responseJson[rt].id] =
+                    {
+                        id:                 responseJson[rt].id,
+                        timestamp:          responseJson[rt].creation_timestamp,
+                        num_changes:        responseJson[rt].num_changes,
+                        changes:            responseJson[rt].changes,
+                        user_id:            responseJson[rt].user_id,
+                        base_component_id:  responseJson[rt].base_component_id,
+                        descendants:        responseJson[rt].descendants,
+                        parent_id:          responseJson[rt].parent_commit_id,
+                        code_tag_list:      responseJson[rt].code_tag_list
+                    }
+                    if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
+                        mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                    }
+                }
             },
             calculateBranchStrength:            async function () {
             //debugger
