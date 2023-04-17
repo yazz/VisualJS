@@ -534,7 +534,7 @@ load_once_from_file(true)
 
                 let mainContent = commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):"")
                 let extraContent = ""
-                //debugger
+                debugger
                 if (commitItem.code_tag_list) {
                  for (codeTagItem of commitItem.code_tag_list) {
                      if (codeTagItem.code_tag =="TIP") {

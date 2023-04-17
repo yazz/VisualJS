@@ -1527,7 +1527,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
 
                     if (codeId) {
-                        debugger
                         await loadUiComponentsV4([{codeId: codeId}])
                     } else if (baseComponentId) {
                         if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
