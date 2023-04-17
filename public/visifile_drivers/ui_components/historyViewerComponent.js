@@ -322,7 +322,7 @@ load_once_from_file(true)
 
                             await mm.unHighlightAllExceptLockedItem()
                             if (mm.lockedSelectedCommit) {
-                                mm.onlyHighlightLockedItem()
+                                await mm.onlyHighlightLockedItem()
                             } else {
                                 mm.previewedCommitId = null
                                 await mm.clearDetailsPane()
@@ -557,7 +557,7 @@ load_once_from_file(true)
                 if (commitItem.descendants) {
                  for (const descendant of commitItem.descendants) {
                      if (mm.listOfAllCommits[descendant.id]) {
-                        mm.renderCommit(descendant.id)
+                        await mm.renderCommit(descendant.id)
                      }
                  }
                 }
@@ -705,7 +705,7 @@ load_once_from_file(true)
             },
 
             // interaction with the Yazz system
-            getCommitHistoryForThisComponent:                      async function () {
+            getCommitHistoryForThisComponent:   async function () {
                 // ----------------------------------------------------------------------
                 //
                 //                 get the history of this commit going backwards
