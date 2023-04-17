@@ -345,7 +345,7 @@ load_once_from_file(true)
 
                     mm.timeline.moveTo(mm.listOfAllCommits[mm.selectedCommitId].timestamp)
                     await mm.selectItemDetails(mm.selectedCommitId)
-                    mm.highlightItem(mm.selectedCommitId)
+                    await mm.highlightItem(mm.selectedCommitId)
                 },100)
             },
 
@@ -373,17 +373,17 @@ load_once_from_file(true)
 
                     mm.showCode="details"
                     mm.previewedCommitId = commitId
-                    mm.highlightItem(commitId)
+                    await mm.highlightItem(commitId)
                     //await mm.showCommit()
 
 
                     let thisHistoryItem = mm.listOfAllCommits[commitId]
                     //if (thisHistoryItem.parent_id) {
-                    //    mm.highlightItem(thisHistoryItem.parent_id)
+                    //    await mm.highlightItem(thisHistoryItem.parent_id)
                     //}
                     if (thisHistoryItem.descendants) {
                         for (let descendant of thisHistoryItem.descendants) {
-                            mm.highlightItem(descendant.id, {style: "border: solid black 2px;"})
+                            await mm.highlightItem(descendant.id, {style: "border: solid black 2px;"})
                         }
                     }
 
@@ -414,8 +414,8 @@ load_once_from_file(true)
             onlyHighlightLockedItem:            async function () {
              //debugger
              let mm = this
-             mm.highlightItem(mm.lockedSelectedCommit)
-             mm.unHighlightAllExceptLockedItem()
+             await mm.highlightItem(mm.lockedSelectedCommit)
+             await mm.unHighlightAllExceptLockedItem()
          },
             unHighlightAllExceptLockedItem:     async function (  unhighlightLockedItem  ) {
              //debugger
@@ -643,7 +643,7 @@ load_once_from_file(true)
                 //alert("goto parent : " + parentId)
                 mm.timeline.moveTo(mm.listOfAllCommits[parentId].timestamp)
                 await mm.selectItemDetails(parentId)
-                mm.highlightItem(parentId)
+                await mm.highlightItem(parentId)
                 await mm.unHighlightAllExceptLockedItem()
             },
             gotoChild:                          async function () {
@@ -671,7 +671,7 @@ load_once_from_file(true)
                 let childId = descendants[0].id
                 mm.timeline.moveTo(mm.listOfAllCommits[childId].timestamp)
                 await mm.selectItemDetails(childId)
-                mm.highlightItem(childId)
+                await mm.highlightItem(childId)
                 await mm.unHighlightAllExceptLockedItem()
             },
             jumpToCommitId:                     async function (  commitId  ) {
@@ -683,7 +683,7 @@ load_once_from_file(true)
                 let mm = this
                 mm.timeline.moveTo(mm.listOfAllCommits[commitId].timestamp)
                 await mm.selectItemDetails(commitId)
-                mm.highlightItem(commitId)
+                await mm.highlightItem(commitId)
                 await mm.unHighlightAllExceptLockedItem()
             },
             gotoHome:                           async function () {
@@ -700,7 +700,7 @@ load_once_from_file(true)
 
                 mm.timeline.moveTo(mm.listOfAllCommits[mm.selectedCommitId].timestamp)
                 await mm.selectItemDetails(mm.selectedCommitId)
-                mm.highlightItem(mm.selectedCommitId)
+                await mm.highlightItem(mm.selectedCommitId)
                 await mm.unHighlightAllExceptLockedItem()
             },
 
