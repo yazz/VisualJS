@@ -509,32 +509,33 @@ load_once_from_file(true)
                 //                 renderCommit
                 //
                 // ----------------------------------------------------------------------
-                let mm         = this
-                let commitItem = mm.listOfAllCommits[commitId]
-                let itemStyle  = ""
-
+                let mm          = this
+                let mainContent
+                let extraContent
+                let commitItem  = mm.listOfAllCommits[commitId]
+                let itemStyle   = ""
+//debugger
                 if (!commitItem) {
-                return
+                    return
                 }
 
                 if (commitItem.parent_id) {
-                let parentCommitItem = mm.listOfAllCommits[commitItem.parent_id]
-                if (parentCommitItem) {
-                    if (parentCommitItem.base_component_id != commitItem.base_component_id) {
-                        mm.currentGroupId ++
+                    let parentCommitItem = mm.listOfAllCommits[commitItem.parent_id]
+                    if (parentCommitItem) {
+                        if (parentCommitItem.base_component_id != commitItem.base_component_id) {
+                            mm.currentGroupId ++
+                        }
                     }
-                }
                 }
 
                 if (commitItem.descendants && (commitItem.descendants.length > 1)) {
-                 itemStyle += "font-weight: bold;"
+                    itemStyle += "font-weight: bold;"
                 }
                 itemStyle += mm.groupColors[mm.currentGroupId].normal
 
 
-                let mainContent = commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):"")
-                let extraContent = ""
-                debugger
+                mainContent = commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):"")
+                extraContent = ""
                 if (commitItem.code_tag_list) {
                  for (codeTagItem of commitItem.code_tag_list) {
                      if (codeTagItem.code_tag =="TIP") {
@@ -545,14 +546,16 @@ load_once_from_file(true)
                      }
                  }
                 }
-                mm.timelineData.add(
-                 {
-                     id:        commitItem.id,
-                     content:   mainContent + extraContent,
-                     start:     commitItem.timestamp,
-                     group:     mm.currentGroupId,
-                     style:     itemStyle
-                 });
+                if (commitItem && commitItem.timestamp) {
+                    mm.timelineData.add(
+                        {
+                            id:        commitItem.id,
+                            content:   mainContent + extraContent,
+                            start:     commitItem.timestamp,
+                            group:     mm.currentGroupId,
+                            style:     itemStyle
+                        });
+                }
 
                 if (commitItem.descendants) {
                  for (const descendant of commitItem.descendants) {
