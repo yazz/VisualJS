@@ -514,7 +514,7 @@ load_once_from_file(true)
                 let extraContent
                 let commitItem  = mm.listOfAllCommits[commitId]
                 let itemStyle   = ""
-//debugger
+debugger
                 if (!commitItem) {
                     return
                 }
@@ -709,11 +709,8 @@ load_once_from_file(true)
 
             // interaction with the Yazz system
             getCommitHistoryForThisComponent:   async function () {
-                // ----------------------------------------------------------------------
-                //
                 //                 get the history of this commit going backwards
-                //
-                // ----------------------------------------------------------------------
+                debugger
                 let mm          = this
                 let openfileurl =
                         "http" +
