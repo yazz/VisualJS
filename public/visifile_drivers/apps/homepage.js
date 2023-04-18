@@ -657,7 +657,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             currentlyHighlightedBaseComponentId:    null,
                             appstore_apps:                          [],
 
-                            hideImportButtons:                      false,
+                            hideImportButtons:                      true,
                             refresh:                                0,
                             app_logos:                              new Object(),
                             showFilePicker:                         false,
@@ -720,7 +720,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
                         if ($HIDEIMPORTBUTTONS == 'true') {
                             mm.hideImportButtons = true
+                        } else {
+                            mm.hideImportButtons = false
                         }
+                    } else {
+                        mm.hideImportButtons = false
                     }
 
 
