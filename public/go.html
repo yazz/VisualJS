@@ -16,15 +16,15 @@ border: 1px solid lightgray;
 
 
 
-
+<!-- helper functions -->
 <script>
 
-async function addToIpfs(sometext) {
+async function addToIpfs    (   sometext   ) {
     //debugger
     let ret = await ipfs.add(sometext)
     return ret
 }
-async function getIpfsHash(sometext) {
+async function getIpfsHash  (   sometext   ) {
 //debugger
     if (ipfs) {
         let ret = await ipfs.add(sometext)
@@ -97,10 +97,7 @@ async function onPageInitialized(doCode) {
 }
 
 
-
-
-
-var useVisJs = async function() {
+var useVisJs        = async function() {
     if (!visJsloaded) {
         //debugger
         let loadVisJsScript = document.createElement('script');
@@ -115,12 +112,7 @@ var useVisJs = async function() {
         };
     }
 }
-
-
-
-
-
-var useIpfsServer = async function() {
+var useIpfsServer   = async function() {
     if (!ipfsServerloaded) {
         let promise = new Promise(async function(returnfn) {
             //debugger
@@ -141,12 +133,7 @@ var useIpfsServer = async function() {
         return ret
     }
 }
-
-
-
-
-
-var useVisCss = async function() {
+var useVisCss       = async function() {
 if (!visCssloaded) {
 //debugger
 let loadVisCssScript = document.createElement('script');
@@ -161,10 +148,7 @@ visCssloaded = true
 };
 }
 }
-
-
-
-var useWeb3 = async function() {
+var useWeb3         = async function() {
     if (!web3loaded) {
         let loadWeb3LibScript = document.createElement('script');
         loadWeb3LibScript.src = "/js_libs/web3.min.js";
@@ -187,8 +171,7 @@ var useWeb3 = async function() {
         };
     }
 }
-
-var useIdeTools = async function() {
+var useIdeTools     = async function() {
     if (!ideToolsloaded) {
         //debugger
         let promise = new Promise(returnfn => {
@@ -206,14 +189,7 @@ var useIdeTools = async function() {
         let ret = await promise
     }
 }
-
-
-
-
-
-
-
-var useDiffJs = async function() {
+var useDiffJs       = async function() {
     if (!diffJsloaded) {
         let promise = new Promise(returnfn => {
             let loadDiffJsScript = document.createElement('script');
@@ -230,14 +206,7 @@ var useDiffJs = async function() {
         let ret = await promise
     }
 }
-
-
-
-
-
-
-
-var useD3 = async function() {
+var useD3           = async function() {
     if (!d3loaded) {
         let promise = new Promise(returnfn => {
             let loadD3LibScript = document.createElement('script');
@@ -254,9 +223,109 @@ var useD3 = async function() {
         let ret = await promise
     }
 }
+var useChartsJs     = async function() {
+
+    if (!chartsJsloaded) {
+//debugger
+        let promise = new Promise(returnfn => {
+            let loadChartsJsLibScript = document.createElement('script');
+            loadChartsJsLibScript.src = "/js_libs/charts.js";
+
+            document.head.appendChild(loadChartsJsLibScript);
+            loadChartsJsLibScript.onload = function () {
+//debugger
+                try {
 
 
+                } catch (error) {
 
+                }
+                chartsJsloaded = true
+                returnfn()
+            };
+
+        })
+
+
+        let ret = await promise
+
+    }
+}
+var useEstraverse   = async function() {
+
+    if (!estraverseloaded) {
+//debugger
+        let promise = new Promise(returnfn => {
+            let loadEstraverseScript = document.createElement('script');
+            loadEstraverseScript.src = "/js_libs/estraverse1.7.1.js";
+
+            document.head.appendChild(loadEstraverseScript);
+            loadEstraverseScript.onload = function () {
+//debugger
+                try {
+                } catch (error) {
+                }
+                estraverseloaded = true
+                returnfn()
+            };
+        })
+
+
+        let ret = await promise
+
+    }
+}
+var useEsCodeGen    = async function() {
+    if (!esCodeGenLoaded) {
+//debugger
+        let promise = new Promise(returnfn => {
+            let loadEsCodeGenScript = document.createElement('script');
+            loadEsCodeGenScript.src = "/js_libs/escodegen.js";
+
+            document.head.appendChild(loadEsCodeGenScript);
+            loadEsCodeGenScript.onload = function () {
+//debugger
+                try {
+                } catch (error) {
+                }
+                esCodeGenLoaded = true
+                returnfn()
+            };
+        })
+
+
+        let ret = await promise
+
+    }
+}
+var useTabulatorJs  = async function() {
+
+    if (!tabulatorJsLoaded) {
+//debugger
+        let promise = new Promise(returnfn => {
+            let loadTabulatorJsLibScript = document.createElement('script');
+            loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
+
+            document.head.appendChild(loadTabulatorJsLibScript);
+            loadTabulatorJsLibScript.onload = function () {
+//debugger
+                try {
+
+
+                } catch (error) {
+
+                }
+                tabulatorJsLoaded = true
+                returnfn()
+            };
+
+        })
+
+
+        let ret = await promise
+
+    }
+}
 
 
 
@@ -271,142 +340,7 @@ let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
 
 
 
-var useChartsJs = async function() {
 
-if (!chartsJsloaded) {
-//debugger
-let promise = new Promise(returnfn => {
-let loadChartsJsLibScript = document.createElement('script');
-loadChartsJsLibScript.src = "/js_libs/charts.js";
-
-document.head.appendChild(loadChartsJsLibScript);
-loadChartsJsLibScript.onload = function () {
-//debugger
-try {
-
-
-} catch (error) {
-
-}
-chartsJsloaded = true
-returnfn()
-};
-
-})
-
-
-let ret = await promise
-
-}
-}
-
-
-
-
-
-
-
-var useEstraverse = async function() {
-
-if (!estraverseloaded) {
-//debugger
-let promise = new Promise(returnfn => {
-let loadEstraverseScript = document.createElement('script');
-loadEstraverseScript.src = "/js_libs/estraverse1.7.1.js";
-
-document.head.appendChild(loadEstraverseScript);
-loadEstraverseScript.onload = function () {
-//debugger
-try {
-} catch (error) {
-}
-estraverseloaded = true
-returnfn()
-};
-})
-
-
-let ret = await promise
-
-}
-}
-
-
-
-
-
-var useEsCodeGen = async function() {
-if (!esCodeGenLoaded) {
-//debugger
-let promise = new Promise(returnfn => {
-let loadEsCodeGenScript = document.createElement('script');
-loadEsCodeGenScript.src = "/js_libs/escodegen.js";
-
-document.head.appendChild(loadEsCodeGenScript);
-loadEsCodeGenScript.onload = function () {
-//debugger
-try {
-} catch (error) {
-}
-esCodeGenLoaded = true
-returnfn()
-};
-})
-
-
-let ret = await promise
-
-}
-}
-
-
-
-
-
-
-
-
-
-
-var useTabulatorJs = async function() {
-
-if (!tabulatorJsLoaded) {
-//debugger
-let promise = new Promise(returnfn => {
-let loadTabulatorJsLibScript = document.createElement('script');
-loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
-
-document.head.appendChild(loadTabulatorJsLibScript);
-loadTabulatorJsLibScript.onload = function () {
-//debugger
-try {
-
-
-} catch (error) {
-
-}
-tabulatorJsLoaded = true
-returnfn()
-};
-
-})
-
-
-let ret = await promise
-
-}
-}
-
-
-function filterBlockchainParams(blockchainDetails) {
-return {
-chainId: blockchainDetails.chainId,
-chainName: blockchainDetails.chainName,
-rpcUrls: blockchainDetails.rpcUrls,
-blockExplorerUrls: blockchainDetails.blockExplorerUrls,
-nativeCurrency: blockchainDetails.nativeCurrency
-}
-}
 window.currentBlockchain = "1"
 window.blockchainIds = {
 '0': 'kardia',
@@ -503,6 +437,16 @@ faucet: "https://faucet.polygon.technology"},
 '11297108109': 'palm',
 '836542336838601': 'curio'
 }
+
+function filterBlockchainParams(blockchainDetails) {
+    return {
+        chainId: blockchainDetails.chainId,
+        chainName: blockchainDetails.chainName,
+        rpcUrls: blockchainDetails.rpcUrls,
+        blockExplorerUrls: blockchainDetails.blockExplorerUrls,
+        nativeCurrency: blockchainDetails.nativeCurrency
+    }
+}
 async function switchBlockchainNetwork(blockchainId) {
 
 const provider = window.ethereum;
@@ -549,13 +493,7 @@ return true
 /*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
 
 
-
-
-
-
-
-
-var yz = {
+var yz                              = {
 
     insertCodeString: function(code,st, vall ,optionalEnd) {
         let endIndicator = ")"
@@ -625,25 +563,15 @@ var yz = {
         return null
     }
 }
+var GLOBALS                         = {
+    /* -----------------------------------------------------------------------
+    GLOBALS
+    ----------------------------------
+    There seems to be alot of specialised, but global communication in the
+    app editors. So instead of having global variables all over the place
+    we have decided to just have one global object
+     ----------------------------------------------------------------------- */
 
-
-
-
-
-
-
-
-
-
-
-/* -----------------------------------------------------------------------
-GLOBALS
-----------------------------------
-There seems to be alot of specialised, but global communication in the
-app editors. So instead of having global variables all over the place
-we have decided to just have one global object
- ----------------------------------------------------------------------- */
-var GLOBALS = {
     //
     // This is used to jump from editing an app to editing a UI control and back again
     //
@@ -1076,46 +1004,33 @@ var GLOBALS = {
     //
     baseComponentIdReturnsCommitId: new Object(),
 }
-
-
-
-
-
-
-
-
-
-
-
-
-var localSqliteDb    = null
-var networkIntranetIpAddress    = null
-
-
-var file_upload_uuid = null
-var base_component_id = null
-var queuedResponses = new Object()
-var queuedBrowserResponseSeqNum = 0
-var componentCallsListArgsSent = new Object()
-var uiDebuggerOn = false
-var saveCodeToFile = null
-
-var isWin = null
-
-var executionCode       = new Object()
-var currentTimelineLogPoint = 0
-var maxTimelineLogPoint = 0
-var startTimelineTop    = 0
-var executionTimeline   = []
-var executionTimelineMapTimeToLine   = {}
-var globalWatchList   = {}
-
+localSqliteDb                       = null
+var networkIntranetIpAddress        = null
+var file_upload_uuid                = null
+var base_component_id               = null
+var queuedResponses                 = new Object()
+var queuedBrowserResponseSeqNum     = 0
+var componentCallsListArgsSent      = new Object()
+var uiDebuggerOn                    = false
+var saveCodeToFile                  = null
+var isWin                           = null
+var executionCode                   = new Object()
+var currentTimelineLogPoint         = 0
+var maxTimelineLogPoint             = 0
+var startTimelineTop                = 0
+var executionTimeline               = []
+var executionTimelineMapTimeToLine  = {}
+var globalWatchList                 = {}
 </script>
 
+
+<!-- sqlite script -->
 <script>
 //SQLITE
 </script>
 
+
+<!-- sqlite data -->
 <script>
 let sqlitedata = ''
 </script>
