@@ -3923,6 +3923,7 @@ async function  copyAppshareApp                         (  args  ) {
         var argsBaseComponentId = args.base_component_id
         var argsNewAppId        = args.new_base_component_id
         var argsCodeId          = args.code_id==""?null:args.code_id
+        let timeNow             = new Date().getTime()
 
         console.log("    argsBaseComponentId: " + argsBaseComponentId)
         console.log("    argsCodeId: "          + argsCodeId)
@@ -4027,6 +4028,11 @@ async function  copyAppshareApp                         (  args  ) {
             }
 
 
+            code = yz.deleteCodeString(code, "created_timestamp")
+            code = yz.insertCodeString(code, "created_timestamp", timeNow)
+
+            code = yz.deleteCodeString(code, "updated_timestamp")
+            code = yz.insertCodeString(code, "updated_timestamp", timeNow)
 
 
             //hack city - Vue and component strings are separated as otherwise they mark the
