@@ -3661,14 +3661,14 @@ async function  getPreviousCommitsFor                   (  args  ) {
     |              commitId
     |              parentCommitId
     |              numPrevious
+    |              returnRows
     |          }
     |________________________________________________________________________ */
 
-    let commitId = args.commitId
-    let parentCommitId = args.parentCommitId
-
-    let numPrevious = 100000000
-    let returnRows = []
+    let commitId        = args.commitId
+    let parentCommitId  = args.parentCommitId
+    let numPrevious     = 100000000
+    let returnRows      = []
 
     if (args.numPrevious) {
         numPrevious = args.numPrevious
@@ -3692,10 +3692,8 @@ async function  getPreviousCommitsFor                   (  args  ) {
                     returnRows: returnRows
                 })
         }
-
-        return returnRows
     }
-    return []
+    return returnRows
 }
 async function  getFutureCommitsFor                     (  args  ) {
     /*
