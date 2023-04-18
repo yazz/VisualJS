@@ -807,7 +807,9 @@ debugger
                         code_tag_list:      responseJson[rt].code_tag_list
                     }
                     if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
-                        mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                        if (responseJson[rt].changes[0].timestamp) {
+                            mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
+                        }
                     }
                 }
             },
