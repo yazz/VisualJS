@@ -19,25 +19,6 @@ border: 1px solid lightgray;
 <!-- helper functions -->
 <script>
 
-async function addToIpfs    (   sometext   ) {
-    //debugger
-    let ret = await ipfs.add(sometext)
-    return ret
-}
-async function getIpfsHash  (   sometext   ) {
-//debugger
-    if (ipfs) {
-        let ret = await ipfs.add(sometext)
-
-        return ret.path
-    } else {
-        let resulthash = await postToYazzReturnJson(
-            "/http_post_extract_commit_hash_id_from_code",
-            {text: sometext}
-        )
-        return resulthash.ipfsHash
-    }
-}
 
 var mainMoonApp             = null
 var visJsloaded             = false
@@ -438,55 +419,6 @@ faucet: "https://faucet.polygon.technology"},
 '836542336838601': 'curio'
 }
 
-function filterBlockchainParams(blockchainDetails) {
-    return {
-        chainId: blockchainDetails.chainId,
-        chainName: blockchainDetails.chainName,
-        rpcUrls: blockchainDetails.rpcUrls,
-        blockExplorerUrls: blockchainDetails.blockExplorerUrls,
-        nativeCurrency: blockchainDetails.nativeCurrency
-    }
-}
-async function switchBlockchainNetwork(blockchainId) {
-
-const provider = window.ethereum;
-if(!provider){
-console.log("Metamask is not installed, please install!");
-}
-let chainId = await provider.request({ method: "eth_chainId" });
-if (chainId === window.blockchainIds[blockchainId].chainId) {
-console.log("Bravo!, you are on the correct network");
-} else {
-console.log("oulalal, switch to the correct network")
-}
-
-try {
-await provider.request({
-method: "wallet_switchEthereumChain",
-params: [{ chainId: window.blockchainIds[blockchainId].chainId}],
-});
-console.log("You have succefully switched to Binance Test network")
-} catch (switchError) {
-// This error code indicates that the chain has not been added to MetaMask.
-if (switchError.code === 4902) {
-console.log("This network is not available in your metamask, please add it")
-}
-console.log("Failed to switch to the network")
-try {
-await provider.request({
-method: 'wallet_addEthereumChain',
-params: [
-filterBlockchainParams(window.blockchainIds[blockchainId])
-]
-});
-} catch (addError) {
-console.log(addError);
-return false
-}
-}
-return true
-
-}
 
 
 /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
@@ -1262,7 +1194,302 @@ width: 40%
 
 <!-- js functions -->
 <script>
-function        registerComponent           (vueComponentObject) {
+if (window.SQL) {
+localSqliteDb = new window.SQL.Database()
+}
+String.prototype.replaceAll = function(search, replacement) {
+    let target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+var useProtocol     = location.protocol
+var useHostname     = null
+var usePort         = null
+</script>
+
+
+
+<style>
+@-webkit-keyframes passing-through{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%, 70%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}100%{opacity:0;-webkit-transform:translateY(-40px);-moz-transform:translateY(-40px);-ms-transform:translateY(-40px);-o-transform:translateY(-40px);transform:translateY(-40px)}}@-moz-keyframes passing-through{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%, 70%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}100%{opacity:0;-webkit-transform:translateY(-40px);-moz-transform:translateY(-40px);-ms-transform:translateY(-40px);-o-transform:translateY(-40px);transform:translateY(-40px)}}@keyframes passing-through{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%, 70%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}100%{opacity:0;-webkit-transform:translateY(-40px);-moz-transform:translateY(-40px);-ms-transform:translateY(-40px);-o-transform:translateY(-40px);transform:translateY(-40px)}}@-webkit-keyframes slide-in{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}}@-moz-keyframes slide-in{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}}@keyframes slide-in{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}}@-webkit-keyframes pulse{0%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}10%{-webkit-transform:scale(1.1);-moz-transform:scale(1.1);-ms-transform:scale(1.1);-o-transform:scale(1.1);transform:scale(1.1)}20%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}}@-moz-keyframes pulse{0%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}10%{-webkit-transform:scale(1.1);-moz-transform:scale(1.1);-ms-transform:scale(1.1);-o-transform:scale(1.1);transform:scale(1.1)}20%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}}@keyframes pulse{0%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}10%{-webkit-transform:scale(1.1);-moz-transform:scale(1.1);-ms-transform:scale(1.1);-o-transform:scale(1.1);transform:scale(1.1)}20%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}}.dropzone,.dropzone *{box-sizing:border-box}.dropzone{min-height:150px;border:2px solid rgba(0,0,0,0.3);background:white;padding:20px 20px}.dropzone.dz-clickable{cursor:pointer}.dropzone.dz-clickable *{cursor:default}.dropzone.dz-clickable .dz-message,.dropzone.dz-clickable .dz-message *{cursor:pointer}.dropzone.dz-started .dz-message{display:none}.dropzone.dz-drag-hover{border-style:solid}.dropzone.dz-drag-hover .dz-message{opacity:0.5}.dropzone .dz-message{text-align:center;margin:2em 0}.dropzone .dz-preview{position:relative;display:inline-block;vertical-align:top;margin:16px;min-height:100px}.dropzone .dz-preview:hover{z-index:1000}.dropzone .dz-preview:hover .dz-details{opacity:1}.dropzone .dz-preview.dz-file-preview .dz-image{border-radius:20px;background:#999;background:linear-gradient(to bottom, #eee, #ddd)}.dropzone .dz-preview.dz-file-preview .dz-details{opacity:1}.dropzone .dz-preview.dz-image-preview{background:white}.dropzone .dz-preview.dz-image-preview .dz-details{-webkit-transition:opacity 0.2s linear;-moz-transition:opacity 0.2s linear;-ms-transition:opacity 0.2s linear;-o-transition:opacity 0.2s linear;transition:opacity 0.2s linear}.dropzone .dz-preview .dz-remove{font-size:14px;text-align:center;display:block;cursor:pointer;border:none}.dropzone .dz-preview .dz-remove:hover{text-decoration:underline}.dropzone .dz-preview:hover .dz-details{opacity:1}.dropzone .dz-preview .dz-details{z-index:20;position:absolute;top:0;left:0;opacity:0;font-size:13px;min-width:100%;max-width:100%;padding:2em 1em;text-align:center;color:rgba(0,0,0,0.9);line-height:150%}.dropzone .dz-preview .dz-details .dz-size{margin-bottom:1em;font-size:16px}.dropzone .dz-preview .dz-details .dz-filename{white-space:nowrap}.dropzone .dz-preview .dz-details .dz-filename:hover span{border:1px solid rgba(200,200,200,0.8);background-color:rgba(255,255,255,0.8)}.dropzone .dz-preview .dz-details .dz-filename:not(:hover){overflow:hidden;text-overflow:ellipsis}.dropzone .dz-preview .dz-details .dz-filename:not(:hover) span{border:1px solid transparent}.dropzone .dz-preview .dz-details .dz-filename span,.dropzone .dz-preview .dz-details .dz-size span{background-color:rgba(255,255,255,0.4);padding:0 0.4em;border-radius:3px}.dropzone .dz-preview:hover .dz-image img{-webkit-transform:scale(1.05, 1.05);-moz-transform:scale(1.05, 1.05);-ms-transform:scale(1.05, 1.05);-o-transform:scale(1.05, 1.05);transform:scale(1.05, 1.05);-webkit-filter:blur(8px);filter:blur(8px)}.dropzone .dz-preview .dz-image{border-radius:20px;overflow:hidden;width:120px;height:120px;position:relative;display:block;z-index:10}.dropzone .dz-preview .dz-image img{display:block}.dropzone .dz-preview.dz-success .dz-success-mark{-webkit-animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);-moz-animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);-ms-animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);-o-animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1)}.dropzone .dz-preview.dz-error .dz-error-mark{opacity:1;-webkit-animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);-moz-animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);-ms-animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);-o-animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1)}.dropzone .dz-preview .dz-success-mark,.dropzone .dz-preview .dz-error-mark{pointer-events:none;opacity:0;z-index:500;position:absolute;display:block;top:50%;left:50%;margin-left:-27px;margin-top:-27px}.dropzone .dz-preview .dz-success-mark svg,.dropzone .dz-preview .dz-error-mark svg{display:block;width:54px;height:54px}.dropzone .dz-preview.dz-processing .dz-progress{opacity:1;-webkit-transition:all 0.2s linear;-moz-transition:all 0.2s linear;-ms-transition:all 0.2s linear;-o-transition:all 0.2s linear;transition:all 0.2s linear}.dropzone .dz-preview.dz-complete .dz-progress{opacity:0;-webkit-transition:opacity 0.4s ease-in;-moz-transition:opacity 0.4s ease-in;-ms-transition:opacity 0.4s ease-in;-o-transition:opacity 0.4s ease-in;transition:opacity 0.4s ease-in}.dropzone .dz-preview:not(.dz-processing) .dz-progress{-webkit-animation:pulse 6s ease infinite;-moz-animation:pulse 6s ease infinite;-ms-animation:pulse 6s ease infinite;-o-animation:pulse 6s ease infinite;animation:pulse 6s ease infinite}.dropzone .dz-preview .dz-progress{opacity:1;z-index:1000;pointer-events:none;position:absolute;height:16px;left:50%;top:50%;margin-top:-8px;width:80px;margin-left:-40px;background:rgba(255,255,255,0.9);-webkit-transform:scale(1);border-radius:8px;overflow:hidden}.dropzone .dz-preview .dz-progress .dz-upload{background:#333;background:linear-gradient(to bottom, #666, #444);position:absolute;top:0;left:0;bottom:0;width:0;-webkit-transition:width 300ms ease-in-out;-moz-transition:width 300ms ease-in-out;-ms-transition:width 300ms ease-in-out;-o-transition:width 300ms ease-in-out;transition:width 300ms ease-in-out}.dropzone .dz-preview.dz-error .dz-error-message{display:block}.dropzone .dz-preview.dz-error:hover .dz-error-message{opacity:1;pointer-events:auto}.dropzone .dz-preview .dz-error-message{pointer-events:none;z-index:1000;position:absolute;display:block;display:none;opacity:0;-webkit-transition:opacity 0.3s ease;-moz-transition:opacity 0.3s ease;-ms-transition:opacity 0.3s ease;-o-transition:opacity 0.3s ease;transition:opacity 0.3s ease;border-radius:8px;font-size:13px;top:130px;left:-10px;width:140px;background:#be2626;background:linear-gradient(to bottom, #be2626, #a92222);padding:0.5em 1.2em;color:white}.dropzone .dz-preview .dz-error-message:after{content:'';position:absolute;top:-6px;left:64px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #be2626}
+
+
+#wrapper {
+/* We need to limit the height and show a scrollbar */
+width: 100%;
+height: 100%;
+overflow-y: scroll;
+
+/* Optional, only to check that it works with margin/padding */
+margin: 0px;
+padding: 0px;
+border: 0px solid black;
+scroll-behavior2: smooth;
+}
+#infinite-list {
+}
+/* Optional eye candy below: */
+li {
+width: 95%;
+background-color: white;
+padding: 10px;
+}
+
+.loader {
+margin: auto;
+margin-top:25vh;
+border: 26px solid #f3f3f3; /* Light grey */
+border-top: 26px solid #3498db; /* Blue */
+border-radius: 100%;
+width: 14vw;
+position:absolute;
+left:43vw;
+height: 14vw;
+animation: spin2 2s linear infinite;
+z-index: 21474836;
+}
+
+@keyframes spin2 {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+
+
+body {
+margin: 30px;
+
+
+
+}
+
+
+
+.link {
+cursor:pointer;
+color:blue;
+text-decoration:underline;
+}
+
+.link:hover {
+color:black;
+}
+.dotted_vb6 {
+padding: 2.25em 1.6875em;
+background-image: -webkit-repeating-radial-gradient(center center, gray, gray 1px, transparent 2px, transparent 100%);
+background-image: -moz-repeating-radial-gradient(center center, gray, gray 1px, transparent 2px, transparent 100%);
+background-image: -ms-repeating-radial-gradient(center center, gray, gray 1px, transparent 2px, transparent 100%);
+background-image: repeating-radial-gradient(center center, gray, gray 1px, transparent 2px, transparent 100%);
+-webkit-background-size: 15px 15px;
+-moz-background-size: 15px 15px;
+background-size: 15px 15px;
+background-color: lightgray;
+}
+
+
+.dotted {
+background-position: 0px 0px, 10px 10px;
+background-size: 20px 20px;
+background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
+cursor: crosshair;
+}
+</style>
+
+<style>
+.my-custom-selectr {
+padding: 3px;
+border-radius: 3px;
+margin: 0px;
+border-right: 2px solid gray;
+border-bottom: 2px solid gray;
+}
+/*!
+* Selectr 2.4.8
+* http://mobius.ovh/docs/selectr
+*
+* Released under the MIT license
+*/
+.selectr-container li,.selectr-option,.selectr-tag{list-style:none}.selectr-container{position:relative}.selectr-hidden{position:absolute;overflow:hidden;clip:rect(0,0,0,0);width:1px;height:1px;margin:-1px;padding:0;border:0}.selectr-visible{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;z-index:11}.selectr-desktop.multiple .selectr-visible{display:none}.selectr-desktop.multiple.native-open .selectr-visible{top:100%;min-height:200px!important;height:auto;opacity:1;display:block}.selectr-container.multiple.selectr-mobile .selectr-selected{z-index:0}.selectr-selected{position:relative;z-index:1;box-sizing:border-box;width:100%;padding:7px 28px 7px 14px;cursor:pointer;border:1px solid #999;border-radius:3px;background-color:#fff}.selectr-selected::before{position:absolute;top:50%;right:10px;width:0;height:0;content:'';-o-transform:rotate(0) translate3d(0,-50%,0);-ms-transform:rotate(0) translate3d(0,-50%,0);-moz-transform:rotate(0) translate3d(0,-50%,0);-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0);border-width:4px 4px 0;border-style:solid;border-color:#6c7a86 transparent transparent}.selectr-container.native-open .selectr-selected::before,.selectr-container.open .selectr-selected::before{border-width:0 4px 4px;border-style:solid;border-color:transparent transparent #6c7a86}.selectr-label{display:none;overflow:hidden;width:100%;white-space:nowrap;text-overflow:ellipsis}.selectr-placeholder{color:#6c7a86}.selectr-tags{margin:0;padding:0;white-space:normal}.has-selected .selectr-tags{margin:0 0 -2px}.selectr-tag{position:relative;float:left;padding:2px 25px 2px 8px;margin:0 2px 2px 0;cursor:default;color:#fff;border:none;border-radius:10px;background:#acb7bf}.selectr-container.multiple.has-selected .selectr-selected{padding:5px 28px 5px 5px}.selectr-options-container{position:absolute;z-index:10000;top:calc(100% - 1px);left:0;display:none;box-sizing:border-box;width:100%;border-width:0 1px 1px;border-style:solid;border-color:transparent #999 #999;border-radius:0 0 3px 3px;background-color:#fff}.selectr-container.open .selectr-options-container{display:block}.selectr-input-container{position:relative;display:none}.selectr-clear,.selectr-input-clear,.selectr-tag-remove{position:absolute;top:50%;right:22px;width:20px;height:20px;padding:0;cursor:pointer;-o-transform:translate3d(0,-50%,0);-ms-transform:translate3d(0,-50%,0);-moz-transform:translate3d(0,-50%,0);-webkit-transform:translate3d(0,-50%,0);transform:translate3d(0,-50%,0);border:none;background-color:transparent;z-index:11}.selectr-clear,.selectr-input-clear{display:none}.selectr-container.has-selected .selectr-clear,.selectr-input-container.active,.selectr-input-container.active .selectr-clear,.selectr-input-container.active .selectr-input-clear{display:block}.selectr-selected .selectr-tag-remove{right:2px}.selectr-clear::after,.selectr-clear::before,.selectr-input-clear::after,.selectr-input-clear::before,.selectr-tag-remove::after,.selectr-tag-remove::before{position:absolute;top:5px;left:9px;width:2px;height:10px;content:' ';background-color:#6c7a86}.selectr-tag-remove::after,.selectr-tag-remove::before{top:4px;width:3px;height:12px;background-color:#fff}.selectr-clear:before,.selectr-input-clear::before,.selectr-tag-remove::before{-o-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);transform:rotate(45deg)}.selectr-clear:after,.selectr-input-clear::after,.selectr-tag-remove::after{-o-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.selectr-input{top:5px;left:5px;box-sizing:border-box;width:calc(100% - 30px);margin:10px 15px;padding:7px 30px 7px 9px;border:1px solid #999;border-radius:3px}.selectr-notice{display:none;box-sizing:border-box;width:100%;padding:8px 16px;border-top:1px solid #999;border-radius:0 0 3px 3px;background-color:#fff}.input-tag,.taggable .selectr-label{width:auto}.selectr-container.notice .selectr-notice{display:block}.selectr-container.notice .selectr-selected{border-radius:3px 3px 0 0}.selectr-options{position:relative;top:calc(100% + 2px);display:none;overflow-x:auto;overflow-y:scroll;max-height:200px;margin:0;padding:0}.selectr-container.notice .selectr-options-container,.selectr-container.open .selectr-input-container,.selectr-container.open .selectr-options{display:block}.selectr-option{position:relative;display:block;padding:5px 20px;cursor:pointer;font-weight:400}.has-selected .selectr-placeholder,.selectr-empty,.selectr-option.excluded{display:none}.selectr-options.optgroups>.selectr-option{padding-left:25px}.selectr-optgroup{font-weight:700;padding:0}.selectr-optgroup--label{font-weight:700;margin-top:10px;padding:5px 15px}.selectr-match{text-decoration:underline}.selectr-option.selected{background-color:#ddd}.selectr-option.active{color:#fff;background-color:#5897fb}.selectr-option.disabled{opacity:.4}.selectr-container.open .selectr-selected{border-color:#999 #999 transparent;border-radius:3px 3px 0 0}.selectr-container.open .selectr-selected::after{-o-transform:rotate(180deg) translate3d(0,50%,0);-ms-transform:rotate(180deg) translate3d(0,50%,0);-moz-transform:rotate(180deg) translate3d(0,50%,0);-webkit-transform:rotate(180deg) translate3d(0,50%,0);transform:rotate(180deg) translate3d(0,50%,0)}.selectr-disabled{opacity:.6}.has-selected .selectr-label{display:block}.taggable .selectr-selected{padding:4px 28px 4px 4px}.taggable .selectr-selected::after{display:table;content:" ";clear:both}.taggable .selectr-tags{float:left;display:block}.taggable .selectr-placeholder{display:none}.input-tag{float:left;min-width:90px}.selectr-tag-input{border:none;padding:3px 10px;width:100%;font-family:inherit;font-weight:inherit;font-size:inherit}.selectr-input-container.loading::after{position:absolute;top:50%;right:20px;width:20px;height:20px;content:'';-o-transform:translate3d(0,-50%,0);-ms-transform:translate3d(0,-50%,0);-moz-transform:translate3d(0,-50%,0);-webkit-transform:translate3d(0,-50%,0);transform:translate3d(0,-50%,0);-o-transform-origin:50% 0 0;-ms-transform-origin:50% 0 0;-moz-transform-origin:50% 0 0;-webkit-transform-origin:50% 0 0;transform-origin:50% 0 0;-moz-animation:.5s linear 0s normal forwards infinite running spin;-webkit-animation:.5s linear 0s normal forwards infinite running spin;animation:.5s linear 0s normal forwards infinite running spin;border-width:3px;border-style:solid;border-color:#aaa #ddd #ddd;border-radius:50%}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0)}100%{-webkit-transform:rotate(360deg) translate3d(0,-50%,0);transform:rotate(360deg) translate3d(0,-50%,0)}}@keyframes spin{0%{-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0)}100%{-webkit-transform:rotate(360deg) translate3d(0,-50%,0);transform:rotate(360deg) translate3d(0,-50%,0)}}.selectr-container.open.inverted .selectr-selected{border-color:transparent #999 #999;border-radius:0 0 3px 3px}.selectr-container.inverted .selectr-options-container{border-width:1px 1px 0;border-color:#999 #999 transparent;border-radius:3px 3px 0 0;background-color:#fff;top:auto;bottom:calc(100% - 1px)}.selectr-container ::-webkit-input-placeholder{color:#6c7a86;opacity:1}.selectr-container ::-moz-placeholder{color:#6c7a86;opacity:1}.selectr-container :-ms-input-placeholder{color:#6c7a86;opacity:1}.selectr-container ::placeholder{color:#6c7a86;opacity:1}
+</style>
+
+</head>
+
+
+
+
+<body onload='initFn()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
+
+
+
+<div    id='popup'
+style='display: none;position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
+onclick='document.getElementById("popup").style.zIndex = "-1";document.getElementById("popup").style.display = "none";document.getElementById("popup_content").innerHTML =""'>
+
+<div    id='popup_content'
+style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 400000;'
+onclick="dontBubble(event, this);">
+</div>
+</div>
+
+
+
+
+<div    id='wrapper'
+onscroll='onscrolled()'
+onmousedown='onemousedown()'
+onmouseup='onemouseup()'
+onwheel='onemousedown()'     >
+
+
+
+<div    id='infinite-list'
+style='overflow-y: none;' >
+
+
+
+<div    v-if="show_loader"
+v-bind:style='show_loader?"":"display:none;"'
+class="loader">
+</div>
+
+
+
+<template   v-for="item  in  cards" >
+            <div    v-if="item.id == selected_card"
+                    style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
+                    <card_component :item='item' :visible='true' :element_id='"current_card"'
+                                    :full_screen='true'
+                                    :is_static='is_static' :card_selected='true'>
+                    </card_component>
+            </div>
+
+</template>
+
+
+
+
+
+
+
+<template   v-for="item  in  cards">
+
+    <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
+        <card_component :item='item' :visible='true' :element_id='"card_" + item.id'
+                        :full_screen='false'
+                        :is_static='is_static' :card_selected='(item.id == selected_card)'>
+        </card_component>
+    </div>
+</template>
+
+<div style="height: 200px;">
+</div>
+
+
+
+
+
+</div>
+</div>
+
+<!-- main code and functions -->
+<script>
+var globalEventBus          = new Vue();
+let newAppArgs              = []
+var socket                  = null;
+var staticAppSocket
+var appIntervalTimers       = []
+var globinIndexComponent    = false
+var keycloak                = null
+var keycloakJsonInUse       = null
+var username                = "";
+var thecode                 = `
+(function xx() {
+var a=10
+if(runLine == 1) {return}
+a=a+1
+console.log(a)
+if(runLine == 2) {return}
+a=a+1
+console.log(a)
+if(runLine == 3) {return}
+a=a+1
+console.log(a)
+
+})()
+`
+var runLine                 = 2;
+let globalStartTimer        = new Date().getTime()
+let globalEndTimer          = new Date().getTime()
+let globalTimerCounter      = 0
+
+function        filterBlockchainParams              (   blockchainDetails   ) {
+    return {
+        chainId: blockchainDetails.chainId,
+        chainName: blockchainDetails.chainName,
+        rpcUrls: blockchainDetails.rpcUrls,
+        blockExplorerUrls: blockchainDetails.blockExplorerUrls,
+        nativeCurrency: blockchainDetails.nativeCurrency
+    }
+}
+async function  switchBlockchainNetwork             (   blockchainId   ) {
+
+    const provider = window.ethereum;
+    if(!provider){
+        console.log("Metamask is not installed, please install!");
+    }
+    let chainId = await provider.request({ method: "eth_chainId" });
+    if (chainId === window.blockchainIds[blockchainId].chainId) {
+        console.log("Bravo!, you are on the correct network");
+    } else {
+        console.log("oulalal, switch to the correct network")
+    }
+
+    try {
+        await provider.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: window.blockchainIds[blockchainId].chainId}],
+        });
+        console.log("You have succefully switched to Binance Test network")
+    } catch (switchError) {
+// This error code indicates that the chain has not been added to MetaMask.
+        if (switchError.code === 4902) {
+            console.log("This network is not available in your metamask, please add it")
+        }
+        console.log("Failed to switch to the network")
+        try {
+            await provider.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                    filterBlockchainParams(window.blockchainIds[blockchainId])
+                ]
+            });
+        } catch (addError) {
+            console.log(addError);
+            return false
+        }
+    }
+    return true
+
+}
+async function  addToIpfs                           (   sometext   ) {
+//debugger
+    let ret = await ipfs.add(sometext)
+    return ret
+}
+async function  getIpfsHash                         (   sometext   ) {
+//debugger
+    if (ipfs) {
+        let ret = await ipfs.add(sometext)
+
+        return ret.path
+    } else {
+        let resulthash = await postToYazzReturnJson(
+            "/http_post_extract_commit_hash_id_from_code",
+            {text: sometext}
+        )
+        return resulthash.ipfsHash
+    }
+}
+function        registerComponent                   (   vueComponentObject   ) {
     /*
     ________________________________________
     |                                      |
@@ -1302,39 +1529,39 @@ function        registerComponent           (vueComponentObject) {
                 if (propNamee) {
                     vueComponentObject.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
 
-                    if (propType != "Action") {
-                        console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
-                    }
-                    let designTimeOnlyEvents = false
+                        if (propType != "Action") {
+                            console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
+                        }
+                        let designTimeOnlyEvents = false
 
-                    if (oneProperty.design_time_only_events) {
-                        designTimeOnlyEvents = true
-                    }
-
-                    if (vueComponentObject && vueComponentObject.meta) {
-                        if (vueComponentObject.meta.getEditor) {
-                            vueComponentObject.meta.getEditor().processControlEvent(
-                                {
-                                    type: "subcomponent_event",
-                                    form_name: vueComponentObject.meta.getEditor().active_form,
-                                    control_name: vueComponentObject[argsPrefix].name,
-                                    sub_type: "on_property_changed",
-                                    code: vueComponentObject[argsPrefix].on_property_changed,
-                                    design_time_only_events: designTimeOnlyEvents,
-
-                                    args:
-                                        {
-                                            form: vueComponentObject.meta.getEditor().active_form,
-                                            component: vueComponentObject[argsPrefix].name,
-                                            property: propNamee,
-                                            value: newValue,
-                                            old_value: oldValue,
-                                            new_value: newValue
-                                        }
-                                })
+                        if (oneProperty.design_time_only_events) {
+                            designTimeOnlyEvents = true
                         }
 
-                    }
+                        if (vueComponentObject && vueComponentObject.meta) {
+                            if (vueComponentObject.meta.getEditor) {
+                                vueComponentObject.meta.getEditor().processControlEvent(
+                                    {
+                                        type: "subcomponent_event",
+                                        form_name: vueComponentObject.meta.getEditor().active_form,
+                                        control_name: vueComponentObject[argsPrefix].name,
+                                        sub_type: "on_property_changed",
+                                        code: vueComponentObject[argsPrefix].on_property_changed,
+                                        design_time_only_events: designTimeOnlyEvents,
+
+                                        args:
+                                            {
+                                                form: vueComponentObject.meta.getEditor().active_form,
+                                                component: vueComponentObject[argsPrefix].name,
+                                                property: propNamee,
+                                                value: newValue,
+                                                old_value: oldValue,
+                                                new_value: newValue
+                                            }
+                                    })
+                            }
+
+                        }
                     });
                 }
             }
@@ -1388,20 +1615,20 @@ function        registerComponent           (vueComponentObject) {
         }
     }
 }
-function        unregisterComponent         (componentName) {
+function        unregisterComponent                 (   componentName   ) {
     GLOBALS.designModeUiControlNameReturnsVueInstance[componentName]   = null
     GLOBALS.runtimeUiControlNameReturnsVueInstance[componentName]               = null
 }
-function        base64ToUint8Array          (string) {
-let raw = atob(string);
-let rawLength = raw.length;
-let array = new Uint8Array(new ArrayBuffer(rawLength));
-for (let i = 0; i < rawLength; i += 1) {
-array[i] = raw.charCodeAt(i);
+function        base64ToUint8Array                  (   string   ) {
+    let raw = atob(string);
+    let rawLength = raw.length;
+    let array = new Uint8Array(new ArrayBuffer(rawLength));
+    for (let i = 0; i < rawLength; i += 1) {
+        array[i] = raw.charCodeAt(i);
+    }
+    return array;
 }
-return array;
-}
-function        localSql                    (sql, params) {
+function        localSql                            (   sql   ,  params   ) {
     if (!window.SQL) {
         console.log("Local SQLite only works for static Creator apps")
     } else {
@@ -1422,7 +1649,7 @@ function        localSql                    (sql, params) {
         return resOut
     }
 }
-async function  initFn                      () {
+async function  initFn                              (   ) {
     setTimeout(async function(){
 
         Vue.component('card_component', {
@@ -2026,234 +2253,6 @@ async function  initFn                      () {
 
     },100)
 };
-
-if (window.SQL) {
-localSqliteDb = new window.SQL.Database()
-}
-String.prototype.replaceAll = function(search, replacement) {
-    let target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
-};
-
-var useProtocol     = location.protocol
-var useHostname     = null
-var usePort         = null
-</script>
-
-
-
-<style>
-@-webkit-keyframes passing-through{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%, 70%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}100%{opacity:0;-webkit-transform:translateY(-40px);-moz-transform:translateY(-40px);-ms-transform:translateY(-40px);-o-transform:translateY(-40px);transform:translateY(-40px)}}@-moz-keyframes passing-through{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%, 70%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}100%{opacity:0;-webkit-transform:translateY(-40px);-moz-transform:translateY(-40px);-ms-transform:translateY(-40px);-o-transform:translateY(-40px);transform:translateY(-40px)}}@keyframes passing-through{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%, 70%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}100%{opacity:0;-webkit-transform:translateY(-40px);-moz-transform:translateY(-40px);-ms-transform:translateY(-40px);-o-transform:translateY(-40px);transform:translateY(-40px)}}@-webkit-keyframes slide-in{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}}@-moz-keyframes slide-in{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}}@keyframes slide-in{0%{opacity:0;-webkit-transform:translateY(40px);-moz-transform:translateY(40px);-ms-transform:translateY(40px);-o-transform:translateY(40px);transform:translateY(40px)}30%{opacity:1;-webkit-transform:translateY(0px);-moz-transform:translateY(0px);-ms-transform:translateY(0px);-o-transform:translateY(0px);transform:translateY(0px)}}@-webkit-keyframes pulse{0%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}10%{-webkit-transform:scale(1.1);-moz-transform:scale(1.1);-ms-transform:scale(1.1);-o-transform:scale(1.1);transform:scale(1.1)}20%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}}@-moz-keyframes pulse{0%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}10%{-webkit-transform:scale(1.1);-moz-transform:scale(1.1);-ms-transform:scale(1.1);-o-transform:scale(1.1);transform:scale(1.1)}20%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}}@keyframes pulse{0%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}10%{-webkit-transform:scale(1.1);-moz-transform:scale(1.1);-ms-transform:scale(1.1);-o-transform:scale(1.1);transform:scale(1.1)}20%{-webkit-transform:scale(1);-moz-transform:scale(1);-ms-transform:scale(1);-o-transform:scale(1);transform:scale(1)}}.dropzone,.dropzone *{box-sizing:border-box}.dropzone{min-height:150px;border:2px solid rgba(0,0,0,0.3);background:white;padding:20px 20px}.dropzone.dz-clickable{cursor:pointer}.dropzone.dz-clickable *{cursor:default}.dropzone.dz-clickable .dz-message,.dropzone.dz-clickable .dz-message *{cursor:pointer}.dropzone.dz-started .dz-message{display:none}.dropzone.dz-drag-hover{border-style:solid}.dropzone.dz-drag-hover .dz-message{opacity:0.5}.dropzone .dz-message{text-align:center;margin:2em 0}.dropzone .dz-preview{position:relative;display:inline-block;vertical-align:top;margin:16px;min-height:100px}.dropzone .dz-preview:hover{z-index:1000}.dropzone .dz-preview:hover .dz-details{opacity:1}.dropzone .dz-preview.dz-file-preview .dz-image{border-radius:20px;background:#999;background:linear-gradient(to bottom, #eee, #ddd)}.dropzone .dz-preview.dz-file-preview .dz-details{opacity:1}.dropzone .dz-preview.dz-image-preview{background:white}.dropzone .dz-preview.dz-image-preview .dz-details{-webkit-transition:opacity 0.2s linear;-moz-transition:opacity 0.2s linear;-ms-transition:opacity 0.2s linear;-o-transition:opacity 0.2s linear;transition:opacity 0.2s linear}.dropzone .dz-preview .dz-remove{font-size:14px;text-align:center;display:block;cursor:pointer;border:none}.dropzone .dz-preview .dz-remove:hover{text-decoration:underline}.dropzone .dz-preview:hover .dz-details{opacity:1}.dropzone .dz-preview .dz-details{z-index:20;position:absolute;top:0;left:0;opacity:0;font-size:13px;min-width:100%;max-width:100%;padding:2em 1em;text-align:center;color:rgba(0,0,0,0.9);line-height:150%}.dropzone .dz-preview .dz-details .dz-size{margin-bottom:1em;font-size:16px}.dropzone .dz-preview .dz-details .dz-filename{white-space:nowrap}.dropzone .dz-preview .dz-details .dz-filename:hover span{border:1px solid rgba(200,200,200,0.8);background-color:rgba(255,255,255,0.8)}.dropzone .dz-preview .dz-details .dz-filename:not(:hover){overflow:hidden;text-overflow:ellipsis}.dropzone .dz-preview .dz-details .dz-filename:not(:hover) span{border:1px solid transparent}.dropzone .dz-preview .dz-details .dz-filename span,.dropzone .dz-preview .dz-details .dz-size span{background-color:rgba(255,255,255,0.4);padding:0 0.4em;border-radius:3px}.dropzone .dz-preview:hover .dz-image img{-webkit-transform:scale(1.05, 1.05);-moz-transform:scale(1.05, 1.05);-ms-transform:scale(1.05, 1.05);-o-transform:scale(1.05, 1.05);transform:scale(1.05, 1.05);-webkit-filter:blur(8px);filter:blur(8px)}.dropzone .dz-preview .dz-image{border-radius:20px;overflow:hidden;width:120px;height:120px;position:relative;display:block;z-index:10}.dropzone .dz-preview .dz-image img{display:block}.dropzone .dz-preview.dz-success .dz-success-mark{-webkit-animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);-moz-animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);-ms-animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);-o-animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);animation:passing-through 3s cubic-bezier(0.77, 0, 0.175, 1)}.dropzone .dz-preview.dz-error .dz-error-mark{opacity:1;-webkit-animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);-moz-animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);-ms-animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);-o-animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);animation:slide-in 3s cubic-bezier(0.77, 0, 0.175, 1)}.dropzone .dz-preview .dz-success-mark,.dropzone .dz-preview .dz-error-mark{pointer-events:none;opacity:0;z-index:500;position:absolute;display:block;top:50%;left:50%;margin-left:-27px;margin-top:-27px}.dropzone .dz-preview .dz-success-mark svg,.dropzone .dz-preview .dz-error-mark svg{display:block;width:54px;height:54px}.dropzone .dz-preview.dz-processing .dz-progress{opacity:1;-webkit-transition:all 0.2s linear;-moz-transition:all 0.2s linear;-ms-transition:all 0.2s linear;-o-transition:all 0.2s linear;transition:all 0.2s linear}.dropzone .dz-preview.dz-complete .dz-progress{opacity:0;-webkit-transition:opacity 0.4s ease-in;-moz-transition:opacity 0.4s ease-in;-ms-transition:opacity 0.4s ease-in;-o-transition:opacity 0.4s ease-in;transition:opacity 0.4s ease-in}.dropzone .dz-preview:not(.dz-processing) .dz-progress{-webkit-animation:pulse 6s ease infinite;-moz-animation:pulse 6s ease infinite;-ms-animation:pulse 6s ease infinite;-o-animation:pulse 6s ease infinite;animation:pulse 6s ease infinite}.dropzone .dz-preview .dz-progress{opacity:1;z-index:1000;pointer-events:none;position:absolute;height:16px;left:50%;top:50%;margin-top:-8px;width:80px;margin-left:-40px;background:rgba(255,255,255,0.9);-webkit-transform:scale(1);border-radius:8px;overflow:hidden}.dropzone .dz-preview .dz-progress .dz-upload{background:#333;background:linear-gradient(to bottom, #666, #444);position:absolute;top:0;left:0;bottom:0;width:0;-webkit-transition:width 300ms ease-in-out;-moz-transition:width 300ms ease-in-out;-ms-transition:width 300ms ease-in-out;-o-transition:width 300ms ease-in-out;transition:width 300ms ease-in-out}.dropzone .dz-preview.dz-error .dz-error-message{display:block}.dropzone .dz-preview.dz-error:hover .dz-error-message{opacity:1;pointer-events:auto}.dropzone .dz-preview .dz-error-message{pointer-events:none;z-index:1000;position:absolute;display:block;display:none;opacity:0;-webkit-transition:opacity 0.3s ease;-moz-transition:opacity 0.3s ease;-ms-transition:opacity 0.3s ease;-o-transition:opacity 0.3s ease;transition:opacity 0.3s ease;border-radius:8px;font-size:13px;top:130px;left:-10px;width:140px;background:#be2626;background:linear-gradient(to bottom, #be2626, #a92222);padding:0.5em 1.2em;color:white}.dropzone .dz-preview .dz-error-message:after{content:'';position:absolute;top:-6px;left:64px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #be2626}
-
-
-#wrapper {
-/* We need to limit the height and show a scrollbar */
-width: 100%;
-height: 100%;
-overflow-y: scroll;
-
-/* Optional, only to check that it works with margin/padding */
-margin: 0px;
-padding: 0px;
-border: 0px solid black;
-scroll-behavior2: smooth;
-}
-#infinite-list {
-}
-/* Optional eye candy below: */
-li {
-width: 95%;
-background-color: white;
-padding: 10px;
-}
-
-.loader {
-margin: auto;
-margin-top:25vh;
-border: 26px solid #f3f3f3; /* Light grey */
-border-top: 26px solid #3498db; /* Blue */
-border-radius: 100%;
-width: 14vw;
-position:absolute;
-left:43vw;
-height: 14vw;
-animation: spin2 2s linear infinite;
-z-index: 21474836;
-}
-
-@keyframes spin2 {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(360deg); }
-}
-
-
-
-body {
-margin: 30px;
-
-
-
-}
-
-
-
-.link {
-cursor:pointer;
-color:blue;
-text-decoration:underline;
-}
-
-.link:hover {
-color:black;
-}
-.dotted_vb6 {
-padding: 2.25em 1.6875em;
-background-image: -webkit-repeating-radial-gradient(center center, gray, gray 1px, transparent 2px, transparent 100%);
-background-image: -moz-repeating-radial-gradient(center center, gray, gray 1px, transparent 2px, transparent 100%);
-background-image: -ms-repeating-radial-gradient(center center, gray, gray 1px, transparent 2px, transparent 100%);
-background-image: repeating-radial-gradient(center center, gray, gray 1px, transparent 2px, transparent 100%);
--webkit-background-size: 15px 15px;
--moz-background-size: 15px 15px;
-background-size: 15px 15px;
-background-color: lightgray;
-}
-
-
-.dotted {
-background-position: 0px 0px, 10px 10px;
-background-size: 20px 20px;
-background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
-cursor: crosshair;
-}
-</style>
-
-<style>
-.my-custom-selectr {
-padding: 3px;
-border-radius: 3px;
-margin: 0px;
-border-right: 2px solid gray;
-border-bottom: 2px solid gray;
-}
-/*!
-* Selectr 2.4.8
-* http://mobius.ovh/docs/selectr
-*
-* Released under the MIT license
-*/
-.selectr-container li,.selectr-option,.selectr-tag{list-style:none}.selectr-container{position:relative}.selectr-hidden{position:absolute;overflow:hidden;clip:rect(0,0,0,0);width:1px;height:1px;margin:-1px;padding:0;border:0}.selectr-visible{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;z-index:11}.selectr-desktop.multiple .selectr-visible{display:none}.selectr-desktop.multiple.native-open .selectr-visible{top:100%;min-height:200px!important;height:auto;opacity:1;display:block}.selectr-container.multiple.selectr-mobile .selectr-selected{z-index:0}.selectr-selected{position:relative;z-index:1;box-sizing:border-box;width:100%;padding:7px 28px 7px 14px;cursor:pointer;border:1px solid #999;border-radius:3px;background-color:#fff}.selectr-selected::before{position:absolute;top:50%;right:10px;width:0;height:0;content:'';-o-transform:rotate(0) translate3d(0,-50%,0);-ms-transform:rotate(0) translate3d(0,-50%,0);-moz-transform:rotate(0) translate3d(0,-50%,0);-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0);border-width:4px 4px 0;border-style:solid;border-color:#6c7a86 transparent transparent}.selectr-container.native-open .selectr-selected::before,.selectr-container.open .selectr-selected::before{border-width:0 4px 4px;border-style:solid;border-color:transparent transparent #6c7a86}.selectr-label{display:none;overflow:hidden;width:100%;white-space:nowrap;text-overflow:ellipsis}.selectr-placeholder{color:#6c7a86}.selectr-tags{margin:0;padding:0;white-space:normal}.has-selected .selectr-tags{margin:0 0 -2px}.selectr-tag{position:relative;float:left;padding:2px 25px 2px 8px;margin:0 2px 2px 0;cursor:default;color:#fff;border:none;border-radius:10px;background:#acb7bf}.selectr-container.multiple.has-selected .selectr-selected{padding:5px 28px 5px 5px}.selectr-options-container{position:absolute;z-index:10000;top:calc(100% - 1px);left:0;display:none;box-sizing:border-box;width:100%;border-width:0 1px 1px;border-style:solid;border-color:transparent #999 #999;border-radius:0 0 3px 3px;background-color:#fff}.selectr-container.open .selectr-options-container{display:block}.selectr-input-container{position:relative;display:none}.selectr-clear,.selectr-input-clear,.selectr-tag-remove{position:absolute;top:50%;right:22px;width:20px;height:20px;padding:0;cursor:pointer;-o-transform:translate3d(0,-50%,0);-ms-transform:translate3d(0,-50%,0);-moz-transform:translate3d(0,-50%,0);-webkit-transform:translate3d(0,-50%,0);transform:translate3d(0,-50%,0);border:none;background-color:transparent;z-index:11}.selectr-clear,.selectr-input-clear{display:none}.selectr-container.has-selected .selectr-clear,.selectr-input-container.active,.selectr-input-container.active .selectr-clear,.selectr-input-container.active .selectr-input-clear{display:block}.selectr-selected .selectr-tag-remove{right:2px}.selectr-clear::after,.selectr-clear::before,.selectr-input-clear::after,.selectr-input-clear::before,.selectr-tag-remove::after,.selectr-tag-remove::before{position:absolute;top:5px;left:9px;width:2px;height:10px;content:' ';background-color:#6c7a86}.selectr-tag-remove::after,.selectr-tag-remove::before{top:4px;width:3px;height:12px;background-color:#fff}.selectr-clear:before,.selectr-input-clear::before,.selectr-tag-remove::before{-o-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);transform:rotate(45deg)}.selectr-clear:after,.selectr-input-clear::after,.selectr-tag-remove::after{-o-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.selectr-input{top:5px;left:5px;box-sizing:border-box;width:calc(100% - 30px);margin:10px 15px;padding:7px 30px 7px 9px;border:1px solid #999;border-radius:3px}.selectr-notice{display:none;box-sizing:border-box;width:100%;padding:8px 16px;border-top:1px solid #999;border-radius:0 0 3px 3px;background-color:#fff}.input-tag,.taggable .selectr-label{width:auto}.selectr-container.notice .selectr-notice{display:block}.selectr-container.notice .selectr-selected{border-radius:3px 3px 0 0}.selectr-options{position:relative;top:calc(100% + 2px);display:none;overflow-x:auto;overflow-y:scroll;max-height:200px;margin:0;padding:0}.selectr-container.notice .selectr-options-container,.selectr-container.open .selectr-input-container,.selectr-container.open .selectr-options{display:block}.selectr-option{position:relative;display:block;padding:5px 20px;cursor:pointer;font-weight:400}.has-selected .selectr-placeholder,.selectr-empty,.selectr-option.excluded{display:none}.selectr-options.optgroups>.selectr-option{padding-left:25px}.selectr-optgroup{font-weight:700;padding:0}.selectr-optgroup--label{font-weight:700;margin-top:10px;padding:5px 15px}.selectr-match{text-decoration:underline}.selectr-option.selected{background-color:#ddd}.selectr-option.active{color:#fff;background-color:#5897fb}.selectr-option.disabled{opacity:.4}.selectr-container.open .selectr-selected{border-color:#999 #999 transparent;border-radius:3px 3px 0 0}.selectr-container.open .selectr-selected::after{-o-transform:rotate(180deg) translate3d(0,50%,0);-ms-transform:rotate(180deg) translate3d(0,50%,0);-moz-transform:rotate(180deg) translate3d(0,50%,0);-webkit-transform:rotate(180deg) translate3d(0,50%,0);transform:rotate(180deg) translate3d(0,50%,0)}.selectr-disabled{opacity:.6}.has-selected .selectr-label{display:block}.taggable .selectr-selected{padding:4px 28px 4px 4px}.taggable .selectr-selected::after{display:table;content:" ";clear:both}.taggable .selectr-tags{float:left;display:block}.taggable .selectr-placeholder{display:none}.input-tag{float:left;min-width:90px}.selectr-tag-input{border:none;padding:3px 10px;width:100%;font-family:inherit;font-weight:inherit;font-size:inherit}.selectr-input-container.loading::after{position:absolute;top:50%;right:20px;width:20px;height:20px;content:'';-o-transform:translate3d(0,-50%,0);-ms-transform:translate3d(0,-50%,0);-moz-transform:translate3d(0,-50%,0);-webkit-transform:translate3d(0,-50%,0);transform:translate3d(0,-50%,0);-o-transform-origin:50% 0 0;-ms-transform-origin:50% 0 0;-moz-transform-origin:50% 0 0;-webkit-transform-origin:50% 0 0;transform-origin:50% 0 0;-moz-animation:.5s linear 0s normal forwards infinite running spin;-webkit-animation:.5s linear 0s normal forwards infinite running spin;animation:.5s linear 0s normal forwards infinite running spin;border-width:3px;border-style:solid;border-color:#aaa #ddd #ddd;border-radius:50%}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0)}100%{-webkit-transform:rotate(360deg) translate3d(0,-50%,0);transform:rotate(360deg) translate3d(0,-50%,0)}}@keyframes spin{0%{-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0)}100%{-webkit-transform:rotate(360deg) translate3d(0,-50%,0);transform:rotate(360deg) translate3d(0,-50%,0)}}.selectr-container.open.inverted .selectr-selected{border-color:transparent #999 #999;border-radius:0 0 3px 3px}.selectr-container.inverted .selectr-options-container{border-width:1px 1px 0;border-color:#999 #999 transparent;border-radius:3px 3px 0 0;background-color:#fff;top:auto;bottom:calc(100% - 1px)}.selectr-container ::-webkit-input-placeholder{color:#6c7a86;opacity:1}.selectr-container ::-moz-placeholder{color:#6c7a86;opacity:1}.selectr-container :-ms-input-placeholder{color:#6c7a86;opacity:1}.selectr-container ::placeholder{color:#6c7a86;opacity:1}
-</style>
-
-</head>
-
-
-
-
-<body onload='initFn()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
-
-
-
-<div    id='popup'
-style='display: none;position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
-onclick='document.getElementById("popup").style.zIndex = "-1";document.getElementById("popup").style.display = "none";document.getElementById("popup_content").innerHTML =""'>
-
-<div    id='popup_content'
-style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 400000;'
-onclick="dontBubble(event, this);">
-</div>
-</div>
-
-
-
-
-<div    id='wrapper'
-onscroll='onscrolled()'
-onmousedown='onemousedown()'
-onmouseup='onemouseup()'
-onwheel='onemousedown()'     >
-
-
-
-<div    id='infinite-list'
-style='overflow-y: none;' >
-
-
-
-<div    v-if="show_loader"
-v-bind:style='show_loader?"":"display:none;"'
-class="loader">
-</div>
-
-
-
-<template   v-for="item  in  cards" >
-            <div    v-if="item.id == selected_card"
-                    style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
-                    <card_component :item='item' :visible='true' :element_id='"current_card"'
-                                    :full_screen='true'
-                                    :is_static='is_static' :card_selected='true'>
-                    </card_component>
-            </div>
-
-</template>
-
-
-
-
-
-
-
-<template   v-for="item  in  cards">
-
-    <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
-        <card_component :item='item' :visible='true' :element_id='"card_" + item.id'
-                        :full_screen='false'
-                        :is_static='is_static' :card_selected='(item.id == selected_card)'>
-        </card_component>
-    </div>
-</template>
-
-<div style="height: 200px;">
-</div>
-
-
-
-
-
-</div>
-</div>
-
-<!-- main code and functions -->
-<script>
-var globalEventBus          = new Vue();
-let newAppArgs              = []
-var socket                  = null;
-var staticAppSocket
-var appIntervalTimers       = []
-var globinIndexComponent    = false
-var keycloak                = null
-var keycloakJsonInUse       = null
-var username                = "";
-var thecode                 = `
-(function xx() {
-var a=10
-if(runLine == 1) {return}
-a=a+1
-console.log(a)
-if(runLine == 2) {return}
-a=a+1
-console.log(a)
-if(runLine == 3) {return}
-a=a+1
-console.log(a)
-
-})()
-`
-var runLine                 = 2;
-let globalStartTimer        = new Date().getTime()
-let globalEndTimer          = new Date().getTime()
-let globalTimerCounter      = 0
-
 async function  prepareApp                          (  id,  bbase_component_id,  args  ) {
     base_component_id = bbase_component_id
     GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
