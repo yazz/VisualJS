@@ -710,7 +710,7 @@ debugger
             // interaction with the Yazz system
             getCommitHistoryForThisComponent:   async function () {
                 //                 get the history of this commit going backwards
-                debugger
+                //debugger
                 let mm          = this
                 let openfileurl =
                         "http" +
