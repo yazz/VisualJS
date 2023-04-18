@@ -1036,12 +1036,13 @@ let sqlitedata = ''
 </script>
 
 
+<!-- Scripts added here -->
 <script>
 //***ADD_SCRIPT
 </script>
 
 
-
+<!-- jsDelivr -->
 <script>
 
 /**
@@ -1251,9 +1252,6 @@ width: 40%
 </style>
 
 
-<script>
-</script>
-
 
 <script src="https://cdn.socket.io/4.5.3/socket.io.min.js" integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi" crossorigin="anonymous"></script>
 <scriptold src="/js_libs/socketio4.4.1.js"  crossorigin="anonymous"></scriptold>
@@ -1262,26 +1260,23 @@ width: 40%
 <scriptold src="/js_libs/vue2.6.11.js"></scriptold>
 
 
+<!-- js functions -->
 <script>
-
-
-
-
-/*
-________________________________________
-|                                      |
-|         registerComponent            |
-|                                      |
-|______________________________________|
-Every UI component in a GUI app must register itself here
-__________
-| PARAMS |______________________________________________________________
-|
-|     vueComponentObject    The Vue object. From the component that
-|     ------------------    is registering itself, it calls register(this)
-|                           from it's mount: method
-|________________________________________________________________________ */
-function registerComponent(vueComponentObject) {
+function registerComponent          (vueComponentObject) {
+    /*
+    ________________________________________
+    |                                      |
+    |         registerComponent            |
+    |                                      |
+    |______________________________________|
+    Every UI component in a GUI app must register itself here
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     vueComponentObject    The Vue object. From the component that
+    |     ------------------    is registering itself, it calls register(this)
+    |                           from it's mount: method
+    |________________________________________________________________________ */
 
     /*
     ____________________________________________________________
@@ -1393,27 +1388,11 @@ function registerComponent(vueComponentObject) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-function unregisterComponent(componentName) {
+function unregisterComponent        (componentName) {
     GLOBALS.designModeUiControlNameReturnsVueInstance[componentName]   = null
     GLOBALS.runtimeUiControlNameReturnsVueInstance[componentName]               = null
 }
-
-
-
-
-function base64ToUint8Array (string) {
+function base64ToUint8Array         (string) {
 let raw = atob(string);
 let rawLength = raw.length;
 let array = new Uint8Array(new ArrayBuffer(rawLength));
@@ -1422,10 +1401,7 @@ array[i] = raw.charCodeAt(i);
 }
 return array;
 }
-if (window.SQL) {
-localSqliteDb = new window.SQL.Database()
-}
-function localSql(sql, params) {
+function localSql                   (sql, params) {
     if (!window.SQL) {
         console.log("Local SQLite only works for static Creator apps")
     } else {
@@ -1446,16 +1422,7 @@ function localSql(sql, params) {
         return resOut
     }
 }
-String.prototype.replaceAll = function(search, replacement) {
-    let target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
-};
-
-var useProtocol = location.protocol
-var useHostname = null
-var usePort = null
-
-async function initFn() {
+async function initFn               () {
     setTimeout(async function(){
 
         Vue.component('card_component', {
@@ -1475,96 +1442,96 @@ async function initFn() {
             }
             ,
             methods: {
-        click_card: async function(id) {
-        autoScroll = false;
-        await select_card(id)
-        }
-        ,
-        updateComments: async function() {
-        let mm                           = this
-        let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
-        location.port + "/http_post_load_comments_for_component" + "/" +
-        "?"
+                click_card: async function(id) {
+                    autoScroll = false;
+                    await select_card(id)
+                }
+                ,
+                updateComments: async function() {
+                    let mm                           = this
+                    let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+                        location.port + "/http_post_load_comments_for_component" + "/" +
+                        "?"
 
-        callAjaxPost(newrestUrl
-        ,
-        {
-        base_component_id: base_component_id
-        ,
-        base_component_id_version: null
-        }
-        ,
-        function(response) {
-        //debugger
-        let resp = JSON.parse(response)
-        mm.new_comment = ""
-        mm.new_rating = 0
-        if (resp.status == "ok")
-        mm.comments = resp.comments_and_ratings
-        })
-
-
-        }
-        ,
-        submitComment: async function() {
-        let mm                           = this
-
-        //debugger
-        mm.submit_error_message = ""
-        if (mm.new_comment.length < 5) {
-        mm.submit_error_message = "You must enter a comment to rate this"
-        return
-        }
-
-        if (mm.new_rating == 0 ) {
-        mm.submit_error_message = "You must enter a rating"
-        return
-        }
+                    callAjaxPost(newrestUrl
+                        ,
+                        {
+                            base_component_id: base_component_id
+                            ,
+                            base_component_id_version: null
+                        }
+                        ,
+                        function(response) {
+                            //debugger
+                            let resp = JSON.parse(response)
+                            mm.new_comment = ""
+                            mm.new_rating = 0
+                            if (resp.status == "ok")
+                                mm.comments = resp.comments_and_ratings
+                        })
 
 
-        let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
-        location.port + "/http_post_submit_comment" + "/" +
-        "?"
+                }
+                ,
+                submitComment: async function() {
+                    let mm                           = this
 
-        callAjaxPost(newrestUrl
-        ,
-        {
-        base_component_id: base_component_id
-        ,
-        base_component_id_version: null
-        ,
-        comment: mm.new_comment
-        ,
-        rating: mm.new_rating
-        }
-        ,
-        function(response) {
-        //debugger
-        let resp = JSON.parse(response)
-        mm.new_comment = ""
-        mm.new_rating = 0
-        if (resp.status == "ok")
-        {
-        mm.comments = resp.comments_and_ratings
-        mm.submit_info_message = "Comment submitted"
-        }
-        })
+                    //debugger
+                    mm.submit_error_message = ""
+                    if (mm.new_comment.length < 5) {
+                        mm.submit_error_message = "You must enter a comment to rate this"
+                        return
+                    }
 
-        }
-        ,
-        openInfo: async function(useTab) {
-        //debugger
-        let mm = this
-        if (mm.tab == useTab) {
-        mm.tab = ""
-        mm.show_page_info=false;
-        } else {
-        mm.tab = useTab
-        mm.show_page_info = true
-        await mm.updateComments()
-        }
-        }
-        ,
+                    if (mm.new_rating == 0 ) {
+                        mm.submit_error_message = "You must enter a rating"
+                        return
+                    }
+
+
+                    let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+                        location.port + "/http_post_submit_comment" + "/" +
+                        "?"
+
+                    callAjaxPost(newrestUrl
+                        ,
+                        {
+                            base_component_id: base_component_id
+                            ,
+                            base_component_id_version: null
+                            ,
+                            comment: mm.new_comment
+                            ,
+                            rating: mm.new_rating
+                        }
+                        ,
+                        function(response) {
+                            //debugger
+                            let resp = JSON.parse(response)
+                            mm.new_comment = ""
+                            mm.new_rating = 0
+                            if (resp.status == "ok")
+                            {
+                                mm.comments = resp.comments_and_ratings
+                                mm.submit_info_message = "Comment submitted"
+                            }
+                        })
+
+                }
+                ,
+                openInfo: async function(useTab) {
+                    //debugger
+                    let mm = this
+                    if (mm.tab == useTab) {
+                        mm.tab = ""
+                        mm.show_page_info=false;
+                    } else {
+                        mm.tab = useTab
+                        mm.show_page_info = true
+                        await mm.updateComments()
+                    }
+                }
+                ,
                 logInWithMetamask: async function() {
                     let mm = this
                     //debugger
@@ -1581,71 +1548,71 @@ async function initFn() {
                                 method: 'get',
                                 credentials: "include"
                             })
-                            .then((response) => response.json())
-                            .then(async function(responseJson)
-                            {
-                                let seed = responseJson.seed
-                                let signMessage =   signMessageTemplate + seed
-                                let signedTx = await mm.signTransactionV2(signMessage)
-
-                                let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
-                                new URLSearchParams({
-                                    metamask_account_id: accNo
-                                    ,
-                                    signedTx: signedTx
-                                    ,
-                                    sign_message: signMessage
-                                    ,
-                                    random_seed: seed
-                                })
-
-                                fetch(checkSeedurl, {
-                                    method: 'get',
-                                    credentials: "include"
-                                })
-                                .then((response2) => response2.json())
-                                .then(async function(responseJson2)
+                                .then((response) => response.json())
+                                .then(async function(responseJson)
                                 {
-                                    if (responseJson2.error) {
-                                        mm.login_error_message =  responseJson2.error
-                                    } else {
-                                        mm.accountNumber = accs[0]
-                                        mm.show_page_info   = false;
-                                        mm.tab              = ""
+                                    let seed = responseJson.seed
+                                    let signMessage =   signMessageTemplate + seed
+                                    let signedTx = await mm.signTransactionV2(signMessage)
 
-                                    }
+                                    let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
+                                        new URLSearchParams({
+                                            metamask_account_id: accNo
+                                            ,
+                                            signedTx: signedTx
+                                            ,
+                                            sign_message: signMessage
+                                            ,
+                                            random_seed: seed
+                                        })
+
+                                    fetch(checkSeedurl, {
+                                        method: 'get',
+                                        credentials: "include"
+                                    })
+                                        .then((response2) => response2.json())
+                                        .then(async function(responseJson2)
+                                        {
+                                            if (responseJson2.error) {
+                                                mm.login_error_message =  responseJson2.error
+                                            } else {
+                                                mm.accountNumber = accs[0]
+                                                mm.show_page_info   = false;
+                                                mm.tab              = ""
+
+                                            }
+
+                                        })
+                                        .catch(err => {
+                                            //error block
+                                        })
+                                    mm.accountNumber = accs[0]
 
                                 })
                                 .catch(err => {
                                     //error block
                                 })
-                                mm.accountNumber = accs[0]
-
-                            })
-                            .catch(err => {
-                                //error block
-                            })
 
                         },100)
                     }
                 }
                 ,
-        signTransactionV2: async function(test_transaction_text) {
-        let currentETHACC = (await web3.eth.getAccounts())[0]
-        let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-        await ethereum.request({
-        method: 'personal_sign',
-        params: [test_transaction_text   //message
-        ,
-        currentETHACC
-        // account
-        //,
-        //test_transaction_text   //password?
-        ],
-        });
-        return signedTx
-        }
-        ,
+                signTransactionV2: async function(test_transaction_text) {
+                    let currentETHACC = (await web3.eth.getAccounts())[0]
+                    let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                        await ethereum.request({
+                            method: 'personal_sign',
+                            params: [test_transaction_text   //message
+                                ,
+                                currentETHACC
+                                // account
+                                //,
+                                //test_transaction_text   //password?
+                            ],
+                        });
+                    return signedTx
+                }
+                ,
                 signMetamaskLoginTransaction: async function() {
                     let mm                          = this
                     let test_transaction_text_el    = document.getElementById("test_transaction_text")
@@ -1653,55 +1620,55 @@ async function initFn() {
                     let currentETHACC               = (await web3.eth.getAccounts())[0]
 
                     mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-                    await ethereum.request({
-                        method: 'personal_sign',
-                        params: [
-                            test_transaction_text   //message
-                            ,
-                            currentETHACC
-                            // account
-                            //,
-                            //test_transaction_text   //password?
-                        ],
-                    });
+                        await ethereum.request({
+                            method: 'personal_sign',
+                            params: [
+                                test_transaction_text   //message
+                                ,
+                                currentETHACC
+                                // account
+                                //,
+                                //test_transaction_text   //password?
+                            ],
+                        });
                 }
 
             },
-        data: function () {
-        return {
-        show_page_info: false
-        ,
-        accountNumber: null
-        ,
-        comments:
-        [
-        ]
-        ,
-        rating: 0
-        ,
-        new_rating: 0
-        ,
-        numRatings: 0
-        ,
-        new_comment: ""
-        ,
-        submit_error_message: ""
-        ,
-        login_error_message: ""
-        ,
-        submit_info_message: ""
-        ,
-        tab: ""
-        ,
-        debug_sign_tx_out: ""
-        ,
-        showSettings: true
-        }
-        }
-        ,
+            data: function () {
+                return {
+                    show_page_info: false
+                    ,
+                    accountNumber: null
+                    ,
+                    comments:
+                        [
+                        ]
+                    ,
+                    rating: 0
+                    ,
+                    new_rating: 0
+                    ,
+                    numRatings: 0
+                    ,
+                    new_comment: ""
+                    ,
+                    submit_error_message: ""
+                    ,
+                    login_error_message: ""
+                    ,
+                    submit_info_message: ""
+                    ,
+                    tab: ""
+                    ,
+                    debug_sign_tx_out: ""
+                    ,
+                    showSettings: true
+                }
+            }
+            ,
 
-        template:
-        `<span   v-bind:id='element_id'
+            template:
+                `<span   v-bind:id='element_id'
                  v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
                  v-on:click='click_card(item.id)'
                  v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
@@ -1946,82 +1913,82 @@ async function initFn() {
 
         //alert(0)
         if (GLOBALS.isStaticHtmlPageApp) {
-        //alert(1)
-        let nid = nextItem++;
-        add_card({
-        id: nid,
-        card: {
-        id:                 nid,
-        name:               "***STATIC_NAME***",
-        base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
-        code_id:            "***STATIC_BASE_COMPONENT_ID***",
-        display_name:       "***STATIC_NAME***",
-        type:               "app"
-        }});
-        mainMoonApp.show_loader = false
-        autoScroll = false
-        setTimeout(async function() {
-        await select_card(nid)
-        },20)
-        refresh();
+            //alert(1)
+            let nid = nextItem++;
+            add_card({
+                id: nid,
+                card: {
+                    id:                 nid,
+                    name:               "***STATIC_NAME***",
+                    base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
+                    code_id:            "***STATIC_BASE_COMPONENT_ID***",
+                    display_name:       "***STATIC_NAME***",
+                    type:               "app"
+                }});
+            mainMoonApp.show_loader = false
+            autoScroll = false
+            setTimeout(async function() {
+                await select_card(nid)
+            },20)
+            refresh();
         }
 
 
         if (GLOBALS.isStaticHtmlPageApp) {
-        useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
-        usePort = /*static_port_start*/-1/*static_port_end*/
+            useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
+            usePort = /*static_port_start*/-1/*static_port_end*/
         } else {
-        useHostname = location.hostname
-        usePort = location.port
+            useHostname = location.hostname
+            usePort = location.port
         }
         setupWebSocket(useHostname,  usePort);
         //alert(useHostname + ":" +  usePort)
 
         let regex = /[?&]([^=#]+)=([^&#]*)/g,
-        url = window.location.href,
-        match;
+            url = window.location.href,
+            match;
         while(match = regex.exec(url)) {
-        params[match[1]] = match[2];
+            params[match[1]] = match[2];
         }
 
         if (params.goto) {
-        wait_and_select_app = params.goto.replaceAll("%20"," ").toLowerCase()
-        autoScroll = false;
-        mainMoonApp.show_loader = true
+            wait_and_select_app = params.goto.replaceAll("%20"," ").toLowerCase()
+            autoScroll = false;
+            mainMoonApp.show_loader = true
         } else if (params.embed) {
-        wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
-        autoScroll = false;
-        mainMoonApp.show_loader = true
+            wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
+            autoScroll = false;
+            mainMoonApp.show_loader = true
         } else if (!GLOBALS.isStaticHtmlPageApp) {
-        setTimeout(async function() {
-        await select_card(1)
-        },200)
+            setTimeout(async function() {
+                await select_card(1)
+            },200)
         } else if (GLOBALS.isStaticHtmlPageApp) {
-        mainMoonApp.is_static = true
+            mainMoonApp.is_static = true
         }
 
 
         if (editAppShareApp) {
-        showProgressBar()
-        let nid = nextItem++;
-        await loadUiComponentsV4("app_editor_3")
-        add_card({
-        id: nid,
-        card: {
-        id:                 nid,
-        name:               "fdsfsd",
-        base_component_id:  "app_editor_3",
-        code_id:            "app_editor_3",
-        display_name:       "fdsfds",
-        args:                {app_base_component_id: editAppShareApp},
-        type:               "app"
-        }});
-        mainMoonApp.show_loader = false
-        autoScroll = false
-        setTimeout(async function() {
-        await select_card(nid)
-        },2000)
-        refresh();
+            showProgressBar()
+            let nid = nextItem++;
+            await loadUiComponentsV4("app_editor_3")
+            add_card({
+                id: nid,
+                card: {
+                    id:                 nid,
+                    name:               "fdsfsd",
+                    base_component_id:  "app_editor_3",
+                    code_id:            "app_editor_3",
+                    display_name:       "fdsfds",
+                    args:                {app_base_component_id: editAppShareApp},
+                    type:               "app"
+                }});
+            mainMoonApp.show_loader = false
+            autoScroll = false
+            setTimeout(async function() {
+                await select_card(nid)
+            },2000)
+            refresh();
         }
 
 
@@ -2031,27 +1998,27 @@ async function initFn() {
 
 
         Dropzone.options.mydropzone = {
-        init: function() {
-        this.on("addedfile", function(file) {
-        //alert("Added file.");
-        });
-        }
+            init: function() {
+                this.on("addedfile", function(file) {
+                    //alert("Added file.");
+                });
+            }
         };
         var myDropzone = new Dropzone("body#mydropzone", {
-        url: "/http_post_file_upload"
-        ,
-        createImageThumbnails: false
-        ,
-        sending: function(file, xhr, formData){
-        showProgressBar()
-        file_upload_uuid = uuidv4()
-        //alert(fdfs)
-        formData.append('client_file_upload_id', file_upload_uuid);
-        }
+            url: "/http_post_file_upload"
+            ,
+            createImageThumbnails: false
+            ,
+            sending: function(file, xhr, formData){
+                showProgressBar()
+                file_upload_uuid = uuidv4()
+                //alert(fdfs)
+                formData.append('client_file_upload_id', file_upload_uuid);
+            }
         });
         myDropzone.on("complete", function(file) {
-        myDropzone.removeFile(file);
-        //let eds = yz.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
+            myDropzone.removeFile(file);
+            //let eds = yz.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
         });
 
 
@@ -2060,9 +2027,17 @@ async function initFn() {
     },100)
 };
 
+if (window.SQL) {
+localSqliteDb = new window.SQL.Database()
+}
+String.prototype.replaceAll = function(search, replacement) {
+    let target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
 
-
-
+var useProtocol     = location.protocol
+var useHostname     = null
+var usePort         = null
 </script>
 
 
@@ -2168,9 +2143,6 @@ border-bottom: 2px solid gray;
 */
 .selectr-container li,.selectr-option,.selectr-tag{list-style:none}.selectr-container{position:relative}.selectr-hidden{position:absolute;overflow:hidden;clip:rect(0,0,0,0);width:1px;height:1px;margin:-1px;padding:0;border:0}.selectr-visible{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;z-index:11}.selectr-desktop.multiple .selectr-visible{display:none}.selectr-desktop.multiple.native-open .selectr-visible{top:100%;min-height:200px!important;height:auto;opacity:1;display:block}.selectr-container.multiple.selectr-mobile .selectr-selected{z-index:0}.selectr-selected{position:relative;z-index:1;box-sizing:border-box;width:100%;padding:7px 28px 7px 14px;cursor:pointer;border:1px solid #999;border-radius:3px;background-color:#fff}.selectr-selected::before{position:absolute;top:50%;right:10px;width:0;height:0;content:'';-o-transform:rotate(0) translate3d(0,-50%,0);-ms-transform:rotate(0) translate3d(0,-50%,0);-moz-transform:rotate(0) translate3d(0,-50%,0);-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0);border-width:4px 4px 0;border-style:solid;border-color:#6c7a86 transparent transparent}.selectr-container.native-open .selectr-selected::before,.selectr-container.open .selectr-selected::before{border-width:0 4px 4px;border-style:solid;border-color:transparent transparent #6c7a86}.selectr-label{display:none;overflow:hidden;width:100%;white-space:nowrap;text-overflow:ellipsis}.selectr-placeholder{color:#6c7a86}.selectr-tags{margin:0;padding:0;white-space:normal}.has-selected .selectr-tags{margin:0 0 -2px}.selectr-tag{position:relative;float:left;padding:2px 25px 2px 8px;margin:0 2px 2px 0;cursor:default;color:#fff;border:none;border-radius:10px;background:#acb7bf}.selectr-container.multiple.has-selected .selectr-selected{padding:5px 28px 5px 5px}.selectr-options-container{position:absolute;z-index:10000;top:calc(100% - 1px);left:0;display:none;box-sizing:border-box;width:100%;border-width:0 1px 1px;border-style:solid;border-color:transparent #999 #999;border-radius:0 0 3px 3px;background-color:#fff}.selectr-container.open .selectr-options-container{display:block}.selectr-input-container{position:relative;display:none}.selectr-clear,.selectr-input-clear,.selectr-tag-remove{position:absolute;top:50%;right:22px;width:20px;height:20px;padding:0;cursor:pointer;-o-transform:translate3d(0,-50%,0);-ms-transform:translate3d(0,-50%,0);-moz-transform:translate3d(0,-50%,0);-webkit-transform:translate3d(0,-50%,0);transform:translate3d(0,-50%,0);border:none;background-color:transparent;z-index:11}.selectr-clear,.selectr-input-clear{display:none}.selectr-container.has-selected .selectr-clear,.selectr-input-container.active,.selectr-input-container.active .selectr-clear,.selectr-input-container.active .selectr-input-clear{display:block}.selectr-selected .selectr-tag-remove{right:2px}.selectr-clear::after,.selectr-clear::before,.selectr-input-clear::after,.selectr-input-clear::before,.selectr-tag-remove::after,.selectr-tag-remove::before{position:absolute;top:5px;left:9px;width:2px;height:10px;content:' ';background-color:#6c7a86}.selectr-tag-remove::after,.selectr-tag-remove::before{top:4px;width:3px;height:12px;background-color:#fff}.selectr-clear:before,.selectr-input-clear::before,.selectr-tag-remove::before{-o-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);transform:rotate(45deg)}.selectr-clear:after,.selectr-input-clear::after,.selectr-tag-remove::after{-o-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.selectr-input{top:5px;left:5px;box-sizing:border-box;width:calc(100% - 30px);margin:10px 15px;padding:7px 30px 7px 9px;border:1px solid #999;border-radius:3px}.selectr-notice{display:none;box-sizing:border-box;width:100%;padding:8px 16px;border-top:1px solid #999;border-radius:0 0 3px 3px;background-color:#fff}.input-tag,.taggable .selectr-label{width:auto}.selectr-container.notice .selectr-notice{display:block}.selectr-container.notice .selectr-selected{border-radius:3px 3px 0 0}.selectr-options{position:relative;top:calc(100% + 2px);display:none;overflow-x:auto;overflow-y:scroll;max-height:200px;margin:0;padding:0}.selectr-container.notice .selectr-options-container,.selectr-container.open .selectr-input-container,.selectr-container.open .selectr-options{display:block}.selectr-option{position:relative;display:block;padding:5px 20px;cursor:pointer;font-weight:400}.has-selected .selectr-placeholder,.selectr-empty,.selectr-option.excluded{display:none}.selectr-options.optgroups>.selectr-option{padding-left:25px}.selectr-optgroup{font-weight:700;padding:0}.selectr-optgroup--label{font-weight:700;margin-top:10px;padding:5px 15px}.selectr-match{text-decoration:underline}.selectr-option.selected{background-color:#ddd}.selectr-option.active{color:#fff;background-color:#5897fb}.selectr-option.disabled{opacity:.4}.selectr-container.open .selectr-selected{border-color:#999 #999 transparent;border-radius:3px 3px 0 0}.selectr-container.open .selectr-selected::after{-o-transform:rotate(180deg) translate3d(0,50%,0);-ms-transform:rotate(180deg) translate3d(0,50%,0);-moz-transform:rotate(180deg) translate3d(0,50%,0);-webkit-transform:rotate(180deg) translate3d(0,50%,0);transform:rotate(180deg) translate3d(0,50%,0)}.selectr-disabled{opacity:.6}.has-selected .selectr-label{display:block}.taggable .selectr-selected{padding:4px 28px 4px 4px}.taggable .selectr-selected::after{display:table;content:" ";clear:both}.taggable .selectr-tags{float:left;display:block}.taggable .selectr-placeholder{display:none}.input-tag{float:left;min-width:90px}.selectr-tag-input{border:none;padding:3px 10px;width:100%;font-family:inherit;font-weight:inherit;font-size:inherit}.selectr-input-container.loading::after{position:absolute;top:50%;right:20px;width:20px;height:20px;content:'';-o-transform:translate3d(0,-50%,0);-ms-transform:translate3d(0,-50%,0);-moz-transform:translate3d(0,-50%,0);-webkit-transform:translate3d(0,-50%,0);transform:translate3d(0,-50%,0);-o-transform-origin:50% 0 0;-ms-transform-origin:50% 0 0;-moz-transform-origin:50% 0 0;-webkit-transform-origin:50% 0 0;transform-origin:50% 0 0;-moz-animation:.5s linear 0s normal forwards infinite running spin;-webkit-animation:.5s linear 0s normal forwards infinite running spin;animation:.5s linear 0s normal forwards infinite running spin;border-width:3px;border-style:solid;border-color:#aaa #ddd #ddd;border-radius:50%}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0)}100%{-webkit-transform:rotate(360deg) translate3d(0,-50%,0);transform:rotate(360deg) translate3d(0,-50%,0)}}@keyframes spin{0%{-webkit-transform:rotate(0) translate3d(0,-50%,0);transform:rotate(0) translate3d(0,-50%,0)}100%{-webkit-transform:rotate(360deg) translate3d(0,-50%,0);transform:rotate(360deg) translate3d(0,-50%,0)}}.selectr-container.open.inverted .selectr-selected{border-color:transparent #999 #999;border-radius:0 0 3px 3px}.selectr-container.inverted .selectr-options-container{border-width:1px 1px 0;border-color:#999 #999 transparent;border-radius:3px 3px 0 0;background-color:#fff;top:auto;bottom:calc(100% - 1px)}.selectr-container ::-webkit-input-placeholder{color:#6c7a86;opacity:1}.selectr-container ::-moz-placeholder{color:#6c7a86;opacity:1}.selectr-container :-ms-input-placeholder{color:#6c7a86;opacity:1}.selectr-container ::placeholder{color:#6c7a86;opacity:1}
 </style>
-<script>
-
-</script>
 
 </head>
 
@@ -2251,11 +2223,10 @@ class="loader">
 </div>
 </div>
 
-
+<!-- main code and functions -->
 <script>
 
 var globalEventBus = new Vue();
-//lll
 let newAppArgs = []
 async function prepareApp(  id,  bbase_component_id,  args  ) {
     base_component_id = bbase_component_id
@@ -2273,8 +2244,6 @@ async function prepareApp(  id,  bbase_component_id,  args  ) {
     }
 
 }
-
-
 function loadAppIntoElement(tagName, rootElement) {
     if (!document.getElementById(rootElement)) {
         let newRootId = rootElement.substring(4)
@@ -2288,13 +2257,6 @@ function loadAppIntoElement(tagName, rootElement) {
             el:         "#" + rootElement
         })
 }
-
-
-
-
-
-
-
 function add_card(payload) {
     let ccy = document.getElementById('wrapper').scrollTop
     mainMoonApp.cards.push(payload);
