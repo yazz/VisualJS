@@ -2231,6 +2231,28 @@ var socket                  = null;
 var staticAppSocket
 var appIntervalTimers       = []
 var globinIndexComponent    = false
+var keycloak                = null
+var keycloakJsonInUse       = null
+var username                = "";
+var thecode                 = `
+(function xx() {
+var a=10
+if(runLine == 1) {return}
+a=a+1
+console.log(a)
+if(runLine == 2) {return}
+a=a+1
+console.log(a)
+if(runLine == 3) {return}
+a=a+1
+console.log(a)
+
+})()
+`
+var runLine                 = 2;
+let globalStartTimer        = new Date().getTime()
+let globalEndTimer          = new Date().getTime()
+let globalTimerCounter      = 0
 
 async function  prepareApp                          (  id,  bbase_component_id,  args  ) {
     base_component_id = bbase_component_id
@@ -3285,178 +3307,43 @@ function        callAjaxPost                        (url, value, callback){
     })
     xhr.send(payload);
 }
-
-/*
-creates the following:
-
-GLOBALS.linkedProperties = {
-horiz_scroll_control: {
-outgoing: {
-me: {
-value: {
-label_control: {text: true}
-}
-},
-them: {
-label_control: {
-text: {value: true}
-}
-}
-}
-
-}
-,
-input_control: {
-outgoing: {
-me: {
-value: {
-label_control: {text: true}
-}
-},
-them: {
-label_control: {
-text: {value: true}
-}
-}
-}
-}
-,
-label_control: {
-
-outgoing: {
-me: {
-leftX: {
-horiz_scroll_control: {value: true}
-},
-topY: {
-horiz_scroll_control: {value: true}
-},
-text: {
-input_control: {value: true}
-}
-},
-them: {
-horiz_scroll_control: {
-value: {text: true, leftX: true, topY: true}
-},
-input_control: {
-value: {text: true}
-},
-timer_control: {
-counter: {
-text: true, leftX: true, topY: true
-}
-}
-
-}
-}
-,
-incoming: {
-me: {
-leftX: {
-horiz_scroll_control: {value: true}
-},
-topY: {
-horiz_scroll_control: {value: true}
-},
-text: {
-input_control: {value: true},
-timer_control: {counter: true}
-}
-
-},
-them: {
-horiz_scroll_control: {
-value: {text: true, leftX: true, topY: true}
-},
-input_control: {
-value: {text: true}
-},
-timer_control: {
-counter: {
-text: true, leftX: true, topY: true
-}
-}
-
-
-}
-}
-
-}
-}
-
-*/
-
-
-populateCache()
-
-
-</script>
-
-
-
-<!-- code and functions -->
-<script>
-var keycloak            = null
-var keycloakJsonInUse   = null
-var username            = "";
-var thecode             = `
-(function xx() {
-var a=10
-if(runLine == 1) {return}
-a=a+1
-console.log(a)
-if(runLine == 2) {return}
-a=a+1
-console.log(a)
-if(runLine == 3) {return}
-a=a+1
-console.log(a)
-
-})()
-`
-var runLine             = 2;
-let globalStartTimer    = new Date().getTime()
-let globalEndTimer      = new Date().getTime()
-let globalTimerCounter  = 0
-
 function        logoutKeycloak                      (   ) {
-if (keycloak) {
-keycloakJsonInUse = null
-keycloak.logout()
-}
+    if (keycloak) {
+        keycloakJsonInUse = null
+        keycloak.logout()
+    }
 }
 function        compareValues                       (   a   ,   b   ) {
 
 //if a and b aren't the same type, they can't be equal
-if (typeof a !== typeof b) {
-return false;
-}
+    if (typeof a !== typeof b) {
+        return false;
+    }
 
-if (typeof a === 'object') {
-var keysA = Object.keys(a).sort(),
-keysB = Object.keys(b).sort();
+    if (typeof a === 'object') {
+        var keysA = Object.keys(a).sort(),
+            keysB = Object.keys(b).sort();
 
 //if a and b are objects with different no of keys, unequal
-if (keysA.length !== keysB.length) {
-return false;
-}
+        if (keysA.length !== keysB.length) {
+            return false;
+        }
 
 //if keys aren't all the same, unequal
-if (!keysA.every(function(k, i) { return k === keysB[i];})) {
-return false;
-}
+        if (!keysA.every(function(k, i) { return k === keysB[i];})) {
+            return false;
+        }
 
 //recurse on the values for each key
-return keysA.every(function(key) {
+        return keysA.every(function(key) {
 //if we made it here, they have identical keys
-return compareValues(a[key], b[key]);
-});
+            return compareValues(a[key], b[key]);
+        });
 
 //for primitives just use a straight up check
-} else {
-return a === b;
-}
+    } else {
+        return a === b;
+    }
 }
 function        loadKeycloak                        (   keycloakJson   ) {
     /*
@@ -3476,39 +3363,39 @@ loadKeycloak(
 
     if (keycloakJsonInUse) {
 //debugger
-if (compareValues(keycloakJsonInUse, keycloakJson)) {
-return
-}
-}
-var script = document.createElement('script');
-script.onload = function () {
-keycloak = Keycloak(keycloakJson);
-keycloakJsonInUse = JSON.parse(JSON.stringify(keycloakJson))
-keycloak.init(
-{
-onLoad: 'login-required' ,
-checkLoginIframe: false
-}
-).success(function(authenticated) {
+        if (compareValues(keycloakJsonInUse, keycloakJson)) {
+            return
+        }
+    }
+    var script = document.createElement('script');
+    script.onload = function () {
+        keycloak = Keycloak(keycloakJson);
+        keycloakJsonInUse = JSON.parse(JSON.stringify(keycloakJson))
+        keycloak.init(
+            {
+                onLoad: 'login-required' ,
+                checkLoginIframe: false
+            }
+        ).success(function(authenticated) {
 //alert(authenticated ? 'authenticated' : 'not authenticated');
 
-if (authenticated) {
-console.log("keycloak.subject:" + keycloak.subject)
-console.log("Loading profile 1")
-keycloak.loadUserProfile(function() {
-console.log("Loading profile 2")
-username = keycloak.profile.username;
-console.log("keycloak username:" + username)
-})
-}
+            if (authenticated) {
+                console.log("keycloak.subject:" + keycloak.subject)
+                console.log("Loading profile 1")
+                keycloak.loadUserProfile(function() {
+                    console.log("Loading profile 2")
+                    username = keycloak.profile.username;
+                    console.log("keycloak username:" + username)
+                })
+            }
 
-}).error(function(err) {
+        }).error(function(err) {
 
-console.log('Failed to initialize keycloak: ' + err);
-});
-};
-script.src = keycloakJson["auth-server-url"] + "/js/keycloak.js";
-document.head.appendChild(script);
+            console.log('Failed to initialize keycloak: ' + err);
+        });
+    };
+    script.src = keycloakJson["auth-server-url"] + "/js/keycloak.js";
+    document.head.appendChild(script);
 }
 async function  runn                                (   ) {
     fullCode(thecode)
@@ -4365,6 +4252,110 @@ async function  saveDebugTextOnServer               (   textInput   ,   fileLoca
 
 }
 
+/*
+creates the following:
+
+GLOBALS.linkedProperties = {
+horiz_scroll_control: {
+outgoing: {
+me: {
+value: {
+label_control: {text: true}
+}
+},
+them: {
+label_control: {
+text: {value: true}
+}
+}
+}
+
+}
+,
+input_control: {
+outgoing: {
+me: {
+value: {
+label_control: {text: true}
+}
+},
+them: {
+label_control: {
+text: {value: true}
+}
+}
+}
+}
+,
+label_control: {
+
+outgoing: {
+me: {
+leftX: {
+horiz_scroll_control: {value: true}
+},
+topY: {
+horiz_scroll_control: {value: true}
+},
+text: {
+input_control: {value: true}
+}
+},
+them: {
+horiz_scroll_control: {
+value: {text: true, leftX: true, topY: true}
+},
+input_control: {
+value: {text: true}
+},
+timer_control: {
+counter: {
+text: true, leftX: true, topY: true
+}
+}
+
+}
+}
+,
+incoming: {
+me: {
+leftX: {
+horiz_scroll_control: {value: true}
+},
+topY: {
+horiz_scroll_control: {value: true}
+},
+text: {
+input_control: {value: true},
+timer_control: {counter: true}
+}
+
+},
+them: {
+horiz_scroll_control: {
+value: {text: true, leftX: true, topY: true}
+},
+input_control: {
+value: {text: true}
+},
+timer_control: {
+counter: {
+text: true, leftX: true, topY: true
+}
+}
+
+
+}
+}
+
+}
+}
+
+*/
+
+
+populateCache()
+
 
 console.log("Start debugger")
 fullCode = async function(cc) {
@@ -4423,7 +4414,9 @@ runn()
  */
 
 
+
 </script>
+
 
 
 
