@@ -1205,6 +1205,34 @@ String.prototype.replaceAll = function(search, replacement) {
 var useProtocol     = location.protocol
 var useHostname     = null
 var usePort         = null
+var globalEventBus          = new Vue();
+let newAppArgs              = []
+var socket                  = null;
+var staticAppSocket
+var appIntervalTimers       = []
+var globinIndexComponent    = false
+var keycloak                = null
+var keycloakJsonInUse       = null
+var username                = "";
+var thecode                 = `
+(function xx() {
+var a=10
+if(runLine == 1) {return}
+a=a+1
+console.log(a)
+if(runLine == 2) {return}
+a=a+1
+console.log(a)
+if(runLine == 3) {return}
+a=a+1
+console.log(a)
+
+})()
+`
+var runLine                 = 2;
+let globalStartTimer        = new Date().getTime()
+let globalEndTimer          = new Date().getTime()
+let globalTimerCounter      = 0
 </script>
 
 
@@ -1392,34 +1420,7 @@ class="loader">
 
 <!-- main code and functions -->
 <script>
-var globalEventBus          = new Vue();
-let newAppArgs              = []
-var socket                  = null;
-var staticAppSocket
-var appIntervalTimers       = []
-var globinIndexComponent    = false
-var keycloak                = null
-var keycloakJsonInUse       = null
-var username                = "";
-var thecode                 = `
-(function xx() {
-var a=10
-if(runLine == 1) {return}
-a=a+1
-console.log(a)
-if(runLine == 2) {return}
-a=a+1
-console.log(a)
-if(runLine == 3) {return}
-a=a+1
-console.log(a)
 
-})()
-`
-var runLine                 = 2;
-let globalStartTimer        = new Date().getTime()
-let globalEndTimer          = new Date().getTime()
-let globalTimerCounter      = 0
 
 function        filterBlockchainParams              (   blockchainDetails   ) {
     return {
