@@ -3764,24 +3764,28 @@ async function  releaseCode                             (  commitId  ) {
     |     --------
     |________________________________________________________________________ */
 
-    let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
-    let codeString = codeRecord.code
-    let parsedCode = await parseCode(codeString)
-    let icon_image_id = "image id"
-    let dataString = null
-    let id = uuidv1()
-    let base_component_id = parsedCode.baseComponentId
-    let app_name = parsedCode.name
-    let app_description = parsedCode.description
-    let logo = parsedCode.logo
-    let ipfs_hash = parsedCode.ipfsHashId
-    let readWriteStatus = parsedCode.readWriteStatus
-    let component_type = parsedCode.type
+    let codeRecord          = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
+    let codeString          = codeRecord.code
+    let parsedCode          = await parseCode(codeString)
+    let icon_image_id       = "image id"
+    let dataString          = null
+    let id                  = uuidv1()
+    let base_component_id   = parsedCode.baseComponentId
+    let app_name            = parsedCode.name
+    let app_description     = parsedCode.description
+    let logo                = parsedCode.logo
+    let ipfs_hash           = parsedCode.ipfsHashId
+    let readWriteStatus     = parsedCode.readWriteStatus
+    let component_type      = parsedCode.type
+    let rowhash             = crypto.createHash('sha256');
+    let fullPath
+    let logoFileIn
+    let imageExtension
+
     let promise = new Promise(async function(returnfn) {
 
         if (logo) {
             if (logo.startsWith("data:")) {
-                let rowhash = crypto.createHash('sha256');
                 rowhash.setEncoding('hex');
                 rowhash.write(logo);
                 rowhash.end();
@@ -3789,16 +3793,16 @@ async function  releaseCode                             (  commitId  ) {
                 dataString = logo
             } else if (logo.startsWith("http")) {
             } else {
+                fullPath        = path.join(__dirname, "../public" + logo)
+                logoFileIn      = fs.readFileSync(fullPath);
+                dataString      = new Buffer(logoFileIn).toString('base64');
+                imageExtension  = logo.substring(logo.lastIndexOf(".") + 1)
+                dataString      = "data:image/" + imageExtension + ";base64," + dataString
 
-                let fullPath = path.join(__dirname, "../public" + logo)
-                let logoFileIn = fs.readFileSync(fullPath);
-                dataString = new Buffer(logoFileIn).toString('base64');
-                let imageExtension = logo.substring(logo.lastIndexOf(".") + 1)
-                let rowhash = crypto.createHash('sha256');
-                dataString = "data:image/" + imageExtension + ";base64," + dataString
                 rowhash.setEncoding('hex');
                 rowhash.write(dataString);
                 rowhash.end();
+
                 icon_image_id = rowhash.read();
             }
         }
@@ -3860,8 +3864,13 @@ async function  copyAppshareApp                         (  args  ) {
 
     async function saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
 
-        let listOfSubComponentsRes = await yz.getSubComponents(code)
-        var listOfSubComponents = []
+        let listOfSubComponentsRes  = await yz.getSubComponents(code)
+        var listOfSubComponents     = []
+        let dbToCopyFrom            = argsBaseComponentId
+        let altDbUsed               = yz.getValueOfCodeString(code,"use_db")
+        let codeIdRet               = null
+        let saveret
+
         for (var yuy = 0; yuy < listOfSubComponentsRes.length ; yuy++ ) {
 
             listOfSubComponents.push( listOfSubComponentsRes[yuy].child_base_component_id )
@@ -3874,24 +3883,20 @@ async function  copyAppshareApp                         (  args  ) {
         console.log("              userId:              " + userId)
         //console.log("              code:                " + code)
 
-        let dbToCopyFrom = argsBaseComponentId
-        let altDbUsed = yz.getValueOfCodeString(code,"use_db")
         if (altDbUsed) {
             dbToCopyFrom = altDbUsed
         }
 
-        let saveret = await yz.saveCodeV3(
+        saveret = await yz.saveCodeV3(
             dbsearch,
             code,
             {
                 sub_components:         listOfSubComponents,
                 copy_db_from:           dbToCopyFrom,
                 save_html:              true,
-                //let userid = await getUserId(req)
-                //let optionsForSave = req.body.value.options
-                userId: userId
+                userId:                 userId
             })
-        let codeIdRet = null
+
         if (saveret) {
             codeIdRet =  saveret.code_id
         }
