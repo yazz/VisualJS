@@ -44,387 +44,6 @@ var params                  = {}
 var autoScroll              = false;
 var nextItem                = 1;
 var wait_and_select_app     = null
-
-
-async function onPageInitialized(doCode) {
-    executeOnPageLoad = doCode
-    if (pageInitialised) {
-        await executeOnPageLoad()
-        executeOnPageLoad = null
-    }
-
-//debugger
-    let blob = new Blob([
-        document.querySelector('#web_worker_1').textContent
-    ], { type: "text/javascript" })
-
-// Note: window.webkitURL.createObjectURL() in Chrome 10+.
-    worker = new Worker(window.URL.createObjectURL(blob));
-    worker.onmessage = function(e) {
-        console.log("Received: " + e.data);
-    }
-
-
-    saveCodeViaWebWorker = async function(code, options) {
-        worker.postMessage(
-            {
-                hostPort:       $HOSTPORT,
-                host:           $HOST,
-                code:           code,
-                options:        options
-            }
-        );
-    }
-}
-
-
-var useVisJs        = async function() {
-    if (!visJsloaded) {
-        //debugger
-        let loadVisJsScript = document.createElement('script');
-        loadVisJsScript.src = "/js_libs/vis-timeline-graph2d.min.css";
-
-        document.head.appendChild(loadVisJsScript);
-        loadVisJsScript.onload = function () {
-            try {
-            } catch (error) {
-            }
-            visJsloaded = true
-        };
-    }
-}
-var useIpfsServer   = async function() {
-    if (!ipfsServerloaded) {
-        let promise = new Promise(async function(returnfn) {
-            //debugger
-            let loadIpfsServerScript = document.createElement('script');
-            loadIpfsServerScript.src = "/js_libs/js_ipfs_server.js";
-
-            document.head.appendChild(loadIpfsServerScript);
-            loadIpfsServerScript.onload = function () {
-                try {
-                } catch (error) {
-                    debugger
-                }
-                ipfsServerloaded = true
-                returnfn()
-            };
-        })
-        let ret = await promise
-        return ret
-    }
-}
-var useVisCss       = async function() {
-if (!visCssloaded) {
-//debugger
-let loadVisCssScript = document.createElement('script');
-loadVisCssScript.src = "/js_libs/vis-timeline-graph2d.min.js";
-
-document.head.appendChild(loadVisCssScript);
-loadVisCssScript.onload = function () {
-try {
-} catch (error) {
-}
-visCssloaded = true
-};
-}
-}
-var useWeb3         = async function() {
-    if (!web3loaded) {
-        let loadWeb3LibScript = document.createElement('script');
-        loadWeb3LibScript.src = "/js_libs/web3.min.js";
-
-        document.head.appendChild(loadWeb3LibScript);
-        loadWeb3LibScript.onload = function () {
-            try {
-                window.ethereum.request({method: "eth_requestAccounts"});
-                web3 = new Web3(window.ethereum);
-                (async function () {
-                    //await switchBlockchainNetwork('1')   //eth mainnet
-                    //await switchBlockchainNetwork('97')   //binance testnet
-                    //await switchBlockchainNetwork('80001')   //polygon testnet
-                    await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
-                })()
-            } catch (error) {
-
-            }
-            web3loaded = true
-        };
-    }
-}
-var useIdeTools     = async function() {
-    if (!ideToolsloaded) {
-        //debugger
-        let promise = new Promise(returnfn => {
-            let loadIdeToolsLibScript = document.createElement('script');
-            loadIdeToolsLibScript.src = "/js_libs/idetools.js";
-            document.head.appendChild(loadIdeToolsLibScript);
-            loadIdeToolsLibScript.onload = function () {
-                try {
-                } catch (error) {
-                }
-                ideToolsloaded = true
-                returnfn()
-            };
-        })
-        let ret = await promise
-    }
-}
-var useDiffJs       = async function() {
-    if (!diffJsloaded) {
-        let promise = new Promise(returnfn => {
-            let loadDiffJsScript = document.createElement('script');
-            loadDiffJsScript.src = "/js_libs/diff.js";
-            document.head.appendChild(loadDiffJsScript);
-            loadDiffJsScript.onload = function () {
-                try {
-                } catch (error) {
-                }
-                diffJsloaded = true
-                returnfn()
-            };
-        })
-        let ret = await promise
-    }
-}
-var useD3           = async function() {
-    if (!d3loaded) {
-        let promise = new Promise(returnfn => {
-            let loadD3LibScript = document.createElement('script');
-            loadD3LibScript.src = "/js_libs/d3.js";
-            document.head.appendChild(loadD3LibScript);
-            loadD3LibScript.onload = function () {
-                try {
-                } catch (error) {
-                }
-                d3loaded = true
-                returnfn()
-            };
-        })
-        let ret = await promise
-    }
-}
-var useChartsJs     = async function() {
-
-    if (!chartsJsloaded) {
-//debugger
-        let promise = new Promise(returnfn => {
-            let loadChartsJsLibScript = document.createElement('script');
-            loadChartsJsLibScript.src = "/js_libs/charts.js";
-
-            document.head.appendChild(loadChartsJsLibScript);
-            loadChartsJsLibScript.onload = function () {
-//debugger
-                try {
-
-
-                } catch (error) {
-
-                }
-                chartsJsloaded = true
-                returnfn()
-            };
-
-        })
-
-
-        let ret = await promise
-
-    }
-}
-var useEstraverse   = async function() {
-
-    if (!estraverseloaded) {
-//debugger
-        let promise = new Promise(returnfn => {
-            let loadEstraverseScript = document.createElement('script');
-            loadEstraverseScript.src = "/js_libs/estraverse1.7.1.js";
-
-            document.head.appendChild(loadEstraverseScript);
-            loadEstraverseScript.onload = function () {
-//debugger
-                try {
-                } catch (error) {
-                }
-                estraverseloaded = true
-                returnfn()
-            };
-        })
-
-
-        let ret = await promise
-
-    }
-}
-var useEsCodeGen    = async function() {
-    if (!esCodeGenLoaded) {
-//debugger
-        let promise = new Promise(returnfn => {
-            let loadEsCodeGenScript = document.createElement('script');
-            loadEsCodeGenScript.src = "/js_libs/escodegen.js";
-
-            document.head.appendChild(loadEsCodeGenScript);
-            loadEsCodeGenScript.onload = function () {
-//debugger
-                try {
-                } catch (error) {
-                }
-                esCodeGenLoaded = true
-                returnfn()
-            };
-        })
-
-
-        let ret = await promise
-
-    }
-}
-var useTabulatorJs  = async function() {
-
-    if (!tabulatorJsLoaded) {
-//debugger
-        let promise = new Promise(returnfn => {
-            let loadTabulatorJsLibScript = document.createElement('script');
-            loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
-
-            document.head.appendChild(loadTabulatorJsLibScript);
-            loadTabulatorJsLibScript.onload = function () {
-//debugger
-                try {
-
-
-                } catch (error) {
-
-                }
-                tabulatorJsLoaded = true
-                returnfn()
-            };
-
-        })
-
-
-        let ret = await promise
-
-    }
-}
-
-
-
-
-let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
-"to prove you have access to this wallet " +
-"and we'll log you in. This won't cost " +
-"you any Ether." +
-"\n\n" +
-"To stop hackers using your wallet, here's " +
-"a unique message ID they can't guess: "
-
-
-
-
-window.currentBlockchain = "1"
-window.blockchainIds = {
-'0': 'kardia',
-'1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
-'4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
-'8': 'ubiq',
-'10': 'optimism',
-'19': 'songbird',
-'20': 'elastos',
-'25': 'cronos',
-'30': {
-chainId: '0x1e',
-chainName:'rsk - mainnet',
-rpcUrls:["https://public-node.rsk.co"],
-blockExplorerUrls:['https://explorer.rsk.co'],
-nativeCurrency: {symbol:'RBTC',decimals: 18}
-},
-'31': {
-chainId: '0x1f',
-chainName:'rsk - testnet',
-rpcUrls:["https://public-node.testnet.rsk.co"],
-blockExplorerUrls:['https://explorer.testnet.rsk.co'],
-nativeCurrency: {symbol:'RBTC',decimals: 18},
-faucet: "https://faucet.rsk.co",
-preMinedUrl: "https://explorer.testnet.rsk.co/address/",
-postMinedUrl: ""
-},
-'40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
-faucet: "https://app.telos.net/testnet/developers"},
-'41': {
-chainId: '0x29',
-chainName:'telos - testnet',
-rpcUrls:["https://testnet.telos.net/evm"],
-blockExplorerUrls:['https://testnet.teloscan.io'],
-nativeCurrency: {symbol:'TLOS',decimals: 18},
-faucet: "https://app.telos.net/testnet/developers"
-},
-'52': 'csc',
-'55': 'zyx',
-'56': 'binance',
-'57': 'syscoin',
-'60': 'gochain',
-'61': 'ethclassic',
-'66': 'okexchain',
-'70': 'hoo',
-'82': 'meter',
-'88': 'tomochain',
-'97': {chainId: '0x61',chainName:'Binance Smart Chain - Testnet',rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545'],blockExplorerUrls:['https://testnet.bscscan.com'],nativeCurrency: {symbol:'BNB',decimals: 18}},
-'100': 'xdai',
-'106': 'velas',
-'108': 'thundercore',
-'122': 'fuse',
-'128': 'heco',
-'137': 'polygon',
-'200': 'xdaiarb',
-'246': 'energyweb',
-'250': {chainId: '0xFA',chainName: 'Fantom Opera Mainnet',rpcUrls:['https://rpc.ftm.tools/'],blockExplorerUrls:['https://ftmscan.com'],nativeCurrency: {symbol:'FTM',decimals: 18}},
-'269': 'hpb',
-'288': 'boba',
-'321': 'kucoin',
-'336': 'shiden',
-'361': 'theta',
-'592': 'astar',
-'820': 'callisto',
-'888': 'wanchain',
-'1088': 'metis',
-'1284': 'moonbeam',
-'1285': 'moonriver',
-'2020': 'ronin',
-'4689': 'iotex',
-'5050': 'xlc',
-'5551': 'nahmii',
-'8217': 'klaytn',
-'10000': 'smartbch',
-'32659': 'fusion',
-'42161': 'arbitrum',
-'421611': {
-chainId: '0x66EEB',
-chainName:'arbitrum - testnet',
-rpcUrls:["https://rinkeby.arbitrum.io/rpc"],
-blockExplorerUrls:['https://rinkeby-explorer.arbitrum.io/#/'],
-nativeCurrency: {symbol:'ETH',decimals: 18},
-faucet: "https://docs.theanthill.io/how-to/getting-bnb-on-binance-smart-chain-bsc-testnet"
-},
-'42220': 'celo',
-'42262': 'oasis',
-'43114': 'avalanche',
-'71394': 'godwoken',
-'80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
-faucet: "https://faucet.polygon.technology"},
-'333999': 'polis',
-'1313161554': 'aurora',
-'1666600000': 'harmony',
-'11297108109': 'palm',
-'836542336838601': 'curio'
-}
-
-
-
-/*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
-/*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
-
-
 var yz                              = {
 
     insertCodeString: function(code,st, vall ,optionalEnd) {
@@ -809,7 +428,7 @@ var GLOBALS                         = {
             codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
         }
         if (!codeId ) {
-             return args.baseComponentId
+            return args.baseComponentId
         }
 
         if (codeId)
@@ -953,6 +572,358 @@ var startTimelineTop                = 0
 var executionTimeline               = []
 var executionTimelineMapTimeToLine  = {}
 var globalWatchList                 = {}
+
+
+
+
+var useVisJs        = async function() {
+    if (!visJsloaded) {
+        //debugger
+        let loadVisJsScript = document.createElement('script');
+        loadVisJsScript.src = "/js_libs/vis-timeline-graph2d.min.css";
+
+        document.head.appendChild(loadVisJsScript);
+        loadVisJsScript.onload = function () {
+            try {
+            } catch (error) {
+            }
+            visJsloaded = true
+        };
+    }
+}
+var useIpfsServer   = async function() {
+    if (!ipfsServerloaded) {
+        let promise = new Promise(async function(returnfn) {
+            //debugger
+            let loadIpfsServerScript = document.createElement('script');
+            loadIpfsServerScript.src = "/js_libs/js_ipfs_server.js";
+
+            document.head.appendChild(loadIpfsServerScript);
+            loadIpfsServerScript.onload = function () {
+                try {
+                } catch (error) {
+                    debugger
+                }
+                ipfsServerloaded = true
+                returnfn()
+            };
+        })
+        let ret = await promise
+        return ret
+    }
+}
+var useVisCss       = async function() {
+if (!visCssloaded) {
+//debugger
+let loadVisCssScript = document.createElement('script');
+loadVisCssScript.src = "/js_libs/vis-timeline-graph2d.min.js";
+
+document.head.appendChild(loadVisCssScript);
+loadVisCssScript.onload = function () {
+try {
+} catch (error) {
+}
+visCssloaded = true
+};
+}
+}
+var useWeb3         = async function() {
+    if (!web3loaded) {
+        let loadWeb3LibScript = document.createElement('script');
+        loadWeb3LibScript.src = "/js_libs/web3.min.js";
+
+        document.head.appendChild(loadWeb3LibScript);
+        loadWeb3LibScript.onload = function () {
+            try {
+                window.ethereum.request({method: "eth_requestAccounts"});
+                web3 = new Web3(window.ethereum);
+                (async function () {
+                    //await switchBlockchainNetwork('1')   //eth mainnet
+                    //await switchBlockchainNetwork('97')   //binance testnet
+                    //await switchBlockchainNetwork('80001')   //polygon testnet
+                    await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
+                })()
+            } catch (error) {
+
+            }
+            web3loaded = true
+        };
+    }
+}
+var useIdeTools     = async function() {
+    if (!ideToolsloaded) {
+        //debugger
+        let promise = new Promise(returnfn => {
+            let loadIdeToolsLibScript = document.createElement('script');
+            loadIdeToolsLibScript.src = "/js_libs/idetools.js";
+            document.head.appendChild(loadIdeToolsLibScript);
+            loadIdeToolsLibScript.onload = function () {
+                try {
+                } catch (error) {
+                }
+                ideToolsloaded = true
+                returnfn()
+            };
+        })
+        let ret = await promise
+    }
+}
+var useDiffJs       = async function() {
+    if (!diffJsloaded) {
+        let promise = new Promise(returnfn => {
+            let loadDiffJsScript = document.createElement('script');
+            loadDiffJsScript.src = "/js_libs/diff.js";
+            document.head.appendChild(loadDiffJsScript);
+            loadDiffJsScript.onload = function () {
+                try {
+                } catch (error) {
+                }
+                diffJsloaded = true
+                returnfn()
+            };
+        })
+        let ret = await promise
+    }
+}
+var useD3           = async function() {
+    if (!d3loaded) {
+        let promise = new Promise(returnfn => {
+            let loadD3LibScript = document.createElement('script');
+            loadD3LibScript.src = "/js_libs/d3.js";
+            document.head.appendChild(loadD3LibScript);
+            loadD3LibScript.onload = function () {
+                try {
+                } catch (error) {
+                }
+                d3loaded = true
+                returnfn()
+            };
+        })
+        let ret = await promise
+    }
+}
+var useChartsJs     = async function() {
+
+    if (!chartsJsloaded) {
+//debugger
+        let promise = new Promise(returnfn => {
+            let loadChartsJsLibScript = document.createElement('script');
+            loadChartsJsLibScript.src = "/js_libs/charts.js";
+
+            document.head.appendChild(loadChartsJsLibScript);
+            loadChartsJsLibScript.onload = function () {
+//debugger
+                try {
+
+
+                } catch (error) {
+
+                }
+                chartsJsloaded = true
+                returnfn()
+            };
+
+        })
+
+
+        let ret = await promise
+
+    }
+}
+var useEstraverse   = async function() {
+
+    if (!estraverseloaded) {
+//debugger
+        let promise = new Promise(returnfn => {
+            let loadEstraverseScript = document.createElement('script');
+            loadEstraverseScript.src = "/js_libs/estraverse1.7.1.js";
+
+            document.head.appendChild(loadEstraverseScript);
+            loadEstraverseScript.onload = function () {
+//debugger
+                try {
+                } catch (error) {
+                }
+                estraverseloaded = true
+                returnfn()
+            };
+        })
+
+
+        let ret = await promise
+
+    }
+}
+var useEsCodeGen    = async function() {
+    if (!esCodeGenLoaded) {
+//debugger
+        let promise = new Promise(returnfn => {
+            let loadEsCodeGenScript = document.createElement('script');
+            loadEsCodeGenScript.src = "/js_libs/escodegen.js";
+
+            document.head.appendChild(loadEsCodeGenScript);
+            loadEsCodeGenScript.onload = function () {
+//debugger
+                try {
+                } catch (error) {
+                }
+                esCodeGenLoaded = true
+                returnfn()
+            };
+        })
+
+
+        let ret = await promise
+
+    }
+}
+var useTabulatorJs  = async function() {
+
+    if (!tabulatorJsLoaded) {
+//debugger
+        let promise = new Promise(returnfn => {
+            let loadTabulatorJsLibScript = document.createElement('script');
+            loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
+
+            document.head.appendChild(loadTabulatorJsLibScript);
+            loadTabulatorJsLibScript.onload = function () {
+//debugger
+                try {
+
+
+                } catch (error) {
+
+                }
+                tabulatorJsLoaded = true
+                returnfn()
+            };
+
+        })
+
+
+        let ret = await promise
+
+    }
+}
+
+
+
+
+let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
+"to prove you have access to this wallet " +
+"and we'll log you in. This won't cost " +
+"you any Ether." +
+"\n\n" +
+"To stop hackers using your wallet, here's " +
+"a unique message ID they can't guess: "
+
+
+
+
+window.currentBlockchain = "1"
+window.blockchainIds = {
+'0': 'kardia',
+'1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
+'4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
+'8': 'ubiq',
+'10': 'optimism',
+'19': 'songbird',
+'20': 'elastos',
+'25': 'cronos',
+'30': {
+chainId: '0x1e',
+chainName:'rsk - mainnet',
+rpcUrls:["https://public-node.rsk.co"],
+blockExplorerUrls:['https://explorer.rsk.co'],
+nativeCurrency: {symbol:'RBTC',decimals: 18}
+},
+'31': {
+chainId: '0x1f',
+chainName:'rsk - testnet',
+rpcUrls:["https://public-node.testnet.rsk.co"],
+blockExplorerUrls:['https://explorer.testnet.rsk.co'],
+nativeCurrency: {symbol:'RBTC',decimals: 18},
+faucet: "https://faucet.rsk.co",
+preMinedUrl: "https://explorer.testnet.rsk.co/address/",
+postMinedUrl: ""
+},
+'40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
+faucet: "https://app.telos.net/testnet/developers"},
+'41': {
+chainId: '0x29',
+chainName:'telos - testnet',
+rpcUrls:["https://testnet.telos.net/evm"],
+blockExplorerUrls:['https://testnet.teloscan.io'],
+nativeCurrency: {symbol:'TLOS',decimals: 18},
+faucet: "https://app.telos.net/testnet/developers"
+},
+'52': 'csc',
+'55': 'zyx',
+'56': 'binance',
+'57': 'syscoin',
+'60': 'gochain',
+'61': 'ethclassic',
+'66': 'okexchain',
+'70': 'hoo',
+'82': 'meter',
+'88': 'tomochain',
+'97': {chainId: '0x61',chainName:'Binance Smart Chain - Testnet',rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545'],blockExplorerUrls:['https://testnet.bscscan.com'],nativeCurrency: {symbol:'BNB',decimals: 18}},
+'100': 'xdai',
+'106': 'velas',
+'108': 'thundercore',
+'122': 'fuse',
+'128': 'heco',
+'137': 'polygon',
+'200': 'xdaiarb',
+'246': 'energyweb',
+'250': {chainId: '0xFA',chainName: 'Fantom Opera Mainnet',rpcUrls:['https://rpc.ftm.tools/'],blockExplorerUrls:['https://ftmscan.com'],nativeCurrency: {symbol:'FTM',decimals: 18}},
+'269': 'hpb',
+'288': 'boba',
+'321': 'kucoin',
+'336': 'shiden',
+'361': 'theta',
+'592': 'astar',
+'820': 'callisto',
+'888': 'wanchain',
+'1088': 'metis',
+'1284': 'moonbeam',
+'1285': 'moonriver',
+'2020': 'ronin',
+'4689': 'iotex',
+'5050': 'xlc',
+'5551': 'nahmii',
+'8217': 'klaytn',
+'10000': 'smartbch',
+'32659': 'fusion',
+'42161': 'arbitrum',
+'421611': {
+chainId: '0x66EEB',
+chainName:'arbitrum - testnet',
+rpcUrls:["https://rinkeby.arbitrum.io/rpc"],
+blockExplorerUrls:['https://rinkeby-explorer.arbitrum.io/#/'],
+nativeCurrency: {symbol:'ETH',decimals: 18},
+faucet: "https://docs.theanthill.io/how-to/getting-bnb-on-binance-smart-chain-bsc-testnet"
+},
+'42220': 'celo',
+'42262': 'oasis',
+'43114': 'avalanche',
+'71394': 'godwoken',
+'80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
+faucet: "https://faucet.polygon.technology"},
+'333999': 'polis',
+'1313161554': 'aurora',
+'1666600000': 'harmony',
+'11297108109': 'palm',
+'836542336838601': 'curio'
+}
+
+
+
+/*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
+/*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
+
+
+
 </script>
 
 
@@ -1421,7 +1392,36 @@ class="loader">
 <!-- main code and functions -->
 <script>
 
+async function  onPageInitialized                   (   doCode   ) {
+        executeOnPageLoad = doCode
+        if (pageInitialised) {
+            await executeOnPageLoad()
+            executeOnPageLoad = null
+        }
 
+//debugger
+        let blob = new Blob([
+            document.querySelector('#web_worker_1').textContent
+        ], { type: "text/javascript" })
+
+// Note: window.webkitURL.createObjectURL() in Chrome 10+.
+        worker = new Worker(window.URL.createObjectURL(blob));
+        worker.onmessage = function(e) {
+            console.log("Received: " + e.data);
+        }
+
+
+        saveCodeViaWebWorker = async function(code, options) {
+            worker.postMessage(
+                {
+                    hostPort:       $HOSTPORT,
+                    host:           $HOST,
+                    code:           code,
+                    options:        options
+                }
+            );
+        }
+    }
 function        filterBlockchainParams              (   blockchainDetails   ) {
     return {
         chainId: blockchainDetails.chainId,
@@ -2270,7 +2270,7 @@ async function  prepareApp                          (  id,  bbase_component_id, 
     }
 
 }
-function        loadAppIntoElement                  (tagName, rootElement) {
+function        loadAppIntoElement                  (   tagName   ,   rootElement   ) {
     if (!document.getElementById(rootElement)) {
         let newRootId = rootElement.substring(4)
         let newCardId = "app_container_" + newRootId
@@ -2283,7 +2283,7 @@ function        loadAppIntoElement                  (tagName, rootElement) {
             el:         "#" + rootElement
         })
 }
-function        add_card                            (payload) {
+function        add_card                            (   payload   ) {
     let ccy = document.getElementById('wrapper').scrollTop
     mainMoonApp.cards.push(payload);
     setTimeout(function() {
