@@ -2788,7 +2788,7 @@
                         if (mm.args.control_code_id) {
                             compArgs.code_id = mm.args.control_code_id
                         }
-debugger
+//debugger
                         await mm.addComponentV2(
                             200,
                             200,
@@ -4992,7 +4992,7 @@ ${origCode}
                                 }
                                 mm.refresh ++
 
-debugger
+//debugger
                                 let newComponent = await mm.lookupComponentOnForm({componentName: newItem.name})
                                 mm.addCodeChange("Add component: " + newItem.name + "(" + newItem.base_component_id + ")")
                                 returnfn(newComponent)

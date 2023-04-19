@@ -514,7 +514,7 @@ load_once_from_file(true)
                 let extraContent
                 let commitItem  = mm.listOfAllCommits[commitId]
                 let itemStyle   = ""
-debugger
+
                 if (!commitItem) {
                     return
                 }
