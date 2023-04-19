@@ -225,7 +225,7 @@ var GLOBALS                         = {
 
 
 
-    getPipelineCodeFromServer: async function(fileName) {
+    getPipelineCodeFromServer:      async function  (fileName) {
         let resultsCode = await postToYazzReturnJson(
             "/http_post_load_pipeline_code",
             {
@@ -233,26 +233,24 @@ var GLOBALS                         = {
             })
 
         return resultsCode.value
-    }
-    ,
-
-
-
-
-    /*
-    ________________________________________
-    |                                      |
-    |       getPipelineCodeToCopy                  |
-    |                                      |
-    |______________________________________|
-    Function description
-    __________
-    | PARAMS |______________________________________________________________
-    |
-    |     args
-    |     ----
-    |________________________________________________________________________ */
-    getPipelineCodeToCopy: async function(args) {
+    },
+    getPipelineCodeToCopy:          async function  (   args   ) {
+        /*
+        ________________________________________
+        |                                      |
+        |       getPipelineCodeToCopy          |
+        |                                      |
+        |______________________________________|
+        Function description
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     args  {
+        |     ----      pipelineName
+        |               fromMarker
+        |               toMarker
+        |           }
+        |________________________________________________________________________ */
         let codeToCopy = null
         if (GLOBALS.runtimePipelines[args.pipelineName]) {
             codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
@@ -277,26 +275,13 @@ var GLOBALS                         = {
         let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
 
         return editorCodeToCopy
-    }
-    ,
-
-
-
-
-
-    //----------------------------------------------------
-    // CODE CACHES
-    //----------------------------------------------------
-
-    getCommitIdForBaseComponentId: function (baseComponentId) {
+    },
+    getCommitIdForBaseComponentId:  function        (baseComponentId) {
         if (baseComponentId) {
             return GLOBALS.baseComponentIdReturnsCommitId[ baseComponentId ]
         }
-    }
-    ,
-
-
-    getCodeForComponent: function(args) {
+    },
+    getCodeForComponent:            function        (args) {
         let codeId = args.codeId
         if (!codeId) {
             if (args.baseComponentId) {
@@ -313,46 +298,29 @@ var GLOBALS                         = {
         //debugger
         //throw "getCodeForComponent: Can't find code for {" + JSON.stringify(args,null,2) + "}"
         return null
-    }
-    ,
-
-
-
-    getLibsForCommit: function(args) {
+    },
+    getLibsForCommit:               function        (args) {
         return []
         if (args.codeId) {
             if (GLOBALS.codeCache[args.codeId]) {
                 return GLOBALS.codeCache[args.codeId].libs
             }
         }
-    }
-    ,
-
-
-    getControlPropertyDefns: function(args) {
+    },
+    getControlPropertyDefns:        function        (args) {
         if (args.baseComponentId) {
             return GLOBALS.codeCache[GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)].properties
         }
-    }
-    ,
-
-
-
-
-    isComponentTypeCached: function(baseComponentId) {
+    },
+    isComponentTypeCached:          function        (baseComponentId) {
         if (baseComponentId) {
             if (GLOBALS.getCommitIdForBaseComponentId(baseComponentId)) {
                 return true
             }
         }
         return false
-    }
-    ,
-
-
-
-
-    isComponentLoaded: function(args) {
+    },
+    isComponentLoaded:              function        (args) {
         let codeId = null
         if (args.codeId) {
             codeId = args.codeId
@@ -367,10 +335,8 @@ var GLOBALS                         = {
             }
         }
         return false
-    }
-    ,
-
-    setComponentLoaded: function(args) {
+    },
+    setComponentLoaded:             function        (args) {
         let previousCodeId          = null
         let previousCachedCode      = null
         let previousBaseComponentId = null
@@ -406,22 +372,11 @@ var GLOBALS                         = {
             }
         }
         return false
-    }
-    ,
-
-
-
-
-
-    getTypeForCommitId: function(codeId) {
+    },
+    getTypeForCommitId:             function        (codeId) {
         return GLOBALS.codeCache[codeId].base_component_id
-    }
-    ,
-
-
-
-
-    getDbToUse: function(args) {
+    },
+    getDbToUse:                     function        (args) {
         let useDb =  null
         let codeId = args.codeId
         if (!codeId ) {
@@ -450,14 +405,8 @@ var GLOBALS                         = {
             }
         }
         return useDb
-    }
-    ,
-
-
-
-
-
-    isControl: function(args) {
+    },
+    isControl:                      function        (args) {
         let codeId = args.codeId
         if (!codeId ) {
             codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
@@ -470,13 +419,8 @@ var GLOBALS                         = {
             }
         }
         return false
-    }
-    ,
-
-
-//zzz
-
-    getAllLoadedControlTypeNames: function() {
+    },
+    getAllLoadedControlTypeNames:   function        () {
         let listOfAllComponents = Object.keys(GLOBALS.baseComponentIdReturnsCommitId)
         let listOfControls = []
         for (let aComponentType of listOfAllComponents) {
@@ -485,11 +429,8 @@ var GLOBALS                         = {
             }
         }
         return listOfControls.reverse()
-    }
-    ,
-
-
-    cacheThisComponentCode: function(args) {
+    },
+    cacheThisComponentCode:         function        (args) {
         let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
         let componentType   = yz.getValueOfCodeString(args.code, "component_type")
 
@@ -516,20 +457,15 @@ var GLOBALS                         = {
                 baseComponentId:    baseComponentId,
                 codeId:             args.codeId
             })
-    }
-    ,
-
-    pointBaseComponentIdAtCode: function(args) {
+    },
+    pointBaseComponentIdAtCode:     function        (args) {
         GLOBALS.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
 
         if (GLOBALS.isControl({baseComponentId: args.baseComponentId})) {
             indexComponent( args.baseComponentId  )
         }
 
-    }
-    ,
-
-
+    },
 
     //
     // This contains the source code for a particular commit ID
@@ -4115,9 +4051,9 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
 
                     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
                         {
-                            pipelineName: "APP",
-                            fromMarker: "//*** gen_start ***//",
-                            toMarker: "//*** gen_end ***//"
+                            pipelineName:   "APP",
+                            fromMarker:     "//*** gen_start ***//",
+                            toMarker:       "//*** gen_end ***//"
                         })
 
                     if (startIndex != -1) {
