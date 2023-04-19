@@ -3065,7 +3065,7 @@ debugger
                                 timestamp: new Date().getTime()
                             })
                     },
-                    updateComponentMethods:                 function() {
+                    updateComponentMethods:                 function        () {
                         /*
             ________________________________________
             |                                      |
@@ -3136,7 +3136,7 @@ debugger
                             }
                         }
                     },
-                    getIncomingToPropertyName:              function(currentWatch) {
+                    getIncomingToPropertyName:              function        (currentWatch) {
                         /*
             ________________________________________
             |                                      |
@@ -3165,7 +3165,7 @@ debugger
 
                         return ret
                     },
-                    getEditor:                              function() {
+                    getEditor:                              function        () {
                         /*
              ________________________________________
              |                                      |
@@ -3282,7 +3282,7 @@ debugger
 
                         },100)
                     },
-                    lookupComponent: function(componentName) {
+                    lookupComponent:                        function        (componentName) {
                         /*
              ________________________________________
              |                                      |
@@ -3313,7 +3313,7 @@ debugger
 
                         return component
                     },
-                    lookupComponentOnForm: function(lookupArgs) {
+                    lookupComponentOnForm:                  function        (lookupArgs) {
                         /*
              ________________________________________
              |                                      |
@@ -3366,7 +3366,7 @@ debugger
                         return null
 
                     },
-                    getIncomingFromPropertyName:            function(currentWatch) {
+                    getIncomingFromPropertyName:            function        (currentWatch) {
                         /*
              ________________________________________
              |                                      |
@@ -3395,7 +3395,7 @@ debugger
 
                         return ret
                     },
-                    getIncomingTransformFn:                 function(currentWatch) {
+                    getIncomingTransformFn:                 function        (currentWatch) {
                         /*
              ________________________________________
              |                                      |
@@ -3421,7 +3421,7 @@ debugger
 
                         return ret
                     },
-                    getOutgoingTransformFn:                 function(currentPush) {
+                    getOutgoingTransformFn:                 function        (currentPush) {
                         /*
              ________________________________________
              |                                      |
@@ -3447,7 +3447,7 @@ debugger
 
                         return ret
                     },
-                    getOutgoingFromPropertyName: function(currentPush) {
+                    getOutgoingFromPropertyName:            function        (currentPush) {
                         /*
              ________________________________________
              |                                      |
@@ -3476,7 +3476,7 @@ debugger
 
                         return ret
                     },
-                    getOutgoingToPropertyName: function(currentPush) {
+                    getOutgoingToPropertyName:              function        (currentPush) {
                         /*
              ________________________________________
              |                                      |
@@ -3505,7 +3505,7 @@ debugger
 
                         return ret
                     },
-                    addPush: function() {
+                    addPush:                                function        () {
                         /*
              ________________________________________
              |                                      |
@@ -3551,7 +3551,7 @@ debugger
 
 
                     },
-                    clearLinks: async function() {
+                    clearLinks:                             async function  () {
                         /*
              ________________________________________
              |                                      |
@@ -3580,7 +3580,7 @@ debugger
                         mm.selectedPushComponentType = null
                         await mm.recalcComponentLinks()
                     },
-                    addWatch: function() {
+                    addWatch:                               function        () {
                         /*
              ________________________________________
              |                                      |
@@ -3626,7 +3626,7 @@ debugger
                         mm.clearLinks()
 
                     },
-                    getNextComponentid: function() {
+                    getNextComponentid:                     function        () {
                         /*
              ________________________________________
              |                                      |
@@ -3644,7 +3644,7 @@ debugger
              |________________________________________________________________________ */
                         return this.model.next_component_id++
                     },
-                    addNewComponentPush: async function() {
+                    addNewComponentPush:                    async function  () {
                         /*
              ________________________________________
              |                                      |
@@ -3697,7 +3697,7 @@ debugger
                         mm.selectComponent(old_active_component_index, true)
 
                     },
-                    addNewComponentWatch: async function() {
+                    addNewComponentWatch:                   async function  () {
                         /*
              ________________________________________
              |                                      |
@@ -3749,7 +3749,7 @@ debugger
                         mm.selectComponent(old_active_component_index, true)
 
                     },
-                    showSaveButton: function(event) {
+                    showSaveButton:                         function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -3769,7 +3769,7 @@ debugger
                             type:   "pending"
                         })
                     },
-                    setWatchComponent: function(event) {
+                    setWatchComponent:                      function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -3799,7 +3799,7 @@ debugger
                             this.selectedWatchFromProperties.push(ccomkeys[aaa])
                         }
                     },
-                    setIncomingFormWatchComponent:  function(event) {
+                    setIncomingFormWatchComponent:          function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -3843,7 +3843,7 @@ debugger
 
 
                     },
-                    setWatchToProperty: function(event) {
+                    setWatchToProperty:                     function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -3922,7 +3922,7 @@ debugger
                             }
                         }
                     },
-                    setWatchTransformFn: function(event) {
+                    setWatchTransformFn:                    function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -3940,7 +3940,7 @@ debugger
              |________________________________________________________________________ */
                         this.selectedWatchTransformFn = event.target.value
                     },
-                    setPushTransformFn: function(event) {
+                    setPushTransformFn:                     function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -3958,7 +3958,7 @@ debugger
              |________________________________________________________________________ */
                         this.selectedPushTransformFn = event.target.value
                     },
-                    setWatchFromProperty: function(event) {
+                    setWatchFromProperty:                   function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -4005,7 +4005,7 @@ debugger
 
                         }
                     },
-                    setPushComponentType: function(event) {
+                    setPushComponentType:                   function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -4051,7 +4051,7 @@ debugger
                         }
 
                     },
-                    setWatchComponentType: function(event) {
+                    setWatchComponentType:                  function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -4097,7 +4097,7 @@ debugger
                         }
 
                     },
-                    setPushComponent: function(event) {
+                    setPushComponent:                       function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -4175,7 +4175,7 @@ debugger
                         }
 //debugger
                     },
-                    linkComponents: function(options) {
+                    linkComponents:                         function        (options) {
                         /*
              ________________________________________
              |                                      |
@@ -4261,7 +4261,7 @@ debugger
 
 
                     },
-                    setPushToProperty: function(event) {
+                    setPushToProperty:                      function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -4279,7 +4279,7 @@ debugger
              |________________________________________________________________________ */
                         this.selectedPushToProperty = event.target.value
                     },
-                    setPushFromProperty: function(event) {
+                    setPushFromProperty:                    function        (event) {
                         /*
              ________________________________________
              |                                      |
@@ -4318,7 +4318,7 @@ debugger
                             }
                         }
                     },
-                    deleteLinkedProperty: function(watchListItem ) {
+                    deleteLinkedProperty:                   function        (watchListItem ) {
                         /*
              ________________________________________
              |                                      |
@@ -4400,7 +4400,7 @@ debugger
                         mm.showSaveButton()
 
                     },
-                    getControlNonAsyncMethod:               function(componentDetails, isComponentInDesignMode, methodId) {
+                    getControlNonAsyncMethod:               function        (componentDetails, isComponentInDesignMode, methodId) {
                         /*
              ________________________________________
              |                                      |
@@ -4438,7 +4438,7 @@ debugger
                             return retv
                         }
                     },
-                    getControlAsyncMethod: function(componentDetails) {
+                    getControlAsyncMethod:                  function        (componentDetails) {
                         /*
              ________________________________________
              |                                      |
@@ -4485,7 +4485,7 @@ debugger
                             return retv
                         }
                     },
-                    getControlMethod: function(  componentDefn  ,  componentDetails  ) {
+                    getControlMethod:                       function        (  componentDefn  ,  componentDetails  ) {
                         /*
              ________________________________________
              |                                      |
@@ -4537,7 +4537,7 @@ debugger
                         }
 
                     },
-                    getFormMethod: function(formName, formprop) {
+                    getFormMethod:                          function        (formName, formprop) {
                         /*
              ________________________________________
              |                                      |
@@ -4568,7 +4568,7 @@ ${formprop.fn}
                         }
 
                     },
-                    getAppMethod: function(propDetailsId) {
+                    getAppMethod:                           function        (propDetailsId) {
                         /*
              ________________________________________
              |                                      |
@@ -4601,7 +4601,7 @@ ${origCode}
                         }
 
                     },
-                    deleteCursor: function() {
+                    deleteCursor:                           function        () {
                         /*
              ________________________________________
              |                                      |
@@ -4626,7 +4626,7 @@ ${origCode}
                             this.newCursor = null
                         }
                     },
-                    switchCursor: function(event, oldCursor, newCursor) {
+                    switchCursor:                           function        (event, oldCursor, newCursor) {
                         /*
              ________________________________________
              |                                      |
@@ -4654,7 +4654,7 @@ ${origCode}
 
 
                     },
-                    clickOnMainGrid: async function(event) {
+                    clickOnMainGrid:                        async function  (event) {
                         /*
              ________________________________________
              |                                      |
@@ -4717,7 +4717,7 @@ ${origCode}
                         }
 
                     },
-                    getContainerForPoint: function(leftX,topY) {
+                    getContainerForPoint:                   function        (leftX,topY) {
                         /*
              ________________________________________
              |                                      |
@@ -4754,7 +4754,7 @@ ${origCode}
                         }
                         return null
                     },
-                    addComponent: async function(leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
+                    addComponent:                           async function  (leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
                         /*
              ________________________________________
              |                                      |
@@ -4773,7 +4773,7 @@ ${origCode}
                         //debugger
                         await this.addComponentV2(leftX,topY,data, parentType, parentName, defProps)
                     },
-                    addComponentV2: async function(leftX,topY,data, parentType, parentName, defProps) {
+                    addComponentV2:                         async function  (leftX,topY,data, parentType, parentName, defProps) {
                         /*
             ________________________________________
             |           addComponentV2             |
@@ -5003,7 +5003,7 @@ debugger
                         let ret = await promise
                         return ret
                     },
-                    selectComponentByName: function(compName) {
+                    selectComponentByName:                  function        (compName) {
                         /*
              ________________________________________
              |                                      |
@@ -5033,7 +5033,7 @@ debugger
                         }
                         return null
                     },
-                    addControl: async function(controlDetails) {
+                    addControl:                             async function  (controlDetails) {
                         /*
             ________________________________________
             |              addControl              |
@@ -5074,7 +5074,7 @@ debugger
 
                         return newControl
                     },
-                    getControlByName: function(controlName) {
+                    getControlByName:                       function        (controlName) {
                         /*
              ________________________________________
              |                                      |
@@ -5099,7 +5099,7 @@ debugger
                         }
                         return null
                     },
-                    refreshControlIndexes: function() {
+                    refreshControlIndexes:                  function        () {
                         /*
              ________________________________________
              |                                      |
@@ -5132,7 +5132,7 @@ debugger
                         }
 
                     },
-                    hasMoreDetailsUi: function(formName, componentIndex) {
+                    hasMoreDetailsUi:                       function        (formName, componentIndex) {
                         /*
              ________________________________________
              |                                      |
@@ -5169,7 +5169,7 @@ debugger
 
                         return false
                     },
-                    isVisible:                              function(formName, componentIndex) {
+                    isVisible:                              function        (formName, componentIndex) {
                         /*
              ________________________________________
              |                                      |
@@ -5210,7 +5210,7 @@ debugger
 
                         return true
                     },
-                    getLeft:                                function(formName, componentIndex) {
+                    getLeft:                                function        (formName, componentIndex) {
                         /*
              ________________________________________
              |                                      |
@@ -5246,7 +5246,7 @@ debugger
 
                         return left
                     },
-                    getTop: function(formName, componentIndex) {
+                    getTop:                                 function        (formName, componentIndex) {
                         /*
              ________________________________________
              |                                      |
@@ -5279,7 +5279,7 @@ debugger
                         }
                         return top
                     },
-                    getChildren: function( itemName ) {
+                    getChildren:                            function        ( itemName ) {
                         /*
              ________________________________________
              |                                      |
@@ -5307,7 +5307,7 @@ debugger
                         }
                         return chh
                     },
-                    previewUpload: function(property) {
+                    previewUpload:                          function        (property) {
                         /*
              ________________________________________
              |                                      |
@@ -5336,7 +5336,7 @@ debugger
                             reader.readAsDataURL(file);
                         }
                     },
-                    previewFileUpload: function(property) {
+                    previewFileUpload:                      function        (property) {
                         /*
              ________________________________________
              |                                      |
@@ -5365,7 +5365,7 @@ debugger
                             reader.readAsDataURL(file);
                         }
                     },
-                    showHelp: async function(aa) {
+                    showHelp:                               async function  (aa) {
                         /*
              ________________________________________
              |                                      |
@@ -5408,7 +5408,7 @@ debugger
                             mm.refresh++
                         },200)
                     },
-                    selectFilePath: async function(aa) {
+                    selectFilePath:                         async function  (aa) {
                         // -----------------------------------------------------
                         //                     selectFilePath
                         //
@@ -5469,7 +5469,7 @@ debugger
 
 
                     },
-                    editAsCode: async function(aa) {
+                    editAsCode:                             async function  (aa) {
                         // -----------------------------------------------------
                         //                      editAsCode
                         //
@@ -5660,10 +5660,10 @@ debugger
                         mm.setupCodeEditorSelectors(aa.property_id)
 
                     },
-                    gotoLine: function(line) {
+                    gotoLine:                               function        (line) {
                         this.ui_code_editor.gotoLine(line , 10, true);
                     },
-                    setupCodeAutocompletions: function() {
+                    setupCodeAutocompletions:               function        () {
                         // -----------------------------------------------------
                         //                  setupCodeAutocompletions
                         //
@@ -6054,7 +6054,7 @@ debugger
                             enableLiveAutocompletion: true
                         });
                     },
-                    setupCodeEditorSelectors: function(   property_id   ) {
+                    setupCodeEditorSelectors:               function        (   property_id   ) {
                         /*
              ________________________________________
              |                                      |
@@ -6439,7 +6439,7 @@ debugger
 
                         },100)
                     },
-                    getActiveFormComponents: function() {
+                    getActiveFormComponents:                function        () {
                         /*
              ________________________________________
              |                                      |
@@ -6457,7 +6457,7 @@ debugger
              |________________________________________________________________________ */
                         return this.model.forms[this.active_form].components
                     },
-                    updateAllFormCaches: function() {
+                    updateAllFormCaches:                    function        () {
                         /*
              ________________________________________
              |                                      |
@@ -6494,7 +6494,7 @@ debugger
 
                         this.inUpdateAllFormCaches = false
                     },
-                    gotoDragDropEditor: function() {
+                    gotoDragDropEditor:                     function        () {
                         /*
              ________________________________________
              |                                      |
@@ -6524,7 +6524,7 @@ debugger
                         this.active_component_links_index = null
 
                     },
-                    updateFormCache: function(formName) {
+                    updateFormCache:                        function        (formName) {
                         /*
              ________________________________________
              |                                      |
@@ -6653,7 +6653,7 @@ debugger
 
 
                     },
-                    chooseRight:                            function(ff) {
+                    chooseRight:                            function        (ff) {
                         /*
              ________________________________________
              |                                      |
@@ -6671,7 +6671,7 @@ debugger
              |________________________________________________________________________ */
                         this.right_mode = ff
                     },
-                    getForms:                               function() {
+                    getForms:                               function        () {
                         /*
              ________________________________________
              |                                      |
@@ -6697,7 +6697,7 @@ debugger
                         }
                         return forms
                     },
-                    getFormProperties:                      function(    formName    ) {
+                    getFormProperties:                      function        (    formName    ) {
                         //-------------------------------------------------------------------
                         //                        getFormProperties
                         //
@@ -6762,7 +6762,7 @@ return {}
 
                         return props
                     },
-                    setVBEditorPropertyValue:               function(property, val ) {
+                    setVBEditorPropertyValue:               function        (property, val ) {
                         /*
              ________________________________________
              |                                      |
@@ -6858,7 +6858,7 @@ return {}
                         }
 
                     },
-                    setVBEditorProperty:                    function(event, property) {
+                    setVBEditorProperty:                    function        (event, property) {
                         /*
              ________________________________________
              |                                      |
@@ -6884,7 +6884,7 @@ return {}
                         }
                         mm.setVBEditorPropertyValue(property, val)
                     },
-                    getVBEditorProperty:                    function(property) {
+                    getVBEditorProperty:                    function        (property) {
                         /*
              ________________________________________
              |                                      |
@@ -6925,7 +6925,7 @@ return {}
 
                         return val
                     },
-                    addProperty:                            function() {
+                    addProperty:                            function        () {
                         /*
              ________________________________________
              |                                      |
@@ -6953,7 +6953,7 @@ return {}
                             objDiv.scrollTop = objDiv.scrollHeight;
                         },200)
                     },
-                    addPropertySave:                        function() {
+                    addPropertySave:                        function        () {
                         /*
              ________________________________________
              |                                      |
@@ -7007,7 +7007,7 @@ return {}
                             ,100)
 
                     },
-                    addPropertyCancel:                      function() {
+                    addPropertyCancel:                      function        () {
                         /*
              ________________________________________
              |                                      |
@@ -7026,7 +7026,7 @@ return {}
                         let mm = this
                         mm.add_property = false
                     },
-                    getComponentProperties:                 function(componentType) {
+                    getComponentProperties:                 function        (componentType) {
                         /*
             ________________________________________
             |                                      |
@@ -7049,7 +7049,7 @@ return {}
                         }
                         return []
                     },
-                    selectForm:                             function(formId, showProps) {
+                    selectForm:                             function        (formId, showProps) {
                         /*
              ________________________________________
              |                                      |
@@ -7104,7 +7104,7 @@ return {}
 
                         mm.refresh ++
                     },
-                    processControlEvent:                    async function(  eventMessage  ) {
+                    processControlEvent:                    async function  (  eventMessage  ) {
                         //-------------------------------------------------------------------
                         //                        processControlEvent
                         //
@@ -7295,7 +7295,7 @@ ${eventMessage.code}
                         }
 
                     },
-                    allowDropEditor: function(ev) {
+                    allowDropEditor:                        function        (ev) {
                         /*
              ________________________________________
              |                                      |
@@ -7313,7 +7313,7 @@ ${eventMessage.code}
              |________________________________________________________________________ */
                         ev.preventDefault();
                     },
-                    dropEditor: async function (ev) {
+                    dropEditor:                             async function  (ev) {
                         /*
              ________________________________________
              |                                      |
@@ -7372,7 +7372,7 @@ ${eventMessage.code}
                             mm.refresh ++
                         }
                     },
-                    setInfo: function(text) {
+                    setInfo:                                function        (text) {
                         /*
              ________________________________________
              |                                      |
@@ -7393,7 +7393,7 @@ ${eventMessage.code}
                             text:    text
                         })
                     },
-                    allowDrop: function(ev) {
+                    allowDrop:                              function        (ev) {
                         /*
              ________________________________________
              |                                      |
@@ -7411,7 +7411,7 @@ ${eventMessage.code}
              |________________________________________________________________________ */
                         //ev.preventDefault();
                     },
-                    drag: function(ev,message) {
+                    drag:                                   function        (ev,message) {
                         /*
              ________________________________________
              |                                      |
@@ -7442,7 +7442,7 @@ ${eventMessage.code}
                             JSON.stringify(message,null,2));
 
                     },
-                    switchEditor: async function(editorComponentName) {
+                    switchEditor:                           async function  (editorComponentName) {
                         /*
              ________________________________________
              |                                      |
@@ -7468,7 +7468,7 @@ ${eventMessage.code}
                                 previewType:   "control"
                             })
                     },
-                    showComponentDetailedDesignUi: async function(index) {
+                    showComponentDetailedDesignUi:          async function  (index) {
                         /*
              ________________________________________
              |                                      |
@@ -7495,7 +7495,7 @@ ${eventMessage.code}
                             mm.$forceUpdate();
                         },400)
                     },
-                    showComponentDetailedDesignUiByName:    async function(compName) {
+                    showComponentDetailedDesignUiByName:    async function  (compName) {
                         /*
              ________________________________________
              |                                      |
@@ -7525,7 +7525,7 @@ ${eventMessage.code}
                         }
                         return null
                     },
-                    clearLinkToProperties:                  async function() {
+                    clearLinkToProperties:                  async function  () {
                         /*
              ________________________________________
              |                                      |
@@ -7575,7 +7575,7 @@ ${eventMessage.code}
                         }
 
                     },
-                    showComponentLinks:                     async function(index,diretionOfLinks) {
+                    showComponentLinks:                     async function  (index,diretionOfLinks) {
                         /*
              ________________________________________
              |                                      |
@@ -7612,7 +7612,7 @@ ${eventMessage.code}
                             mm.$forceUpdate();
                         },400)
                     },
-                    recalcComponentLinks:                   async function() {
+                    recalcComponentLinks:                   async function  () {
                         /*
              ________________________________________
              |                                      |
@@ -7787,7 +7787,7 @@ ${eventMessage.code}
 
                         mm.refresh++
                     },
-                    deleteComponent:                        async function(index) {
+                    deleteComponent:                        async function  (index) {
                         /*
              ________________________________________
              |                                      |
