@@ -3000,7 +3000,7 @@ debugger
                         }
                 },
                 methods:    {
-                    loadControls: async function() {
+                    loadControls:                           async function  () {
                         /*
             ________________________________________
             |                                      |
@@ -3037,7 +3037,7 @@ debugger
                         await loadUiComponentsV4(itemsToLoad)
                         //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
                     },
-                    addCodeChange: function(changeText) {
+                    addCodeChange:                          function        (changeText) {
                         /*
             ________________________________________
             |                                      |
@@ -3065,7 +3065,7 @@ debugger
                                 timestamp: new Date().getTime()
                             })
                     },
-                    updateComponentMethods: function() {
+                    updateComponentMethods:                 function() {
                         /*
             ________________________________________
             |                                      |
@@ -3136,7 +3136,7 @@ debugger
                             }
                         }
                     },
-                    getIncomingToPropertyName: function(currentWatch) {
+                    getIncomingToPropertyName:              function(currentWatch) {
                         /*
             ________________________________________
             |                                      |
@@ -3165,7 +3165,7 @@ debugger
 
                         return ret
                     },
-                    getEditor: function() {
+                    getEditor:                              function() {
                         /*
              ________________________________________
              |                                      |
@@ -3183,7 +3183,7 @@ debugger
              |________________________________________________________________________ */
                         return this
                     },
-                    changeComponentBaseId(args) {
+                    changeComponentBaseId                                   (args) {
                         /*
              ________________________________________
              |                                      |
@@ -3228,7 +3228,7 @@ debugger
 
                         },100)
                     },
-                    changePropertyValue(args) {
+                    changePropertyValue                                     (args) {
                         /*
              ________________________________________
              |                                      |
@@ -3366,7 +3366,7 @@ debugger
                         return null
 
                     },
-                    getIncomingFromPropertyName: function(currentWatch) {
+                    getIncomingFromPropertyName:            function(currentWatch) {
                         /*
              ________________________________________
              |                                      |
@@ -3395,7 +3395,7 @@ debugger
 
                         return ret
                     },
-                    getIncomingTransformFn: function(currentWatch) {
+                    getIncomingTransformFn:                 function(currentWatch) {
                         /*
              ________________________________________
              |                                      |
@@ -3421,7 +3421,7 @@ debugger
 
                         return ret
                     },
-                    getOutgoingTransformFn: function(currentPush) {
+                    getOutgoingTransformFn:                 function(currentPush) {
                         /*
              ________________________________________
              |                                      |
@@ -3799,7 +3799,7 @@ debugger
                             this.selectedWatchFromProperties.push(ccomkeys[aaa])
                         }
                     },
-                    setIncomingFormWatchComponent: function(event) {
+                    setIncomingFormWatchComponent:  function(event) {
                         /*
              ________________________________________
              |                                      |
@@ -4400,7 +4400,7 @@ debugger
                         mm.showSaveButton()
 
                     },
-                    getControlNonAsyncMethod: function(componentDetails, isComponentInDesignMode, methodId) {
+                    getControlNonAsyncMethod:               function(componentDetails, isComponentInDesignMode, methodId) {
                         /*
              ________________________________________
              |                                      |
@@ -5169,7 +5169,7 @@ debugger
 
                         return false
                     },
-                    isVisible: function(formName, componentIndex) {
+                    isVisible:                              function(formName, componentIndex) {
                         /*
              ________________________________________
              |                                      |
@@ -5210,7 +5210,7 @@ debugger
 
                         return true
                     },
-                    getLeft: function(formName, componentIndex) {
+                    getLeft:                                function(formName, componentIndex) {
                         /*
              ________________________________________
              |                                      |
@@ -6653,7 +6653,7 @@ debugger
 
 
                     },
-                    chooseRight: function(ff) {
+                    chooseRight:                            function(ff) {
                         /*
              ________________________________________
              |                                      |
@@ -6671,7 +6671,7 @@ debugger
              |________________________________________________________________________ */
                         this.right_mode = ff
                     },
-                    getForms: function() {
+                    getForms:                               function() {
                         /*
              ________________________________________
              |                                      |
@@ -6697,7 +6697,7 @@ debugger
                         }
                         return forms
                     },
-                    getFormProperties: function(    formName    ) {
+                    getFormProperties:                      function(    formName    ) {
                         //-------------------------------------------------------------------
                         //                        getFormProperties
                         //
@@ -6762,7 +6762,7 @@ return {}
 
                         return props
                     },
-                    setVBEditorPropertyValue: function(property, val ) {
+                    setVBEditorPropertyValue:               function(property, val ) {
                         /*
              ________________________________________
              |                                      |
@@ -6858,7 +6858,7 @@ return {}
                         }
 
                     },
-                    setVBEditorProperty: function(event, property) {
+                    setVBEditorProperty:                    function(event, property) {
                         /*
              ________________________________________
              |                                      |
@@ -6884,7 +6884,7 @@ return {}
                         }
                         mm.setVBEditorPropertyValue(property, val)
                     },
-                    getVBEditorProperty: function(property) {
+                    getVBEditorProperty:                    function(property) {
                         /*
              ________________________________________
              |                                      |
@@ -6925,7 +6925,7 @@ return {}
 
                         return val
                     },
-                    addProperty: function() {
+                    addProperty:                            function() {
                         /*
              ________________________________________
              |                                      |
@@ -6953,7 +6953,7 @@ return {}
                             objDiv.scrollTop = objDiv.scrollHeight;
                         },200)
                     },
-                    addPropertySave: function() {
+                    addPropertySave:                        function() {
                         /*
              ________________________________________
              |                                      |
@@ -7007,7 +7007,7 @@ return {}
                             ,100)
 
                     },
-                    addPropertyCancel: function() {
+                    addPropertyCancel:                      function() {
                         /*
              ________________________________________
              |                                      |
@@ -7026,7 +7026,7 @@ return {}
                         let mm = this
                         mm.add_property = false
                     },
-                    getComponentProperties: function(componentType) {
+                    getComponentProperties:                 function(componentType) {
                         /*
             ________________________________________
             |                                      |
@@ -7049,7 +7049,7 @@ return {}
                         }
                         return []
                     },
-                    selectForm: function(formId, showProps) {
+                    selectForm:                             function(formId, showProps) {
                         /*
              ________________________________________
              |                                      |
@@ -7104,7 +7104,7 @@ return {}
 
                         mm.refresh ++
                     },
-                    processControlEvent: async function(  eventMessage  ) {
+                    processControlEvent:                    async function(  eventMessage  ) {
                         //-------------------------------------------------------------------
                         //                        processControlEvent
                         //
@@ -7495,7 +7495,7 @@ ${eventMessage.code}
                             mm.$forceUpdate();
                         },400)
                     },
-                    showComponentDetailedDesignUiByName: async function(compName) {
+                    showComponentDetailedDesignUiByName:    async function(compName) {
                         /*
              ________________________________________
              |                                      |
@@ -7525,7 +7525,7 @@ ${eventMessage.code}
                         }
                         return null
                     },
-                    clearLinkToProperties: async function() {
+                    clearLinkToProperties:                  async function() {
                         /*
              ________________________________________
              |                                      |
@@ -7575,7 +7575,7 @@ ${eventMessage.code}
                         }
 
                     },
-                    showComponentLinks: async function(index,diretionOfLinks) {
+                    showComponentLinks:                     async function(index,diretionOfLinks) {
                         /*
              ________________________________________
              |                                      |
@@ -7612,7 +7612,7 @@ ${eventMessage.code}
                             mm.$forceUpdate();
                         },400)
                     },
-                    recalcComponentLinks: async function() {
+                    recalcComponentLinks:                   async function() {
                         /*
              ________________________________________
              |                                      |
@@ -7787,7 +7787,7 @@ ${eventMessage.code}
 
                         mm.refresh++
                     },
-                    deleteComponent: async function(index) {
+                    deleteComponent:                        async function(index) {
                         /*
              ________________________________________
              |                                      |
@@ -7821,7 +7821,7 @@ ${eventMessage.code}
                             mm.$forceUpdate();
                         },400)
                     },
-                    deleteComponentByName: async function(thisComponentName) {
+                    deleteComponentByName:                  async function  (thisComponentName) {
                         /*
              ________________________________________
              |                                      |
@@ -7869,7 +7869,7 @@ ${eventMessage.code}
                         let ret = await promise
                         return ret
                     },
-                    childDeleteComponent: function(index) {
+                    childDeleteComponent:                   function        (index) {
                         /*
              ________________________________________
              |                                      |
@@ -7891,7 +7891,7 @@ ${eventMessage.code}
                         })
 
                     },
-                    childSelectComponent: function(index) {
+                    childSelectComponent:                   function        (index) {
                         /*
              ________________________________________
              |                                      |
@@ -7914,7 +7914,7 @@ ${eventMessage.code}
 
 
                     },
-                    drop: async function (ev) {
+                    drop:                                   async function  (ev) {
                         /*
              ________________________________________
              |                                      |
@@ -8226,7 +8226,7 @@ ${eventMessage.code}
 
 
                     },
-                    get_default_app_propeties: function() {
+                    get_default_app_propeties:              function        () {
                         /*
              ________________________________________
              |                                      |
@@ -8257,7 +8257,7 @@ ${eventMessage.code}
 
                         ]
                     },
-                    getAllAppPropeties: function() {
+                    getAllAppPropeties:                     function        () {
                         /*
              ________________________________________
              |                                      |
@@ -8281,7 +8281,7 @@ ${eventMessage.code}
                         }
                         return properties
                     },
-                    select_app: function() {
+                    select_app:                             function        () {
                         //-------------------------------------------------------------------
                         //                             select_app
                         //
@@ -8314,7 +8314,7 @@ ${eventMessage.code}
 
                         this.refresh ++
                     },
-                    myDataRenderFunction: function(data) {
+                    myDataRenderFunction:                   function        (data) {
                         //-------------------------------------------------------------------
                         //                        myDataRenderFunction
                         //
@@ -8355,7 +8355,7 @@ ${eventMessage.code}
                             "</div>";
                         return template;
                     },
-                    actionRenderFunction: function(data) {
+                    actionRenderFunction:                   function        (data) {
                         /*
              ________________________________________
              |                                      |
@@ -8385,7 +8385,7 @@ ${eventMessage.code}
                             "</div>";
                         return template;
                     },
-                    updatePropertySelector: function() {
+                    updatePropertySelector:                 function        () {
                         // -------------------------------------------------------------------
                         //                          updatePropertySelector
                         //
@@ -8539,7 +8539,7 @@ ${eventMessage.code}
 
 
                     },
-                    existsProp: function(compEvaled,propName) {
+                    existsProp:                             function        (compEvaled,propName) {
                         /*
              ________________________________________
              |                                      |
@@ -8562,7 +8562,7 @@ ${eventMessage.code}
                         }
                         return false
                     },
-                    getControlProperties: function(base_component_id) {
+                    getControlProperties:                   function        (base_component_id) {
                         /*
              ________________________________________
              |                                      |
@@ -8725,7 +8725,7 @@ return {}
 
                         return properties
                     },
-                    selectComponent: async function(index, showProps) {
+                    selectComponent:                        async function  (index, showProps) {
                         /*
              ________________________________________
              |                                      |
@@ -8761,7 +8761,7 @@ return {}
                         }
                         this.refresh ++
                     },
-                    addForm: function() {
+                    addForm:                                function        () {
                         /*
              ________________________________________
              |                                      |
@@ -8794,7 +8794,7 @@ return {}
                         mm.active_form = newFormName
                         mm.refresh ++
                     },
-                    moveUp: function(   fieldId   ) {
+                    moveUp:                                 function        (   fieldId   ) {
                         /*
              ________________________________________
              |                                      |
@@ -8827,7 +8827,7 @@ return {}
 
                         }
                     },
-                    moveDown: function(   fieldId   ) {
+                    moveDown:                               function        (   fieldId   ) {
                         /*
              ________________________________________
              |                                      |
@@ -8860,7 +8860,7 @@ return {}
 
                         }
                     },
-                    deleteField: function(   fieldId   ) {
+                    deleteField:                            function        (   fieldId   ) {
                         /*
              ________________________________________
              |                                      |
@@ -8891,7 +8891,7 @@ return {}
                             }
                         }
                     },
-                    savedStatus: async function(args) {
+                    savedStatus:                            async function  (args) {
                         /*
              ________________________________________
              |                                      |
@@ -8914,7 +8914,7 @@ return {}
                             this.code_changes = []
                         }
                     },
-                    getText: async function() {
+                    getText:                                async function  () {
                         /*
              ________________________________________
              |                                      |
@@ -8936,7 +8936,7 @@ return {}
                         //debugger
                         return this.text
                     },
-                    lockEditor: function() {
+                    lockEditor:                             function        () {
                         /*
              ________________________________________
              |                                      |
@@ -8956,7 +8956,7 @@ return {}
                         mm.editor_locked = true
                         mm.refresh ++
                     },
-                    unlockEditor: function() {
+                    unlockEditor:                           function        () {
                         /*
              ________________________________________
              |                                      |
@@ -8976,7 +8976,7 @@ return {}
                         mm.editor_locked = false
                         mm.refresh ++
                     },
-                    setText: function(textValue) {
+                    setText:                                function        (textValue) {
                         /*
              ________________________________________
              |                                      |
@@ -9007,7 +9007,7 @@ return {}
                         mm.refresh ++
                         //console.log("end setText")
                     },
-                    getJsonModelFromCode: function(  codeV  ) {
+                    getJsonModelFromCode:                   function        (  codeV  ) {
                         /*
              ________________________________________
              |                                      |
@@ -9028,7 +9028,7 @@ return {}
                         let json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
                         return json2
                     },
-                    generateCodeFromModel: async function(  ) {
+                    generateCodeFromModel:                  async function  (  ) {
                         /*      ________________________________________
             |                                      |
             |       generateCodeFromModel          |
@@ -9202,7 +9202,7 @@ return {}
                             return
                         }
                     },
-                    openFile: async function() {
+                    openFile:                               async function  () {
                         /*      ________________________________________
             |                                      |
             |               openFile               |
@@ -9240,7 +9240,7 @@ return {}
 
                         //
                     },
-                    selectOpenFileOrFolder: async function(fileorFolder, fileExts) {
+                    selectOpenFileOrFolder:                 async function  (fileorFolder, fileExts) {
                         /*
              ________________________________________
              |                                      |
@@ -9301,7 +9301,7 @@ return {}
 
                         //
                     },
-                    chosenFolderUp:  async function() {
+                    chosenFolderUp:                         async function  () {
                         /*
              ________________________________________
              |                                      |
