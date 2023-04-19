@@ -6,24 +6,21 @@ load_once_from_file(true)
 uses_javascript_libraries(["advanced_bundle"])
 */
 
-    let texti = null
+    let designMode          = true
+    let runtimeMode         = false
+    let selectProp          = null
+    let selectCodeObject    = null
+    let selectCodeAction    = null
+    let texti               = null
     if (args) {
         texti = args.text
     }
-    let designMode = true
-    let runtimeMode = false
-    let selectProp = null
-    let selectCodeObject = null
-    let selectCodeAction = null
 
     Vue.component("vb_editor_component",
     {
-
-
-    //*** COPY_START ***//
-      props: [ "args"],
-      template:
-`<div   v-bind:id='unique_app_dom_element_id'
+        //*** COPY_START ***//
+        props:          [ "args"],
+        template:       `<div   v-bind:id='unique_app_dom_element_id'
         v-if='unique_app_dom_element_id != null'
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
@@ -2442,29 +2439,24 @@ Pushlist
 
 
     </div>
-</div>`
-        ,
+</div>`,
+        mounted:        async function() {
+            /*
+            ________________________________________
+            |                                      |
+            |             MOUNTED                  |
+            |                                      |
+            |______________________________________|
 
+            This is called whenever an app is loaded, either at design
+            time or at runtime
 
-
-
-        /*
-        ________________________________________
-        |                                      |
-        |             MOUNTED                  |
-        |                                      |
-        |______________________________________|
-
-        This is called whenever an app is loaded, either at design
-        time or at runtime
-
-        __________
-        | Params |
-        |        |______________________________________________________________
-        |
-        |     NONE
-        |________________________________________________________________________ */
-        mounted: async function() {
+            __________
+            | Params |
+            |        |______________________________________________________________
+            |
+            |     NONE
+            |________________________________________________________________________ */
             let mm                          = this
             let json2
             let subComponentsUsedInThisApp
@@ -2830,220 +2822,195 @@ setTimeout(async function(){
 },2000)
 
 
-     }
+     },
+        watch:          {
+                            /*
+________________________________________
+|                                      |
+|             WATCH                    |
+|                                      |
+|______________________________________|
 
-     ,
+This watches for changes in the design of the application
 
+__________
+| Params |
+|        |______________________________________________________________
+|
+|     NONE
+|________________________________________________________________________ */
+                            model: {
+                             handler:
+                                 function() {
+                                     let mm  =  this
 
-
-
-
-
-
-
-
-        /*
-        ________________________________________
-        |                                      |
-        |             WATCH                    |
-        |                                      |
-        |______________________________________|
-
-        This watches for changes in the design of the application
-
-        __________
-        | Params |
-        |        |______________________________________________________________
-        |
-        |     NONE
-        |________________________________________________________________________ */
-        watch: {
-         model:
-         {
-             handler:
-                 function() {
-                     let mm  =  this
-
-                     if (!mm) {
-                         return
-                     }
-
-                     if (this.design_mode) {
-
-                         let currentTime = new Date().getTime();
-                         if (mm.model_changed_time != -1) {
-                             mm.model_changed_time = currentTime
-                         }
-
-                         let timeDiff = currentTime - mm.model_changed_time
-                         if (timeDiff > 1000) {
-                             if (!mm.in_change_model) {
-                                 mm.in_change_model = true
-                                 setTimeout(function() {
-                                     //console.log("Changed ********")
-                                     let ttt=null
-                                     if (mm.old_model) {
-
-                                         ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
-                                         //console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                                     if (!mm) {
+                                         return
                                      }
-                                     if (ttt) {
-                                         mm.old_model = JSON.parse(JSON.stringify(mm.model));
-                                         mm.$root.$emit('message', {
-                                             type:   "pending"
-                                         })
-                                     }
-                                     mm.in_change_model = false
 
-                                 },500)
-                             }
-                         }
+                                     if (this.design_mode) {
 
-                     } else {
-                         //console.log("Changed ********")
-                         let ttt=null
-                         if (mm.old_model) {
-                             ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
-                             //console.log("Changes: "+ JSON.stringify(ttt,null,2))
-                         }
-
-                         let changedUuids = {}
-
-                         if (ttt) {
-                             mm.old_model = JSON.parse(JSON.stringify(mm.model));
-
-                             //debugger
-                             //
-                             // find  out what components have changed in the current form
-                             //
-                             if (ttt.forms[this.active_form]) {
-                                 let allComps = Object.keys(ttt.forms[this.active_form].components)
-                                 let numComp = allComps.length
-                                 for (let componentIndex = 0; componentIndex < numComp; componentIndex++){
-                                     let componentNN = allComps[componentIndex]
-                                     let thisComponent = ttt.forms[this.active_form].components[componentNN]
-                                     let nn = parseInt(componentNN)
-                                     if (nn != NaN) {
-                                         let compname = mm.model.forms[this.active_form].components[nn]
-                                         if (compname) {
-                                             //console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
-                                             changedUuids[compname.uuid] = true
+                                         let currentTime = new Date().getTime();
+                                         if (mm.model_changed_time != -1) {
+                                             mm.model_changed_time = currentTime
                                          }
-                                     }
-                                 }
-                             }
 
+                                         let timeDiff = currentTime - mm.model_changed_time
+                                         if (timeDiff > 1000) {
+                                             if (!mm.in_change_model) {
+                                                 mm.in_change_model = true
+                                                 setTimeout(function() {
+                                                     //console.log("Changed ********")
+                                                     let ttt=null
+                                                     if (mm.old_model) {
 
+                                                         ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
+                                                         //console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                                                     }
+                                                     if (ttt) {
+                                                         mm.old_model = JSON.parse(JSON.stringify(mm.model));
+                                                         mm.$root.$emit('message', {
+                                                             type:   "pending"
+                                                         })
+                                                     }
+                                                     mm.in_change_model = false
 
-                             //
-                             // show a list of properties to watch
-                             //
-                             //console.log("Watch list: " + JSON.stringify(this.watchList,null,2))
-                             //console.log(JSON.stringify(this.watchList,null,2))
+                                                 },500)
+                                             }
+                                         }
 
+                                     } else {
+                                         //console.log("Changed ********")
+                                         let ttt=null
+                                         if (mm.old_model) {
+                                             ttt = jsondiffpatch2.diff(mm.old_model,mm.model)
+                                             //console.log("Changes: "+ JSON.stringify(ttt,null,2))
+                                         }
 
-                             //
-                             //
-                             //
-                             //debugger
-                             for (      let componentIndex = 0;
-                                        componentIndex < mm.model.forms[this.active_form].components.length;
-                                        componentIndex++)  {
+                                         let changedUuids = {}
 
-                                 let thisComponent  = mm.model.forms[this.active_form].components[componentIndex]
-                                 let uuid           = thisComponent.uuid
-                                 let ww2            = this.watchList
+                                         if (ttt) {
+                                             mm.old_model = JSON.parse(JSON.stringify(mm.model));
 
-                                 //console.log("UUID: " + JSON.stringify(uuid,null,2))
-                                 //console.log(this.watchList[uuid])
-                                 for (  let aaq = 0  ;  aaq < ww2.length  ;  aaq++  ) {
-                                     let ww = ww2[ aaq ]
-
-                                 if (ww) {
-                                     if (ww.from_component_uuid == uuid) {
-                                         if (changedUuids[uuid]) {
                                              //debugger
-                                             //console.log(ww)
-
-                                             let fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
-                                             //console.log("fromc: " + JSON.stringify(fromc,null,2))
-
-
-                                             let touuid = ww.to_component_uuid
-                                             let toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
-                                             //console.log("toc: " + JSON.stringify(toc,null,2))
-
-
-
-                                             //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
-                                             let vvvvvv = fromc[ww.from_component_property_name]
-                                             let toValue = JSON.parse(JSON.stringify(vvvvvv))
-
-                                             if (ww.transform_fn) {
-                                                 try {
-                                                     let toValueFn = eval("("+ ww.transform_fn + ")")
-                                                     toValue = toValueFn(toValue)
-                                                 } catch (err) {
-                                                     console.log(err)
+                                             //
+                                             // find  out what components have changed in the current form
+                                             //
+                                             if (ttt.forms[this.active_form]) {
+                                                 let allComps = Object.keys(ttt.forms[this.active_form].components)
+                                                 let numComp = allComps.length
+                                                 for (let componentIndex = 0; componentIndex < numComp; componentIndex++){
+                                                     let componentNN = allComps[componentIndex]
+                                                     let thisComponent = ttt.forms[this.active_form].components[componentNN]
+                                                     let nn = parseInt(componentNN)
+                                                     if (nn != NaN) {
+                                                         let compname = mm.model.forms[this.active_form].components[nn]
+                                                         if (compname) {
+                                                             //console.log(this.active_form + ": " + compname.name + " = " + JSON.stringify(thisComponent))
+                                                             changedUuids[compname.uuid] = true
+                                                         }
+                                                     }
                                                  }
                                              }
-                                             let oldValue = toc[ww.to_component_property_name]
-                                             toc[ww.to_component_property_name] = toValue
-                                             //console.log(toValue)
 
+
+
+                                             //
+                                             // show a list of properties to watch
+                                             //
+                                             //console.log("Watch list: " + JSON.stringify(this.watchList,null,2))
+                                             //console.log(JSON.stringify(this.watchList,null,2))
+
+
+                                             //
+                                             //
+                                             //
                                              //debugger
-                                              mm.processControlEvent(
-                                              {
-                                                          type:               "subcomponent_event",
-                                                          form_name:           mm.active_form,
-                                                          control_name:        toc.name,
-                                                          sub_type:           "on_property_in",
-                                                          code:                toc.on_property_in,
-                                                          args:               {
-                                                              from_form:            mm.active_form,
-                                                              from_component:       fromc.name,
-                                                              from_property:        ww.from_component_property_name,
-                                                              from_value:           toValue,
-                                                              to_form:              mm.active_form,
-                                                              to_component:         toc.name,
-                                                              to_property:          ww.to_component_property_name,
-                                                              to_value:             toValue,
-                                                              to_old_value:         oldValue,
-                                                              to_new_value:         toValue
-                                                          }
-                                               })
+                                             for (      let componentIndex = 0;
+                                                        componentIndex < mm.model.forms[this.active_form].components.length;
+                                                        componentIndex++)  {
+
+                                                 let thisComponent  = mm.model.forms[this.active_form].components[componentIndex]
+                                                 let uuid           = thisComponent.uuid
+                                                 let ww2            = this.watchList
+
+                                                 //console.log("UUID: " + JSON.stringify(uuid,null,2))
+                                                 //console.log(this.watchList[uuid])
+                                                 for (  let aaq = 0  ;  aaq < ww2.length  ;  aaq++  ) {
+                                                     let ww = ww2[ aaq ]
+
+                                                 if (ww) {
+                                                     if (ww.from_component_uuid == uuid) {
+                                                         if (changedUuids[uuid]) {
+                                                             //debugger
+                                                             //console.log(ww)
+
+                                                             let fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                                                             //console.log("fromc: " + JSON.stringify(fromc,null,2))
+
+
+                                                             let touuid = ww.to_component_uuid
+                                                             let toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                                                             //console.log("toc: " + JSON.stringify(toc,null,2))
+
+
+
+                                                             //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                                             let vvvvvv = fromc[ww.from_component_property_name]
+                                                             let toValue = JSON.parse(JSON.stringify(vvvvvv))
+
+                                                             if (ww.transform_fn) {
+                                                                 try {
+                                                                     let toValueFn = eval("("+ ww.transform_fn + ")")
+                                                                     toValue = toValueFn(toValue)
+                                                                 } catch (err) {
+                                                                     console.log(err)
+                                                                 }
+                                                             }
+                                                             let oldValue = toc[ww.to_component_property_name]
+                                                             toc[ww.to_component_property_name] = toValue
+                                                             //console.log(toValue)
+
+                                                             //debugger
+                                                              mm.processControlEvent(
+                                                              {
+                                                                          type:               "subcomponent_event",
+                                                                          form_name:           mm.active_form,
+                                                                          control_name:        toc.name,
+                                                                          sub_type:           "on_property_in",
+                                                                          code:                toc.on_property_in,
+                                                                          args:               {
+                                                                              from_form:            mm.active_form,
+                                                                              from_component:       fromc.name,
+                                                                              from_property:        ww.from_component_property_name,
+                                                                              from_value:           toValue,
+                                                                              to_form:              mm.active_form,
+                                                                              to_component:         toc.name,
+                                                                              to_property:          ww.to_component_property_name,
+                                                                              to_value:             toValue,
+                                                                              to_old_value:         oldValue,
+                                                                              to_new_value:         toValue
+                                                                          }
+                                                               })
+                                                         }
+
+                                                     }
+                                                 }
+                                             }
+                                             }
+
+                                             mm.refresh++
                                          }
-
                                      }
+
+
+
                                  }
-                             }
-                             }
-
-                             mm.refresh++
+                             ,
+                             deep: true
                          }
-                     }
-
-
-
-                 }
-             ,
-             deep: true
-         }
-     }
-     ,
-
-
-
-
-
-
-
-
-
-
-
-
-     methods: {
+                        },
+        methods: {
          /*
         ________________________________________
         |                                      |
@@ -10761,26 +10728,8 @@ return {}
 
 
      }
-     //*** COPY_END ***//
-     ,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //*** COPY_END ***//
+        ,
         /*
         ________________________________________
         |                                      |
@@ -10796,7 +10745,7 @@ return {}
         |
         |     NONE
         |________________________________________________________________________ */
-     data: function () {
+        data: function () {
        return {
            code_changes:  [],
            showFilePicker: false,
@@ -10902,9 +10851,5 @@ return {}
                                         }
        }
      }
-
-
-    }
-    )
-
+    })
 }
