@@ -247,6 +247,7 @@ var GLOBALS                         = {
         |
         |     args  {
         |     ----      pipelineName
+        |               fileName
         |               fromMarker
         |               toMarker
         |           }
@@ -258,7 +259,7 @@ var GLOBALS                         = {
             if (args.pipelineName == "APP") {
 
                 GLOBALS.runtimePipelines[args.pipelineName] = {}
-                GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer("runtimePipelineYazzApp.js")
+                GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer(args.fileName)
                 GLOBALS.runtimePipelines[args.pipelineName].json = eval("(" + GLOBALS.runtimePipelines[args.pipelineName].code + ")")
             }
 
@@ -4052,6 +4053,7 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
                         {
                             pipelineName:   "APP",
+                            fileName:       "runtimePipelineYazzApp.js",
                             fromMarker:     "//*** gen_start ***//",
                             toMarker:       "//*** gen_end ***//"
                         })
