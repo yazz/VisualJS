@@ -3011,23 +3011,23 @@ __________
                          }
                         },
         methods: {
-         /*
-        ________________________________________
-        |                                      |
-        |             loadControls             |
-        |                                      |
-        |______________________________________|
+            loadControls:                           async function  () {
+             /*
+            ________________________________________
+            |                                      |
+            |             loadControls             |
+            |                                      |
+            |______________________________________|
 
-        This loads the controls for the control palette, which allows the user
-        to add buttons, labels, and other controls to their app
+            This loads the controls for the control palette, which allows the user
+            to add buttons, labels, and other controls to their app
 
-        __________
-        | Params |
-        |        |______________________________________________________________
-        |
-        |     NONE
-        |________________________________________________________________________ */
-         loadControls: async function() {
+            __________
+            | Params |
+            |        |______________________________________________________________
+            |
+            |     NONE
+            |________________________________________________________________________ */
            let mm = this
            let sql =    "select  base_component_id,  app_icon_data as logo_url  from  yz_cache_released_components  " +
                         " inner JOIN " +
