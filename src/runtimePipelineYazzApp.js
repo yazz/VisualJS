@@ -3,13 +3,13 @@
     pipelineCode: async function() {
         //*** gen_start ***//
         {
-            let texti = null
-            let designMode = false
+            let texti       = null
+            let designMode  = false
             let runtimeMode = true
+
             Vue.component('_REPLACE_THIS_WITH_BASE_COMPONENT_ID_', {
-                props: [ "args"],
-                template:
-                    `<div   v-bind:id='unique_app_dom_element_id'
+                props:      [ "args"],
+                template:   `<div   v-bind:id='unique_app_dom_element_id'
                     v-if='unique_app_dom_element_id != null'
                     v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
@@ -2428,29 +2428,24 @@
 
 
             </div>
-            </div>`
-                ,
+            </div>`,
+                mounted:    async function() {
+                    /*
+            ________________________________________
+            |                                      |
+            |             MOUNTED                  |
+            |                                      |
+            |______________________________________|
 
+            This is called whenever an app is loaded, either at design
+            time or at runtime
 
-
-
-                /*
-        ________________________________________
-        |                                      |
-        |             MOUNTED                  |
-        |                                      |
-        |______________________________________|
-
-        This is called whenever an app is loaded, either at design
-        time or at runtime
-
-        __________
-        | Params |
-        |        |______________________________________________________________
-        |
-        |     NONE
-        |________________________________________________________________________ */
-                mounted: async function() {
+            __________
+            | Params |
+            |        |______________________________________________________________
+            |
+            |     NONE
+            |________________________________________________________________________ */
                     let mm                          = this
                     let json2
                     let subComponentsUsedInThisApp
@@ -2793,7 +2788,7 @@
                         if (mm.args.control_code_id) {
                             compArgs.code_id = mm.args.control_code_id
                         }
-//debugger
+debugger
                         await mm.addComponentV2(
                             200,
                             200,
@@ -2815,34 +2810,23 @@
                     },2000)
 
 
-                }
+                },
+                watch:      {
+                    /*
+            ________________________________________
+            |                                      |
+            |             WATCH                    |
+            |                                      |
+            |______________________________________|
 
-                ,
+            This watches for changes in the design of the application
 
-
-
-
-
-
-
-
-
-                /*
-        ________________________________________
-        |                                      |
-        |             WATCH                    |
-        |                                      |
-        |______________________________________|
-
-        This watches for changes in the design of the application
-
-        __________
-        | Params |
-        |        |______________________________________________________________
-        |
-        |     NONE
-        |________________________________________________________________________ */
-                watch: {
+            __________
+            | Params |
+            |        |______________________________________________________________
+            |
+            |     NONE
+            |________________________________________________________________________ */
                     model:
                         {
                             handler:
@@ -3014,21 +2998,8 @@
                             ,
                             deep: true
                         }
-                }
-                ,
-
-
-
-
-
-
-
-
-
-
-
-
-                methods: {
+                },
+                methods:    {
                     /*
         ________________________________________
         |                                      |
@@ -5545,7 +5516,7 @@ ${origCode}
                                 }
                                 mm.refresh ++
 
-//debugger
+debugger
                                 let newComponent = await mm.lookupComponentOnForm({componentName: newItem.name})
                                 mm.addCodeChange("Add component: " + newItem.name + "(" + newItem.base_component_id + ")")
                                 returnfn(newComponent)
@@ -10748,9 +10719,8 @@ return {}
                     }
 
 
-                }
-                ,
-                data: function () {
+                },
+                data:       function () {
                     return {
                         code_changes:                [],
                         unique_app_dom_element_id:                        null,
@@ -10775,8 +10745,6 @@ return {}
                         /* ** insert_app_model_end ** */
                     }
                 }
-
-
             })
         }
 //*** gen_end ***//

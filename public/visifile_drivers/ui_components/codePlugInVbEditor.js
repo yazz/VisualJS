@@ -3484,6 +3484,7 @@ setTimeout(async function(){
          |________________________________________________________________________ */
          lookupComponentOnForm: function(lookupArgs)
          {
+             debugger
              //debugger
              let component  = null
              let mm         = this
