@@ -4161,12 +4161,6 @@ async function  enhanceCodeWithPipeline             (   args   ) {
     let pasteStartMarker    = args.pasteStartMarker
     let pasteEndMarker      = args.pasteEndMarker
 
-    let startIndex  = trcode2.indexOf(pasteStartMarker)
-    if (startIndex != -1) {
-        startIndex += pasteStartMarker.length
-    }
-    let endIndex = trcode2.indexOf(pasteEndMarker)
-
     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
         {
             pipelineName:   copyPipelineName,
