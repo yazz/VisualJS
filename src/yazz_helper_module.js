@@ -23,46 +23,32 @@ module.exports = {
 
     //
     setup:                          async function  (  thisDb  ) {
-
-
-
-        stmtDeleteDependencies = thisDb.prepare(" delete from  app_dependencies   where   code_id = ?");
-
-        stmtDeleteTypesForComponentProperty = thisDb.prepare(" delete from  component_property_types   where   base_component_id = ?");
-
-        stmtDeleteAcceptTypesForComponentProperty = thisDb.prepare(" delete from  component_property_accept_types   where   base_component_id = ?");
-
-
-        //select name from (select distinct(name) ,count(name) cn from test  where value in (1,2,3)  group by name) where cn = 3
-
-
-
-
-        stmtInsertDependency = thisDb.prepare(" insert or replace into app_dependencies " +
+        stmtDeleteDependencies = thisDb.prepare(
+            " delete from  app_dependencies   where   code_id = ?");
+        stmtDeleteTypesForComponentProperty = thisDb.prepare(
+            " delete from  component_property_types   where   base_component_id = ?");
+        stmtDeleteAcceptTypesForComponentProperty = thisDb.prepare(
+            " delete from  component_property_accept_types   where   base_component_id = ?");
+        stmtInsertDependency = thisDb.prepare(
+            " insert or replace into app_dependencies " +
             "    (id,  code_id, dependency_type, dependency_name, dependency_version ) " +
             " values " +
             "    (?, ?, ?, ?, ? );");
-
-
-
-
-        stmtInsertAppDDLRevision = thisDb.prepare(  " insert into app_db_latest_ddl_revisions " +
+        stmtInsertAppDDLRevision = thisDb.prepare(
+            " insert into app_db_latest_ddl_revisions " +
             "      ( base_component_id,  latest_revision  ) " +
             " values " +
             "      ( ?,  ? );");
-
-        stmtUpdateLatestAppDDLRevision = thisDb.prepare(  " update  app_db_latest_ddl_revisions  " +
+        stmtUpdateLatestAppDDLRevision = thisDb.prepare(
+            " update  app_db_latest_ddl_revisions  " +
             "     set  latest_revision = ? " +
             " where " +
             "     base_component_id =  ? ;");
-
         copyMigration = thisDb.prepare(
-            `                insert into  app_db_latest_ddl_revisions
-                       (base_component_id,latest_revision)
-                    select ?,  latest_revision from app_db_latest_ddl_revisions
-                     where base_component_id=?
-
-    `
+            `insert into  app_db_latest_ddl_revisions
+               (base_component_id,latest_revision)
+            select ?,  latest_revision from app_db_latest_ddl_revisions
+             where base_component_id=?`
         );
 },
 
