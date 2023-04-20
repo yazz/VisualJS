@@ -102,6 +102,18 @@ return code
             }
             return null
     },
+    addAfter:                       function        (  target  ,  start  ,  replaceWith  ) {
+        let startIndex  = target.indexOf(start) + start.length
+        let endIndex    = startIndex
+        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+        return newString
+    },
+    addBefore:                      function        (  target  ,  end  ,  replaceWith  ) {
+        let startIndex  = target.indexOf(end)
+        let endIndex    = startIndex + replaceWith.length - 1
+        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+        return newString
+    },
 
     //text retrieval and replacement
     replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
