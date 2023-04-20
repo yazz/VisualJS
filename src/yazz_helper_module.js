@@ -105,10 +105,10 @@ return code
 
     //text retrieval and replacement
     replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
-                                        let startIndex = target.indexOf(start) + start.length
-                                        let endIndex = target.indexOf(end)
-                                        let newString = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                                        return newString
+        let startIndex  = target.indexOf(start) + start.length
+        let endIndex    = target.indexOf(end)
+        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+        return newString
     },
     getBetween:                     function        (  target  ,  start  ,  end  ) {
         let startIndex = target.indexOf(start) + start.length

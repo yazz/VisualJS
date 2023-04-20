@@ -45,8 +45,7 @@ var autoScroll              = false;
 var nextItem                = 1;
 var wait_and_select_app     = null
 var yz                              = {
-
-    insertCodeString: function(code,st, vall ,optionalEnd) {
+    insertCodeString:               function(   code   ,   st   ,   vall   ,   optionalEnd   ) {
         let endIndicator = ")"
         if (optionalEnd) {
             endIndicator = optionalEnd
@@ -70,13 +69,7 @@ var yz                              = {
         return code
 
     },
-
-
-
-
-
-
-    deleteCodeString: function(code,st ,optionalEnd) {
+    deleteCodeString:               function(   code   ,   st   ,   optionalEnd   ) {
         let endIndicator = ")"
         if (optionalEnd) {
             endIndicator = optionalEnd
@@ -93,10 +86,7 @@ var yz                              = {
         }
         return code
     },
-
-
-
-    getValueOfCodeString: function(code, st,optionalEnd) {
+    getValueOfCodeString:           function(   code   ,   st   ,   optionalEnd   ) {
         let endIndicator = ")"
         if (optionalEnd) {
             endIndicator = optionalEnd
@@ -112,8 +102,15 @@ var yz                              = {
 
         }
         return null
+    },
+    replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
+        let startIndex  = target.indexOf(start) + start.length
+        let endIndex    = target.indexOf(end)
+        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+        return newString
     }
 }
+debugger
 var GLOBALS                         = {
     /* -----------------------------------------------------------------------
     GLOBALS
