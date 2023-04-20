@@ -117,8 +117,15 @@ return code
 
     //text retrieval and replacement
     replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
-        let startIndex  = target.indexOf(start) + start.length
+        let startIndex  = target.indexOf(start)
+        if (startIndex == -1) {
+            return target
+        }
+        startIndex      += start.length
         let endIndex    = target.indexOf(end)
+        if (endIndex == -1) {
+            return target
+        }
         let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
         return newString
     },
