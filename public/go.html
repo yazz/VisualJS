@@ -4056,7 +4056,9 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                 if (pipelineItem == "APP") {
                     trcode2 = await enhanceCodeWithPipeline(
                         {
-                            code:   trcode2
+                            code:           trcode2,
+                            startMarker:    "/* ** *** insert_code_here_start *** ** */",
+                            endMarker:      "/* ** *** insert_code_here_end *** ** */"
                         }
                     );
 
@@ -4122,12 +4124,15 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
 async function enhanceCodeWithPipeline(
     args
 ) {
-    let trcode2 = args.code
-    let startIndex = trcode2.indexOf("/* ** *** insert_code_here_start *** ** */")
+    let trcode2     = args.code
+    let startMarker = args.startMarker
+    let endMarker   = args.endMarker
+
+    let startIndex  = trcode2.indexOf(startMarker)
     if (startIndex != -1) {
-        startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
+        startIndex += startMarker.length
     }
-    let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
+    let endIndex = trcode2.indexOf(endMarker)
 
     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
         {
