@@ -1,27 +1,18 @@
-const OnlyIpfsHash = require("ipfs-only-hash");
-const path = require("path");
-let sqlite3                     = require('sqlite3');
-let uuidv1          = require('uuid/v1');
+const OnlyIpfsHash                              = require("ipfs-only-hash");
+const path                                      = require("path");
+let sqlite3                                     = require('sqlite3');
+let uuidv1                                      = require('uuid/v1');
 let stmtDeleteDependencies
 let stmtDeleteTypesForComponentProperty
 let stmtDeleteAcceptTypesForComponentProperty
-
 let stmtInsertDependency
-let fs = require('fs');
-
+let fs                                          = require('fs');
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
 
-
-
-
 module.exports = {
-    //
-
     //setup this module
-
-    //
     setup:                          async function  (  thisDb  ) {
         stmtDeleteDependencies = thisDb.prepare(
             " delete from  app_dependencies   where   code_id = ?");
@@ -52,14 +43,7 @@ module.exports = {
         );
 },
 
-
-
-
-    //
-
     //manipulate code meta data
-
-    //
     insertCodeString:               function        (  code  ,  st  ,  vall  ,  optionalEnd  ) {
     let endIndicator = ")"
     if (optionalEnd) {
@@ -119,14 +103,7 @@ return code
             return null
     },
 
-
-
-
-    //
-
     //text retrieval and replacement
-
-    //
     replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
                                         let startIndex = target.indexOf(start) + start.length
                                         let endIndex = target.indexOf(end)
@@ -161,14 +138,7 @@ return code
       return code
     },
 
-
-
-
-    //
-
     //manipulate components
-
-    //
     addProperty:                    function        (  code  ,  newProperty  ) {
         let properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
         if (properties) {
@@ -222,14 +192,7 @@ return code
         return retRes
     },
 
-
-
-
-    //
-
     //general JS helpers
-
-    //
     isValidObject:                  function        (  variable  ){
         if ((typeof variable !== 'undefined') && (variable != null)) {
             return true
@@ -237,15 +200,7 @@ return code
         return false
     },
 
-
-
-
-
-    //
-
     //Internal SQLite DB helpers
-
-    //
     getQuickSqlOneRow:              async function  (  thisDb  ,  sql  ,  params  ) {
         let rows = await this.getQuickSql(thisDb,sql,params)
         if (rows.length == 0) {
@@ -297,16 +252,7 @@ return code
         return ret
     },
 
-
-
-
-
-
-    //
-
     //code commit helpers
-
-    //
     tagVersion:                     async function  (  thisDb  ,  ipfs_hash  ,  srcCode  ) {
         let baseComponentId = this.getValueOfCodeString(srcCode,"base_component_id")
         let dateTime = new Date().toString()
@@ -581,16 +527,7 @@ return code
         )
     },
 
-
-
-
-
-
-    //
-
     //code save helpers
-
-    //
     copyFile:                       function        (  source  ,  target  ,  cb  ) {
         //------------------------------------------------------------------------------
         //
@@ -1123,16 +1060,7 @@ newCode += newCode2
         return ret
     },
 
-
-
-
-
-
-    //
-
     // code execution helpers
-
-    //
     getPipelineCode:                async function  (  args  ) {
         /*
         ________________________________________
@@ -1158,17 +1086,7 @@ newCode += newCode2
         return fileOut
     },
 
-
-
-
-
-
-
-    //
-
     // CODE_TAGS
-
-    //
     createNewTip:                   async function  (  thisDb  ,  savedCode  ,  codeId  ,  userId  ) {
         /*
         ________________________________________
