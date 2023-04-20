@@ -4126,6 +4126,26 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
     }
 }
 async function  enhanceCodeWithPipeline             (   args   ) {
+    /*
+    ________________________________________
+    |                                      |
+    |        enhanceCodeWithPipeline       |
+    |                                      |
+    |______________________________________|
+    Function description
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     args      {
+    |     ----          copyPipelineName
+    |                   copyFileName
+    |                   copyStartMarker
+    |                   copyEndMarker
+    |                   code
+    |                   pasteStartMarker
+    |                   pasteEndMarker
+    |               }
+    |________________________________________________________________________ */
     let copyPipelineName    = args.copyPipelineName
     let copyFileName        = args.copyFileName
     let copyStartMarker     = args.copyStartMarker
