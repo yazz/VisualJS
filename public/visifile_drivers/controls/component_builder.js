@@ -428,7 +428,7 @@ logo_url("/driver_icons/builder.png")
                
                
                <div v-if='(propertySelected)' style="display: inline-block;vertical-align:top;width:60%;">
-                   <div style="color: white;">//zzz</div>
+                   <div style="color: white;"></div>
                    <div v-if='(propertySelected)' class='row'>
                  
                        <div    style='font-family:verdana,helvetica;font-size: 13px;'
@@ -531,7 +531,7 @@ logo_url("/driver_icons/builder.png")
 
 
                  <div v-if='(methodSelected)' style="display: inline-block;vertical-align:top;width:60%;">
-                   <div style="color: white;">//zzz</div>
+                   <div style="color: white;"></div>
                    <div v-if='(methodSelected)' class='row'>
 
                      <div    style='font-family:verdana,helvetica;font-size: 13px;'
@@ -663,7 +663,6 @@ logo_url("/driver_icons/builder.png")
                 ,
                 propertySelectedDefaultValue: ""
                 ,
-                //zzz
                 methodSelected: false
                 ,
                 methodSelectedId: ""
@@ -765,7 +764,6 @@ logo_url("/driver_icons/builder.png")
             }
             ,
             selectCustomProperty: function(newPropertyId) {
-            //zzz
                 let mm = this
 
                 mm.selectedCustomProperty = newPropertyId
@@ -784,7 +782,6 @@ logo_url("/driver_icons/builder.png")
             }
             ,
             selectCustomMethod: function(newMethodId) {
-                //zzz
                 let mm = this
 //debugger
                 mm.selectedCustomMethod = newMethodId
@@ -804,7 +801,6 @@ logo_url("/driver_icons/builder.png")
             }
             ,
             updateCustomMethods: function() {
-                //zzz
                 //debugger
                 let mm = this
 
@@ -827,7 +823,6 @@ logo_url("/driver_icons/builder.png")
             }
             ,
             updateCustomProperties: function() {
-                //zzz
                 let mm = this
 
                 let allCustomProps = mm.properties.properties

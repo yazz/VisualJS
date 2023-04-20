@@ -91,7 +91,6 @@ extraFns += "await evalLocalSystemDriver('" + args.app_base_component_id + "',  
 extraFns += "}"
 
 
-            //zzz
             var tar = require('tar-stream')
             var pack = tar.pack() // pack is a streams2 stream
 

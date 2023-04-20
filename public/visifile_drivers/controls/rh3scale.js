@@ -266,7 +266,6 @@ logo_url("/driver_icons/rh3scale.png")
                     return
                 }
                 await loadUiComponentsV4(["rest_control"])
-                //zzz
                 var newName = "rh3scale_api_call_" + Math.floor(Math.random() * 1000)
                 await this.meta.getEditor().addControl(
                     {

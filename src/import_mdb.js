@@ -815,7 +815,6 @@ function getDataForTableOnPage(pageNum, pageDefns) {
                         //console.log("Val:" + toUTF8Array(VariableLengthFieldOffset))
                         console.log("Val:" + VariableLengthFieldOffset)
                     }
-                    //zzz
                 }
 
             }

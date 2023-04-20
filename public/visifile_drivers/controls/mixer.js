@@ -859,9 +859,6 @@ logo_url("/driver_icons/mixer.png")
 
          if (!this.design_mode) {
 
-           //zzz
-           //debugger
-
            //hack city!!!! This should not be done via timeout, but via some
            // sort of callback. The reason a timeout is needed here is because
            // other uninitialised (as of yet) controls on the same form are

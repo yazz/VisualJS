@@ -299,7 +299,6 @@ function executeCode(  callId  ,  codeId  , args  ,  base_component_id  ) {
 //console.log(code)
                                 var fnfn = eval("(" + code + ")")
                                 if (code.indexOf("function*") != -1) {
-                                    //zzz
                                     var generator = fnfn()
                                     let result = generator.next();
                                     while (!result.done) {

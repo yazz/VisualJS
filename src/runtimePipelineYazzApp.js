@@ -2776,7 +2776,7 @@
 
                         //debugger
                         await mm.deleteComponentByName("aaa")
-                        //zzz
+
                         let compArgs =  {
                             base_component_id:   mm.args.control_type,
                             type:               "add_component",
@@ -4864,8 +4864,6 @@ ${origCode}
                  */
                             mm.refresh++
                             if (!GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
-                                //debugger
-                                //zzz
                                 if (newItem.code_id) {
                                     await loadUiComponentsV4([{codeId: newItem.code_id}])
                                 } else {
