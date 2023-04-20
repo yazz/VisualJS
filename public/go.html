@@ -3905,6 +3905,33 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
         codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
     }
 
+    async function extracted(trcode2) {
+        let startIndex = trcode2.indexOf("/* ** *** insert_code_here_start *** ** */")
+        if (startIndex != -1) {
+            startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
+        }
+        let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
+
+        let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
+            {
+                pipelineName: "APP",
+                fileName: "runtimePipelineYazzApp.js",
+                fromMarker: "//*** gen_start ***//",
+                toMarker: "//*** gen_end ***//"
+            })
+
+        if (startIndex != -1) {
+            if (endIndex != -1) {
+                trcode2 = trcode2.substring(0, startIndex) +
+
+                    editorCodeToCopy +
+
+                    trcode2.substring(endIndex)
+            }
+        }
+        return trcode2;
+    }
+
     try {
         /*
         ____________________________________________________________
@@ -4052,34 +4079,7 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
         if (runtimePipeline){
             for (let pipelineItem of runtimePipeline) {
                 if (pipelineItem == "APP") {
-
-                    let startIndex = trcode2.indexOf("/* ** *** insert_code_here_start *** ** */")
-                    if (startIndex != -1) {
-                        startIndex += 42 // nothing to do with Hitchhikers Guide To The Galaxy, 42 is the string length needed!
-                    }
-                    let endIndex = trcode2.indexOf("/* ** *** insert_code_here_end *** ** */")
-
-                    let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
-                        {
-                            pipelineName:   "APP",
-                            fileName:       "runtimePipelineYazzApp.js",
-                            fromMarker:     "//*** gen_start ***//",
-                            toMarker:       "//*** gen_end ***//"
-                        })
-
-                    if (startIndex != -1) {
-                        if (endIndex != -1) {
-                            trcode2 = trcode2.substring(0,startIndex) +
-
-                                editorCodeToCopy +
-
-                                trcode2.substring(endIndex)
-                        }
-                    }
-
-
-
-
+                    trcode2 = await extracted(trcode2);
 
 
                     if (baseComponentId.startsWith("COMP_")) {
