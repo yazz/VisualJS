@@ -4056,16 +4056,16 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                 if (pipelineItem == "APP") {
                     trcode2 = await enhanceCodeWithPipeline(
                         {
-                            code:           trcode2,
-                            startMarker:    "/* ** *** insert_code_here_start *** ** */",
-                            endMarker:      "/* ** *** insert_code_here_end *** ** */"
+                            code:               trcode2,
+                            pasteStartMarker:   "/* ** *** insert_code_here_start *** ** */",
+                            pasteEndMarker:     "/* ** *** insert_code_here_end *** ** */"
                         }
                     );
 
 
-                    if (baseComponentId.startsWith("COMP_")) {
+                    //if (baseComponentId.startsWith("COMP_")) {
                         //debugger
-                    }
+                    //}
 
                     let model = yz.getValueOfCodeString(trcode2,"formEditor",")//formEditor")
                     let modelAsText =  JSON.stringify( model,
@@ -4124,15 +4124,15 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
 async function enhanceCodeWithPipeline(
     args
 ) {
-    let trcode2     = args.code
-    let startMarker = args.startMarker
-    let endMarker   = args.endMarker
+    let trcode2             = args.code
+    let pasteStartMarker   = args.pasteStartMarker
+    let pasteEndMarker     = args.pasteEndMarker
 
-    let startIndex  = trcode2.indexOf(startMarker)
+    let startIndex  = trcode2.indexOf(pasteStartMarker)
     if (startIndex != -1) {
-        startIndex += startMarker.length
+        startIndex += pasteStartMarker.length
     }
-    let endIndex = trcode2.indexOf(endMarker)
+    let endIndex = trcode2.indexOf(pasteEndMarker)
 
     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
         {
