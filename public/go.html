@@ -3648,10 +3648,10 @@ __________
 |
 |________________________________________________________________________ */
 
-    console.log("loadUiComponentsV4")
-    console.log("    argComponentsToLoad := " + JSON.stringify(argComponentsToLoad,null,2))
-    console.log("    argsToPassToUiComponents := " + JSON.stringify(argsToPassToUiComponents,null,2))
-    console.log("")
+    //console.log("loadUiComponentsV4")
+    //console.log("    argComponentsToLoad := " + JSON.stringify(argComponentsToLoad,null,2))
+    //console.log("    argsToPassToUiComponents := " + JSON.stringify(argsToPassToUiComponents,null,2))
+    //console.log("")
 
     /*
     ________________________________________
@@ -3702,7 +3702,7 @@ __________
             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
             if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId(componentType)  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
-                console.log("loadUiComponentsV4: " + componentType)
+                //console.log("loadUiComponentsV4: " + componentType)
                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
                 let newDataCodeId   = GLOBALS.getCommitIdForBaseComponentId( componentType )
