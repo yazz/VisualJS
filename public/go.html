@@ -4056,7 +4056,11 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                 if (pipelineItem == "APP") {
                     trcode2 = await enhanceCodeWithPipeline(
                         {
-                            code:               trcode2,
+                            copyPipelineName:   "APP",
+                            copyFileName:       "runtimePipelineYazzApp.js",
+                            copyStartMarker:    "//*** gen_start ***//",
+                            copyEndMarker:      "//*** gen_end ***//",
+                            code:                trcode2,
                             pasteStartMarker:   "/* ** *** insert_code_here_start *** ** */",
                             pasteEndMarker:     "/* ** *** insert_code_here_end *** ** */"
                         }
@@ -4121,12 +4125,14 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
         hideProgressBar()
     }
 }
-async function enhanceCodeWithPipeline(
-    args
-) {
+async function  enhanceCodeWithPipeline             (   args   ) {
+    let copyPipelineName    = args.copyPipelineName
+    let copyFileName        = args.copyFileName
+    let copyStartMarker     = args.copyStartMarker
+    let copyEndMarker       = args.copyEndMarker
     let trcode2             = args.code
-    let pasteStartMarker   = args.pasteStartMarker
-    let pasteEndMarker     = args.pasteEndMarker
+    let pasteStartMarker    = args.pasteStartMarker
+    let pasteEndMarker      = args.pasteEndMarker
 
     let startIndex  = trcode2.indexOf(pasteStartMarker)
     if (startIndex != -1) {
@@ -4136,10 +4142,10 @@ async function enhanceCodeWithPipeline(
 
     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
         {
-            pipelineName: "APP",
-            fileName: "runtimePipelineYazzApp.js",
-            fromMarker: "//*** gen_start ***//",
-            toMarker: "//*** gen_end ***//"
+            pipelineName:   copyPipelineName,
+            fileName:       copyFileName,
+            fromMarker:     copyStartMarker,
+            toMarker:       copyEndMarker
         })
 
     if (startIndex != -1) {
