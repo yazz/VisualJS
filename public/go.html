@@ -129,7 +129,6 @@ var yz                              = {
         return newString
     }
 }
-debugger
 var GLOBALS                         = {
     /* -----------------------------------------------------------------------
     GLOBALS
@@ -272,12 +271,8 @@ var GLOBALS                         = {
         if (GLOBALS.runtimePipelines[args.pipelineName]) {
             codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
         } else {
-            if (args.pipelineName == "APP") {
-
-                GLOBALS.runtimePipelines[args.pipelineName] = {}
-                GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer(args.fileName)
-                GLOBALS.runtimePipelines[args.pipelineName].json = eval("(" + GLOBALS.runtimePipelines[args.pipelineName].code + ")")
-            }
+            GLOBALS.runtimePipelines[args.pipelineName] = {}
+            GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer(args.fileName)
 
             codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
         }
@@ -4072,7 +4067,19 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                             pasteEndMarker:     "/* ** *** insert_code_here_end *** ** */"
                         }
                     );
-
+                    debugger
+                    trcode2 = await enhanceCodeWithPipeline(
+                        {
+                            copyPipelineName:   "APP_UI_METHODS",
+                            copyFileName:       "runtimePipelineYazzUiMethods.js",
+                            copyStartMarker:    "//*** gen_start ***//",
+                            copyEndMarker:      "//*** gen_end ***//",
+                            code:                trcode2,
+                            pasteMarker:        "/* ** *** insert_ui_methods_start *** ** */",
+                            mode:               "INSERT_AFTER"
+                        }
+                    );
+                    //zzz
 
                     //if (baseComponentId.startsWith("COMP_")) {
                         //debugger
@@ -4151,7 +4158,8 @@ async function  enhanceCodeWithPipeline             (   args   ) {
     |                   code
     |                   pasteStartMarker
     |                   pasteEndMarker
-    |                   mode
+    |                   pasteMarker
+    |                   mode            // REPLACE,  INSERT_AFTER,  or INSERT_BEFORE
     |               }
     |________________________________________________________________________ */
     let copyPipelineName    = args.copyPipelineName
@@ -4161,8 +4169,9 @@ async function  enhanceCodeWithPipeline             (   args   ) {
     let trcode2             = args.code
     let pasteStartMarker    = args.pasteStartMarker
     let pasteEndMarker      = args.pasteEndMarker
+    let pasteMarker         = args.pasteMarker
     let mode                = "REPLACE"
-
+//zzz
     if (args.mode) {
         mode = args.mode
     }
@@ -4175,8 +4184,14 @@ async function  enhanceCodeWithPipeline             (   args   ) {
             toMarker:       copyEndMarker
         })
 
-    if (mode == "REPLACE") {
+    if (mode == "INSERT_AFTER") {
+        trcode2 = yz.addAfter(trcode2, pasteMarker, editorCodeToCopy)
+    } else if (mode == "REPLACE") {
         trcode2 = yz.replaceBetween(trcode2, pasteStartMarker, pasteEndMarker, editorCodeToCopy)
+    } else if (mode == "INSERT_BEFORE") {
+        trcode2 = yz.addBefore(trcode2, pasteMarker, editorCodeToCopy)
+    } else {
+        throw "No such mode in 'enhanceCodeWithPipeline' called '" + mode + "'"
     }
     return trcode2;
 }

@@ -39,7 +39,7 @@
                 }
                 await loadUiComponentsV4(itemsToLoad)
                 //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
-            }
+            },
             //*** gen_end ***//
         }
         }
