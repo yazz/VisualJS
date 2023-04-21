@@ -4151,6 +4151,7 @@ async function  enhanceCodeWithPipeline             (   args   ) {
     |                   code
     |                   pasteStartMarker
     |                   pasteEndMarker
+    |                   mode
     |               }
     |________________________________________________________________________ */
     let copyPipelineName    = args.copyPipelineName
@@ -4160,6 +4161,11 @@ async function  enhanceCodeWithPipeline             (   args   ) {
     let trcode2             = args.code
     let pasteStartMarker    = args.pasteStartMarker
     let pasteEndMarker      = args.pasteEndMarker
+    let mode                = "REPLACE"
+
+    if (args.mode) {
+        mode = args.mode
+    }
 
     let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
         {
@@ -4169,7 +4175,9 @@ async function  enhanceCodeWithPipeline             (   args   ) {
             toMarker:       copyEndMarker
         })
 
-    trcode2 = yz.replaceBetween(trcode2, pasteStartMarker, pasteEndMarker, editorCodeToCopy)
+    if (mode == "REPLACE") {
+        trcode2 = yz.replaceBetween(trcode2, pasteStartMarker, pasteEndMarker, editorCodeToCopy)
+    }
     return trcode2;
 }
 async function  runYazzSourceCode                   (   trcode2   ,   args   ,   callbackFn   ) {
