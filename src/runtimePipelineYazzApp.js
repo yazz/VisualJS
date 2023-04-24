@@ -3002,35 +3002,6 @@
                 methods:    {
                     /* ** *** insert_ui_methods_start *** ** */
                     /* ** *** insert_ui_methods_end *** ** */
-                    getIncomingToPropertyName:              function        (currentWatch) {
-                        /*
-            ________________________________________
-            |                                      |
-            |   getIncomingToPropertyName          |
-            |                                      |
-            |______________________________________|
-
-            I'm not entirely sure what this method does
-
-            __________
-            | Params |
-            |        |______________________________________________________________
-            |
-            |     NONE
-            |________________________________________________________________________ */
-                        let ret
-                        if (this.model.forms[this.active_form].components[this.active_component_links_index]) {
-                            ret = this.model.forms[this.active_form].components[this.active_component_links_index].name
-                                +
-                                "."
-                                +
-                                currentWatch.to_component_property_name
-                        } else {
-                            ret = "<Invalid>"
-                        }
-
-                        return ret
-                    },
                     getEditor:                              function        () {
                         /*
              ________________________________________
