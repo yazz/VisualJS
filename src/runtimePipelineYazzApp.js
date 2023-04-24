@@ -3002,34 +3002,6 @@
                 methods:    {
                     /* ** *** insert_ui_methods_start *** ** */
                     /* ** *** insert_ui_methods_end *** ** */
-                    addCodeChange:                          function        (changeText) {
-                        /*
-            ________________________________________
-            |                                      |
-            |             addCodeChange            |
-            |                                      |
-            |______________________________________|
-
-            This is called to try to keep a log of changes that has occurred on a commit
-
-            __________
-            | Params |
-            |        |______________________________________________________________
-            |
-            |     NONE
-            |________________________________________________________________________ */
-                        let mm = this
-                        if (!mm.code_changes) {
-                            mm.code_changes = []
-                        }
-
-                        mm.code_changes.push(
-                            {
-                                code_change_text: changeText
-                                ,
-                                timestamp: new Date().getTime()
-                            })
-                    },
                     updateComponentMethods:                 function        () {
                         /*
             ________________________________________

@@ -40,8 +40,36 @@
                 await loadUiComponentsV4(itemsToLoad)
                 //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
             },
+            addCodeChange:                          function        (changeText) {
+                /*
+                ________________________________________
+                |                                      |
+                |             addCodeChange            |
+                |                                      |
+                |______________________________________|
+
+                This is called to try to keep a log of changes that has occurred on a commit
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                if (!mm.code_changes) {
+                    mm.code_changes = []
+                }
+
+                mm.code_changes.push(
+                    {
+                        code_change_text: changeText
+                        ,
+                        timestamp: new Date().getTime()
+                    })
+            },
             //*** gen_end ***//
-        }
+
         }
     }
 }
