@@ -4118,8 +4118,21 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
 
                     trcode2 = trcode2.toString().replaceAll("_REPLACE_THIS_WITH_BASE_COMPONENT_ID_",baseComponentId )
 
+                } else if (pipelineItem == "EDITOR_PLUG_IN") {
+                    trcode2 = await enhanceCodeWithPipeline(
+                        {
+                            copyPipelineName:   "APP_UI_METHODS",
+                            copyFileName:       "runtimePipelineYazzUiMethods.js",
+                            copyStartMarker:    "//*** gen_start ***//",
+                            copyEndMarker:      "//*** gen_end ***//",
+                            code:                trcode2,
+                            pasteMarker:        "/* ** *** insert_ui_methods_start *** ** */",
+                            mode:               "INSERT_AFTER"
+                        }
+                    );
                 }
-                if (baseComponentId.startsWith("COMP_")) {
+
+            if (baseComponentId.startsWith("COMP_")) {
                     //await saveDebugTextOnServer(trcode2, "z.js")
                 }
             }
