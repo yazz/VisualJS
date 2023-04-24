@@ -68,6 +68,78 @@
                         timestamp: new Date().getTime()
                     })
             },
+            updateComponentMethods:                 function        () {
+                /*
+               ________________________________________
+               |                                      |
+               |         updateComponentMethods       |
+               |                                      |
+               |______________________________________|
+
+               I'm not entirely sure what this method does
+
+               __________
+               | Params |
+               |        |______________________________________________________________
+               |
+               |     NONE
+               |________________________________________________________________________ */
+                let mm = this
+
+                // ---------------------------------------------------------
+                // ... Set up all the form methods
+                // ---------------------------------------------------------
+                let forms = mm.getForms()
+                for (let formIndex = 0; formIndex < forms.length; formIndex ++) {
+                    let formName = forms[formIndex].name
+
+                    // ---------------------------------------------------------
+                    // For each component in the form ...
+                    // ---------------------------------------------------------
+                    for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                    {
+                        // ---------------------------------------------------------
+                        // ... Make sure that the component is added as a
+                        //     dependency of this app (Useful for
+                        //     when we compile the app as standalone HTML)
+                        // ---------------------------------------------------------
+
+                        let componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
+                        if (mm.edited_app_component_id) {
+                            mm.components_used_in_this_app[  componentConfig.base_component_id  ] = true
+                        }
+
+
+
+                        // ---------------------------------------------------------
+                        // ...
+                        //
+                        //
+                        // ---------------------------------------------------------
+
+                        let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
+
+                        if (GLOBALS.isComponentTypeCached(componentId)) {
+                            let cachedComponentPropertiesDefinition = mm.getControlProperties(mm.model.forms[formName].components[compenentInFormIndex].base_component_id)
+                            if (isValidObject(cachedComponentPropertiesDefinition)) {
+                                for (let cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
+                                    let prop = cachedComponentPropertiesDefinition[cpp].id
+                                    let compId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
+
+                                    if (cachedComponentPropertiesDefinition[cpp].type == "Action") {
+                                        mm.model.forms[formName].components[compenentInFormIndex][prop] =
+                                            mm.getControlMethod(cachedComponentPropertiesDefinition[cpp],
+                                                mm.model.forms[formName].components[compenentInFormIndex])
+
+                                    } else if (!isValidObject(mm.model.forms[formName].components[compenentInFormIndex][prop])){
+                                        mm.model.forms[formName].components[compenentInFormIndex][prop] = ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             //*** gen_end ***//
 
         }
