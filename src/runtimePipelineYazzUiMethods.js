@@ -4052,6 +4052,482 @@ return {}
                 }
                 return []
             },
+            selectForm:                             function        (formId, showProps) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+
+
+                mm.active_component_index = null
+                mm.model.app_selected = false
+                mm.properties = mm.getFormProperties(formId)
+
+                mm.active_form = formId
+                mm.refresh ++
+
+                if (  mm.model.forms[  formId  ].form_activate && (!mm.design_mode)) {
+
+
+
+
+                    if (!isValidObject(this.args)) {
+                        mm.args = mm.model
+                    }
+
+                    let args = mm.args
+                    let app = mm.model
+                    let crt = mm.model.forms[formId].form_activate
+
+                    let formEvent = {
+                        type:               "form_event",
+                        form_name:           formId,
+                        code:                crt,
+                        sub_type:           "activate"
+                    }
+                    mm.processControlEvent(formEvent)
+                }
+                mm.updatePropertySelector()
+                if (isValidObject(showProps) && showProps) {
+                    this.selected_pane = "properties";
+                    this.chooseRight("properties");
+                }
+
+                mm.refresh ++
+            },
+            processControlEvent:                    async function  (  eventMessage  ) {
+                //-------------------------------------------------------------------
+                //                        processControlEvent
+                //
+                // This is used to run user written event code
+                //-------------------------------------------------------------------
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+
+                let shallIProcessThisEvent = false
+                if ((!mm.design_mode) && (mm.model)) {
+                    shallIProcessThisEvent = true
+                }
+                if (eventMessage.design_time_only_events && (mm.design_mode) && (mm.model)) {
+                    shallIProcessThisEvent = true
+                }
+                if (eventMessage.design_time_only_events && (!mm.design_mode)) {
+                    shallIProcessThisEvent = false
+                }
+
+                if (shallIProcessThisEvent) {
+                    this.updateAllFormCaches()
+
+                    //
+                    // set up property access for all forms
+                    //
+
+                    let formHandler = {
+                        get: function(target,name){
+                            let formName = target.name
+                            if (mm.model.forms[formName][name]) {
+                                return mm.model.forms[formName][name]
+                            }
+
+                            if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
+                                return mm.form_runtime_info[formName].component_lookup_by_name[name]
+                            }
+
+                            return "Not found"
+                        }
+                    }
+                    let formEval = ""
+                    let allForms = this.getForms();
+                    for (let fi =0; fi < allForms.length ; fi ++) {
+                        let aForm = allForms[fi]
+                        formEval += ("var " + aForm.name +
+                            " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
+
+                    }
+                    eval(formEval)
+
+
+
+
+                    //
+                    // set up property access for all controls on this form
+                    //
+                    let allC = this.model.forms[this.active_form].components
+                    let cacc =""
+                    for (let xi =0; xi< allC.length ; xi ++) {
+                        let comp = allC[xi]
+                        // LEAVE this as a "var", otherwise components don't work inscripts
+                        cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                    }
+                    //eval(cacc)
+
+
+
+
+                    if (eventMessage.type == "subcomponent_event") {
+                        //debugger
+                        if ((eventMessage.code == null) || (eventMessage.code == "")) {
+                            return
+                        }
+                        let fcc =
+                            `(async function(args){
+${eventMessage.code}
+})`
+
+
+                        let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
+                        if (isValidObject(thisControl)) {
+
+                            if (isValidObject(thisControl.parent)) {
+                                let cacc =""
+                                cacc += ( "var parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                                eval(cacc)
+                            }
+
+                            let meCode =""
+                            meCode += ( "var me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                            eval(meCode)
+
+                            let appCode =""
+                            appCode += ( "var app = mm.model;")
+                            eval(appCode)
+
+                            meCode =""
+                            meCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
+                            eval(meCode)
+
+
+                            let argsCode =""
+                            let listOfArgs = []
+                            if (isValidObject(eventMessage.args)) {
+                                listOfArgs = Object.keys(eventMessage.args)
+                                for (let rtt=0;rtt<listOfArgs.length;rtt++) {
+                                    argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
+                                }
+                            }
+                            eval(argsCode)
+
+
+//debugger
+                            let debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
+                            let efcc = eval(cacc + "" + debugFcc)
+
+
+                            try {
+                                await efcc()
+                            } catch(  err  ) {
+
+                                let errValue = ""
+                                if (err.message) {
+                                    errValue = err.message
+                                } else {
+                                    errValue = err
+                                }
+                                alert(  "Error in " + eventMessage.form_name + ":" + eventMessage.control_name + ":" + eventMessage.sub_type + ":" + "\n" +
+                                    "    " + JSON.stringify(errValue,null,2))
+                            }
+
+                        }
+
+                        //
+                        // form events
+                        //
+                    } else if (eventMessage.type == "form_event") {
+                        let fcc =
+                            `(async function(){
+${eventMessage.code}
+})`
+                        let meCode =""
+                        meCode += ( "var me = mm.model.forms['" + this.active_form + "'];")
+                        eval(meCode)
+
+                        let appCode =""
+                        appCode += ( "var app = mm.model;")
+                        eval(appCode)
+
+                        let debugFcc = getDebugCode(this.active_form ,fcc,{skipFirstAndLastLine: true})
+                        let efcc = eval(debugFcc)
+
+                        try {
+                            await efcc()
+                        } catch(  err  ) {
+
+                            let errValue = ""
+                            if (err.message) {
+                                errValue = err.message
+                            } else {
+                                errValue = err
+                            }
+                            alert(  "Error in " +eventMessage.form_name + ":" + eventMessage.sub_type + "\n" +
+                                "    Error: " + JSON.stringify(errValue,null,2))
+                        }
+                    }
+
+
+
+
+
+                    mm.refresh ++
+                    mm.$forceUpdate();
+                }
+
+            },
+            allowDropEditor:                        function        (ev) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                ev.preventDefault();
+            },
+            dropEditor:                             async function  (ev) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                ev.preventDefault();
+                let mm = this
+
+                let data2 = ev.dataTransfer.getData("message");
+                let data = eval("(" + data2 + ")")
+
+                let doc = document.documentElement;
+                let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0) ;
+                let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
+                if (data.type == "resize_form_bottom_right") {
+                    let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+
+                    let newWidth = (ev.clientX - 8)  - rrr.left ;
+                    let newHeight = (ev.clientY - 8) - rrr.top ;
+
+                    this.model.forms[this.active_form].width = Math.floor(newWidth)
+                    this.model.forms[this.active_form].height = Math.floor(newHeight)
+
+                    this.active_component_index = null
+                    mm.refresh ++
+
+                } else if (data.type == "resize_form_right") {
+                    let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+
+                    let newWidth = (ev.clientX - 8)  - rrr.left ;
+
+                    this.model.forms[this.active_form].width = Math.floor(newWidth)
+
+                    this.active_component_index = null
+                    mm.refresh ++
+
+                } else if (data.type == "resize_form_bottom") {
+                    let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+
+                    let newHeight = (ev.clientY - 8) - rrr.top ;
+
+                    this.model.forms[this.active_form].height = Math.floor(newHeight)
+
+                    this.active_component_index = null
+                    mm.refresh ++
+                }
+            },
+            setInfo:                                function        (text) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                this.$root.$emit('message', {
+                    type:   "set_info_text",
+                    text:    text
+                })
+            },
+            allowDrop:                              function        (ev) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                //ev.preventDefault();
+            },
+            drag:                                   function        (ev,message) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let doc = document.documentElement;
+                let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+                let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+                let rrr = ev.target.getBoundingClientRect()
+                message.offsetX = (ev.clientX - rrr.left )
+                message.offsetY = (ev.clientY - rrr.top )
+
+                if (!isValidObject(ev.dataTransfer)) {
+                    return
+                }
+                ev.dataTransfer.setData("message",
+                    JSON.stringify(message,null,2));
+
+            },
+            switchEditor:                           async function  (editorComponentName) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                //form_runtime_info[active_form].component_incoming_count_by_uuid[model.forms[active_form].components[active_component_index].base_component_id
+                //debugger
+                mm.$root.$emit(
+                    'message', {
+                        type:          "switch_editor",
+                        editorName:     editorComponentName,
+                        previewType:   "control"
+                    })
+            },
+            showComponentDetailedDesignUi:          async function  (index) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                mm.design_mode_pane.type = "control_details_editor"
+
+                this.active_component_detail_index = index;
+                this.active_component_detail_name = this.model.forms[this.active_form].components[index].name;
+
+                setTimeout(function() {
+                    //mm.refresh ++
+                    mm.$forceUpdate();
+                },400)
+            },
+            showComponentDetailedDesignUiByName:    async function  (compName) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let parentItemIndex = -1;
+                let ccc = mm.model.forms[mm.active_form].components
+                for (let ytr = 0;ytr < ccc.length;ytr++) {
+                    if (compName == ccc[ytr].name) {
+                        parentItemIndex = ytr
+                        break
+                    }
+                }
+                if (parentItemIndex != -1) {
+                    mm.showComponentDetailedDesignUi(parentItemIndex, true)
+                }
+                return null
+            },
             //*** gen_end ***//
 
         }
