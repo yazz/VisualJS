@@ -753,6 +753,215 @@
                 mm.selectComponent(old_active_component_index, true)
 
             },
+            showSaveButton:                         function        (event) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                this.$root.$emit('message', {
+                    type:   "pending"
+                })
+            },
+            setWatchComponent:                      function        (event) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+
+                let mm      = this
+                let val     = null
+                let type    = null
+
+//debugger
+                this.selectedWatchComponentUuid = event.target.value
+                this.selectedWatchFromProperties = []
+                let ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+                let ccomkeys = Object.keys(ccomp)
+                for (let aaa =0; aaa<ccomkeys.length;aaa++) {
+                    this.selectedWatchFromProperties.push(ccomkeys[aaa])
+                }
+            },
+            setIncomingFormWatchComponent:          function        (event) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm      = this
+                let val     = null
+                let type    = null
+
+
+                //
+                // if nothing is selected then set it all up
+                //
+                if (mm.linkSideSelected == "none") {
+                    mm.linkSideSelected = "from";
+
+                } else {
+
+                }
+                this.selectedWatchComponentUuid = event.target.value
+                this.selectedWatchFromProperties = []
+                let ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+                let Acttyoe = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
+                let ccomkeys = Object.keys(GLOBALS.linkedProperties[Acttyoe].incoming.them[ccomp.base_component_id])
+                for (let aaa =0; aaa<ccomkeys.length;aaa++) {
+                    this.selectedWatchFromProperties.push(ccomkeys[aaa])
+                }
+
+//debugger
+
+
+
+            },
+            setWatchToProperty:                     function        (event) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                this.selectedWatchToProperty = event.target.value
+                this.toLinkPropertySelected = true
+
+                if (mm.linkSideSelected == "none") {
+                    mm.linkSideSelected = "to";
+
+                } else {
+
+                }
+
+                //debugger
+                if (mm.design_mode_pane.links_type == "form") {
+                    if (mm.linkSideSelected == "to") {
+
+                        mm.incoming_link_objects = []
+
+                        let ccc = mm.model.forms[mm.active_form].components
+                        for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                            let component = ccc[ytr]
+                            let foundComponentType = component.base_component_id
+                            if (GLOBALS.linkedProperties[mm.selected_link_component_type]) {
+                                if (GLOBALS.linkedProperties[mm.selected_link_component_type].incoming.me) {
+                                    if (GLOBALS.linkedProperties[mm.selected_link_component_type].incoming.me[this.selectedWatchToProperty]) {
+                                        let foundComponentIncomingTree = GLOBALS.linkedProperties[mm.selected_link_component_type].incoming.me[this.selectedWatchToProperty][foundComponentType]
+
+                                        if (foundComponentIncomingTree) {
+                                            let incomingCount = Object.keys(foundComponentIncomingTree).length
+                                            if (incomingCount > 0) {
+                                                mm.incoming_link_objects.push(
+                                                    {name: component.name, type: foundComponentType, uuid: component.uuid}
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                } else if (mm.design_mode_pane.links_type == "create_new_component") {
+//debugger
+
+                    if (mm.linkSideSelected == "to") {
+                        mm.incoming_link_component_types = []
+                        let selectedObject = mm.model.forms[mm.active_form].components[mm.active_component_index]
+                        let inTypes = GLOBALS.linkedProperties[selectedObject.base_component_id].incoming.them
+                        //debugger
+                        if (inTypes) {
+                            let ooo = Object.keys(inTypes)
+                            for (let ooobb of ooo) {
+
+                                mm.incoming_link_component_types.push(ooobb)
+                            }
+
+                        }
+
+
+
+
+                    }
+                }
+            },
+            setWatchTransformFn:                    function        (event) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                this.selectedWatchTransformFn = event.target.value
+            },
+            setPushTransformFn:                     function        (event) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                this.selectedPushTransformFn = event.target.value
+            },
             //*** gen_end ***//
 
         }
