@@ -3013,52 +3013,6 @@ __________
         methods: {
             /* ** *** insert_ui_methods_start *** ** */
             /* ** *** insert_ui_methods_end *** ** */
-            addPush:                                function        () {
-               /*
-               ________________________________________
-               |                                      |
-               |                   |
-               |                                      |
-               |______________________________________|
-
-               TO BE FILLED IN
-
-               __________
-               | Params |
-               |        |______________________________________________________________
-               |
-               |     NONE
-               |________________________________________________________________________ */
-               //debugger
-               let mm = this
-
-               if ( mm.selectedPushComponentUuid == null) {
-                   return
-               }
-               mm.old_model = JSON.parse(JSON.stringify( mm.model ));
-               if (! mm.model.forms[mm.active_form].components[mm.active_component_index].push) {
-                    mm.model.forms[mm.active_form].components[mm.active_component_index].push = []
-               }
-               mm.model.forms[mm.active_form].components[mm.active_component_index].push.push(
-                   {
-                     "uuid": mm.selectedPushComponentUuid,
-                     "property": mm.selectedPushFromProperty,
-                     "send_to": mm.selectedPushToProperty,
-                     "transform_fn": mm.selectedPushTransformFn
-                   }
-               )
-               mm.selectedPushComponentUuid     = null
-               mm.selectedPushFromProperty      = null
-               mm.selectedPushToProperty        = null
-               mm.selectedPushTransformFn        = null
-
-               mm.refresh ++
-               mm.updateAllFormCaches()
-               mm.showSaveButton()
-
-
-
-           },
             clearLinks:                             async function  () {
               /*
               ________________________________________
