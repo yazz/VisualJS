@@ -232,6 +232,283 @@
 
                 },100)
             },
+            changePropertyValue                                     (args) {
+            /*
+            ________________________________________
+            |                                      |
+            |   changePropertyValue                |
+            |                                      |
+            |______________________________________|
+
+            TO BE FILLED IN
+
+            __________
+            | Params |
+            |        |______________________________________________________________
+            |
+            |        {
+            |                componentName - The name, such as "aaa" of the control
+            |                -------------
+            |
+            |                propertyName - Which property to change
+            |                ------------
+            |
+            |                propertyValue - The property value
+            |                -------------
+            |        }
+            |________________________________________________________________________ */
+            let mm = this
+            //alert("Hi from the editor" + JSON.stringify(args,null,2))
+            //evm_contract_control_114
+
+            //debugger
+            let ccc = mm.model.forms[mm.active_form].components
+            for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                let component = ccc[ytr]
+                let fg=component.name
+                if (fg == args.componentName) {
+                    ccc[ytr][args.propertyName] = args.propertyValue
+                }
+
+            }
+            let currentTime = new Date().getTime();
+            if (mm.model_changed_time != -1) {
+                mm.model_changed_time = currentTime
+            }
+            // replace("evm_contract_control_114", "")
+
+            setTimeout(async function() {
+                mm.updateAllFormCaches()
+                //mm.updatePropertySelector()
+                mm.selectComponentByName(args.componentName)
+                mm.refresh ++
+
+
+            },100)
+        },
+            lookupComponent:                        function        (componentName) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let component  = null
+                let mm         = this
+
+                if (mm.form_runtime_info) {
+                    if (mm.form_runtime_info[mm.active_form]) {
+                        if (mm.form_runtime_info[mm.active_form].component_lookup_by_name) {
+                            if (mm.form_runtime_info[mm.active_form].component_lookup_by_name[componentName]) {
+                                component = mm.form_runtime_info[mm.active_form].component_lookup_by_name[componentName]
+                            }
+                        }
+                    }
+                }
+
+                return component
+            },
+            lookupComponentOnForm:                  function        (lookupArgs) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                //debugger
+                let component  = null
+                let mm         = this
+
+                if (lookupArgs.componentName) {
+                    let componentName = lookupArgs.componentName
+                    if (mm.form_runtime_info) {
+                        if (mm.form_runtime_info[mm.active_form]) {
+                            if (mm.form_runtime_info[mm.active_form].component_lookup_by_name) {
+                                if (mm.form_runtime_info[mm.active_form].component_lookup_by_name[componentName]) {
+                                    component = mm.form_runtime_info[mm.active_form].component_lookup_by_name[componentName]
+                                }
+                            }
+                        }
+                    }
+
+                    return component
+
+
+                } else if (lookupArgs.base_component_id && lookupArgs.first_only) {
+
+                    let base_component_id = lookupArgs.base_component_id
+                    if (mm.model.forms[mm.active_form].components) {
+                        let ccc = mm.model.forms[mm.active_form].components
+                        for (let ytr = 0;ytr < ccc.length;ytr++) {
+                            if (ccc[ytr].base_component_id == base_component_id) {
+                                return ccc[ytr]
+                            }
+                        }
+                    }
+
+                    return component
+
+                }
+                return null
+
+            },
+            getIncomingFromPropertyName:            function        (currentWatch) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let ret
+                if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid]) {
+                    ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentWatch.from_component_uuid].name
+                        +
+                        "."
+                        +
+                        currentWatch.from_component_property_name
+                } else {
+                    ret = "<Invalid>"
+                }
+
+                return ret
+            },
+            getIncomingTransformFn:                 function        (currentWatch) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let ret
+                //debugger
+                if (currentWatch.transform_fn && (currentWatch.transform_fn.length > 0)) {
+                    ret = currentWatch.transform_fn
+                } else {
+                    ret = "None"
+                }
+
+                return ret
+            },
+            getOutgoingTransformFn:                 function        (currentPush) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let ret
+                //debugger
+                if (currentPush.transform_fn && (currentPush.transform_fn.length > 0)) {
+                    ret = currentPush.transform_fn
+                } else {
+                    ret = "None"
+                }
+
+                return ret
+            },
+            getOutgoingFromPropertyName:            function        (currentPush) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let ret
+                if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.from_component_uuid]) {
+                    ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.from_component_uuid].name
+                        +
+                        "."
+                        +
+                        currentPush.from_component_property_name
+                } else {
+                    ret = "<Invalid>"
+                }
+
+                return ret
+            },
+            getOutgoingToPropertyName:              function        (currentPush) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let ret
+                if (this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.to_component_uuid]) {
+                    ret = this.form_runtime_info[this.active_form].component_lookup_by_uuid[currentPush.to_component_uuid].name
+                        +
+                        "."
+                        +
+                        currentPush.to_component_property_name
+                } else {
+                    ret = "<Invalid>"
+                }
+
+                return ret
+            },
             //*** gen_end ***//
 
         }
