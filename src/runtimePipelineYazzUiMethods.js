@@ -187,6 +187,51 @@
                 |________________________________________________________________________ */
                 return this
             },
+            changeComponentBaseId                                   (args) {
+                /*
+                ________________________________________
+                |                                      |
+                |   changeComponentBaseId              |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                //alert("Hi from the editor" + JSON.stringify(args,null,2))
+                //evm_contract_control_114
+
+                //debugger
+                let ccc = mm.model.forms[mm.active_form].components
+                for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
+                    let component = ccc[ytr]
+                    let fg=component.name
+                    if (fg == args.componentName) {
+                        ccc[ytr].base_component_id = args.newComponentBaseId
+                    }
+
+                }
+                let currentTime = new Date().getTime();
+                if (mm.model_changed_time != -1) {
+                    mm.model_changed_time = currentTime
+                }
+                // replace("evm_contract_control_114", "")
+
+                setTimeout(async function() {
+                    mm.updateAllFormCaches()
+                    //mm.updatePropertySelector()
+                    mm.selectComponentByName(args.componentName)
+                    mm.refresh ++
+
+
+                },100)
+            },
             //*** gen_end ***//
 
         }
