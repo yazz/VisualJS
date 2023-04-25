@@ -2006,6 +2006,368 @@ ${origCode}
                 let ret = await promise
                 return ret
             },
+            selectComponentByName:                  function        (compName) {
+                /*
+                ________________________________________
+                |                                      |
+                |           selectComponentByName      |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let parentItemIndex = -1;
+                let ccc = mm.model.forms[mm.active_form].components
+                for (let ytr = 0;ytr < ccc.length;ytr++) {
+                    if (compName == ccc[ytr].name) {
+                        parentItemIndex = ytr
+                        break
+                    }
+                }
+                if (parentItemIndex != -1) {
+                    mm.selectComponent(parentItemIndex, true)
+                }
+                return null
+            },
+            addControl:                             async function  (controlDetails) {
+                /*
+                ________________________________________
+                |              addControl              |
+                |______________________________________|
+                Adds a control to the page. eg:
+
+                await mm.addControl(
+                {
+                    "leftX": 310,
+                    "topY": 10,
+                    "name": "mycontrol",
+                    "base_component_id": "button_control"
+                })
+
+                This function really seems to be a helper function for the more complex
+                "addComponentV2" function
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     controlDetails:
+                |________________________________________________________________________ */
+                let mm = this
+                let newControl = await mm.addComponentV2( 10,
+                    10,
+                    {
+                        base_component_id: controlDetails.base_component_id
+                        ,
+                        control: controlDetails
+                    },
+                    controlDetails.parent_base_component_id,
+                    controlDetails.parent_name,
+                    [])
+                mm.highlighted_control = null
+                mm.updateAllFormCaches()
+                mm.refresh ++
+
+                return newControl
+            },
+            getControlByName:                       function        (controlName) {
+                /*
+                ________________________________________
+                |                                      |
+                |          getControlByName            |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let control = mm.model.forms.Form_1.components[controlName]
+                for (let tt=0;tt<mm.model.forms.Form_1.components.length;tt++) {
+                    if (mm.model.forms.Form_1.components[tt].name == controlName) {
+                        return mm.model.forms.Form_1.components[tt]
+                    }
+                }
+                return null
+            },
+            refreshControlIndexes:                  function        () {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                if (mm.active_component_detail_name) {
+
+                    let ccc = mm.model.forms[this.active_form].components
+                    for (let ytr = 0;ytr < ccc.length;ytr++) {
+                        if (this.active_component_detail_name == ccc[ytr].name) {
+                            this.active_component_detail_name = ytr
+                            break
+                        }
+                    }
+
+                } else {
+                    this.active_component_detail_name = null
+
+                }
+
+            },
+            hasMoreDetailsUi:                       function        (formName, componentIndex) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let component = mm.model.forms[formName].components[componentIndex]
+                if (isValidObject(component.parent)) {
+                    let ccc = mm.model.forms[formName].components
+                    for (let ytr = 0;ytr < ccc.length;ytr++) {
+                        if (component.parent == ccc[ytr].name) {
+                            if (ccc[ytr].hide_children) {
+                                return false
+                            }
+                            break
+                        }
+                    }
+                }
+
+                if (component.has_details_ui) {
+                    return true
+                }
+
+
+                return false
+            },
+            isVisible:                              function        (formName, componentIndex) {
+                /*
+     ________________________________________
+     |                                      |
+     |                   |
+     |                                      |
+     |______________________________________|
+
+     TO BE FILLED IN
+
+     __________
+     | Params |
+     |        |______________________________________________________________
+     |
+     |     NONE
+     |________________________________________________________________________ */
+                let mm = this
+                let component = mm.model.forms[formName].components[componentIndex]
+                if (!component) {
+                    return false
+                }
+                if (component.hidden) {
+                    return false
+                }
+
+                if (isValidObject(component.parent)) {
+                    let ccc = mm.model.forms[formName].components
+                    for (let ytr = 0;ytr < ccc.length;ytr++) {
+                        if (ccc[ytr]) {
+                            if (component.parent == ccc[ytr].name) {
+                                if (ccc[ytr].hide_children) {
+                                    return false
+                                }
+                                break
+                            }
+                        }
+                    }
+                }
+
+                return true
+            },
+            getLeft:                                function        (formName, componentIndex) {
+                /*
+     ________________________________________
+     |                                      |
+     |                   |
+     |                                      |
+     |______________________________________|
+
+     TO BE FILLED IN
+
+     __________
+     | Params |
+     |        |______________________________________________________________
+     |
+     |     NONE
+     |________________________________________________________________________ */
+                let mm = this
+                let component = mm.model.forms[formName].components[componentIndex]
+                if (!component) {
+                    return 0
+                }
+                let left = component.leftX
+
+                if (isValidObject(component.parent)) {
+                    let ccc = mm.model.forms[formName].components
+                    for (let ytr = 0;ytr < ccc.length;ytr++){
+                        if (component.parent == ccc[ytr].name) {
+                            left = left + ccc[ytr].leftX
+                            break
+                        }
+                    }
+                }
+
+
+                return left
+            },
+            getTop:                                 function        (formName, componentIndex) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let component = mm.model.forms[formName].components[componentIndex]
+                if (!component) {
+                    return 0
+                }
+                let top = component.topY
+                if (isValidObject(component.parent)) {
+                    let ccc = mm.model.forms[formName].components
+                    for (let ytr = 0;ytr < ccc.length;ytr++){
+                        if (component.parent == ccc[ytr].name) {
+                            top = top + ccc[ytr].topY
+                            break
+                        }
+                    }
+                }
+                return top
+            },
+            getChildren:                            function        ( itemName ) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+
+                let mm = this
+                let ccc = mm.model.forms[mm.active_form].components
+                let chh = []
+                for (let ytr = 0;ytr < ccc.length;ytr++){
+                    if (ccc[ytr].parent == itemName) {
+                        ccc[ytr].index_in_parent_array = ytr
+                        chh.push(ccc[ytr])
+                    }
+                }
+                return chh
+            },
+            previewUpload:                          function        (property) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this;
+                let file    = document.getElementById('image_file').files[0];
+                let reader  = new FileReader();
+
+                reader.addEventListener("load", function () {
+                    mm.model.forms[mm.active_form].components[mm.active_component_index][property.id] = reader.result
+                    mm.refresh ++
+                }, false);
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            },
+            previewFileUpload:                      function        (property) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this;
+                let file    = document.getElementById('upload_file').files[0];
+                let reader  = new FileReader();
+
+                reader.addEventListener("load", function () {
+                    mm.model.forms[mm.active_form].components[mm.active_component_index][property.id] = reader.result
+                    mm.refresh ++
+                }, false);
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            },
             //*** gen_end ***//
 
         }
