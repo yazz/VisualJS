@@ -962,6 +962,99 @@
                 |________________________________________________________________________ */
                 this.selectedPushTransformFn = event.target.value
             },
+            setWatchFromProperty:                   function        (event) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                this.selectedWatchFromProperty = event.target.value
+
+
+                if (mm.design_mode_pane.links_type == "form") {
+                    this.fromLinkPropertySelected = true
+
+                    if (mm.linkSideSelected == "from") {
+                        this.selectedWatchToProperties = []
+                        let ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
+                        let activeComponenttype = ccomp2.base_component_id
+                        if (  GLOBALS.linkedProperties[  activeComponenttype  ]  ) {
+                            if (  GLOBALS.linkedProperties[  activeComponenttype  ].incoming  ) {
+                                if (  GLOBALS.linkedProperties[  activeComponenttype  ].incoming.them  ) {
+                                    let them =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+                                    if (  GLOBALS.linkedProperties[  activeComponenttype  ].incoming.them[  them.base_component_id  ]  ) {
+                                        let ccomkeys2 = Object.keys(GLOBALS.linkedProperties[  activeComponenttype  ].incoming.them[  them.base_component_id  ][mm.selectedWatchFromProperty] )
+
+                                        for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
+                                            this.selectedWatchToProperties.push(ccomkeys2[aaa])
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+
+                }
+            },
+            setPushComponentType:                   function        (event) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm      = this
+
+                let ComponentType = event.target.value
+                mm.selectedPushToProperties = []
+                mm.selectedPushComponentType = ComponentType
+                //
+                let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
+
+
+                if (mm.linkSideSelected == "from") {
+                    if (GLOBALS.linkedProperties){
+                        if (GLOBALS.linkedProperties[activecomp.base_component_id]){
+                            if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing){
+                                if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me){
+                                    if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty] ) {
+                                        if (GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType]) {
+                                            let ccomkeys = Object.keys(GLOBALS.linkedProperties[activecomp.base_component_id].outgoing.me[mm.selectedPushFromProperty][ComponentType])
+                                            for (let aaa =0; aaa<ccomkeys.length;aaa++) {
+                                                this.selectedPushToProperties.push(ccomkeys[aaa])
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            },
             //*** gen_end ***//
 
         }
