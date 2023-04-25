@@ -3765,6 +3765,293 @@ return {}
 
                 return props
             },
+            setVBEditorPropertyValue:               function        (property, val ) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm      = this
+                let type    = null
+
+                mm.showSaveButton()
+
+
+                //
+                // determine if this is a control, form or app
+                //
+                if (this.active_component_index != null) {
+                    type = "component"
+                } else if ((this.active_component_index == null) && (this.active_form != null) && (!this.model.app_selected)) {
+                    type = "form"
+                } else if (this.model.app_selected) {
+                    type = "app"
+                }
+
+
+                if (type == 'component') {
+                    let componentTochange = mm.model.forms[this.active_form].components[this.active_component_index]
+                    let oldContainerName = componentTochange.name
+
+                    //hack city!!!!
+                    // why do we need a timeout just so that the FilePath property gets
+                    // handled properly??
+                    setTimeout(function() {
+                        componentTochange[property.id]  = val
+
+                        if ((property.id == "name") && (componentTochange.is_container == true)) {
+                            //alert("renaming container")
+
+                            let allC = mm.model.forms[mm.active_form].components
+                            for (let xi =0; xi< allC.length ; xi ++) {
+                                let comp = allC[xi]
+                                if (comp.parent == oldContainerName) {
+                                    comp.parent = componentTochange.name
+                                }
+                            }
+                        }
+                        //this.generateCodeFromModel(   )
+                        mm.refresh ++
+
+                    },100)
+
+                } else if (type == 'form') {
+                    if (property.id == "name" ) {
+                        this.properties = []
+
+                        let oldval = this.active_form
+                        //alert("Rename form "  + oldval + " to " + val)
+
+                        this.model.forms[val] = this.model.forms[oldval]
+                        this.model.forms[val]["name"] = val
+
+                        this.form_runtime_info[val] = this.form_runtime_info[oldval]
+
+
+                        if (this.model.default_form == oldval) {
+                            this.model.default_form = val
+                        }
+                        //this.active_form = val
+
+
+                        mm.form_runtime_info[oldval] = null
+                        mm.model.forms[oldval] = null
+                        //alert(this.active_form)
+
+                        //mm.refresh ++
+                        //mm.updateAllFormCaches()
+                        mm.selectForm(val)
+
+                    } else {
+                        this.model.forms[this.active_form][property.id] = val
+                    }
+
+                } else if (type == 'app') {
+                    this.model[property.id] = val
+                }
+
+            },
+            setVBEditorProperty:                    function        (event, property) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm      = this
+                let val     = null
+
+                if (property.type == "Number") {
+                    val     = JSON.parse(event.target.value)
+                } else {
+                    val     = event.target.value
+                }
+                mm.setVBEditorPropertyValue(property, val)
+            },
+            getVBEditorProperty:                    function        (property) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let val = ""
+                let type
+                if (this.active_component_index != null) {
+                    type = "component"
+                } else if ((this.active_component_index == null) && (this.active_form != null) && (!this.model.app_selected)) {
+                    type = "form"
+                } else if (this.model.app_selected) {
+                    type = "app"
+                }
+
+                if (type == 'component') {
+                    val = this.model.forms[this.active_form].components[this.active_component_index][property.id]
+
+
+                } else if (type == 'form') {
+                    val = this.model.forms[this.active_form][property.id]
+
+
+
+                } else if (type == 'app') {
+                    val = this.model[property.id]
+                }
+
+                return val
+            },
+            addProperty:                            function        () {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                mm.add_property = true
+                mm.new_property_id = ""
+                mm.new_property_name = ""
+                mm.new_property_type = "String"
+
+
+                setTimeout(function(){
+                    let objDiv = document.getElementById("property_scroll_region");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                },200)
+            },
+            addPropertySave:                        function        () {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                if ((mm.new_property_name.length == 0) || (mm.new_property_id.length == 0)) {
+                    alert("You must enter a property name and ID")
+                    return;
+                }
+                mm.add_property = false
+
+                let fnText = null
+                if (mm.new_property_type == "Action") {
+                    fnText = ""
+                }
+
+                let defaultVal = null
+                if (mm.new_property_type == "Object") {
+                    defaultVal = new Object()
+                }
+
+                if (mm.new_property_type == "Array") {
+                    defaultVal = []
+                }
+
+                mm.model.app_properties.push({
+                    id:         mm.new_property_id,
+                    name:       mm.new_property_name,
+                    type:       mm.new_property_type,
+                    fn:         fnText,
+                    default:    defaultVal
+                })
+
+                mm.generateCodeFromModel( )
+
+                setTimeout(function() {
+                        mm.refresh ++
+                        mm.select_app()
+                    }
+                    ,100)
+
+            },
+            addPropertyCancel:                      function        () {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                mm.add_property = false
+            },
+            getComponentProperties:                 function        (componentType) {
+                /*
+    ________________________________________
+    |                                      |
+    |        getComponentProperties        |
+    |                                      |
+    |______________________________________|
+
+    TO BE FILLED IN
+    __________
+    | Params |
+    |        |______________________________________________________________
+    |
+    |     componentName     The component type
+    |     -------------
+    |________________________________________________________________________ */
+//qqq
+                let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: componentType})
+                if (isValidObject(compEvaled)) {
+                    return compEvaled
+                }
+                return []
+            },
             //*** gen_end ***//
 
         }
