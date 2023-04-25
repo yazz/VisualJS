@@ -1759,6 +1759,253 @@ ${origCode}
                 }
                 return null
             },
+            addComponent:                           async function  (leftX,topY,data, parentType, parentName, parentOffsetX, parentOffsetY,defProps) {
+                /*
+     ________________________________________
+     |                                      |
+     |                   |
+     |                                      |
+     |______________________________________|
+
+     TO BE FILLED IN
+
+     __________
+     | Params |
+     |        |______________________________________________________________
+     |
+     |     NONE
+     |________________________________________________________________________ */
+                //debugger
+                await this.addComponentV2(leftX,topY,data, parentType, parentName, defProps)
+            },
+            addComponentV2:                         async function  (leftX,topY,data, parentType, parentName, defProps) {
+                /*
+    ________________________________________
+    |           addComponentV2             |
+    |______________________________________|
+    Adds a component to the form
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     leftX   where to place this control
+    |     -----
+    |
+    |     topY   where to place this control
+    |     ----
+    |
+    |     data    {
+    |     ----       base_component_id:  ...
+    |     ----       code_id:            ...
+    |                control:            controlDetails
+    |             }
+    |
+    |
+    |     parentType   Only used when adding a component to a container
+    |     ----------
+    |
+    |     parentName   Only used when adding a component to a container
+    |     ----------
+    |
+    |     defProps   Only used when adding a component to a container
+    |     --------
+    |
+    |________________________________________________________________________ */
+                let mm = this
+
+                let promise = new Promise(async function(returnfn) {
+                    let newItem = new Object()
+
+                    /*
+         _______________________________________
+         |    addComponentV2                    |
+         |_________________                     |____________
+                          | Calculate the x,y coordinates of
+                          | the new component to be added.
+                          |__________________________________
+         */
+                    newItem.leftX = Math.floor(leftX)
+                    newItem.topY = Math.floor(topY)
+                    if (newItem.leftX < 0) {
+                        newItem.leftX = 0
+                    }
+                    if (newItem.topY < 0) {
+                        newItem.topY = 0
+                    }
+
+
+
+                    /*
+             _______________________________________
+             |    addComponentV2                    |
+             |_________________                     |____________
+                              | Calculate the name of
+                              | the new component
+                              |__________________________________
+            */
+                    if (parentType) {
+                        newItem.parent = parentName
+                    }
+
+                    if (data.control) {
+                        newItem.name = data.control.name
+
+                    } else {
+                        newItem.name = data.base_component_id + "_" + mm.model.next_component_id++
+                    }
+                    newItem.base_component_id = data.base_component_id
+                    newItem.code_id = data.code_id
+
+
+
+
+
+                    /*
+         _______________________________________
+         |    addComponentV2                    |
+         |_________________                     |____________
+                          | If the component isn't loaded
+                          | then load it
+                          |__________________________________
+         */
+                    mm.refresh++
+                    if (!GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
+                        if (newItem.code_id) {
+                            await loadUiComponentsV4([{codeId: newItem.code_id}])
+                        } else {
+                            await loadUiComponentsV4([newItem.base_component_id])
+                        }
+                        mm.components_used_in_this_app[newItem.base_component_id] = true
+                    }
+
+                    //qqqDONE
+                    //if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
+                    //    newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
+
+                    //    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
+                    //if (isValidObject(compEvaled1)) {
+                    if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
+                        //newItem.code_id = compEvaled1.code_id
+                        newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
+                        //let compEvaled = compEvaled1.properties
+                        let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
+                        if (isValidObject(compEvaled)) {
+                            for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
+                                let prop = compEvaled[cpp].id
+
+                                if (!isValidObject(newItem[prop])){
+                                    if (isValidObject(compEvaled[cpp].default)) {
+                                        newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
+                                    } else if (isValidObject(compEvaled[cpp].default_expression)){
+                                        newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
+                                    } else {
+                                        newItem[prop] = ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    if (data.control) {
+                        let allKeys = Object.keys(data.control)
+                        for (let tt=0;tt<allKeys.length;tt++) {
+                            let propName  = allKeys[tt]
+                            let propValue = data.control[propName]
+                            newItem[propName] = propValue
+                        }
+                    }
+
+
+
+                    if (!isValidObject(newItem.width)) {
+                        newItem.width = 100
+                    }
+                    if (!isValidObject(newItem.height)) {
+                        newItem.height = 100
+                    }
+
+                    if ((newItem.leftX + newItem.width)
+                        > mm.model.forms[mm.active_form].width) {
+                        newItem.leftX = Math.floor(mm.model.forms[mm.active_form].width - newItem.width)
+                    }
+                    if ((newItem.topY + newItem.height)
+                        > mm.model.forms[mm.active_form].height) {
+                        newItem.topY = Math.floor(mm.model.forms[mm.active_form].height - newItem.height)
+                    }
+
+
+                    if (isValidObject(   defProps   )) {
+                        let oo = Object.keys(defProps)
+                        for (  let ee = 0  ;  ee < oo.length ;  ee++  ) {
+                            let propName = oo[ee]
+                            let propValue = defProps[propName]
+                            newItem[propName] = propValue
+                        }
+                    }
+
+                    mm.model.forms[mm.active_form].components.push(newItem)
+                    mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
+
+//debugger
+                    //qqqDONE
+                    let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id})
+                    let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
+                    if (isValidObject(childrenCode)) {
+                        for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
+                            let childBaseId = childrenCode[ee].base_component_id
+                            let childDefProps = childrenCode[ee].properties
+                            await mm.addComponentV2(    0 ,
+                                0 ,
+                                {base_component_id: childBaseId} ,
+                                newItem.base_component_id ,
+                                newItem.name ,
+                                childDefProps )
+                        }
+                    }
+
+
+                    setTimeout(async function() {
+
+                        mm.updateAllFormCaches()
+                        let selectParent = false
+                        let parentItemIndex = null
+                        if (isValidObject(newItem.parent)) {
+                            let parentItem = mm.form_runtime_info[mm.active_form].component_lookup_by_name[newItem.parent]
+
+                            if (isValidObject(parentItem.select_parent_when_child_added) &&
+                                (parentItem.select_parent_when_child_added == true)) {
+
+                                selectParent = true
+                                let ccc = mm.model.forms[mm.active_form].components
+                                for (let ytr = 0;ytr < ccc.length;ytr++) {
+                                    if (parentItem.name == ccc[ytr].name) {
+                                        parentItemIndex = ytr
+                                        break
+                                    }
+                                }
+                            }
+                        }
+
+
+
+                        if (selectParent) {
+                            mm.selectComponent(parentItemIndex, true)
+                        } else {
+                            mm.selectComponent(mm.active_component_index, true)
+                        }
+                        mm.refresh ++
+
+//debugger
+                        let newComponent = await mm.lookupComponentOnForm({componentName: newItem.name})
+                        mm.addCodeChange("Add component: " + newItem.name + "(" + newItem.base_component_id + ")")
+                        returnfn(newComponent)
+                        //returnfn(null)
+                    },100)
+
+                })
+                let ret = await promise
+                return ret
+            },
             //*** gen_end ***//
 
         }
