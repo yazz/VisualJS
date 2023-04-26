@@ -5395,10 +5395,6 @@ ${eventMessage.code}
                     "</div>";
                 return template;
             },
-
-
-
-
             updatePropertySelector:                 function        () {
                 // -------------------------------------------------------------------
                 //                          updatePropertySelector
@@ -5807,6 +5803,129 @@ return {}
 
                 mm.active_form = newFormName
                 mm.refresh ++
+            },
+
+
+
+            moveUp:                                 function        (   fieldId   ) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let itemD = null
+                for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                    let ciurr = mm.model.forms[mm.active_form].fields[tt]
+                    if (ciurr.id == fieldId) {
+                        itemD = ciurr
+                    }
+                }
+                if (itemD) {
+                    let index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
+                    if (index > -1) {
+                        mm.model.fields.splice(index, 1);
+                        mm.model.fields.splice(index - 1, 0, itemD);
+                    }
+
+                }
+            },
+            moveDown:                               function        (   fieldId   ) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let itemD = null
+                for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                    let ciurr = mm.model.forms[mm.active_form].fields[tt]
+                    if (ciurr.id == fieldId) {
+                        itemD = ciurr
+                    }
+                }
+                if (itemD) {
+                    let index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
+                    if (index > -1) {
+                        mm.model.fields.splice(index, 1);
+                        mm.model.fields.splice(index + 1, 0, itemD);
+                    }
+
+                }
+            },
+            deleteField:                            function        (   fieldId   ) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let mm = this
+                let itemD = null
+                for (let tt=0; tt < mm.model.forms[mm.active_form].fields.length ; tt++) {
+                    let ciurr = mm.model.forms[mm.active_form].fields[tt]
+                    if (ciurr.id == fieldId) {
+                        itemD = ciurr
+                    }
+                }
+                if (itemD) {
+                    let index = mm.model.forms[mm.active_form].fields.indexOf(  itemD  );
+                    if (index > -1) {
+                        mm.model.fields.splice(index, 1);
+                    }
+                }
+            },
+            savedStatus:                            async function  (args) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                //debugger
+                //-------------------------------------------------------------------
+                //-------------------------------------------------------------------
+                if (args && (args.status == "ok")) {
+                    this.code_changes = []
+                }
             },
 
             //*** gen_end ***//
