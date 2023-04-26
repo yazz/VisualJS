@@ -3485,7 +3485,6 @@ ${origCode}
                 this.inUpdateAllFormCaches = true
 
                 this.watchList = []
-                //console.log( "1: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
 
                 let llf = Object.keys(this.model.forms)
                 for (let ii = 0; ii < llf.length ; ii ++) {
@@ -3569,7 +3568,6 @@ ${origCode}
 
                     if (!this.watchList) {
                         this.watchList = []
-                        //console.log( "2: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
                     }
                     if (this.watchList) {
                         //debugger
@@ -3608,7 +3606,6 @@ ${origCode}
                                     this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] = 1
                                 }
 
-                                //console.log( "3: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
                             }
                         }
                         //console.log("Watch list setup")
@@ -3646,7 +3643,6 @@ ${origCode}
                                     this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] = 1
                                 }
 
-                                //console.log( "3: " + this.unique_app_dom_element_id  + ": " + JSON.stringify(this.watchList,null,2))
                             }
                         }
 
