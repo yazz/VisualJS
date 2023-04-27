@@ -5982,11 +5982,6 @@ return {}
                 mm.editor_locked = false
                 mm.refresh ++
             },
-
-
-
-
-
             setText:                                function        (textValue) {
                 /*
                 ________________________________________
@@ -6139,7 +6134,162 @@ return {}
                     return
                 }
             },
+            openFile:                               async function  () {
+                /*      ________________________________________
+                        |                                      |
+                        |               openFile               |
+                        |                                      |
+                        |______________________________________|
 
+                        Opens a file from the file system
+
+                        __________
+                        | Params |
+                        |        |_________________________________________
+                        |
+                        |     NONE
+                        |
+                        |__________________________________________________ */
+                //alert(1)
+                //document.getElementById("openfilefromhomepage").click();
+                this.showFilePicker = true
+                let result = await callComponent(
+                    {
+                        base_component_id: "serverGetHomeDir"}
+                    ,{ })
+                if (result) {
+                    this.open_file_path = result.value
+                }
+                let result2 = await callComponent(
+                    {
+                        base_component_id: "serverFolderContents"}
+                    ,{
+                        path: this.open_file_path
+                    })
+                if (result2) {
+                    this.open_file_list = result2
+                }
+
+                //
+            },
+            selectOpenFileOrFolder:                 async function  (fileorFolder, fileExts) {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                //
+                // if this is a folder
+                //
+                if (fileorFolder.type == "folder") {
+                    if (isWin) {
+                        this.open_file_path += "\\" + fileorFolder.name
+                    } else {
+                        this.open_file_path += "/" + fileorFolder.name
+                    }
+                    //alert(JSON.stringify(fileExts,null,2))
+                    let result2 = await callComponent(
+                        {
+                            base_component_id: "serverFolderContentsV2"}
+                        ,{
+                            path:                      this.open_file_path,
+                            filter_file_exts_list:     fileExts
+                        })
+                    if (result2) {
+                        this.open_file_list = result2
+                    }
+
+
+                    //
+                    // otherwise if this is a file
+                    //
+                } else {
+                    let mm=this
+                    this.showFilePicker=false
+                    this.open_file_name = this.open_file_path + "/" + fileorFolder.name
+
+                    let propertyType = null
+                    for (  let ere = 0;  ere < mm.properties.length;  ere++  ) {
+                        let property = mm.properties[ ere ]
+                        if (property.id == mm.design_mode_pane.property_id) {
+                            propertyType = property
+                        }
+                    }
+
+                    let fileNameToLoad = this.open_file_name
+                    mm.setVBEditorPropertyValue(propertyType,fileNameToLoad)
+                    mm.gotoDragDropEditor()
+                }
+
+                //
+            },
+            chosenFolderUp:                         async function  () {
+                /*
+                ________________________________________
+                |                                      |
+                |                   |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                //alert(1)
+                //document.getElementById("openfilefromhomepage").click();
+                let lastFolderIndex = null
+                //debugger
+
+                if (isWin) {
+                    lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+                    if (lastFolderIndex == (this.open_file_path.length - 1)) {
+                        this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
+                        lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+                    }
+
+                    //
+                    // if we have gone all the way up to c: then we may not find a
+                    // final backslash (\) symbol
+                    //
+                    if (lastFolderIndex == -1) {
+                        this.open_file_path = this.open_file_path.substring(0,2) + "\\"
+
+
+                    } else {
+                        this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
+                    }
+                } else {
+                    lastFolderIndex = this.open_file_path.lastIndexOf("/")
+                    this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
+                }
+
+
+                let result2 = await callComponent(
+                    {
+                        base_component_id: "serverFolderContents"}
+                    ,{
+                        path: this.open_file_path
+                    })
+                if (result2) {
+                    this.open_file_list = result2
+                }
+
+
+            }
             //*** gen_end ***//
 
         }
