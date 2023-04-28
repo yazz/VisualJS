@@ -49,7 +49,7 @@ uses_javascript_libraries(["advanced_bundle"])
             IPFS: {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCommitIdForBaseComponentId( debug_component ):""}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCodeForComponent({baseComponentid: debug_component}):""}}
+            {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCodeForComponent({baseComponentId: debug_component}):""}}
           </pre>
           
         </div>
