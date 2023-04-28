@@ -820,6 +820,8 @@ let pipelineCode = await mm.getPipelineCode({pipelineFileName: "runtimePipelineY
 let escapedPipelineCode = escape( pipelineCode.toString() )
 let pipelineCode2 = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzUiMethods.js"})
 let escapedPipelineCode2 = escape( pipelineCode2.toString() )
+let pipelineCode3 = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzUiTemplate.js"})
+let escapedPipelineCode3 = escape( pipelineCode3.toString() )
 
 let newCode =  `
 //
@@ -831,8 +833,8 @@ GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
 GLOBALS.runtimePipelines["APP_UI_METHODS"] = {}
 GLOBALS.runtimePipelines["APP_UI_METHODS"].code = unescape(\`${escapedPipelineCode2}\`)
 
-
-
+GLOBALS.runtimePipelines["APP_UI_TEMPLATE"] = {}
+GLOBALS.runtimePipelines["APP_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode3}\`)
 
 
 
