@@ -4067,7 +4067,6 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                             pasteEndMarker:     "/* ** *** insert_code_here_end *** ** */"
                         }
                     );
-                    debugger
                     trcode2 = await enhanceCodeWithPipeline(
                         {
                             copyPipelineName:   "APP_UI_METHODS",
@@ -4076,6 +4075,18 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                             copyEndMarker:      "//*** gen_end ***//",
                             code:                trcode2,
                             pasteMarker:        "/* ** *** insert_ui_methods_start *** ** */",
+                            mode:               "INSERT_AFTER"
+                        }
+                    );
+                    debugger
+                    trcode2 = await enhanceCodeWithPipeline(
+                        {
+                            copyPipelineName:   "APP_UI_TEMPLATE",
+                            copyFileName:       "runtimePipelineYazzUiTemplate.js",
+                            copyStartMarker:    "//*** gen_start ***//",
+                            copyEndMarker:      "//*** gen_end ***//",
+                            code:                trcode2,
+                            pasteMarker:        "/* ** *** insert_ui_template_start *** ** */",
                             mode:               "INSERT_AFTER"
                         }
                     );

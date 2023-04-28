@@ -2422,5 +2422,4 @@ Pushlist
     </div>
 </div>`
 //*** gen_end ***//
-    }
 }
