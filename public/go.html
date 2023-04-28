@@ -4141,6 +4141,17 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                             mode:               "INSERT_AFTER"
                         }
                     );
+                    trcode2 = await enhanceCodeWithPipeline(
+                        {
+                            copyPipelineName:   "APP_UI_TEMPLATE",
+                            copyFileName:       "runtimePipelineYazzUiTemplate.js",
+                            copyStartMarker:    "//*** gen_start ***//",
+                            copyEndMarker:      "//*** gen_end ***//",
+                            code:                trcode2,
+                            pasteMarker:        "/* ** *** insert_ui_template_start *** ** */",
+                            mode:               "INSERT_AFTER"
+                        }
+                    );
                 }
 
             if (baseComponentId.startsWith("COMP_")) {
