@@ -6865,7 +6865,7 @@ __________
             ,
                 deep: true
             }
-        },
-            //*** copy_watch_end ***//
+        }
+            //*** copy_watch_end ***//,
     }
 }
