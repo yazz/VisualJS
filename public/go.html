@@ -4102,6 +4102,18 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                     );
                     trcode2 = await enhanceCodeWithPipeline(
                         {
+                            copyPipelineName:   "APP_UI_METHODS",
+                            copyFileName:       "runtimePipelineYazzUiMethods.js",
+                            copyStartMarker:    "//*** copy_data_start ***//",
+                            copyEndMarker:      "//*** copy_data_end ***//",
+                            code:                trcode2,
+                            pasteMarker:        "//*** paste_data_start ***//",
+                            mode:               "INSERT_AFTER"
+                        }
+                    );
+
+                    trcode2 = await enhanceCodeWithPipeline(
+                        {
                             copyPipelineName:   "APP_UI_TEMPLATE",
                             copyFileName:       "runtimePipelineYazzUiTemplate.js",
                             copyStartMarker:    "//*** gen_start ***//",
@@ -4181,6 +4193,17 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                             copyEndMarker:      "//*** copy_watch_end ***//",
                             code:                trcode2,
                             pasteMarker:        "//*** paste_watch_start ***//",
+                            mode:               "INSERT_AFTER"
+                        }
+                    );
+                    trcode2 = await enhanceCodeWithPipeline(
+                        {
+                            copyPipelineName:   "APP_UI_METHODS",
+                            copyFileName:       "runtimePipelineYazzUiMethods.js",
+                            copyStartMarker:    "//*** copy_data_start ***//",
+                            copyEndMarker:      "//*** copy_data_end ***//",
+                            code:                trcode2,
+                            pasteMarker:        "//*** paste_data_start ***//",
                             mode:               "INSERT_AFTER"
                         }
                     );
