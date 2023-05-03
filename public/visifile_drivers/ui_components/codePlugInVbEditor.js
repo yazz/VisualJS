@@ -99,6 +99,7 @@ uses_javascript_libraries(["advanced_bundle"])
                show_advanced_transform:             false,
                available_components:                [],
                components_used_in_this_app:         new Object(),
+               ui_code_editor:                      null,
                form_runtime_info:                   {},
                active_form:                         "Form_1",
                old_model:                           {},
