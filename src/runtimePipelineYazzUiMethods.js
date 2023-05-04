@@ -6296,21 +6296,19 @@ return {}
             //*** copy_mounted_start ***//
             async function() {
                 /*
-        ________________________________________
-        |                                      |
-        |             MOUNTED                  |
-        |                                      |
-        |______________________________________|
-
-        This is called whenever an app is loaded, either at design
-        time or at runtime
-
-        __________
-        | Params |
-        |        |______________________________________________________________
-        |
-        |     NONE
-        |________________________________________________________________________ */
+                ________________________________________
+                |                                      |
+                |             MOUNTED                  |
+                |                                      |
+                |______________________________________|
+                This is called whenever an app is loaded, either at design
+                time or at runtime
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
                 let mm                          = this
                 let json2
                 let subComponentsUsedInThisApp
@@ -6333,21 +6331,20 @@ return {}
 
 
                 /*
-        ________________________________________
-        |    mounted                           |
-        |_________________                     |_______________________________
-                         | Get the base component ID of the code to edit/run
-                         |
-                         | Save it in "this.edited_app_component_id"
-                         |_____________________________________________________
-        */
+                ________________________________________
+                |    mounted                           |
+                |_________________                     |_______________________________
+                                 | Get the base component ID of the code to edit/run
+                                 |
+                                 | Save it in "this.edited_app_component_id"
+                                 |_____________________________________________________
+                */
                 if (texti) {
                     json2                       = mm.getJsonModelFromCode(  texti  )
                     mm.old_model                = JSON.parse(JSON.stringify(json2));
                     mm.model                    = json2
                     mm.edited_app_component_id  = yz.getValueOfCodeString(texti, "base_component_id")
-
-                    mm.read_only = yz.getValueOfCodeString(texti, "read_only")
+                    mm.read_only                = yz.getValueOfCodeString(texti, "read_only")
                 }
                 mm.active_form = mm.model.default_form
 
@@ -6357,15 +6354,15 @@ return {}
 
 
                 /*
-        ________________________________________
-        |    mounted                           |
-        |_________________                     |_______________________________
-                         | find out which sub components are used by this app
-                         | and save the result in "this.components_used_in_this_app"
-                         | which just sets the value to "true" for the base_component_id
-                         | of that component
-                         |_____________________________________________________
-        */
+                ________________________________________
+                |    mounted                           |
+                |_________________                     |_______________________________
+                                 | find out which sub components are used by this app
+                                 | and save the result in "this.components_used_in_this_app"
+                                 | which just sets the value to "true" for the base_component_id
+                                 | of that component
+                                 |_____________________________________________________
+                */
                 if (mm.edited_app_component_id) {
                     subComponentsUsedInThisApp = await getSubComponents(mm.text)
 
@@ -6379,12 +6376,12 @@ return {}
 
 
                 /*
-        ________________________________________
-        |    mounted                           |
-        |_________________                     |_______________________________
-                         | Set up all the form methods
-                         |_____________________________________________________
-        */
+                ________________________________________
+                |    mounted                           |
+                |_________________                     |_______________________________
+                                 | Set up all the form methods
+                                 |_____________________________________________________
+                */
                 let forms = mm.getForms()
                 for (let formIndex = 0; formIndex < forms.length; formIndex ++) {
                     let formName = forms[formIndex].name
