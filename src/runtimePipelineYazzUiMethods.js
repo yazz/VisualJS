@@ -6635,7 +6635,6 @@ return {}
 // it is then we remove then standard text box (with a name of 'aaa') and we add
 // the component being previewed instead
 //
-// note this code should be copied to the template too
 // START
                 if (mm.args && mm.args.control_type) {
 
@@ -6663,7 +6662,6 @@ return {}
                         [])
                 }
 // END
-// note this code should be copied to the template too
 //
 
                 setTimeout(async function(){
