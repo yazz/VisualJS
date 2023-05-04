@@ -6392,10 +6392,9 @@ return {}
                         let formDef = mm.model.forms[formName]
                         if (formprop.type == "Action") {
                             formDef[formprop.id] =
-                                mm.getFormMethod(   formName,
-                                    formprop)
+                                mm.getFormMethod(   formName   ,   formprop   )
 
-                        } else if (!isValidObject(formprop)){
+                        } else if (   !isValidObject(   formprop   )   ){
                             formDef[formprop.id] = ""
                         }
                     }
@@ -6404,13 +6403,13 @@ return {}
 
 
                     /*
-            ________________________________________
-            |    mounted                           |
-            |_________________                     |_______________________________
-                             | Load the component definitions for all components on
-                             | this form
-                             |_____________________________________________________
-            */
+                    ________________________________________
+                    |    mounted                           |
+                    |_________________                     |_______________________________
+                                     | Load the component definitions for all components on
+                                     | this form
+                                     |_____________________________________________________
+                    */
                     let compsToLoad = []
                     for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                     {
@@ -6445,7 +6444,6 @@ return {}
                             }
                         }
                     }
-
                 }
                 // ---------------------------------------------------------
                 // For each form ...
