@@ -4051,7 +4051,7 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                                  |__________________________________ */
         trcode2 = trcode2.toString().replaceAll(
             "Yazz.component[(]",
-            "Vue.component("
+            "Vue.component(" + "\"" + baseComponentId + "\", "
         )
 
 
