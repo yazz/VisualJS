@@ -3899,12 +3899,14 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                              | Set the commit ID and type
                              |__________________________________ */
     if (!args) {
+
     } else if (args.codeId) {
-        codeId = args.codeId
+        codeId          = args.codeId
         baseComponentId = GLOBALS.getTypeForCommitId(codeId)
+
     } else if (args.baseComponentId) {
         baseComponentId = args.baseComponentId
-        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+        codeId          = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
     }
 
 
@@ -4049,11 +4051,14 @@ async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
                                  | replace "Yazz.component(" with
                                  | "Vue.component(COMPONENT_ID,
                                  |__________________________________ */
+        //trcode2 = trcode2.toString().replaceAll(
+        //    "Yazz.component[(]",
+        //    "Vue.component(" + "\"" + baseComponentId + "\", "
+        //)
         trcode2 = trcode2.toString().replaceAll(
             "Yazz.component[(]",
-            "Vue.component(" + "\"" + baseComponentId + "\", "
+            "Vue.component(" + "\"" + codeId + "\", "
         )
-
 
 
 
