@@ -841,7 +841,7 @@ GLOBALS.runtimePipelines["APP_UI_TEMPLATE"].code = unescape(\`${escapedPipelineC
 GLOBALS.cacheThisComponentCode(
 {   
 codeId:             "${sha1sum}",
-code:               /*APP_START_V2*/unescape(\`${escapedCode}\`)/*APP_END_V2*/
+code:               /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/
 })
 
 GLOBALS.pointBaseComponentIdAtCode(
