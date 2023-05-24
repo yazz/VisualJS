@@ -2908,9 +2908,9 @@
                     codeId          = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
                 }
 
-                if (!codeId) {
-                    codeId          = await getIpfsHash(code)
-                }
+                //if (!codeId) {
+                //    codeId          = await getIpfsHash(code)
+                //}
 
 
 
@@ -3058,9 +3058,9 @@
                     //    "Yazz.component[(]",
                     //    "Vue.component(" + "\"" + baseComponentId + "\", "
                     //)
-                    //if (!codeId) {
-                    //    codeId   = GLOBALS.getCommitIdForBaseComponentId( baseComponentId )
-                    // }
+                    if (!codeId) {
+                        codeId   = GLOBALS.getCommitIdForBaseComponentId( baseComponentId )
+                    }
                     trcode2 = trcode2.toString().replaceAll(
                         "Yazz.component[(]",
                         "Vue.component(" + "\"" + codeId + "\", "
