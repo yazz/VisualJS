@@ -800,239 +800,6 @@
 
 
 
-        var useVisJs        = async function() {
-            if (!visJsloaded) {
-                //debugger
-                let loadVisJsScript = document.createElement('script');
-                loadVisJsScript.src = "/js_libs/vis-timeline-graph2d.min.css";
-
-                document.head.appendChild(loadVisJsScript);
-                loadVisJsScript.onload = function () {
-                    try {
-                    } catch (error) {
-                    }
-                    visJsloaded = true
-                };
-            }
-        }
-        var useIpfsServer   = async function() {
-            if (!ipfsServerloaded) {
-                let promise = new Promise(async function(returnfn) {
-                    //debugger
-                    let loadIpfsServerScript = document.createElement('script');
-                    loadIpfsServerScript.src = "/js_libs/js_ipfs_server.js";
-
-                    document.head.appendChild(loadIpfsServerScript);
-                    loadIpfsServerScript.onload = function () {
-                        try {
-                        } catch (error) {
-                            debugger
-                        }
-                        ipfsServerloaded = true
-                        returnfn()
-                    };
-                })
-                let ret = await promise
-                return ret
-            }
-        }
-        var useVisCss       = async function() {
-        if (!visCssloaded) {
-        //debugger
-        let loadVisCssScript = document.createElement('script');
-        loadVisCssScript.src = "/js_libs/vis-timeline-graph2d.min.js";
-
-        document.head.appendChild(loadVisCssScript);
-        loadVisCssScript.onload = function () {
-        try {
-        } catch (error) {
-        }
-        visCssloaded = true
-        };
-        }
-        }
-        var useWeb3         = async function() {
-            if (!web3loaded) {
-                let loadWeb3LibScript = document.createElement('script');
-                loadWeb3LibScript.src = "/js_libs/web3.min.js";
-
-                document.head.appendChild(loadWeb3LibScript);
-                loadWeb3LibScript.onload = function () {
-                    try {
-                        window.ethereum.request({method: "eth_requestAccounts"});
-                        web3 = new Web3(window.ethereum);
-                        (async function () {
-                            //await switchBlockchainNetwork('1')   //eth mainnet
-                            //await switchBlockchainNetwork('97')   //binance testnet
-                            //await switchBlockchainNetwork('80001')   //polygon testnet
-                            await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
-                        })()
-                    } catch (error) {
-
-                    }
-                    web3loaded = true
-                };
-            }
-        }
-        var useIdeTools     = async function() {
-            if (!ideToolsloaded) {
-                //debugger
-                let promise = new Promise(returnfn => {
-                    let loadIdeToolsLibScript = document.createElement('script');
-                    loadIdeToolsLibScript.src = "/js_libs/idetools.js";
-                    document.head.appendChild(loadIdeToolsLibScript);
-                    loadIdeToolsLibScript.onload = function () {
-                        try {
-                        } catch (error) {
-                        }
-                        ideToolsloaded = true
-                        returnfn()
-                    };
-                })
-                let ret = await promise
-            }
-        }
-        var useDiffJs       = async function() {
-            if (!diffJsloaded) {
-                let promise = new Promise(returnfn => {
-                    let loadDiffJsScript = document.createElement('script');
-                    loadDiffJsScript.src = "/js_libs/diff.js";
-                    document.head.appendChild(loadDiffJsScript);
-                    loadDiffJsScript.onload = function () {
-                        try {
-                        } catch (error) {
-                        }
-                        diffJsloaded = true
-                        returnfn()
-                    };
-                })
-                let ret = await promise
-            }
-        }
-        var useD3           = async function() {
-            if (!d3loaded) {
-                let promise = new Promise(returnfn => {
-                    let loadD3LibScript = document.createElement('script');
-                    loadD3LibScript.src = "/js_libs/d3.js";
-                    document.head.appendChild(loadD3LibScript);
-                    loadD3LibScript.onload = function () {
-                        try {
-                        } catch (error) {
-                        }
-                        d3loaded = true
-                        returnfn()
-                    };
-                })
-                let ret = await promise
-            }
-        }
-        var useChartsJs     = async function() {
-
-            if (!chartsJsloaded) {
-        //debugger
-                let promise = new Promise(returnfn => {
-                    let loadChartsJsLibScript = document.createElement('script');
-                    loadChartsJsLibScript.src = "/js_libs/charts.js";
-
-                    document.head.appendChild(loadChartsJsLibScript);
-                    loadChartsJsLibScript.onload = function () {
-        //debugger
-                        try {
-
-
-                        } catch (error) {
-
-                        }
-                        chartsJsloaded = true
-                        returnfn()
-                    };
-
-                })
-
-
-                let ret = await promise
-
-            }
-        }
-        var useEstraverse   = async function() {
-
-            if (!estraverseloaded) {
-        //debugger
-                let promise = new Promise(returnfn => {
-                    let loadEstraverseScript = document.createElement('script');
-                    loadEstraverseScript.src = "/js_libs/estraverse1.7.1.js";
-
-                    document.head.appendChild(loadEstraverseScript);
-                    loadEstraverseScript.onload = function () {
-        //debugger
-                        try {
-                        } catch (error) {
-                        }
-                        estraverseloaded = true
-                        returnfn()
-                    };
-                })
-
-
-                let ret = await promise
-
-            }
-        }
-        var useEsCodeGen    = async function() {
-            if (!esCodeGenLoaded) {
-        //debugger
-                let promise = new Promise(returnfn => {
-                    let loadEsCodeGenScript = document.createElement('script');
-                    loadEsCodeGenScript.src = "/js_libs/escodegen.js";
-
-                    document.head.appendChild(loadEsCodeGenScript);
-                    loadEsCodeGenScript.onload = function () {
-        //debugger
-                        try {
-                        } catch (error) {
-                        }
-                        esCodeGenLoaded = true
-                        returnfn()
-                    };
-                })
-
-
-                let ret = await promise
-
-            }
-        }
-        var useTabulatorJs  = async function() {
-
-            if (!tabulatorJsLoaded) {
-        //debugger
-                let promise = new Promise(returnfn => {
-                    let loadTabulatorJsLibScript = document.createElement('script');
-                    loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
-
-                    document.head.appendChild(loadTabulatorJsLibScript);
-                    loadTabulatorJsLibScript.onload = function () {
-        //debugger
-                        try {
-
-
-                        } catch (error) {
-
-                        }
-                        tabulatorJsLoaded = true
-                        returnfn()
-                    };
-
-                })
-
-
-                let ret = await promise
-
-            }
-        }
-
-
-
-
         let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
         "to prove you have access to this wallet " +
         "and we'll log you in. This won't cost " +
@@ -1148,7 +915,7 @@
 
 
 
-        </script> <!-- helper functions -->
+        </script> <!-- variable declarations -->
         <script>
         //SQLITE
         </script> <!-- sqlite script -->
@@ -1157,7 +924,7 @@
         </script> <!-- sqlite data -->
         <script>
         //***ADD_SCRIPT
-        </script> <!-- Scripts added here -->
+        </script> <!-- Autogenerated Scripts added here -->
         <script>
 
         /**
@@ -1289,6 +1056,235 @@
 
         <!-- main code and functions -->
         <script>
+            var useVisJs        = async function() {
+                if (!visJsloaded) {
+                    //debugger
+                    let loadVisJsScript = document.createElement('script');
+                    loadVisJsScript.src = "/js_libs/vis-timeline-graph2d.min.css";
+
+                    document.head.appendChild(loadVisJsScript);
+                    loadVisJsScript.onload = function () {
+                        try {
+                        } catch (error) {
+                        }
+                        visJsloaded = true
+                    };
+                }
+            }
+            var useIpfsServer   = async function() {
+                if (!ipfsServerloaded) {
+                    let promise = new Promise(async function(returnfn) {
+                        //debugger
+                        let loadIpfsServerScript = document.createElement('script');
+                        loadIpfsServerScript.src = "/js_libs/js_ipfs_server.js";
+
+                        document.head.appendChild(loadIpfsServerScript);
+                        loadIpfsServerScript.onload = function () {
+                            try {
+                            } catch (error) {
+                                debugger
+                            }
+                            ipfsServerloaded = true
+                            returnfn()
+                        };
+                    })
+                    let ret = await promise
+                    return ret
+                }
+            }
+            var useVisCss       = async function() {
+                if (!visCssloaded) {
+                    //debugger
+                    let loadVisCssScript = document.createElement('script');
+                    loadVisCssScript.src = "/js_libs/vis-timeline-graph2d.min.js";
+
+                    document.head.appendChild(loadVisCssScript);
+                    loadVisCssScript.onload = function () {
+                        try {
+                        } catch (error) {
+                        }
+                        visCssloaded = true
+                    };
+                }
+            }
+            var useWeb3         = async function() {
+                if (!web3loaded) {
+                    let loadWeb3LibScript = document.createElement('script');
+                    loadWeb3LibScript.src = "/js_libs/web3.min.js";
+
+                    document.head.appendChild(loadWeb3LibScript);
+                    loadWeb3LibScript.onload = function () {
+                        try {
+                            window.ethereum.request({method: "eth_requestAccounts"});
+                            web3 = new Web3(window.ethereum);
+                            (async function () {
+                                //await switchBlockchainNetwork('1')   //eth mainnet
+                                //await switchBlockchainNetwork('97')   //binance testnet
+                                //await switchBlockchainNetwork('80001')   //polygon testnet
+                                await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
+                            })()
+                        } catch (error) {
+
+                        }
+                        web3loaded = true
+                    };
+                }
+            }
+            var useIdeTools     = async function() {
+                if (!ideToolsloaded) {
+                    //debugger
+                    let promise = new Promise(returnfn => {
+                        let loadIdeToolsLibScript = document.createElement('script');
+                        loadIdeToolsLibScript.src = "/js_libs/idetools.js";
+                        document.head.appendChild(loadIdeToolsLibScript);
+                        loadIdeToolsLibScript.onload = function () {
+                            try {
+                            } catch (error) {
+                            }
+                            ideToolsloaded = true
+                            returnfn()
+                        };
+                    })
+                    let ret = await promise
+                }
+            }
+            var useDiffJs       = async function() {
+                if (!diffJsloaded) {
+                    let promise = new Promise(returnfn => {
+                        let loadDiffJsScript = document.createElement('script');
+                        loadDiffJsScript.src = "/js_libs/diff.js";
+                        document.head.appendChild(loadDiffJsScript);
+                        loadDiffJsScript.onload = function () {
+                            try {
+                            } catch (error) {
+                            }
+                            diffJsloaded = true
+                            returnfn()
+                        };
+                    })
+                    let ret = await promise
+                }
+            }
+            var useD3           = async function() {
+                if (!d3loaded) {
+                    let promise = new Promise(returnfn => {
+                        let loadD3LibScript = document.createElement('script');
+                        loadD3LibScript.src = "/js_libs/d3.js";
+                        document.head.appendChild(loadD3LibScript);
+                        loadD3LibScript.onload = function () {
+                            try {
+                            } catch (error) {
+                            }
+                            d3loaded = true
+                            returnfn()
+                        };
+                    })
+                    let ret = await promise
+                }
+            }
+            var useChartsJs     = async function() {
+
+                if (!chartsJsloaded) {
+                    //debugger
+                    let promise = new Promise(returnfn => {
+                        let loadChartsJsLibScript = document.createElement('script');
+                        loadChartsJsLibScript.src = "/js_libs/charts.js";
+
+                        document.head.appendChild(loadChartsJsLibScript);
+                        loadChartsJsLibScript.onload = function () {
+                            //debugger
+                            try {
+
+
+                            } catch (error) {
+
+                            }
+                            chartsJsloaded = true
+                            returnfn()
+                        };
+
+                    })
+
+
+                    let ret = await promise
+
+                }
+            }
+            var useEstraverse   = async function() {
+
+                if (!estraverseloaded) {
+                    //debugger
+                    let promise = new Promise(returnfn => {
+                        let loadEstraverseScript = document.createElement('script');
+                        loadEstraverseScript.src = "/js_libs/estraverse1.7.1.js";
+
+                        document.head.appendChild(loadEstraverseScript);
+                        loadEstraverseScript.onload = function () {
+                            //debugger
+                            try {
+                            } catch (error) {
+                            }
+                            estraverseloaded = true
+                            returnfn()
+                        };
+                    })
+
+
+                    let ret = await promise
+
+                }
+            }
+            var useEsCodeGen    = async function() {
+                if (!esCodeGenLoaded) {
+                    //debugger
+                    let promise = new Promise(returnfn => {
+                        let loadEsCodeGenScript = document.createElement('script');
+                        loadEsCodeGenScript.src = "/js_libs/escodegen.js";
+
+                        document.head.appendChild(loadEsCodeGenScript);
+                        loadEsCodeGenScript.onload = function () {
+                            //debugger
+                            try {
+                            } catch (error) {
+                            }
+                            esCodeGenLoaded = true
+                            returnfn()
+                        };
+                    })
+
+
+                    let ret = await promise
+
+                }
+            }
+            var useTabulatorJs  = async function() {
+
+                if (!tabulatorJsLoaded) {
+                    //debugger
+                    let promise = new Promise(returnfn => {
+                        let loadTabulatorJsLibScript = document.createElement('script');
+                        loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
+
+                        document.head.appendChild(loadTabulatorJsLibScript);
+                        loadTabulatorJsLibScript.onload = function () {
+                            //debugger
+                            try {
+
+
+                            } catch (error) {
+
+                            }
+                            tabulatorJsLoaded = true
+                            returnfn()
+                        };
+
+                    })
+
+
+                    let ret = await promise
+
+                }
+            }
 
         async function  onPageInitialized                   (   doCode   ) {
                 executeOnPageLoad = doCode
