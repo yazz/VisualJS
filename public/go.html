@@ -2013,12 +2013,13 @@
                 },100)
             };
             async function  prepareApp                          (   id   ,  bbase_component_id   ,  args  ) {
-                base_component_id = bbase_component_id
+                base_component_id                                   = bbase_component_id
                 GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
+
                 let rootElement = "app_" + id
                 if ((mainMoonApp.cards[id - 1].card.base_component_id != base_component_id) ||
-                    (!newAppArgs[id])) {
-
+                    (!newAppArgs[id]))
+                {
                     newAppArgs[id] = args
                 }
 
@@ -2026,7 +2027,6 @@
                 if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
                     loadAppIntoElement(base_component_id, rootElement)
                 }
-
             }
             function        loadAppIntoElement                  (   tagName   ,   rootElement   ) {
                 if (!document.getElementById(rootElement)) {
