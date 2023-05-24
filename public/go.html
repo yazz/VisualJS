@@ -294,7 +294,7 @@
         </style>
 
         <script>
-            var mainMoonApp                     = null
+            var mainVueApp                     = null
             var visJsloaded                     = false
             var mousedown                       = false;
             var saveCodeViaWebWorker            = null
@@ -1847,7 +1847,7 @@
 
 
 
-                    mainMoonApp = new Vue({
+                    mainVueApp = new Vue({
                         el: "#infinite-list"
                         ,
                         data: function() {
@@ -1894,7 +1894,7 @@
                                 display_name:       "***STATIC_NAME***",
                                 type:               "app"
                             }});
-                        mainMoonApp.show_loader = false
+                        mainVueApp.show_loader = false
                         autoScroll = false
                         setTimeout(async function() {
                             await select_card(nid)
@@ -1923,17 +1923,17 @@
                     if (params.goto) {
                         wait_and_select_app = params.goto.replaceAll("%20"," ").toLowerCase()
                         autoScroll = false;
-                        mainMoonApp.show_loader = true
+                        mainVueApp.show_loader = true
                     } else if (params.embed) {
                         wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
                         autoScroll = false;
-                        mainMoonApp.show_loader = true
+                        mainVueApp.show_loader = true
                     } else if (!GLOBALS.isStaticHtmlPageApp) {
                         setTimeout(async function() {
                             await select_card(1)
                         },200)
                     } else if (GLOBALS.isStaticHtmlPageApp) {
-                        mainMoonApp.is_static = true
+                        mainVueApp.is_static = true
                     }
 
 
@@ -1952,7 +1952,7 @@
                                 args:                {app_base_component_id: editAppShareApp},
                                 type:               "app"
                             }});
-                        mainMoonApp.show_loader = false
+                        mainVueApp.show_loader = false
                         autoScroll = false
                         setTimeout(async function() {
                             await select_card(nid)
@@ -2000,14 +2000,14 @@
                 GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
 
                 let rootElement = "app_" + id
-                if ((mainMoonApp.cards[id - 1].card.base_component_id != base_component_id) ||
+                if ((mainVueApp.cards[id - 1].card.base_component_id != base_component_id) ||
                     (!newAppArgs[id]))
                 {
                     newAppArgs[id] = args
                 }
 
                 await loadUiComponentsV4(base_component_id)
-                if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
+                if (mainVueApp.cards[id - 1].card.base_component_id == base_component_id) {
                     loadAppIntoElement(base_component_id, rootElement)
                 }
             }
@@ -2026,31 +2026,31 @@
             }
             function        add_card                            (   payload   ) {
                 let ccy = document.getElementById('wrapper').scrollTop
-                mainMoonApp.cards.push(payload);
+                mainVueApp.cards.push(payload);
                 setTimeout(function() {
                     document.getElementById('wrapper').scrollTop = ccy
                 },100)
             }
             async function  select_card                         (   id   ) {
-                if (mainMoonApp.selected_card == id) {
+                if (mainVueApp.selected_card == id) {
                     return;
                 }
-                if (mainMoonApp.selected_card != -1) {
+                if (mainVueApp.selected_card != -1) {
                     if (id != -1) {
-                        document.querySelector('#card_' + mainMoonApp.selected_card).classList.remove("expand");
+                        document.querySelector('#card_' + mainVueApp.selected_card).classList.remove("expand");
                     }
-                    document.querySelector('#card_' + mainMoonApp.selected_card).classList.add('contract');
+                    document.querySelector('#card_' + mainVueApp.selected_card).classList.add('contract');
                 }
 
                 if (id != -1) {
                     let elmnt = document.querySelector('#card_' + id);
                     if (elmnt) {
                         if (GLOBALS.isStaticHtmlPageApp) {
-                            mainMoonApp.selected_card = id;
+                            mainVueApp.selected_card = id;
                             setTimeout(async function() {
-                                let thisApp = mainMoonApp.cards[id - 1]
-                                if (mainMoonApp.cards[id - 1].card.fn) {
-                                    setTimeout( mainMoonApp.cards[id - 1].card.fn, 3000)
+                                let thisApp = mainVueApp.cards[id - 1]
+                                if (mainVueApp.cards[id - 1].card.fn) {
+                                    setTimeout( mainVueApp.cards[id - 1].card.fn, 3000)
                                 }
                                 if (thisApp.card.base_component_id) {
                                     await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -2061,11 +2061,11 @@
                             document.querySelector('#card_' + id).classList.add('expand');
                             setTimeout(function()
                             {
-                                mainMoonApp.selected_card = id;
+                                mainVueApp.selected_card = id;
                                 setTimeout(async function() {
-                                    let thisApp = mainMoonApp.cards[id - 1]
-                                    if (mainMoonApp.cards[id - 1].card.fn) {
-                                        setTimeout( mainMoonApp.cards[id - 1].card.fn, 3000)
+                                    let thisApp = mainVueApp.cards[id - 1]
+                                    if (mainVueApp.cards[id - 1].card.fn) {
+                                        setTimeout( mainVueApp.cards[id - 1].card.fn, 3000)
                                     }
                                     if (thisApp.card.base_component_id) {
                                         await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -3453,7 +3453,7 @@
                 mousedown = false
             };
             function        refresh                             (   ) {
-                mainMoonApp.count += 1;
+                mainVueApp.count += 1;
             }
             function        getPosition                         (   el   ) {
                 let xPos = 0;
@@ -3481,10 +3481,10 @@
                 };
             }
             function        showProgressBar                     (   ) {
-                mainMoonApp.show_loader = true
+                mainVueApp.show_loader = true
             }
             function        hideProgressBar                     (   ) {
-                mainMoonApp.show_loader = false
+                mainVueApp.show_loader = false
             }
 
             //debug helpers
