@@ -294,30 +294,30 @@
         </style>
 
         <script>
-            var mainMoonApp             = null
-            var visJsloaded             = false
-            var mousedown               = false;
-            var saveCodeViaWebWorker    = null
-            var worker                  = null;
-            var ipfs                    = null
-            var web3loaded              = false
-            var disableAutoSave         = false;
-            var pageInitialised         = false
-            var executeOnPageLoad       = null
-            var diffJsloaded            = false
-            var ideToolsloaded          = false
-            var visCssloaded            = false
-            var ipfsServerloaded        = false
-            var d3loaded                = false
-            var chartsJsloaded          = false
-            var tabulatorJsLoaded       = false
-            var estraverseloaded        = false
-            var esCodeGenLoaded         = false
-            var testObject              = null; // Use this to test elements at debug time
-            var params                  = {}
-            var autoScroll              = false;
-            var nextItem                = 1;
-            var wait_and_select_app     = null
+            var mainMoonApp                     = null
+            var visJsloaded                     = false
+            var mousedown                       = false;
+            var saveCodeViaWebWorker            = null
+            var worker                          = null;
+            var ipfs                            = null
+            var web3loaded                      = false
+            var disableAutoSave                 = false;
+            var pageInitialised                 = false
+            var executeOnPageLoad               = null
+            var diffJsloaded                    = false
+            var ideToolsloaded                  = false
+            var visCssloaded                    = false
+            var ipfsServerloaded                = false
+            var d3loaded                        = false
+            var chartsJsloaded                  = false
+            var tabulatorJsLoaded               = false
+            var estraverseloaded                = false
+            var esCodeGenLoaded                 = false
+            var testObject                      = null; // Use this to test elements at debug time
+            var params                          = {}
+            var autoScroll                      = false;
+            var nextItem                        = 1;
+            var wait_and_select_app             = null
             var yz                              = {
                 insertCodeString:               function(   code   ,   st   ,   vall   ,   optionalEnd   ) {
                     let endIndicator = ")"
@@ -794,19 +794,19 @@
             var executionTimeline               = []
             var executionTimelineMapTimeToLine  = {}
             var globalWatchList                 = {}
-            var useProtocol     = location.protocol
-            var useHostname     = null
-            var usePort         = null
-            var globalEventBus          = new Vue();
-            let newAppArgs              = []
-            var socket                  = null;
+            var useProtocol                     = location.protocol
+            var useHostname                     = null
+            var usePort                         = null
+            var globalEventBus                  = new Vue();
+            let newAppArgs                      = []
+            var socket                          = null;
             var staticAppSocket
-            var appIntervalTimers       = []
-            var globinIndexComponent    = false
-            var keycloak                = null
-            var keycloakJsonInUse       = null
-            var username                = "";
-            var thecode                 = `
+            var appIntervalTimers               = []
+            var globinIndexComponent            = false
+            var keycloak                        = null
+            var keycloakJsonInUse               = null
+            var username                        = "";
+            var thecode                         = `
             (function xx() {
             var a=10
             if(runLine == 1) {return}
@@ -821,17 +821,17 @@
 
             })()
             `
-            var runLine                 = 2;
-            let globalStartTimer        = new Date().getTime()
-            let globalEndTimer          = new Date().getTime()
-            let globalTimerCounter      = 0
-            let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
-                                        "to prove you have access to this wallet " +
-                                        "and we'll log you in. This won't cost " +
-                                        "you any Ether." +
-                                        "\n\n" +
-                                        "To stop hackers using your wallet, here's " +
-                                        "a unique message ID they can't guess: "
+            var runLine                         = 2;
+            let globalStartTimer                = new Date().getTime()
+            let globalEndTimer                  = new Date().getTime()
+            let globalTimerCounter              = 0
+            let signMessageTemplate             =   "Hi there from Yazz. Sign this message " +
+                                                    "to prove you have access to this wallet " +
+                                                    "and we'll log you in. This won't cost " +
+                                                    "you any Ether." +
+                                                    "\n\n" +
+                                                    "To stop hackers using your wallet, here's " +
+                                                    "a unique message ID they can't guess: "
 
             window.currentBlockchain    = "1"
             window.blockchainIds        = {
