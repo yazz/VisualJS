@@ -2148,7 +2148,7 @@
 
             },100)
         };
-        async function  prepareApp                          (  id,  bbase_component_id,  args  ) {
+        async function  prepareApp                          (  id   ,  bbase_component_id   ,  args  ) {
             base_component_id = bbase_component_id
             GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
             let rootElement = "app_" + id
@@ -2184,10 +2184,10 @@
                 document.getElementById('wrapper').scrollTop = ccy
             },100)
         }
-        function        refresh                             () {
+        function        refresh                             (   ) {
             mainMoonApp.count += 1;
         }
-        function        getPosition                         (el) {
+        function        getPosition                         (   el   ) {
             let xPos = 0;
             let yPos = 0;
 
@@ -2212,7 +2212,7 @@
                 y: yPos
             };
         }
-        async function  select_card                         (id) {
+        async function  select_card                         (   id   ) {
             if (mainMoonApp.selected_card == id) {
                 return;
             }
@@ -2258,17 +2258,17 @@
             }
 
         }
-        function        populateCache                       () {
+        function        populateCache                       (   ) {
         //***ADD_STATIC_CODE
         }
-        function        sendToServerViaWebSocket            (msg) {
+        function        sendToServerViaWebSocket            (   msg   ) {
         if (GLOBALS.online) {
         msg.cookie = getYazzCookie()
         socket.send(JSON.stringify(msg));
         }
         //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
         }
-        async function  setupPublicWebSocket                () {
+        async function  setupPublicWebSocket                (   ) {
         var hostEditorAddress = "https://yazz.com:443"
         //hostEditorAddress = "http://192.168.0.63:3000"
 
@@ -2310,7 +2310,7 @@
         })
 
         }
-        function        setupWebSocket                      (host, port) {
+        function        setupWebSocket                      (   host   ,   port   ) {
 
         //console.log('opening web socketio');
         socket = io();
@@ -2471,7 +2471,7 @@
             });
 
         }
-        function        getNetworkHostName                  () {
+        function        getNetworkHostName                  (   ) {
         let networkHostName = location.hostname
         if (networkHostName == "127.0.0.1") {
         networkHostName = networkIntranetIpAddress
@@ -2481,7 +2481,7 @@
         }
         return networkHostName
         }
-        async function  scriptTag                           (src, callback) {
+        async function  scriptTag                           (   src   ,   callback   ) {
 
         var s = document.createElement('script');
         s.type = 'text/' + (src.type || 'javascript');
@@ -2501,7 +2501,7 @@
         // use body if available. more safe in IE
         (document.body || head).appendChild(s);
         }
-        function        logVarBefore                        (codeBlockName, line, varName, varValue) {
+        function        logVarBefore                        (   codeBlockName   ,   line   ,   varName   ,   varValue   ) {
         if (executionCode[codeBlockName]) {
 
         if (executionTimeline[currentTimelineLogPoint]) {
@@ -2515,7 +2515,7 @@
 
 
         }
-        function        logVarAfter                         (codeBlockName, line, varName, varValue) {
+        function        logVarAfter                         (   codeBlockName   ,   line   ,   varName   ,   varValue   ) {
         if (executionCode[codeBlockName]) {
 
         if (executionTimeline[currentTimelineLogPoint]) {
@@ -2526,7 +2526,7 @@
         }
         }
         }
-        function        fillInMissingWatchTimelineValues    (vName, executionStepNo) {
+        function        fillInMissingWatchTimelineValues    (   vName   ,   executionStepNo   ) {
         if (!globalWatchList[vName]) {
         globalWatchList[vName] = {
         viewer: ""
@@ -2548,7 +2548,7 @@
         }
         fillInMissingWatchTimelineValues(vName, executionStepNo + 1)
         }
-        function        addWatchPoint                       (vName,value) {
+        function        addWatchPoint                       (   vName   ,   value   ) {
         globalWatchList[vName][currentTimelineLogPoint] = {}
         globalWatchList[vName][currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
         globalWatchList[vName][currentTimelineLogPoint].isSet = true
@@ -2566,7 +2566,7 @@
         }
         }
         }
-        function        logExecutionPoint                   (codeBlockName, line, node) {
+        function        logExecutionPoint                   (   codeBlockName   ,   line   ,   node   ) {
         //console.log("logExecutionPoint(" + codeBlockName + "," + line)
 
         if (executionCode[codeBlockName]) {
@@ -2583,7 +2583,7 @@
         executionTimelineMapTimeToLine[recor.time] = recor
         }
         }
-        function        getDebugCode                        (blockName,  trcode2 , args) {
+        function        getDebugCode                        (   blockName   ,   trcode2   ,   args   ) {
             if (!uiDebuggerOn) {
                 return trcode2
             }
@@ -2783,7 +2783,7 @@
             return debugCode
 
         }
-        async function  findComponentsImplementing          (listOfProperties){
+        async function  findComponentsImplementing          (   listOfProperties   ){
         //aaa
         let results = await callComponent(
         {
@@ -2794,7 +2794,7 @@
         })
         return results
         }
-        function        indexComponent                      (  typeName  ) {
+        function        indexComponent                      (   typeName   ) {
             /*
             ________________________________________
             |                                      |
@@ -3038,50 +3038,50 @@
             }
             globinIndexComponent = false
         }
-        function        onscrolled                          () {
+        function        onscrolled                          (   ) {
             if (mousedown) {
                 autoScroll = false;
             }
         };
-        function        onemousedown                        () {
+        function        onemousedown                        (   ) {
         //console.log("onmousedown")
             mousedown = true
         };
-        function        onemouseup                          () {
+        function        onemouseup                          (   ) {
         //console.log("onmouseup")
             mousedown = false
         };
-        function        isValidObject                       (variable){
+        function        isValidObject                       (   variable   ){
             if ((typeof variable !== 'undefined') && (variable != null)) {
                 return true
             }
             return false
         }
-        function        uuidv4                              () {
+        function        uuidv4                              (   ) {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
         }
-        function        description                         (d) {
+        function        description                         (   d   ) {
 
         }
-        function        base_component_id                   (d) {
+        function        base_component_id                   (   d   ) {
 
         }
-        function        display_name                        (d) {
+        function        display_name                        (   d   ) {
 
         }
-        function        created_timestamp                   (d) {
+        function        created_timestamp                   (   d   ) {
 
         }
-        function        trace                               () {
+        function        trace                               (   ) {
         // this is a server side call but for some reason it gets evaluated
         // when open a microservice which contains the "trace" function (Which
         // is used for Jaeger OpenTracing)
 
         }
-        async function  rxsql                               (code_id,base_component_id, sqlcode, params) {
+        async function  rxsql                               (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
             if (localAppshareApp) {
                 var results = localSql(sqlcode,params)
                 return results
@@ -3102,7 +3102,7 @@
                 return results
             }
         }
-        async function  rxsql1                              (code_id,base_component_id,sqlcode, params) {
+        async function  rxsql1                              (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
             var x = await rxsql(code_id,base_component_id,sqlcode, params)
             if (x && (x.length > 0)) {
                 return x[0]
@@ -3110,7 +3110,7 @@
                 return null
             }
         }
-        async function  rxsqlFirstCol                       (code_id,base_component_id,sqlcode, params) {
+        async function  rxsqlFirstCol                       (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
             var x = await rxsql(code_id,base_component_id,sqlcode, params)
             if (x && (x.length > 0)) {
                 var colName = Object.keys(x[0])[0]
@@ -3123,7 +3123,7 @@
                 return []
             }
         }
-        async function  rxsqlFirstCol1                      (code_id,base_component_id,sqlcode, params) {
+        async function  rxsqlFirstCol1                      (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
             var x = await rxsqlFirstCol(code_id,base_component_id,sqlcode, params)
             if (x && (x.length > 0)) {
                 return x[0]
@@ -3131,23 +3131,23 @@
                 return null
             }
         }
-        function        appSetInterval                      (fnn,interval) {
+        function        appSetInterval                      (   fnn   ,   interval   ) {
             var xx = setInterval(fnn,interval)
             appIntervalTimers.push(xx)
         }
-        function        appClearIntervals                   () {
+        function        appClearIntervals                   (   ) {
             for(var i = 0; i < appIntervalTimers.length; i++){
                 clearInterval(appIntervalTimers[i]);
             }
             appIntervalTimers = []
         }
-        function        showProgressBar                     () {
+        function        showProgressBar                     (   ) {
             mainMoonApp.show_loader = true
         }
-        function        hideProgressBar                     () {
+        function        hideProgressBar                     (   ) {
             mainMoonApp.show_loader = false
         }
-        function        callAjax                            (url, callback){
+        function        callAjax                            (   url   ,   callback   ){
             var xmlhttp;
         // compatible with IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp = new XMLHttpRequest();
@@ -3159,7 +3159,7 @@
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
         }
-        function        callAjax2                           (url, options, callback){
+        function        callAjax2                           (   url   ,   options   ,   callback   ){
             var xmlhttp;
         //debugger
             if (options && options.params) {
@@ -3185,7 +3185,7 @@
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
         }
-        function        callAjaxPost                        (url, value, callback){
+        function        callAjaxPost                        (   url   ,   value   ,   callback   ){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
 
