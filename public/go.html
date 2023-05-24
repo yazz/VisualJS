@@ -5,12 +5,190 @@
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="https://cdn.usebootstrap.com/bootstrap/4.1.3/css/bootstrap.min.css"></link>
         <linkold rel="stylesheet" href="/js_libs/bootstrap4.1.3.css"></linkold>
+        <scriptold src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></scriptold>
+        <script src="/js_libs/dropzone5.4.0.js"></script>
+        <script src="https://cdn.socket.io/4.5.3/socket.io.min.js" integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi" crossorigin="anonymous"></script>
+        <scriptold src="/js_libs/socketio4.4.1.js"  crossorigin="anonymous"></scriptold>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
+        <scriptold src="/js_libs/vue2.6.11.js"></scriptold>
         <style>
         #visualization {
         width: 100%;
         height: 50%;
         border: 1px solid lightgray;
         }
+        </style>
+        <style>
+            .containerclasslargetext {
+                container-type: inline-size;
+            }
+            .containerclassmediumtext {
+                container-type: inline-size;
+            }
+            .containerclasssmalltext {
+                container-type: inline-size;
+            }
+            .containerclasshugetext {
+                container-type: inline-size;
+            }
+            .containerclasshugetext {
+                container-type: inline-size;
+            }
+            .containerclass {
+                container-type: inline-size;
+            }
+            @container  (min-width: 0px) {
+                .containerclass > * {
+                    font-size: var(--fontresizable);
+                }
+            }
+
+            @container  (min-width: 0px) {
+                .containerclasslargetext > * {
+                    font-size: 25cqw;
+                }
+            }
+            @container  (min-width: 0px) {
+                .containerclassmediumtext > * {
+                    font-size: 15cqw;
+                }
+            }
+            @container  (min-width: 0px) {
+                .containerclasssmalltext > * {
+                    font-size: 5cqw;
+                }
+            }
+            @container  (min-width: 0px) {
+                .containerclasshugetext > * {
+                    font-size: 50cqw;
+                }
+            }
+
+
+
+            blink {
+                -webkit-animation: 2s linear infinite condemned_blink_effect; /* for Safari 4.0 - 8.0 */
+                animation: 2s linear infinite condemned_blink_effect;
+            }
+
+            /* for Safari 4.0 - 8.0 */
+            @-webkit-keyframes condemned_blink_effect {
+                0% {
+                    visibility: hidden;
+                }
+                50% {
+                    visibility: hidden;
+                }
+                100% {
+                    visibility: visible;
+                }
+            }
+
+            @keyframes condemned_blink_effect {
+                0% {
+                    visibility: hidden;
+                }
+                50% {
+                    visibility: hidden;
+                }
+                100% {
+                    visibility: visible;
+                }
+            }
+
+            .force_scrollbars {
+                overflow-y: auto;
+                border: 1px solid black;
+                height: 3em;
+                width: 100%;
+                line-height: 1em;
+            }
+
+            .force_scrollbars::-webkit-scrollbar {
+                -webkit-appearance: none;
+            }
+
+            .force_scrollbars::-webkit-scrollbar:vertical {
+                width: 11px;
+            }
+
+            .force_scrollbars::-webkit-scrollbar:horizontal {
+                height: 11px;
+            }
+
+            .force_scrollbars::-webkit-scrollbar-thumb {
+                border-radius: 8px;
+                border: 2px solid white; /* should match background, can't be transparent */
+                background-color: rgba(0, 0, 0, .5);
+            }
+        </style>
+        <style>
+            .ace_gutter-cell.ace_breakpoint{
+                border-radius: 20px 0px 0px 20px;
+                box-shadow: 0px 0px 1px 1px red inset;
+            }
+            .app_card {
+                top:    100px;
+                width:  200px;
+                height: 200px;
+                transition: width .5s ease-in-out, height .5s ease-in-out, top .5s ease-in-out;
+            }
+            .app_card:hover{
+                /*...*/
+                transition: width .5s ease-in-out, height .5s ease-in-out, top .5s ease-in-out;
+                top:    0px;
+                width:  330px;
+                height: 330px;
+            }
+            .right_project_pane_collapsed {
+                height: 15%;
+                transition: all .5s ease-out;
+            }
+            .right_project_pane_expanded {
+                height: 85%;
+                transition: all .5s ease-out;
+            }
+
+
+            .right_properties_pane_collapsed {
+                height: 85%;
+                transition: all .5s ease-out;
+            }
+            .right_properties_pane_expanded {
+                height: 15%;
+                transition: all .5s ease-out;
+            }
+            .selected_pane_title {
+                background-color:#000099;
+                color: white;
+                transition: all .2s ease-out;
+            }
+            .unselected_pane_title {
+                background-color:darkgray;
+                color: white;
+                transition: all .1s ease-out;
+            }
+            .selected_pane_title_slower {
+                background-color:#000099;
+                color: white;
+                transition: all .7s ease-out;
+            }
+            .unselected_pane_title_slower {
+                background-color:darkgray;
+                color: white;
+                transition: all .3s ease-out;
+            }
+            div.ace_editor.ace_autocomplete {
+                width: 40%
+            }
+        </style>
+        <style>
+
+
+
+
+            <style>
+            .reload { font-family: Lucida Sans Unicode }
         </style>
 
         <!-- helper functions -->
@@ -908,185 +1086,6 @@
 
         </script>
 
-        <scriptold src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></scriptold>
-        <script src="/js_libs/dropzone5.4.0.js"></script>
-        <style>
-        .containerclasslargetext {
-        container-type: inline-size;
-        }
-        .containerclassmediumtext {
-        container-type: inline-size;
-        }
-        .containerclasssmalltext {
-        container-type: inline-size;
-        }
-        .containerclasshugetext {
-        container-type: inline-size;
-        }
-        .containerclasshugetext {
-        container-type: inline-size;
-        }
-        .containerclass {
-        container-type: inline-size;
-        }
-        @container  (min-width: 0px) {
-        .containerclass > * {
-        font-size: var(--fontresizable);
-        }
-        }
-
-        @container  (min-width: 0px) {
-        .containerclasslargetext > * {
-        font-size: 25cqw;
-        }
-        }
-        @container  (min-width: 0px) {
-        .containerclassmediumtext > * {
-        font-size: 15cqw;
-        }
-        }
-        @container  (min-width: 0px) {
-        .containerclasssmalltext > * {
-        font-size: 5cqw;
-        }
-        }
-        @container  (min-width: 0px) {
-        .containerclasshugetext > * {
-        font-size: 50cqw;
-        }
-        }
-
-
-
-        blink {
-        -webkit-animation: 2s linear infinite condemned_blink_effect; /* for Safari 4.0 - 8.0 */
-        animation: 2s linear infinite condemned_blink_effect;
-        }
-
-        /* for Safari 4.0 - 8.0 */
-        @-webkit-keyframes condemned_blink_effect {
-        0% {
-        visibility: hidden;
-        }
-        50% {
-        visibility: hidden;
-        }
-        100% {
-        visibility: visible;
-        }
-        }
-
-        @keyframes condemned_blink_effect {
-        0% {
-        visibility: hidden;
-        }
-        50% {
-        visibility: hidden;
-        }
-        100% {
-        visibility: visible;
-        }
-        }
-
-        .force_scrollbars {
-        overflow-y: auto;
-        border: 1px solid black;
-        height: 3em;
-        width: 100%;
-        line-height: 1em;
-        }
-
-        .force_scrollbars::-webkit-scrollbar {
-        -webkit-appearance: none;
-        }
-
-        .force_scrollbars::-webkit-scrollbar:vertical {
-        width: 11px;
-        }
-
-        .force_scrollbars::-webkit-scrollbar:horizontal {
-        height: 11px;
-        }
-
-        .force_scrollbars::-webkit-scrollbar-thumb {
-        border-radius: 8px;
-        border: 2px solid white; /* should match background, can't be transparent */
-        background-color: rgba(0, 0, 0, .5);
-        }
-        </style>
-        <style>
-        .ace_gutter-cell.ace_breakpoint{
-        border-radius: 20px 0px 0px 20px;
-        box-shadow: 0px 0px 1px 1px red inset;
-        }
-        .app_card {
-        top:    100px;
-        width:  200px;
-        height: 200px;
-        transition: width .5s ease-in-out, height .5s ease-in-out, top .5s ease-in-out;
-        }
-        .app_card:hover{
-        /*...*/
-        transition: width .5s ease-in-out, height .5s ease-in-out, top .5s ease-in-out;
-        top:    0px;
-        width:  330px;
-        height: 330px;
-        }
-        .right_project_pane_collapsed {
-        height: 15%;
-        transition: all .5s ease-out;
-        }
-        .right_project_pane_expanded {
-        height: 85%;
-        transition: all .5s ease-out;
-        }
-
-
-        .right_properties_pane_collapsed {
-        height: 85%;
-        transition: all .5s ease-out;
-        }
-        .right_properties_pane_expanded {
-        height: 15%;
-        transition: all .5s ease-out;
-        }
-        .selected_pane_title {
-        background-color:#000099;
-        color: white;
-        transition: all .2s ease-out;
-        }
-        .unselected_pane_title {
-        background-color:darkgray;
-        color: white;
-        transition: all .1s ease-out;
-        }
-        .selected_pane_title_slower {
-        background-color:#000099;
-        color: white;
-        transition: all .7s ease-out;
-        }
-        .unselected_pane_title_slower {
-        background-color:darkgray;
-        color: white;
-        transition: all .3s ease-out;
-        }
-        div.ace_editor.ace_autocomplete {
-        width: 40%
-        }
-        </style>
-        <style>
-
-
-
-
-        <style>
-        .reload { font-family: Lucida Sans Unicode }
-        </style>
-
-        <script src="https://cdn.socket.io/4.5.3/socket.io.min.js" integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi" crossorigin="anonymous"></script>
-        <scriptold src="/js_libs/socketio4.4.1.js"  crossorigin="anonymous"></scriptold>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
-        <scriptold src="/js_libs/vue2.6.11.js"></scriptold>
 
         <!-- js functions -->
         <script>
