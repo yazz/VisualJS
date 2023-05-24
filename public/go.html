@@ -1433,27 +1433,6 @@
                 GLOBALS.designModeUiControlNameReturnsVueInstance[componentName]   = null
                 GLOBALS.runtimeUiControlNameReturnsVueInstance[componentName]               = null
             }
-            function        localSql                            (   sql   ,  params   ) {
-                if (!window.SQL) {
-                    console.log("Local SQLite only works for static Creator apps")
-                } else {
-                    resOut = []
-                    try {
-                        let stmt = localSqliteDb.prepare(sql);
-                        let res = stmt.bind(params)
-                        let moreRows = stmt.step()
-                        while (moreRows) {
-                            let newRow = stmt.getAsObject()
-                            resOut.push(newRow)
-                            moreRows = stmt.step()
-                        }
-                        stmt.free();
-                    } catch (err) {
-                        console.log(err)
-                    }
-                    return resOut
-                }
-            }
             async function  initFn                              (   ) {
                 setTimeout(async function(){
 
@@ -2608,104 +2587,6 @@
                 }
                 globinIndexComponent = false
             }
-            async function  rxsql                               (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                if (localAppshareApp) {
-                    var results = localSql(sqlcode,params)
-                    return results
-                } else {
-                    var results = await callComponent(
-                        {
-                            base_component_id:    "systemFunctionAppSql"
-                        }
-                        ,
-                        {
-                            sql:                sqlcode,
-                            params:             params,
-                            code_id:            code_id,
-                            base_component_id:  base_component_id
-                        })
-
-
-                    return results
-                }
-            }
-            async function  rxsql1                              (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await rxsql(code_id,base_component_id,sqlcode, params)
-                if (x && (x.length > 0)) {
-                    return x[0]
-                } else {
-                    return null
-                }
-            }
-            async function  rxsqlFirstCol                       (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await rxsql(code_id,base_component_id,sqlcode, params)
-                if (x && (x.length > 0)) {
-                    var colName = Object.keys(x[0])[0]
-                    var ff = []
-                    for (var tt=0; tt < x.length; tt++) {
-                        ff.push(x[tt][colName])
-                    }
-                    return ff
-                } else {
-                    return []
-                }
-            }
-            async function  rxsqlFirstCol1                      (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await rxsqlFirstCol(code_id,base_component_id,sqlcode, params)
-                if (x && (x.length > 0)) {
-                    return x[0]
-                } else {
-                    return null
-                }
-            }
-            function        appSetInterval                      (   fnn   ,   interval   ) {
-                var xx = setInterval(fnn,interval)
-                appIntervalTimers.push(xx)
-            }
-            function        appClearIntervals                   (   ) {
-                for(var i = 0; i < appIntervalTimers.length; i++){
-                    clearInterval(appIntervalTimers[i]);
-                }
-                appIntervalTimers = []
-            }
-            function        showProgressBar                     (   ) {
-                mainMoonApp.show_loader = true
-            }
-            function        hideProgressBar                     (   ) {
-                mainMoonApp.show_loader = false
-            }
-            function        compareValues                       (   a   ,   b   ) {
-
-                //if a and b aren't the same type, they can't be equal
-                if (typeof a !== typeof b) {
-                    return false;
-                }
-
-                if (typeof a === 'object') {
-                    var keysA = Object.keys(a).sort(),
-                        keysB = Object.keys(b).sort();
-
-                    //if a and b are objects with different no of keys, unequal
-                    if (keysA.length !== keysB.length) {
-                        return false;
-                    }
-
-                    //if keys aren't all the same, unequal
-                    if (!keysA.every(function(k, i) { return k === keysB[i];})) {
-                        return false;
-                    }
-
-                    //recurse on the values for each key
-                    return keysA.every(function(key) {
-                        //if we made it here, they have identical keys
-                        return compareValues(a[key], b[key]);
-                    });
-
-                    //for primitives just use a straight up check
-                } else {
-                    return a === b;
-                }
-            }
             async function  runn                                (   ) {
                 fullCode(thecode)
             }
@@ -2803,17 +2684,6 @@
                 // return the amended code
                 //
                 return code
-            }
-            async function  sqliteQuery                         (   sql   ) {
-                let results = await callComponent(
-                    {
-                        base_component_id:    "readFromInternalSqliteDatabase"
-                    }
-                    ,
-                    {
-                        sql: sql
-                    })
-                return results
             }
             async function  checkLibsV3                         (   libsToLoad   ){
                 if (libsToLoad && libsToLoad.length > 0 ) {
@@ -3538,6 +3408,8 @@
                     }
                 }
             }
+
+            // app helpers
             async function  getSubComponents                    (   srcCode   ) {
                 let subC = yz.getValueOfCodeString(srcCode,"sub_components")
                 if (!subC) {
@@ -3553,6 +3425,101 @@
                 }
 
                 return retRes
+            }
+            function        appSetInterval                      (   fnn   ,   interval   ) {
+                var xx = setInterval(fnn,interval)
+                appIntervalTimers.push(xx)
+            }
+            function        appClearIntervals                   (   ) {
+                for(var i = 0; i < appIntervalTimers.length; i++){
+                    clearInterval(appIntervalTimers[i]);
+                }
+                appIntervalTimers = []
+            }
+
+
+            // Embedded Sqlite helpers
+            function        localSql                            (   sql   ,  params   ) {
+                if (!window.SQL) {
+                    console.log("Local SQLite only works for static Creator apps")
+                } else {
+                    resOut = []
+                    try {
+                        let stmt = localSqliteDb.prepare(sql);
+                        let res = stmt.bind(params)
+                        let moreRows = stmt.step()
+                        while (moreRows) {
+                            let newRow = stmt.getAsObject()
+                            resOut.push(newRow)
+                            moreRows = stmt.step()
+                        }
+                        stmt.free();
+                    } catch (err) {
+                        console.log(err)
+                    }
+                    return resOut
+                }
+            }
+            async function  sqliteQuery                         (   sql   ) {
+                let results = await callComponent(
+                    {
+                        base_component_id:    "readFromInternalSqliteDatabase"
+                    }
+                    ,
+                    {
+                        sql: sql
+                    })
+                return results
+            }
+            async function  rxsql                               (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+                if (localAppshareApp) {
+                    var results = localSql(sqlcode,params)
+                    return results
+                } else {
+                    var results = await callComponent(
+                        {
+                            base_component_id:    "systemFunctionAppSql"
+                        }
+                        ,
+                        {
+                            sql:                sqlcode,
+                            params:             params,
+                            code_id:            code_id,
+                            base_component_id:  base_component_id
+                        })
+
+
+                    return results
+                }
+            }
+            async function  rxsql1                              (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+                var x = await rxsql(code_id,base_component_id,sqlcode, params)
+                if (x && (x.length > 0)) {
+                    return x[0]
+                } else {
+                    return null
+                }
+            }
+            async function  rxsqlFirstCol                       (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+                var x = await rxsql(code_id,base_component_id,sqlcode, params)
+                if (x && (x.length > 0)) {
+                    var colName = Object.keys(x[0])[0]
+                    var ff = []
+                    for (var tt=0; tt < x.length; tt++) {
+                        ff.push(x[tt][colName])
+                    }
+                    return ff
+                } else {
+                    return []
+                }
+            }
+            async function  rxsqlFirstCol1                      (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+                var x = await rxsqlFirstCol(code_id,base_component_id,sqlcode, params)
+                if (x && (x.length > 0)) {
+                    return x[0]
+                } else {
+                    return null
+                }
             }
 
             // UI helpers
@@ -3596,6 +3563,12 @@
                     x: xPos,
                     y: yPos
                 };
+            }
+            function        showProgressBar                     (   ) {
+                mainMoonApp.show_loader = true
+            }
+            function        hideProgressBar                     (   ) {
+                mainMoonApp.show_loader = false
             }
 
             //debug helpers
@@ -3864,6 +3837,38 @@
             }
 
             //simple helpers
+            function        compareValues                       (   a   ,   b   ) {
+
+                //if a and b aren't the same type, they can't be equal
+                if (typeof a !== typeof b) {
+                    return false;
+                }
+
+                if (typeof a === 'object') {
+                    var keysA = Object.keys(a).sort(),
+                        keysB = Object.keys(b).sort();
+
+                    //if a and b are objects with different no of keys, unequal
+                    if (keysA.length !== keysB.length) {
+                        return false;
+                    }
+
+                    //if keys aren't all the same, unequal
+                    if (!keysA.every(function(k, i) { return k === keysB[i];})) {
+                        return false;
+                    }
+
+                    //recurse on the values for each key
+                    return keysA.every(function(key) {
+                        //if we made it here, they have identical keys
+                        return compareValues(a[key], b[key]);
+                    });
+
+                    //for primitives just use a straight up check
+                } else {
+                    return a === b;
+                }
+            }
             async function  saveDebugTextOnServer               (   textInput   ,   fileLocation   ) {
                 /*
                 ________________________________________
