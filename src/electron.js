@@ -2436,7 +2436,7 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                 let tts = readIn.substring(indexStart,indexEnd)
                 //console.log(tts)
                 let ytr = unescape(tts)
-                outputDebug("SENDINF FROM UPLAOD___=+++****")
+                outputDebug("SENDING FROM UPLOAD___=+++****")
                 let bci = yz.getValueOfCodeString(ytr, "base_component_id")
 
                 let indexStart = readIn.indexOf("/*APP_START*/")
