@@ -80,18 +80,18 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   <pre>
                   Debug mode on:
                     
-                    hideImportButtons:          {{ hideImportButtons }}
+                    hideImportButtons:                      {{ hideImportButtons }}
                     currentlyHighlightedBaseComponentId:    {{ currentlyHighlightedBaseComponentId }}
-                    refresh:                    {{ refresh }}
-                    editingBaseComponentId:     {{ editingBaseComponentId }}
-                    showFilePicker:             {{ showFilePicker }}
-                    open_file_path:             {{ open_file_path }}
-                    open_file_list:             {{ open_file_list }}
-                    open_file_name:             {{ open_file_name }}
-                    disableHighlightApp:           {{ disableHighlightApp }}
-                    editable_app_list:          {{ editable_app_list }}
-                    appstore_apps:              {{ appstore_apps }}
-                    app_logos:                  {{ app_logos }}
+                    refresh:                                {{ refresh }}
+                    editingBaseComponentId:                 {{ editingBaseComponentId }}
+                    showFilePicker:                         {{ showFilePicker }}
+                    open_file_path:                         {{ open_file_path }}
+                    open_file_list:                         {{ open_file_list }}
+                    open_file_name:                         {{ open_file_name }}
+                    disableHighlightApp:                    {{ disableHighlightApp }}
+                    editable_app_list:                      {{ editable_app_list }}
+                    appstore_apps:                          {{ appstore_apps }}
+                    app_logos:                              {{ app_logos }}
                 
                   </pre>
                   
