@@ -672,7 +672,9 @@ End of app preview menu
                             ref="app_preview_component"
                             v-if='app_loaded  &&  (preview_type=="app")'
                             style='background-color: white;'
-                            v-bind:is="code_id">
+                            v-bind2:is="code_id"
+                            v-bind:is="base_component_id"
+                >
                 </component>
             </div>
 

@@ -12,7 +12,8 @@ read_only(true)
 created_timestamp(1669781806972)
 updated_timestamp(1669781806972)
 */
-Yazz.component({
+//Yazz.component({
+Vue.component("todo", {
     template: `<div   class="containerclass"
                       style='width:100%;height:100%;padding:20px;background-color:white;--fontresizable: 5cqw;'>
     <div>
