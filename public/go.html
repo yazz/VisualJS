@@ -294,664 +294,652 @@
         </style>
 
         <script>
-        var mainMoonApp             = null
-        var visJsloaded             = false
-        var mousedown               = false;
-        var saveCodeViaWebWorker    = null
-        var worker                  = null;
-        var ipfs                    = null
-        var web3loaded              = false
-        var disableAutoSave         = false;
-        var pageInitialised         = false
-        var executeOnPageLoad       = null
-        var diffJsloaded            = false
-        var ideToolsloaded          = false
-        var visCssloaded            = false
-        var ipfsServerloaded        = false
-        var d3loaded                = false
-        var chartsJsloaded          = false
-        var tabulatorJsLoaded       = false
-        var estraverseloaded        = false
-        var esCodeGenLoaded         = false
-        var testObject              = null; // Use this to test elements at debug time
-        var params                  = {}
-        var autoScroll              = false;
-        var nextItem                = 1;
-        var wait_and_select_app     = null
-        var yz                              = {
-            insertCodeString:               function(   code   ,   st   ,   vall   ,   optionalEnd   ) {
-                let endIndicator = ")"
-                if (optionalEnd) {
-                    endIndicator = optionalEnd
-                }
-                let findd = st + "("
-                let startIndexOfComment = code.toString().indexOf("/*")
-                let startIndexOfFn = code.toString().indexOf("{")
-
-                if (startIndexOfFn != -1) {
-                    if (startIndexOfComment == -1) {
-                        code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
-                            code.toString().substring(startIndexOfFn + 1)
-                        startIndexOfComment = code.toString().indexOf("/*")
+            var mainMoonApp             = null
+            var visJsloaded             = false
+            var mousedown               = false;
+            var saveCodeViaWebWorker    = null
+            var worker                  = null;
+            var ipfs                    = null
+            var web3loaded              = false
+            var disableAutoSave         = false;
+            var pageInitialised         = false
+            var executeOnPageLoad       = null
+            var diffJsloaded            = false
+            var ideToolsloaded          = false
+            var visCssloaded            = false
+            var ipfsServerloaded        = false
+            var d3loaded                = false
+            var chartsJsloaded          = false
+            var tabulatorJsLoaded       = false
+            var estraverseloaded        = false
+            var esCodeGenLoaded         = false
+            var testObject              = null; // Use this to test elements at debug time
+            var params                  = {}
+            var autoScroll              = false;
+            var nextItem                = 1;
+            var wait_and_select_app     = null
+            var yz                              = {
+                insertCodeString:               function(   code   ,   st   ,   vall   ,   optionalEnd   ) {
+                    let endIndicator = ")"
+                    if (optionalEnd) {
+                        endIndicator = optionalEnd
                     }
-                    code = code.toString().substring(0,startIndexOfComment + 3) +
-                        "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
-                        code.toString().substring(startIndexOfComment + 3)
+                    let findd = st + "("
+                    let startIndexOfComment = code.toString().indexOf("/*")
+                    let startIndexOfFn = code.toString().indexOf("{")
 
-                }
+                    if (startIndexOfFn != -1) {
+                        if (startIndexOfComment == -1) {
+                            code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
+                                code.toString().substring(startIndexOfFn + 1)
+                            startIndexOfComment = code.toString().indexOf("/*")
+                        }
+                        code = code.toString().substring(0,startIndexOfComment + 3) +
+                            "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
+                            code.toString().substring(startIndexOfComment + 3)
 
-                return code
-
-            },
-            deleteCodeString:               function(   code   ,   st   ,   optionalEnd   ) {
-                let endIndicator = ")"
-                if (optionalEnd) {
-                    endIndicator = optionalEnd
-                }
-                let findd = st + "("
-                let codeStart = code.toString().indexOf(findd)
-                if (codeStart != -1) {
-                    let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
-
-                    code = code.toString().substring(0,codeStart) +
-                        code.toString().substring(codeEnd + 1 + endIndicator.length)
+                    }
 
                     return code
-                }
-                return code
-            },
-            getValueOfCodeString:           function(   code   ,   st   ,   optionalEnd   ) {
-                let endIndicator = ")"
-                if (optionalEnd) {
-                    endIndicator = optionalEnd
-                }
-                let toFind = st + "("
-                if (code.toString().indexOf(toFind) != -1) {
-                    let codeStart = code.toString().indexOf(toFind) + toFind.length
-                    let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
 
-                    code = code.toString().substring(codeStart, codeEnd)
-                    let val = eval( "(" + code.toString() + ")")
-                    return val
+                },
+                deleteCodeString:               function(   code   ,   st   ,   optionalEnd   ) {
+                    let endIndicator = ")"
+                    if (optionalEnd) {
+                        endIndicator = optionalEnd
+                    }
+                    let findd = st + "("
+                    let codeStart = code.toString().indexOf(findd)
+                    if (codeStart != -1) {
+                        let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
 
+                        code = code.toString().substring(0,codeStart) +
+                            code.toString().substring(codeEnd + 1 + endIndicator.length)
+
+                        return code
+                    }
+                    return code
+                },
+                getValueOfCodeString:           function(   code   ,   st   ,   optionalEnd   ) {
+                    let endIndicator = ")"
+                    if (optionalEnd) {
+                        endIndicator = optionalEnd
+                    }
+                    let toFind = st + "("
+                    if (code.toString().indexOf(toFind) != -1) {
+                        let codeStart = code.toString().indexOf(toFind) + toFind.length
+                        let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
+
+                        code = code.toString().substring(codeStart, codeEnd)
+                        let val = eval( "(" + code.toString() + ")")
+                        return val
+
+                    }
+                    return null
+                },
+                replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
+                    let startIndex  = target.indexOf(start)
+                    if (startIndex == -1) {
+                        return target
+                    }
+                    startIndex      += start.length
+                    let endIndex    = target.indexOf(end)
+                    if (endIndex == -1) {
+                        return target
+                    }
+                    let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                    return newString
+                },
+                addAfter:                       function        (  target  ,  start  ,  replaceWith  ) {
+                    let startIndex  = target.indexOf(start) + start.length
+                    let endIndex    = startIndex
+                    let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                    return newString
+                },
+                addBefore:                      function        (  target  ,  end  ,  replaceWith  ) {
+                    let startIndex  = target.indexOf(end)
+                    let endIndex    = startIndex + replaceWith.length - 1
+                    let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                    return newString
                 }
-                return null
-            },
-            replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
-                let startIndex  = target.indexOf(start)
-                if (startIndex == -1) {
-                    return target
-                }
-                startIndex      += start.length
-                let endIndex    = target.indexOf(end)
-                if (endIndex == -1) {
-                    return target
-                }
-                let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                return newString
-            },
-            addAfter:                       function        (  target  ,  start  ,  replaceWith  ) {
-                let startIndex  = target.indexOf(start) + start.length
-                let endIndex    = startIndex
-                let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                return newString
-            },
-            addBefore:                      function        (  target  ,  end  ,  replaceWith  ) {
-                let startIndex  = target.indexOf(end)
-                let endIndex    = startIndex + replaceWith.length - 1
-                let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                return newString
             }
-        }
-        var GLOBALS                         = {
-            /* -----------------------------------------------------------------------
-            GLOBALS
-            ----------------------------------
-            There seems to be alot of specialised, but global communication in the
-            app editors. So instead of having global variables all over the place
-            we have decided to just have one global object
-             ----------------------------------------------------------------------- */
+            var GLOBALS                         = {
+                /* -----------------------------------------------------------------------
+                GLOBALS
+                ----------------------------------
+                There seems to be alot of specialised, but global communication in the
+                app editors. So instead of having global variables all over the place
+                we have decided to just have one global object
+                 ----------------------------------------------------------------------- */
 
-            //
-            // This is used to jump from editing an app to editing a UI control and back again
-            //
-            editingAppBaseComponentId:                  null,   // Type (BCI) of the currently edited component
-            editingAppCodeId:                           null,   // Commit ID for the currently edited component
-            lastEditingAppBaseComponentId:              null,   // if we jump to edit another component save this
-            lastEditingAppCodeId:                       null,   // if we jump to edit another component save this
+                //
+                // This is used to jump from editing an app to editing a UI control and back again
+                //
+                editingAppBaseComponentId:                  null,   // Type (BCI) of the currently edited component
+                editingAppCodeId:                           null,   // Commit ID for the currently edited component
+                lastEditingAppBaseComponentId:              null,   // if we jump to edit another component save this
+                lastEditingAppCodeId:                       null,   // if we jump to edit another component save this
 
-            //
-            // This is used when we have edited a UI control and want to jump back to the app and update the control
-            // that was edited in the app
-            //
-            originalFormIdOfEditedUiControl:            null,
-            originalNameOfEditedUiControl:              null,
-            originalBaseComponentIdOfEditedUiControl:   null,
-            originalCodeIdOfEditedUiControl:            null,
-            finalBaseComponentIdOfEditedUiControl:      null,
-            finalCodeIdOfEditedUiControl:               null,
+                //
+                // This is used when we have edited a UI control and want to jump back to the app and update the control
+                // that was edited in the app
+                //
+                originalFormIdOfEditedUiControl:            null,
+                originalNameOfEditedUiControl:              null,
+                originalBaseComponentIdOfEditedUiControl:   null,
+                originalCodeIdOfEditedUiControl:            null,
+                finalBaseComponentIdOfEditedUiControl:      null,
+                finalCodeIdOfEditedUiControl:               null,
 
-            //
-            // This is a map from the UI control name to the corresponding Vue object
-            // for the controls in an edited app
-            //
-            // so {aaa: -> Vue object, mycontrolname: -> vue object}
-            //
-            designModeUiControlNameReturnsVueInstance: {},
+                //
+                // This is a map from the UI control name to the corresponding Vue object
+                // for the controls in an edited app
+                //
+                // so {aaa: -> Vue object, mycontrolname: -> vue object}
+                //
+                designModeUiControlNameReturnsVueInstance: {},
 
-            //
-            // Which controls are used only in the currently edited app.
-            // This is used so that we know what controls to embed if we
-            // export the app as HTML
-            //
-            loadedControlsMapInCurrentlyEditedApp: new Object(),
-
-
-
-
-            //
-            // This points to the Vue objects for the components in an app
-            //
-            runtimeUiControlNameReturnsVueInstance: {},
+                //
+                // Which controls are used only in the currently edited app.
+                // This is used so that we know what controls to embed if we
+                // export the app as HTML
+                //
+                loadedControlsMapInCurrentlyEditedApp: new Object(),
 
 
 
 
-
-            //
-            // A list of loaded libs for an app
-            //
-            libLoaded: new Object(),
-
-
-
-            //
-            // If the Yazz server is current online with internet access
-            //
-            online: false,
-
-            //
-            // If this app is loaded as a HTML page and possibly without a Yazz server running
-            // DO NOT change this line as it is dynamically replaced by code
-            //
-            isStaticHtmlPageApp: false,
-
-
-
-            //
-            // current base_component_id of the app being run
-            // This can confuse people as when editing an app the "base_component_id" is
-            // set to "homepage" as that is the main app being run. The editor is run on
-            // top of that
-            //
-            base_component_id_of_main_runtime_component: null,
+                //
+                // This points to the Vue objects for the components in an app
+                //
+                runtimeUiControlNameReturnsVueInstance: {},
 
 
 
 
-            //
-            // properties on UI components where the output of one property is linked to
-            // the input of another property
-            //
-            linkedProperties: new Object(),
+
+                //
+                // A list of loaded libs for an app
+                //
+                libLoaded: new Object(),
+
+
+
+                //
+                // If the Yazz server is current online with internet access
+                //
+                online: false,
+
+                //
+                // If this app is loaded as a HTML page and possibly without a Yazz server running
+                // DO NOT change this line as it is dynamically replaced by code
+                //
+                isStaticHtmlPageApp: false,
+
+
+
+                //
+                // current base_component_id of the app being run
+                // This can confuse people as when editing an app the "base_component_id" is
+                // set to "homepage" as that is the main app being run. The editor is run on
+                // top of that
+                //
+                base_component_id_of_main_runtime_component: null,
 
 
 
 
-            //
-            // This contains the engines that allows components to be decorated at
-            // run time, which means that their source code can be minimal. Originally
-            // this allowed us to take the large .yazz Application files which were
-            // often 300-400k in size, and shrink them to a few k. This is possible
-            // because most of that code was Javascript engine code. By taking this
-            // engine code out of the components also allows us to more easily swap
-            // out Vue.js for something else in the future as well, if needed. Right
-            // now (as of March 2023) we have to move things to an engine model
-            // because otherwise we end up with duplication of edits in the engine
-            // and the example apps
-            //
-            runtimePipelines: new Object(),
+                //
+                // properties on UI components where the output of one property is linked to
+                // the input of another property
+                //
+                linkedProperties: new Object(),
 
 
 
-            getPipelineCodeFromServer:      async function  (   fileName   ) {
-                let resultsCode = await postToYazzReturnJson(
-                    "/http_post_load_pipeline_code",
-                    {
-                        pipelineFileName:  fileName
-                    })
 
-                return resultsCode.value
-            },
-            getPipelineCodeToCopy:          async function  (   args   ) {
-                /*
-                ________________________________________
-                |                                      |
-                |       getPipelineCodeToCopy          |
-                |                                      |
-                |______________________________________|
-                Function description
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     args  {
-                |     ----      pipelineName
-                |               fileName
-                |               fromMarker
-                |               toMarker
-                |           }
-                |________________________________________________________________________ */
-                let codeToCopy = null
-                if (GLOBALS.runtimePipelines[args.pipelineName]) {
-                    codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
-                } else {
-                    GLOBALS.runtimePipelines[args.pipelineName] = {}
-                    GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer(args.fileName)
+                //
+                // This contains the engines that allows components to be decorated at
+                // run time, which means that their source code can be minimal. Originally
+                // this allowed us to take the large .yazz Application files which were
+                // often 300-400k in size, and shrink them to a few k. This is possible
+                // because most of that code was Javascript engine code. By taking this
+                // engine code out of the components also allows us to more easily swap
+                // out Vue.js for something else in the future as well, if needed. Right
+                // now (as of March 2023) we have to move things to an engine model
+                // because otherwise we end up with duplication of edits in the engine
+                // and the example apps
+                //
+                runtimePipelines: new Object(),
 
-                    codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
-                }
 
-                let stt = args.fromMarker
-                let editorCodeToCopyStart = codeToCopy.indexOf(stt)
-                if (editorCodeToCopyStart == -1){
-                    throw "Can't find start"
-                }
-                editorCodeToCopyStart += stt.length
-                let editorCodeToCopyEnd = codeToCopy.indexOf(args.toMarker)
-                let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
 
-                return editorCodeToCopy
-            },
-            getCommitIdForBaseComponentId:  function        (   baseComponentId   ) {
-                if (baseComponentId) {
-                    return GLOBALS.baseComponentIdReturnsCommitId[ baseComponentId ]
-                }
-            },
-            getCodeForComponent:            function        (   args   ) {
-                let codeId = args.codeId
-                if (!codeId) {
+                getPipelineCodeFromServer:      async function  (   fileName   ) {
+                    let resultsCode = await postToYazzReturnJson(
+                        "/http_post_load_pipeline_code",
+                        {
+                            pipelineFileName:  fileName
+                        })
+
+                    return resultsCode.value
+                },
+                getPipelineCodeToCopy:          async function  (   args   ) {
+                    /*
+                    ________________________________________
+                    |                                      |
+                    |       getPipelineCodeToCopy          |
+                    |                                      |
+                    |______________________________________|
+                    Function description
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     args  {
+                    |     ----      pipelineName
+                    |               fileName
+                    |               fromMarker
+                    |               toMarker
+                    |           }
+                    |________________________________________________________________________ */
+                    let codeToCopy = null
+                    if (GLOBALS.runtimePipelines[args.pipelineName]) {
+                        codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
+                    } else {
+                        GLOBALS.runtimePipelines[args.pipelineName] = {}
+                        GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer(args.fileName)
+
+                        codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
+                    }
+
+                    let stt = args.fromMarker
+                    let editorCodeToCopyStart = codeToCopy.indexOf(stt)
+                    if (editorCodeToCopyStart == -1){
+                        throw "Can't find start"
+                    }
+                    editorCodeToCopyStart += stt.length
+                    let editorCodeToCopyEnd = codeToCopy.indexOf(args.toMarker)
+                    let editorCodeToCopy = codeToCopy.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
+
+                    return editorCodeToCopy
+                },
+                getCommitIdForBaseComponentId:  function        (   baseComponentId   ) {
+                    if (baseComponentId) {
+                        return GLOBALS.baseComponentIdReturnsCommitId[ baseComponentId ]
+                    }
+                },
+                getCodeForComponent:            function        (   args   ) {
+                    let codeId = args.codeId
+                    if (!codeId) {
+                        if (args.baseComponentId) {
+                            codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+                        }
+                    }
+
+
+                    if (codeId) {
+                        if (GLOBALS.codeCache[codeId]) {
+                            return GLOBALS.codeCache[codeId].code
+                        }
+                    }
+                    //debugger
+                    //throw "getCodeForComponent: Can't find code for {" + JSON.stringify(args,null,2) + "}"
+                    return null
+                },
+                getLibsForCommit:               function        (   args   ) {
+                    return []
+                    if (args.codeId) {
+                        if (GLOBALS.codeCache[args.codeId]) {
+                            return GLOBALS.codeCache[args.codeId].libs
+                        }
+                    }
+                },
+                getControlPropertyDefns:        function        (   args   ) {
                     if (args.baseComponentId) {
-                        codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+                        return GLOBALS.codeCache[GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)].properties
                     }
-                }
-
-
-                if (codeId) {
-                    if (GLOBALS.codeCache[codeId]) {
-                        return GLOBALS.codeCache[codeId].code
-                    }
-                }
-                //debugger
-                //throw "getCodeForComponent: Can't find code for {" + JSON.stringify(args,null,2) + "}"
-                return null
-            },
-            getLibsForCommit:               function        (   args   ) {
-                return []
-                if (args.codeId) {
-                    if (GLOBALS.codeCache[args.codeId]) {
-                        return GLOBALS.codeCache[args.codeId].libs
-                    }
-                }
-            },
-            getControlPropertyDefns:        function        (   args   ) {
-                if (args.baseComponentId) {
-                    return GLOBALS.codeCache[GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)].properties
-                }
-            },
-            isComponentTypeCached:          function        (   baseComponentId   ) {
-                if (baseComponentId) {
-                    if (GLOBALS.getCommitIdForBaseComponentId(baseComponentId)) {
-                        return true
-                    }
-                }
-                return false
-            },
-            isComponentLoaded:              function        (   args   ) {
-                let codeId = null
-                if (args.codeId) {
-                    codeId = args.codeId
-                } else if (args.baseComponentId) {
-                    codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
-                }
-                if (codeId) {
-                    if (GLOBALS.codeCache[codeId]) {
-                        if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
+                },
+                isComponentTypeCached:          function        (   baseComponentId   ) {
+                    if (baseComponentId) {
+                        if (GLOBALS.getCommitIdForBaseComponentId(baseComponentId)) {
                             return true
                         }
                     }
-                }
-                return false
-            },
-            setComponentLoaded:             function        (   args   ) {
-                let previousCodeId          = null
-                let previousCachedCode      = null
-                let previousBaseComponentId = null
-                let codeId                  = null
+                    return false
+                },
+                isComponentLoaded:              function        (   args   ) {
+                    let codeId = null
+                    if (args.codeId) {
+                        codeId = args.codeId
+                    } else if (args.baseComponentId) {
+                        codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+                    }
+                    if (codeId) {
+                        if (GLOBALS.codeCache[codeId]) {
+                            if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
+                                return true
+                            }
+                        }
+                    }
+                    return false
+                },
+                setComponentLoaded:             function        (   args   ) {
+                    let previousCodeId          = null
+                    let previousCachedCode      = null
+                    let previousBaseComponentId = null
+                    let codeId                  = null
 
-                if (args.codeId) {
-                    codeId = args.codeId
-                } else if (args.baseComponentId) {
-                    codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
-                }
+                    if (args.codeId) {
+                        codeId = args.codeId
+                    } else if (args.baseComponentId) {
+                        codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+                    }
 
-                if (codeId) {
-                    previousCachedCode = GLOBALS.codeCache[  codeId  ]
-                    if (previousCachedCode) {
-                        previousBaseComponentId = GLOBALS.codeCache[  codeId  ].base_component_id
-                        if (previousBaseComponentId) {
-                            previousCodeId = GLOBALS.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
-                            if (previousCodeId) {
-                                if (GLOBALS.codeCache[previousCodeId]) {
-                                    GLOBALS.codeCache[previousCodeId].uiComponentLoaded = false
+                    if (codeId) {
+                        previousCachedCode = GLOBALS.codeCache[  codeId  ]
+                        if (previousCachedCode) {
+                            previousBaseComponentId = GLOBALS.codeCache[  codeId  ].base_component_id
+                            if (previousBaseComponentId) {
+                                previousCodeId = GLOBALS.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
+                                if (previousCodeId) {
+                                    if (GLOBALS.codeCache[previousCodeId]) {
+                                        GLOBALS.codeCache[previousCodeId].uiComponentLoaded = false
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
 
-                if (codeId) {
-                    if (GLOBALS.codeCache[codeId]) {
-                        if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
-                            return true
+                    if (codeId) {
+                        if (GLOBALS.codeCache[codeId]) {
+                            if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
+                                return true
+                            }
                         }
                     }
-                }
-                return false
-            },
-            getTypeForCommitId:             function        (   codeId   ) {
-                return GLOBALS.codeCache[codeId].base_component_id
-            },
-            getDbToUse:                     function        (   args   ) {
-                let useDb =  null
-                let codeId = args.codeId
-                if (!codeId ) {
-                    codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
-                }
-                if (!codeId ) {
-                    return args.baseComponentId
-                }
-
-                if (codeId)
-                {
-                    if (!GLOBALS.codeCache[codeId]) {
-                        return useDb
+                    return false
+                },
+                getTypeForCommitId:             function        (   codeId   ) {
+                    return GLOBALS.codeCache[codeId].base_component_id
+                },
+                getDbToUse:                     function        (   args   ) {
+                    let useDb =  null
+                    let codeId = args.codeId
+                    if (!codeId ) {
+                        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                    }
+                    if (!codeId ) {
+                        return args.baseComponentId
                     }
 
-                    if (GLOBALS.codeCache[codeId].use_db) {
-                        useDb =  GLOBALS.codeCache[codeId].use_db
-                    } else {
-                        useDb = GLOBALS.getTypeForCommitId(args.codeId)
-                        let codeFor = GLOBALS.getCodeForComponent({codeId: args.codeId})
-                        let useOtherDb = yz.getValueOfCodeString(codeFor, "use_db")
-                        if (useOtherDb) {
-                            useDb = useOtherDb
-                        }
-                        GLOBALS.codeCache[codeId].use_db = useDb
-                    }
-                }
-                return useDb
-            },
-            isControl:                      function        (   args   ) {
-                let codeId = args.codeId
-                if (!codeId ) {
-                    codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
-                }
-                if (codeId) {
-                    if (GLOBALS.codeCache[codeId]) {
-                        if (GLOBALS.codeCache[codeId].component_type == "VB") {
-                            return true
-                        }
-                    }
-                }
-                return false
-            },
-            getAllLoadedControlTypeNames:   function        (   ) {
-                let listOfAllComponents = Object.keys(GLOBALS.baseComponentIdReturnsCommitId)
-                let listOfControls = []
-                for (let aComponentType of listOfAllComponents) {
-                    if (GLOBALS.isControl({baseComponentId: aComponentType})) {
-                        listOfControls.push(aComponentType)
-                    }
-                }
-                return listOfControls.reverse()
-            },
-            cacheThisComponentCode:         function        (   args   ) {
-                let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
-                let componentType   = yz.getValueOfCodeString(args.code, "component_type")
-
-                //
-                // Add the components code
-                //
-                GLOBALS.codeCache[   args.codeId  ] = {
-                    code:               args.code,
-                    code_id:            args.codeId,
-                    component_type:     componentType,
-                    base_component_id:  baseComponentId
-                }
-
-                let properties = yz.getValueOfCodeString(args.code, "properties",")//properties")
-                if (isValidObject(properties)) {
-                    GLOBALS.codeCache[   args.codeId  ].properties   = properties
-                } else {
-                    GLOBALS.codeCache[   args.codeId  ].properties   = []
-                }
-
-
-                GLOBALS.pointBaseComponentIdAtCode(
+                    if (codeId)
                     {
-                        baseComponentId:    baseComponentId,
-                        codeId:             args.codeId
-                    })
+                        if (!GLOBALS.codeCache[codeId]) {
+                            return useDb
+                        }
+
+                        if (GLOBALS.codeCache[codeId].use_db) {
+                            useDb =  GLOBALS.codeCache[codeId].use_db
+                        } else {
+                            useDb = GLOBALS.getTypeForCommitId(args.codeId)
+                            let codeFor = GLOBALS.getCodeForComponent({codeId: args.codeId})
+                            let useOtherDb = yz.getValueOfCodeString(codeFor, "use_db")
+                            if (useOtherDb) {
+                                useDb = useOtherDb
+                            }
+                            GLOBALS.codeCache[codeId].use_db = useDb
+                        }
+                    }
+                    return useDb
+                },
+                isControl:                      function        (   args   ) {
+                    let codeId = args.codeId
+                    if (!codeId ) {
+                        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                    }
+                    if (codeId) {
+                        if (GLOBALS.codeCache[codeId]) {
+                            if (GLOBALS.codeCache[codeId].component_type == "VB") {
+                                return true
+                            }
+                        }
+                    }
+                    return false
+                },
+                getAllLoadedControlTypeNames:   function        (   ) {
+                    let listOfAllComponents = Object.keys(GLOBALS.baseComponentIdReturnsCommitId)
+                    let listOfControls = []
+                    for (let aComponentType of listOfAllComponents) {
+                        if (GLOBALS.isControl({baseComponentId: aComponentType})) {
+                            listOfControls.push(aComponentType)
+                        }
+                    }
+                    return listOfControls.reverse()
+                },
+                cacheThisComponentCode:         function        (   args   ) {
+                    let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
+                    let componentType   = yz.getValueOfCodeString(args.code, "component_type")
+
+                    //
+                    // Add the components code
+                    //
+                    GLOBALS.codeCache[   args.codeId  ] = {
+                        code:               args.code,
+                        code_id:            args.codeId,
+                        component_type:     componentType,
+                        base_component_id:  baseComponentId
+                    }
+
+                    let properties = yz.getValueOfCodeString(args.code, "properties",")//properties")
+                    if (isValidObject(properties)) {
+                        GLOBALS.codeCache[   args.codeId  ].properties   = properties
+                    } else {
+                        GLOBALS.codeCache[   args.codeId  ].properties   = []
+                    }
+
+
+                    GLOBALS.pointBaseComponentIdAtCode(
+                        {
+                            baseComponentId:    baseComponentId,
+                            codeId:             args.codeId
+                        })
+                },
+                pointBaseComponentIdAtCode:     function        (   args   ) {
+                    GLOBALS.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
+
+                    if (GLOBALS.isControl({baseComponentId: args.baseComponentId})) {
+                        indexComponent( args.baseComponentId  )
+                    }
+
+                },
+
+                //
+                // This contains the source code for a particular commit ID
+                //
+                // eg:    value: {
+                //                    "async fn {... code here ... }"
+                //                    }
+                //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
+                //  {
+                //      code:               mm.editor_text,
+                //      component_type:     "SYSTEM",
+                //      libs:               [],
+                //      code_id:            mm.code_id,
+                //      base_component_id:  baseCompIdFromSrcCode
+                //  }
+                //
+                codeCache: new Object(),
+
+
+                //
+                // maps the base component ID to the commit ID
+                // "Qm0x43FFE338..2F1" < - points to a commit ID
+                //
+                baseComponentIdReturnsCommitId: new Object(),
+            }
+            var localSqliteDb                   = null
+            var networkIntranetIpAddress        = null
+            var file_upload_uuid                = null
+            var base_component_id               = null
+            var queuedResponses                 = new Object()
+            var queuedBrowserResponseSeqNum     = 0
+            var componentCallsListArgsSent      = new Object()
+            var uiDebuggerOn                    = false
+            var saveCodeToFile                  = null
+            var isWin                           = null
+            var executionCode                   = new Object()
+            var currentTimelineLogPoint         = 0
+            var maxTimelineLogPoint             = 0
+            var startTimelineTop                = 0
+            var executionTimeline               = []
+            var executionTimelineMapTimeToLine  = {}
+            var globalWatchList                 = {}
+            var useProtocol     = location.protocol
+            var useHostname     = null
+            var usePort         = null
+            var globalEventBus          = new Vue();
+            let newAppArgs              = []
+            var socket                  = null;
+            var staticAppSocket
+            var appIntervalTimers       = []
+            var globinIndexComponent    = false
+            var keycloak                = null
+            var keycloakJsonInUse       = null
+            var username                = "";
+            var thecode                 = `
+            (function xx() {
+            var a=10
+            if(runLine == 1) {return}
+            a=a+1
+            console.log(a)
+            if(runLine == 2) {return}
+            a=a+1
+            console.log(a)
+            if(runLine == 3) {return}
+            a=a+1
+            console.log(a)
+
+            })()
+            `
+            var runLine                 = 2;
+            let globalStartTimer        = new Date().getTime()
+            let globalEndTimer          = new Date().getTime()
+            let globalTimerCounter      = 0
+            let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
+                                        "to prove you have access to this wallet " +
+                                        "and we'll log you in. This won't cost " +
+                                        "you any Ether." +
+                                        "\n\n" +
+                                        "To stop hackers using your wallet, here's " +
+                                        "a unique message ID they can't guess: "
+
+            window.currentBlockchain    = "1"
+            window.blockchainIds        = {
+            '0': 'kardia',
+            '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
+            '4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
+            '8': 'ubiq',
+            '10': 'optimism',
+            '19': 'songbird',
+            '20': 'elastos',
+            '25': 'cronos',
+            '30': {
+            chainId: '0x1e',
+            chainName:'rsk - mainnet',
+            rpcUrls:["https://public-node.rsk.co"],
+            blockExplorerUrls:['https://explorer.rsk.co'],
+            nativeCurrency: {symbol:'RBTC',decimals: 18}
             },
-            pointBaseComponentIdAtCode:     function        (   args   ) {
-                GLOBALS.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
-
-                if (GLOBALS.isControl({baseComponentId: args.baseComponentId})) {
-                    indexComponent( args.baseComponentId  )
-                }
-
+            '31': {
+            chainId: '0x1f',
+            chainName:'rsk - testnet',
+            rpcUrls:["https://public-node.testnet.rsk.co"],
+            blockExplorerUrls:['https://explorer.testnet.rsk.co'],
+            nativeCurrency: {symbol:'RBTC',decimals: 18},
+            faucet: "https://faucet.rsk.co",
+            preMinedUrl: "https://explorer.testnet.rsk.co/address/",
+            postMinedUrl: ""
             },
+            '40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
+            faucet: "https://app.telos.net/testnet/developers"},
+            '41': {
+            chainId: '0x29',
+            chainName:'telos - testnet',
+            rpcUrls:["https://testnet.telos.net/evm"],
+            blockExplorerUrls:['https://testnet.teloscan.io'],
+            nativeCurrency: {symbol:'TLOS',decimals: 18},
+            faucet: "https://app.telos.net/testnet/developers"
+            },
+            '52': 'csc',
+            '55': 'zyx',
+            '56': 'binance',
+            '57': 'syscoin',
+            '60': 'gochain',
+            '61': 'ethclassic',
+            '66': 'okexchain',
+            '70': 'hoo',
+            '82': 'meter',
+            '88': 'tomochain',
+            '97': {chainId: '0x61',chainName:'Binance Smart Chain - Testnet',rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545'],blockExplorerUrls:['https://testnet.bscscan.com'],nativeCurrency: {symbol:'BNB',decimals: 18}},
+            '100': 'xdai',
+            '106': 'velas',
+            '108': 'thundercore',
+            '122': 'fuse',
+            '128': 'heco',
+            '137': 'polygon',
+            '200': 'xdaiarb',
+            '246': 'energyweb',
+            '250': {chainId: '0xFA',chainName: 'Fantom Opera Mainnet',rpcUrls:['https://rpc.ftm.tools/'],blockExplorerUrls:['https://ftmscan.com'],nativeCurrency: {symbol:'FTM',decimals: 18}},
+            '269': 'hpb',
+            '288': 'boba',
+            '321': 'kucoin',
+            '336': 'shiden',
+            '361': 'theta',
+            '592': 'astar',
+            '820': 'callisto',
+            '888': 'wanchain',
+            '1088': 'metis',
+            '1284': 'moonbeam',
+            '1285': 'moonriver',
+            '2020': 'ronin',
+            '4689': 'iotex',
+            '5050': 'xlc',
+            '5551': 'nahmii',
+            '8217': 'klaytn',
+            '10000': 'smartbch',
+            '32659': 'fusion',
+            '42161': 'arbitrum',
+            '421611': {
+            chainId: '0x66EEB',
+            chainName:'arbitrum - testnet',
+            rpcUrls:["https://rinkeby.arbitrum.io/rpc"],
+            blockExplorerUrls:['https://rinkeby-explorer.arbitrum.io/#/'],
+            nativeCurrency: {symbol:'ETH',decimals: 18},
+            faucet: "https://docs.theanthill.io/how-to/getting-bnb-on-binance-smart-chain-bsc-testnet"
+            },
+            '42220': 'celo',
+            '42262': 'oasis',
+            '43114': 'avalanche',
+            '71394': 'godwoken',
+            '80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
+            faucet: "https://faucet.polygon.technology"},
+            '333999': 'polis',
+            '1313161554': 'aurora',
+            '1666600000': 'harmony',
+            '11297108109': 'palm',
+            '836542336838601': 'curio'
+            }
 
-            //
-            // This contains the source code for a particular commit ID
-            //
-            // eg:    value: {
-            //                    "async fn {... code here ... }"
-            //                    }
-            //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
-            //  {
-            //      code:               mm.editor_text,
-            //      component_type:     "SYSTEM",
-            //      libs:               [],
-            //      code_id:            mm.code_id,
-            //      base_component_id:  baseCompIdFromSrcCode
-            //  }
-            //
-            codeCache: new Object(),
+            /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
+            /*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
 
-
-            //
-            // maps the base component ID to the commit ID
-            // "Qm0x43FFE338..2F1" < - points to a commit ID
-            //
-            baseComponentIdReturnsCommitId: new Object(),
-        }
-        var localSqliteDb                   = null
-        var networkIntranetIpAddress        = null
-        var file_upload_uuid                = null
-        var base_component_id               = null
-        var queuedResponses                 = new Object()
-        var queuedBrowserResponseSeqNum     = 0
-        var componentCallsListArgsSent      = new Object()
-        var uiDebuggerOn                    = false
-        var saveCodeToFile                  = null
-        var isWin                           = null
-        var executionCode                   = new Object()
-        var currentTimelineLogPoint         = 0
-        var maxTimelineLogPoint             = 0
-        var startTimelineTop                = 0
-        var executionTimeline               = []
-        var executionTimelineMapTimeToLine  = {}
-        var globalWatchList                 = {}
-
-
-
-
-        let signMessageTemplate =   "Hi there from Yazz. Sign this message " +
-        "to prove you have access to this wallet " +
-        "and we'll log you in. This won't cost " +
-        "you any Ether." +
-        "\n\n" +
-        "To stop hackers using your wallet, here's " +
-        "a unique message ID they can't guess: "
-
-
-
-
-        window.currentBlockchain = "1"
-        window.blockchainIds = {
-        '0': 'kardia',
-        '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
-        '4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
-        '8': 'ubiq',
-        '10': 'optimism',
-        '19': 'songbird',
-        '20': 'elastos',
-        '25': 'cronos',
-        '30': {
-        chainId: '0x1e',
-        chainName:'rsk - mainnet',
-        rpcUrls:["https://public-node.rsk.co"],
-        blockExplorerUrls:['https://explorer.rsk.co'],
-        nativeCurrency: {symbol:'RBTC',decimals: 18}
-        },
-        '31': {
-        chainId: '0x1f',
-        chainName:'rsk - testnet',
-        rpcUrls:["https://public-node.testnet.rsk.co"],
-        blockExplorerUrls:['https://explorer.testnet.rsk.co'],
-        nativeCurrency: {symbol:'RBTC',decimals: 18},
-        faucet: "https://faucet.rsk.co",
-        preMinedUrl: "https://explorer.testnet.rsk.co/address/",
-        postMinedUrl: ""
-        },
-        '40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
-        faucet: "https://app.telos.net/testnet/developers"},
-        '41': {
-        chainId: '0x29',
-        chainName:'telos - testnet',
-        rpcUrls:["https://testnet.telos.net/evm"],
-        blockExplorerUrls:['https://testnet.teloscan.io'],
-        nativeCurrency: {symbol:'TLOS',decimals: 18},
-        faucet: "https://app.telos.net/testnet/developers"
-        },
-        '52': 'csc',
-        '55': 'zyx',
-        '56': 'binance',
-        '57': 'syscoin',
-        '60': 'gochain',
-        '61': 'ethclassic',
-        '66': 'okexchain',
-        '70': 'hoo',
-        '82': 'meter',
-        '88': 'tomochain',
-        '97': {chainId: '0x61',chainName:'Binance Smart Chain - Testnet',rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545'],blockExplorerUrls:['https://testnet.bscscan.com'],nativeCurrency: {symbol:'BNB',decimals: 18}},
-        '100': 'xdai',
-        '106': 'velas',
-        '108': 'thundercore',
-        '122': 'fuse',
-        '128': 'heco',
-        '137': 'polygon',
-        '200': 'xdaiarb',
-        '246': 'energyweb',
-        '250': {chainId: '0xFA',chainName: 'Fantom Opera Mainnet',rpcUrls:['https://rpc.ftm.tools/'],blockExplorerUrls:['https://ftmscan.com'],nativeCurrency: {symbol:'FTM',decimals: 18}},
-        '269': 'hpb',
-        '288': 'boba',
-        '321': 'kucoin',
-        '336': 'shiden',
-        '361': 'theta',
-        '592': 'astar',
-        '820': 'callisto',
-        '888': 'wanchain',
-        '1088': 'metis',
-        '1284': 'moonbeam',
-        '1285': 'moonriver',
-        '2020': 'ronin',
-        '4689': 'iotex',
-        '5050': 'xlc',
-        '5551': 'nahmii',
-        '8217': 'klaytn',
-        '10000': 'smartbch',
-        '32659': 'fusion',
-        '42161': 'arbitrum',
-        '421611': {
-        chainId: '0x66EEB',
-        chainName:'arbitrum - testnet',
-        rpcUrls:["https://rinkeby.arbitrum.io/rpc"],
-        blockExplorerUrls:['https://rinkeby-explorer.arbitrum.io/#/'],
-        nativeCurrency: {symbol:'ETH',decimals: 18},
-        faucet: "https://docs.theanthill.io/how-to/getting-bnb-on-binance-smart-chain-bsc-testnet"
-        },
-        '42220': 'celo',
-        '42262': 'oasis',
-        '43114': 'avalanche',
-        '71394': 'godwoken',
-        '80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
-        faucet: "https://faucet.polygon.technology"},
-        '333999': 'polis',
-        '1313161554': 'aurora',
-        '1666600000': 'harmony',
-        '11297108109': 'palm',
-        '836542336838601': 'curio'
-        }
-
-
-
-        /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
-        /*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
-
-        if (window.SQL) {
-            localSqliteDb = new window.SQL.Database()
-        }
-        String.prototype.replaceAll = function(search, replacement) {
+            if (window.SQL) {
+                localSqliteDb = new window.SQL.Database()
+            }
+            String.prototype.replaceAll = function(search, replacement) {
             let target = this;
             return target.replace(new RegExp(search, 'g'), replacement);
         };
-
-        var useProtocol     = location.protocol
-        var useHostname     = null
-        var usePort         = null
-        var globalEventBus          = new Vue();
-        let newAppArgs              = []
-        var socket                  = null;
-        var staticAppSocket
-        var appIntervalTimers       = []
-        var globinIndexComponent    = false
-        var keycloak                = null
-        var keycloakJsonInUse       = null
-        var username                = "";
-        var thecode                 = `
-        (function xx() {
-        var a=10
-        if(runLine == 1) {return}
-        a=a+1
-        console.log(a)
-        if(runLine == 2) {return}
-        a=a+1
-        console.log(a)
-        if(runLine == 3) {return}
-        a=a+1
-        console.log(a)
-
-        })()
-        `
-        var runLine                 = 2;
-        let globalStartTimer        = new Date().getTime()
-        let globalEndTimer          = new Date().getTime()
-        let globalTimerCounter      = 0
-
-
         </script> <!-- variable declarations -->
         <script>
         //SQLITE
