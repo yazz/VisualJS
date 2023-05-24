@@ -2387,7 +2387,6 @@ End of app preview menu
                 await useVisJs()
                 await useVisCss()
                 await useDiffJs()
-                //await useD3()
                 uiDebuggerOn = true
                 if ($HIDEIMPORTBUTTONS == 'false') {
                     mm.hideImportButtons = false
