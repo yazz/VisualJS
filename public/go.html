@@ -1056,7 +1056,7 @@
 
         <!-- main code and functions -->
         <script>
-            var useVisJs        = async function() {
+        async function useVisJs() {
                 if (!visJsloaded) {
                     //debugger
                     let loadVisJsScript = document.createElement('script');
@@ -1071,7 +1071,7 @@
                     };
                 }
             }
-            var useIpfsServer   = async function() {
+        async function useIpfsServer() {
                 if (!ipfsServerloaded) {
                     let promise = new Promise(async function(returnfn) {
                         //debugger
@@ -1092,7 +1092,7 @@
                     return ret
                 }
             }
-            var useVisCss       = async function() {
+        async function useVisCss() {
                 if (!visCssloaded) {
                     //debugger
                     let loadVisCssScript = document.createElement('script');
@@ -1107,7 +1107,7 @@
                     };
                 }
             }
-            var useWeb3         = async function() {
+        async function useWeb3() {
                 if (!web3loaded) {
                     let loadWeb3LibScript = document.createElement('script');
                     loadWeb3LibScript.src = "/js_libs/web3.min.js";
@@ -1130,7 +1130,7 @@
                     };
                 }
             }
-            var useIdeTools     = async function() {
+        async function useIdeTools() {
                 if (!ideToolsloaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
@@ -1148,7 +1148,7 @@
                     let ret = await promise
                 }
             }
-            var useDiffJs       = async function() {
+        async function useDiffJs() {
                 if (!diffJsloaded) {
                     let promise = new Promise(returnfn => {
                         let loadDiffJsScript = document.createElement('script');
@@ -1165,7 +1165,7 @@
                     let ret = await promise
                 }
             }
-            var useD3           = async function() {
+        async function useD3() {
                 if (!d3loaded) {
                     let promise = new Promise(returnfn => {
                         let loadD3LibScript = document.createElement('script');
@@ -1182,7 +1182,7 @@
                     let ret = await promise
                 }
             }
-            var useChartsJs     = async function() {
+        async function useChartsJs() {
 
                 if (!chartsJsloaded) {
                     //debugger
@@ -1210,7 +1210,7 @@
 
                 }
             }
-            var useEstraverse   = async function() {
+        async function useEstraverse() {
 
                 if (!estraverseloaded) {
                     //debugger
@@ -1234,7 +1234,7 @@
 
                 }
             }
-            var useEsCodeGen    = async function() {
+        async function useEsCodeGen() {
                 if (!esCodeGenLoaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
@@ -1257,7 +1257,7 @@
 
                 }
             }
-            var useTabulatorJs  = async function() {
+        async function useTabulatorJs() {
 
                 if (!tabulatorJsLoaded) {
                     //debugger
@@ -1285,7 +1285,6 @@
 
                 }
             }
-
         async function  onPageInitialized                   (   doCode   ) {
                 executeOnPageLoad = doCode
                 if (pageInitialised) {
