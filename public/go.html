@@ -1433,15 +1433,6 @@
                 GLOBALS.designModeUiControlNameReturnsVueInstance[componentName]   = null
                 GLOBALS.runtimeUiControlNameReturnsVueInstance[componentName]               = null
             }
-            function        base64ToUint8Array                  (   string   ) {
-                let raw = atob(string);
-                let rawLength = raw.length;
-                let array = new Uint8Array(new ArrayBuffer(rawLength));
-                for (let i = 0; i < rawLength; i += 1) {
-                    array[i] = raw.charCodeAt(i);
-                }
-                return array;
-            }
             function        localSql                            (   sql   ,  params   ) {
                 if (!window.SQL) {
                     console.log("Local SQLite only works for static Creator apps")
@@ -2103,34 +2094,6 @@
                     document.getElementById('wrapper').scrollTop = ccy
                 },100)
             }
-            function        refresh                             (   ) {
-                mainMoonApp.count += 1;
-            }
-            function        getPosition                         (   el   ) {
-                let xPos = 0;
-                let yPos = 0;
-
-                while (el) {
-                    if (el.tagName == "BODY") {
-                        // deal with browser quirks with body/window/document and page scroll
-                        let xScroll = el.scrollLeft || document.documentElement.scrollLeft;
-                        let yScroll = el.scrollTop || document.documentElement.scrollTop;
-
-                        xPos += (el.offsetLeft - xScroll + el.clientLeft);
-                        yPos += (el.offsetTop - yScroll + el.clientTop);
-                    } else {
-                        // for all other non-BODY elements
-                        xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
-                        yPos += (el.offsetTop - el.scrollTop + el.clientTop);
-                    }
-
-                    el = el.offsetParent;
-                }
-                return {
-                    x: xPos,
-                    y: yPos
-                };
-            }
             async function  select_card                         (   id   ) {
                 if (mainMoonApp.selected_card == id) {
                     return;
@@ -2390,263 +2353,6 @@
                 });
 
             }
-            function        fillInMissingWatchTimelineValues    (   vName   ,   executionStepNo   ) {
-                if (!globalWatchList[vName]) {
-                    globalWatchList[vName] = {
-                        viewer: ""
-                    }
-                }
-                if (!globalWatchList[vName][executionStepNo]) {
-                    globalWatchList[vName][executionStepNo] = {}
-                }
-
-                if (executionStepNo == executionTimeline.length) {
-                    return
-
-                } else if (!globalWatchList[vName][executionStepNo].isSet) {
-                    if (executionStepNo == 0) {
-                        globalWatchList[vName][executionStepNo].value = null
-                    } else {
-                        globalWatchList[vName][executionStepNo].value = globalWatchList[vName][executionStepNo - 1].value
-                    }
-                }
-                fillInMissingWatchTimelineValues(vName, executionStepNo + 1)
-            }
-            function        addWatchPoint                       (   vName   ,   value   ) {
-                globalWatchList[vName][currentTimelineLogPoint] = {}
-                globalWatchList[vName][currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
-                globalWatchList[vName][currentTimelineLogPoint].isSet = true
-                if (value){
-                    globalWatchList[vName].type = typeof(value)
-                    globalWatchList[vName].viewer = "text"
-
-                    if (typeof(value) == "object") {
-                        if (value[0]) {
-                            if (typeof(value[0]) == "number") {
-                                globalWatchList[vName].type = "ListOfNumbers"
-                                globalWatchList[vName].viewer = "graph"
-                            }
-                        }
-                    }
-                }
-            }
-            function        logExecutionPoint                   (   codeBlockName   ,   line   ,   node   ) {
-                //console.log("logExecutionPoint(" + codeBlockName + "," + line)
-
-                if (executionCode[codeBlockName]) {
-                    currentTimelineLogPoint = maxTimelineLogPoint ++
-
-                    var recor = { code_block_name:    codeBlockName,
-                        line:               line,
-                        time:               currentTimelineLogPoint,
-                        node:               node,
-                        vars:               {}
-                    }
-                    executionTimeline.push(recor)
-
-                    executionTimelineMapTimeToLine[recor.time] = recor
-                }
-            }
-            function        getDebugCode                        (   blockName   ,   trcode2   ,   args   ) {
-                if (!uiDebuggerOn) {
-                    return trcode2
-                }
-
-                let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
-                let line = -1
-                let varsToAdd = {}
-                let skipFirstAndLastLine = false
-                if (isValidObject(args)) {
-                    if (args.skipFirstAndLastLine){
-                        skipFirstAndLastLine=true
-                    }
-                }
-
-                estraverse.traverse(_b, {
-                    enter: function (node, parent) {
-                        //
-                        // add the line numbers
-                        //
-                        if (
-                            (node.type == "ExpressionStatement")
-                            ||
-                            (node.type == "VariableDeclaration")
-                            ||
-                            (node.type == "AssignmentExpression")
-                        ) {
-                            if (parent) {
-                                if ((node.loc.start.line - (skipFirstAndLastLine?1:0)) > line) {
-                                    line = node.loc.start.line - (skipFirstAndLastLine?1:0)
-
-                                    if (line > 0) {
-                                        let newLine = "logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
-                                        let newNode = esprima.parse(newLine)
-
-                                        for (let rr = 0; rr < parent.body.length; rr++){
-                                            if (parent.body[rr] == node) {
-                                                parent.body.splice(rr, 0, newNode);
-                                                break
-                                            }
-                                        }
-
-
-
-
-
-                                        //
-                                        // vars
-                                        //
-                                        if (node.type == "VariableDeclaration") {
-                                            if (node.declarations[0].init) {
-                                                //alert(`let ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
-                                                let varNameToUse = node.declarations[0].id.name
-
-                                                if (node.kind == "var") {
-                                                    let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line +",'" +
-                                                        varNameToUse + "', " + varNameToUse  + ");"
-                                                    let newNode = esprima.parse(newLine)
-                                                }
-                                                varsToAdd[varNameToUse] = {}
-
-                                                let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line +",'" +
-                                                    varNameToUse + "'," + varNameToUse  + ");"
-                                                let newNodeAfter = esprima.parse(newLineAfter)
-
-                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
-                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
-
-                                                for (let rr=0; rr<parent.body.length; rr++){
-                                                    if (parent.body[rr] == node) {
-                                                        parent.body.splice(rr + 1, 0, logWatchVarsNode);
-                                                        parent.body.splice(rr + 1, 0, newNodeAfter);
-                                                        parent.body.splice(rr, 0, newNode);
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                        }
-
-
-
-                                        if ((node.type == "ExpressionStatement") && node.expression) {
-                                            if (node.expression.type == "CallExpression") {
-                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
-                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
-
-                                                for (let rr=0; rr<parent.body.length; rr++){
-                                                    if (parent.body[rr] == node) {
-                                                        if (logWatchVarsNode){
-                                                            parent.body.splice(rr + 1, 0, logWatchVarsNode);
-                                                        }
-                                                        break;   }}}}
-
-
-
-
-                                        if ((node.type == "ExpressionStatement") && node.expression) {
-                                            if ((node.expression.type == "AssignmentExpression") &&
-                                                (node.expression.operator == "=")) {
-                                                let varName = node.expression.left.name
-                                                if (!isValidObject(varName)) {
-                                                    if (node.expression.left.object.type == "ThisExpression") {
-                                                        varName = "this." + node.expression.left.property.name
-                                                    } else if (node.expression.left.type == "MemberExpression") {
-                                                        varName = node.expression.left.object.name
-                                                        if (node.expression.left.property.type == "Identifier") {
-                                                            varName += "." + node.expression.left.property.name
-                                                        }
-                                                    }
-                                                }
-                                                varsToAdd[varName] = {}
-
-                                                let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line +",'" +
-                                                    varName + "', " + varName  + ");"
-                                                let newNode = esprima.parse(newLine)
-
-                                                let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line +",'" +
-                                                    varName + "', " + varName  + ");"
-                                                let newNodeAfter = esprima.parse(newLineAfter)
-
-                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
-                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
-
-                                                for (let rr=0; rr<parent.body.length; rr++){
-                                                    if (parent.body[rr] == node) {
-                                                        if (logWatchVarsNode){
-                                                            parent.body.splice(rr + 1, 0, logWatchVarsNode);
-                                                        }
-                                                        if (newNodeAfter){
-                                                            parent.body.splice(rr + 1, 0, newNodeAfter);
-                                                        }
-                                                        parent.body.splice(rr, 0, newNode);
-                                                        break;
-                                                    }
-                                                }
-
-                                            }
-                                        }
-
-
-
-                                    }
-                                }
-                            }
-                        }
-
-
-
-
-
-
-                    },
-                    leave: function (node, parent) {
-                    },
-
-                    keys: {
-                        'AwaitExpression': ['argument']
-                    }
-                });
-
-                for ( let fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
-                    let nnn = Object.keys(varsToAdd)[fds]
-                    globalWatchList[nnn]={
-                        viewer: ""
-                    }
-                }
-
-
-                let debugCode = escodegen.generate(_b, {comment: false})
-
-
-
-
-
-                executionCode[blockName] = {}
-                executionCode[blockName].debug_code = debugCode
-                if (skipFirstAndLastLine){
-                    let indexOfFirst = trcode2.indexOf("\n")
-                    if (indexOfFirst != -1) {
-                        trcode2 = trcode2.substring(indexOfFirst + 1)
-                    }
-
-                    let indexOfLast = trcode2.lastIndexOf("\n")
-                    if (indexOfLast != -1) {
-                        trcode2 = trcode2.substring(0,indexOfLast)
-                    }
-                }
-
-                trcode2 = trcode2.toString().replaceAll("await rxsql[(][^,]*,[^,]*,","sql(")
-                trcode2 = trcode2.toString().replaceAll("await rxsql1[(][^,]*,[^,]*,","sql1(" )
-                trcode2 = trcode2.toString().replaceAll("await rxsqlFirstCol[(][^,]*,[^,]*,","sqlFirstCol(" )
-                trcode2 = trcode2.toString().replaceAll("await rxsqlFirstCol1[(][^,]*,[^,]*,","sqlFirstCol1(" )
-
-                executionCode[blockName].code = trcode2
-                executionCode[blockName].start = startTimelineTop
-                startTimelineTop += trcode2.length
-
-                return debugCode
-
-            }
             async function  findComponentsImplementing          (   listOfProperties   ){
                 //aaa
                 let results = await callComponent(
@@ -2902,37 +2608,6 @@
                 }
                 globinIndexComponent = false
             }
-            function        onscrolled                          (   ) {
-                if (mousedown) {
-                    autoScroll = false;
-                }
-            };
-            function        onemousedown                        (   ) {
-                //console.log("onmousedown")
-                mousedown = true
-            };
-            function        onemouseup                          (   ) {
-                //console.log("onmouseup")
-                mousedown = false
-            };
-            function        description                         (   d   ) {
-
-            }
-            function        base_component_id                   (   d   ) {
-
-            }
-            function        display_name                        (   d   ) {
-
-            }
-            function        created_timestamp                   (   d   ) {
-
-            }
-            function        trace                               (   ) {
-                // this is a server side call but for some reason it gets evaluated
-                // when open a microservice which contains the "trace" function (Which
-                // is used for Jaeger OpenTracing)
-
-            }
             async function  rxsql                               (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
                 if (localAppshareApp) {
                     var results = localSql(sqlcode,params)
@@ -2999,12 +2674,6 @@
             function        hideProgressBar                     (   ) {
                 mainMoonApp.show_loader = false
             }
-            function        logoutKeycloak                      (   ) {
-                if (keycloak) {
-                    keycloakJsonInUse = null
-                    keycloak.logout()
-                }
-            }
             function        compareValues                       (   a   ,   b   ) {
 
                 //if a and b aren't the same type, they can't be equal
@@ -3036,58 +2705,6 @@
                 } else {
                     return a === b;
                 }
-            }
-            function        loadKeycloak                        (   keycloakJson   ) {
-                /*
-            loadKeycloak(
-            {
-            "realm": "yazz",
-            "auth-server-url": "http://127.0.0.1:8080/auth",
-            "ssl-required": "external",
-            "resource": "yazz",
-            "clientId": "yazz",
-            "public-client": true,
-            "confidential-port": 0,
-            "enable-cors": true
-            }
-            )
-            */
-
-                if (keycloakJsonInUse) {
-                    //debugger
-                    if (compareValues(keycloakJsonInUse, keycloakJson)) {
-                        return
-                    }
-                }
-                var script = document.createElement('script');
-                script.onload = function () {
-                    keycloak = Keycloak(keycloakJson);
-                    keycloakJsonInUse = JSON.parse(JSON.stringify(keycloakJson))
-                    keycloak.init(
-                        {
-                            onLoad: 'login-required' ,
-                            checkLoginIframe: false
-                        }
-                    ).success(function(authenticated) {
-                        //alert(authenticated ? 'authenticated' : 'not authenticated');
-
-                        if (authenticated) {
-                            console.log("keycloak.subject:" + keycloak.subject)
-                            console.log("Loading profile 1")
-                            keycloak.loadUserProfile(function() {
-                                console.log("Loading profile 2")
-                                username = keycloak.profile.username;
-                                console.log("keycloak username:" + username)
-                            })
-                        }
-
-                    }).error(function(err) {
-
-                        console.log('Failed to initialize keycloak: ' + err);
-                    });
-                };
-                script.src = keycloakJson["auth-server-url"] + "/js/keycloak.js";
-                document.head.appendChild(script);
             }
             async function  runn                                (   ) {
                 fullCode(thecode)
@@ -3938,6 +3555,314 @@
                 return retRes
             }
 
+            // UI helpers
+            function        onscrolled                          (   ) {
+                if (mousedown) {
+                    autoScroll = false;
+                }
+            };
+            function        onemousedown                        (   ) {
+                //console.log("onmousedown")
+                mousedown = true
+            };
+            function        onemouseup                          (   ) {
+                //console.log("onmouseup")
+                mousedown = false
+            };
+            function        refresh                             (   ) {
+                mainMoonApp.count += 1;
+            }
+            function        getPosition                         (   el   ) {
+                let xPos = 0;
+                let yPos = 0;
+
+                while (el) {
+                    if (el.tagName == "BODY") {
+                        // deal with browser quirks with body/window/document and page scroll
+                        let xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+                        let yScroll = el.scrollTop || document.documentElement.scrollTop;
+
+                        xPos += (el.offsetLeft - xScroll + el.clientLeft);
+                        yPos += (el.offsetTop - yScroll + el.clientTop);
+                    } else {
+                        // for all other non-BODY elements
+                        xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+                        yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+                    }
+
+                    el = el.offsetParent;
+                }
+                return {
+                    x: xPos,
+                    y: yPos
+                };
+            }
+
+            //debug helpers
+            function        trace                               (   ) {
+                // this is a server side call but for some reason it gets evaluated
+                // when open a microservice which contains the "trace" function (Which
+                // is used for Jaeger OpenTracing)
+
+            }
+            function        fillInMissingWatchTimelineValues    (   vName   ,   executionStepNo   ) {
+                if (!globalWatchList[vName]) {
+                    globalWatchList[vName] = {
+                        viewer: ""
+                    }
+                }
+                if (!globalWatchList[vName][executionStepNo]) {
+                    globalWatchList[vName][executionStepNo] = {}
+                }
+
+                if (executionStepNo == executionTimeline.length) {
+                    return
+
+                } else if (!globalWatchList[vName][executionStepNo].isSet) {
+                    if (executionStepNo == 0) {
+                        globalWatchList[vName][executionStepNo].value = null
+                    } else {
+                        globalWatchList[vName][executionStepNo].value = globalWatchList[vName][executionStepNo - 1].value
+                    }
+                }
+                fillInMissingWatchTimelineValues(vName, executionStepNo + 1)
+            }
+            function        addWatchPoint                       (   vName   ,   value   ) {
+                globalWatchList[vName][currentTimelineLogPoint] = {}
+                globalWatchList[vName][currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
+                globalWatchList[vName][currentTimelineLogPoint].isSet = true
+                if (value){
+                    globalWatchList[vName].type = typeof(value)
+                    globalWatchList[vName].viewer = "text"
+
+                    if (typeof(value) == "object") {
+                        if (value[0]) {
+                            if (typeof(value[0]) == "number") {
+                                globalWatchList[vName].type = "ListOfNumbers"
+                                globalWatchList[vName].viewer = "graph"
+                            }
+                        }
+                    }
+                }
+            }
+            function        logExecutionPoint                   (   codeBlockName   ,   line   ,   node   ) {
+                //console.log("logExecutionPoint(" + codeBlockName + "," + line)
+
+                if (executionCode[codeBlockName]) {
+                    currentTimelineLogPoint = maxTimelineLogPoint ++
+
+                    var recor = { code_block_name:    codeBlockName,
+                        line:               line,
+                        time:               currentTimelineLogPoint,
+                        node:               node,
+                        vars:               {}
+                    }
+                    executionTimeline.push(recor)
+
+                    executionTimelineMapTimeToLine[recor.time] = recor
+                }
+            }
+            function        getDebugCode                        (   blockName   ,   trcode2   ,   args   ) {
+                if (!uiDebuggerOn) {
+                    return trcode2
+                }
+
+                let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
+                let line = -1
+                let varsToAdd = {}
+                let skipFirstAndLastLine = false
+                if (isValidObject(args)) {
+                    if (args.skipFirstAndLastLine){
+                        skipFirstAndLastLine=true
+                    }
+                }
+
+                estraverse.traverse(_b, {
+                    enter: function (node, parent) {
+                        //
+                        // add the line numbers
+                        //
+                        if (
+                            (node.type == "ExpressionStatement")
+                            ||
+                            (node.type == "VariableDeclaration")
+                            ||
+                            (node.type == "AssignmentExpression")
+                        ) {
+                            if (parent) {
+                                if ((node.loc.start.line - (skipFirstAndLastLine?1:0)) > line) {
+                                    line = node.loc.start.line - (skipFirstAndLastLine?1:0)
+
+                                    if (line > 0) {
+                                        let newLine = "logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
+                                        let newNode = esprima.parse(newLine)
+
+                                        for (let rr = 0; rr < parent.body.length; rr++){
+                                            if (parent.body[rr] == node) {
+                                                parent.body.splice(rr, 0, newNode);
+                                                break
+                                            }
+                                        }
+
+
+
+
+
+                                        //
+                                        // vars
+                                        //
+                                        if (node.type == "VariableDeclaration") {
+                                            if (node.declarations[0].init) {
+                                                //alert(`let ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
+                                                let varNameToUse = node.declarations[0].id.name
+
+                                                if (node.kind == "var") {
+                                                    let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line +",'" +
+                                                        varNameToUse + "', " + varNameToUse  + ");"
+                                                    let newNode = esprima.parse(newLine)
+                                                }
+                                                varsToAdd[varNameToUse] = {}
+
+                                                let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line +",'" +
+                                                    varNameToUse + "'," + varNameToUse  + ");"
+                                                let newNodeAfter = esprima.parse(newLineAfter)
+
+                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
+
+                                                for (let rr=0; rr<parent.body.length; rr++){
+                                                    if (parent.body[rr] == node) {
+                                                        parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                                        parent.body.splice(rr + 1, 0, newNodeAfter);
+                                                        parent.body.splice(rr, 0, newNode);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+
+
+                                        if ((node.type == "ExpressionStatement") && node.expression) {
+                                            if (node.expression.type == "CallExpression") {
+                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
+
+                                                for (let rr=0; rr<parent.body.length; rr++){
+                                                    if (parent.body[rr] == node) {
+                                                        if (logWatchVarsNode){
+                                                            parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                                        }
+                                                        break;   }}}}
+
+
+
+
+                                        if ((node.type == "ExpressionStatement") && node.expression) {
+                                            if ((node.expression.type == "AssignmentExpression") &&
+                                                (node.expression.operator == "=")) {
+                                                let varName = node.expression.left.name
+                                                if (!isValidObject(varName)) {
+                                                    if (node.expression.left.object.type == "ThisExpression") {
+                                                        varName = "this." + node.expression.left.property.name
+                                                    } else if (node.expression.left.type == "MemberExpression") {
+                                                        varName = node.expression.left.object.name
+                                                        if (node.expression.left.property.type == "Identifier") {
+                                                            varName += "." + node.expression.left.property.name
+                                                        }
+                                                    }
+                                                }
+                                                varsToAdd[varName] = {}
+
+                                                let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line +",'" +
+                                                    varName + "', " + varName  + ");"
+                                                let newNode = esprima.parse(newLine)
+
+                                                let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line +",'" +
+                                                    varName + "', " + varName  + ");"
+                                                let newNodeAfter = esprima.parse(newLineAfter)
+
+                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
+
+                                                for (let rr=0; rr<parent.body.length; rr++){
+                                                    if (parent.body[rr] == node) {
+                                                        if (logWatchVarsNode){
+                                                            parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                                        }
+                                                        if (newNodeAfter){
+                                                            parent.body.splice(rr + 1, 0, newNodeAfter);
+                                                        }
+                                                        parent.body.splice(rr, 0, newNode);
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                        }
+
+
+
+                                    }
+                                }
+                            }
+                        }
+
+
+
+
+
+
+                    },
+                    leave: function (node, parent) {
+                    },
+
+                    keys: {
+                        'AwaitExpression': ['argument']
+                    }
+                });
+
+                for ( let fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
+                    let nnn = Object.keys(varsToAdd)[fds]
+                    globalWatchList[nnn]={
+                        viewer: ""
+                    }
+                }
+
+
+                let debugCode = escodegen.generate(_b, {comment: false})
+
+
+
+
+
+                executionCode[blockName] = {}
+                executionCode[blockName].debug_code = debugCode
+                if (skipFirstAndLastLine){
+                    let indexOfFirst = trcode2.indexOf("\n")
+                    if (indexOfFirst != -1) {
+                        trcode2 = trcode2.substring(indexOfFirst + 1)
+                    }
+
+                    let indexOfLast = trcode2.lastIndexOf("\n")
+                    if (indexOfLast != -1) {
+                        trcode2 = trcode2.substring(0,indexOfLast)
+                    }
+                }
+
+                trcode2 = trcode2.toString().replaceAll("await rxsql[(][^,]*,[^,]*,","sql(")
+                trcode2 = trcode2.toString().replaceAll("await rxsql1[(][^,]*,[^,]*,","sql1(" )
+                trcode2 = trcode2.toString().replaceAll("await rxsqlFirstCol[(][^,]*,[^,]*,","sqlFirstCol(" )
+                trcode2 = trcode2.toString().replaceAll("await rxsqlFirstCol1[(][^,]*,[^,]*,","sqlFirstCol1(" )
+
+                executionCode[blockName].code = trcode2
+                executionCode[blockName].start = startTimelineTop
+                startTimelineTop += trcode2.length
+
+                return debugCode
+
+            }
+
             //simple helpers
             async function  saveDebugTextOnServer               (   textInput   ,   fileLocation   ) {
                 /*
@@ -4248,6 +4173,75 @@
                         }
                         executionTimeline[currentTimelineLogPoint].vars[varName].after = varValue
                     }
+                }
+            }
+            function        base64ToUint8Array                  (   string   ) {
+                let raw = atob(string);
+                let rawLength = raw.length;
+                let array = new Uint8Array(new ArrayBuffer(rawLength));
+                for (let i = 0; i < rawLength; i += 1) {
+                    array[i] = raw.charCodeAt(i);
+                }
+                return array;
+            }
+
+            //login helpers
+            function        loadKeycloak                        (   keycloakJson   ) {
+                /*
+            loadKeycloak(
+            {
+            "realm": "yazz",
+            "auth-server-url": "http://127.0.0.1:8080/auth",
+            "ssl-required": "external",
+            "resource": "yazz",
+            "clientId": "yazz",
+            "public-client": true,
+            "confidential-port": 0,
+            "enable-cors": true
+            }
+            )
+            */
+
+                if (keycloakJsonInUse) {
+                    //debugger
+                    if (compareValues(keycloakJsonInUse, keycloakJson)) {
+                        return
+                    }
+                }
+                var script = document.createElement('script');
+                script.onload = function () {
+                    keycloak = Keycloak(keycloakJson);
+                    keycloakJsonInUse = JSON.parse(JSON.stringify(keycloakJson))
+                    keycloak.init(
+                        {
+                            onLoad: 'login-required' ,
+                            checkLoginIframe: false
+                        }
+                    ).success(function(authenticated) {
+                        //alert(authenticated ? 'authenticated' : 'not authenticated');
+
+                        if (authenticated) {
+                            console.log("keycloak.subject:" + keycloak.subject)
+                            console.log("Loading profile 1")
+                            keycloak.loadUserProfile(function() {
+                                console.log("Loading profile 2")
+                                username = keycloak.profile.username;
+                                console.log("keycloak username:" + username)
+                            })
+                        }
+
+                    }).error(function(err) {
+
+                        console.log('Failed to initialize keycloak: ' + err);
+                    });
+                };
+                script.src = keycloakJson["auth-server-url"] + "/js/keycloak.js";
+                document.head.appendChild(script);
+            }
+            function        logoutKeycloak                      (   ) {
+                if (keycloak) {
+                    keycloakJsonInUse = null
+                    keycloak.logout()
                 }
             }
 
