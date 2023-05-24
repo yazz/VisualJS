@@ -1447,30 +1447,27 @@
                                     location.port + "/http_post_load_comments_for_component" + "/" +
                                     "?"
 
-                                callAjaxPost(newrestUrl
+                                callAjaxPost(
+                                    newrestUrl
                                     ,
                                     {
-                                        base_component_id: base_component_id
-                                        ,
-                                        base_component_id_version: null
+                                        base_component_id:          base_component_id,
+                                        base_component_id_version:  null
                                     }
                                     ,
                                     function(response) {
-                                        //debugger
-                                        let resp = JSON.parse(response)
-                                        mm.new_comment = ""
-                                        mm.new_rating = 0
+                                        let resp        = JSON.parse(response)
+                                        mm.new_comment  = ""
+                                        mm.new_rating   = 0
+
                                         if (resp.status == "ok")
                                             mm.comments = resp.comments_and_ratings
                                     })
-
-
                             }
                             ,
                             submitComment: async function() {
                                 let mm                           = this
 
-                                //debugger
                                 mm.submit_error_message = ""
                                 if (mm.new_comment.length < 5) {
                                     mm.submit_error_message = "You must enter a comment to rate this"
@@ -1490,24 +1487,22 @@
                                 callAjaxPost(newrestUrl
                                     ,
                                     {
-                                        base_component_id: base_component_id
-                                        ,
-                                        base_component_id_version: null
-                                        ,
-                                        comment: mm.new_comment
-                                        ,
-                                        rating: mm.new_rating
+                                        base_component_id:          base_component_id,
+                                        base_component_id_version:  null,
+                                        comment:                    mm.new_comment,
+                                        rating:                     mm.new_rating
                                     }
                                     ,
                                     function(response) {
                                         //debugger
-                                        let resp = JSON.parse(response)
-                                        mm.new_comment = ""
-                                        mm.new_rating = 0
+                                        let resp        = JSON.parse(response)
+                                        mm.new_comment  = ""
+                                        mm.new_rating   = 0
+
                                         if (resp.status == "ok")
                                         {
-                                            mm.comments = resp.comments_and_ratings
-                                            mm.submit_info_message = "Comment submitted"
+                                            mm.comments             = resp.comments_and_ratings
+                                            mm.submit_info_message  = "Comment submitted"
                                         }
                                     })
 
