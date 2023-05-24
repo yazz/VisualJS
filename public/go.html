@@ -971,6 +971,7 @@
 
         </script> <!-- jsDelivr -->
         <script>
+            //External Public JS Library load code fns
             async function  useVisJs                            (   ) {
                 if (!visJsloaded) {
                     //debugger
@@ -1200,36 +1201,8 @@
 
                 }
             }
-            async function  onPageInitialized                   (   doCode   ) {
-                executeOnPageLoad = doCode
-                if (pageInitialised) {
-                    await executeOnPageLoad()
-                    executeOnPageLoad = null
-                }
 
-                //debugger
-                let blob = new Blob([
-                    document.querySelector('#web_worker_1').textContent
-                ], { type: "text/javascript" })
-
-                // Note: window.webkitURL.createObjectURL() in Chrome 10+.
-                worker = new Worker(window.URL.createObjectURL(blob));
-                worker.onmessage = function(e) {
-                    console.log("Received: " + e.data);
-                }
-
-
-                saveCodeViaWebWorker = async function(code, options) {
-                    worker.postMessage(
-                        {
-                            hostPort:       $HOSTPORT,
-                            host:           $HOST,
-                            code:           code,
-                            options:        options
-                        }
-                    );
-                }
-            }
+            // blockchain helpers
             function        filterBlockchainParams              (   blockchainDetails   ) {
                 return {
                     chainId: blockchainDetails.chainId,
@@ -1278,6 +1251,38 @@
                 }
                 return true
 
+            }
+
+            // Yazz system fns
+            async function  onPageInitialized                   (   doCode   ) {
+                executeOnPageLoad = doCode
+                if (pageInitialised) {
+                    await executeOnPageLoad()
+                    executeOnPageLoad = null
+                }
+
+                //debugger
+                let blob = new Blob([
+                    document.querySelector('#web_worker_1').textContent
+                ], { type: "text/javascript" })
+
+                // Note: window.webkitURL.createObjectURL() in Chrome 10+.
+                worker = new Worker(window.URL.createObjectURL(blob));
+                worker.onmessage = function(e) {
+                    console.log("Received: " + e.data);
+                }
+
+
+                saveCodeViaWebWorker = async function(code, options) {
+                    worker.postMessage(
+                        {
+                            hostPort:       $HOSTPORT,
+                            host:           $HOST,
+                            code:           code,
+                            options:        options
+                        }
+                    );
+                }
             }
             async function  addToIpfs                           (   sometext   ) {
                 //debugger
@@ -2385,61 +2390,6 @@
                 });
 
             }
-            function        getNetworkHostName                  (   ) {
-                let networkHostName = location.hostname
-                if (networkHostName == "127.0.0.1") {
-                    networkHostName = networkIntranetIpAddress
-                }
-                if (networkHostName == "0.0.0.0") {
-                    networkHostName = networkIntranetIpAddress
-                }
-                return networkHostName
-            }
-            async function  scriptTag                           (   src   ,   callback   ) {
-
-                var s = document.createElement('script');
-                s.type = 'text/' + (src.type || 'javascript');
-                s.src = src.src || src;
-                s.async = false;
-
-                s.onreadystatechange = s.onload = async function () {
-
-                    var state = s.readyState;
-
-                    if (!callback.done && (!state || /loaded|complete/.test(state))) {
-                        callback.done = true;
-                        await callback();
-                    }
-                };
-
-                // use body if available. more safe in IE
-                (document.body || head).appendChild(s);
-            }
-            function        logVarBefore                        (   codeBlockName   ,   line   ,   varName   ,   varValue   ) {
-                if (executionCode[codeBlockName]) {
-
-                    if (executionTimeline[currentTimelineLogPoint]) {
-                        if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
-                            executionTimeline[currentTimelineLogPoint].vars[varName] = {}
-                        }
-                        executionTimeline[currentTimelineLogPoint].vars[varName].before = varValue
-                    }
-
-                }
-
-
-            }
-            function        logVarAfter                         (   codeBlockName   ,   line   ,   varName   ,   varValue   ) {
-                if (executionCode[codeBlockName]) {
-
-                    if (executionTimeline[currentTimelineLogPoint]) {
-                        if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
-                            executionTimeline[currentTimelineLogPoint].vars[varName] = {}
-                        }
-                        executionTimeline[currentTimelineLogPoint].vars[varName].after = varValue
-                    }
-                }
-            }
             function        fillInMissingWatchTimelineValues    (   vName   ,   executionStepNo   ) {
                 if (!globalWatchList[vName]) {
                     globalWatchList[vName] = {
@@ -2965,18 +2915,6 @@
                 //console.log("onmouseup")
                 mousedown = false
             };
-            function        isValidObject                       (   variable   ){
-                if ((typeof variable !== 'undefined') && (variable != null)) {
-                    return true
-                }
-                return false
-            }
-            function        uuidv4                              (   ) {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                    return v.toString(16);
-                });
-            }
             function        description                         (   d   ) {
 
             }
@@ -3060,60 +2998,6 @@
             }
             function        hideProgressBar                     (   ) {
                 mainMoonApp.show_loader = false
-            }
-            function        callAjax                            (   url   ,   callback   ){
-                var xmlhttp;
-                // compatible with IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function(){
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                        callback(xmlhttp.responseText);
-                    }
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-            }
-            function        callAjax2                           (   url   ,   options   ,   callback   ){
-                var xmlhttp;
-                //debugger
-                if (options && options.params) {
-                    url += "?"
-                    let paramArray = Object.entries(options.params)
-                    let ajaxParams = Array.from(paramArray, ([name, value]) => ({ name, value }));
-                    ajaxParams.forEach(
-                        function myFunction(entry, index, ajaxParams) {
-                            //debugger
-                            url += entry.name + "=" + encodeURIComponent(entry.value) + "&";
-                        });
-                }
-                console.log("callAjax2 url = " + url)
-
-
-                // compatible with IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function(){
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                        callback(xmlhttp.responseText);
-                    }
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-            }
-            function        callAjaxPost                        (   url   ,   value   ,   callback   ){
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function(){
-
-                    if (xhr.readyState == 4 && xhr.status == 200){
-                        callback(xhr.responseText);
-                    }
-                }
-                xhr.open("POST", url, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                //debugger
-                let payload = JSON.stringify({
-                    value: value
-                })
-                xhr.send(payload);
             }
             function        logoutKeycloak                      (   ) {
                 if (keycloak) {
@@ -3207,171 +3091,6 @@
             }
             async function  runn                                (   ) {
                 fullCode(thecode)
-            }
-            function        resetTimer                          (   messageToStart   ) {
-                console.log("Starting timer for: " + messageToStart)
-                globalStartTimer = new Date().getTime()
-                globalTimerCounter = 0
-            }
-            function        showTimer                           (   optionalMessage   ) {
-                globalEndTimer = new Date().getTime()
-                globalTimerCounter ++
-                let theTimerText = optionalMessage
-                if (!theTimerText) {
-                    theTimerText = "" + globalTimerCounter
-                }
-                console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
-            }
-            function        getUrlParam                         (   paramName   ) {
-
-                var pairs = document.URL.split('?')
-                    .pop()
-                    .split('&');
-
-                for (var i = 0, p; i < pairs.length; i++) {
-                    p = pairs[i].split('=');
-                    if (p[0] == paramName) {
-                        return p[1];
-                    }
-                }
-
-                return null;
-            }
-            function        msToTime                            (   duration   ,   options  ) {
-                if (!duration) {
-                    return ""
-                }
-                let ret = new Date(duration).toUTCString()
-
-                let ret2 = ""
-
-                let currentTime = new Date().getTime()
-
-                let timeDiffSecs = (currentTime - duration) / 1000
-                let timeDiffMins = timeDiffSecs / 60
-                let timeDiffHours = timeDiffMins / 60
-                let timeDiffDays = timeDiffHours / 24
-                if (timeDiffSecs < 60) {
-                    ret2 = ret2 + "a few seconds ago"
-                } else if (timeDiffMins < 10) {
-                    ret2 = ret2 + "a few minutes ago"
-                } else if (timeDiffMins < 30) {
-                    ret2 = ret2 + "less than half an hour ago"
-                } else if (timeDiffMins < 60) {
-                    ret2 = ret2 + "under an hour ago"
-                } else if (timeDiffHours < 10) {
-                    ret2 = ret2 + "a few hours ago"
-                } else if (timeDiffDays < 2) {
-                    ret2 = ret2 + "yesterday"
-                } else if (timeDiffDays < 10) {
-                    ret2 = ret2 + "a few days ago"
-                }
-
-                if (options && options.timeOnly) {
-                } else if (options && options.shortOnly) {
-                    ret = ret2
-                } else {
-                    ret =  ret2 +  " (" + ret + ")"
-                }
-
-                return ret
-            }
-            function        capitalizeFirstLetter               (   string   ) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
-            }
-            function        timeDiffLater                       (   time1   ,   time2   ) {
-                //debugger
-                if (!time1) {
-                    return ""
-                }
-                if (!time2) {
-                    return ""
-                }
-                let duration = time2 - time1
-                let ret2 = ""
-
-                let timeDiffSecs = duration / 1000
-                let timeDiffMins = timeDiffSecs / 60
-                let timeDiffHours = timeDiffMins / 60
-                let timeDiffDays = timeDiffHours / 24
-                if (duration < 100) {
-                    ret2 = ret2 + "a few milliseconds"
-                } else if (duration < 600) {
-                    ret2 = ret2 + "half a second"
-                } else if (duration < 1000) {
-                    ret2 = ret2 + "under a second"
-                } else if (duration < 1400) {
-                    ret2 = ret2 + "about a second"
-                } else if (timeDiffSecs < 60) {
-                    ret2 = ret2 + "a few seconds"
-                } else if (timeDiffMins < 10) {
-                    ret2 = ret2 + "a few minutes"
-                } else if (timeDiffMins < 60) {
-                    ret2 = ret2 + "little under an half an hour"
-                } else if (timeDiffMins < 60) {
-                    ret2 = ret2 + "little under an hour"
-                } else if (timeDiffHours < 10) {
-                    ret2 = ret2 + "a few hours"
-                } else if (timeDiffDays < 10) {
-                    ret2 = ret2 + "a few days"
-                }
-
-
-                let ret = "after " + ret2
-
-                return ret
-            }
-            async function  getFromYazzReturnJson               (   urlToget   ,   urlParams   ) {
-                let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget + "?" +
-                    new URLSearchParams(urlParams)
-
-                let promise = new Promise(async function (returnfn) {
-                    fetch(openfileurl, {
-                        method: 'get',
-                        credentials: "include"
-                    })
-                        .then((response) => response.json())
-                        .then(async function (responseJson) {
-                            returnfn(responseJson)
-                        })
-                        .catch(err => {
-                            //error block
-                            returnfn()
-                        })
-                })
-                retval = await promise
-                return retval
-            }
-            async function  postToYazzReturnJson                (   urlToget   ,   postParams   ) {
-                let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget
-
-                let promise = new Promise(async function (returnfn) {
-                    fetch(openfileurl, {
-                        method: 'post',
-                        //credentials: "include",
-                        headers: {
-                            'Content-Type': 'application/json'
-                            // 'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: JSON.stringify(postParams)
-
-                    })
-                        .then((response) => response.json())
-                        .then(async function (responseJson) {
-                            returnfn(responseJson)
-                        })
-                        .catch(err => {
-                            //error block
-                            returnfn()
-                        })
-                })
-                retval = await promise
-                return retval
-            }
-            function        getCookie                           (   name   ) {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
             }
             function        getYazzCookie                       (   ) {
                 return getCookie("yazz")
@@ -4218,6 +3937,8 @@
 
                 return retRes
             }
+
+            //simple helpers
             async function  saveDebugTextOnServer               (   textInput   ,   fileLocation   ) {
                 /*
                 ________________________________________
@@ -4242,6 +3963,292 @@
                         fileLocation:   fileLocation
                     })
 
+            }
+            function        resetTimer                          (   messageToStart   ) {
+                console.log("Starting timer for: " + messageToStart)
+                globalStartTimer = new Date().getTime()
+                globalTimerCounter = 0
+            }
+            function        showTimer                           (   optionalMessage   ) {
+                globalEndTimer = new Date().getTime()
+                globalTimerCounter ++
+                let theTimerText = optionalMessage
+                if (!theTimerText) {
+                    theTimerText = "" + globalTimerCounter
+                }
+                console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
+            }
+            function        getUrlParam                         (   paramName   ) {
+
+                var pairs = document.URL.split('?')
+                    .pop()
+                    .split('&');
+
+                for (var i = 0, p; i < pairs.length; i++) {
+                    p = pairs[i].split('=');
+                    if (p[0] == paramName) {
+                        return p[1];
+                    }
+                }
+
+                return null;
+            }
+            function        msToTime                            (   duration   ,   options  ) {
+                if (!duration) {
+                    return ""
+                }
+                let ret = new Date(duration).toUTCString()
+
+                let ret2 = ""
+
+                let currentTime = new Date().getTime()
+
+                let timeDiffSecs = (currentTime - duration) / 1000
+                let timeDiffMins = timeDiffSecs / 60
+                let timeDiffHours = timeDiffMins / 60
+                let timeDiffDays = timeDiffHours / 24
+                if (timeDiffSecs < 60) {
+                    ret2 = ret2 + "a few seconds ago"
+                } else if (timeDiffMins < 10) {
+                    ret2 = ret2 + "a few minutes ago"
+                } else if (timeDiffMins < 30) {
+                    ret2 = ret2 + "less than half an hour ago"
+                } else if (timeDiffMins < 60) {
+                    ret2 = ret2 + "under an hour ago"
+                } else if (timeDiffHours < 10) {
+                    ret2 = ret2 + "a few hours ago"
+                } else if (timeDiffDays < 2) {
+                    ret2 = ret2 + "yesterday"
+                } else if (timeDiffDays < 10) {
+                    ret2 = ret2 + "a few days ago"
+                }
+
+                if (options && options.timeOnly) {
+                } else if (options && options.shortOnly) {
+                    ret = ret2
+                } else {
+                    ret =  ret2 +  " (" + ret + ")"
+                }
+
+                return ret
+            }
+            function        capitalizeFirstLetter               (   string   ) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+            function        timeDiffLater                       (   time1   ,   time2   ) {
+                //debugger
+                if (!time1) {
+                    return ""
+                }
+                if (!time2) {
+                    return ""
+                }
+                let duration = time2 - time1
+                let ret2 = ""
+
+                let timeDiffSecs = duration / 1000
+                let timeDiffMins = timeDiffSecs / 60
+                let timeDiffHours = timeDiffMins / 60
+                let timeDiffDays = timeDiffHours / 24
+                if (duration < 100) {
+                    ret2 = ret2 + "a few milliseconds"
+                } else if (duration < 600) {
+                    ret2 = ret2 + "half a second"
+                } else if (duration < 1000) {
+                    ret2 = ret2 + "under a second"
+                } else if (duration < 1400) {
+                    ret2 = ret2 + "about a second"
+                } else if (timeDiffSecs < 60) {
+                    ret2 = ret2 + "a few seconds"
+                } else if (timeDiffMins < 10) {
+                    ret2 = ret2 + "a few minutes"
+                } else if (timeDiffMins < 60) {
+                    ret2 = ret2 + "little under an half an hour"
+                } else if (timeDiffMins < 60) {
+                    ret2 = ret2 + "little under an hour"
+                } else if (timeDiffHours < 10) {
+                    ret2 = ret2 + "a few hours"
+                } else if (timeDiffDays < 10) {
+                    ret2 = ret2 + "a few days"
+                }
+
+
+                let ret = "after " + ret2
+
+                return ret
+            }
+            async function  getFromYazzReturnJson               (   urlToget   ,   urlParams   ) {
+                let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget + "?" +
+                    new URLSearchParams(urlParams)
+
+                let promise = new Promise(async function (returnfn) {
+                    fetch(openfileurl, {
+                        method: 'get',
+                        credentials: "include"
+                    })
+                        .then((response) => response.json())
+                        .then(async function (responseJson) {
+                            returnfn(responseJson)
+                        })
+                        .catch(err => {
+                            //error block
+                            returnfn()
+                        })
+                })
+                retval = await promise
+                return retval
+            }
+            async function  postToYazzReturnJson                (   urlToget   ,   postParams   ) {
+                let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget
+
+                let promise = new Promise(async function (returnfn) {
+                    fetch(openfileurl, {
+                        method: 'post',
+                        //credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json'
+                            // 'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: JSON.stringify(postParams)
+
+                    })
+                        .then((response) => response.json())
+                        .then(async function (responseJson) {
+                            returnfn(responseJson)
+                        })
+                        .catch(err => {
+                            //error block
+                            returnfn()
+                        })
+                })
+                retval = await promise
+                return retval
+            }
+            function        getCookie                           (   name   ) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+            function        callAjax                            (   url   ,   callback   ){
+                var xmlhttp;
+                // compatible with IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function(){
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                        callback(xmlhttp.responseText);
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+            function        callAjax2                           (   url   ,   options   ,   callback   ){
+                var xmlhttp;
+                //debugger
+                if (options && options.params) {
+                    url += "?"
+                    let paramArray = Object.entries(options.params)
+                    let ajaxParams = Array.from(paramArray, ([name, value]) => ({ name, value }));
+                    ajaxParams.forEach(
+                        function myFunction(entry, index, ajaxParams) {
+                            //debugger
+                            url += entry.name + "=" + encodeURIComponent(entry.value) + "&";
+                        });
+                }
+                console.log("callAjax2 url = " + url)
+
+
+                // compatible with IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function(){
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                        callback(xmlhttp.responseText);
+                    }
+                }
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+            }
+            function        callAjaxPost                        (   url   ,   value   ,   callback   ){
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function(){
+
+                    if (xhr.readyState == 4 && xhr.status == 200){
+                        callback(xhr.responseText);
+                    }
+                }
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                //debugger
+                let payload = JSON.stringify({
+                    value: value
+                })
+                xhr.send(payload);
+            }
+            function        isValidObject                       (   variable   ){
+                if ((typeof variable !== 'undefined') && (variable != null)) {
+                    return true
+                }
+                return false
+            }
+            function        uuidv4                              (   ) {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            }
+            function        getNetworkHostName                  (   ) {
+                let networkHostName = location.hostname
+                if (networkHostName == "127.0.0.1") {
+                    networkHostName = networkIntranetIpAddress
+                }
+                if (networkHostName == "0.0.0.0") {
+                    networkHostName = networkIntranetIpAddress
+                }
+                return networkHostName
+            }
+            async function  scriptTag                           (   src   ,   callback   ) {
+
+                var s = document.createElement('script');
+                s.type = 'text/' + (src.type || 'javascript');
+                s.src = src.src || src;
+                s.async = false;
+
+                s.onreadystatechange = s.onload = async function () {
+
+                    var state = s.readyState;
+
+                    if (!callback.done && (!state || /loaded|complete/.test(state))) {
+                        callback.done = true;
+                        await callback();
+                    }
+                };
+
+                // use body if available. more safe in IE
+                (document.body || head).appendChild(s);
+            }
+            function        logVarBefore                        (   codeBlockName   ,   line   ,   varName   ,   varValue   ) {
+                if (executionCode[codeBlockName]) {
+
+                    if (executionTimeline[currentTimelineLogPoint]) {
+                        if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
+                            executionTimeline[currentTimelineLogPoint].vars[varName] = {}
+                        }
+                        executionTimeline[currentTimelineLogPoint].vars[varName].before = varValue
+                    }
+
+                }
+
+
+            }
+            function        logVarAfter                         (   codeBlockName   ,   line   ,   varName   ,   varValue   ) {
+                if (executionCode[codeBlockName]) {
+
+                    if (executionTimeline[currentTimelineLogPoint]) {
+                        if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
+                            executionTimeline[currentTimelineLogPoint].vars[varName] = {}
+                        }
+                        executionTimeline[currentTimelineLogPoint].vars[varName].after = varValue
+                    }
+                }
             }
 
             /*
