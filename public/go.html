@@ -1437,7 +1437,7 @@
                 setTimeout(async function(){
 
                     Vue.component('card_component', {
-                        props: ["item","visible","element_id", "full_screen", "card_selected", "is_static"]
+                        props: [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ]
                         ,
                         mounted: async function() {
                             let mm = this
@@ -1647,231 +1647,211 @@
                         },
                         data: function () {
                             return {
-                                show_page_info: false
-                                ,
-                                accountNumber: null
-                                ,
-                                comments:
-                                    [
-                                    ]
-                                ,
-                                rating: 0
-                                ,
-                                new_rating: 0
-                                ,
-                                numRatings: 0
-                                ,
-                                new_comment: ""
-                                ,
-                                submit_error_message: ""
-                                ,
-                                login_error_message: ""
-                                ,
-                                submit_info_message: ""
-                                ,
-                                tab: ""
-                                ,
-                                debug_sign_tx_out: ""
-                                ,
-                                showSettings: true
+                                show_page_info:         false,
+                                accountNumber:          null,
+                                comments:               [],
+                                rating:                 0,
+                                new_rating:             0,
+                                numRatings:             0,
+                                new_comment:            "",
+                                submit_error_message:   "",
+                                login_error_message:    "",
+                                submit_info_message:    "",
+                                tab:                    "",
+                                debug_sign_tx_out:      "",
+                                showSettings:           true
                             }
                         }
                         ,
 
                         template:
                             `<span   v-bind:id='element_id'
-                         v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                         v-on:click='click_card(item.id)'
-                         v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
+                                     v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+                                     v-on:click='click_card(item.id)'
+                                     v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
 
-                    <div
-                    v-if="showSettings"
-                    style='background-color:navy;height:5vh;width: 100vw;color:white;'>
-
-
-
-                        <!-- ------------------------------------------------
-                        The top menu items for the info pane
-                        ------------------------------------------------ -->
-                        <span
-                            v-on:click=' openInfo("login")'
-                            v-on:touchstart=' openInfo("login")'
-                            style='height:100%;margin-left:20px;vertical-align:middle;'
-                            >
-                            {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
-                        </span>
-
-
-                        <span
-                            style='margin-left: 30px;'
-                            v-on:click=' openInfo("comments")'
-                            v-on:touchstart=' openInfo("comments")'
-                            style='height:100%;margin-left:20px;vertical-align:middle;'
-                            >
-                            Comments
-                        </span>
-
-
-                        <span
-                            style='margin-left: 30px;'
-                            v-on:click=' openInfo("debug")'
-                            v-on:touchstart=' openInfo("debug")'
-                            style='height:100%;margin-left:20px;vertical-align:middle;'
-                        >
-                            Debug
-
-                        </span>
-
-
-                        <span
-                            style='height:100%;margin-left:20px;vertical-align:middle;'
-                            v-if='show_page_info'
-                            v-on:click='show_page_info=false;tab=""'
-                            v-on:touchstart='show_page_info=false;'
-                        >
-                            Close
-                        </span>
-                    </div>
+                                <div
+                                    v-if="showSettings"
+                                    style='background-color:navy;height:5vh;width: 100vw;color:white;'>
 
 
 
-                    <div    v-if='show_page_info'
-                            style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
-
-                        <!-- ------------------------------------------------
-                        LOGIN pane
-                        ------------------------------------------------ -->
-                        <div v-if='tab=="login"'>
-
-                        <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
-                        <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
-                        requested to authorise the login</div>
-
-                        <div style='color:red' id='login_error'>{{login_error_message}}</div>
-
-                        <button type=button
-                            class='btn btn-primary'
-                            style='margin-left: 10px;width:40vw;height:15vh;'
-                            v-on:click='logInWithMetamask()'>
-
-                            <img    src="/driver_icons/metamaskfox.svg"
-                                    style="height:100%;width:100%"
-                            />
-                        </button>
-
-                    </div>
+                                    <!-- ------------------------------------------------
+                                    The top menu items for the info pane
+                                    ------------------------------------------------ -->
+                                    <span
+                                        v-on:click=' openInfo("login")'
+                                        v-on:touchstart=' openInfo("login")'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                        >
+                                        {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
+                                    </span>
 
 
+                                    <span
+                                        style='margin-left: 30px;'
+                                        v-on:click=' openInfo("comments")'
+                                        v-on:touchstart=' openInfo("comments")'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                        >
+                                        Comments
+                                    </span>
 
-                    <!-- ------------------------------------------------
 
-                    Comments pane
+                                    <span
+                                        style='margin-left: 30px;'
+                                        v-on:click=' openInfo("debug")'
+                                        v-on:touchstart=' openInfo("debug")'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                    >
+                                        Debug
 
-                    ------------------------------------------------ -->
+                                    </span>
 
-                    <div v-if='tab=="comments"'>
 
-                        <div style=";height:40vh">
-
-                            Add comment
-                            <br>
-                            <textarea   style='display: inline-block;'
-                                        id='new_comment'
-                                        v-model='new_comment'>
-                            </textarea>
-                            <br><br>
-
-                            Rating (1-5, 5 is best):<br>
-                            <input  id="new_rating"
-                            v-model="new_rating"
-                            type="range"
-                            min="0"
-                            max="5"
-                            value="0">
-                            </input>{{new_rating}}
-                            <br>
-                            <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
-                            Submit comment
-                            </button>
-                            <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
-                            <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
-
-                        </div>
+                                    <span
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                        v-if='show_page_info'
+                                        v-on:click='show_page_info=false;tab=""'
+                                        v-on:touchstart='show_page_info=false;'
+                                    >
+                                        Close
+                                    </span>
+                                </div>
 
 
 
-                        <div style="overflow: scroll;height:40vh">
-                            <b>Previous comments:</b>
-                            <li v-for='comment in comments'
-                            style='color:white;background-color:navy;'>
-                            {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+                                <div    v-if='show_page_info'
+                                        style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
 
-                            </li>
-                        </div>
+                                    <!-- ------------------------------------------------
+                                    LOGIN pane
+                                    ------------------------------------------------ -->
+                                    <div v-if='tab=="login"'>
 
-                    </div>
+                                    <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
+                                    <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
+                                    requested to authorise the login</div>
 
+                                    <div style='color:red' id='login_error'>{{login_error_message}}</div>
 
+                                    <button type=button
+                                        class='btn btn-primary'
+                                        style='margin-left: 10px;width:40vw;height:15vh;'
+                                        v-on:click='logInWithMetamask()'>
 
+                                        <img    src="/driver_icons/metamaskfox.svg"
+                                                style="height:100%;width:100%"
+                                        />
+                                    </button>
 
-
-
-                    <!-- -------------------------------------------------
-                     |                                                   |
-                     |                    DEBUG pane                     |
-                     |                                                   |
-                     -------------------------------------------------- -->
-
-                    <div v-if='tab=="debug"'>
-
-                        <div v-if='!accountNumber'>
-                            You are not signed into Metamask. Please login first
-                        </div>
-
-                        <textarea id="test_transaction_text"
-                                  value="">
-                        </textarea>
-
-                        <button type=button
-                                class='btn btn-primary'
-                                v-bind:disabled='accountNumber?false:true'
-                                style='margin-left: 10px;width:40vw;height:15vh;'
-                                v-on:click='signMetamaskTransaction()'>
-
-                            Sign transaction
-                        </button>
-
-
-                        <div>
-                            {{debug_sign_tx_out}}
-                        </div>
-
-
-                    </div>
-                </div>
+                                </div>
 
 
 
-                  <div
-                      v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
+                                <!-- ------------------------------------------------
 
+                                Comments pane
 
+                                ------------------------------------------------ -->
 
+                                <div v-if='tab=="comments"'>
 
+                                    <div style=";height:40vh">
 
+                                        Add comment
+                                        <br>
+                                        <textarea   style='display: inline-block;'
+                                                    id='new_comment'
+                                                    v-model='new_comment'>
+                                        </textarea>
+                                        <br><br>
 
+                                        Rating (1-5, 5 is best):<br>
+                                        <input  id="new_rating"
+                                        v-model="new_rating"
+                                        type="range"
+                                        min="0"
+                                        max="5"
+                                        value="0">
+                                        </input>{{new_rating}}
+                                        <br>
+                                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
+                                        Submit comment
+                                        </button>
+                                        <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
+                                        <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
 
-                            <div    v-if='full_screen && (item.card.type == "app")'>
-
-                                <div    v-bind:id='"app_container_"+ item.id'  >
-                                    <div v-bind:id='"app_"+ item.id' >
                                     </div>
+
+
+
+                                    <div style="overflow: scroll;height:40vh">
+                                        <b>Previous comments:</b>
+                                        <li v-for='comment in comments'
+                                        style='color:white;background-color:navy;'>
+                                        {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+
+                                        </li>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+                                <!-- -------------------------------------------------
+                                 |                                                   |
+                                 |                    DEBUG pane                     |
+                                 |                                                   |
+                                 -------------------------------------------------- -->
+
+                                <div v-if='tab=="debug"'>
+
+                                    <div v-if='!accountNumber'>
+                                        You are not signed into Metamask. Please login first
+                                    </div>
+
+                                    <textarea id="test_transaction_text"
+                                              value="">
+                                    </textarea>
+
+                                    <button type=button
+                                            class='btn btn-primary'
+                                            v-bind:disabled='accountNumber?false:true'
+                                            style='margin-left: 10px;width:40vw;height:15vh;'
+                                            v-on:click='signMetamaskTransaction()'>
+
+                                        Sign transaction
+                                    </button>
+
+
+                                    <div>
+                                        {{debug_sign_tx_out}}
+                                    </div>
+
+
                                 </div>
                             </div>
-                            <div style='height: 2em;'></div>
 
-                    </div>
-                </div>`
+
+
+                              <div
+                                  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
+
+                                        <div    v-if='full_screen && (item.card.type == "app")'>
+
+                                            <div    v-bind:id='"app_container_"+ item.id'  >
+                                                <div v-bind:id='"app_"+ item.id' >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style='height: 2em;'></div>
+
+                                </div>
+                            </div>`
                     })
 
 
@@ -2032,7 +2012,7 @@
 
                 },100)
             };
-            async function  prepareApp                          (  id   ,  bbase_component_id   ,  args  ) {
+            async function  prepareApp                          (   id   ,  bbase_component_id   ,  args  ) {
                 base_component_id = bbase_component_id
                 GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
                 let rootElement = "app_" + id
