@@ -546,11 +546,7 @@ let globalEndTimer = new Date().getTime()
 let globalTimerCounter = 0
 
 
-//
-
 // set up the processes
-
-//
 function        setUpChildListeners                     (  processName  , fileName  , debugPort  ) {
 
     forkedProcesses[processName].on('close', async function() {
@@ -888,14 +884,7 @@ function        setupForkedProcess                      (  processName  ,  fileN
 
 }
 
-
-
-
-//
-
 // networking helper to send data to the browser via websockets
-
-//
 function        sendOverWebSockets                      (  data  ) {
     let ll = serverwebsockets.length;
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
@@ -920,14 +909,7 @@ function        sendToBrowserViaWebSocket               (  aws  ,  msg  ) {
     aws.emit(msg.type,msg);
 }
 
-
-
-
-//
-
 // JS helper fns
-
-//
 function        isNumber                                (  n  ) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -1024,14 +1006,7 @@ function        showTimer                               (  optionalMessage  ) {
     console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
 }
 
-
-
-
-//
-
 // startup and shutdown
-
-//
 function        shutDown                                (  ) {
     outputDebug(" shutDown() called")
     if (!shuttingDown) {
@@ -1886,15 +1861,7 @@ function        findSystemDataDirectoryAndStart         (  ) {
 
 }
 
-
-
-
-
-//
-
 // HTTP helper functions
-
-//
 function        getRoot                                 (  req  ,  res  ,  next  ) {
 	hostcount++;
 
@@ -2288,15 +2255,7 @@ function        readCerts                               (  ) {
     return caCertsRet
 }
 
-
-
-
-
-//
-
 // upload app helper fns
-
-//
 async function  file_uploadSingleFn                     (  req  ,  res  ) {
     //console.log('-----  file_uploadSingle  --------------');
     //console.log(req.file);
@@ -2533,16 +2492,7 @@ async function  save_code_from_upload                   (  msg  ) {
     });
 }
 
-
-
-
-
-
-//
-
 // edit app helper fns
-
-//
 function        getEditApp                              (  req  ,  res  ) {
 	hostcount++;
 
@@ -2572,14 +2522,7 @@ function        getEditApp                              (  req  ,  res  ) {
     res.end(newStaticFileContent);
 }
 
-
-
-
-//
-
 // IPFS helpers
-
-//
 async function  findLocalIpfsContent                    (  ) {
     fs.readdir(fullIpfsFolderPath, async function (err, files) {
         if (err) {
@@ -2830,14 +2773,7 @@ async function  insertIpfsHashRecord                    (  ipfs_hash  ,  content
     return ipfsHash
 }
 
-
-
-
-//
-
 // Yazz OS helper methods
-
-//
 function        function_call_requestPart2              (  msg  ) {
 //-----------------------------------------------------------------------------------------
 //
@@ -3236,7 +3172,7 @@ function        scheduleJobWithCodeId                   (  codeId  ,  args  ,  p
         }
     }
 }
-function        sendToProcess                           (  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args) {
+function        sendToProcess                           (  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id  ,  args  ) {
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                   sendToProcess                                         //
@@ -3494,13 +3430,7 @@ async function  evalComponentFromPath                   (  srcPath  ){
     return ret
 }
 
-
-
-//
-
 // component release helpers
-
-//
 async function  releaseComponentFromPath                (  srcPath  ){
     try {
         let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
@@ -3594,13 +3524,7 @@ async function  insertCommentIntoDb                     (  args  ) {
     })
 }
 
-
-
-//
-
 // code commit helpers
-
-//
 async function  getRowForCommit                         (  commitId  ) {
     /*
     ________________________________________
@@ -4057,13 +3981,7 @@ async function  copyAppshareApp                         (  args  ) {
     return ret
 }
 
-
-
-//
-
 // REST APIs and websocket helpers
-
-//
 function        websocketFn                             (  ws  ) {
     serverwebsockets.push(ws);
     sendToBrowserViaWebSocket(ws, {type: "ws_socket_connected"});
@@ -5620,7 +5538,7 @@ async function  startServices                           (  ) {
 
 }
 
-
+// Startup yazz code
 {
     outputDebug('-------* Port: ' + port);
     outputDebug( ip.address() );
