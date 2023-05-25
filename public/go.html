@@ -802,7 +802,7 @@
             var socket                          = null;
             var staticAppSocket
             var appIntervalTimers               = []
-            var globinIndexComponent            = false
+            var indexingComponentInProgress     = false
             var keycloak                        = null
             var keycloakJsonInUse               = null
             var username                        = "";
@@ -2146,11 +2146,11 @@
                 |     typeName
                 |     --------
                 |________________________________________________________________________ */
-                if (globinIndexComponent) {
+                if (indexingComponentInProgress) {
                     debugger
                     return
                 }
-                globinIndexComponent = true
+                indexingComponentInProgress = true
                 try {
 
                     /*
@@ -2374,7 +2374,7 @@
 
                     console.log(err)
                 }
-                globinIndexComponent = false
+                indexingComponentInProgress = false
             }
             async function  runn                                (   ) {
                 fullCode(thecode)
