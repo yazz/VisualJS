@@ -1950,89 +1950,6 @@
 
                 },100)
             };
-            async function  prepareApp                          (   id   ,  bbase_component_id   ,  args  ) {
-                base_component_id                                   = bbase_component_id
-                GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
-
-                let rootElement = "app_" + id
-                if ((mainVueApp.cards[id - 1].card.base_component_id != base_component_id) ||
-                    (!newAppArgs[id]))
-                {
-                    newAppArgs[id] = args
-                }
-
-                //
-                //loadAppIntoElement
-                //
-                await loadUiComponentsV4(base_component_id)
-                if (mainVueApp.cards[id - 1].card.base_component_id == base_component_id) {
-
-                    if (!document.getElementById(rootElement)) {
-                        let newRootId = rootElement.substring(4)
-                        let newCardId = "app_container_" + newRootId
-                        document.getElementById(newCardId).innerHTML = ""
-                    }
-
-                    new Vue(
-                        {
-                            template:   `<${base_component_id}  v-bind:card_index='1'></${base_component_id}>`,
-                            el:         "#" + rootElement
-                        })
-                }
-            }
-            function        add_card                            (   payload   ) {
-                let ccy = document.getElementById('wrapper').scrollTop
-                mainVueApp.cards.push(payload);
-                setTimeout(function() {
-                    document.getElementById('wrapper').scrollTop = ccy
-                },100)
-            }
-            async function  select_card                         (   id   ) {
-                if (mainVueApp.selected_card == id) {
-                    return;
-                }
-                if (mainVueApp.selected_card != -1) {
-                    if (id != -1) {
-                        document.querySelector('#card_' + mainVueApp.selected_card).classList.remove("expand");
-                    }
-                    document.querySelector('#card_' + mainVueApp.selected_card).classList.add('contract');
-                }
-
-                if (id != -1) {
-                    let elmnt = document.querySelector('#card_' + id);
-                    if (elmnt) {
-                        if (GLOBALS.isStaticHtmlPageApp) {
-                            mainVueApp.selected_card = id;
-                            setTimeout(async function() {
-                                let thisApp = mainVueApp.cards[id - 1]
-                                if (mainVueApp.cards[id - 1].card.fn) {
-                                    setTimeout( mainVueApp.cards[id - 1].card.fn, 3000)
-                                }
-                                if (thisApp.card.base_component_id) {
-                                    await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
-                                }
-                            },200)
-                        } else {
-                            document.querySelector('#card_' + id).classList.remove('contract');
-                            document.querySelector('#card_' + id).classList.add('expand');
-                            setTimeout(function()
-                            {
-                                mainVueApp.selected_card = id;
-                                setTimeout(async function() {
-                                    let thisApp = mainVueApp.cards[id - 1]
-                                    if (mainVueApp.cards[id - 1].card.fn) {
-                                        setTimeout( mainVueApp.cards[id - 1].card.fn, 3000)
-                                    }
-                                    if (thisApp.card.base_component_id) {
-                                        await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
-                                    }
-                                },200)
-                            },1000)
-                        }
-                    }
-                }
-
-            }
             function        populateCache                       (   ) {
                 //***ADD_STATIC_CODE
             }
@@ -3394,7 +3311,93 @@
                 }
             }
 
-            // UI helpers
+
+            // Load app into UI fns
+            async function  prepareApp                          (   id   ,  bbase_component_id   ,  args  ) {
+                base_component_id                                   = bbase_component_id
+                GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
+
+                let rootElement = "app_" + id
+                if ((mainVueApp.cards[id - 1].card.base_component_id != base_component_id) ||
+                    (!newAppArgs[id]))
+                {
+                    newAppArgs[id] = args
+                }
+
+                //
+                // loadAppIntoElement
+                //
+                await loadUiComponentsV4(base_component_id)
+                if (mainVueApp.cards[id - 1].card.base_component_id == base_component_id) {
+
+                    if (!document.getElementById(rootElement)) {
+                        let newRootId = rootElement.substring(4)
+                        let newCardId = "app_container_" + newRootId
+                        document.getElementById(newCardId).innerHTML = ""
+                    }
+
+                    new Vue(
+                        {
+                            template:   `<${base_component_id}  v-bind:card_index='1'></${base_component_id}>`,
+                            el:         "#" + rootElement
+                        })
+                }
+            }
+            function        add_card                            (   payload   ) {
+                let ccy = document.getElementById('wrapper').scrollTop
+                mainVueApp.cards.push(payload);
+                setTimeout(function() {
+                    document.getElementById('wrapper').scrollTop = ccy
+                },100)
+            }
+            async function  select_card                         (   id   ) {
+                if (mainVueApp.selected_card == id) {
+                    return;
+                }
+                if (mainVueApp.selected_card != -1) {
+                    if (id != -1) {
+                        document.querySelector('#card_' + mainVueApp.selected_card).classList.remove("expand");
+                    }
+                    document.querySelector('#card_' + mainVueApp.selected_card).classList.add('contract');
+                }
+
+                if (id != -1) {
+                    let elmnt = document.querySelector('#card_' + id);
+                    if (elmnt) {
+                        if (GLOBALS.isStaticHtmlPageApp) {
+                            mainVueApp.selected_card = id;
+                            setTimeout(async function() {
+                                let thisApp = mainVueApp.cards[id - 1]
+                                if (mainVueApp.cards[id - 1].card.fn) {
+                                    setTimeout( mainVueApp.cards[id - 1].card.fn, 3000)
+                                }
+                                if (thisApp.card.base_component_id) {
+                                    await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
+                                }
+                            },200)
+                        } else {
+                            document.querySelector('#card_' + id).classList.remove('contract');
+                            document.querySelector('#card_' + id).classList.add('expand');
+                            setTimeout(function()
+                            {
+                                mainVueApp.selected_card = id;
+                                setTimeout(async function() {
+                                    let thisApp = mainVueApp.cards[id - 1]
+                                    if (mainVueApp.cards[id - 1].card.fn) {
+                                        setTimeout( mainVueApp.cards[id - 1].card.fn, 3000)
+                                    }
+                                    if (thisApp.card.base_component_id) {
+                                        await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
+                                    }
+                                },200)
+                            },1000)
+                        }
+                    }
+                }
+
+            }
+
+            // Simple web UI helpers
             function        onscrolled                          (   ) {
                 if (mousedown) {
                     autoScroll = false;
