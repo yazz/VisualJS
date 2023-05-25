@@ -931,7 +931,6 @@
             }
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
-            /*edit_app_share_app_start*/let editAppShareApp = null/*edit_app_share_app_end*/
 
             if (window.SQL) {
                 localSqliteDb = new window.SQL.Database()
@@ -1919,32 +1918,6 @@
                     }
 
 
-                    if (editAppShareApp) {
-                        showProgressBar()
-                        let nid = nextItem++;
-                        await loadUiComponentsV4("app_editor_3")
-                        add_card({
-                            id: nid,
-                            card: {
-                                id:                 nid,
-                                name:               "fdsfsd",
-                                base_component_id:  "app_editor_3",
-                                code_id:            "app_editor_3",
-                                display_name:       "fdsfds",
-                                args:                {app_base_component_id: editAppShareApp},
-                                type:               "app"
-                            }});
-                        mainVueApp.show_loader = false
-                        autoScroll = false
-                        setTimeout(async function() {
-                            await select_card(nid)
-                        },2000)
-                        refresh();
-                    }
-
-
-
-
                     Dropzone.autoDiscover = false;
 
 
@@ -2002,7 +1975,7 @@
 
                 new Vue(
                     {
-                        template:   `<${tagName} app_base_component_id='${editAppShareApp}' v-bind:card_index='1'></${tagName}>`,
+                        template:   `<${tagName} app_base_component_id='null' v-bind:card_index='1'></${tagName}>`,
                         el:         "#" + rootElement
                     })
             }
