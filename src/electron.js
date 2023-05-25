@@ -2492,36 +2492,6 @@ async function  save_code_from_upload                   (  msg  ) {
     });
 }
 
-// edit app helper fns
-function        getEditApp                              (  req  ,  res  ) {
-	hostcount++;
-
-    // I dont know why sockets.io calls .map files here
-    if (req.path.endsWith(".map")) {
-        return
-    }
-    let parts = req.path.split('/');
-    let lastSegment = parts.pop() || parts.pop();
-
-    outputDebug("URL PATH: " + lastSegment);
-	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
-
-
-
-    //
-    // send the edit page
-    //
-    let homepage = path.join(__dirname, '../public/go.html')
-    let baseComponentId = lastSegment
-    let newStaticFileContent = fs.readFileSync(homepage)
-    newStaticFileContent = newStaticFileContent.toString().replace("let editAppShareApp = null", "let editAppShareApp = '" + baseComponentId + "'")
-
-
-
-    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-    res.end(newStaticFileContent);
-}
-
 // IPFS helpers
 async function  findLocalIpfsContent                    (  ) {
     fs.readdir(fullIpfsFolderPath, async function (err, files) {
@@ -4016,7 +3986,10 @@ function        websocketFn                             (  ws  ) {
 
 
 
-
+        //                                  ______
+        // Browser  --Send me your data-->  Server
+        //                                  ______
+        //
         } else if (receivedMessage.message_type == "ws_browser_asks_server_for_data") {
 
             let seqNum = queuedResponseSeqNum;
@@ -5040,12 +5013,6 @@ async function  startServices                           (  ) {
 
 
     // edit/save component helpers
-    app.get(    '/http_get_edit/*',                                         function (req, res) {
-        //------------------------------------------------------------------------------
-        // Allow an app to be edited
-        //------------------------------------------------------------------------------
-        return getEditApp(req, res);
-    })
     app.post(   '/http_post_add_or_update_app',                             async function (req, res) {
         console.log("/http_post_add_or_update_app")
         let baseComponentIdLocal = req.body.base_component_id
