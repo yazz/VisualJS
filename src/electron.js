@@ -2439,8 +2439,8 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                 outputDebug("SENDING FROM UPLOAD___=+++****")
                 let bci = yz.getValueOfCodeString(ytr, "base_component_id")
 
-                let indexStart = readIn.indexOf("/*APP_START*/")
-                let indexEnd = readIn.indexOf("/*APP_END*/")
+                indexStart = readIn.indexOf("/*APP_START*/")
+                indexEnd = readIn.indexOf("/*APP_END*/")
 
                 let indexOfSqliteData = readIn.indexOf("let sqlitedata = '")
                 let indexOfSqliteDataEnd = readIn.indexOf("'//sqlitedata")
