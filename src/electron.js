@@ -4017,55 +4017,6 @@ function        websocketFn                             (  ws  ) {
 
 
 
-
-
-
-
-
-            //                                  ______
-            // Browser  --Send me your data-->  Server
-            //                                  ______
-            //
-        } else if (receivedMessage.message_type == "ws_edit_static_app") {
-            outputDebug("*** server got message from static app: ws_edit_static_app")
-            let sql_data = receivedMessage.sql_data
-            let code_fn = receivedMessage.code_fn
-
-
-            await save_code_from_upload({
-                message_type:           "save_code_from_upload",
-                base_component_id:      receivedMessage.base_component_id,
-                parent_hash:            null,
-                code:                   code_fn,
-                client_file_upload_id:  -1,
-                options:                {save_html: true, fast_forward_database_to_latest_revision: true},
-                sqlite_data:            sql_data
-            });
-
-
-
-            sendToBrowserViaWebSocket(  ws,
-                {
-                    type:       "ws_edit_static_app_url"
-                    ,
-
-                    url:        receivedMessage.host_editor_address +
-                        "/http_get_edit/" +
-                        receivedMessage.base_component_id
-                    ,
-
-                    size_of_db: "" + (sql_data?sql_data.length:0)
-                    ,
-                    code_fn: "" + (code_fn?code_fn.length:0)
-
-                });
-
-
-
-            //                                  ______
-            // Browser  --Send me your data-->  Server
-            //                                  ______
-            //
         } else if (receivedMessage.message_type == "ws_browser_asks_server_for_data") {
 
             let seqNum = queuedResponseSeqNum;
