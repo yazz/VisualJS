@@ -67,7 +67,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         'homepage',
 
         {
-            template: `<div   v-bind:refresh='refresh'
+            template:   `<div   v-bind:refresh='refresh'
                         style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
                 
                 
@@ -77,23 +77,29 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |                                      |
                     ---------------------------------------- -->
                 <div v-if="debugMode" style="background-color: whitesmoke; ">
+                    <button class='btn btn-lg btn-danger'
+                            v-on:click='showHomepageVars = !showHomepageVars'>
+                            Show homepage vars
+                          </button>
+                  
+                <div v-if="showHomepageVars">
                   <pre>
-                  Debug mode on:
-                    
-                    hideImportButtons:                      {{ hideImportButtons }}
-                    currentlyHighlightedBaseComponentId:    {{ currentlyHighlightedBaseComponentId }}
-                    refresh:                                {{ refresh }}
-                    editingBaseComponentId:                 {{ editingBaseComponentId }}
-                    showFilePicker:                         {{ showFilePicker }}
-                    open_file_path:                         {{ open_file_path }}
-                    open_file_list:                         {{ open_file_list }}
-                    open_file_name:                         {{ open_file_name }}
-                    disableHighlightApp:                    {{ disableHighlightApp }}
-                    editable_app_list:                      {{ editable_app_list }}
-                    appstore_apps:                          {{ appstore_apps }}
-                    app_logos:                              {{ app_logos }}
-                
+hideImportButtons:                      {{ hideImportButtons }}
+currentlyHighlightedBaseComponentId:    {{ currentlyHighlightedBaseComponentId }}
+refresh:                                {{ refresh }}
+editingBaseComponentId:                 {{ editingBaseComponentId }}
+showFilePicker:                         {{ showFilePicker }}
+open_file_path:                         {{ open_file_path }}
+open_file_list:                         {{ open_file_list }}
+open_file_name:                         {{ open_file_name }}
+disableHighlightApp:                    {{ disableHighlightApp }}
+editable_app_list:                      {{ editable_app_list }}
+appstore_apps:                          {{ appstore_apps }}
+app_logos:                              {{ app_logos }}
+showHomepageVars:                       {{ showHomepageVars }}
                   </pre>
+                  
+                </div>
                   
                 </div>
                 
@@ -642,7 +648,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         
                     </div>
                 </div>`,
-            data: function() {
+            data:       function() {
                 /* data for the Vue object
                 __________
                 | ITEMS  |______________________________________________________________
@@ -665,11 +671,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             open_file_list:                         [],
                             open_file_name:                         "",
                             disableHighlightApp:                    false,
+
+                            // debug helpers
                             listenerD:                              null,
-                            debugMode:                              false
+                            debugMode:                              false,
+                            showHomepageVars:                       false
                         }
             },
-            mounted: async function() {
+            mounted:    async function() {
                 /* mounted - when the Vue component is first loaded
                 ________________________________________
                 |                                      |
@@ -955,7 +964,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
                 })
               },
-            methods: {
+            methods:    {
                 // local filesystem stuff
                 openFile:                   async function() {
                     /* Show the file open dialog box
