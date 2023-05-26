@@ -77,13 +77,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |                                      |
                     ---------------------------------------- -->
                 <div v-if="debugMode" style="background-color: whitesmoke; ">
-                    <button class='btn btn-lg btn-danger'
+                    <button style="margin: 20px;"
+                            class='btn btn-lg btn-danger'
                             v-on:click='showHomepageVars = !showHomepageVars'>
                             Show homepage vars
                           </button>
+                  <button style="margin: 20px;"
+                          class='btn btn-lg btn-danger'
+                          v-on:click='showLoadedVueObjects = !showLoadedVueObjects'>
+                    Show Loaded Vue objects
+                  </button>
                   
                 <div v-if="showHomepageVars">
                   <pre>
+<div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
 hideImportButtons:                      {{ hideImportButtons }}
 currentlyHighlightedBaseComponentId:    {{ currentlyHighlightedBaseComponentId }}
 refresh:                                {{ refresh }}
@@ -97,6 +104,7 @@ editable_app_list:                      {{ editable_app_list }}
 appstore_apps:                          {{ appstore_apps }}
 app_logos:                              {{ app_logos }}
 showHomepageVars:                       {{ showHomepageVars }}
+showLoadedVueObjects:                   {{ showLoadedVueObjects }}
                   </pre>
                   
                 </div>
@@ -675,7 +683,8 @@ showHomepageVars:                       {{ showHomepageVars }}
                             // debug helpers
                             listenerD:                              null,
                             debugMode:                              false,
-                            showHomepageVars:                       false
+                            showHomepageVars:                       false,
+                            showLoadedVueObjects:                   false
                         }
             },
             mounted:    async function() {
