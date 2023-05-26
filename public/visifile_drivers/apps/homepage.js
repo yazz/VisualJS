@@ -88,6 +88,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     Show Loaded Vue objects
                   </button>
                   
+                  
+                  
+                  
                 <div v-if="showHomepageVars">
                   <pre>
 <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
@@ -106,9 +109,29 @@ app_logos:                              {{ app_logos }}
 showHomepageVars:                       {{ showHomepageVars }}
 showLoadedVueObjects:                   {{ showLoadedVueObjects }}
                   </pre>
-                  
                 </div>
-                  
+
+
+
+
+
+
+            <div v-if="showLoadedVueObjects">
+              <pre>
+<div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
+BaseComponentIds:                      
+{{ GLOBALS.isVueLoadedForBaseComponentId }}
+
+Code Ids:
+{{ GLOBALS.isVueLoadedForCodeId }}
+
+              </pre>
+            </div>
+
+
+
+
+
                 </div>
                 
                 
