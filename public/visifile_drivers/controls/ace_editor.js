@@ -171,7 +171,7 @@ properties(
 )//properties
 logo_url("/driver_icons/ace_editor.jpeg")
 */
-    Vue.component("ace_editor",{
+    Yazz.component({
       props: [ "meta", "form",  "name", "args", "refresh", "design_mode"]
       ,
       template: `<div>

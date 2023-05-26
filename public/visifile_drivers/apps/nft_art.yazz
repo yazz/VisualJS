@@ -11,7 +11,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAMCAgsKCgoKCgo
 
 */
 
-    Vue.component('nft_art',{
+    Yazz.component({
         template: `<div id="app2" style='padding: 20px;'>
               <h1>{{msg}}</h1>
 

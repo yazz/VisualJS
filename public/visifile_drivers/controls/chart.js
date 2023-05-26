@@ -79,7 +79,7 @@ logo_url("/driver_icons/chart.png")
 
 
 
-    Vue.component("chart_control",{
+    Yazz.component({
       props: ["meta","name","args","refresh","design_mode"]
       ,
       template:

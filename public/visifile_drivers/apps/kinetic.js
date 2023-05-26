@@ -10,7 +10,7 @@ uses_javascript_libraries(["advanced_bundle"])
 logo_url("/man.jpg")
 */
 
-    Vue.component('kinetic',{
+    Yazz.component({
       template:
 `<div id="app2" style='padding: 20px;'>
     <div class="btn btn-danger" value="Click" v-on:click="evt()" >

@@ -11,7 +11,7 @@ description("This will create a multi VR app")
 logo_url("/driver_icons/multi.jpg")
 read_only(true)
 */
-Vue.component('multi_vr', {
+Yazz.component( {
 template: `<div style='width:100%;height:100%;padding:20px;background-color:white;'>
             <a-scene
                     cursor="rayOrigin: mouse"

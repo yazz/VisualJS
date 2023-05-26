@@ -9,7 +9,7 @@ uses_javascript_libraries(["advanced_bundle"])
 load_once_from_file(true)
 */
 
-    Vue.component('intro_logo_3d',{
+    Yazz.component({
       template: `<div id="app2">
           <a-scene style='width: 80%; height: 20%;' embedded vr-mode-ui="enabled: false">
 

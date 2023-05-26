@@ -250,7 +250,7 @@ logo_url("https://images.unsplash.com/photo-1526773357673-2d4e8116d497?ixlib=rb-
 
 
 
-    Vue.component("bug_vue",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh"]
 

@@ -70,7 +70,7 @@ properties(
 logo_url("/driver_icons/button_control.png")
 */
 
-    Vue.component("button_control",{
+    Yazz.component({
       props: [ "meta",  "name",  "refresh",  "design_mode"   ,"properties" ]
       ,
       template: `<button    type=button

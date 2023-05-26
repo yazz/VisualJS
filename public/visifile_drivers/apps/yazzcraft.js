@@ -13,7 +13,7 @@ read_only(true)
 */
 
 
-    Vue.component('yazzcraft',{
+    Yazz.component({
       template: `<div id="app2" style='padding: 20px;'>
 
             <h1>yazzcraft</h1>

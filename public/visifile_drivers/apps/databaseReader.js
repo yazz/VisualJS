@@ -12,7 +12,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQEBM
 */
 
 
-    Vue.component("database_reader", {
+    Yazz.component( {
         template:
 
 `

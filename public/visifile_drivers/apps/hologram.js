@@ -11,7 +11,7 @@ logo_url("/driver_icons/hologram.png")
 
 */
 
-    Vue.component('hologram',{
+    Yazz.component({
       template: `<div id="app2" style='padding: 20px;'>
 
                 <div>({{x}},{{y}}) . ({{width}},{{height}}) ,  {{view_x}}, {{view_y}}, {{videoWidth}}
