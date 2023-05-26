@@ -3123,11 +3123,20 @@
                     if (trcode2.indexOf("Yazz.component(") == -1) {
                         GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
                     } else {
-                        trcode2 = trcode2.toString().replaceAll(
+                        let baseComponentIdVueObjectCode = trcode2.toString().replaceAll(
                             "Yazz.component[(]",
                             "Vue.component(" + "\"" + baseComponentId + "\", "
                         )
                         GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
+
+
+                        let codeIdVueObjectCode = trcode2.toString().replaceAll(
+                            "Yazz.component[(]",
+                            "Vue.component(" + "\"" + codeId + "\", "
+                        )
+                        GLOBALS.isVueLoadedForCodeId[codeId] = {component_type: component_type}
+
+                        trcode2 = "{" + baseComponentIdVueObjectCode + "}"
                     }
 
 
