@@ -2815,6 +2815,18 @@
 
 
 
+                    /*
+                     ____________________________________________________________
+                     |    runCodeForYazzUiComponent
+                     |_________________________
+                                              | if the component has already been
+                                              | loaded then do nothing
+                                              |__________________________________ */
+                    if (isValidObject(GLOBALS.isVueLoadedForCodeId[codeId])) {
+                        return
+                    }
+
+
 
 
                     /*
@@ -3135,8 +3147,6 @@
                         )
                         listOfCodeToExecute.push(codeIdVueObjectCode)
                         GLOBALS.isVueLoadedForCodeId[codeId] = {component_type: component_type}
-
-                        trcode2 = "{" + baseComponentIdVueObjectCode + "}"
                     }
 
                     for (codeToExecute  of  listOfCodeToExecute) {
