@@ -2598,8 +2598,7 @@
                                 //debugger
                             }
 
-                            let trcode2 = await runCodeForYazzUiComponent({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
-                            await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
+                            await runCodeForYazzUiComponent({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                             GLOBALS.setComponentLoaded({codeId: newDataCodeId})
                             loadedStatic = true
                         }
@@ -2635,8 +2634,7 @@
                             if (compCode) {
                                 let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
                                 await checkLibsV3(libsForCode)
-                                let trcode2 = await runCodeForYazzUiComponent({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
-                                await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
+                                await runCodeForYazzUiComponent({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                             }
 
                             //
@@ -2683,8 +2681,6 @@
                                             code:               sdf[i].code,
                                             codeArgs:           argsToPassToUiComponents
                                         })
-                                    await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
-
                                 }
                             };
 
@@ -3211,9 +3207,6 @@
                     throw "No such mode in 'enhanceCodeWithPipeline' called '" + mode + "'"
                 }
                 return trcode2;
-            }
-            async function  runYazzSourceCode                   (   trcode2   ,   args   ) {
-
             }
 
             // app helpers
