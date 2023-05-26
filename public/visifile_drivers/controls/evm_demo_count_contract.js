@@ -175,7 +175,7 @@ contract Counter {
 logo_url("/driver_icons/counter.jpg")
 */
 
-    Vue.component("evm_demo_count_contract_control",{
+    Yazz.component({
         props: ["meta","name","args","properties","refresh","design_mode"]
         ,
         template: `<div style='white-space:normal;height:100%;width:100%; color: black;

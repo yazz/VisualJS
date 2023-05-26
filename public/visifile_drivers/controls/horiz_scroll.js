@@ -54,7 +54,7 @@ properties(
 logo_url("/driver_icons/horiz_scroll.png")
 */
 
-    Vue.component("horiz_scroll_control",{
+    Yazz.component({
         props: ["args","refresh"]
         ,
 

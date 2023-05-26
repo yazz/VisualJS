@@ -217,7 +217,7 @@ properties(
 logo_url("/driver_icons/threedee_control.png")
 */
 
-    Vue.component("item_3d",{
+    Yazz.component({
         props: [  "meta", "args"  ,  "design_mode"  ,  "refresh"  ,  "name"  ]
 
         ,

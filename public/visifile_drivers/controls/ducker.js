@@ -106,7 +106,7 @@ me.setData(dockerData)
 logo_url("/driver_icons/ducker.png")
 */
 
-    Vue.component("docker_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh", "children"]
 

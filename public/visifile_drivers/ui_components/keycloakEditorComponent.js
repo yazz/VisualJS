@@ -8,7 +8,7 @@ load_once_from_file(true)
     let newEditorDomId     = uuidv4()
 
 
-    Vue.component("keycloak_editor_component", {
+    Yazz.component( {
       data: function () {
         return {
             text:           args.text,

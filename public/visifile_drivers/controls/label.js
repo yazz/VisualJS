@@ -124,7 +124,7 @@ properties(
 logo_url("/driver_icons/text_control.png")
 */
 
-    Vue.component("label_control",{
+    Yazz.component({
         props: ["meta","name","args","refresh","design_mode"]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; " +

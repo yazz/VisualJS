@@ -166,7 +166,7 @@ properties(
 logo_url("/driver_icons/kubernetes.png")
 */
 
-    Vue.component("kubernetes_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh", "children"]
 

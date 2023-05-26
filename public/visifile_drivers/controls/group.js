@@ -57,7 +57,7 @@ properties(
 logo_url("/driver_icons/group_control.png")
 */
 
-    Vue.component("group_control",{
+    Yazz.component({
       props: ["args", "design_mode","refresh", "children","delete_design_time_component"]
       ,
       template:

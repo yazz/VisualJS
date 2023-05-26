@@ -46,7 +46,7 @@ properties(
 logo_url("/driver_icons/drive_list.png")
 */
 
-    Vue.component("drive_list_control",{
+    Yazz.component({
       props: ["args","design_mode"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +

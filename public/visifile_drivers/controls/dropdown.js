@@ -56,7 +56,7 @@ properties(
 logo_url("/driver_icons/dropdown.png")
 */
 
-    Vue.component("dropdown_control",{
+    Yazz.component({
       props: ["args","refresh","design_mode"]
       ,
       template:

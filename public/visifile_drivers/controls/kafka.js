@@ -130,7 +130,7 @@ properties(
 logo_url("/driver_icons/kafka.png")
 */
 
-    Vue.component("kafka_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh", "children"]
 

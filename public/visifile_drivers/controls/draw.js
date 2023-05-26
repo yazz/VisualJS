@@ -71,7 +71,7 @@ logo_url("/driver_icons/draw.png")
 
 
 
-    Vue.component("draw_control",{
+    Yazz.component({
       props: ["args","refresh", "design_mode"]
       ,
       template: `<div   v-bind:style='"height:100%;width:100%; border: 0px;" +

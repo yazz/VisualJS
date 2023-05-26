@@ -7,7 +7,7 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
 
-    Vue.component("history_viewer_component", {
+    Yazz.component( {
 
         data:       function () {
             /*

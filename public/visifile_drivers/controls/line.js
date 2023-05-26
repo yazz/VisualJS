@@ -37,7 +37,7 @@ properties(
 logo_url("/driver_icons/line.png")
 */
 
-    Vue.component("line_control",{
+    Yazz.component({
       props: ["args","refresh", "design_mode"]
       ,
       template: `<div       v-bind:refresh='refresh'

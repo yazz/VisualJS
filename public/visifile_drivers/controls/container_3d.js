@@ -203,7 +203,7 @@ properties(
 logo_url("/driver_icons/threedee_item.png")
 */
 
-    Vue.component("container_3d",{
+    Yazz.component({
       props: ["args","design_mode", "refresh", "children","delete_design_time_component","select_design_time_component"]
       ,
       template:

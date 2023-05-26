@@ -55,7 +55,7 @@ properties(
 logo_url("/driver_icons/checkbox_control.png")
 */
 
-    Vue.component("checkbox_control",{
+    Yazz.component({
       props: ["args","design_mode","meta", "form",  "name", "refresh"]
       ,
       template: `<div class="">

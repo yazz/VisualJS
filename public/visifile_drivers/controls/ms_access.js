@@ -114,7 +114,7 @@ me.addParent();
 logo_url("/driver_icons/import_access.png")
 */
 
-    Vue.component("ms_access_control",{
+    Yazz.component({
         props: [  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" '>

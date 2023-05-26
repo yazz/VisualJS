@@ -296,7 +296,7 @@ properties(
 logo_url("/driver_icons/data_window.png")
 */
 
-    Vue.component("data_window_control",{
+    Yazz.component({
       props: ["meta","name","args","refresh","design_mode"]
       ,
       template:

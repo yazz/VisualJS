@@ -92,7 +92,7 @@ properties(
 logo_url("/driver_icons/mysql.png")
 */
 
-    Vue.component("mysql_client_component",{
+    Yazz.component({
         props: ["meta","args", "name","refresh", "design_mode"]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +

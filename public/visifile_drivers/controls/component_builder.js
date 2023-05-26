@@ -211,7 +211,7 @@ properties(
 logo_url("/driver_icons/builder.png")
 */
 
-    Vue.component("component_builder_control",{
+    Yazz.component({
         props: ["meta","name","args","properties","refresh","design_mode"]
         ,
         template: `

@@ -338,7 +338,7 @@ properties(
 logo_url("/driver_icons/data_control.png")
 */
 
-    Vue.component("database_control",{
+    Yazz.component({
       props: ["meta","name","properties","args","refresh","design_mode", "children", "properties"]
       ,
       template:

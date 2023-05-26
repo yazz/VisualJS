@@ -124,7 +124,7 @@ properties(
 logo_url("/driver_icons/input_box.png")
 */
 
-    Vue.component("input_control",{
+    Yazz.component({
       props: [ "meta", "form",  "name", "args", "refresh"]
       ,
       template: `<div>

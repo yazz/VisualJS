@@ -39,7 +39,7 @@ properties(
 logo_url("/driver_icons/image.png")
 */
 
-    Vue.component("image_control",{
+    Yazz.component({
       props: ["args", "name","refresh"]
       ,
       template: `<img   v-bind:width='args.width + "px"'

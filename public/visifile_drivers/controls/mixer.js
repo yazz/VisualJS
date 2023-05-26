@@ -375,7 +375,7 @@ properties(
 logo_url("/driver_icons/mixer.png")
 */
 
-    Vue.component("mixer_control",{
+    Yazz.component({
       props: ["meta","name","properties","args","refresh","design_mode", "children", "properties"]
       ,
       template:
