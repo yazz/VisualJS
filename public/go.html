@@ -2598,7 +2598,7 @@
                                 //debugger
                             }
 
-                            let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeForCommit})
+                            let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                             await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                             GLOBALS.setComponentLoaded({codeId: newDataCodeId})
                             loadedStatic = true
@@ -2635,7 +2635,7 @@
                             if (compCode) {
                                 let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
                                 await checkLibsV3(libsForCode)
-                                let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: componentCodeId,   code: compCode})
+                                let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                             }
 
@@ -2680,7 +2680,8 @@
                                         {
                                             codeId:             sdf[i].code_id,
                                             baseComponentId:    sdf[i].base_component_id,
-                                            code:               sdf[i].code
+                                            code:               sdf[i].code,
+                                            codeArgs:           argsToPassToUiComponents
                                         })
                                     await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
 
@@ -3139,7 +3140,12 @@
                         trcode2 = "{" + baseComponentIdVueObjectCode + "}"
                     }
 
-
+                    let fnfn = eval( trcode2  )
+                    if (trcode2.indexOf("async ")  == -1) {
+                        fnfn(args.codeArgs)
+                    } else {
+                        await fnfn(args.codeArgs)
+                    }
 
 
                     return trcode2
@@ -3207,12 +3213,7 @@
                 return trcode2;
             }
             async function  runYazzSourceCode                   (   trcode2   ,   args   ) {
-                let fnfn = eval( trcode2  )
-                if (trcode2.indexOf("async ")  == -1) {
-                    fnfn(args)
-                } else {
-                    await fnfn(args)
-                }
+
             }
 
             // app helpers
