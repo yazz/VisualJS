@@ -2934,11 +2934,6 @@
                     if (!codeId) {
                         codeId   = GLOBALS.getCommitIdForBaseComponentId( baseComponentId )
                     }
-                    trcode2 = trcode2.toString().replaceAll(
-                        "Yazz.component[(]",
-                        "Vue.component(" + "\"" + codeId + "\", "
-                    )
-                    GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = true
 
                     console.log(".......................  ")
                     console.log("Base component ID:  "  + baseComponentId)
@@ -3131,6 +3126,11 @@
 
 
 
+                    trcode2 = trcode2.toString().replaceAll(
+                        "Yazz.component[(]",
+                        "Vue.component(" + "\"" + codeId + "\", "
+                    )
+                    GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
 
 
 
