@@ -2674,7 +2674,7 @@
                                     if (sdf[i]) {
                                         await checkLibsV3(sdf[i])
                                     }
-                                    let trcode2 = await runCodeForYazzUiComponent(
+                                    await runCodeForYazzUiComponent(
                                         {
                                             codeId:             sdf[i].code_id,
                                             baseComponentId:    sdf[i].base_component_id,
@@ -3142,10 +3142,6 @@
                     } else {
                         await fnfn(args.codeArgs)
                     }
-
-
-                    return trcode2
-
                 } catch (err) {
                     alert(err)
 
