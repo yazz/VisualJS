@@ -2598,7 +2598,7 @@
                                 //debugger
                             }
 
-                            let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
+                            let trcode2 = await runCodeForYazzUiComponent({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                             await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                             GLOBALS.setComponentLoaded({codeId: newDataCodeId})
                             loadedStatic = true
@@ -2635,7 +2635,7 @@
                             if (compCode) {
                                 let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
                                 await checkLibsV3(libsForCode)
-                                let trcode2 = await enhanceYazzSourceCodeBeforeRunning({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
+                                let trcode2 = await runCodeForYazzUiComponent({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 await runYazzSourceCode(trcode2, argsToPassToUiComponents, null)
                             }
 
@@ -2676,7 +2676,7 @@
                                     if (sdf[i]) {
                                         await checkLibsV3(sdf[i])
                                     }
-                                    let trcode2 = await enhanceYazzSourceCodeBeforeRunning(
+                                    let trcode2 = await runCodeForYazzUiComponent(
                                         {
                                             codeId:             sdf[i].code_id,
                                             baseComponentId:    sdf[i].base_component_id,
@@ -2744,11 +2744,11 @@
 
                 return ret
             }
-            async function  enhanceYazzSourceCodeBeforeRunning  (   args   ) {
+            async function  runCodeForYazzUiComponent  (   args   ) {
                 /*
                 ________________________________________
                 |                                      |
-                |  enhanceYazzSourceCodeBeforeRunning  |
+                |  runCodeForYazzUiComponent  |
                 |                                      |
                 |______________________________________|
                 Function description
@@ -2767,7 +2767,7 @@
 
                 /*
                 ____________________________________________________________
-                |    enhanceYazzSourceCodeBeforeRunning
+                |    runCodeForYazzUiComponent
                 |_________________________
                                          | Set the commit ID and type
                                          |__________________________________ */
@@ -2791,7 +2791,7 @@
                 try {
                     /*
                     ____________________________________________________________
-                    |    enhanceYazzSourceCodeBeforeRunning
+                    |    runCodeForYazzUiComponent
                     |_________________________
                                              | Determine the apps SQlite database
                                              | to use
@@ -2803,7 +2803,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    enhanceYazzSourceCodeBeforeRunning
+                    |    runCodeForYazzUiComponent
                     |_________________________
                                              | if the component type hasn't been
                                              | added to the type database then add it
@@ -2823,7 +2823,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    enhanceYazzSourceCodeBeforeRunning
+                    |    runCodeForYazzUiComponent
                     |_________________________
                                              | If we are running the app from a
                                              | HTML page then run the SQL queries
@@ -2858,7 +2858,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    enhanceYazzSourceCodeBeforeRunning
+                    |    runCodeForYazzUiComponent
                     |_________________________
                                              | Add debugger info to the code to
                                              | allow step by step debugging
@@ -2886,7 +2886,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    enhanceYazzSourceCodeBeforeRunning
+                    |    runCodeForYazzUiComponent
                     |_________________________
                                              | Sqlite stuff
                                              |__________________________________ */
@@ -2902,7 +2902,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    enhanceYazzSourceCodeBeforeRunning
+                    |    runCodeForYazzUiComponent
                     |_________________________
                                              | User auth stuff
                                              |__________________________________ */
@@ -2923,7 +2923,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    enhanceYazzSourceCodeBeforeRunning
+                    |    runCodeForYazzUiComponent
                     |_________________________
                                              | replace "Yazz.component(" with
                                              | "Vue.component(COMPONENT_ID,
@@ -2947,7 +2947,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    enhanceYazzSourceCodeBeforeRunning
+                    |    runCodeForYazzUiComponent
                     |_________________________
                                              | Transform the code using the
                                              | runtime pipelines
@@ -4289,7 +4289,7 @@
                     Loads Yazz UI components only
 
                   ---------------------------
-                - enhanceYazzSourceCodeBeforeRunning
+                - runCodeForYazzUiComponent
                   ---------------------------
                     parse and run the source code for a Yazz Component loaded into the front end
 
