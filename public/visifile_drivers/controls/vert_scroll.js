@@ -55,7 +55,7 @@ properties(
 logo_url("/driver_icons/vert_scroll_bar.png")
 */
 
-    Vue.component("vert_scroll_control",{
+    Yazz.component({
         props: ["args","refresh"]
         ,
 

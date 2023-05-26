@@ -5,7 +5,7 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
     let genDomId = uuidv4()
-    Vue.component("editor_component", {
+    Yazz.component( {
 
 
     /*

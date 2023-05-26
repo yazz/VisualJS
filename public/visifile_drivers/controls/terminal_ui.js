@@ -57,7 +57,7 @@ properties(
 logo_url("/driver_icons/terminal.png")
 */
 
-    Vue.component("terminal_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh", "children"]
 

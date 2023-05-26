@@ -9,7 +9,7 @@ load_once_from_file(true)
     let editor          = null
 
 
-    Vue.component("control_editor", {
+    Yazz.component({
 
       // ----------------------------------------------------------------------
       //

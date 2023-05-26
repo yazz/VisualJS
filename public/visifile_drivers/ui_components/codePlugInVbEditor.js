@@ -17,7 +17,7 @@ uses_javascript_libraries(["advanced_bundle"])
         texti = args.text
     }
 
-    Vue.component("vb_editor_component",
+    Yazz.component(
     {
         //*** COPY_START ***//
         props:          [ "args"],

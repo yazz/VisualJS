@@ -51,7 +51,7 @@ properties(
 logo_url("/driver_icons/osquery.png")
 */
 
-    Vue.component("osquery_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh", "children"]
 

@@ -71,7 +71,7 @@ properties(
 logo_url("/driver_icons/rhdata_grid.png")
 */
 
-    Vue.component("rhdata_grid_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh", "children"]
 

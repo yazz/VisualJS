@@ -111,7 +111,7 @@ properties(
 logo_url("/driver_icons/sqlite.jpg")
 */
 
-    Vue.component("yazz_sqlite_client_component",{
+    Yazz.component({
         props: [  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +

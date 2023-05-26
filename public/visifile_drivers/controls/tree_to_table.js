@@ -251,7 +251,7 @@ logo_url("/driver_icons/tree_to_table.png")
 
 
 
-    Vue.component("tree_to_table_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh"]
 

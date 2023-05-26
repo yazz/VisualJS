@@ -38,7 +38,7 @@ properties(
 logo_url("/driver_icons/shapes.png")
 */
 
-    Vue.component("shapes_control",{
+    Yazz.component({
       props: ["args"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +

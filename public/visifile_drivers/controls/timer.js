@@ -53,7 +53,7 @@ properties(
 logo_url("/driver_icons/timer.png")
 */
 
-    Vue.component("timer_control",
+    Yazz.component(
     {
 
       props: ["meta", "args","design_mode","refresh"]

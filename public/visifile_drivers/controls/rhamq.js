@@ -87,7 +87,7 @@ properties(
 logo_url("/driver_icons/rhamq.png")
 */
 
-    Vue.component("rhamq_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh", "children"]
 

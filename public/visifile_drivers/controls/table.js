@@ -77,7 +77,7 @@ properties(
 logo_url("/driver_icons/table.png")
 */
 
-    Vue.component("table_control",{
+    Yazz.component({
       props: ["meta","form", "name", "args","refresh","design_mode"]
       ,
       template:

@@ -51,7 +51,7 @@ properties(
 logo_url("/driver_icons/radio.png")
 */
 
-    Vue.component("radio_button_control",{
+    Yazz.component({
       props: ["args","design_mode"]
       ,
       template: `<div class="radio">

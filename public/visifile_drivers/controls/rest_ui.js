@@ -251,7 +251,7 @@ logo_url("/driver_icons/rest.png")
 
 
 
-    Vue.component("rest_control",{
+    Yazz.component({
 
         props: ["meta", "args","design_mode","refresh"]
 

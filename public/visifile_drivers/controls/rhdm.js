@@ -173,7 +173,7 @@ me.addParent();
 logo_url("/driver_icons/rhdm.png")
 */
 
-    Vue.component("rhdm_control",{
+    Yazz.component({
 
         props: ["meta", "args","properties","design_mode","refresh", "children"]
 

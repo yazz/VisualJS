@@ -5,7 +5,7 @@ base_component_id("comp")
 load_once_from_file(true)
 */
 
-    Vue.component('z-counter', {
+    Yazz.component( {
       data: function () {
         return {
           count: 0
