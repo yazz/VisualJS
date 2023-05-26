@@ -3206,21 +3206,12 @@
                 }
                 return trcode2;
             }
-            async function  runYazzSourceCode                   (   trcode2   ,   args   ,   callbackFn   ) {
+            async function  runYazzSourceCode                   (   trcode2   ,   args   ) {
                 let fnfn = eval( trcode2  )
                 if (trcode2.indexOf("async ")  == -1) {
-                    let fnfnRes = fnfn(args)
-                    //if (isValidObject(callbackFn)) {
-                    if (callbackFn) {
-                        callbackFn(fnfnRes)
-                    }
-
+                    fnfn(args)
                 } else {
-                    let fnfnRes = await fnfn(args)
-                    //if (isValidObject(callbackFn)) {
-                    if (callbackFn) {
-                        callbackFn(fnfnRes)
-                    }
+                    await fnfn(args)
                 }
             }
 
