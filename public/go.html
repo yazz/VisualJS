@@ -461,7 +461,7 @@
                 // This is a true/false hashmap for whether a Vue component is loaded based
                 // on the Base Component ID
                 //
-                isVueLoadedForBaseComponentId: {a: true, b: true},
+                isVueLoadedForBaseComponentId: {},
 
 
 
@@ -471,7 +471,7 @@
                 // This is a true/false hashmap for whether a Vue component is loaded based
                 // on the Code ID
                 //
-                isVueLoadedForCodeId: {"0x4432432432": true, "0x78634276823478632": true},
+                isVueLoadedForCodeId: {},
 
 
 
@@ -2938,6 +2938,8 @@
                         "Yazz.component[(]",
                         "Vue.component(" + "\"" + codeId + "\", "
                     )
+                    GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = true
+
                     console.log(".......................  ")
                     console.log("Base component ID:  "  + baseComponentId)
                     console.log("Code ID:  "            + codeId)
