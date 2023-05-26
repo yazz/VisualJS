@@ -166,7 +166,7 @@ ___________
     //
 
 
-    Vue.component("app_editor_3",
+    Yazz.component(
     {
       props: ['arg_edit_base_component_id', 'arg_edit_code_id'],
       template:
