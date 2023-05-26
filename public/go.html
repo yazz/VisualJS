@@ -3125,12 +3125,15 @@
                     }
 
 
-
-                    trcode2 = trcode2.toString().replaceAll(
-                        "Yazz.component[(]",
-                        "Vue.component(" + "\"" + codeId + "\", "
-                    )
-                    GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
+                    if (trcode2.indexOf("Yazz.component(") == -1) {
+                        GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
+                    } else {
+                        trcode2 = trcode2.toString().replaceAll(
+                            "Yazz.component[(]",
+                            "Vue.component(" + "\"" + baseComponentId + "\", "
+                        )
+                        GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
+                    }
 
 
 
