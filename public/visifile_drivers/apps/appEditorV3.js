@@ -1089,6 +1089,7 @@ End of app preview menu
                }
                GLOBALS.lastEditingAppBaseComponentId    = null;
                GLOBALS.lastEditingAppCodeId             = null;
+               GLOBALS.inEditor                         = false
            },
 
            // ---------------------------------------------------------------
@@ -2407,6 +2408,8 @@ End of app preview menu
                 if (mm.arg_edit_code_id) {
                     GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                     GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
+                    GLOBALS.inEditor                                    = true
+
 
                     await mm.load_new_version_of_edited_app({codeId: GLOBALS.editingAppCodeId})
 
