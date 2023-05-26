@@ -3116,14 +3116,16 @@
                         }
                     }
 
-
+                    let listOfCodeToExecute = []
                     if (trcode2.indexOf("Yazz.component(") == -1) {
+                        listOfCodeToExecute.push(trcode2)
                         GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
                     } else {
                         let baseComponentIdVueObjectCode = trcode2.toString().replaceAll(
                             "Yazz.component[(]",
                             "Vue.component(" + "\"" + baseComponentId + "\", "
                         )
+                        listOfCodeToExecute.push(baseComponentIdVueObjectCode)
                         GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
 
 
@@ -3136,11 +3138,14 @@
                         trcode2 = "{" + baseComponentIdVueObjectCode + "}"
                     }
 
-                    let fnfn = eval( trcode2  )
-                    if (trcode2.indexOf("async ")  == -1) {
-                        fnfn(args.codeArgs)
-                    } else {
-                        await fnfn(args.codeArgs)
+                    for (codeToExecute  of  listOfCodeToExecute) {
+                        let fnfn = eval( codeToExecute  )
+                        if (codeToExecute.indexOf("async ")  == -1) {
+                            fnfn(args.codeArgs)
+                        } else {
+                            await fnfn(args.codeArgs)
+                        }
+
                     }
                 } catch (err) {
                     alert(err)
