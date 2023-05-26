@@ -6,7 +6,7 @@
             let designMode  = false
             let runtimeMode = true
 
-            Vue.component('_REPLACE_THIS_WITH_BASE_COMPONENT_ID_', {
+            Yazz.component( {
                 props:      [ "args"],
                 template:   /* ** *** insert_ui_template_start *** ** */
                             /* ** *** insert_ui_template_end *** ** */,
