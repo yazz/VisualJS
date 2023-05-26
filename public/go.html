@@ -419,6 +419,7 @@
                 editingAppCodeId:                           null,   // Commit ID for the currently edited component
                 lastEditingAppBaseComponentId:              null,   // if we jump to edit another component save this
                 lastEditingAppCodeId:                       null,   // if we jump to edit another component save this
+                inEditor:                                   false,  // Always set to true when we enter the editor
 
                 //
                 // This is used when we have edited a UI control and want to jump back to the app and update the control
@@ -460,7 +461,7 @@
                 // This is a true/false hashmap for whether a Vue component is loaded based
                 // on the Base Component ID
                 //
-                isVueLoadedForBaseComponentId: {},
+                isVueLoadedForBaseComponentId: {a: true, b: true},
 
 
 
@@ -470,7 +471,7 @@
                 // This is a true/false hashmap for whether a Vue component is loaded based
                 // on the Code ID
                 //
-                isVueLoadedForCodeId: {},
+                isVueLoadedForCodeId: {"0x4432432432": true, "0x78634276823478632": true},
 
 
 

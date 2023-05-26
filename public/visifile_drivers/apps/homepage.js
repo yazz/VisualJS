@@ -693,21 +693,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 |    mounted
                 |_________________________
                                          |  Set the "d" key to allow debug view
-                                         | to be shown if pressed in the first
-                                         | three seconds
+                                         | to be shown if we are not in the
+                                         | editor
                                          |__________________________________ */
                 mm.listenerD = function(event) {
-                    if (event.keyCode == 100) {
-                        mm.debugMode = true
+                    if (!GLOBALS.inEditor) {
+                        if (event.keyCode == 100) {
+                            mm.debugMode = !mm.debugMode
+                        }
                     }
                 };
                 document.addEventListener("keypress", mm.listenerD)
 
-                setTimeout( function() {
-                    document.removeEventListener("keypress",mm.listenerD); // Succeeds
-                    }
-                ,
-                3000)
+
+
                 await onPageInitialized( async function() {
 
                     /*
