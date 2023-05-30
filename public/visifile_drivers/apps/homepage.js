@@ -117,8 +117,6 @@ showLoadedVueObjects:                   {{ showLoadedVueObjects }}
             <div v-if="showLoadedVueObjects">
               <pre>
 <div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
-BaseComponentIds:                      
-{{ GLOBALS.isVueLoadedForBaseComponentId }}
 
 Code Ids:
 {{ GLOBALS.isVueLoadedForCodeId }}
