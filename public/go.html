@@ -3124,7 +3124,10 @@
                         "Vue.component(" + "\"" + codeId + "\", "
                     )
                     listOfCodeToExecute.push(codeIdVueObjectCode)
-                    GLOBALS.isVueLoadedForCodeId[codeId] = {component_type: component_type}
+                    GLOBALS.isVueLoadedForCodeId[codeId] = {
+                        component_type:     component_type,
+                        base_component_id:  baseComponentId
+                    }
 
                     for (codeToExecute  of  listOfCodeToExecute) {
                         let fnfn = eval( codeToExecute  )
