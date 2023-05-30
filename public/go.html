@@ -3129,25 +3129,12 @@
                     }
 
                     let listOfCodeToExecute = []
-                    if (trcode2.indexOf("Yazz.component(") == -1) {
-                        //listOfCodeToExecute.push(trcode2)
-                        //GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
-                    } else {
-                        //let baseComponentIdVueObjectCode = trcode2.toString().replaceAll(
-                        //    "Yazz.component[(]",
-                        //    "Vue.component(" + "\"" + baseComponentId + "\", "
-                        //)
-                        //listOfCodeToExecute.push(baseComponentIdVueObjectCode)
-                        //GLOBALS.isVueLoadedForBaseComponentId[baseComponentId] = {component_type: component_type}
-
-
-                        let codeIdVueObjectCode = trcode2.toString().replaceAll(
-                            "Yazz.component[(]",
-                            "Vue.component(" + "\"" + codeId + "\", "
-                        )
-                        listOfCodeToExecute.push(codeIdVueObjectCode)
-                        GLOBALS.isVueLoadedForCodeId[codeId] = {component_type: component_type}
-                    }
+                    let codeIdVueObjectCode = trcode2.toString().replaceAll(
+                        "Yazz.component[(]",
+                        "Vue.component(" + "\"" + codeId + "\", "
+                    )
+                    listOfCodeToExecute.push(codeIdVueObjectCode)
+                    GLOBALS.isVueLoadedForCodeId[codeId] = {component_type: component_type}
 
                     for (codeToExecute  of  listOfCodeToExecute) {
                         let fnfn = eval( codeToExecute  )
