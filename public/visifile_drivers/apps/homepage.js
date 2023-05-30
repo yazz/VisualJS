@@ -74,7 +74,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |          Show the debug mode         |
                     |                                      |
                     ---------------------------------------- -->
-                <div v-if="debugMode" style="background-color: whitesmoke; ">
+                <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
                     <button style="margin: 20px;"
                             class='btn btn-lg btn-danger'
                             v-on:click='showHomepageVars = !showHomepageVars'>
@@ -89,7 +89,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   
                   
                   
-                <div v-if="showHomepageVars">
+                <div v-if="showHomepageVars" style="">
                   <pre>
 <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
 hideImportButtons:                      {{ hideImportButtons }}
