@@ -651,7 +651,7 @@ End of app preview menu
                               ref="app_preview_component"
                               v-if='app_loaded  &&  (preview_type=="control")'
                               style='background-color: white;'
-                              v-bind:is='"yazz_blank"'
+                              v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["yazz_blank"]'
                               v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
                               >
                   </component>
