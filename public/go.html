@@ -3359,9 +3359,11 @@
                         document.getElementById(newCardId).innerHTML = ""
                     }
 
+                    let codeIdOfComponent = GLOBALS.baseComponentIdReturnsCommitId[base_component_id]
+
                     new Vue(
                         {
-                            template:   `<${base_component_id}  v-bind:card_index='1'></${base_component_id}>`,
+                            template:   `<${codeIdOfComponent}  v-bind:card_index='1'></${codeIdOfComponent}>`,
                             el:         "#" + rootElement
                         })
                 }
