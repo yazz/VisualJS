@@ -283,8 +283,7 @@ ___________
     <div v-if='mode == "edit"'>
         <div    id=editor_id
                 v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
-
-            <component  v-bind:is="editor_component"
+            <component  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[editor_component]'
                         v-if="editor_loaded"
                         ref="editor_component_ref">
 

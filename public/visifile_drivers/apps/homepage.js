@@ -171,7 +171,7 @@ Code Ids:
                 
                                 <component  id="editor_component2"
                                             v-if='isValidObject(item)'
-                                            :is='"app_editor_3"'
+                                            :is='GLOBALS.baseComponentIdReturnsCommitId["app_editor_3"]'
                                             v-bind:arg_edit_base_component_id='item.base_component_id'
                                             v-bind:arg_edit_code_id='item.code_id'>
                                 </component>
