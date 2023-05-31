@@ -1071,15 +1071,25 @@ End of app preview menu
            closeEditor: async function(event,item) {
                let mm = this
                if (GLOBALS.subEditorAction == "FORK_CONTROL") {
-                   GLOBALS.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
-                   GLOBALS.finalCodeIdOfEditedUiControl            = mm.code_id
-                   this.$root.$emit("message", {    type:               "return_from_fork_component",
-                                                                base_component_id:   GLOBALS.lastEditingAppBaseComponentId,
-                                                                code_id:             GLOBALS.lastEditingAppCodeId
-                                                           })
+                   GLOBALS.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
+                   GLOBALS.finalCodeIdOfEditedUiControl = mm.code_id
+                   this.$root.$emit("message", {
+                       type: "return_from_fork_component",
+                       base_component_id: GLOBALS.lastEditingAppBaseComponentId,
+                       code_id: GLOBALS.lastEditingAppCodeId
+                   })
+
+               } else if (GLOBALS.subEditorAction == "EDIT_CONTROL") {
+                       GLOBALS.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
+                       GLOBALS.finalCodeIdOfEditedUiControl            = mm.code_id
+                       this.$root.$emit("message", {    type:               "return_from_edit_component",
+                           base_component_id:   GLOBALS.lastEditingAppBaseComponentId,
+                           code_id:             GLOBALS.lastEditingAppCodeId
+                       })
 
                } else if (GLOBALS.lastEditingAppBaseComponentId) {
                    this.$root.$emit("message", { type:  "edit_component", base_component_id:   GLOBALS.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
+
                } else {
                    this.$root.$emit('message', {
                        type:        "close_app"
