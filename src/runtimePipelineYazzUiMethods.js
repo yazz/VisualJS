@@ -6596,10 +6596,12 @@ return {}
                           | has been edited in another editor
                           |__________________________________
          */            if (mm.design_mode) {
-                    if (GLOBALS.originalNameOfEditedUiControl) {
-                        if (GLOBALS.finalBaseComponentIdOfEditedUiControl &&
-                            (GLOBALS.originalBaseComponentIdOfEditedUiControl !=
-                                GLOBALS.finalBaseComponentIdOfEditedUiControl)) {
+             debugger
+                    if (GLOBALS.subEditorAction == "FORK_CONTROL") {
+                    //if (GLOBALS.originalNameOfEditedUiControl) {
+                    //    if (GLOBALS.finalBaseComponentIdOfEditedUiControl &&
+                    //        (GLOBALS.originalBaseComponentIdOfEditedUiControl !=
+                    //            GLOBALS.finalBaseComponentIdOfEditedUiControl)) {
                             setTimeout(function(){
                                 mm.changePropertyValue(
                                     {
@@ -6615,10 +6617,10 @@ return {}
                                         propertyValue:   GLOBALS.finalCodeIdOfEditedUiControl
                                     }
                                 )
-                                GLOBALS.originalNameOfEditedUiControl = null
+                                GLOBALS.originalNameOfEditedUiControl   = null
+                                GLOBALS.subEditorAction                 = null
 
                             },1000)
-                        }
 
                     }
                 }
