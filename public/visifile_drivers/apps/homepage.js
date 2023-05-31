@@ -891,7 +891,8 @@ Code Ids:
                                                  | When we try to edit a component
                                                  | while already editing an app
                                                  |__________________________________ */
-                        if (text.type == "edit_component") {
+                        if (text.type == "return_from_fork_component") {
+                            debugger
                             mm.editingBaseComponentId   = null;
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
@@ -926,6 +927,7 @@ Code Ids:
                                                  | while already editing an app
                                                  |__________________________________ */
                         if (text.type == "fork_component") {
+                            debugger
                             mm.editingBaseComponentId = null;
                             mm.open_file_name = ""
                             mm.open_file_path = "/"

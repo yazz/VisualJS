@@ -1073,7 +1073,7 @@ End of app preview menu
                if (GLOBALS.subEditorAction == "FORK_CONTROL") {
                    GLOBALS.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
                    GLOBALS.finalCodeIdOfEditedUiControl            = mm.code_id
-                   this.$root.$emit("message", {    type:               "edit_component",
+                   this.$root.$emit("message", {    type:               "return_from_fork_component",
                                                                 base_component_id:   GLOBALS.lastEditingAppBaseComponentId,
                                                                 code_id:             GLOBALS.lastEditingAppCodeId
                                                            })
