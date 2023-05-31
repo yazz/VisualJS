@@ -942,6 +942,72 @@ Code Ids:
 
 
 
+
+
+
+
+
+                        /*
+                        ____________________________________________________________
+                        |    mounted
+                        |_________________________
+                                                 | When we try to fork a component
+                                                 | while already editing an app
+                                                 |__________________________________ */
+                        if (text.type == "edit_component") {
+                            debugger
+                            mm.editingBaseComponentId = null;
+                            mm.open_file_name = ""
+                            mm.open_file_path = "/"
+                            saveCodeToFile = null
+                            globalEventBus.$emit('show_settings', {});
+
+                            setTimeout(function() {
+                                let bci = text.base_component_id
+                                let cid = text.code_id
+                                let fid = text.form_id
+                                let cni = text.control_name
+                                GLOBALS.originalFormIdOfEditedUiControl           = fid
+                                GLOBALS.originalNameOfEditedUiControl             = cni
+                                GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
+                                GLOBALS.originalCodeIdOfEditedUiControl           = cid
+                                mm.copyAndEditApp(
+                                    {base_component_id: bci  ,  code_id: cid})
+                            },200)
+                        }
+
+                        /*
+                        ____________________________________________________________
+                        |    mounted
+                        |_________________________
+                                                 | When we try to edit a component
+                                                 | while already editing an app
+                                                 |__________________________________ */
+                        if (text.type == "return_from_edit_component") {
+                            debugger
+                            mm.editingBaseComponentId   = null;
+                            mm.open_file_name           = ""
+                            mm.open_file_path           = "/"
+                            saveCodeToFile              = null
+                            globalEventBus.$emit('show_settings', {});
+
+                            setTimeout(function() {
+                                let bci = text.base_component_id
+                                let cid = text.code_id
+                                let fid = text.form_id
+                                let cni = text.control_name
+                                //GLOBALS.originalFormIdOfEditedUiControl           = fid
+                                //GLOBALS.originalNameOfEditedUiControl             = cni
+                                GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
+                                GLOBALS.originalCodeIdOfEditedUiControl           = cid
+                                setTimeout(function() {
+                                    mm.editApp(bci,  text.code_id)
+                                },50)
+                            },200)
+                        }
+
+
+
                     })
 
                     /*
