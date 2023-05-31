@@ -1969,7 +1969,7 @@ Pushlist
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:children='getChildren(item.name)'
                                                 v-on:send="processControlEvent"
-                                                v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[item.base_component_id]'
+                                                v-bind:is='GLOBALS.item?GLOBALS.item:GLOBALS.baseComponentIdReturnsCommitId[item.base_component_id]'
                                                 v-if='!item.parent && model.forms[active_form].components[index]'
                                                 v-bind:name='item.name + "_design_mode_" + design_mode'
                                                 v-bind:properties='model.forms[active_form].components[index]'
