@@ -896,7 +896,7 @@ Code Ids:
                             saveCodeToFile = null
                             globalEventBus.$emit('show_settings', {});
 
-                            setTimeout(function() {
+                            setTimeout(async function() {
                                 let bci = text.base_component_id
                                 let cid = text.code_id
                                 let fid = text.form_id
@@ -905,7 +905,7 @@ Code Ids:
                                 GLOBALS.originalNameOfEditedUiControl             = cni
                                 GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
                                 GLOBALS.originalCodeIdOfEditedUiControl           = cid
-                                mm.copyAndEditApp(
+                                await mm.copyAndEditApp(
                                     {base_component_id: bci  ,  code_id: cid})
                             },200)
                         }
@@ -934,8 +934,8 @@ Code Ids:
                                 //GLOBALS.originalNameOfEditedUiControl             = cni
                                 GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
                                 GLOBALS.originalCodeIdOfEditedUiControl           = cid
-                                setTimeout(function() {
-                                    mm.editApp(bci,  text.code_id)
+                                setTimeout(async function() {
+                                    await mm.editApp(bci,  text.code_id)
                                 },50)
                             },200)
                         }
@@ -962,7 +962,7 @@ Code Ids:
                             saveCodeToFile = null
                             globalEventBus.$emit('show_settings', {});
 
-                            setTimeout(function() {
+                            setTimeout(async function() {
                                 let bci = text.base_component_id
                                 let cid = text.code_id
                                 let fid = text.form_id
@@ -971,8 +971,7 @@ Code Ids:
                                 GLOBALS.originalNameOfEditedUiControl             = cni
                                 GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
                                 GLOBALS.originalCodeIdOfEditedUiControl           = cid
-                                mm.copyAndEditApp(
-                                    {base_component_id: bci  ,  code_id: cid})
+                                await mm.editApp( bci  ,  cid )
                             },200)
                         }
 
@@ -1000,8 +999,8 @@ Code Ids:
                                 //GLOBALS.originalNameOfEditedUiControl             = cni
                                 GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
                                 GLOBALS.originalCodeIdOfEditedUiControl           = cid
-                                setTimeout(function() {
-                                    mm.editApp(bci,  text.code_id)
+                                setTimeout(async function() {
+                                    await mm.editApp(bci,  text.code_id)
                                 },50)
                             },200)
                         }
@@ -1021,8 +1020,8 @@ Code Ids:
                         async function(uploadedAppBaseComponentId) {
                             await mm.addLogoForApp(uploadedAppBaseComponentId)
                             await mm.addEditableApp(uploadedAppBaseComponentId)
-                            setTimeout(function() {
-                                mm.editApp(uploadedAppBaseComponentId)
+                            setTimeout(async function() {
+                                await mm.editApp(uploadedAppBaseComponentId)
                             },250)
                         });
 
@@ -1465,8 +1464,8 @@ Code Ids:
                     await mm.addLogoForApp(result.base_component_id)
 
                     await mm.addEditableApp(result.base_component_id, result.new_display_name, {codeId: result.code_id})
-                    setTimeout(function() {
-                        mm.editApp(result.base_component_id)
+                    setTimeout(async function() {
+                        await mm.editApp(result.base_component_id)
                     },50)
                 },
 
