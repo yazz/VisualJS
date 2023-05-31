@@ -1070,7 +1070,7 @@ End of app preview menu
            // ---------------------------------------------------------------
            closeEditor: async function(event,item) {
                let mm = this
-               if (GLOBALS.lastEditingAppCodeId) {
+               if (GLOBALS.subEditorAction == "FORK_CONTROL") {
                    GLOBALS.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
                    GLOBALS.finalCodeIdOfEditedUiControl            = mm.code_id
                    this.$root.$emit("message", {    type:               "edit_component",
