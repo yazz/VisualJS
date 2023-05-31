@@ -6596,12 +6596,8 @@ return {}
                           | has been edited in another editor
                           |__________________________________
          */            if (mm.design_mode) {
-             debugger
+
                     if (GLOBALS.subEditorAction == "FORK_CONTROL") {
-                    //if (GLOBALS.originalNameOfEditedUiControl) {
-                    //    if (GLOBALS.finalBaseComponentIdOfEditedUiControl &&
-                    //        (GLOBALS.originalBaseComponentIdOfEditedUiControl !=
-                    //            GLOBALS.finalBaseComponentIdOfEditedUiControl)) {
                             setTimeout(function(){
                                 mm.changePropertyValue(
                                     {
@@ -6621,6 +6617,13 @@ return {}
                                 GLOBALS.subEditorAction                 = null
 
                             },1000)
+                    } else if (GLOBALS.subEditorAction == "EDIT_CONTROL") {
+                        setTimeout(function(){
+
+                            GLOBALS.originalNameOfEditedUiControl   = null
+                            GLOBALS.subEditorAction                 = null
+
+                        },1000)
 
                     }
                 }
