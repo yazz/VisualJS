@@ -899,6 +899,9 @@ Code Ids:
                             setTimeout(async function() {
                                 let bci = text.base_component_id
                                 let cid = text.code_id
+                                if (!isValidObject(cid)) {
+                                    cid = GLOBALS.baseComponentIdReturnsCommitId[bci]
+                                }
                                 let fid = text.form_id
                                 let cni = text.control_name
                                 GLOBALS.originalFormIdOfEditedUiControl           = fid
@@ -965,6 +968,9 @@ Code Ids:
                             setTimeout(async function() {
                                 let bci = text.base_component_id
                                 let cid = text.code_id
+                                if (!isValidObject(cid)) {
+                                    cid = GLOBALS.baseComponentIdReturnsCommitId[bci]
+                                }
                                 let fid = text.form_id
                                 let cni = text.control_name
                                 GLOBALS.originalFormIdOfEditedUiControl           = fid

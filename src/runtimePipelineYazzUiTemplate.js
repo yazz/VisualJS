@@ -1893,7 +1893,7 @@ Pushlist
                                         "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width / 2) - 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='GLOBALS.subEditorAction = "EDIT_CONTROL"; GLOBALS.lastEditingAppBaseComponentId = GLOBALS.editingAppBaseComponentId; GLOBALS.lastEditingAppCodeId = GLOBALS.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
+                                     v-on:click='GLOBALS.subEditorAction = "EDIT_CONTROL"; GLOBALS.lastEditingAppBaseComponentId = GLOBALS.editingAppBaseComponentId; GLOBALS.lastEditingAppCodeId = GLOBALS.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, code_id:   model.forms[active_form].components[active_component_index].code_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
                           >
 
 
@@ -1919,7 +1919,7 @@ Pushlist
                                         "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                    zzz=""
-                                   v-on:click='GLOBALS.subEditorAction = "FORK_CONTROL"; GLOBALS.lastEditingAppBaseComponentId = GLOBALS.editingAppBaseComponentId; GLOBALS.lastEditingAppCodeId = GLOBALS.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
+                                   v-on:click='GLOBALS.subEditorAction = "FORK_CONTROL"; GLOBALS.lastEditingAppBaseComponentId = GLOBALS.editingAppBaseComponentId; GLOBALS.lastEditingAppCodeId = GLOBALS.editingAppCodeId;$event.stopPropagation();$root.$emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, code_id:   model.forms[active_form].components[active_component_index].code_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
                           >
 
 
