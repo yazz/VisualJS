@@ -6295,6 +6295,7 @@ return {}
         mounted:
             //*** copy_mounted_start ***//
             async function() {
+            debugger
                 /*
                 ________________________________________
                 |                                      |
@@ -6319,7 +6320,10 @@ return {}
                 mm.local_app                    = localAppshareApp
                 mm.in_change_model              = true
 
-                if (mm.properties) {
+                if (mm.properties && mm.args) {
+                    mm.args = {...mm.args,...mm.properties}
+                    mm.properties = mm.args
+                } else if (mm.properties) {
                     mm.args = mm.properties
                 } else {
                     mm.properties = mm.args
