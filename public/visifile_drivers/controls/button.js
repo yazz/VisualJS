@@ -1,6 +1,5 @@
 function() {
 /*
-is_app(true)
 component_type("VB")
 display_name("Button control")
 description("This will return the button control")
