@@ -2,9 +2,6 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
-editors([
-  "control_editor"
-])
 display_name("Input control")
 description("This will return the input control")
 base_component_id("input_control")

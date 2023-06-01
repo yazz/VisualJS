@@ -3,6 +3,9 @@ function(args) {
 is_app(true)
 component_type("VB")
 display_name("Label control")
+editors([
+  "control_editor"
+])
 description("This will return the label control")
 base_component_id("label_control")
 load_once_from_file(true)
