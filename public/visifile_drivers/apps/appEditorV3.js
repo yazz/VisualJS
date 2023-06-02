@@ -1408,6 +1408,7 @@ End of app preview menu
                 }
             },
             load_new_version_of_edited_app: async function  ( options ) {
+                console.log("load_new_version_of_edited_app")
                 /*            --------------------------------------
                              |                                      |
                              |    load_new_version_of_edited_app    |
