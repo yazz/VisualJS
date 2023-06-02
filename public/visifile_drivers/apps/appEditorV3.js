@@ -977,6 +977,7 @@ End of app preview menu
            }
        },
         methods:    {
+            // editor actions
             closeSubEditor:                 async function  () {
                // ---------------------------------------------------------------
                //                         closeSubEditor
@@ -1072,6 +1073,821 @@ End of app preview menu
                GLOBALS.lastEditingAppCodeId             = null;
                GLOBALS.inEditor                         = false
            },
+            chooseApp:                      async function  () {
+                // ---------------------------------------------------------------
+                //                         chooseApp
+                //
+                // This is called when the end user selects "app" so that we only
+                // see the app preview in the app editor
+                // ---------------------------------------------------------------
+                showProgressBar()
+                let mm = this
+                this.code_width = "0%"
+                this.code_shown = false
+
+                this.app_width = "95%"
+                this.app_shown = true
+
+                this.mode      = "edit"
+                this.sub_mode  = "app"
+
+                if (this.timeline_editor) {
+                    this.timeline_editor.destroy()
+                    this.timeline_editor = null
+                }
+
+                if (this.$refs.editor_component_ref) {
+                    appClearIntervals()
+                    this.editor_text = await this.$refs.editor_component_ref.getText()
+
+                    //
+                    // there may be a problem here - we have to make sure that we saved
+                    // the correct code_id which is supposed to be the parent code id, so we
+                    // have to make sure that we save it every time we save code
+                    //
+
+                    //await this.save( this.base_component_id, this.code_id, this.editor_text )
+                    await mm.load_new_version_of_edited_app({codeId:  this.code_id,  runThisApp: true})
+                    hideProgressBar()
+                }
+            },
+            chooseCode:                     async function  () {
+                // ---------------------------------------------------------------
+                //                         chooseCode
+                //
+                // This is called when the end user selects "code" so that we only
+                // see the code editor in the app editor, and no app preview pane
+                // ---------------------------------------------------------------
+                let mm = this
+                this.code_width = "95%"
+                this.code_shown = true
+
+                this.app_width = "0%"
+                this.app_shown = false
+
+                this.mode      = "edit"
+                this.sub_mode  = "code"
+
+                await mm.load_new_version_of_edited_app({codeId:  this.code_id , runThisApp: false})
+
+                if (this.timeline_editor) {
+                    this.timeline_editor.destroy()
+                    this.timeline_editor = null
+                }
+                setTimeout(function(){
+                    console.log("appClearIntervals()")
+                    appClearIntervals()
+                },2500)
+            },
+            chooseBoth:                     async function  () {
+                // ---------------------------------------------------------------
+                //                         chooseBoth
+                //
+                // This is called when the end user selects "Both" so that we can
+                // see both the code editor and the app preview pane
+                // ---------------------------------------------------------------
+                showProgressBar()
+                let mm = this
+                this.mode      = "edit"
+                this.sub_mode  = "both"
+
+                this.code_width = "63%"
+                this.code_shown = true
+
+                this.app_width = "33%"
+                this.app_shown = true
+
+                appClearIntervals()
+                await mm.load_new_version_of_edited_app({codeId:  this.code_id, runThisApp: true})
+
+                if (this.timeline_editor) {
+                    this.timeline_editor.destroy()
+                    this.timeline_editor = null
+                }
+                hideProgressBar()
+            },
+            chooseProfiler:                 async function  () {
+                // ---------------------------------------------------------------
+                //                         chooseProfiler
+                //
+                // This is called when the end user selects "Profiler" that they
+                // can see the app debug view
+                // ---------------------------------------------------------------
+                let mm = this
+                this.code_width = "0%"
+                this.code_shown = false
+
+                this.app_width = "0%"
+                this.app_shown = false
+
+                if (this.$refs.editor_component_ref && (this.mode=="edit") && (this.sub_mode=="code")) {
+                    appClearIntervals()
+                    this.editor_text = await this.$refs.editor_component_ref.getText()
+
+                    await this.save( this.base_component_id, this.code_id, this.editor_text )
+                    await mm.load_new_version_of_edited_app({codeId:  this.code_id, runThisApp: true})
+                }
+                this.mode = "profiler"
+
+                setTimeout(function() {
+                        mm.setupTimelineEditor()
+                        let allWatches = Object.keys(globalWatchList)
+                        for (let rt = 0 ; rt < allWatches.length; rt++) {
+                            fillInMissingWatchTimelineValues(allWatches[rt],0)
+                        }
+                    },
+                    200)
+            },
+            rename:                         async function  (nn) {
+                // ---------------------------------------------------------------
+                //                         rename
+                //
+                // This is called to change the display name of the current app
+                // ---------------------------------------------------------------
+                let mm = this
+                this.edit_name = false
+                this.show_name = true
+
+
+                // commented out as we don't want to replace _ (underscores) with spaces
+                //nn = nn.replace(/[\W_]+/g,"_");
+
+                setTimeout(async function() {
+                    //debugger
+                    mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
+                    mm.editor_text = yz.insertCodeString(mm.editor_text, "display_name", nn)
+
+                    mm.component_display_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
+                    if (mm.$refs.editor_component_ref) {
+                        if (mm.$refs.editor_component_ref.setText) {
+                            mm.$refs.editor_component_ref.setText(mm.editor_text)
+                            mm.save_state = "pending"
+                        }
+                    }
+                    mm.$root.$emit('message', {
+                        type:               "rename_app",
+                        base_component_id:   mm.base_component_id,
+                        display_name:        mm.component_display_name
+                    })
+
+                },500)
+            },
+            editAsText:                     async function  () {
+                /*
+                 _______________________________________
+                 |       editAsText                     |
+                 |______________________________________|
+                 This is called to edit the current app with the text editor
+                 __________
+                 | Params |
+                 |        |______________________________________________________________
+                 |
+                 |     NONE
+                 |________________________________________________________________________ */
+                let mm = this
+
+                this.editor_text = await this.$refs.editor_component_ref.getText()
+
+                let eds = yz.getValueOfCodeString(this.editor_text, "editors")
+                if (eds) {
+                    this.editor_text = yz.deleteCodeString(this.editor_text, "editors")
+                    this.editor_text = yz.insertCodeString(this.editor_text, "editors_old",eds)
+                }
+
+                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
+
+                await mm.load_new_version_of_edited_app({newApp: true, codeId:  this.code_id } )
+            },
+            checkSavedFile:                 function        () {
+                // ---------------------------------------------------------------
+                //                          checkSavedFile
+                //
+                // This is called to check the save status of the code
+                // ---------------------------------------------------------------
+                let mm = this
+                if (saveCodeToFile) {
+                    this.file_save_state = "Saved " + saveCodeToFile
+                    setTimeout(function(){
+                        mm.file_save_state = saveCodeToFile
+                    },1000)
+                } else {
+                    this.file_save_state = ""
+                }
+            },
+            copyApp:                        async function  ( appId , newAppId, codeId) {
+                // ---------------------------------------------------------------
+                //
+                //
+                // This is called to copy an app. At the moment this copies the
+                // base_component_id, which means that the app's latest version
+                // is copied. This may not be what we want though as we really want
+                // to copy the commit ID's code
+                //
+                // ---------------------------------------------------------------
+
+                /*
+                ________________________________________
+                |                                      |
+                |             copyApp                  |
+                |                                      |
+                |______________________________________|
+                Function description
+                __________
+                | PARAMS |______________________________________________________________
+                |
+                |     appId          Base component ID of the app/component to copy
+                |     -----
+                |
+                |     newAppId       New Base Component ID to give the new app/component
+                |     --------
+                |
+                |________________________________________________________________________ */
+
+                let mm       = this
+                let copyArgs = {}
+
+                if (appId) {
+                    copyArgs.base_component_id = appId
+                }
+                if (newAppId) {
+                    copyArgs.new_base_component_id = newAppId
+                }
+                if (codeId) {
+                    copyArgs.code_id = codeId
+                }
+
+                let result = await getFromYazzReturnJson("/http_get_copy_component",copyArgs)
+                if (isValidObject(result)) {
+                    mm.$root.$emit('message', {
+                        type:               "insert_app_at",
+                        base_component_id:   result.base_component_id,
+                        display_name:        result.new_display_name
+                    })
+
+                }
+                setTimeout(async function() {
+                    debugger
+
+                    await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id })
+                    setTimeout(async function() {
+                        mm.refresh++
+                        //hack - the preview doesn't load without this
+                        mm.setInfo("...")
+                    },1500)
+                },200)
+            },
+            bookmarkCode:                   async function  () {
+                // ---------------------------------------------------------------
+                //                          bookmarkCode
+                //
+                // Bookmark code is the same as tagging code with a version. This
+                // tags the current commit.
+                //
+                // Right now it doesn't do anything
+                // but it should add a record to tag the code with the current
+                // date
+                //
+                // ---------------------------------------------------------------
+                try {
+                    let mm = this
+                    showProgressBar()
+
+                    let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_bookmark_commit"
+                    callAjaxPost(postAppUrl,
+                        {
+                            code_id:                  mm.code_id
+                            ,
+                            user_id:                 "xyz"
+                        }
+                        ,
+                        async function(response){
+                            let responseJson = JSON.parse(response)
+
+                            hideProgressBar()
+                            this.save_state = "saved"
+
+                        })
+
+                } catch (e) {
+                    hideProgressBar()
+                    this.save_state = "saved"
+                    //this.checkSavedFile()
+                }
+            },
+            releaseCode:                    async function  () {
+                // ---------------------------------------------------------------
+                //                          releaseCode
+                //
+                // This tries to release the current commit as the release version
+                // of the app
+                //
+                // ---------------------------------------------------------------
+                try {
+                    let mm = this
+                    showProgressBar()
+
+                    let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_release_commit"
+                    callAjaxPost(postAppUrl,
+                        {
+                            code_id:                  mm.code_id
+                            ,
+                            user_id:                 "xyz"
+                        }
+                        ,
+                        async function(response){
+                            let responseJson = JSON.parse(response)
+
+                            hideProgressBar()
+                            this.save_state = "saved"
+                        })
+
+                } catch (e) {
+                    hideProgressBar()
+                    this.save_state = "saved"
+                    //this.checkSavedFile()
+                }
+            },
+            load_new_version_of_edited_app: async function  ( options ) {
+                /*            --------------------------------------
+                             |                                      |
+                             |    load_new_version_of_edited_app    |
+                             |                                      |
+                              --------------------------------------
+
+                    This loads a new version of the currently edited app.
+
+                     --------
+                    | Params |
+                ----          --------------------------------------------------------------
+               |
+               |     options: {
+               |     -------    baseComponentId - if set then load the latest
+               |                ---------------   edited version of the app which has
+               |                                  a type of "baseComponentId"
+               |
+               |                codeId - if set then load the code which has an
+               |                ------   ID/IPFSHashId of "codeId"
+               |
+               |                code - if set then load the source code from "code"
+               |                ----   as the app
+               |
+               |                runThisApp - if true then after loading the code
+               |                ----------   then refresh the preview pane
+               |
+               |                newApp - if set to true then ...
+               |                ------
+               |     }
+               |
+                ------------------------------------------------------------------------------ */
+
+
+                /*   --------------------------------------
+                    |    load_new_version_of_edited_app    |
+                     ----------------               -------
+                                     |  init stuff |
+                                      ------------- */
+                let mm              = this
+                let baseComponentId = options.baseComponentId
+                let code            = null
+                let results
+                let codeId          = null
+                let runThisApp      = false
+                mm.preview_type     = ""
+
+                if (options.codeId) {
+                    codeId = options.codeId
+                    if (codeId == "") {
+                        return
+                    }
+                }
+
+                if (options.runThisApp) {
+                    runThisApp = options.runThisApp
+                }
+
+                if (options.newApp == true) {
+                    GLOBALS.loadedControlsMapInCurrentlyEditedApp = new Object()
+                    mm.editor_loaded                               = false
+                }
+
+                if (options.code) {
+                    code = options.code
+                }
+
+                if ((!codeId) && (!baseComponentId) && (!code)) {
+                    return
+                }
+
+                mm.component_display_name   = null
+                mm.app_loaded               = true
+                mm.execution_timeline       = executionTimeline
+                mm.execution_code           = executionCode
+                mm.execution_block_list     = Object.keys(this.execution_code)
+
+
+                try {
+
+                    /*   --------------------------------------
+                        |    load_new_version_of_edited_app    |
+                         ----------------                       -----
+                                         |  load app from commit ID  |
+                                          --------------------------- */
+
+                    if (codeId) {
+                        results = await sqliteQuery(
+                            `select
+                                          id, 
+                                          cast(code as text)  as  code, 
+                                          editors, 
+                                          base_component_id
+                                      from
+                                          system_code
+                                      where
+                                          id = '${codeId}'`)
+
+
+                        if (results) {
+                            if (results.length > 0) {
+
+                                //
+                                // find the editor
+                                //
+                                let editors2 = results[0].editors
+                                mm.base_component_id = results[0].base_component_id
+
+                                let newEditor = null
+                                if (isValidObject(editors2) && (mm.override_app_editor == null)) {
+                                    let edd = eval("(" + editors2 + ")")
+                                    newEditor = edd[0]
+                                }
+
+
+                                //
+                                // find the code
+                                //
+                                code = results[0].code
+                                let componentType = yz.getValueOfCodeString(code.toString(),"component_type")
+
+                                codeId = results[0].id
+                                mm.code_id = codeId
+                                GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                GLOBALS.pointBaseComponentIdAtCode(
+                                    {
+                                        baseComponentId:    mm.base_component_id,
+                                        codeId:             codeId
+                                    })
+
+                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
+
+                                if (mm.editor_loaded && (mm.editor_text != code)) {
+                                    mm.editor_text = code
+                                }
+
+
+                                //
+                                // load the editor
+                                //
+                                if ( !mm.editor_loaded ) {
+                                    let editorName = "editor_component"
+                                    if (mm.override_app_editor != null) {
+                                        editorName = mm.override_app_editor
+                                    }
+                                    if (newEditor) {
+                                        editorName = newEditor
+                                    }
+
+                                    await loadUiComponentsV4( editorName, {text: code} )
+                                    mm.refresh++
+
+                                    mm.editor_loaded    = true
+                                    mm.editor_component = editorName
+
+                                }
+
+
+                                //
+                                // set readonly
+                                //
+                                this.read_only = yz.getValueOfCodeString(code, "read_only")
+                            }
+
+                            if ((isValidObject(runThisApp))   && (!runThisApp)) {
+                                //do nothing if we set "runthisapp" to false
+                            } else {
+                                this.resetDebugger()
+                                setTimeout(async function() {
+                                    mm.refresh++
+                                },200)
+                            }
+
+
+                            setTimeout(async function() {
+
+                                //code = yz.deleteCodeString(code, "display_name")
+                                //code = yz.insertCodeString(code, "display_name", newDisplayName)
+
+                                //mm.component_display_name = baseComponentId
+                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
+                                if (mm.$refs.editor_component_ref) {
+                                    if (mm.$refs.editor_component_ref.setText) {
+                                        mm.$refs.editor_component_ref.setText(code)
+                                    }
+                                }
+                                mm.resetDebugger()
+                                await loadUiComponentsV4( {codeId: mm.code_id }, {} )
+                                mm.refresh++
+                            },500)
+                        }
+
+
+
+
+                        /* --------------------------------------
+                          |    load_new_version_of_edited_app    |
+                           -----------------                      ------
+                                            | load app from source code |
+                                             --------------------------- */
+                    } else if (code) {
+                        //
+                        // load the editor
+                        //
+                        if ( !mm.editor_loaded ) {
+                            let editorName = "editor_component"
+                            if (mm.override_app_editor != null) {
+                                editorName = mm.override_app_editor
+                            }
+                            if (newEditor) {
+                                editorName = newEditor
+                            }
+//debugger
+                            let bci = yz.getValueOfCodeString(code.toString(),"base_component_id")
+
+                            GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                            GLOBALS.pointBaseComponentIdAtCode(
+                                {
+                                    baseComponentId:    bci,
+                                    codeId:             codeId
+                                })
+
+                            await loadUiComponentsV4( editorName, {text: code} )
+                            mm.refresh++
+
+                            mm.editor_loaded    = true
+                            mm.editor_component = editorName
+                        }
+
+
+                        //
+                        // set readonly
+                        //
+                        this.read_only = yz.getValueOfCodeString(code, "read_only")
+
+
+                        this.resetDebugger()
+                        await loadUiComponentsV4( {codeId: mm.code_id }, {} )
+                        mm.refresh++
+
+
+
+                        setTimeout(async function() {
+                            //mm.component_display_name = baseComponentId
+                            mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
+                            if (mm.$refs.editor_component_ref) {
+                                if (mm.$refs.editor_component_ref.setText) {
+                                    mm.$refs.editor_component_ref.setText(code)
+                                }
+                            }
+                        },500)
+
+
+                        /* --------------------------------------
+                          |    load_new_version_of_edited_app    |
+                           -----------------                      ----------------------------
+                                            | load app based on App Type (base_component_id") |
+                                             -------------------------------------------------   */
+                    } else {
+                        mm.base_component_id     = baseComponentId
+                        //
+                        // read the code for the component that we are editing
+                        //
+                        results = await sqliteQuery(
+                            `select
+                                    system_code.id, cast(system_code.code as text)  as  code, system_code.editors
+                                 from
+                                    system_code, yz_cache_released_components
+                                 where
+                                        yz_cache_released_components.base_component_id = '${baseComponentId}'
+                                           and
+                                        system_code.id = yz_cache_released_components.ipfs_hash `)
+                        if (!results || results.length == 0) {
+                            results = await sqliteQuery(
+                                `select
+                                    id, cast(code as text)  as  code, editors
+                                 from
+                                    system_code
+                                 where
+                                        base_component_id = '${baseComponentId}'
+                                           `)
+                        }
+
+
+                        if (results) {
+                            if (results.length > 0) {
+
+                                //
+                                // find the editor
+                                //
+                                let editors2 = results[0].editors
+                                let newEditor = null
+                                if (isValidObject(editors2) && (mm.override_app_editor == null)) {
+                                    let edd = eval("(" + editors2 + ")")
+                                    newEditor = edd[0]
+                                }
+
+
+                                //
+                                // find the code
+                                //
+                                code = results[0].code
+                                let componentType = yz.getValueOfCodeString(code.toString(),"component_type")
+
+                                codeId                  = results[0].id
+                                mm.code_id              = codeId
+                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
+
+
+                                if (mm.editor_loaded && (mm.editor_text != code)) {
+                                    mm.editor_text = code
+                                    console.log("2) mm.code_id= " + mm.code_id)
+                                }
+
+
+                                //
+                                // load the editor
+                                //
+                                if ( !mm.editor_loaded ) {
+                                    let editorName = "editor_component"
+                                    if (mm.override_app_editor != null) {
+                                        editorName = mm.override_app_editor
+                                    }
+                                    if (newEditor) {
+                                        editorName = newEditor
+                                    }
+
+
+                                    GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                    GLOBALS.pointBaseComponentIdAtCode(
+                                        {
+                                            baseComponentId:    baseComponentId,
+                                            codeId:             codeId
+                                        })
+
+                                    await loadUiComponentsV4( editorName, {text: code} )
+                                    mm.refresh++
+
+                                    mm.editor_loaded    = true
+                                    mm.editor_component = editorName
+
+                                }
+
+
+                                //
+                                // set readonly
+                                //
+                                this.read_only = yz.getValueOfCodeString(code, "read_only")
+                            }
+
+
+                            setTimeout(async function() {
+
+                                //code = yz.deleteCodeString(code, "display_name")
+                                //code = yz.insertCodeString(code, "display_name", newDisplayName)
+
+                                //mm.component_display_name = baseComponentId
+                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
+                                if (mm.$refs.editor_component_ref) {
+                                    if (mm.$refs.editor_component_ref.setText) {
+                                        mm.$refs.editor_component_ref.setText(code)
+                                    }
+                                }
+                            },500)
+                        }
+                    }
+
+                } catch (e) {
+                    hideProgressBar()
+                }
+                hideProgressBar()
+                if (code && (yz.getValueOfCodeString(code,"component_type") == "VB")) {
+                    mm.preview_type = "control"
+                } else {
+                    mm.preview_type = "app"
+                }
+            },
+            save:                           async function  ( base_component_id, code_id , textIn, extras) {
+                // ---------------------------------------------------------------
+                //                           save
+                //
+                // This is called to save the currently edited code
+                // ---------------------------------------------------------------
+                let mm = this
+                if (mm.inSave) {
+                    return false
+                }
+                mm.inSave = true
+
+                //resetTimer("save")
+
+                try {
+                    if (textIn == null) {
+                        //showTimer("before getText")
+                        this.editor_text = await this.$refs.editor_component_ref.getText()
+                        //showTimer("after getText")
+                    } else {
+                        this.editor_text = textIn
+                    }
+
+
+                    if (mm.$refs.editor_component_ref.lockEditor) {
+                        mm.$refs.editor_component_ref.lockEditor()
+                    }
+                    mm.editor_shell_locked = true
+
+                    showProgressBar()
+
+                    //showTimer("before save code")
+                    let allowAppToWorkOffline = false
+                    if (extras) {
+                        allowAppToWorkOffline = extras.allowAppToWorkOffline
+                    }
+
+                    if (!allowAppToWorkOffline) {
+                        this.editor_text = enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
+                    }
+                    let baseCompIdFromSrcCode = yz.getValueOfCodeString(this.editor_text,"base_component_id")
+                    await saveCodeViaWebWorker(
+                        this.editor_text
+                        ,
+                        {
+                            sub_components:         Object.keys(GLOBALS.loadedControlsMapInCurrentlyEditedApp),
+                            save_html:              true,
+                            save_code_to_file:      saveCodeToFile,
+                            allowAppToWorkOffline:  allowAppToWorkOffline,
+                            allowChanges:           false
+                        })
+
+                    //showTimer("in save code response")
+                    if (mm.$refs.editor_component_ref) {
+                        if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
+                            await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
+                        }
+                    }
+
+                    mm.code_id  = await getIpfsHash(mm.editor_text)
+                    GLOBALS.cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
+
+
+                    if (mm.app_shown) {
+                        // if the app has been changed during the save then don't reload the app
+                        if (!saveCodeToFile) {
+                            await mm.load_new_version_of_edited_app({code: mm.editor_text, runThisApp: true})
+
+                        } else {
+                            hideProgressBar()
+                        }
+                    }
+                    hideProgressBar()
+                    if (mm.$refs.editor_component_ref.unlockEditor) {
+                        mm.$refs.editor_component_ref.unlockEditor()
+                    }
+                    mm.editor_shell_locked = false
+
+                    mm.save_state = "saved"
+                    mm.checkSavedFile()
+                    //showTimer("done")
+                    mm.inSave = false
+                    mm.editor_shell_locked = false
+
+                    mm.$root.$emit('message', {
+                        type:               "update_app",
+                        base_component_id:   baseCompIdFromSrcCode,
+                        code_id:             mm.code_id
+                    })
+
+                    //showTimer("return")
+                    return true
+
+                } catch (e) {
+                    hideProgressBar()
+                    this.save_state = "saved"
+                    this.checkSavedFile()
+                    mm.inSave = false
+                    mm.editor_shell_locked = false
+                    return true
+                }
+            },
+
+            // debugger
             getVarAsHtml:                   function        (viewer,varName) {
                // ---------------------------------------------------------------
                //                         getVarAsHtml
@@ -1372,820 +2188,7 @@ End of app preview menu
                 }
                 this.updateTimeline()
 
-            },
-            chooseApp:                      async function  () {
-                // ---------------------------------------------------------------
-                //                         chooseApp
-                //
-                // This is called when the end user selects "app" so that we only
-                // see the app preview in the app editor
-                // ---------------------------------------------------------------
-                showProgressBar()
-                let mm = this
-                this.code_width = "0%"
-                this.code_shown = false
-
-                this.app_width = "95%"
-                this.app_shown = true
-
-                this.mode      = "edit"
-                this.sub_mode  = "app"
-
-                if (this.timeline_editor) {
-                    this.timeline_editor.destroy()
-                    this.timeline_editor = null
-                }
-
-                if (this.$refs.editor_component_ref) {
-                    appClearIntervals()
-                    this.editor_text = await this.$refs.editor_component_ref.getText()
-
-                    //
-                    // there may be a problem here - we have to make sure that we saved
-                    // the correct code_id which is supposed to be the parent code id, so we
-                    // have to make sure that we save it every time we save code
-                    //
-
-                    //await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_new_version_of_edited_app({codeId:  this.code_id,  runThisApp: true})
-                    hideProgressBar()
-                }
-            },
-            chooseCode:                     async function  () {
-                // ---------------------------------------------------------------
-                //                         chooseCode
-                //
-                // This is called when the end user selects "code" so that we only
-                // see the code editor in the app editor, and no app preview pane
-                // ---------------------------------------------------------------
-                let mm = this
-                this.code_width = "95%"
-                this.code_shown = true
-
-                this.app_width = "0%"
-                this.app_shown = false
-
-                this.mode      = "edit"
-                this.sub_mode  = "code"
-
-                await mm.load_new_version_of_edited_app({codeId:  this.code_id , runThisApp: false})
-
-                if (this.timeline_editor) {
-                    this.timeline_editor.destroy()
-                    this.timeline_editor = null
-                }
-                setTimeout(function(){
-                    console.log("appClearIntervals()")
-                    appClearIntervals()
-                },2500)
-            },
-            chooseBoth:                     async function  () {
-                // ---------------------------------------------------------------
-                //                         chooseBoth
-                //
-                // This is called when the end user selects "Both" so that we can
-                // see both the code editor and the app preview pane
-                // ---------------------------------------------------------------
-                showProgressBar()
-                let mm = this
-                this.mode      = "edit"
-                this.sub_mode  = "both"
-
-                this.code_width = "63%"
-                this.code_shown = true
-
-                this.app_width = "33%"
-                this.app_shown = true
-
-                appClearIntervals()
-                await mm.load_new_version_of_edited_app({codeId:  this.code_id, runThisApp: true})
-
-                if (this.timeline_editor) {
-                    this.timeline_editor.destroy()
-                    this.timeline_editor = null
-                }
-                hideProgressBar()
-            },
-            chooseProfiler:                 async function  () {
-                // ---------------------------------------------------------------
-                //                         chooseProfiler
-                //
-                // This is called when the end user selects "Profiler" that they
-                // can see the app debug view
-                // ---------------------------------------------------------------
-                let mm = this
-                this.code_width = "0%"
-                this.code_shown = false
-
-                this.app_width = "0%"
-                this.app_shown = false
-
-                if (this.$refs.editor_component_ref && (this.mode=="edit") && (this.sub_mode=="code")) {
-                    appClearIntervals()
-                    this.editor_text = await this.$refs.editor_component_ref.getText()
-
-                    await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.load_new_version_of_edited_app({codeId:  this.code_id, runThisApp: true})
-                }
-                this.mode = "profiler"
-
-                setTimeout(function() {
-                        mm.setupTimelineEditor()
-                        let allWatches = Object.keys(globalWatchList)
-                        for (let rt = 0 ; rt < allWatches.length; rt++) {
-                            fillInMissingWatchTimelineValues(allWatches[rt],0)
-                        }
-                    },
-                    200)
-            },
-            rename:                         async function  (nn) {
-                // ---------------------------------------------------------------
-                //                         rename
-                //
-                // This is called to change the display name of the current app
-                // ---------------------------------------------------------------
-                let mm = this
-                this.edit_name = false
-                this.show_name = true
-
-
-                // commented out as we don't want to replace _ (underscores) with spaces
-                //nn = nn.replace(/[\W_]+/g,"_");
-
-                setTimeout(async function() {
-                    //debugger
-                    mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
-                    mm.editor_text = yz.insertCodeString(mm.editor_text, "display_name", nn)
-
-                    mm.component_display_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
-                    if (mm.$refs.editor_component_ref) {
-                        if (mm.$refs.editor_component_ref.setText) {
-                            mm.$refs.editor_component_ref.setText(mm.editor_text)
-                            mm.save_state = "pending"
-                        }
-                    }
-                    mm.$root.$emit('message', {
-                        type:               "rename_app",
-                        base_component_id:   mm.base_component_id,
-                        display_name:        mm.component_display_name
-                    })
-
-                },500)
-            },
-            editAsText:                     async function  () {
-                /*
-                 _______________________________________
-                 |       editAsText                     |
-                 |______________________________________|
-                 This is called to edit the current app with the text editor
-                 __________
-                 | Params |
-                 |        |______________________________________________________________
-                 |
-                 |     NONE
-                 |________________________________________________________________________ */
-                let mm = this
-
-                this.editor_text = await this.$refs.editor_component_ref.getText()
-
-                let eds = yz.getValueOfCodeString(this.editor_text, "editors")
-                if (eds) {
-                    this.editor_text = yz.deleteCodeString(this.editor_text, "editors")
-                    this.editor_text = yz.insertCodeString(this.editor_text, "editors_old",eds)
-                }
-
-                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
-
-                await mm.load_new_version_of_edited_app({newApp: true, codeId:  this.code_id } )
-            },
-            checkSavedFile:                 function        () {
-                // ---------------------------------------------------------------
-                //                          checkSavedFile
-                //
-                // This is called to check the save status of the code
-                // ---------------------------------------------------------------
-                let mm = this
-                if (saveCodeToFile) {
-                    this.file_save_state = "Saved " + saveCodeToFile
-                    setTimeout(function(){
-                        mm.file_save_state = saveCodeToFile
-                    },1000)
-                } else {
-                    this.file_save_state = ""
-                }
-            },
-            copyApp:                        async function  ( appId , newAppId, codeId) {
-               // ---------------------------------------------------------------
-               //
-               //
-               // This is called to copy an app. At the moment this copies the
-               // base_component_id, which means that the app's latest version
-               // is copied. This may not be what we want though as we really want
-               // to copy the commit ID's code
-               //
-               // ---------------------------------------------------------------
-
-               /*
-               ________________________________________
-               |                                      |
-               |             copyApp                  |
-               |                                      |
-               |______________________________________|
-               Function description
-               __________
-               | PARAMS |______________________________________________________________
-               |
-               |     appId          Base component ID of the app/component to copy
-               |     -----
-               |
-               |     newAppId       New Base Component ID to give the new app/component
-               |     --------
-               |
-               |________________________________________________________________________ */
-
-               let mm       = this
-               let copyArgs = {}
-
-               if (appId) {
-                   copyArgs.base_component_id = appId
-               }
-               if (newAppId) {
-                   copyArgs.new_base_component_id = newAppId
-               }
-               if (codeId) {
-                   copyArgs.code_id = codeId
-               }
-
-               let result = await getFromYazzReturnJson("/http_get_copy_component",copyArgs)
-               if (isValidObject(result)) {
-                    mm.$root.$emit('message', {
-                                                    type:               "insert_app_at",
-                                                    base_component_id:   result.base_component_id,
-                                                    display_name:        result.new_display_name
-                                                })
-
-                }
-                setTimeout(async function() {
-                    debugger
-
-                    await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id })
-                        setTimeout(async function() {
-                            mm.refresh++
-                            //hack - the preview doesn't load without this
-                            mm.setInfo("...")
-                        },1500)
-                },200)
-            },
-            bookmarkCode:                   async function  () {
-               // ---------------------------------------------------------------
-               //                          bookmarkCode
-               //
-               // Bookmark code is the same as tagging code with a version. This
-               // tags the current commit.
-               //
-               // Right now it doesn't do anything
-               // but it should add a record to tag the code with the current
-               // date
-               //
-               // ---------------------------------------------------------------
-               try {
-                   let mm = this
-                   showProgressBar()
-
-                   let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_bookmark_commit"
-                   callAjaxPost(postAppUrl,
-                       {
-                           code_id:                  mm.code_id
-                           ,
-                           user_id:                 "xyz"
-                       }
-                       ,
-                       async function(response){
-                           let responseJson = JSON.parse(response)
-
-                           hideProgressBar()
-                           this.save_state = "saved"
-
-                       })
-
-               } catch (e) {
-                   hideProgressBar()
-                   this.save_state = "saved"
-                   //this.checkSavedFile()
-               }
-           },
-            releaseCode:                    async function  () {
-               // ---------------------------------------------------------------
-               //                          releaseCode
-               //
-               // This tries to release the current commit as the release version
-               // of the app
-               //
-               // ---------------------------------------------------------------
-               try {
-                   let mm = this
-                   showProgressBar()
-
-                   let postAppUrl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_release_commit"
-                   callAjaxPost(postAppUrl,
-                       {
-                           code_id:                  mm.code_id
-                           ,
-                           user_id:                 "xyz"
-                       }
-                       ,
-                       async function(response){
-                           let responseJson = JSON.parse(response)
-
-                           hideProgressBar()
-                           this.save_state = "saved"
-                       })
-
-               } catch (e) {
-                   hideProgressBar()
-                   this.save_state = "saved"
-                   //this.checkSavedFile()
-               }
-           },
-            load_new_version_of_edited_app: async function  ( options ) {
-                /*            --------------------------------------
-                             |                                      |
-                             |    load_new_version_of_edited_app    |
-                             |                                      |
-                              --------------------------------------
-
-                    This loads a new version of the currently edited app.
-
-                     --------
-                    | Params |
-                ----          --------------------------------------------------------------
-               |
-               |     options: {
-               |     -------    baseComponentId - if set then load the latest
-               |                ---------------   edited version of the app which has
-               |                                  a type of "baseComponentId"
-               |
-               |                codeId - if set then load the code which has an
-               |                ------   ID/IPFSHashId of "codeId"
-               |
-               |                code - if set then load the source code from "code"
-               |                ----   as the app
-               |
-               |                runThisApp - if true then after loading the code
-               |                ----------   then refresh the preview pane
-               |
-               |                newApp - if set to true then ...
-               |                ------
-               |     }
-               |
-                ------------------------------------------------------------------------------ */
-
-
-                /*   --------------------------------------
-                    |    load_new_version_of_edited_app    |
-                     ----------------               -------
-                                     |  init stuff |
-                                      ------------- */
-                let mm              = this
-                let baseComponentId = options.baseComponentId
-                let code            = null
-                let results
-                let codeId          = null
-                let runThisApp      = false
-                mm.preview_type     = ""
-
-                if (options.codeId) {
-                    codeId = options.codeId
-                    if (codeId == "") {
-                        return
-                    }
-                }
-
-                if (options.runThisApp) {
-                    runThisApp = options.runThisApp
-                }
-
-                if (options.newApp == true) {
-                    GLOBALS.loadedControlsMapInCurrentlyEditedApp = new Object()
-                    mm.editor_loaded                               = false
-                }
-
-                if (options.code) {
-                    code = options.code
-                }
-
-                if ((!codeId) && (!baseComponentId) && (!code)) {
-                    return
-                }
-
-                mm.component_display_name   = null
-                mm.app_loaded               = true
-                mm.execution_timeline       = executionTimeline
-                mm.execution_code           = executionCode
-                mm.execution_block_list     = Object.keys(this.execution_code)
-
-
-                try {
-
-                    /*   --------------------------------------
-                        |    load_new_version_of_edited_app    |
-                         ----------------                       -----
-                                         |  load app from commit ID  |
-                                          --------------------------- */
-
-                    if (codeId) {
-                        results = await sqliteQuery(
-                                     `select
-                                          id, 
-                                          cast(code as text)  as  code, 
-                                          editors, 
-                                          base_component_id
-                                      from
-                                          system_code
-                                      where
-                                          id = '${codeId}'`)
-
-
-                        if (results) {
-                            if (results.length > 0) {
-
-                                //
-                                // find the editor
-                                //
-                                let editors2 = results[0].editors
-                                mm.base_component_id = results[0].base_component_id
-
-                                let newEditor = null
-                                if (isValidObject(editors2) && (mm.override_app_editor == null)) {
-                                    let edd = eval("(" + editors2 + ")")
-                                    newEditor = edd[0]
-                                }
-
-
-                                //
-                                // find the code
-                                //
-                                code = results[0].code
-                                let componentType = yz.getValueOfCodeString(code.toString(),"component_type")
-
-                                codeId = results[0].id
-                                mm.code_id = codeId
-                                GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
-                                GLOBALS.pointBaseComponentIdAtCode(
-                                    {
-                                        baseComponentId:    mm.base_component_id,
-                                        codeId:             codeId
-                                    })
-
-                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
-                                if (mm.editor_loaded && (mm.editor_text != code)) {
-                                    mm.editor_text = code
-                                }
-
-
-                                //
-                                // load the editor
-                                //
-                                if ( !mm.editor_loaded ) {
-                                    let editorName = "editor_component"
-                                    if (mm.override_app_editor != null) {
-                                        editorName = mm.override_app_editor
-                                    }
-                                    if (newEditor) {
-                                        editorName = newEditor
-                                    }
-
-                                    await loadUiComponentsV4( editorName, {text: code} )
-                                    mm.refresh++
-
-                                    mm.editor_loaded    = true
-                                    mm.editor_component = editorName
-
-                                }
-
-
-                                //
-                                // set readonly
-                                //
-                                this.read_only = yz.getValueOfCodeString(code, "read_only")
-                            }
-
-                            if ((isValidObject(runThisApp))   && (!runThisApp)) {
-                                //do nothing if we set "runthisapp" to false
-                            } else {
-                                this.resetDebugger()
-                                setTimeout(async function() {
-                                    mm.refresh++
-                                },200)
-                            }
-
-
-                            setTimeout(async function() {
-
-                                //code = yz.deleteCodeString(code, "display_name")
-                                //code = yz.insertCodeString(code, "display_name", newDisplayName)
-
-                                //mm.component_display_name = baseComponentId
-                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
-                                if (mm.$refs.editor_component_ref) {
-                                    if (mm.$refs.editor_component_ref.setText) {
-                                        mm.$refs.editor_component_ref.setText(code)
-                                    }
-                                }
-                                mm.resetDebugger()
-                                await loadUiComponentsV4( {codeId: mm.code_id }, {} )
-                                mm.refresh++
-                            },500)
-                        }
-
-
-
-
-                    /* --------------------------------------
-                      |    load_new_version_of_edited_app    |
-                       -----------------                      ------
-                                        | load app from source code |
-                                         --------------------------- */
-                    } else if (code) {
-                        //
-                        // load the editor
-                        //
-                        if ( !mm.editor_loaded ) {
-                            let editorName = "editor_component"
-                            if (mm.override_app_editor != null) {
-                                editorName = mm.override_app_editor
-                            }
-                            if (newEditor) {
-                                editorName = newEditor
-                            }
-//debugger
-                            let bci = yz.getValueOfCodeString(code.toString(),"base_component_id")
-
-                            GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
-                            GLOBALS.pointBaseComponentIdAtCode(
-                                {
-                                    baseComponentId:    bci,
-                                    codeId:             codeId
-                                })
-
-                            await loadUiComponentsV4( editorName, {text: code} )
-                            mm.refresh++
-
-                            mm.editor_loaded    = true
-                            mm.editor_component = editorName
-                        }
-
-
-                        //
-                        // set readonly
-                        //
-                        this.read_only = yz.getValueOfCodeString(code, "read_only")
-
-
-                        this.resetDebugger()
-                        await loadUiComponentsV4( {codeId: mm.code_id }, {} )
-                        mm.refresh++
-
-
-
-                        setTimeout(async function() {
-                            //mm.component_display_name = baseComponentId
-                            mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
-                            if (mm.$refs.editor_component_ref) {
-                                if (mm.$refs.editor_component_ref.setText) {
-                                    mm.$refs.editor_component_ref.setText(code)
-                                }
-                            }
-                        },500)
-
-
-                /* --------------------------------------
-                  |    load_new_version_of_edited_app    |
-                   -----------------                      ----------------------------
-                                    | load app based on App Type (base_component_id") |
-                                     -------------------------------------------------   */
-                    } else {
-                        mm.base_component_id     = baseComponentId
-                        //
-                        // read the code for the component that we are editing
-                        //
-                        results = await sqliteQuery(
-                            `select
-                                    system_code.id, cast(system_code.code as text)  as  code, system_code.editors
-                                 from
-                                    system_code, yz_cache_released_components
-                                 where
-                                        yz_cache_released_components.base_component_id = '${baseComponentId}'
-                                           and
-                                        system_code.id = yz_cache_released_components.ipfs_hash `)
-                        if (!results || results.length == 0) {
-                            results = await sqliteQuery(
-                                `select
-                                    id, cast(code as text)  as  code, editors
-                                 from
-                                    system_code
-                                 where
-                                        base_component_id = '${baseComponentId}'
-                                           `)
-                        }
-
-
-                        if (results) {
-                            if (results.length > 0) {
-
-                                //
-                                // find the editor
-                                //
-                                let editors2 = results[0].editors
-                                let newEditor = null
-                                if (isValidObject(editors2) && (mm.override_app_editor == null)) {
-                                    let edd = eval("(" + editors2 + ")")
-                                    newEditor = edd[0]
-                                }
-
-
-                                //
-                                // find the code
-                                //
-                                code = results[0].code
-                                let componentType = yz.getValueOfCodeString(code.toString(),"component_type")
-
-                                codeId                  = results[0].id
-                                mm.code_id              = codeId
-                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
-
-                                if (mm.editor_loaded && (mm.editor_text != code)) {
-                                    mm.editor_text = code
-                                    console.log("2) mm.code_id= " + mm.code_id)
-                                }
-
-
-                                //
-                                // load the editor
-                                //
-                                if ( !mm.editor_loaded ) {
-                                    let editorName = "editor_component"
-                                    if (mm.override_app_editor != null) {
-                                        editorName = mm.override_app_editor
-                                    }
-                                    if (newEditor) {
-                                        editorName = newEditor
-                                    }
-
-
-                                    GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
-                                    GLOBALS.pointBaseComponentIdAtCode(
-                                        {
-                                            baseComponentId:    baseComponentId,
-                                            codeId:             codeId
-                                        })
-
-                                    await loadUiComponentsV4( editorName, {text: code} )
-                                    mm.refresh++
-
-                                    mm.editor_loaded    = true
-                                    mm.editor_component = editorName
-
-                                }
-
-
-                                //
-                                // set readonly
-                                //
-                                this.read_only = yz.getValueOfCodeString(code, "read_only")
-                            }
-
-
-                            setTimeout(async function() {
-
-                                //code = yz.deleteCodeString(code, "display_name")
-                                //code = yz.insertCodeString(code, "display_name", newDisplayName)
-
-                                //mm.component_display_name = baseComponentId
-                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
-                                if (mm.$refs.editor_component_ref) {
-                                    if (mm.$refs.editor_component_ref.setText) {
-                                        mm.$refs.editor_component_ref.setText(code)
-                                    }
-                                }
-                            },500)
-                        }
-                    }
-
-               } catch (e) {
-                   hideProgressBar()
-               }
-               hideProgressBar()
-               if (code && (yz.getValueOfCodeString(code,"component_type") == "VB")) {
-                   mm.preview_type = "control"
-               } else {
-                   mm.preview_type = "app"
-               }
-           },
-            save:                           async function  ( base_component_id, code_id , textIn, extras) {
-                    // ---------------------------------------------------------------
-                    //                           save
-                    //
-                    // This is called to save the currently edited code
-                    // ---------------------------------------------------------------
-                    let mm = this
-                    if (mm.inSave) {
-                        return false
-                    }
-                    mm.inSave = true
-
-                    //resetTimer("save")
-
-                    try {
-                        if (textIn == null) {
-                            //showTimer("before getText")
-                            this.editor_text = await this.$refs.editor_component_ref.getText()
-                            //showTimer("after getText")
-                        } else {
-                            this.editor_text = textIn
-                        }
-
-
-                        if (mm.$refs.editor_component_ref.lockEditor) {
-                            mm.$refs.editor_component_ref.lockEditor()
-                        }
-                        mm.editor_shell_locked = true
-
-                        showProgressBar()
-
-                        //showTimer("before save code")
-                        let allowAppToWorkOffline = false
-                        if (extras) {
-                            allowAppToWorkOffline = extras.allowAppToWorkOffline
-                        }
-
-                        if (!allowAppToWorkOffline) {
-                            this.editor_text = enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
-                        }
-                        let baseCompIdFromSrcCode = yz.getValueOfCodeString(this.editor_text,"base_component_id")
-                        await saveCodeViaWebWorker(
-                            this.editor_text
-                            ,
-                            {
-                                sub_components:         Object.keys(GLOBALS.loadedControlsMapInCurrentlyEditedApp),
-                                save_html:              true,
-                                save_code_to_file:      saveCodeToFile,
-                                allowAppToWorkOffline:  allowAppToWorkOffline,
-                                allowChanges:           false
-                            })
-
-                        //showTimer("in save code response")
-                        if (mm.$refs.editor_component_ref) {
-                            if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
-                                await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
-                            }
-                        }
-
-                        mm.code_id  = await getIpfsHash(mm.editor_text)
-                        GLOBALS.cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
-
-
-                        if (mm.app_shown) {
-                            // if the app has been changed during the save then don't reload the app
-                            if (!saveCodeToFile) {
-                                await mm.load_new_version_of_edited_app({code: mm.editor_text, runThisApp: true})
-
-                            } else {
-                                hideProgressBar()
-                            }
-                        }
-                        hideProgressBar()
-                        if (mm.$refs.editor_component_ref.unlockEditor) {
-                            mm.$refs.editor_component_ref.unlockEditor()
-                        }
-                        mm.editor_shell_locked = false
-
-                        mm.save_state = "saved"
-                        mm.checkSavedFile()
-                        //showTimer("done")
-                        mm.inSave = false
-                        mm.editor_shell_locked = false
-
-                        mm.$root.$emit('message', {
-                            type:               "update_app",
-                            base_component_id:   baseCompIdFromSrcCode,
-                            code_id:             mm.code_id
-                        })
-
-                        //showTimer("return")
-                        return true
-
-                    } catch (e) {
-                        hideProgressBar()
-                        this.save_state = "saved"
-                        this.checkSavedFile()
-                        mm.inSave = false
-                        mm.editor_shell_locked = false
-                        return true
-                    }
-                }
+            }
         },
         mounted:    async function () {
             let mm = this
