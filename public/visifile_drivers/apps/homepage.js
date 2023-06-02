@@ -974,7 +974,7 @@ Code Ids:
                                 GLOBALS.originalNameOfEditedUiControl             = cni
                                 GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
                                 GLOBALS.originalCodeIdOfEditedUiControl           = cid
-                                await mm.editApp( bci  ,  cid )
+                                await mm.addToEditableAppsAndEdit(cid)
                             },200)
                         }
 
