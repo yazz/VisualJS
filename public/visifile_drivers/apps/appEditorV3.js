@@ -12,7 +12,7 @@ load_once_from_file(true)
 
 
 
-/*
+    /*
 ________________________________________
 |                                      |
 |             app_editor_3             |
@@ -977,14 +977,14 @@ End of app preview menu
            }
        },
         methods:    {
-           // ---------------------------------------------------------------
-           //                         closeSubEditor
-           //
-           // Whenever we go to a subeditor, like the history editor for
-           // example, we still need to go back to the main editor. Calling this
-           // function will do that
-           // ---------------------------------------------------------------
-           closeSubEditor: async function() {
+            closeSubEditor:                 async function  () {
+               // ---------------------------------------------------------------
+               //                         closeSubEditor
+               //
+               // Whenever we go to a subeditor, like the history editor for
+               // example, we still need to go back to the main editor. Calling this
+               // function will do that
+               // ---------------------------------------------------------------
                let mm                                               = this
                this.editor_overloaded                               = false
                this.show_download_save                              = true
@@ -997,23 +997,17 @@ End of app preview menu
                     codeId:     mm.code_id,
                     newApp:     true}
                     )
-           }
-           ,
-
-
-
-
-
-           // ---------------------------------------------------------------
-           //                         switchEditor
-           //
-           // Whenever we go away from the main editor to a subeditor such as
-           // the database schema view then we use this function. eg:
-           //
-           //     switchEditor("sqlite_editor_component")
-           //
-           // ---------------------------------------------------------------
-           switchEditor: async function(editor_component_id) {
+           },
+            switchEditor:                   async function  (editor_component_id) {
+               // ---------------------------------------------------------------
+               //                         switchEditor
+               //
+               // Whenever we go away from the main editor to a subeditor such as
+               // the database schema view then we use this function. eg:
+               //
+               //     switchEditor("sqlite_editor_component")
+               //
+               // ---------------------------------------------------------------
                let mm = this
 
                this.editor_overloaded = true
@@ -1029,31 +1023,25 @@ End of app preview menu
                         codeId:             this.code_id
                     })
 
-           }
-           ,
-
-
-           // ---------------------------------------------------------------
-           //                         setInfo
-           //
-           // Sets the info message bar at the bottom of the editor pane
-           // ---------------------------------------------------------------
-           setInfo: function(text) {
+           },
+            setInfo:                        function        (text) {
+               // ---------------------------------------------------------------
+               //                         setInfo
+               //
+               // Sets the info message bar at the bottom of the editor pane
+               // ---------------------------------------------------------------
                this.$root.$emit('message', {
                    type:   "set_info_text",
                    text:    text
                })
            },
-
-
-
-           // ---------------------------------------------------------------
-           //                         closeEditor
-           //
-           // Close the code editor (which usually takes us back to the homepage
-           // with all the apps)
-           // ---------------------------------------------------------------
-           closeEditor: async function(event,item) {
+            closeEditor:                    async function  (event,item) {
+               // ---------------------------------------------------------------
+               //                         closeEditor
+               //
+               // Close the code editor (which usually takes us back to the homepage
+               // with all the apps)
+               // ---------------------------------------------------------------
                let mm = this
                if (GLOBALS.subEditorAction == "FORK_CONTROL") {
                    GLOBALS.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
@@ -1084,13 +1072,12 @@ End of app preview menu
                GLOBALS.lastEditingAppCodeId             = null;
                GLOBALS.inEditor                         = false
            },
-
-           // ---------------------------------------------------------------
-           //                         getVarAsHtml
-           //
-           // This views program variables in the debugger
-           // ---------------------------------------------------------------
-           getVarAsHtml: function(viewer,varName) {
+            getVarAsHtml:                   function        (viewer,varName) {
+               // ---------------------------------------------------------------
+               //                         getVarAsHtml
+               //
+               // This views program variables in the debugger
+               // ---------------------------------------------------------------
                let value = globalWatchList[varName][this.current_execution_step].value
                let returnVal = null
                if ((viewer == null) || (viewer.length=="")) {
@@ -1107,15 +1094,12 @@ End of app preview menu
                return returnVal
 
            },
-
-
-
-           // ---------------------------------------------------------------
-           //                         getVarAsBarChart
-           //
-           // This views program variables in the debugger
-           // ---------------------------------------------------------------
-            getVarAsBarChart: function(value) {
+            getVarAsBarChart:               function        (value) {
+                // ---------------------------------------------------------------
+                //                         getVarAsBarChart
+                //
+                // This views program variables in the debugger
+                // ---------------------------------------------------------------
                 if (!isValidObject(value)) {
                     return "<div></div>"
                 }
@@ -1132,19 +1116,13 @@ End of app preview menu
                 return html
 
             },
-
-
-
-
-
-
-           // ---------------------------------------------------------------
-           //                         resetDebugger
-           //
-           // This resets the debugger. We only remember the debugger state
-           // since the last run
-           // ---------------------------------------------------------------
-           resetDebugger: function() {
+            resetDebugger:                  function        () {
+                // ---------------------------------------------------------------
+                //                         resetDebugger
+                //
+                // This resets the debugger. We only remember the debugger state
+                // since the last run
+                // ---------------------------------------------------------------
 
                executionTimeline   = []
                executionTimelineMapTimeToLine   = {}
@@ -1155,17 +1133,13 @@ End of app preview menu
                this.current_execution_step = 0
                this.current_execution_step_y_line = -1
                this.updateTimeline()
-           }
-           ,
-
-
-
-           // ---------------------------------------------------------------
-           //                         stepForward
-           //
-           // TUsed to move forward one instruction in the debugger
-           // ---------------------------------------------------------------
-           stepForward: function() {
+           },
+            stepForward:                    function        () {
+                // ---------------------------------------------------------------
+                //                         stepForward
+                //
+                // TUsed to move forward one instruction in the debugger
+                // ---------------------------------------------------------------
                if (this.current_execution_step < (executionTimeline.length - 1)) {
                    this.current_execution_step ++
                    let x = executionTimelineMapTimeToLine[ this.current_execution_step ]
@@ -1174,17 +1148,13 @@ End of app preview menu
                    }
                    this.updateTimeline({allowScroll: true})
                }
-           }
-           ,
-
-
-
-           // ---------------------------------------------------------------
-           //                         stepBack
-           //
-           // TUsed to move backwards one instruction in the debugger
-           // ---------------------------------------------------------------
-           stepBack: function() {
+           },
+            stepBack:                       function        () {
+                // ---------------------------------------------------------------
+                //                         stepBack
+                //
+                // TUsed to move backwards one instruction in the debugger
+                // ---------------------------------------------------------------
                if (this.current_execution_step > 0) {
                    this.current_execution_step --
                    let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
@@ -1193,46 +1163,32 @@ End of app preview menu
                    }
                    this.updateTimeline({allowScroll: true})
                }
-           }
-            ,
-
-
-            // ---------------------------------------------------------------
-            //                         timelineRefresh
-            //
-            // Used to update the debug timeline
-            // ---------------------------------------------------------------
-            timelineRefresh: function(move) {
+           },
+            timelineRefresh:                function        (move) {
+                // ---------------------------------------------------------------
+                //                         timelineRefresh
+                //
+                // Used to update the debug timeline
+                // ---------------------------------------------------------------
                 let mm = this
                 setTimeout(function(){
                     mm.updateTimeline({allowScroll: move})
                 },200)
-            }
-            ,
-
-
-
-
-
-            // ---------------------------------------------------------------
-            //                         chooseRightDebugPane
-            //
-            // Used to update the debug timeline
-            // ---------------------------------------------------------------
-            chooseRightDebugPane: function(ff) {
+            },
+            chooseRightDebugPane:           function        (ff) {
+                // ---------------------------------------------------------------
+                //                         chooseRightDebugPane
+                //
+                // Used to update the debug timeline
+                // ---------------------------------------------------------------
                 this.debugger_right_mode = ff
-            }
-            ,
-
-
-
-
-            // ---------------------------------------------------------------
-            //                         updateTimeline
-            //
-            // Update the debug timeline
-            // ---------------------------------------------------------------
-            updateTimeline: function( args ) {
+            },
+            updateTimeline:                 function        ( args ) {
+                // ---------------------------------------------------------------
+                //                         updateTimeline
+                //
+                // Update the debug timeline
+                // ---------------------------------------------------------------
                 let mm = this
                 let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                 if (x) {
@@ -1288,57 +1244,41 @@ End of app preview menu
                     this.execution_watch_list.sort()
                 }
 
-            }
-            ,
-
-
-
-           // ---------------------------------------------------------------
-           //                         mouseEnterTimeline
-           //
-           // Process mouse events entering the timeline
-           // ---------------------------------------------------------------
-            mouseEnterTimeline: function(ev) {
+            },
+            mouseEnterTimeline:             function        (ev) {
+                // ---------------------------------------------------------------
+                //                         mouseEnterTimeline
+                //
+                // Process mouse events entering the timeline
+                // ---------------------------------------------------------------
                 this.timeline_pause = false
-            }
-            ,
-
-
-
-           // ---------------------------------------------------------------
-           //                         mouseClickTimeline
-           //
-           // Process mouse events clicking the timeline
-           // ---------------------------------------------------------------
-            mouseClickTimeline: function(ev) {
+            },
+            mouseClickTimeline:             function        (ev) {
+                // ---------------------------------------------------------------
+                //                         mouseClickTimeline
+                //
+                // Process mouse events clicking the timeline
+                // ---------------------------------------------------------------
                 this.timeline_pause = !this.timeline_pause
             },
-
-
-
-            // ---------------------------------------------------------------
-            //                         inTimelineScroll
-            //
-            // Scrolling the timeline
-            // ---------------------------------------------------------------
-            inTimelineScroll: function() {
+            inTimelineScroll:               function        () {
+                // ---------------------------------------------------------------
+                //                         inTimelineScroll
+                //
+                // Scrolling the timeline
+                // ---------------------------------------------------------------
                 let mm = this
                 mm.timeline_pause = true;
                 setTimeout(function() {
                     mm.timeline_pause = false;
                 }, 66);
-            }
-           ,
-
-
-
-
-            // ---------------------------------------------------------------
-            //                         mouseMoveTimeline
-            //
-            // Mouse move on the timeline
-            // ---------------------------------------------------------------
-            mouseMoveTimeline: function(ev) {
+            },
+            mouseMoveTimeline:              function        (ev) {
+                // ---------------------------------------------------------------
+                //                         mouseMoveTimeline
+                //
+                // Mouse move on the timeline
+                // ---------------------------------------------------------------
                 if (!this.timeline_pause) {
                     let elementTimeline = document.getElementById("timeline_el"  )
                     let left = (elementTimeline.scrollLeft + ev.offsetX);
@@ -1355,19 +1295,13 @@ End of app preview menu
                         }
                     }
                 }
-            }
-            ,
-
-
-
-
-
-            // ---------------------------------------------------------------
-            //                         addWatch
-            //
-            // Add a debug watch var
-            // ---------------------------------------------------------------
-            addWatch: async function(varN){
+            },
+            addWatch:                       async function  (varN){
+                // ---------------------------------------------------------------
+                //                         addWatch
+                //
+                // Add a debug watch var
+                // ---------------------------------------------------------------
                 globalWatchList[varN]={}
                 await this.load_new_version_of_edited_app({codeId:  this.code_id })
                 let allWatches = Object.keys(globalWatchList)
@@ -1375,26 +1309,20 @@ End of app preview menu
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
                 }
             },
-
-
-            // ---------------------------------------------------------------
-            //                         deleteWatch
-            //
-            // Delete a debug watch var
-            // ---------------------------------------------------------------
-            deleteWatch: async function(varN){
+            deleteWatch:                    async function  (varN){
+                // ---------------------------------------------------------------
+                //                         deleteWatch
+                //
+                // Delete a debug watch var
+                // ---------------------------------------------------------------
                 delete globalWatchList[varN]
-            }
-            ,
-
-
-
-            // ---------------------------------------------------------------
-            //                         keepWatch
-            //
-            // Keep a debug watch var
-            // ---------------------------------------------------------------
-            keepWatch: async function(varN){
+            },
+            keepWatch:                      async function  (varN){
+                // ---------------------------------------------------------------
+                //                         keepWatch
+                //
+                // Keep a debug watch var
+                // ---------------------------------------------------------------
                 let allWatches = Object.keys(globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
                     if (allWatches[rt] != varN) {
@@ -1402,16 +1330,13 @@ End of app preview menu
                     }
                 }
             },
-
-
-
-           // ---------------------------------------------------------------
-           //                         setupTimelineEditor
-           //
-           // Initialise the debugger sync for the code editor. This shows us
-           // the line that is being debugged in the timeline
-           // ---------------------------------------------------------------
-           setupTimelineEditor: function() {
+            setupTimelineEditor:            function        () {
+                // ---------------------------------------------------------------
+                //                         setupTimelineEditor
+                //
+                // Initialise the debugger sync for the code editor. This shows us
+                // the line that is being debugged in the timeline
+                // ---------------------------------------------------------------
                 let mm = this
                 if (document.getElementById('timeline_editor') && (this.timeline_editor == null)) {
                     //
@@ -1447,19 +1372,14 @@ End of app preview menu
                 }
                 this.updateTimeline()
 
-            }
-            ,
-
-
-
-
-            // ---------------------------------------------------------------
-            //                         chooseApp
-            //
-            // This is called when the end user selects "app" so that we only
-            // see the app preview in the app editor
-            // ---------------------------------------------------------------
-            chooseApp: async function() {
+            },
+            chooseApp:                      async function  () {
+                // ---------------------------------------------------------------
+                //                         chooseApp
+                //
+                // This is called when the end user selects "app" so that we only
+                // see the app preview in the app editor
+                // ---------------------------------------------------------------
                 showProgressBar()
                 let mm = this
                 this.code_width = "0%"
@@ -1491,14 +1411,13 @@ End of app preview menu
                     hideProgressBar()
                 }
             },
-
-            // ---------------------------------------------------------------
-            //                         chooseCode
-            //
-            // This is called when the end user selects "code" so that we only
-            // see the code editor in the app editor, and no app preview pane
-            // ---------------------------------------------------------------
-            chooseCode: async function() {
+            chooseCode:                     async function  () {
+                // ---------------------------------------------------------------
+                //                         chooseCode
+                //
+                // This is called when the end user selects "code" so that we only
+                // see the code editor in the app editor, and no app preview pane
+                // ---------------------------------------------------------------
                 let mm = this
                 this.code_width = "95%"
                 this.code_shown = true
@@ -1520,16 +1439,13 @@ End of app preview menu
                     appClearIntervals()
                 },2500)
             },
-
-
-
-            // ---------------------------------------------------------------
-            //                         chooseBoth
-            //
-            // This is called when the end user selects "Both" so that we can
-            // see both the code editor and the app preview pane
-            // ---------------------------------------------------------------
-            chooseBoth: async function() {
+            chooseBoth:                     async function  () {
+                // ---------------------------------------------------------------
+                //                         chooseBoth
+                //
+                // This is called when the end user selects "Both" so that we can
+                // see both the code editor and the app preview pane
+                // ---------------------------------------------------------------
                 showProgressBar()
                 let mm = this
                 this.mode      = "edit"
@@ -1549,18 +1465,14 @@ End of app preview menu
                     this.timeline_editor = null
                 }
                 hideProgressBar()
-            }
-            ,
-
-
-
-            // ---------------------------------------------------------------
-            //                         chooseProfiler
-            //
-            // This is called when the end user selects "Profiler" that they
-            // can see the app debug view
-            // ---------------------------------------------------------------
-            chooseProfiler: async function() {
+            },
+            chooseProfiler:                 async function  () {
+                // ---------------------------------------------------------------
+                //                         chooseProfiler
+                //
+                // This is called when the end user selects "Profiler" that they
+                // can see the app debug view
+                // ---------------------------------------------------------------
                 let mm = this
                 this.code_width = "0%"
                 this.code_shown = false
@@ -1585,20 +1497,13 @@ End of app preview menu
                         }
                     },
                     200)
-            }
-            ,
-
-
-
-
-
-
-            // ---------------------------------------------------------------
-            //                         rename
-            //
-            // This is called to change the display name of the current app
-            // ---------------------------------------------------------------
-            rename: async function(nn) {
+            },
+            rename:                         async function  (nn) {
+                // ---------------------------------------------------------------
+                //                         rename
+                //
+                // This is called to change the display name of the current app
+                // ---------------------------------------------------------------
                 let mm = this
                 this.edit_name = false
                 this.show_name = true
@@ -1626,25 +1531,19 @@ End of app preview menu
                     })
 
                 },500)
-            }
-            ,
-
-
-
-
-
-           /*
-            _______________________________________
-            |       editAsText                     |
-            |______________________________________|
-            This is called to edit the current app with the text editor
-            __________
-            | Params |
-            |        |______________________________________________________________
-            |
-            |     NONE
-            |________________________________________________________________________ */
-            editAsText: async function() {
+            },
+            editAsText:                     async function  () {
+                /*
+                 _______________________________________
+                 |       editAsText                     |
+                 |______________________________________|
+                 This is called to edit the current app with the text editor
+                 __________
+                 | Params |
+                 |        |______________________________________________________________
+                 |
+                 |     NONE
+                 |________________________________________________________________________ */
                 let mm = this
 
                 this.editor_text = await this.$refs.editor_component_ref.getText()
@@ -1658,20 +1557,13 @@ End of app preview menu
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                 await mm.load_new_version_of_edited_app({newApp: true, codeId:  this.code_id } )
-            }
-            ,
-
-
-
-
-
-
-            // ---------------------------------------------------------------
-            //                          checkSavedFile
-            //
-            // This is called to check the save status of the code
-            // ---------------------------------------------------------------
-            checkSavedFile: function() {
+            },
+            checkSavedFile:                 function        () {
+                // ---------------------------------------------------------------
+                //                          checkSavedFile
+                //
+                // This is called to check the save status of the code
+                // ---------------------------------------------------------------
                 let mm = this
                 if (saveCodeToFile) {
                     this.file_save_state = "Saved " + saveCodeToFile
@@ -1681,43 +1573,35 @@ End of app preview menu
                 } else {
                     this.file_save_state = ""
                 }
-            }
-            ,
+            },
+            copyApp:                        async function  ( appId , newAppId, codeId) {
+               // ---------------------------------------------------------------
+               //
+               //
+               // This is called to copy an app. At the moment this copies the
+               // base_component_id, which means that the app's latest version
+               // is copied. This may not be what we want though as we really want
+               // to copy the commit ID's code
+               //
+               // ---------------------------------------------------------------
 
-
-
-
-
-
-            // ---------------------------------------------------------------
-            //
-            //
-            // This is called to copy an app. At the moment this copies the
-            // base_component_id, which means that the app's latest version
-            // is copied. This may not be what we want though as we really want
-            // to copy the commit ID's code
-            //
-            // ---------------------------------------------------------------
-
-           /*
-           ________________________________________
-           |                                      |
-           |             copyApp                  |
-           |                                      |
-           |______________________________________|
-           Function description
-           __________
-           | PARAMS |______________________________________________________________
-           |
-           |     appId          Base component ID of the app/component to copy
-           |     -----
-           |
-           |     newAppId       New Base Component ID to give the new app/component
-           |     --------
-           |
-           |________________________________________________________________________ */
-
-           copyApp: async function( appId , newAppId, codeId) {
+               /*
+               ________________________________________
+               |                                      |
+               |             copyApp                  |
+               |                                      |
+               |______________________________________|
+               Function description
+               __________
+               | PARAMS |______________________________________________________________
+               |
+               |     appId          Base component ID of the app/component to copy
+               |     -----
+               |
+               |     newAppId       New Base Component ID to give the new app/component
+               |     --------
+               |
+               |________________________________________________________________________ */
 
                let mm       = this
                let copyArgs = {}
@@ -1751,29 +1635,19 @@ End of app preview menu
                             mm.setInfo("...")
                         },1500)
                 },200)
-            }
-            ,
-
-
-
-
-
-
-
-
-
-           // ---------------------------------------------------------------
-           //                          bookmarkCode
-           //
-           // Bookmark code is the same as tagging code with a version. This
-           // tags the current commit.
-           //
-           // Right now it doesn't do anything
-           // but it should add a record to tag the code with the current
-           // date
-           //
-           // ---------------------------------------------------------------
-           bookmarkCode: async function() {
+            },
+            bookmarkCode:                   async function  () {
+               // ---------------------------------------------------------------
+               //                          bookmarkCode
+               //
+               // Bookmark code is the same as tagging code with a version. This
+               // tags the current commit.
+               //
+               // Right now it doesn't do anything
+               // but it should add a record to tag the code with the current
+               // date
+               //
+               // ---------------------------------------------------------------
                try {
                    let mm = this
                    showProgressBar()
@@ -1799,20 +1673,15 @@ End of app preview menu
                    this.save_state = "saved"
                    //this.checkSavedFile()
                }
-           }
-           ,
-
-
-
-
-           // ---------------------------------------------------------------
-           //                          releaseCode
-           //
-           // This tries to release the current commit as the release version
-           // of the app
-           //
-           // ---------------------------------------------------------------
-           releaseCode: async function() {
+           },
+            releaseCode:                    async function  () {
+               // ---------------------------------------------------------------
+               //                          releaseCode
+               //
+               // This tries to release the current commit as the release version
+               // of the app
+               //
+               // ---------------------------------------------------------------
                try {
                    let mm = this
                    showProgressBar()
@@ -1837,72 +1706,41 @@ End of app preview menu
                    this.save_state = "saved"
                    //this.checkSavedFile()
                }
-           }
-           ,
+           },
+            load_new_version_of_edited_app: async function  ( options ) {
+                /*            --------------------------------------
+                             |                                      |
+                             |    load_new_version_of_edited_app    |
+                             |                                      |
+                              --------------------------------------
+
+                    This loads a new version of the currently edited app.
+
+                     --------
+                    | Params |
+                ----          --------------------------------------------------------------
+               |
+               |     options: {
+               |     -------    baseComponentId - if set then load the latest
+               |                ---------------   edited version of the app which has
+               |                                  a type of "baseComponentId"
+               |
+               |                codeId - if set then load the code which has an
+               |                ------   ID/IPFSHashId of "codeId"
+               |
+               |                code - if set then load the source code from "code"
+               |                ----   as the app
+               |
+               |                runThisApp - if true then after loading the code
+               |                ----------   then refresh the preview pane
+               |
+               |                newApp - if set to true then ...
+               |                ------
+               |     }
+               |
+                ------------------------------------------------------------------------------ */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            /*            --------------------------------------
-                         |                                      |
-                         |    load_new_version_of_edited_app    |
-                         |                                      |
-                          --------------------------------------
-
-                This loads a new version of the currently edited app.
-
-                 --------
-                | Params |
-            ----          --------------------------------------------------------------
-           |
-           |     options: {
-           |     -------    baseComponentId - if set then load the latest
-           |                ---------------   edited version of the app which has
-           |                                  a type of "baseComponentId"
-           |
-           |                codeId - if set then load the code which has an
-           |                ------   ID/IPFSHashId of "codeId"
-           |
-           |                code - if set then load the source code from "code"
-           |                ----   as the app
-           |
-           |                runThisApp - if true then after loading the code
-           |                ----------   then refresh the preview pane
-           |
-           |                newApp - if set to true then ...
-           |                ------
-           |     }
-           |
-            ------------------------------------------------------------------------------ */
-            load_new_version_of_edited_app: async function ( options ) {
                 /*   --------------------------------------
                     |    load_new_version_of_edited_app    |
                      ----------------               -------
@@ -2245,28 +2083,13 @@ End of app preview menu
                } else {
                    mm.preview_type = "app"
                }
-           }
-           ,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                // ---------------------------------------------------------------
-                //                           save
-                //
-                // This is called to save the currently edited code
-                // ---------------------------------------------------------------
-                save: async function( base_component_id, code_id , textIn, extras) {
+           },
+            save:                           async function  ( base_component_id, code_id , textIn, extras) {
+                    // ---------------------------------------------------------------
+                    //                           save
+                    //
+                    // This is called to save the currently edited code
+                    // ---------------------------------------------------------------
                     let mm = this
                     if (mm.inSave) {
                         return false
@@ -2363,7 +2186,7 @@ End of app preview menu
                         return true
                     }
                 }
-            },
+        },
         mounted:    async function () {
             let mm = this
             await useIdeTools()
