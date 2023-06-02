@@ -153,24 +153,13 @@ ___________
 |     save                              function( base_component_id, code_id , textIn, extras) {
 |
 |________________________________________________________________________ */
-
-
-
-
-    //
     // Hack city!!! Turn off the component cache so that we can enable hot reloading of components
-    //
     GLOBALS.isStaticHtmlPageApp = false
-    //
-    //
-    //
-
-
     Yazz.component(
     {
-      props: ['arg_edit_base_component_id', 'arg_edit_code_id'],
-      template:
-`<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;position:relative;">
+        props:      ['arg_edit_base_component_id', 'arg_edit_code_id'],
+        template:   `
+<div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;position:relative;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;display: block;overflow: auto;'>
         <img
             src='/driver_icons/project.png'
@@ -934,9 +923,8 @@ End of app preview menu
         </div>
     </div>
 </div>
-`
-       ,
-       data: function() {
+`,
+        data:       function() {
            return {
                sqlite_data_saved_in_html: false,
                file_save_state:    (saveCodeToFile?saveCodeToFile:""),
@@ -987,11 +975,8 @@ End of app preview menu
                save_state:          "saved",
                display_name:        ""
            }
-       }
-       ,
-
-       methods: {
-
+       },
+        methods:    {
            // ---------------------------------------------------------------
            //                         closeSubEditor
            //
@@ -2378,114 +2363,104 @@ End of app preview menu
                         return true
                     }
                 }
+            },
+        mounted:    async function () {
+            let mm = this
+            await useIdeTools()
+            await useEstraverse()
+            await useEsCodeGen()
+            await useVisJs()
+            await useVisCss()
+            await useDiffJs()
+            uiDebuggerOn = true
+            if ($HIDEIMPORTBUTTONS == 'false') {
+                mm.hideImportButtons = false
             }
-            ,
+            mm.override_app_editor = null
+
+            this.show_download_save = true
+            this.show_filename_save = false
 
 
+            this.execution_timeline   = executionTimeline
+            this.execution_code       = executionCode
+            this.execution_block_list = Object.keys(this.execution_code)
+
+            //
+            // make sure we load the component for this app
+            //
+            if (mm.arg_edit_code_id) {
+                GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
+                GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
+                GLOBALS.inEditor                                    = true
 
 
+                await mm.load_new_version_of_edited_app({codeId: GLOBALS.editingAppCodeId})
 
 
+            } else if (mm.arg_edit_base_component_id) {
+                GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
 
+                await mm.load_new_version_of_edited_app({baseComponentId: this.arg_edit_base_component_id})
 
-            mounted: async function () {
-                let mm = this
-                await useIdeTools()
-                await useEstraverse()
-                await useEsCodeGen()
-                await useVisJs()
-                await useVisCss()
-                await useDiffJs()
-                uiDebuggerOn = true
-                if ($HIDEIMPORTBUTTONS == 'false') {
-                    mm.hideImportButtons = false
-                }
-                mm.override_app_editor = null
+            }
 
-                this.show_download_save = true
-                this.show_filename_save = false
-
-
-                this.execution_timeline   = executionTimeline
-                this.execution_code       = executionCode
-                this.execution_block_list = Object.keys(this.execution_code)
-
-                //
-                // make sure we load the component for this app
-                //
-                if (mm.arg_edit_code_id) {
-                    GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
-                    GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
-                    GLOBALS.inEditor                                    = true
-
-
-                    await mm.load_new_version_of_edited_app({codeId: GLOBALS.editingAppCodeId})
-
-
-                } else if (mm.arg_edit_base_component_id) {
-                    GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
-
-                    await mm.load_new_version_of_edited_app({baseComponentId: this.arg_edit_base_component_id})
-
-                }
-
-                this.$root.$on('message', async function(message) {
-                    if (message.type == "set_info_text") {
-                        mm.info_text = message.text
-                    } else if (message.type == "saving") {
-                        mm.save_state = "saving"
-                        mm.file_save_state = ""
-                    } else if (message.type == "pending") {
-                        mm.save_state = "pending"
-                        mm.file_save_state = (saveCodeToFile?saveCodeToFile:"")
-                    } else if (message.type == "saved") {
-                        mm.save_state = "saved"
-                        mm.checkSavedFile()
-                    } else if (message.type == "force_save") {
-                        //mm.save_state = "saved"
-                        //mm.checkSavedFile()
-                    } else if (message.type == "switch_editor") {
-                        mm.switchEditor(message.editorName)
-                        if (message.previewType) {
-                            mm.preview_type = message.previewType
-                        }
-                        //mm.save_state = "saved"
-                        //mm.checkSavedFile()
-                    } else if (message.type == "force_raw_load") {
-                        //mm.save_state = "pending"
-                        //mm.checkSavedFile()
-                        await mm.load_new_version_of_edited_app(   {codeId: message.commitId , runThisApp: true} )
-                        mm.$root.$emit('message', {
-                            type:               "update_app",
-                            base_component_id:   mm.arg_edit_base_component_id,
-                            code_id:             message.commitId
-                        })
-                        setTimeout(function(){
-                            mm.refresh ++
-                        },500)
+            this.$root.$on('message', async function(message) {
+                if (message.type == "set_info_text") {
+                    mm.info_text = message.text
+                } else if (message.type == "saving") {
+                    mm.save_state = "saving"
+                    mm.file_save_state = ""
+                } else if (message.type == "pending") {
+                    mm.save_state = "pending"
+                    mm.file_save_state = (saveCodeToFile?saveCodeToFile:"")
+                } else if (message.type == "saved") {
+                    mm.save_state = "saved"
+                    mm.checkSavedFile()
+                } else if (message.type == "force_save") {
+                    //mm.save_state = "saved"
+                    //mm.checkSavedFile()
+                } else if (message.type == "switch_editor") {
+                    mm.switchEditor(message.editorName)
+                    if (message.previewType) {
+                        mm.preview_type = message.previewType
                     }
+                    //mm.save_state = "saved"
+                    //mm.checkSavedFile()
+                } else if (message.type == "force_raw_load") {
+                    //mm.save_state = "pending"
+                    //mm.checkSavedFile()
+                    await mm.load_new_version_of_edited_app(   {codeId: message.commitId , runThisApp: true} )
+                    mm.$root.$emit('message', {
+                        type:               "update_app",
+                        base_component_id:   mm.arg_edit_base_component_id,
+                        code_id:             message.commitId
+                    })
+                    setTimeout(function(){
+                        mm.refresh ++
+                    },500)
+                }
 
 
-                })
-                await loadUiComponentsV4(["yazz_blank"])
-                setInterval(async function() {
+            })
+            await loadUiComponentsV4(["yazz_blank"])
+            setInterval(async function() {
 
-                    if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
-                        //debugger
-                        if (!disableAutoSave) {
-                            appClearIntervals();
+                if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
+                    //debugger
+                    if (!disableAutoSave) {
+                        appClearIntervals();
 
-                            await mm.save(mm.base_component_id, mm.code_id, null)
-                        }
+                        await mm.save(mm.base_component_id, mm.code_id, null)
                     }
-                },5000)
-                mm.refresh ++
+                }
+            },5000)
+            mm.refresh ++
 
 
-           }
-       })
-       return {name: "app_editor"}
-
+       }
+    })
+    return {name: "app_editor"}
 }
 
 
