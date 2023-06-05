@@ -1,6 +1,6 @@
 function component( args ) {
 /*
-base_component_id("editor_component")
+base_component_id("textEditorPlugInComponent")
 component_type("SYSTEM")
 load_once_from_file(true)
 */

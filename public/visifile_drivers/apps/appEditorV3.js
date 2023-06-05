@@ -225,7 +225,7 @@ ___________
 
 
             <div v-if='extra_menu' class='btn-group' role=group style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-right: 20px;'>
-                <button  v-if='(editor_component != "editor_component") && (!read_only) && (mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
+                <button  v-if='(editor_component != "textEditorPlugInComponent") && (!read_only) && (mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)' >Copy app</button>
 
@@ -1549,7 +1549,7 @@ End of app preview menu
                                 // load the editor
                                 //
                                 if ( !mm.editor_loaded ) {
-                                    let editorName = "editor_component"
+                                    let editorName = "textEditorPlugInComponent"
                                     if (mm.override_app_editor != null) {
                                         editorName = mm.override_app_editor
                                     }
@@ -1613,7 +1613,7 @@ End of app preview menu
                         // load the editor
                         //
                         if ( !mm.editor_loaded ) {
-                            let editorName = "editor_component"
+                            let editorName = "textEditorPlugInComponent"
                             if (mm.override_app_editor != null) {
                                 editorName = mm.override_app_editor
                             }
@@ -1727,7 +1727,7 @@ End of app preview menu
                                 // load the editor
                                 //
                                 if ( !mm.editor_loaded ) {
-                                    let editorName = "editor_component"
+                                    let editorName = "textEditorPlugInComponent"
                                     if (mm.override_app_editor != null) {
                                         editorName = mm.override_app_editor
                                     }
