@@ -3,11 +3,13 @@
         methods:
         {
             //*** gen_start ***//
-            loadControls:                           async function  () {
+
+            //
+            loadControlPalette:                     async function  () {
                 /*
                 ________________________________________
                 |                                      |
-                |             loadControls             |
+                |             loadControlPalette             |
                 |                                      |
                 |______________________________________|
 
@@ -6462,7 +6464,7 @@ return {}
                 //
                 if (GLOBALS.online) {
                     //debugger
-                    await mm.loadControls()
+                    await mm.loadControlPalette()
                 }
 
 
@@ -6503,7 +6505,7 @@ return {}
                         }
                     } else if (text.type == "load_controls") {
                         if (mm.design_mode != false) {
-                            mm.loadControls();
+                            mm.loadControlPalette();
                         }
                     }
                 })
@@ -6684,7 +6686,7 @@ return {}
                     if (GLOBALS.isStaticHtmlPageApp) {
                         mm.editor_locked = false
                     }
-                    await mm.loadControls()
+                    await mm.loadControlPalette()
                     mm.editor_locked = false
                 },2000)
 
