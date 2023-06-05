@@ -1550,6 +1550,7 @@ async function  setUpComponentsLocally                  (  ) {
     await evalHtmlComponentFromPath( '/apps/homepage.js')
     await evalHtmlComponentFromPath( '/apps/mobilehomepage.js')
     await releaseComponentFromPath( '/apps/yazz_blank.js')
+    await releaseComponentFromPath( '/apps/totally_blank_app.js')
 
     //await releaseComponentFromPath( '/apps/search.js')
     //await releaseComponentFromPath( '/apps/test.js')
