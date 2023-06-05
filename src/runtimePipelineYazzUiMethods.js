@@ -6647,18 +6647,15 @@ return {}
 
 
 //
-// This is only used when previewing a component. Since we use the "Blank Yazz App"
+// This is only used when previewing a component. Since we use the "Totally Blank App"
 // for previews we need to see if the argument 'control_type' is passed in, and if
-// it is then we remove then standard text box (with a name of 'aaa') and we add
-// the component being previewed instead
+// it is then we add the component being previewed instead
 //
 // START
                 if (mm.args && mm.args.control_type) {
 
                     //debugger
                     setTimeout(async function(){
-                        await mm.deleteComponentByName("aaa")
-
                         let compArgs =  {
                             base_component_id:   mm.args.control_type,
                             type:               "add_component",
