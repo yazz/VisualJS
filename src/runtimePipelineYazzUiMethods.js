@@ -461,49 +461,49 @@
             },
             addComponentV2:                         async function  (leftX,topY,data, parentType, parentName, defProps) {
                 /*
-    ________________________________________
-    |           addComponentV2             |
-    |______________________________________|
-    Adds a component to the form
-    __________
-    | PARAMS |______________________________________________________________
-    |
-    |     leftX   where to place this control
-    |     -----
-    |
-    |     topY   where to place this control
-    |     ----
-    |
-    |     data    {
-    |     ----       base_component_id:  ...
-    |     ----       code_id:            ...
-    |                control:            controlDetails
-    |             }
-    |
-    |
-    |     parentType   Only used when adding a component to a container
-    |     ----------
-    |
-    |     parentName   Only used when adding a component to a container
-    |     ----------
-    |
-    |     defProps   Only used when adding a component to a container
-    |     --------
-    |
-    |________________________________________________________________________ */
+                ________________________________________
+                |           addComponentV2             |
+                |______________________________________|
+                Adds a component to the form
+                __________
+                | PARAMS |______________________________________________________________
+                |
+                |     leftX   where to place this control
+                |     -----
+                |
+                |     topY   where to place this control
+                |     ----
+                |
+                |     data    {
+                |     ----       base_component_id:  ...
+                |     ----       code_id:            ...
+                |                control:            controlDetails
+                |             }
+                |
+                |
+                |     parentType   Only used when adding a component to a container
+                |     ----------
+                |
+                |     parentName   Only used when adding a component to a container
+                |     ----------
+                |
+                |     defProps   Only used when adding a component to a container
+                |     --------
+                |
+                |________________________________________________________________________ */
                 let mm = this
 
                 let promise = new Promise(async function(returnfn) {
                     let newItem = new Object()
 
                     /*
-         _______________________________________
-         |    addComponentV2                    |
-         |_________________                     |____________
-                          | Calculate the x,y coordinates of
-                          | the new component to be added.
-                          |__________________________________
-         */
+                    _______________________________________
+                    |    addComponentV2                    |
+                    |_________________                     |____________
+                                     | Calculate the x,y coordinates of
+                                     | the new component to be added.
+                                     |__________________________________
+                    */
                     newItem.leftX = Math.floor(leftX)
                     newItem.topY = Math.floor(topY)
                     if (newItem.leftX < 0) {
@@ -516,13 +516,13 @@
 
 
                     /*
-             _______________________________________
-             |    addComponentV2                    |
-             |_________________                     |____________
-                              | Calculate the name of
-                              | the new component
-                              |__________________________________
-            */
+                    _______________________________________
+                    |    addComponentV2                    |
+                    |________________                      |____________
+                                     | Calculate the name of
+                                     | the new component
+                                     |__________________________________
+                    */
                     if (parentType) {
                         newItem.parent = parentName
                     }
@@ -541,13 +541,13 @@
 
 
                     /*
-         _______________________________________
-         |    addComponentV2                    |
-         |_________________                     |____________
-                          | If the component isn't loaded
-                          | then load it
-                          |__________________________________
-         */
+                    _______________________________________
+                    |    addComponentV2                    |
+                    |________________                      |____________
+                                     | If the component isn't loaded
+                                     | then load it
+                                     |__________________________________
+                    */
                     mm.refresh++
                     if (!GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
                         if (newItem.code_id) {
