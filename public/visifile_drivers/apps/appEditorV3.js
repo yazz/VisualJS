@@ -2287,7 +2287,6 @@ End of app preview menu
 
        }
     })
-    return {name: "app_editor"}
 }
 
 
