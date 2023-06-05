@@ -4,7 +4,7 @@ is_app(true)
 component_type("VB")
 display_name("Label control")
 editors([
-  "control_editor"
+  "editor_component"
 ])
 description("This will return the label control")
 base_component_id("label_control")
