@@ -639,7 +639,7 @@ End of app preview menu
                               ref="app_preview_component"
                               v-if='app_loaded  &&  (preview_type=="control")'
                               style='background-color: white;'
-                              v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["yazz_blank"]'
+                              v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["totally_blank_app"]'
                               v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
                               >
                   </component>
@@ -2271,6 +2271,7 @@ End of app preview menu
 
             })
             await loadUiComponentsV4(["yazz_blank"])
+            await loadUiComponentsV4(["totally_blank_app"])
             setInterval(async function() {
 
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {

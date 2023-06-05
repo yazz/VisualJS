@@ -79,7 +79,7 @@ sub_components([
   "horiz_scroll_control",
   "vert_scroll_control"
 ])
-base_component_id("yazz_blank")
+base_component_id("totally_blank_app")
 visibility("PRIVATE")
 display_name("GUI App")
 editors([
