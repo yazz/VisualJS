@@ -676,8 +676,8 @@
                         }
                         mm.refresh ++
 
-//debugger
-                        let newComponent = await mm.lookupComponentOnForm({componentName: newItem.name})
+debugger
+                        let newComponent = mm.lookupComponentOnForm({componentName: newItem.name})
                         mm.addCodeChange("Add component: " + newItem.name + "(" + newItem.base_component_id + ")")
                         returnfn(newComponent)
                         //returnfn(null)
