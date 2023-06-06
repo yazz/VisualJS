@@ -1331,41 +1331,48 @@
                             let propNamee = oneProperty.id
                             let propType = oneProperty.type
                             if (propNamee) {
-                                vueComponentObject.$watch(argsPrefix + '.' + propNamee, function(newValue, oldValue) {
+                                vueComponentObject.$watch(
+                                    argsPrefix + '.' + propNamee
+                                    ,
+                                    function(newValue, oldValue) {
 
-                                    if (propType != "Action") {
-                                        console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
-                                    }
-                                    let designTimeOnlyEvents = false
+                                        if (propType != "Action") {
+                                            console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
+                                        } else {
+                                            debugger
+                                        }
+                                        let designTimeOnlyEvents = false
 
-                                    if (oneProperty.design_time_only_events) {
-                                        designTimeOnlyEvents = true
-                                    }
-
-                                    if (vueComponentObject && vueComponentObject.meta) {
-                                        if (vueComponentObject.meta.getEditor) {
-                                            vueComponentObject.meta.getEditor().processControlEvent(
-                                                {
-                                                    type: "subcomponent_event",
-                                                    form_name: vueComponentObject.meta.getEditor().active_form,
-                                                    control_name: vueComponentObject[argsPrefix].name,
-                                                    sub_type: "on_property_changed",
-                                                    code: vueComponentObject[argsPrefix].on_property_changed,
-                                                    design_time_only_events: designTimeOnlyEvents,
-
-                                                    args:
-                                                        {
-                                                            form: vueComponentObject.meta.getEditor().active_form,
-                                                            component: vueComponentObject[argsPrefix].name,
-                                                            property: propNamee,
-                                                            value: newValue,
-                                                            old_value: oldValue,
-                                                            new_value: newValue
-                                                        }
-                                                })
+                                        if (oneProperty.design_time_only_events) {
+                                            designTimeOnlyEvents = true
                                         }
 
-                                    }
+                                        if (vueComponentObject && vueComponentObject.meta) {
+                                            if (vueComponentObject.design_mode) {
+                                                if (vueComponentObject.meta.getEditor) {
+                                                    vueComponentObject.meta.getEditor().processControlEvent(
+                                                        {
+                                                            type: "subcomponent_event",
+                                                            form_name: vueComponentObject.meta.getEditor().active_form,
+                                                            control_name: vueComponentObject[argsPrefix].name,
+                                                            sub_type: "on_property_changed",
+                                                            code: vueComponentObject[argsPrefix].on_property_changed,
+                                                            design_time_only_events: designTimeOnlyEvents,
+
+                                                            args:
+                                                                {
+                                                                    form: vueComponentObject.meta.getEditor().active_form,
+                                                                    component: vueComponentObject[argsPrefix].name,
+                                                                    property: propNamee,
+                                                                    value: newValue,
+                                                                    old_value: oldValue,
+                                                                    new_value: newValue
+                                                                }
+                                                        })
+                                                }
+
+                                            }
+                                        }
                                 });
                             }
                         }
