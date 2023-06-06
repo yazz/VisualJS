@@ -629,14 +629,14 @@ End of app preview menu
 
 
 
-          <!-- ----------------------------------------------
-          
-          Preview a component
-          
-          ---------------------------------------------- -->
-            <div  v-if='app_loaded  &&  (preview_type=="control")'>
-                  <component  id="app_preview_component"
-                              ref="app_preview_component"
+            <!-- ----------------------------------------------
+            
+            Preview a component
+            
+            ---------------------------------------------- -->
+            <div  v-if='app_loaded  &&  (preview_type=="control")' zzz="//zzz">
+                  <component  id="control_preview_component"
+                              ref="control_preview_component"
                               v-if='app_loaded  &&  (preview_type=="control")'
                               style='background-color: white;'
                               v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["totally_blank_app"]'
@@ -650,11 +650,11 @@ End of app preview menu
 
 
 
-          <!-- ----------------------------------------------
-          
-          Preview an app 
-          
-          ---------------------------------------------- -->
+            <!-- ----------------------------------------------
+            
+            Preview an app 
+            
+            ---------------------------------------------- -->
             <div  v-if='app_loaded  &&  (preview_type=="app")'>
                 <component  id="app_preview_component"
                             ref="app_preview_component"
