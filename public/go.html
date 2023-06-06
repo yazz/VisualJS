@@ -1352,22 +1352,21 @@
                                                 if (vueComponentObject.meta.getEditor) {
                                                     vueComponentObject.meta.getEditor().processControlEvent(
                                                         {
-                                                            type: "subcomponent_event",
-                                                            form_name: vueComponentObject.meta.getEditor().active_form,
-                                                            control_name: vueComponentObject[argsPrefix].name,
-                                                            sub_type: "on_property_changed",
-                                                            code: vueComponentObject[argsPrefix].on_property_changed,
-                                                            design_time_only_events: designTimeOnlyEvents,
-
+                                                            type:                       "subcomponent_event",
+                                                            form_name:                  vueComponentObject.meta.getEditor().active_form,
+                                                            control_name:               vueComponentObject[argsPrefix].name,
+                                                            sub_type:                   "on_property_changed",
+                                                            code:                       vueComponentObject[argsPrefix].on_property_changed,
+                                                            design_time_only_events:    designTimeOnlyEvents,
                                                             args:
-                                                                {
-                                                                    form: vueComponentObject.meta.getEditor().active_form,
-                                                                    component: vueComponentObject[argsPrefix].name,
-                                                                    property: propNamee,
-                                                                    value: newValue,
-                                                                    old_value: oldValue,
-                                                                    new_value: newValue
-                                                                }
+                                                                                        {
+                                                                                            form:       vueComponentObject.meta.getEditor().active_form,
+                                                                                            component:  vueComponentObject[argsPrefix].name,
+                                                                                            property:   propNamee,
+                                                                                            value:      newValue,
+                                                                                            old_value:  oldValue,
+                                                                                            new_value:  newValue
+                                                                                        }
                                                         })
                                                 }
 
