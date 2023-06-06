@@ -645,7 +645,7 @@
                     }
 
 
-                    setTimeout(async function() {
+
 
                         mm.updateAllFormCaches()
                         let selectParent = false
@@ -676,14 +676,15 @@
                         }
                         mm.refresh ++
 
-debugger
+
                         let newComponent = mm.lookupComponentOnForm({componentName: newItem.name})
                         mm.addCodeChange("Add component: " + newItem.name + "(" + newItem.base_component_id + ")")
                         returnfn(newComponent)
                         //returnfn(null)
-                    },100)
+
 
                 })
+                debugger
                 let ret = await promise
                 return ret
             },
