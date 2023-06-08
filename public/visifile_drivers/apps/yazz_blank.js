@@ -54,7 +54,7 @@ formEditor({
           "on_property_in": "",
           "on_property_out": "",
           "on_property_changed": "",
-          "code_id": ""
+          "code_id": null
         }
       ]
     },
