@@ -126,7 +126,7 @@ Code Ids:
 
                 </div>
                 
-                    <!  --------------------------------------  Show the list of editable apps     ------------------------------------>
+                    <!  --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
                             v-if="(editingBaseComponentId == item.base_component_id)"
@@ -134,28 +134,29 @@ Code Ids:
                             v-on:mouseleave="currentlyHighlightedBaseComponentId = null;"
                             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                             class='app_card'>
-                      <!  --------------------------------------
-                      |                                      |
-                      |    Show the list of editable apps    |
-                      |                                      |
-                      --------------------------------------
-
-                      Iterate through the apps in "editable_app_list"
-
-                      --------
-                      | Params |
-                      ------------------------------------------------------------------
-                      |
-                      |     editable_app_list: [
-                      |     ----------------      base_component_id:  The "baseComponentId" or Type of the
-                      |                           ------------------  app
-                      |
-                      |                           code_id:  The commit ID of the app. Sometimes the app
-                      |                           --------  is not the latest version of the app, which
-                      |                                     is why this is needed
-                      |                      ]
-                      |
-                      ------------------------------------------------------------------------------ -->
+                      
+                            <!  -----------------------------------
+                            |                                      |
+                            |    Show the list of editable apps    |
+                            |                                      |
+                            --------------------------------------
+                            
+                            Iterate through the apps in "editable_app_list"
+                            
+                            --------
+                            | Params |
+                            ------------------------------------------------------------------
+                            |
+                            |     editable_app_list: [
+                            |     ----------------      base_component_id:  The "baseComponentId" or Type of the
+                            |                           ------------------  app
+                            |
+                            |                           code_id:            The commit ID of the app. Sometimes the app
+                            |                           --------            is not the latest version of the app, which
+                            |                                               is why this is needed
+                            |                         ]
+                            |
+                            ------------------------------------------------------------------------------ -->
                 
                         <div    v-if="(editingBaseComponentId == item.base_component_id)"
                                 v-bind:refresh='refresh'
