@@ -1337,8 +1337,7 @@ End of app preview menu
                 }
                 setTimeout(async function() {
                     debugger
-
-                    await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id })
+                    await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id , runThisApp: true})
                     setTimeout(async function() {
                         mm.refresh++
                         //hack - the preview doesn't load without this
