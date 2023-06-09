@@ -456,7 +456,7 @@ ___________
                     <span
                         v-if="!read_only && (save_state == 'saved') && hideImportButtons"
                     >
-                      All changes saved
+                      Saved
                     </span>
                     <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
                             v-bind:disabled='read_only?"":false'
@@ -477,7 +477,7 @@ ___________
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
                               type="button" class="btn  btn-primary"
-                              v-if='read_only && (mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (GLOBALS.lastEditingAppCodeId == null))'>
+                              v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (GLOBALS.lastEditingAppCodeId == null))'>
 
                               <img
                                   src='/driver_icons/remix.png'
