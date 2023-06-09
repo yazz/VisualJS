@@ -290,7 +290,7 @@ ___________
                        Saved JS button
                   
                   ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:10px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GLOBALS.editingAppBaseComponentId + ".yazz"'
                        download
@@ -442,7 +442,7 @@ ___________
                   <span
                       v-if='read_only && hideImportButtons'
                   >
-                      {{read_only?"Read only mode":""}}
+                      {{read_only?"Read only":""}}
                     </span>
 
 
