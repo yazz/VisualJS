@@ -53,8 +53,7 @@ formEditor({
           "font_size": "",
           "on_property_in": "",
           "on_property_out": "",
-          "on_property_changed": "",
-          "code_id": ""
+          "on_property_changed": ""
         }
       ]
     },
