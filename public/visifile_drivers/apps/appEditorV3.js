@@ -435,7 +435,7 @@ ___________
                                   src='/driver_icons/save.png'
                                   style='height:35px; margin-right: 10px;'
                                   class='img-fluid'>
-                              </img>{{saveCodeToFile?"Save":"Save changes"}}
+                              </img>{{saveCodeToFile?"Save":"Save"}}
 
                     </button>
 
