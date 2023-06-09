@@ -965,7 +965,7 @@ Code Ids:
                             setTimeout(async function() {
                                 let bci = text.base_component_id
                                 let cid = text.code_id
-                                if (!isValidObject(cid)) {
+                                if ((!isValidObject(cid)) || (cid == "")) {
                                     cid = GLOBALS.baseComponentIdReturnsCommitId[bci]
                                 }
                                 let fid = text.form_id
