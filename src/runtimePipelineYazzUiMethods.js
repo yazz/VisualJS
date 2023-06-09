@@ -6662,6 +6662,7 @@ return {}
 // it is then we add the component being previewed instead
 //
 // START
+                setTimeout(async function(){
                 if (mm.args && mm.args.control_type) {
 
                     //debugger
@@ -6687,6 +6688,7 @@ return {}
                             [])
                     },200)
                 }
+                },800)
 // END
 //
 
