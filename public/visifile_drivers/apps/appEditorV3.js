@@ -290,7 +290,7 @@ ___________
                        Saved JS button
                   
                   ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:10px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GLOBALS.editingAppBaseComponentId + ".yazz"'
                        download
@@ -309,7 +309,7 @@ ___________
                   </a>
                   
                   
-                  <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-on:click='setTimeout(async function(){await switchEditor("history_viewer_component")},100)'
                        v-if="show_download_save"
@@ -338,7 +338,7 @@ ___________
                       The bookmark will be a timestamp by default
                   
                   ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-on:click='setTimeout(async function(){appClearIntervals();await bookmarkCode()},100)'
                        v-if="show_download_save"
@@ -362,7 +362,7 @@ ___________
                       GO LIVE BUTTON
                   
                   ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-on:click='setTimeout(async function(){appClearIntervals();await releaseCode()},100)'
                        v-if="show_download_save"
@@ -439,40 +439,8 @@ ___________
 
                     </button>
 
-                  <span
-                      v-if='read_only && hideImportButtons'
-                  >
-                      {{read_only?"Read only":""}}
-                    </span>
 
-
-
-                      <span
-                          v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!disableAutoSave)"
-                      >
-                          Unsaved changes...
-                    </span>
-
-                    <span
-                        v-if="!read_only && (save_state == 'saved') && hideImportButtons"
-                    >
-                      Saved
-                    </span>
-                    <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
-                            v-bind:disabled='read_only?"":false'
-                            v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
-                    >
-                    {{saveCodeToFile?"Save":"App preview up to date"}}
-                    </div>
-
-                    <div    v-if="!read_only && (save_state == 'saving')"
-                            v-bind:disabled='read_only?"":false'
-                            v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
-                    >
-                    saving ...
-                    </div>
-
-                    <button   v-bind:style="'margin-left:50px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
@@ -488,6 +456,42 @@ ___________
                     </button>
 
 
+                  
+                  
+                  <span
+                      v-if='read_only && hideImportButtons'
+                  >
+                      {{read_only?"Read only":""}}
+                    </span>
+                  
+                  <span
+                      v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!disableAutoSave)"
+                  >
+                          Unsaved...
+                    </span>
+
+                  <span
+                      v-if="!read_only && (save_state == 'saved') && hideImportButtons"
+                  >
+                      Saved
+                    </span>
+                  <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
+                          v-bind:disabled='read_only?"":false'
+                          v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                  >
+                    {{saveCodeToFile?"Save":"App preview up to date"}}
+                  </div>
+
+                  <div    v-if="!read_only && (save_state == 'saving')"
+                          v-bind:disabled='read_only?"":false'
+                          v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                  >
+                    saving ...
+                  </div>
+                  
+                  
+                  
+                  
 
                     <div  style='display: inline-block;'>
                         <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
