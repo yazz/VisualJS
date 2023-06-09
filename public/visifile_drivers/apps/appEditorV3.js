@@ -471,7 +471,7 @@ ___________
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
                               type="button" class="btn  btn-primary"
-                              v-if='read_only && (mode != "profiler") && (!editor_overloaded)'>
+                              v-if='read_only && (mode != "profiler") && (!editor_overloaded) && (preview_type == "app")'>
 
                               <img
                                   src='/driver_icons/remix.png'
