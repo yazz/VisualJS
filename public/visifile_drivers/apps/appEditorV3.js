@@ -644,7 +644,7 @@ End of app preview menu
             Preview a component
             
             ---------------------------------------------- -->
-            <div  v-if='app_loaded  &&  (preview_type=="control")' zzz="//zzz">
+            <div  v-if='app_loaded  &&  (preview_type=="control")'>
                   <component  id="control_preview_component"
                               ref="control_preview_component"
                               v-if='app_loaded  &&  (preview_type=="control")'
@@ -1336,7 +1336,7 @@ End of app preview menu
 
                 }
                 setTimeout(async function() {
-                    debugger
+                    //zzz
                     await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id , runThisApp: true})
                     setTimeout(async function() {
                         mm.refresh++
