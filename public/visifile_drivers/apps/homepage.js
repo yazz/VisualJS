@@ -66,15 +66,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     Yazz.component(
         {
             template:
-                `<div   v-bind:refresh='refresh'
-                        style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
+                `<div   v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
                 
                 
-                <!  ----------------------------------------
-                    |                                      |
-                    |          Show the debug mode         |
-                    |                                      |
-                    ---------------------------------------- -->
+                <!  ----------------------------------------    Show the debug mode    ---------------------------------------- -->
                 <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
                     <button style="margin: 20px;"
                             class='btn btn-lg btn-danger'
@@ -131,31 +126,7 @@ Code Ids:
 
                 </div>
                 
-                
-                
-                
-                    <!  --------------------------------------
-                       |                                      |
-                       |    Show the list of editable apps    |
-                       |                                      |
-                        --------------------------------------    
-                
-                    Iterate through the apps in "editable_app_list"
-                
-                     --------
-                    | Params |
-                     ------------------------------------------------------------------
-                    |
-                    |     editable_app_list: [
-                    |     ----------------      base_component_id:  The "baseComponentId" or Type of the
-                    |                           ------------------  app
-                    |
-                    |                           code_id:  The commit ID of the app. Sometimes the app
-                    |                           --------  is not the latest version of the app, which
-                    |                                     is why this is needed
-                    |                      ]
-                    |
-                     ------------------------------------------------------------------------------ -->
+                    <!  --------------------------------------  Show the list of editable apps     ------------------------------------>
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
                             v-if="(editingBaseComponentId == item.base_component_id)"
@@ -163,6 +134,28 @@ Code Ids:
                             v-on:mouseleave="currentlyHighlightedBaseComponentId = null;"
                             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                             class='app_card'>
+                      <!  --------------------------------------
+                      |                                      |
+                      |    Show the list of editable apps    |
+                      |                                      |
+                      --------------------------------------
+
+                      Iterate through the apps in "editable_app_list"
+
+                      --------
+                      | Params |
+                      ------------------------------------------------------------------
+                      |
+                      |     editable_app_list: [
+                      |     ----------------      base_component_id:  The "baseComponentId" or Type of the
+                      |                           ------------------  app
+                      |
+                      |                           code_id:  The commit ID of the app. Sometimes the app
+                      |                           --------  is not the latest version of the app, which
+                      |                                     is why this is needed
+                      |                      ]
+                      |
+                      ------------------------------------------------------------------------------ -->
                 
                         <div    v-if="(editingBaseComponentId == item.base_component_id)"
                                 v-bind:refresh='refresh'
@@ -177,15 +170,7 @@ Code Ids:
                         </div>
                     </div>
                 
-                
-                
-                
-                
-                    <!-- ------------------------------------------------ 
-                    
-                    Show the Yazz logo and top tabs
-                    
-                    ------------------------------------------------ -->
+                    <!-- -------------------------------------  Show the Yazz logo and top tabs   ------------------------------------------------ -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
                             v-bind:refresh='refresh'>
@@ -249,14 +234,7 @@ Code Ids:
                       </span>
                     </div>
                 
-                
-                
-                
-                    <!-- ------------------------------------------------ 
-                
-                    Show the top buttons, New App, etc
-                    
-                    ------------------------------------------------ -->
+                    <!-- ------------------------------------   Show the top buttons, New App, etc    -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
                             v-bind:refresh='refresh'>
@@ -421,19 +399,7 @@ Code Ids:
                         </h1>
                     </div>
                 
-                
-                
-                
-                
-                
-                
-                
-                    <!-- ------------------------------------------------ 
-                
-                    Show the "Editable" apps
-                    
-                    ------------------------------------------------ -->
-                    
+                    <!-- -----------------------------------    Show the "Editable" apps ------------------------------------------------ -->
                     <div    class=""
                             v-bind:refresh='refresh'
                             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'
@@ -542,25 +508,7 @@ Code Ids:
                             </div>
                         </div>
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                      
-                
-                
-                    <!-- ------------------------------------------------ 
-                
-                    Show the apps available in the appstore
-                    
-                    ------------------------------------------------ -->
+                    <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
                     <div    class=""
                             v-bind:refresh='refresh'
                             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'
@@ -665,17 +613,8 @@ Code Ids:
                       </div>
                     </div>
                         
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                    </div>
-                </div>`,
+                </div>
+            </div>`,
             data:       function() {
                 /* data for the Vue object
                 __________
