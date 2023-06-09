@@ -17,6 +17,7 @@ properties(
             id:     "text",
             name:   "Text",
             type:   "String",
+            default: "Edit this text",
             types: {text: true},
             accept_types: {canConvertToString: true, text: true},
             textarea: true,
