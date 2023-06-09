@@ -6608,44 +6608,48 @@ return {}
 
                     if (GLOBALS.subEditorAction == "FORK_CONTROL") {
                             setTimeout(function(){
-                                mm.changePropertyValue(
-                                    {
-                                        componentName:   GLOBALS.originalNameOfEditedUiControl,
-                                        propertyName:   "base_component_id",
-                                        propertyValue:   GLOBALS.finalBaseComponentIdOfEditedUiControl
-                                    }
-                                )
-                                mm.changePropertyValue(
-                                    {
-                                        componentName:   GLOBALS.originalNameOfEditedUiControl,
-                                        propertyName:   "code_id",
-                                        propertyValue:   GLOBALS.finalCodeIdOfEditedUiControl
-                                    }
-                                )
+                                if (GLOBALS.saveControlChanges) {
+                                    mm.changePropertyValue(
+                                        {
+                                            componentName:   GLOBALS.originalNameOfEditedUiControl,
+                                            propertyName:   "base_component_id",
+                                            propertyValue:   GLOBALS.finalBaseComponentIdOfEditedUiControl
+                                        }
+                                    )
+                                    mm.changePropertyValue(
+                                        {
+                                            componentName:   GLOBALS.originalNameOfEditedUiControl,
+                                            propertyName:   "code_id",
+                                            propertyValue:   GLOBALS.finalCodeIdOfEditedUiControl
+                                        }
+                                    )
+                                }
                                 GLOBALS.originalNameOfEditedUiControl   = null
                                 GLOBALS.subEditorAction                 = null
+                                GLOBALS.saveControlChanges              = false
 
                             },1000)
                     } else if (GLOBALS.subEditorAction == "EDIT_CONTROL") {
                         setTimeout(function(){
-                            mm.changePropertyValue(
-                                {
-                                    componentName:   GLOBALS.originalNameOfEditedUiControl,
-                                    propertyName:   "base_component_id",
-                                    propertyValue:   GLOBALS.finalBaseComponentIdOfEditedUiControl
-                                }
-                            )
-                            mm.changePropertyValue(
-                                {
-                                    componentName:   GLOBALS.originalNameOfEditedUiControl,
-                                    propertyName:   "code_id",
-                                    propertyValue:   GLOBALS.finalCodeIdOfEditedUiControl
-                                }
-                            )
-
+                            if (GLOBALS.saveControlChanges) {
+                                mm.changePropertyValue(
+                                    {
+                                        componentName: GLOBALS.originalNameOfEditedUiControl,
+                                        propertyName: "base_component_id",
+                                        propertyValue: GLOBALS.finalBaseComponentIdOfEditedUiControl
+                                    }
+                                )
+                                mm.changePropertyValue(
+                                    {
+                                        componentName: GLOBALS.originalNameOfEditedUiControl,
+                                        propertyName: "code_id",
+                                        propertyValue: GLOBALS.finalCodeIdOfEditedUiControl
+                                    }
+                                )
+                            }
                             GLOBALS.originalNameOfEditedUiControl   = null
                             GLOBALS.subEditorAction                 = null
-
+                            GLOBALS.saveControlChanges              = false
                         },1000)
 
                     }

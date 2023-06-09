@@ -248,13 +248,13 @@ ___________
 
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();closeEditor()' >
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();GLOBALS.saveControlChanges=true;closeEditor()' >
                   <span v-if="!GLOBALS.lastEditingAppCodeId">Close</span>
                   <span v-if="GLOBALS.lastEditingAppCodeId">Update app</span>
                 </button>
             </div>
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();closeEditor()'
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();GLOBALS.saveControlChanges=false;closeEditor()'
                          v-if="GLOBALS.lastEditingAppCodeId">
                   <span v-if="GLOBALS.lastEditingAppCodeId">Cancel</span>
                 </button>
