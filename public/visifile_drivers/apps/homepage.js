@@ -963,7 +963,6 @@ Code Ids:
                             globalEventBus.$emit('show_settings', {});
 
                             setTimeout(async function() {
-                                debugger
                                 let bci = text.base_component_id
                                 let cid = text.code_id
                                 if (!isValidObject(cid)) {
