@@ -1211,7 +1211,7 @@ End of app preview menu
                 //nn = nn.replace(/[\W_]+/g,"_");
 
                 setTimeout(async function() {
-                    //debugger
+                    debugger
                     mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
                     mm.editor_text = yz.insertCodeString(mm.editor_text, "display_name", nn)
 
@@ -1780,6 +1780,12 @@ End of app preview menu
                     mm.preview_type = "control"
                 } else {
                     mm.preview_type = "app"
+                }
+
+                if (mm.read_only) {
+                    mm.editor_shell_locked = true
+                } else {
+                    mm.editor_shell_locked = false
                 }
             },
             save:                           async function  ( base_component_id, code_id , textIn, extras) {
