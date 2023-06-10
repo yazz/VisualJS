@@ -1205,29 +1205,24 @@ End of app preview menu
                 this.edit_name = false
                 this.show_name = true
 
-
                 // commented out as we don't want to replace _ (underscores) with spaces
                 //nn = nn.replace(/[\W_]+/g,"_");
 
-                setTimeout(async function() {
-                    debugger
-                    mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
-                    mm.editor_text = yz.insertCodeString(mm.editor_text, "display_name", nn)
-//zzz
-                    mm.component_display_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
-                    if (mm.$refs.editor_component_ref) {
-                        if (mm.$refs.editor_component_ref.setText) {
-                            mm.$refs.editor_component_ref.setText(mm.editor_text)
-                            mm.save_state = "pending"
-                        }
-                    }
-                    mm.$root.$emit('message', {
-                        type:               "rename_app",
-                        base_component_id:   mm.base_component_id,
-                        display_name:        mm.component_display_name
-                    })
+                this.editor_text = await this.$refs.editor_component_ref.getText()
 
-                },500)
+                this.editor_text = yz.deleteCodeString(this.editor_text, "display_name")
+                this.editor_text = yz.insertCodeString(this.editor_text, "display_name",nn)
+
+                await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
+
+                await mm.load_new_version_of_edited_app({newApp: true, codeId:  this.code_id } )
+
+//zzz
+                mm.$root.$emit('message', {
+                    type:               "rename_app",
+                    base_component_id:   mm.base_component_id,
+                    display_name:        mm.component_display_name
+                })
             },
             editAsText:                     async function  () {
                 /*
