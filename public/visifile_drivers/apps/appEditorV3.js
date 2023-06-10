@@ -175,7 +175,7 @@ ___________
         <input    class='caption' 
                   v-bind:style='"display: inline-block;" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")' 
                   v-if='edit_name'
-                  v-on:focusout='alert(1);(async function(){await rename(component_display_name)})()'
+                  v-on:focusout='(async function(){await rename(component_display_name)})()'
                   v-model='component_display_name'></input>
 
 
