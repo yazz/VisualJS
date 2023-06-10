@@ -970,8 +970,7 @@ End of app preview menu
                show_name:                       true,
                edit_name:                       false,
                editor_text:                     "",
-               save_state:                      "saved",
-               display_name:                    ""
+               save_state:                      "saved"
            }
        },
         methods:    {
@@ -1214,7 +1213,7 @@ End of app preview menu
                     debugger
                     mm.editor_text = yz.deleteCodeString(mm.editor_text, "display_name")
                     mm.editor_text = yz.insertCodeString(mm.editor_text, "display_name", nn)
-
+//zzz
                     mm.component_display_name = yz.getValueOfCodeString(mm.editor_text,"display_name")
                     if (mm.$refs.editor_component_ref) {
                         if (mm.$refs.editor_component_ref.setText) {
@@ -1324,7 +1323,6 @@ End of app preview menu
 
                 }
                 setTimeout(async function() {
-                    //zzz
                     await mm.load_new_version_of_edited_app( {newApp: true,  codeId:  result.code_id , runThisApp: true})
                     setTimeout(async function() {
                         mm.refresh++
