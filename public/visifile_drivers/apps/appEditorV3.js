@@ -174,23 +174,11 @@ ___________
 
         <input    class='caption' 
                   v-bind:style='"display: inline-block;" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")' 
-                  v-if='edit_name' 
+                  v-if='edit_name'
+                  v-on:focusout='alert(1);(async function(){await rename(component_display_name)})()'
                   v-model='component_display_name'></input>
 
 
-          <button type=button class='btn btn-primary'
-                  v-bind:style='"margin-left: 10px" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")'
-                  v-if='(!read_only) && (!edit_name)'
-                  v-on:click='edit_name = true;show_name=false;'>
-            Rename
-          </button>
-
-        <button type=button class='btn btn-primary' 
-                v-bind:style='"margin-left: 10px" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")'
-                v-if='edit_name' 
-                v-on:click='(async function(){await rename(component_display_name)})()'>
-            Save new name
-        </button>
 
 
         <span style='float: right; margin-right: 2%; margin-left: 20px;' >
