@@ -404,7 +404,7 @@ Code Ids:
                     <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
 
                             <!-- ---------------------------    "Editable" apps title ------------------------------------------------ -->
-                            <span style="font-size: 60px; color: white;">Editable Apps</span>
+                            <span style="font-size: 60px; color: white;">Editable Apps (by Base Component ID)</span>
 
                             <!-- ---------------------------  Show the actual "Editable" clickable icons ------------------------------------------------ -->
                             <div v-bind:refresh='refresh'
