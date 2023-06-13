@@ -522,6 +522,22 @@
                 runtimePipelines: new Object(),
 
 
+                //
+                // This contains the source code for a particular commit ID
+                //
+                // eg:    value: {
+                //                    "async fn {... code here ... }"
+                //                    }
+                //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
+                //  {
+                //      code:               mm.editor_text,
+                //      component_type:     "SYSTEM",
+                //      libs:               [],
+                //      code_id:            mm.code_id,
+                //      base_component_id:  baseCompIdFromSrcCode
+                //  }
+                //
+                codeCache: new Object(),
 
                 getPipelineCodeFromServer:      async function  (   fileName   ) {
                     let resultsCode = await postToYazzReturnJson(
@@ -762,22 +778,6 @@
 
                 },
 
-                //
-                // This contains the source code for a particular commit ID
-                //
-                // eg:    value: {
-                //                    "async fn {... code here ... }"
-                //                    }
-                //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
-                //  {
-                //      code:               mm.editor_text,
-                //      component_type:     "SYSTEM",
-                //      libs:               [],
-                //      code_id:            mm.code_id,
-                //      base_component_id:  baseCompIdFromSrcCode
-                //  }
-                //
-                codeCache: new Object(),
 
 
                 //
