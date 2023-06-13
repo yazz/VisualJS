@@ -1399,7 +1399,7 @@ End of app preview menu
             },
             loadComponentIntoEditor: async function  ( options ) {
                 console.log("loadComponentIntoEditor")
-                debugger
+
                 /*            --------------------------------------
                              |                                      |
                              |       loadComponentIntoEditor        |

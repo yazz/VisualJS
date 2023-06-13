@@ -885,6 +885,7 @@ Code Ids:
                                                  | while already editing an app
                                                  |__________________________________ */
                         if (text.type == "edit_component") {
+                            debugger
                             mm.editingBaseComponentId = null;
                             mm.open_file_name = ""
                             mm.open_file_path = "/"
