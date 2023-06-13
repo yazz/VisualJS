@@ -416,24 +416,24 @@
                 //
                 // This is used to jump from editing an app to editing a UI control and back again
                 //
-                subEditorAction:                            null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
-                editingAppBaseComponentId:                  null,   // Type (BCI) of the currently edited component
-                editingAppCodeId:                           null,   // Commit ID for the currently edited component
-                lastEditingAppBaseComponentId:              null,   // if we jump to edit another component save this
-                lastEditingAppCodeId:                       null,   // if we jump to edit another component save this
-                inEditor:                                   false,  // Always set to true when we enter the editor
+                subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
+                editingAppBaseComponentId:                      null,   // Type (BCI) of the currently edited component
+                editingAppCodeId:                               null,   // Commit ID for the currently edited component
+                lastEditingAppBaseComponentId:                  null,   // if we jump to edit another component save this
+                lastEditingAppCodeId:                           null,   // if we jump to edit another component save this
+                inEditor:                                       false,  // Always set to true when we enter the editor
 
                 //
                 // This is used when we have edited a UI control and want to jump back to the app and update the control
                 // that was edited in the app
                 //
-                saveControlChanges:                         false,
-                originalFormIdOfEditedUiControl:            null,
-                originalNameOfEditedUiControl:              null,
-                originalBaseComponentIdOfEditedUiControl:   null,
-                originalCodeIdOfEditedUiControl:            null,
-                finalBaseComponentIdOfEditedUiControl:      null,
-                finalCodeIdOfEditedUiControl:               null,
+                saveControlChanges:                             false,
+                originalFormIdOfEditedUiControl:                null,
+                originalNameOfEditedUiControl:                  null,
+                originalBaseComponentIdOfEditedUiControl:       null,
+                originalCodeIdOfEditedUiControl:                null,
+                finalBaseComponentIdOfEditedUiControl:          null,
+                finalCodeIdOfEditedUiControl:                   null,
 
                 //
                 // This is a map from the UI control name to the corresponding Vue object
@@ -441,35 +441,35 @@
                 //
                 // so {aaa: -> Vue object, mycontrolname: -> vue object}
                 //
-                designModeUiControlNameReturnsVueInstance: {},
+                designModeUiControlNameReturnsVueInstance:      {},
 
                 //
                 // Which controls are used only in the currently edited app.
                 // This is used so that we know what controls to embed if we
                 // export the app as HTML
                 //
-                loadedControlsMapInCurrentlyEditedApp: new Object(),
+                loadedControlsMapInCurrentlyEditedApp:          new Object(),
 
                 //
                 // This points to the Vue objects for the components in an app
                 //
-                runtimeUiControlNameReturnsVueInstance: {},
+                runtimeUiControlNameReturnsVueInstance:         {},
 
                 //
                 // This is a true/false hashmap for whether a Vue component is loaded based
                 // on the Code ID
                 //
-                isVueLoadedForCodeId: {},
+                isVueLoadedForCodeId:                           {},
 
                 //
                 // A list of loaded libs for an app
                 //
-                libLoaded: new Object(),
+                libLoaded:                                      new Object(),
 
                 //
                 // If the Yazz server is current online with internet access
                 //
-                online: false,
+                online:                                         false,
 
                 //
                 // current base_component_id of the app being run
@@ -477,13 +477,13 @@
                 // set to "homepage" as that is the main app being run. The editor is run on
                 // top of that
                 //
-                base_component_id_of_main_runtime_component: null,
+                base_component_id_of_main_runtime_component:    null,
 
                 //
                 // properties on UI components where the output of one property is linked to
                 // the input of another property
                 //
-                linkedProperties: new Object(),
+                linkedProperties:                               new Object(),
 
                 //
                 // This contains the engines that allows components to be decorated at
@@ -764,6 +764,7 @@
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
                 // "DO NOT" change this line as it is dynamically replaced by code
+                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
                 //
                 isStaticHtmlPageApp: false
 
