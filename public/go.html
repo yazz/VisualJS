@@ -404,7 +404,8 @@
                 }
             }
             var GLOBALS                         = {
-                /* -----------------------------------------------------------------------
+                /* Used to load and query components
+                -----------------------------------------------------------------------
                 GLOBALS
                 ----------------------------------
                 There seems to be alot of specialised, but global communication in the
@@ -449,15 +450,10 @@
                 //
                 loadedControlsMapInCurrentlyEditedApp: new Object(),
 
-
-
-
                 //
                 // This points to the Vue objects for the components in an app
                 //
                 runtimeUiControlNameReturnsVueInstance: {},
-
-
 
                 //
                 // This is a true/false hashmap for whether a Vue component is loaded based
@@ -465,14 +461,10 @@
                 //
                 isVueLoadedForCodeId: {},
 
-
-
                 //
                 // A list of loaded libs for an app
                 //
                 libLoaded: new Object(),
-
-
 
                 //
                 // If the Yazz server is current online with internet access
@@ -485,8 +477,6 @@
                 //
                 isStaticHtmlPageApp: false,
 
-
-
                 //
                 // current base_component_id of the app being run
                 // This can confuse people as when editing an app the "base_component_id" is
@@ -495,17 +485,11 @@
                 //
                 base_component_id_of_main_runtime_component: null,
 
-
-
-
                 //
                 // properties on UI components where the output of one property is linked to
                 // the input of another property
                 //
                 linkedProperties: new Object(),
-
-
-
 
                 //
                 // This contains the engines that allows components to be decorated at
@@ -520,7 +504,6 @@
                 // and the example apps
                 //
                 runtimePipelines: new Object(),
-
 
                 //
                 // This contains the source code for a particular commit ID
@@ -782,11 +765,7 @@
                         indexComponent( args.baseComponentId  )
                     }
 
-                },
-
-
-
-
+                }
             }
             var localSqliteDb                   = null
             var networkIntranetIpAddress        = null
