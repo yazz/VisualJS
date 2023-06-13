@@ -880,7 +880,7 @@ logo_url("/driver_icons/mixer.png")
               //debugger
               let mm = this
               let typeName = event.target.value
-              await GLOBALS.loadUiComponentsV4([typeName])
+              await GLOBALS.makeSureUiComponentLoadedV5([typeName])
               mm.args.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
               mm.properties.sourceComponentType = typeName
               await this.meta.getEditor().addControl(

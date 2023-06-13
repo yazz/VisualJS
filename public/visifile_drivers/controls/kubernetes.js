@@ -246,7 +246,7 @@ logo_url("/driver_icons/kubernetes.png")
                 if (!this.design_mode) {
                     return
                 }
-                await GLOBALS.loadUiComponentsV4(["rest_control"])
+                await GLOBALS.makeSureUiComponentLoadedV5(["rest_control"])
                 var newName = "rh3scale_api_call_" + Math.floor(Math.random() * 1000)
                 await this.meta.getEditor().addControl(
                     {

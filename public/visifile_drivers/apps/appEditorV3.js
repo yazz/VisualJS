@@ -1547,7 +1547,7 @@ End of app preview menu
                                         editorName = newEditor
                                     }
 
-                                    await GLOBALS.loadUiComponentsV4( editorName, {text: code} )
+                                    await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
                                     mm.refresh++
 
                                     mm.editor_loaded    = true
@@ -1585,7 +1585,7 @@ End of app preview menu
                                     }
                                 }
                                 mm.resetDebugger()
-                                await GLOBALS.loadUiComponentsV4( {codeId: mm.code_id }, {} )
+                                await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
                                 mm.refresh++
                             },500)
                         }
@@ -1620,7 +1620,7 @@ End of app preview menu
                                     codeId:             codeId
                                 })
 
-                            await GLOBALS.loadUiComponentsV4( editorName, {text: code} )
+                            await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
                             mm.refresh++
 
                             mm.editor_loaded    = true
@@ -1635,7 +1635,7 @@ End of app preview menu
 
 
                         this.resetDebugger()
-                        await GLOBALS.loadUiComponentsV4( {codeId: mm.code_id }, {} )
+                        await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
                         mm.refresh++
 
 
@@ -1732,7 +1732,7 @@ End of app preview menu
                                             codeId:             codeId
                                         })
 
-                                    await GLOBALS.loadUiComponentsV4( editorName, {text: code} )
+                                    await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
                                     mm.refresh++
 
                                     mm.editor_loaded    = true
@@ -2265,8 +2265,8 @@ End of app preview menu
 
 
             })
-            await GLOBALS.loadUiComponentsV4(["yazz_blank"])
-            await GLOBALS.loadUiComponentsV4(["totally_blank_app"])
+            await GLOBALS.makeSureUiComponentLoadedV5(["yazz_blank"])
+            await GLOBALS.makeSureUiComponentLoadedV5(["totally_blank_app"])
             setInterval(async function() {
 
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {

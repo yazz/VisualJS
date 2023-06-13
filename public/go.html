@@ -1510,11 +1510,11 @@
                         hideProgressBar()
                     }
                 },
-                loadUiComponentsV4:             async function  (   argComponentsToLoad   ,   argsToPassToUiComponents   ) {
+                makeSureUiComponentLoadedV5:             async function  (   argComponentsToLoad   ,   argsToPassToUiComponents   ) {
                     /*
                     ________________________________________
                     |                                      |
-                    |       loadUiComponentsV4             |
+                    |       makeSureUiComponentLoadedV5             |
                     |                                      |
                     |______________________________________|
                      Dynamically loads a component class into the currently running system. V4
@@ -1522,11 +1522,11 @@
 
                      Can be called like:
 
-                     loadUiComponentsV4(    "button_control"  )
-                     loadUiComponentsV4(  [ "button_control" ]  )
-                     loadUiComponentsV4(  [ "button_control"   ,  "label_control"  ]  )
-                     loadUiComponentsV4(  [ { baseComponentId: "button_control" }]  )
-                     loadUiComponentsV4(  [ { baseComponentId: "button_control" }  ,  { codeId: "Qmeff737e7878...3223" } ]  )
+                     makeSureUiComponentLoadedV5(    "button_control"  )
+                     makeSureUiComponentLoadedV5(  [ "button_control" ]  )
+                     makeSureUiComponentLoadedV5(  [ "button_control"   ,  "label_control"  ]  )
+                     makeSureUiComponentLoadedV5(  [ { baseComponentId: "button_control" }]  )
+                     makeSureUiComponentLoadedV5(  [ { baseComponentId: "button_control" }  ,  { codeId: "Qmeff737e7878...3223" } ]  )
                     __________
                     | PARAMS |______________________________________________________________
                     |
@@ -1541,14 +1541,14 @@
                     |
                     |________________________________________________________________________ */
 
-                    //console.log("loadUiComponentsV4")
+                    //console.log("makeSureUiComponentLoadedV5")
                     //console.log("    argComponentsToLoad := " + JSON.stringify(argComponentsToLoad,null,2))
                     //console.log("    argsToPassToUiComponents := " + JSON.stringify(argsToPassToUiComponents,null,2))
                     //console.log("")
 
                     /*
                     ________________________________________
-                    |    loadUiComponentsV4                |
+                    |    makeSureUiComponentLoadedV5                |
                     |_________________                     |______________________________________
                                      |
                                      | Transform "argComponentsToLoad" from a list
@@ -1580,7 +1580,7 @@
 
                     /*
                     ________________________________________
-                    |    loadUiComponentsV4                |
+                    |    makeSureUiComponentLoadedV5                |
                     |_________________                     |______________________________________
                                      |
                                      | For static HTML pages (ie: just HTML , with no Yazz engine)
@@ -1595,7 +1595,7 @@
                             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
                             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
                             if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId(componentType)  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
-                                //console.log("loadUiComponentsV4: " + componentType)
+                                //console.log("makeSureUiComponentLoadedV5: " + componentType)
                                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
                                 let newDataCodeId   = GLOBALS.getCommitIdForBaseComponentId( componentType )
@@ -1621,7 +1621,7 @@
 
                     /*
                     ________________________________________
-                    |    loadUiComponentsV4                |
+                    |    makeSureUiComponentLoadedV5                |
                     |_________________                     |______________________________________
                                      |
                                      | For Dynamic HTML pages (which have access to the Yazz engine)
@@ -3320,7 +3320,7 @@
                 //
                 // loadAppIntoElement
                 //
-                await GLOBALS.loadUiComponentsV4(base_component_id)
+                await GLOBALS.makeSureUiComponentLoadedV5(base_component_id)
                 if (mainVueApp.cards[id - 1].card.base_component_id == base_component_id) {
 
                     if (!document.getElementById(rootElement)) {
@@ -4261,7 +4261,7 @@
 
 
                   ------------------
-                - loadUiComponentsV4
+                - makeSureUiComponentLoadedV5
                   ------------------
                     Loads Yazz UI components only
 
