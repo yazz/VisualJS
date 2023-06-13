@@ -539,6 +539,12 @@
                 //
                 codeCache: new Object(),
 
+                //
+                // maps the base component ID to the commit ID
+                // "Qm0x43FFE338..2F1" < - points to a commit ID
+                //
+                baseComponentIdReturnsCommitId: new Object(),
+
                 getPipelineCodeFromServer:      async function  (   fileName   ) {
                     let resultsCode = await postToYazzReturnJson(
                         "/http_post_load_pipeline_code",
@@ -780,11 +786,7 @@
 
 
 
-                //
-                // maps the base component ID to the commit ID
-                // "Qm0x43FFE338..2F1" < - points to a commit ID
-                //
-                baseComponentIdReturnsCommitId: new Object(),
+
             }
             var localSqliteDb                   = null
             var networkIntranetIpAddress        = null
