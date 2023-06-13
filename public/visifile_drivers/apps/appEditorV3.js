@@ -1402,11 +1402,11 @@ End of app preview menu
                 debugger
                 /*            --------------------------------------
                              |                                      |
-                             |           loadComponentIntoEditor           |
+                             |       loadComponentIntoEditor        |
                              |                                      |
                               --------------------------------------
 
-                    This loads a new version of the currently edited app.
+                        This loads a new version of the currently edited app.
 
                      --------
                     | Params |
@@ -1434,7 +1434,7 @@ End of app preview menu
 
 
                 /*   --------------------------------------
-                    |    loadComponentIntoEditor                  |
+                    |    loadComponentIntoEditor           |
                      ----------------               -------
                                      |  init stuff |
                                       ------------- */
@@ -1480,7 +1480,7 @@ End of app preview menu
                 try {
 
                     /*   --------------------------------------
-                        |    loadComponentIntoEditor    |
+                        |       loadComponentIntoEditor        |
                          ----------------                       -----
                                          |  load app from commit ID  |
                                           --------------------------- */
