@@ -68,64 +68,48 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             template:
                 `<div   v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
                 
-                
-                <!  ----------------------------------------    Show the debug mode    ---------------------------------------- -->
-                <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
-                    <button style="margin: 20px;"
-                            class='btn btn-lg btn-danger'
-                            v-on:click='showHomepageVars = !showHomepageVars'>
-                            Show homepage vars
-                          </button>
-                  <button style="margin: 20px;"
-                          class='btn btn-lg btn-danger'
-                          v-on:click='showLoadedVueObjects = !showLoadedVueObjects'>
-                    Show Loaded Vue objects
-                  </button>
-                  
-                  
-                  
-                  
-                <div v-if="showHomepageVars" style="">
+                    <!  ----------------------------------------    Show the debug mode    ---------------------------------------- -->
+                    <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
+                        <button style="margin: 20px;"
+                                class='btn btn-lg btn-danger'
+                                v-on:click='showHomepageVars = !showHomepageVars'>
+                                Show homepage vars
+                        </button>
+                        <button style="margin: 20px;"
+                              class='btn btn-lg btn-danger'
+                              v-on:click='showLoadedVueObjects = !showLoadedVueObjects'>
+                              Show Loaded Vue objects
+                        </button>
+                        <div v-if="showHomepageVars" style="">
+                      <pre>
+    <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
+    hideImportButtons:                      {{ hideImportButtons }}
+    currentlyHighlightedBaseComponentId:    {{ currentlyHighlightedBaseComponentId }}
+    refresh:                                {{ refresh }}
+    editingBaseComponentId:                 {{ editingBaseComponentId }}
+    showFilePicker:                         {{ showFilePicker }}
+    open_file_path:                         {{ open_file_path }}
+    open_file_list:                         {{ open_file_list }}
+    open_file_name:                         {{ open_file_name }}
+    disableHighlightApp:                    {{ disableHighlightApp }}
+    editable_app_list:                      {{ editable_app_list }}
+    appstore_apps:                          {{ appstore_apps }}
+    app_logos:                              {{ app_logos }}
+    showHomepageVars:                       {{ showHomepageVars }}
+    showLoadedVueObjects:                   {{ showLoadedVueObjects }}
+                      </pre>
+                    </div>
+                        <div v-if="showLoadedVueObjects">
                   <pre>
-<div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
-hideImportButtons:                      {{ hideImportButtons }}
-currentlyHighlightedBaseComponentId:    {{ currentlyHighlightedBaseComponentId }}
-refresh:                                {{ refresh }}
-editingBaseComponentId:                 {{ editingBaseComponentId }}
-showFilePicker:                         {{ showFilePicker }}
-open_file_path:                         {{ open_file_path }}
-open_file_list:                         {{ open_file_list }}
-open_file_name:                         {{ open_file_name }}
-disableHighlightApp:                    {{ disableHighlightApp }}
-editable_app_list:                      {{ editable_app_list }}
-appstore_apps:                          {{ appstore_apps }}
-app_logos:                              {{ app_logos }}
-showHomepageVars:                       {{ showHomepageVars }}
-showLoadedVueObjects:                   {{ showLoadedVueObjects }}
+    <div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
+    
+    Code Ids:
+    {{ GLOBALS.isVueLoadedForCodeId }}
+    
                   </pre>
                 </div>
-
-
-
-
-
-
-            <div v-if="showLoadedVueObjects">
-              <pre>
-<div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
-
-Code Ids:
-{{ GLOBALS.isVueLoadedForCodeId }}
-
-              </pre>
-            </div>
-
-
-
-
-
-                </div>
-                
+                    </div>
+                    
                     <!  --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
@@ -170,7 +154,7 @@ Code Ids:
                                 </component>
                         </div>
                     </div>
-                
+                    
                     <!-- -------------------------------------  Show the Yazz logo and top tabs   ------------------------------------------------ -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
@@ -601,7 +585,6 @@ Code Ids:
                         </div>
                       </div>
                     </div>
-                        
                 </div>
             </div>`,
             data:       function() {
