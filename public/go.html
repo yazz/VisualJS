@@ -472,12 +472,6 @@
                 online: false,
 
                 //
-                // If this app is loaded as a HTML page and possibly without a Yazz server running
-                // DO NOT change this line as it is dynamically replaced by code
-                //
-                isStaticHtmlPageApp: false,
-
-                //
                 // current base_component_id of the app being run
                 // This can confuse people as when editing an app the "base_component_id" is
                 // set to "homepage" as that is the main app being run. The editor is run on
@@ -765,7 +759,14 @@
                         indexComponent( args.baseComponentId  )
                     }
 
-                }
+                },
+
+                //
+                // If this app is loaded as a HTML page and possibly without a Yazz server running
+                // "DO NOT" change this line as it is dynamically replaced by code
+                //
+                isStaticHtmlPageApp: false
+
             }
             var localSqliteDb                   = null
             var networkIntranetIpAddress        = null
