@@ -497,7 +497,7 @@
                 // because otherwise we end up with duplication of edits in the engine
                 // and the example apps
                 //
-                runtimePipelines: new Object(),
+                runtimePipelines:                               new Object(),
 
                 //
                 // This contains the source code for a particular commit ID
@@ -514,13 +514,13 @@
                 //      base_component_id:  baseCompIdFromSrcCode
                 //  }
                 //
-                codeCache: new Object(),
+                codeCache:                                      new Object(),
 
                 //
                 // maps the base component ID to the commit ID
                 // "Qm0x43FFE338..2F1" < - points to a commit ID
                 //
-                baseComponentIdReturnsCommitId: new Object(),
+                baseComponentIdReturnsCommitId:                 new Object(),
 
                 getPipelineCodeFromServer:      async function  (   fileName   ) {
                     let resultsCode = await postToYazzReturnJson(
