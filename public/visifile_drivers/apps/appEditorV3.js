@@ -149,7 +149,7 @@ ___________
 |     checkSavedFile                    : function() {
 |     copyApp                           : async function( appId , newAppId, codeId) {
 |     bookmarkCode                      : async function() {
-|     previewComponent    : async function ( options ) {
+|     loadComponentIntoEditor    : async function ( options ) {
 |     save                              function( base_component_id, code_id , textIn, extras) {
 |
 |________________________________________________________________________ */
@@ -530,7 +530,7 @@ ___________
                 Refresh button 
                 ---------------------------------------------- -->
                 <button   
-                    v-on:click='setTimeout(async function(){appClearIntervals();await previewComponent({codeId: code_id, runThisApp: true})},100)'
+                    v-on:click='setTimeout(async function(){appClearIntervals();await loadComponentIntoEditor({codeId: code_id, runThisApp: true})},100)'
                     type="button"
                     v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
                     class="btn"
@@ -991,7 +991,7 @@ End of app preview menu
                this.override_app_editor                             = null
                this.editor_text                                     = await mm.$refs.editor_component_ref.getText()
 
-               await mm.previewComponent({
+               await mm.loadComponentIntoEditor({
                     codeId:     mm.code_id,
                     newApp:     true}
                     )
@@ -1014,7 +1014,7 @@ End of app preview menu
 
                this.override_app_editor = editor_component_id
 
-               await mm.previewComponent(
+               await mm.loadComponentIntoEditor(
                     {
                         newApp:             true,
                         baseComponentId:    this.base_component_id,
@@ -1104,7 +1104,7 @@ End of app preview menu
                     //
 
                     //await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.previewComponent({codeId:  this.code_id,  runThisApp: true})
+                    await mm.loadComponentIntoEditor({codeId:  this.code_id,  runThisApp: true})
                     hideProgressBar()
                 }
             },
@@ -1125,7 +1125,7 @@ End of app preview menu
                 this.mode      = "edit"
                 this.sub_mode  = "code"
 
-                await mm.previewComponent({codeId:  this.code_id , runThisApp: false})
+                await mm.loadComponentIntoEditor({codeId:  this.code_id , runThisApp: false})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1155,7 +1155,7 @@ End of app preview menu
                 this.app_shown = true
 
                 appClearIntervals()
-                await mm.previewComponent({codeId:  this.code_id, runThisApp: true})
+                await mm.loadComponentIntoEditor({codeId:  this.code_id, runThisApp: true})
 
                 if (this.timeline_editor) {
                     this.timeline_editor.destroy()
@@ -1182,7 +1182,7 @@ End of app preview menu
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
-                    await mm.previewComponent({codeId:  this.code_id, runThisApp: true})
+                    await mm.loadComponentIntoEditor({codeId:  this.code_id, runThisApp: true})
                 }
                 this.mode = "profiler"
 
@@ -1215,7 +1215,7 @@ End of app preview menu
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
-                await mm.previewComponent({newApp: true, codeId:  this.code_id } )
+                await mm.loadComponentIntoEditor({newApp: true, codeId:  this.code_id } )
 
 //zzz
                 mm.$root.$emit('message', {
@@ -1248,7 +1248,7 @@ End of app preview menu
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
-                await mm.previewComponent({newApp: true, codeId:  this.code_id } )
+                await mm.loadComponentIntoEditor({newApp: true, codeId:  this.code_id } )
             },
             checkSavedFile:                 function        () {
                 // ---------------------------------------------------------------
@@ -1318,7 +1318,7 @@ End of app preview menu
 
                 }
                 setTimeout(async function() {
-                    await mm.previewComponent( {newApp: true,  codeId:  result.code_id , runThisApp: true})
+                    await mm.loadComponentIntoEditor( {newApp: true,  codeId:  result.code_id , runThisApp: true})
                     setTimeout(async function() {
                         mm.refresh++
                         //hack - the preview doesn't load without this
@@ -1397,12 +1397,12 @@ End of app preview menu
                     //this.checkSavedFile()
                 }
             },
-            previewComponent: async function  ( options ) {
-                console.log("previewComponent")
+            loadComponentIntoEditor: async function  ( options ) {
+                console.log("loadComponentIntoEditor")
                 debugger
                 /*            --------------------------------------
                              |                                      |
-                             |    previewComponent    |
+                             |           loadComponentIntoEditor           |
                              |                                      |
                               --------------------------------------
 
@@ -1434,7 +1434,7 @@ End of app preview menu
 
 
                 /*   --------------------------------------
-                    |    previewComponent    |
+                    |    loadComponentIntoEditor                  |
                      ----------------               -------
                                      |  init stuff |
                                       ------------- */
@@ -1480,7 +1480,7 @@ End of app preview menu
                 try {
 
                     /*   --------------------------------------
-                        |    previewComponent    |
+                        |    loadComponentIntoEditor    |
                          ----------------                       -----
                                          |  load app from commit ID  |
                                           --------------------------- */
@@ -1595,7 +1595,7 @@ End of app preview menu
 
 
                         /* --------------------------------------
-                          |    previewComponent    |
+                          |    loadComponentIntoEditor    |
                            -----------------                      ------
                                             | load app from source code |
                                              --------------------------- */
@@ -1653,7 +1653,7 @@ End of app preview menu
 
 
                         /* --------------------------------------
-                          |    previewComponent    |
+                          |    loadComponentIntoEditor    |
                            -----------------                      ----------------------------
                                             | load app based on App Type (base_component_id") |
                                              -------------------------------------------------   */
@@ -1848,7 +1848,7 @@ End of app preview menu
                     if (mm.app_shown) {
                         // if the app has been changed during the save then don't reload the app
                         if (!saveCodeToFile) {
-                            await mm.previewComponent({code: mm.editor_text, runThisApp: true})
+                            await mm.loadComponentIntoEditor({code: mm.editor_text, runThisApp: true})
 
                         } else {
                             hideProgressBar()
@@ -2117,7 +2117,7 @@ End of app preview menu
                 // Add a debug watch var
                 // ---------------------------------------------------------------
                 globalWatchList[varN]={}
-                await this.previewComponent({codeId:  this.code_id })
+                await this.loadComponentIntoEditor({codeId:  this.code_id })
                 let allWatches = Object.keys(globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
@@ -2219,13 +2219,13 @@ End of app preview menu
                 GLOBALS.inEditor                                    = true
 
 
-                await mm.previewComponent({codeId: GLOBALS.editingAppCodeId})
+                await mm.loadComponentIntoEditor({codeId: GLOBALS.editingAppCodeId})
 
 
             } else if (mm.arg_edit_base_component_id) {
                 GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
 
-                await mm.previewComponent({baseComponentId: this.arg_edit_base_component_id})
+                await mm.loadComponentIntoEditor({baseComponentId: this.arg_edit_base_component_id})
 
             }
 
@@ -2254,7 +2254,7 @@ End of app preview menu
                 } else if (message.type == "force_raw_load") {
                     //mm.save_state = "pending"
                     //mm.checkSavedFile()
-                    await mm.previewComponent(   {codeId: message.commitId , runThisApp: true} )
+                    await mm.loadComponentIntoEditor(   {codeId: message.commitId , runThisApp: true} )
                     mm.$root.$emit('message', {
                         type:               "update_app",
                         base_component_id:   mm.arg_edit_base_component_id,
