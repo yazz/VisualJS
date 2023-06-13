@@ -1555,13 +1555,13 @@ Code Ids:
 
                     globalEventBus.$emit('hide_settings', {});
 
-                    await loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
+                    await GLOBALS.loadUiComponentsV4([{baseComponentId: "app_editor_3"}])
 
                     if (codeId) {
-                        await loadUiComponentsV4([{codeId: codeId}])
+                        await GLOBALS.loadUiComponentsV4([{codeId: codeId}])
                     } else if (baseComponentId) {
                         if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
-                            await loadUiComponentsV4([{baseComponentId: baseComponentId}])
+                            await GLOBALS.loadUiComponentsV4([{baseComponentId: baseComponentId}])
                         }
                     }
 

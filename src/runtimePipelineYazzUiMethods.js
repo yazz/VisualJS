@@ -39,7 +39,7 @@
                     //console.log("Component: " + JSON.stringify(cbase))
                     itemsToLoad.push(cbase)
                 }
-                await loadUiComponentsV4(itemsToLoad)
+                await GLOBALS.loadUiComponentsV4(itemsToLoad)
                 //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
             },
 
@@ -551,9 +551,9 @@
                     mm.refresh++
                     if (!GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
                         if (newItem.code_id) {
-                            await loadUiComponentsV4([{codeId: newItem.code_id}])
+                            await GLOBALS.loadUiComponentsV4([{codeId: newItem.code_id}])
                         } else {
-                            await loadUiComponentsV4([newItem.base_component_id])
+                            await GLOBALS.loadUiComponentsV4([newItem.base_component_id])
                         }
                         mm.components_used_in_this_app[newItem.base_component_id] = true
                     }
@@ -6433,7 +6433,7 @@ return {}
                             )
                         }
                     }
-                    await loadUiComponentsV4(compsToLoad)
+                    await GLOBALS.loadUiComponentsV4(compsToLoad)
 
 
 
