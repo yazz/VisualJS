@@ -26,12 +26,15 @@ load_once_from_file(true)
             return {
                 // the component code
                 text:                   args.text,
+                mousedown: false,
 
                 // this is used to show source code and code diffs
                 commitCode:             null,
                 parentCommitCode:       null,
                 diffText:               "",
                 showCode:               "details",
+                draw_color: "black",
+                brush_width: 3,
 
                 // used to preview and select commits
                 previewedCommitId:      null,
@@ -69,7 +72,16 @@ load_once_from_file(true)
                 firstCommitTimestamps:  {},
 
                 // list of commits
-                listOfAllCommits:       {}
+                listOfAllCommits:       {},
+
+                colors: [ "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray",
+                    "cyan","lightblue"
+                ]
+                ,
+                iconHeightPixels: 200
+                ,
+                iconWidthPixels: 200
+
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -89,11 +101,46 @@ load_once_from_file(true)
         
                       Component Icon Editor
                     </div>
-        
-        
-                          
-                          
-                        </div>
+
+
+
+
+
+                    <canvas v-bind:id='"_canvas_" '
+                            v-bind:refresh='refresh'
+                            style="border: solid black 1px;margin-bottom: 10px;"
+                            v-on:mousemove='if (mousedown) {drawNow($event)}'
+                            v-on:mousedown='mousedown=true;drawNow($event)'
+                            v-on:mouseup='mousedown=false'
+                            v-bind:height='iconHeightPixels + "px"'
+                            v-bind:width='iconWidthPixels + "px"'
+                    >
+                    </canvas>
+
+                    <div>
+                      <div    v-for="color in colors"
+                              v-on:click='draw_color = color;'
+                              v-bind:style="'display: inline-block;width:15px;height:15px;background-color: ' + color">
+                      </div>
+
+
+
+
+
+                      <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]"
+                              v-on:click='brush_width = brush_size;'
+                              v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
+                                                              'px;background-color: ' + draw_color + ';border: black solid 1px ;margin-right: 2px;'">
+                      </div>
+                    </div>
+
+
+
+
+
+
+
+                  </div>
         
                       </div>
             `,
