@@ -1349,6 +1349,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |     -----
                     |________________________________________________________________________ */
                     let mm = this
+
+                    // add the app to the list of BCI apps
                     if (baseComponentId) {
                         for (let thisApp of mm.editable_app_list) {
                             if (thisApp.base_component_id == baseComponentId) {
@@ -1376,6 +1378,29 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         mm.editable_app_list.push( app  )
                         mm.refresh++
                     }
+
+                    // add the app to the list of apps by code ID
+                    if (other.codeId) {
+                        for (let thisApp of mm.editable_app_list_by_code_id) {
+                            if (thisApp.code_id == other.codeId) {
+                                mm.refresh++
+                                return
+                            }
+                        }
+                        let app = {
+                            type: "app",
+                            base_component_id: baseComponentId,
+                            displayName: displayName,
+                            code_id: other.codeId,
+                            visibility: other.visibility
+                        }
+                        GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
+
+                        //await makeSureUiComponentLoadedV5(baseComponentId)
+                        mm.editable_app_list_by_code_id.push( app  )
+                        mm.refresh++
+                    }
+
                     return null
                 },
                 renameApp:                  async function  ( baseComponentId, displayName) {
