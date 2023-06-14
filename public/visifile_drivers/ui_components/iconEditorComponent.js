@@ -139,9 +139,12 @@ load_once_from_file(true)
                 }
             },
             save: function() {
-                debugger
+                let mm = this
                 this.text = yz.deleteCodeString(this.text, "logo_url")
                 this.text = yz.insertCodeString(this.text, "logo_url", this.icon_image_data)
+                mm.$root.$emit('message', {
+                    type:   "pending"
+                })
             }
         }
     })
