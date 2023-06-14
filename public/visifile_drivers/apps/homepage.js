@@ -1323,6 +1323,73 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         //error block
                     })
                 },
+                highlightApp:               function        ( baseComponentId) {
+                    /*  highlightApp shows an app as larger on the home screen, like when selected
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId   The base component ID of the highlighted app
+                    |     ---------------
+                    |
+                    |________________________________________________________________________ */
+                    let mm = this
+                    setTimeout(function() {
+                        mm.currentlyHighlightedBaseComponentId = baseComponentId
+                        let a = document.getElementById("downloaded_apps")
+                        if (!a) {
+                            return
+                        }
+                        let itemLeft = document.getElementById("appid_" + baseComponentId)
+                        if (!itemLeft) {
+                            return
+                        }
+                        a.scrollLeft = itemLeft.offsetLeft
+                        mm.disableHighlightApp = true
+                        setTimeout(function() {
+                            mm.disableHighlightApp = false
+                        },4000)
+                    },150)
+                },
+                addLogoForApp:              async function  ( baseComponentId) {
+                    /* Given the base component ID of a component, insert the logo image into the
+                    local cache stored in "app_logos"
+                    ________________________________________
+                    |                                      |
+                    |           addLogoForApp              |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of a component, insert the logo image into the
+                    local cache stored in "app_logos"
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |________________________________________________________________________ */
+                    let mm = this
+
+                    let results2 = await sqliteQuery(
+                        `select  
+                            base_component_id,  
+                            app_icon_data as logo_url   
+                        from  
+                            yz_cache_released_components  
+                        inner JOIN 
+                            icon_images ON yz_cache_released_components.icon_image_id = icon_images.id 
+                        where 
+                            component_type = 'app'
+                                and 
+                            base_component_id = '${baseComponentId}'`)
+
+                    if (results2.length > 0) {
+                        mm.app_logos[baseComponentId] = results2[0].logo_url
+                    } else {
+                        mm.app_logos[baseComponentId] = "/driver_icons/blocks.png"
+                    }
+
+                    mm.refresh++
+
+                },
 
                 // amend the edited apps
                 addEditableApp:             async function  ( baseComponentId, displayName, other) {
@@ -1388,11 +1455,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             }
                         }
                         let app = {
-                            type: "app",
-                            base_component_id: baseComponentId,
-                            displayName: displayName,
-                            code_id: other.codeId,
-                            visibility: other.visibility
+                            type:               "app",
+                            base_component_id:  baseComponentId,
+                            displayName:        displayName,
+                            code_id:            other.codeId,
+                            visibility:         other.visibility
                         }
                         GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
 
@@ -1513,75 +1580,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     setTimeout(async function() {
                         await mm.editApp(result.base_component_id)
                     },50)
-                },
-
-                // general app list stuff
-                addLogoForApp:              async function  ( baseComponentId) {
-                    /* Given the base component ID of a component, insert the logo image into the
-                    local cache stored in "app_logos"
-                    ________________________________________
-                    |                                      |
-                    |           addLogoForApp              |
-                    |                                      |
-                    |______________________________________|
-                    Given the base component ID of a component, insert the logo image into the
-                    local cache stored in "app_logos"
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |________________________________________________________________________ */
-                    let mm = this
-
-                    let results2 = await sqliteQuery(
-                        `select  
-                            base_component_id,  
-                            app_icon_data as logo_url   
-                        from  
-                            yz_cache_released_components  
-                        inner JOIN 
-                            icon_images ON yz_cache_released_components.icon_image_id = icon_images.id 
-                        where 
-                            component_type = 'app'
-                                and 
-                            base_component_id = '${baseComponentId}'`)
-
-                    if (results2.length > 0) {
-                        mm.app_logos[baseComponentId] = results2[0].logo_url
-                    } else {
-                        mm.app_logos[baseComponentId] = "/driver_icons/blocks.png"
-                    }
-
-                    mm.refresh++
-
-                },
-                highlightApp:               function        ( baseComponentId) {
-                    /*  highlightApp shows an app as larger on the home screen, like when selected
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId   The base component ID of the highlighted app
-                    |     ---------------
-                    |
-                    |________________________________________________________________________ */
-                    let mm = this
-                    setTimeout(function() {
-                        mm.currentlyHighlightedBaseComponentId = baseComponentId
-                        let a = document.getElementById("downloaded_apps")
-                        if (!a) {
-                            return
-                        }
-                        let itemLeft = document.getElementById("appid_" + baseComponentId)
-                        if (!itemLeft) {
-                            return
-                        }
-                        a.scrollLeft = itemLeft.offsetLeft
-                        mm.disableHighlightApp = true
-                        setTimeout(function() {
-                            mm.disableHighlightApp = false
-                        },4000)
-                    },150)
                 },
                 runAppInNewBrowserTab:      async function  ( baseComponentId) {
                     /* Given the base component ID of an app, open that app in a separate
