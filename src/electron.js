@@ -1527,6 +1527,7 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/ui_components/sqliteEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/keycloakEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/historyViewerComponent.js')
+    await releaseComponentFromPath( '/ui_components/iconEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/controlEditor.js')
     await releaseComponentFromPath( '/ui_components/exportEditorComponent.js')
     await releaseComponentFromPath( '/ui_components/embedAppComponent.js')
