@@ -1075,7 +1075,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               },
             methods:    {
                 // local filesystem stuff
-                openFile:                   async function() {
+                openFile:                   async function  ( ) {
                     /* Show the file open dialog box
                     ________________________________________
                     |                                      |
@@ -1109,7 +1109,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         this.open_file_list = result2
                     }
                 },
-                openFileChange:             function() {
+                openFileChange:             function        ( ) {
                     /* openFileChange
                     ________________________________________
                     |                                      |
@@ -1131,7 +1131,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     xmlhttp.open("POST","/http_post_file_open_single",true);
                     xmlhttp.send(formData);
                 },
-                selectOpenFileOrFolder:     async function( fileOrFolder) {
+                selectOpenFileOrFolder:     async function  ( fileOrFolder ) {
                     /* selectOpenFileOrFolder
                     ________________________________________
                     |                                      |
@@ -1188,7 +1188,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     //
                 },
-                chosenFolderUp:             async function() {
+                chosenFolderUp:             async function  ( ) {
                     /* Navigate when opening a file
                     ________________________________________
                     |                                      |
@@ -1243,7 +1243,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
                 },
-                importApp:                  function() {
+                importApp:                  function        ( ) {
                     /* Import a file. This is mostly used for Electron or desktop
                     applications
                     ________________________________________
@@ -1261,7 +1261,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     saveCodeToFile = null
                     document.getElementById("uploadfilefromhomepage").click();
                 },
-                submitFormAjax:             function() {
+                submitFormAjax:             function        ( ) {
                     /* submitFormAjax
                     ________________________________________
                     |                                      |
@@ -1285,7 +1285,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 },
 
                 // load apps from app store
-                loadAppStoreApps:           async function() {
+                loadAppStoreApps:           async function  ( ) {
                     /* ____________________________________
                     |                                      |
                     |           loadAppStoreApps           |
@@ -1325,7 +1325,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 },
 
                 // amend the edited apps
-                addEditableApp:             async function( baseComponentId, displayName, other) {
+                addEditableApp:             async function  ( baseComponentId, displayName, other) {
                     /* Given the base component ID of an app, a new display name, and
                     some other data, add a new editable app to the homepage
 
@@ -1378,7 +1378,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
                     return null
                 },
-                renameApp:                  async function( baseComponentId, displayName) {
+                renameApp:                  async function  ( baseComponentId, displayName) {
                     /* rename App
                     ________________________________________
                     |                                      |
@@ -1407,7 +1407,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.refresh++
                     return null
                 },
-                addToEditableAppsAndEdit:   async function( ipfsHash ) {
+                addToEditableAppsAndEdit:   async function  ( ipfsHash ) {
                     /* Given the commit ID of an app in the app store, download it and edit it
                     ________________________________________
                     |                                      |
@@ -1447,7 +1447,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         await mm.editApp(result.base_component_id)
                     },50)
                 },
-                copyAndEditApp:             async function( compInfo ) {
+                copyAndEditApp:             async function  ( compInfo ) {
                     /* copyAndEditApp
                     ________________________________________
                     |                                      |
@@ -1490,9 +1490,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     },50)
                 },
 
-
                 // general app list stuff
-                addLogoForApp:              async function( baseComponentId) {
+                addLogoForApp:              async function  ( baseComponentId) {
                     /* Given the base component ID of a component, insert the logo image into the
                     local cache stored in "app_logos"
                     ________________________________________
@@ -1532,7 +1531,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.refresh++
 
                 },
-                highlightApp:               function(       baseComponentId) {
+                highlightApp:               function        ( baseComponentId) {
                     /*  highlightApp shows an app as larger on the home screen, like when selected
                     __________
                     | PARAMS |______________________________________________________________
@@ -1559,7 +1558,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         },4000)
                     },150)
                 },
-                runAppInNewBrowserTab:      async function( baseComponentId) {
+                runAppInNewBrowserTab:      async function  ( baseComponentId) {
                     /* Given the base component ID of an app, open that app in a separate
                     browser tab as an app
                     ________________________________________
@@ -1584,7 +1583,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         baseComponentId)
                     mm.refresh++
                 },
-                downloadAndRunApp:          async function( ipfsHash ) {
+                downloadAndRunApp:          async function  ( ipfsHash ) {
                     /* downloadAndRunApp
                     ________________________________________
                     |                                      |
@@ -1622,7 +1621,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                   },50)
                 },
-                editApp:                    async function( baseComponentId, codeId) {
+                editApp:                    async function  ( baseComponentId, codeId) {
                     /* editApp
                     ________________________________________
                     |                                      |
