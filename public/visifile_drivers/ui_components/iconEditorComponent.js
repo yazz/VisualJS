@@ -10,23 +10,11 @@ load_once_from_file(true)
     Yazz.component(
     {
         data:       function () {
-            /*
-            ________________________________________
-            |                                      |
-            |                DATA                  |
-            |                                      |
-            |______________________________________|
-            Function description
-            __________
-            | PARAMS |______________________________________________________________
-            |
-            |     NONE
-            |     ----
-            |________________________________________________________________________ */
             return {
                 // the component code
                 text:                   args.text,
                 mousedown: false,
+                icon_image_data: null,
 
                 // this is used to show source code and code diffs
                 commitCode:             null,
@@ -184,6 +172,22 @@ load_once_from_file(true)
                 this.baseComponentId        = yz.getValueOfCodeString(this.text, "base_component_id")
 
             },
+            drawNow: function(event) {
+                var mm= this
+                var el = document.getElementById("_canvas_" )
+                if (isValidObject(el)) {
+                    var rect = el.getBoundingClientRect()
+                    var left = (event.clientX - rect.left ) - mm.brush_width
+                    var right = (event.clientY - rect.top) - mm.brush_width
+
+                    var ctx = el.getContext("2d");
+                    ctx.strokeStyle = mm.draw_color;
+                    ctx.fillStyle = mm.draw_color;
+                    ctx.fillRect(left,right,  mm.brush_width,  mm.brush_width)
+
+                    this.icon_image_data = el.toDataURL()
+                }
+            }
         }
     })
 }
