@@ -124,12 +124,14 @@ load_once_from_file(true)
 
 
 
+                    zzz{{icon_image_data}}
 
 
 
 
                   </div>
-        
+
+
                       </div>
             `,
         mounted:    async function() {
@@ -186,7 +188,13 @@ load_once_from_file(true)
                     ctx.fillRect(left,right,  mm.brush_width,  mm.brush_width)
 
                     this.icon_image_data = el.toDataURL()
+                    this.save()
                 }
+            },
+            save: function() {
+                debugger
+                this.text = yz.deleteCodeString(this.text, "logo_url")
+                this.text = yz.insertCodeString(this.text, "logo_url", this.icon_image_data)
             }
         }
     })
