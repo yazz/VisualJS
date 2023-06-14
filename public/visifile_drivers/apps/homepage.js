@@ -693,12 +693,20 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 |     -----------------  Which tab
                 |________________________________________________________________________ */
                 return {
+                            // editable apps by "base component ID"
                             editingBaseComponentId:                 null,
-
                             editable_app_list:                      [],
                             currentlyHighlightedBaseComponentId:    null,
+
+                            // editable apps by "code ID"
+                            editable_app_list_by_code_id:           [],
+                            editingCodeId:                          null,
+                            currentlyHighlightedCodeId:             null,
+
+                            // apps  not downloaded but in the appstore
                             appstore_apps:                          [],
 
+                            // file load from disk options
                             hideImportButtons:                      true,
                             refresh:                                0,
                             app_logos:                              new Object(),
