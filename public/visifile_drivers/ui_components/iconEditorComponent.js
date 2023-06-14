@@ -1,6 +1,6 @@
 function component( args ) {
 /*
-This is an editor component that is used to view the history of a component
+This is an editor component that is used to edit a component icon
 
 base_component_id("icon_editor_component")
 component_type("SYSTEM")
@@ -91,127 +91,12 @@ load_once_from_file(true)
                     </div>
         
         
-                    <div style="margin: 10px;"
-                         v-on:mouseenter="onlyHighlightLockedItem()">
-        
-                      <button  type=button class='btn btn-dark'
-                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                               v-on:click="gotoHome()" >Home</button>
-                               
-                               
-                      <button  type=button class='btn  btn-primary'
-                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                               v-on:click="gotoParent()" >&lt;</button>
-        
-                      <button  type=button class='btn  btn-primary'
-                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                               v-on:click="gotoChild()" >&gt;</button>
-        
-                      <button  type=button class='btn  btn-primary'
-                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                               v-on:click="showDetails()" >Details</button>
-        
-        
-                        <button  type=button class='btn  btn-primary'
-                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                                 v-on:click="showCommit()" >Code</button>
-        
-                        <button  type=button class='btn  btn-info'
-                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click="diffCode()" >Diff</button>
-        
-                        <button  type=button class='btn  btn-info'
-                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click="checkoutCode()" >Checkout</button>
-        
-        
-                        <button  type=button class='btn  btn-info' 
-                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-if="false"
-                                   v-on:click="calculateBranchStrength()" >Expermintal - caclulate branch strength</button>
-        
-        
-                    </div>
-        
-                      <div id="visualization_history_timeline">
-                      </div>
-                
-        
-                      <div  id="visualization_commit_details"
-                            style="padding: 10px;">
-                            
-                        <div v-if="(previewedCommitId != null) && (listOfAllCommits[previewedCommitId])">
-                          
-                          <div v-if="showCode=='details'">
-        
-                            <div><b>Number of Changes:</b> {{listOfAllCommits[previewedCommitId].num_changes}}</div>
-                            <div v-if="listOfAllCommits[previewedCommitId].changes">
-                              <div style="margin-left: 80px;"
-                                   v-for="(item,i) in listOfAllCommits[previewedCommitId].changes.slice().reverse()">
-                                <span v-if="i==(listOfAllCommits[previewedCommitId].changes.length - 1)"><b>First commit</b> - </span>
-                                <span v-if="i!=(listOfAllCommits[previewedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[previewedCommitId], item.timestamp)) }}</b> - </span>
-        
-                                {{ item.code_change_text }}
-                              </div>
-                            </div>
-                            <br/>
-        
-                                <div><b>Tags:</b> {{listOfAllCommits[previewedCommitId].code_tag_list.length}}</div>
-                                  <div style="margin-left: 80px;"
-                                       v-for="(item,i) in listOfAllCommits[previewedCommitId].code_tag_list">
-                                    {{ item.code_tag }}
-                                    <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
-                                  </div>
-        
-                              <div v-bind:style="listOfAllCommits[previewedCommitId].id==selectedCommitId?'color:red;fpnt-style:bold;':''">
-                                  <b>Commit ID:</b> {{listOfAllCommits[previewedCommitId].id}}
-                                  <b v-if="listOfAllCommits[previewedCommitId].id==selectedCommitId"> (Current commit)</b>
-                                  </div>
-                              <div><b>Time:</b> {{msToTime(listOfAllCommits[previewedCommitId].timestamp,{timeOnly: true})}} </div>
-                              <div><b>User ID:</b> {{listOfAllCommits[previewedCommitId].user_id}}</div>
-                              <div><b>Parent:</b> {{listOfAllCommits[previewedCommitId].parent_id}}</div>
-                              <div><b>Type:</b> {{listOfAllCommits[previewedCommitId].base_component_id}}</div>
-                              <div><b>Descendants:</b>
-                                  <span v-if="listOfAllCommits[previewedCommitId].descendants.length==1">
-                                    ({{listOfAllCommits[previewedCommitId].descendants.length}})
-                                  </span>
-                                <span v-if="listOfAllCommits[previewedCommitId].descendants.length>1" style="color:red;">
-                                    ({{listOfAllCommits[previewedCommitId].descendants.length}})
-                                  </span>
-                                   
-                                <span v-for='(descendant,index) in listOfAllCommits[previewedCommitId].descendants'>
-                                  <a href="#"
-                                    v-on:click="jumpToCommitId(descendant.id)" 
-                                        >
-                                        {{descendant.id.substr(0,5)}}...
-                                  </a>  
-                                </span>
-        
-                              </div>
-        
-        
-                          </div>
-        
-        
-        
-        
-                          <div style="margin-top: 30px;">
-                                <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
-        
-                                <pre  v-if="showCode=='diff'"
-                                      v-html="diffText"></pre>
-                          </div>
                           
                           
                         </div>
         
                       </div>
-                  </div>
-        
-        
-        
-        
-              </div>`,
+            `,
         mounted:    async function() {
         },
         methods:    {
