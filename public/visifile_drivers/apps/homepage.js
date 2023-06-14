@@ -401,7 +401,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 v-bind:id='"appid_" + item.code_id'
                                 v-on:mouseenter="if (!disableHighlightApp) {currentlyHighlightedCodeId = item.code_id;}"
                                 v-on:oldmouseleave="currentlyHighlightedCodeId = null;"
-                                v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedBaseComponentId == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
+                                v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedCodeId == item.code_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                                 classold='app_card'>
 
                           <div    v-bind:refresh='refresh'
@@ -429,10 +429,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 </div>
 
                                 <img    v-if='(currentlyHighlightedCodeId == item.code_id) '
-                                        v-bind:src='app_logos[item.base_component_id]'
+                                        v-bind:src='app_logos_by_code_id[item.code_id]'
                                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
-                                        v-bind:alt='app_logos[item.base_component_id]'
-                                        v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
+                                        v-bind:alt='app_logos_by_code_id[item.code_id]'
+                                        v-on:click='$event.stopPropagation();editApp(item.base_component_id, item.code_id)'>
                                 </img>
 
                                 <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
@@ -1581,7 +1581,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         await mm.editApp(result.base_component_id)
                     },50)
                 },
-                runAppInNewBrowserTab:      async function  ( baseComponentId) {
+                runAppInNewBrowserTab:      async function  ( baseComponentId, code_id ) {
                     /* Given the base component ID of an app, open that app in a separate
                     browser tab as an app
                     ________________________________________
