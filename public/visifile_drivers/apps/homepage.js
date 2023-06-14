@@ -393,25 +393,25 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       <!-- ---------------------------  Show the actual "Editable" clickable icons ------------------------------------------------ -->
                       <div v-bind:refresh='refresh'
                            class='force_scrollbars'
-                           id="downloaded_apps"
+                           id="downloaded_apps_by_code_id"
                            style='offsetleft:200;position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
 
-                        <div    v-for="(item, index) in editable_app_list"
+                        <div    v-for="(item, index) in editable_app_list_by_code_id"
                                 v-bind:refresh='refresh'
-                                v-bind:id='"appid_" + item.base_component_id'
-                                v-on:mouseenter="if (!disableHighlightApp) {currentlyHighlightedBaseComponentId = item.base_component_id;}"
-                                v-on:oldmouseleave="currentlyHighlightedBaseComponentId = null;"
+                                v-bind:id='"appid_" + item.code_id'
+                                v-on:mouseenter="if (!disableHighlightApp) {currentlyHighlightedCodeId = item.code_id;}"
+                                v-on:oldmouseleave="currentlyHighlightedCodeId = null;"
                                 v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedBaseComponentId == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                                 classold='app_card'>
 
                           <div    v-bind:refresh='refresh'
                                   v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedBaseComponentId == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
 
-                            <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)'
+                            <div    v-if='(currentlyHighlightedCodeId == item.code_id) && (!editingCodeId)'
                                     v-bind:refresh='refresh'
                                     style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
 
-                              <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
+                              <div    v-if='(currentlyHighlightedCodeId == item.code_id) '
                                       v-bind:refresh='refresh'
                                       v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                                       v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -428,7 +428,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                   {{item.code_id.substring(0,5)}}...
                                 </div>
 
-                                <img    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
+                                <img    v-if='(currentlyHighlightedCodeId == item.code_id) '
                                         v-bind:src='app_logos[item.base_component_id]'
                                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                         v-bind:alt='app_logos[item.base_component_id]'
