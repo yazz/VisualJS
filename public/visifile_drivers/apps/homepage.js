@@ -1447,7 +1447,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
 
                     // add the app to the list of apps by code ID
-                    if (other.codeId) {
+                    if (other && other.codeId) {
                         for (let thisApp of mm.editable_app_list_by_code_id) {
                             if (thisApp.code_id == other.codeId) {
                                 mm.refresh++
