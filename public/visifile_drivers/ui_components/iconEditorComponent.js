@@ -80,11 +80,13 @@ load_once_from_file(true)
             setText:                            async function (  textValue  ) {
                 let mm     =  this
                 this.text  = textValue
+                this.icon_image_data = yz.getValueOfCodeString(this.text, "logo_url")
                 if (!isValidObject(this.text)) {
                     return
                 }
 
                 this.baseComponentId        = yz.getValueOfCodeString(this.text, "base_component_id")
+                this.loadImageToCanvas()
             },
             drawNow: function(event) {
                 var mm= this
@@ -100,6 +102,31 @@ load_once_from_file(true)
                     ctx.fillRect(left,right,  mm.brush_width,  mm.brush_width)
 
                     this.icon_image_data = el.toDataURL()
+                }
+            },
+            loadImageToCanvas: function() {
+                var mm = this
+                var base_image = new Image();
+                base_image.src = this.icon_image_data;
+                base_image.onload = function() {
+                    var el = document.getElementById( "_canvas_" )
+                    if (isValidObject(el)) {
+                        //alert(el)
+                        var ctx = el.getContext("2d");
+                        ctx.clearRect(0, 0, el.width, el.height);
+                        var hRatio = el.width / base_image.width    ;
+                        var vRatio = el.height / base_image.height  ;
+                        var ratio  = Math.min ( hRatio, vRatio );
+                        ctx.drawImage(  base_image,
+                                        0,
+                                        0,
+                                        base_image.width,
+                                        base_image.height,
+                                        0,
+                                        0,
+                                        base_image.width*ratio,
+                                        base_image.height*ratio);
+                    }
                 }
             },
             save: function() {
