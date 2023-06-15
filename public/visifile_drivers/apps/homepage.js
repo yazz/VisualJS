@@ -700,7 +700,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             app_logos:                              new Object(),
 
                             // editable apps by "code ID"
-                            editable_app_list_by_code_id:           [],
+                            editable_app_list_by_code_id:           {},
                             editingCodeId:                          null,
                             currentlyHighlightedCodeId:             null,
                             app_logos_by_code_id:                   new Object(),
@@ -1448,11 +1448,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     // add the app to the list of apps by code ID
                     if (other && other.codeId) {
-                        for (let thisApp of mm.editable_app_list_by_code_id) {
-                            if (thisApp.code_id == other.codeId) {
-                                mm.refresh++
-                                return
-                            }
+                        // skip if this item is already in the list
+                        if (mm.editable_app_list_by_code_id[other.codeId]) {
+                            return
                         }
                         let app = {
                             type:               "app",
@@ -1464,7 +1462,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
 
                         //await makeSureUiComponentLoadedV5(baseComponentId)
-                        mm.editable_app_list_by_code_id.push( app  )
+                        mm.editable_app_list_by_code_id[other.codeId] = app
                         mm.refresh++
                     }
 
