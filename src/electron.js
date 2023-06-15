@@ -3741,6 +3741,69 @@ async function  releaseCode                             (  commitId  ) {
     return ret2
 
 }
+async function  createIconImageEntryReturnsId            (  imageUrl  ) {
+    /*
+    ________________________________________
+    |                                      |
+    |     createIconImageEntryReturnsId    |
+    |                                      |
+    |______________________________________|
+    Used to add an image to the image registry
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     imageUrl
+    |     --------      Data URI or file path
+    |________________________________________________________________________ */
+
+    let icon_image_id       = "image id"
+    let dataString          = null
+    let logo                = parsedCode.logo
+    let rowhash             = crypto.createHash('sha256');
+    let fullPath
+    let imageExtension
+
+    let promise = new Promise(async function(returnfn) {
+
+        if (logo) {
+            if (logo.startsWith("data:")) {
+                rowhash.setEncoding('hex');
+                rowhash.write(logo);
+                rowhash.end();
+                icon_image_id = rowhash.read();
+                dataString = logo
+            } else if (logo.startsWith("http")) {
+            } else {
+                fullPath        = path.join(__dirname, "../public" + logo)
+                logoFileIn      = fs.readFileSync(fullPath);
+                dataString      = new Buffer(logoFileIn).toString('base64');
+                imageExtension  = logo.substring(logo.lastIndexOf(".") + 1)
+                dataString      = "data:image/" + imageExtension + ";base64," + dataString
+
+                rowhash.setEncoding('hex');
+                rowhash.write(dataString);
+                rowhash.end();
+
+                icon_image_id = rowhash.read();
+            }
+        }
+
+        dbsearch.serialize(function () {
+            dbsearch.run("begin exclusive transaction");
+            dbsearch.run("commit", function () {
+                dbsearch.serialize(function () {
+                    dbsearch.run("begin exclusive transaction");
+                    stmtInsertIconImageData.run(icon_image_id, dataString)
+                    dbsearch.run("commit")
+                    returnfn(icon_image_id)
+                })
+            })
+
+        })
+    })
+    let ret2 = await promise
+    return ret2
+}
 async function  copyAppshareApp                         (  args  ) {
     /*
     ________________________________________
