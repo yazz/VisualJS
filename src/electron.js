@@ -4348,7 +4348,7 @@ async function  startServices                           (  ) {
                                                     ,
                                                     ipfs_hash:          thisRow.ipfs_hash
                                                     ,
-                                                    display_name:       thisRow.app_name
+                                                    display_name:       thisRow.component_name
 
                                                 })
                                         }
