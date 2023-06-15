@@ -3663,7 +3663,6 @@ async function  releaseCode                             (  commitId  ) {
     let codeRecord          = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString          = codeRecord.code
     let parsedCode          = await parseCode(codeString)
-    let icon_image_id       = "image id"
     let dataString          = null
     let id                  = uuidv1()
     let base_component_id   = parsedCode.baseComponentId
@@ -3677,31 +3676,9 @@ async function  releaseCode                             (  commitId  ) {
     let fullPath
     let logoFileIn
     let imageExtension
+    let icon_image_id       = await createIconImageEntryReturnsId(logo)
 
     let promise = new Promise(async function(returnfn) {
-
-        if (logo) {
-            if (logo.startsWith("data:")) {
-                rowhash.setEncoding('hex');
-                rowhash.write(logo);
-                rowhash.end();
-                icon_image_id = rowhash.read();
-                dataString = logo
-            } else if (logo.startsWith("http")) {
-            } else {
-                fullPath        = path.join(__dirname, "../public" + logo)
-                logoFileIn      = fs.readFileSync(fullPath);
-                dataString      = new Buffer(logoFileIn).toString('base64');
-                imageExtension  = logo.substring(logo.lastIndexOf(".") + 1)
-                dataString      = "data:image/" + imageExtension + ";base64," + dataString
-
-                rowhash.setEncoding('hex');
-                rowhash.write(dataString);
-                rowhash.end();
-
-                icon_image_id = rowhash.read();
-            }
-        }
 
         let componentListRecord = await yz.getQuickSqlOneRow(dbsearch, "select * from yz_cache_released_components where base_component_id = ?", [base_component_id])
         if (!componentListRecord) {
@@ -3714,7 +3691,6 @@ async function  releaseCode                             (  commitId  ) {
                             id, base_component_id, app_name, component_type,
                             app_description, icon_image_id, ipfs_hash, '',
                             readWriteStatus, codeString)
-                        stmtInsertIconImageData.run(icon_image_id, dataString)
                         dbsearch.run("commit")
                         returnfn()
                     })
@@ -3728,7 +3704,6 @@ async function  releaseCode                             (  commitId  ) {
                     dbsearch.serialize(function () {
                         dbsearch.run("begin exclusive transaction");
                         stmtUpdateReleasedComponentList.run(ipfs_hash, base_component_id)
-                        stmtInsertIconImageData.run(icon_image_id, dataString)
                         dbsearch.run("commit")
                         returnfn()
                     })
@@ -3741,7 +3716,7 @@ async function  releaseCode                             (  commitId  ) {
     return ret2
 
 }
-async function  createIconImageEntryReturnsId            (  imageUrl  ) {
+async function  createIconImageEntryReturnsId            (  logo  ) {
     /*
     ________________________________________
     |                                      |
@@ -3756,12 +3731,11 @@ async function  createIconImageEntryReturnsId            (  imageUrl  ) {
     |     --------      Data URI or file path
     |________________________________________________________________________ */
 
-    let icon_image_id       = "image id"
     let dataString          = null
-    let logo                = parsedCode.logo
     let rowhash             = crypto.createHash('sha256');
     let fullPath
     let imageExtension
+    let icon_image_id       = null
 
     let promise = new Promise(async function(returnfn) {
 
