@@ -92,8 +92,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     open_file_list:                         {{ open_file_list }}
     open_file_name:                         {{ open_file_name }}
     disableHighlightApp:                    {{ disableHighlightApp }}
+                        
+                        
+                        
     editable_app_list:                      {{ editable_app_list }}
+                        
+                        
+                        
     appstore_apps:                          {{ appstore_apps }}
+                        
+                        
+                        
     app_logos:                              {{ app_logos }}
     showHomepageVars:                       {{ showHomepageVars }}
     showLoadedVueObjects:                   {{ showLoadedVueObjects }}
