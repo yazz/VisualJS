@@ -1149,11 +1149,11 @@ newCode += newCode2
             ,
             `insert into 
                     code_tags_table 
-                    (id,  base_component_id, code_tag, fk_system_code_id, fk_user_id ) 
+                    (id,  base_component_id, code_tag, code_tag_value, fk_system_code_id, fk_user_id ) 
                  values  
-                     (?,?,?,?,?)
+                     (?,?,?,?,?,?)
                      `,
-            [uuidv1(), baseComponentId, "TIP", codeId, userId])
+            [uuidv1(), baseComponentId, "TIP", userId, codeId, userId])
     },
     pointEditMarkerAtCommit:        async function  (  thisDb  ,  args  ) {
         /*
@@ -1211,10 +1211,10 @@ newCode += newCode2
                 insert or ignore
                     into
                code_tags_table
-                    (id,   base_component_id,   code_tag,   fk_system_code_id,   fk_user_id) 
-               values ( ?, ?, ?, ?, ?)`
+                    (id,   base_component_id,   code_tag,   code_tag_value,   fk_system_code_id,   fk_user_id) 
+               values ( ?, ?, ?, ?, ? , ?)`
                 ,
-                [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     sha1sum     ,      userId    ]
+                [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     userId, sha1sum     ,      userId    ]
             )
         }
     }
