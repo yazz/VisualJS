@@ -84,7 +84,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                       <pre>
     <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
     hideImportButtons:                      {{ hideImportButtons }}
-    currentlyHighlightedBaseComponentId:    {{ currentlyHighlightedBaseComponentId }}
+    currentlyHighlightedAppstoreBCI:    {{ currentlyHighlightedAppstoreBCI }}
     refresh:                                {{ refresh }}
     editingBaseComponentId:                 {{ editingBaseComponentId }}
     showFilePicker:                         {{ showFilePicker }}
@@ -123,8 +123,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
                             v-if="(editingBaseComponentId == item.base_component_id)"
-                            v-on:mouseenter="currentlyHighlightedBaseComponentId = item.base_component_id;"
-                            v-on:mouseleave="currentlyHighlightedBaseComponentId = null;"
+                            v-on:mouseenter="currentlyHighlightedAppstoreBCI = item.base_component_id;"
+                            v-on:mouseleave="currentlyHighlightedAppstoreBCI = null;"
                             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                             class='app_card'>
                       
@@ -408,19 +408,19 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 <div    v-for="(item, index) in editable_app_list"
                                         v-bind:refresh='refresh'
                                         v-bind:id='"appid_" + item.base_component_id'
-                                        v-on:mouseenter="if (!disableHighlightApp) {currentlyHighlightedBaseComponentId = item.base_component_id;}"
-                                        v-on:oldmouseleave="currentlyHighlightedBaseComponentId = null;"
-                                        v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedBaseComponentId == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
+                                        v-on:mouseenter="if (!disableHighlightApp) {currentlyHighlightedAppstoreBCI = item.base_component_id;}"
+                                        v-on:oldmouseleave="currentlyHighlightedAppstoreBCI = null;"
+                                        v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedAppstoreBCI == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
                                         classold='app_card'>
                     
                                         <div    v-bind:refresh='refresh'
-                                                v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedBaseComponentId == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
+                                                v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
                         
-                                                <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)' 
+                                                <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)' 
                                                         v-bind:refresh='refresh' 
                                                         style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
                                                   
-                                                        <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
+                                                        <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
                                                                 v-bind:refresh='refresh'
                                                                 v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                                                                 v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -437,7 +437,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                                                       {{item.code_id.substring(0,5)}}...
                                                                 </div>
                             
-                                                                <img    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
+                                                                <img    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
                                                                         v-bind:src='app_logos[item.base_component_id]'
                                                                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                                                         v-bind:alt='app_logos[item.base_component_id]'
@@ -467,7 +467,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                                 </div>
                         
                                           
-                                                <div  v-if="currentlyHighlightedBaseComponentId != item.base_component_id"
+                                                <div  v-if="currentlyHighlightedAppstoreBCI != item.base_component_id"
                                                       style='border-radius: 0px;padding:0px; margin:0;'
                                                       v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                                                   
@@ -493,106 +493,100 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
                     <div    class=""
                             v-bind:refresh='refresh'
-                            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'
-                            
-                    >
-                      <span style="font-size: 60px; color: white;">All Apps</span>
-                
-                
-                      <div v-bind:refresh='refresh'
-                           class='force_scrollbars'
-                           style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
-                
-                        <div    v-for="(item, index) in appstore_apps"
-                                v-bind:refresh='refresh'
-                                v-on:mouseenter=" currentlyHighlightedBaseComponentId = item.base_component_id;"
-                                v-on:mouseleave=" currentlyHighlightedBaseComponentId = null;"
-                                style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
-                                class='app_card'>
-                
-                          <div    v-bind:refresh='refresh'
-                                  v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedBaseComponentId == item.id) )?"background-color:white;":"background-color:black;")'>
-                
-                            <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) && (!editingBaseComponentId)'
+                            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
+                        <span style="font-size: 60px; color: white;">All Apps</span>
+                        <div  v-bind:refresh='refresh'
+                              class='force_scrollbars'
+                              style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
+                            <div    v-for="(item, index) in appstore_apps"
                                     v-bind:refresh='refresh'
-                                    style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
-                
-                
-                
-                              <div    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
-                                      v-bind:refresh='refresh'
-                                      v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
-                                      v-on:click="$event.stopPropagation();$event.preventDefault();"
-                                      v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
-                                      v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
-                                      style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
-                
-                                <div style="padding: 10px;">
-                                  {{item.display_name}}
+                                    v-on:mouseenter=" currentlyHighlightedAppstoreBCI = item.base_component_id;"
+                                    v-on:mouseleave=" currentlyHighlightedAppstoreBCI = null;"
+                                    style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
+                                    class='app_card'>
+                                <div    v-bind:refresh='refresh'
+                                      v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.id) )?"background-color:white;":"background-color:black;")'>
+                    
+                                <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)'
+                                        v-bind:refresh='refresh'
+                                        style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
+                    
+                    
+                    
+                                  <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
+                                          v-bind:refresh='refresh'
+                                          v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
+                                          v-on:click="$event.stopPropagation();$event.preventDefault();"
+                                          v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
+                                          v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
+                                          style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
+                    
+                                    <div style="padding: 10px;">
+                                      {{item.display_name}}
+                                    </div>
+                    
+                                    <img    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
+                                            v-bind:src='app_logos[item.base_component_id]'
+                                            style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
+                                            v-bind:alt='app_logos[item.base_component_id]'
+                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id)'
+                                    >
+                                    </img>
+                    
+                    
+                                    <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                            class='btn btn-sm'
+                                            v-on:click='showProgressBar();$event.stopPropagation();downloadAndRunApp(item.ipfs_hash)'>
+                                      <img    src='/driver_icons/play.png'
+                                              style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                      >
+                                      </img>
+                                      Play
+                                    </button>
+                                    
+                                    
+                                    <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                            class='btn  btn-sm'
+                                            v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.ipfs_hash)'>
+                                      <img    src='/driver_icons/edit.png'
+                                              style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                      >
+                                      </img>
+                                      Edit
+                                    </button>
+                    
+                    
+                    
+                    
+                    
+                                  </div>
                                 </div>
-                
-                                <img    v-if='(currentlyHighlightedBaseComponentId == item.base_component_id) '
-                                        v-bind:src='app_logos[item.base_component_id]'
-                                        style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
-                                        v-bind:alt='app_logos[item.base_component_id]'
-                                        v-on:click='$event.stopPropagation();editApp(item.base_component_id)'
-                                >
-                                </img>
-                
-                
-                                <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
-                                        class='btn btn-sm'
-                                        v-on:click='showProgressBar();$event.stopPropagation();downloadAndRunApp(item.ipfs_hash)'>
-                                  <img    src='/driver_icons/play.png'
-                                          style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                    
+                    
+                    
+                    
+                    
+                                <div v-if="currentlyHighlightedAppstoreBCI != item.id"
+                                     style='border-radius: 0px;padding:0px; margin:0;'
+                                     v-on:click='$event.stopPropagation();editApp(item.id)'>
+                                  <img    v-if='(app_logos[item.id] && (app_logos[item.id] != ""))'
+                                          v-bind:src='app_logos[item.id]'
+                                          style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
+                                          v-bind:alt='app_logos[item.id]'
+                                          v-on:click='$event.stopPropagation();editApp(item.id)'
                                   >
                                   </img>
-                                  Play
-                                </button>
-                                
-                                
-                                <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
-                                        class='btn  btn-sm'
-                                        v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.ipfs_hash)'>
-                                  <img    src='/driver_icons/edit.png'
-                                          style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                  >
-                                  </img>
-                                  Edit
-                                </button>
-                
-                
-                
-                
-                
+                    
+                                  <a  v-on:click='$event.stopPropagation();editApp(item.id)'
+                                      class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
+                    
+                                    {{item.display_name}}
+                                  </a>
+                    
+                                </div>
                               </div>
                             </div>
-                
-                
-                
-                
-                
-                            <div v-if="currentlyHighlightedBaseComponentId != item.id"
-                                 style='border-radius: 0px;padding:0px; margin:0;'
-                                 v-on:click='$event.stopPropagation();editApp(item.id)'>
-                              <img    v-if='(app_logos[item.id] && (app_logos[item.id] != ""))'
-                                      v-bind:src='app_logos[item.id]'
-                                      style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
-                                      v-bind:alt='app_logos[item.id]'
-                                      v-on:click='$event.stopPropagation();editApp(item.id)'
-                              >
-                              </img>
-                
-                              <a  v-on:click='$event.stopPropagation();editApp(item.id)'
-                                  class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
-                
-                                {{item.display_name}}
-                              </a>
-                
-                            </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
                 </div>
             </div>`,
@@ -608,7 +602,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             // editable apps by "base component ID"
                             editingBaseComponentId:                 null,
                             editable_app_list:                      [],
-                            currentlyHighlightedBaseComponentId:    null,
+                            currentlyHighlightedAppstoreBCI:    null,
                             app_logos:                              new Object(),
 
                             // editable apps by "code ID"
@@ -737,7 +731,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             await mm.addLogoForApp(text.base_component_id)
                             await mm.addEditableApp(text.base_component_id, text.display_name)
                             mm.editingBaseComponentId = text.base_component_id
-                            mm.currentlyHighlightedBaseComponentId = null
+                            mm.currentlyHighlightedAppstoreBCI = null
                             mm.refresh++
                         }
 
@@ -1246,7 +1240,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |________________________________________________________________________ */
                     let mm = this
                     setTimeout(function() {
-                        mm.currentlyHighlightedBaseComponentId = baseComponentId
+                        mm.currentlyHighlightedAppstoreBCI = baseComponentId
                         let a = document.getElementById("downloaded_apps")
                         if (!a) {
                             return
@@ -1568,7 +1562,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
 
                     this.editingBaseComponentId             = baseComponentId;
-                    mm.currentlyHighlightedBaseComponentId  = null
+                    mm.currentlyHighlightedAppstoreBCI  = null
                     mm.refresh ++
                 }
             }
