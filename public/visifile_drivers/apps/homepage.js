@@ -725,7 +725,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         }
             },
             mounted:    async function() {
-                /* mounted - when the Vue component is first loaded
+                /* mounted - when the homepage Vue component is first loaded
                 ________________________________________
                 |                                      |
                 |             mounted                  |
