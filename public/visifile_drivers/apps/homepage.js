@@ -103,7 +103,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         
                         
                         
-    app_logos:                              {{ app_logos }}
+    app_store_component_logos_by_BCI:                              {{ app_store_component_logos_by_BCI }}
     showHomepageVars:                       {{ showHomepageVars }}
     showLoadedVueObjects:                   {{ showLoadedVueObjects }}
                       </pre>
@@ -438,9 +438,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                                                 </div>
                             
                                                                 <img    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
-                                                                        v-bind:src='app_logos[item.base_component_id]'
+                                                                        v-bind:src='app_store_component_logos_by_BCI[item.base_component_id]'
                                                                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
-                                                                        v-bind:alt='app_logos[item.base_component_id]'
+                                                                        v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
                                                                         v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                                                                 </img>
                             
@@ -471,10 +471,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                                       style='border-radius: 0px;padding:0px; margin:0;'
                                                       v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                                                   
-                                                      <img  v-if='(app_logos[item.base_component_id] && (app_logos[item.base_component_id] != ""))'
-                                                            v-bind:src='app_logos[item.base_component_id]'
+                                                      <img  v-if='(app_store_component_logos_by_BCI[item.base_component_id] && (app_store_component_logos_by_BCI[item.base_component_id] != ""))'
+                                                            v-bind:src='app_store_component_logos_by_BCI[item.base_component_id]'
                                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
-                                                            v-bind:alt='app_logos[item.base_component_id]'
+                                                            v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
                                                             v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                                                     </img>
                         
@@ -526,11 +526,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     </div>
                     
                                     <img    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
-                                            v-bind:src='app_logos[item.base_component_id]'
+                                            v-bind:src='app_store_component_logos_by_BCI[item.base_component_id]'
                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
-                                            v-bind:alt='app_logos[item.base_component_id]'
-                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id)'
-                                    >
+                                            v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
+                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                                     </img>
                     
                     
@@ -569,10 +568,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 <div v-if="currentlyHighlightedAppstoreBCI != item.id"
                                      style='border-radius: 0px;padding:0px; margin:0;'
                                      v-on:click='$event.stopPropagation();editApp(item.id)'>
-                                  <img    v-if='(app_logos[item.id] && (app_logos[item.id] != ""))'
-                                          v-bind:src='app_logos[item.id]'
+                                  <img    v-if='(app_store_component_logos_by_BCI[item.id] && (app_store_component_logos_by_BCI[item.id] != ""))'
+                                          v-bind:src='app_store_component_logos_by_BCI[item.id]'
                                           style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
-                                          v-bind:alt='app_logos[item.id]'
+                                          v-bind:alt='app_store_component_logos_by_BCI[item.id]'
                                           v-on:click='$event.stopPropagation();editApp(item.id)'
                                   >
                                   </img>
@@ -603,7 +602,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             editingBaseComponentId:                 null,
                             editable_app_list:                      [],
                             currentlyHighlightedAppstoreBCI:    null,
-                            app_logos:                              new Object(),
+                            app_store_component_logos_by_BCI:                              new Object(),
 
                             // editable apps by "code ID"
                             editable_app_list_by_code_id:           {},
@@ -1222,7 +1221,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     }
                                 }
                                 mm.appstore_apps.push(responseJson[rt])
-                                mm.app_logos[responseJson[rt].id] = responseJson[rt].logo
+                                mm.app_store_component_logos_by_BCI[responseJson[rt].id] = responseJson[rt].logo
                             }
 
                         }).catch(err => {
@@ -1258,14 +1257,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 },
                 addLogoForApp:              async function  ( baseComponentId) {
                     /* Given the base component ID of a component, insert the logo image into the
-                    local cache stored in "app_logos"
+                    local cache stored in "app_store_component_logos_by_BCI"
                     ________________________________________
                     |                                      |
                     |           addLogoForApp              |
                     |                                      |
                     |______________________________________|
                     Given the base component ID of a component, insert the logo image into the
-                    local cache stored in "app_logos"
+                    local cache stored in "app_store_component_logos_by_BCI"
                     __________
                     | PARAMS |______________________________________________________________
                     |
@@ -1288,9 +1287,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             base_component_id = '${baseComponentId}'`)
 
                     if (results2.length > 0) {
-                        mm.app_logos[baseComponentId] = results2[0].logo_url
+                        mm.app_store_component_logos_by_BCI[baseComponentId] = results2[0].logo_url
                     } else {
-                        mm.app_logos[baseComponentId] = "/driver_icons/blocks.png"
+                        mm.app_store_component_logos_by_BCI[baseComponentId] = "/driver_icons/blocks.png"
                     }
 
                     mm.refresh++
@@ -1397,6 +1396,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |     ipfsHash
                     |     --------
                     |________________________________________________________________________ */
+                    debugger
                     let mm                = this
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
