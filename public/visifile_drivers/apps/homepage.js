@@ -1446,6 +1446,34 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         mm.refresh++
                     }
 
+                    return null
+                },
+                // amend the edited apps
+                addEditableAppByCodeId:     async function  ( baseComponentId, displayName, other) {
+                    /* Given the base component ID of an app, a new display name, and
+                    some other data, add a new editable app to the homepage
+
+                    ________________________________________
+                    |                                      |
+                    |        addEditableApp                |
+                    |                                      |
+                    |______________________________________|
+                    Given the base component ID of an app, a new display name, and
+                    some other data, add a new editable app to the homepage
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     baseComponentId
+                    |     ---------------
+                    |
+                    |     displayName
+                    |     -----------
+                    |
+                    |     other
+                    |     -----
+                    |________________________________________________________________________ */
+                    let mm = this
+
                     // add the app to the list of apps by code ID
                     if (other && other.codeId) {
                         // skip if this item is already in the list
