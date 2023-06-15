@@ -1396,7 +1396,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |     ipfsHash
                     |     --------
                     |________________________________________________________________________ */
-                    debugger
                     let mm                = this
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
@@ -1417,10 +1416,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     await mm.addEditableApp(result.base_component_id, result.display_name)
                     setTimeout(async function() {
                         //mm.runAppInNewBrowserTab(result.base_component_id)
-                        //debugger
+                        debugger
                         hideProgressBar()
                         mm.highlightApp(result.base_component_id)
-                        await mm.editApp(result.base_component_id)
+                        await mm.editApp(result.base_component_id , ipfsHash)
                     },50)
                 },
                 copyAndEditApp:             async function  ( compInfo ) {
