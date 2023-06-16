@@ -108,7 +108,7 @@ showFilePicker:                         {{ showFilePicker }}
 open_file_path:                         {{ open_file_path }}
 open_file_list:                         {{ open_file_list }}
 open_file_name:                         {{ open_file_name }}
-disableHighlightApp:                    {{ disableHighlightApp }}
+disableHighlightEditableApp:                    {{ disableHighlightEditableApp }}
 
                       </pre>
                     </div>
@@ -397,7 +397,7 @@ Code Ids:
                         </h1>
                     </div>
 
-                    <!-- -----------------------------------    Show the "Editable" apps by BCI ------------------------------------------------ -->
+                    <!-- -----------------------------------    Show the "Editable" apps ------------------------------------------------ -->
                     <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
 
                             <!-- ---------------------------    "Editable" apps title ------------------------------------------------ -->
@@ -412,19 +412,17 @@ Code Ids:
                                 <div    v-for="(item, index) in editable_app_list"
                                         v-bind:refresh='refresh'
                                         v-bind:id='"appid_" + item.code_id'
-                                        v-on:mouseenter="if (!disableHighlightApp) {currentlyHighlightedAppstoreBCI = item.base_component_id;}"
-                                        v-on:oldmouseleave="currentlyHighlightedAppstoreBCI = null;"
-                                        v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedAppstoreBCI == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
-                                        classold='app_card'>
+                                        v-on:mouseenter="if (!disableHighlightEditableApp) {currentlyHighlightedEditableCodeId = item.code_id;}"
+                                        v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedEditableCodeId == item.code_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'>
                     
                                         <div    v-bind:refresh='refresh'
                                                 v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
                         
-                                                <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)' 
+                                                <div    v-if='(currentlyHighlightedEditableCodeId == item.code_id) && (!editingCodeId)' 
                                                         v-bind:refresh='refresh' 
                                                         style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
                                                   
-                                                        <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
+                                                        <div    v-if='(currentlyHighlightedEditableCodeId == item.code_id) '
                                                                 v-bind:refresh='refresh'
                                                                 v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
                                                                 v-on:click="$event.stopPropagation();$event.preventDefault();"
@@ -441,11 +439,11 @@ Code Ids:
                                                                       {{item.code_id.substring(0,5)}}...
                                                                 </div>
                             
-                                                                <img    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
-                                                                        v-bind:src='app_store_component_logos_by_BCI[item.base_component_id]'
+                                                                <img    v-if='(currentlyHighlightedEditableCodeId == item.code_id) '
+                                                                        v-bind:src='item.logo_url'
                                                                         style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
-                                                                        v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
-                                                                        v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
+                                                                        v-bind:alt='item.base_component_id'
+                                                                        v-on:click='$event.stopPropagation();editApp(item.base_component_id, item.code_id)'>
                                                                 </img>
                             
                                                                 <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
@@ -623,7 +621,7 @@ Code Ids:
                             open_file_path:                         "/",
                             open_file_list:                         [],
                             open_file_name:                         "",
-                            disableHighlightApp:                    false,
+                            disableHighlightEditableApp:                    false,
 
                             // debug helpers
                             listenerD:                              null,
@@ -1269,9 +1267,9 @@ Code Ids:
                             return
                         }
                         a.scrollLeft = itemLeft.offsetLeft
-                        mm.disableHighlightApp = true
+                        mm.disableHighlightEditableApp = true
                         setTimeout(function() {
-                            mm.disableHighlightApp = false
+                            mm.disableHighlightEditableApp = false
                         },4000)
                     },150)
                 },
