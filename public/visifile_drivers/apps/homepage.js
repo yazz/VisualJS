@@ -600,20 +600,16 @@ Code Ids:
                 |     -----------------  Which tab
                 |________________________________________________________________________ */
                 return {
-                            // editable apps by "base component ID"
+                            // editable apps
                             editingBaseComponentId:                 null,
-                            editable_app_list:                      [],
-                            currentlyHighlightedAppstoreBCI:    null,
-                            app_store_component_logos_by_BCI:                              new Object(),
-
-                            // editable apps by "code ID"
-                            editable_app_list_by_code_id:           {},
                             editingCodeId:                          null,
-                            currentlyHighlightedCodeId:             null,
-                            app_logos_by_code_id:                   new Object(),
+                            editable_app_list:                      [],
+                            currentlyHighlightedEditableCodeId:     null,
 
                             // apps  not downloaded but in the appstore
                             appstore_apps:                          [],
+                            app_store_component_logos_by_BCI:       new Object(),
+                            currentlyHighlightedAppstoreBCI:        null,
 
                             // file load from disk options
                             hideImportButtons:                      true,
@@ -695,7 +691,8 @@ Code Ids:
                     |_________________________
                                              | get the editable apps
                                              |__________________________________ */
-                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_load_editable_apps"
+                    let openfileurl =   "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST +
+                                        "/http_post_load_editable_apps"
                     fetch(openfileurl,
                         {
                             method: 'post',
