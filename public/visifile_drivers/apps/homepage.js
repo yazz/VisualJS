@@ -83,10 +83,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         <div v-if="showHomepageVars" style="">
                       <pre>
     <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
-editingBaseComponentId:                 {{ editingBaseComponentId }}
-editingCodeId:                          {{ editingCodeId }}
 lastEditedBaseComponentId:              {{ lastEditedBaseComponentId }}
 lastEditedCodeId:                       {{ lastEditedCodeId }}
+editingBaseComponentId:                 {{ editingBaseComponentId }}
+editingCodeId:                          {{ editingCodeId }}
 currentlyHighlightedEditableCodeId:     {{ currentlyHighlightedEditableCodeId }}
 editable_app_list:
 {{ editable_app_list }}
@@ -730,6 +730,7 @@ Code Ids:
                         if (text.type == "insert_app_at") {
                             await mm.addLogoForApp(text.base_component_id)
                             await mm.addEditableApp(text.base_component_id, text.display_name)
+                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId = text.base_component_id
                             mm.currentlyHighlightedAppstoreBCI = null
                             mm.refresh++
@@ -763,6 +764,7 @@ Code Ids:
                                                  | edited app
                                                  |__________________________________ */
                         if (text.type == "close_app") {
+                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId = null;
                             mm.open_file_name = ""
                             mm.open_file_path = "/"
@@ -813,6 +815,7 @@ Code Ids:
                                                  | while already editing an app
                                                  |__________________________________ */
                         if (text.type == "fork_component") {
+                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId = null;
                             mm.open_file_name = ""
                             mm.open_file_path = "/"
@@ -844,6 +847,7 @@ Code Ids:
                                                  | while already editing an app
                                                  |__________________________________ */
                         if (text.type == "return_from_fork_component") {
+                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId   = null;
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
@@ -880,7 +884,7 @@ Code Ids:
                                                  | while already editing an app
                                                  |__________________________________ */
                         if (text.type == "edit_component") {
-                            debugger
+                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId = null;
                             mm.open_file_name = ""
                             mm.open_file_path = "/"
@@ -911,6 +915,7 @@ Code Ids:
                                                  | while already editing an app
                                                  |__________________________________ */
                         if (text.type == "return_from_edit_component") {
+                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId   = null;
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
@@ -1561,7 +1566,8 @@ Code Ids:
                         }
                     }
 
-                    this.editingBaseComponentId             = baseComponentId;
+                    mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
+                    mm.editingBaseComponentId           = baseComponentId;
                     mm.currentlyHighlightedAppstoreBCI  = null
                     mm.refresh ++
                 }
