@@ -34,7 +34,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             loadAppStoreApps( )                                         -
             addLogoForApp(  baseComponentId  )                          -
             renameApp(  baseComponentId , displayName  )                -
-            addEditableApp(  baseComponentId , displayName , other  )   -
+            addEditableComponentIcon(  baseComponentId , displayName , other  )   -
 
 
 
@@ -705,7 +705,7 @@ Code Ids:
                     {
                         for (let rt=0;rt<responseJson.length; rt++) {
 
-                            await mm.addEditableApp(responseJson[rt].base_component_id, responseJson[rt].display_name, {codeId: responseJson[rt].ipfs_hash})
+                            await mm.addEditableComponentIcon(responseJson[rt].base_component_id, responseJson[rt].display_name, {codeId: responseJson[rt].ipfs_hash})
                             await mm.addLogoForApp(responseJson[rt].base_component_id)
                         }
 
@@ -729,7 +729,7 @@ Code Ids:
                     mm.$root.$on('message', async function(text) {
                         if (text.type == "insert_app_at") {
                             await mm.addLogoForApp(text.base_component_id)
-                            await mm.addEditableApp(text.base_component_id, text.display_name)
+                            await mm.addEditableComponentIcon(text.base_component_id, text.display_name)
 
                             mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
                             mm.editingBaseComponentId           = text.base_component_id
@@ -961,7 +961,7 @@ Code Ids:
                     globalEventBus.$on('new-appshare-app-uploaded',
                         async function(uploadedAppBaseComponentId) {
                             await mm.addLogoForApp(uploadedAppBaseComponentId)
-                            await mm.addEditableApp(uploadedAppBaseComponentId)
+                            await mm.addEditableComponentIcon(uploadedAppBaseComponentId)
                             setTimeout(async function() {
                                 await mm.editApp(uploadedAppBaseComponentId)
                             },250)
@@ -1313,13 +1313,13 @@ Code Ids:
                 },
 
                 // amend the edited apps
-                addEditableApp:             async function  ( baseComponentId, displayName, other) {
+                addEditableComponentIcon:             async function  ( baseComponentId, displayName, other) {
                     /* Given the base component ID of an app, a new display name, and
                     some other data, add a new editable app to the homepage
 
                     ________________________________________
                     |                                      |
-                    |        addEditableApp                |
+                    |        addEditableComponentIcon                |
                     |                                      |
                     |______________________________________|
                     Given the base component ID of an app, a new display name, and
@@ -1429,7 +1429,7 @@ Code Ids:
 
                     await mm.addLogoForApp(result.base_component_id)
 
-                    await mm.addEditableApp(result.base_component_id, result.display_name, {codeId: ipfsHash})
+                    await mm.addEditableComponentIcon(result.base_component_id, result.display_name, {codeId: ipfsHash})
                     setTimeout(async function() {
                         hideProgressBar()
                         mm.highlightApp(result.base_component_id)
@@ -1466,14 +1466,13 @@ Code Ids:
 
                     let result = await getFromYazzReturnJson("/http_get_copy_component",
                         {
-                            base_component_id: baseComponentId
-                            ,
-                            code_id: codeId?codeId:""
+                            base_component_id:  baseComponentId,
+                            code_id:            codeId?codeId:""
                         })
-
+debugger
                     await mm.addLogoForApp(result.base_component_id)
 
-                    await mm.addEditableApp(result.base_component_id, result.new_display_name, {codeId: result.code_id})
+                    await mm.addEditableComponentIcon(result.base_component_id, result.new_display_name, {codeId: result.code_id})
                     setTimeout(async function() {
                         await mm.editApp(result.base_component_id)
                     },50)
@@ -1533,7 +1532,7 @@ Code Ids:
 
                   await mm.addLogoForApp(result.base_component_id)
 
-                  await mm.addEditableApp(result.base_component_id, result.display_name)
+                  await mm.addEditableComponentIcon(result.base_component_id, result.display_name)
                   setTimeout(async function() {
                       hideProgressBar()
                       await mm.highlightApp(result.base_component_id)
