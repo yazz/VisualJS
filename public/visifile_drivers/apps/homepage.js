@@ -731,9 +731,11 @@ Code Ids:
                             await mm.addLogoForApp(text.base_component_id)
                             await mm.addEditableApp(text.base_component_id, text.display_name)
 
-                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
-                            mm.editingBaseComponentId = text.base_component_id
-                            mm.currentlyHighlightedAppstoreBCI = null
+                            mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
+                            mm.editingBaseComponentId           = text.base_component_id
+                            mm.lastEditedCodeId                 = mm.editingCodeId
+                            mm.editingCodeId                    = text.code_id
+                            mm.currentlyHighlightedAppstoreBCI  = null
                             mm.refresh++
                         }
 
