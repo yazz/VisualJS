@@ -83,37 +83,39 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         <div v-if="showHomepageVars" style="">
                       <pre>
     <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
-    hideImportButtons:                      {{ hideImportButtons }}
-    currentlyHighlightedAppstoreBCI:    {{ currentlyHighlightedAppstoreBCI }}
-    refresh:                                {{ refresh }}
-    editingBaseComponentId:                 {{ editingBaseComponentId }}
-    showFilePicker:                         {{ showFilePicker }}
-    open_file_path:                         {{ open_file_path }}
-    open_file_list:                         {{ open_file_list }}
-    open_file_name:                         {{ open_file_name }}
-    disableHighlightApp:                    {{ disableHighlightApp }}
-                        
-                        
-                        
-    editable_app_list:                      {{ editable_app_list }}
-                        
-                        
-                        
-    appstore_apps:                          {{ appstore_apps }}
-                        
-                        
-                        
-    app_store_component_logos_by_BCI:                              {{ app_store_component_logos_by_BCI }}
-    showHomepageVars:                       {{ showHomepageVars }}
-    showLoadedVueObjects:                   {{ showLoadedVueObjects }}
+hideImportButtons:                      {{ hideImportButtons }}
+currentlyHighlightedAppstoreBCI:        {{ currentlyHighlightedAppstoreBCI }}
+refresh:                                {{ refresh }}
+editingBaseComponentId:                 {{ editingBaseComponentId }}
+showFilePicker:                         {{ showFilePicker }}
+open_file_path:                         {{ open_file_path }}
+open_file_list:                         {{ open_file_list }}
+open_file_name:                         {{ open_file_name }}
+disableHighlightApp:                    {{ disableHighlightApp }}
+                
+                
+                
+editable_app_list:                      
+{{ editable_app_list }}
+                
+                
+                
+appstore_apps:                         
+{{ appstore_apps }}
+                
+                
+                
+app_store_component_logos_by_BCI:       {{ app_store_component_logos_by_BCI }}
+showHomepageVars:                       {{ showHomepageVars }}
+showLoadedVueObjects:                   {{ showLoadedVueObjects }}
                       </pre>
                     </div>
                         <div v-if="showLoadedVueObjects">
                   <pre>
     <div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
     
-    Code Ids:
-    {{ GLOBALS.isVueLoadedForCodeId }}
+Code Ids:
+{{ GLOBALS.isVueLoadedForCodeId }}
     
                   </pre>
                 </div>
