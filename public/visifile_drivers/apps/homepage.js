@@ -767,16 +767,15 @@ Code Ids:
                                                  | edited app
                                                  |__________________________________ */
                         if (text.type == "close_app") {
-                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
-                            mm.editingBaseComponentId = null;
-                            mm.open_file_name = ""
-                            mm.open_file_path = "/"
-                            saveCodeToFile = null
+                            mm.lastEditedBaseComponentId    = mm.editingBaseComponentId
+                            mm.editingBaseComponentId       = null;
+                            mm.lastEditedCodeId             = mm.editingCodeId
+                            mm.editingCodeId                = null
+                            mm.open_file_name               = ""
+                            mm.open_file_path               = "/"
+                            saveCodeToFile                  = null
                             globalEventBus.$emit('show_settings', {});
-
                             mm.refresh++
-
-
                         }
 
 
@@ -818,11 +817,13 @@ Code Ids:
                                                  | while already editing an app
                                                  |__________________________________ */
                         if (text.type == "fork_component") {
-                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
-                            mm.editingBaseComponentId = null;
-                            mm.open_file_name = ""
-                            mm.open_file_path = "/"
-                            saveCodeToFile = null
+                            mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
+                            mm.editingBaseComponentId           = null;
+                            mm.lastEditedCodeId                 = mm.editingCodeId
+                            mm.editingCodeId                    = null
+                            mm.open_file_name                   = ""
+                            mm.open_file_path                   = "/"
+                            saveCodeToFile                      = null
                             globalEventBus.$emit('show_settings', {});
 
                             setTimeout(async function() {
@@ -852,6 +853,8 @@ Code Ids:
                         if (text.type == "return_from_fork_component") {
                             mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId   = null;
+                            mm.lastEditedCodeId         = mm.editingCodeId
+                            mm.editingCodeId            = null
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
                             saveCodeToFile              = null
@@ -887,11 +890,13 @@ Code Ids:
                                                  | while already editing an app
                                                  |__________________________________ */
                         if (text.type == "edit_component") {
-                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
-                            mm.editingBaseComponentId = null;
-                            mm.open_file_name = ""
-                            mm.open_file_path = "/"
-                            saveCodeToFile = null
+                            mm.lastEditedBaseComponentId    = mm.editingBaseComponentId
+                            mm.editingBaseComponentId       = null;
+                            mm.lastEditedCodeId             = mm.editingCodeId
+                            mm.editingCodeId                = null
+                            mm.open_file_name               = ""
+                            mm.open_file_path               = "/"
+                            saveCodeToFile                  = null
                             globalEventBus.$emit('show_settings', {});
 
                             setTimeout(async function() {
@@ -920,6 +925,8 @@ Code Ids:
                         if (text.type == "return_from_edit_component") {
                             mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId   = null;
+                            mm.lastEditedCodeId         = mm.editingCodeId
+                            mm.editingCodeId            = null
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
                             saveCodeToFile              = null
@@ -1569,6 +1576,8 @@ Code Ids:
 
                     mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
                     mm.editingBaseComponentId           = baseComponentId;
+                    mm.lastEditedCodeId                 = mm.editingCodeId
+                    mm.editingCodeId                    = codeId
                     mm.currentlyHighlightedAppstoreBCI  = null
                     mm.refresh ++
                 }
