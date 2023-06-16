@@ -1319,7 +1319,7 @@ Code Ids:
 
                     ________________________________________
                     |                                      |
-                    |        addEditableComponentIcon                |
+                    |        addEditableComponentIcon      |
                     |                                      |
                     |______________________________________|
                     Given the base component ID of an app, a new display name, and
@@ -1469,12 +1469,12 @@ Code Ids:
                             base_component_id:  baseComponentId,
                             code_id:            codeId?codeId:""
                         })
-debugger
+
                     await mm.addLogoForApp(result.base_component_id)
 
                     await mm.addEditableComponentIcon(result.base_component_id, result.new_display_name, {codeId: result.code_id})
                     setTimeout(async function() {
-                        await mm.editApp(result.base_component_id)
+                        await mm.editApp(result.base_component_id, result.code_id)
                     },50)
                 },
                 runAppInNewBrowserTab:      async function  ( baseComponentId, code_id ) {
