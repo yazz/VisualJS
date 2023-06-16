@@ -1413,7 +1413,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     await mm.addLogoForApp(result.base_component_id)
 
-                    await mm.addEditableApp(result.base_component_id, result.display_name)
+                    await mm.addEditableApp(result.base_component_id, result.display_name, {codeId: ipfsHash})
                     setTimeout(async function() {
                         //mm.runAppInNewBrowserTab(result.base_component_id)
                         debugger
