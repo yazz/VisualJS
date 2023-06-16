@@ -730,6 +730,7 @@ Code Ids:
                         if (text.type == "insert_app_at") {
                             await mm.addLogoForApp(text.base_component_id)
                             await mm.addEditableApp(text.base_component_id, text.display_name)
+
                             mm.lastEditedBaseComponentId = mm.editingBaseComponentId
                             mm.editingBaseComponentId = text.base_component_id
                             mm.currentlyHighlightedAppstoreBCI = null
@@ -1421,8 +1422,6 @@ Code Ids:
 
                     await mm.addEditableApp(result.base_component_id, result.display_name, {codeId: ipfsHash})
                     setTimeout(async function() {
-                        //mm.runAppInNewBrowserTab(result.base_component_id)
-                        debugger
                         hideProgressBar()
                         mm.highlightApp(result.base_component_id)
                         await mm.editApp(result.base_component_id , ipfsHash)

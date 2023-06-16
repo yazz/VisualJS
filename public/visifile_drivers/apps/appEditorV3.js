@@ -1336,7 +1336,8 @@ End of app preview menu
                     mm.$root.$emit('message', {
                         type:               "insert_app_at",
                         base_component_id:   result.base_component_id,
-                        display_name:        result.new_display_name
+                        display_name:        result.new_display_name,
+                        code_id:             result.code_id
                     })
 
                 }
