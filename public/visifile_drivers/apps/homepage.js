@@ -30,7 +30,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
         Related to the edit or appstore apps on the homepage
         ----------------------------------------------------
-            highlightApp(  baseComponentId  )                           -
+            highlightEditableComponent(  baseComponentId  )                           -
             loadAppStoreApps( )                                         -
             addLogoForApp(  baseComponentId  )                          -
             renameApp(  baseComponentId , displayName  )                -
@@ -88,6 +88,8 @@ lastEditedCodeId:                       {{ lastEditedCodeId }}
 editingBaseComponentId:                 {{ editingBaseComponentId }}
 editingCodeId:                          {{ editingCodeId }}
 currentlyHighlightedEditableCodeId:     {{ currentlyHighlightedEditableCodeId }}
+lastHighlightedEditableCodeId           {{ lastHighlightedEditableCodeId }}
+
 editable_app_list:
 {{ editable_app_list }}
 
@@ -409,7 +411,7 @@ Code Ids:
                     
                                 <div    v-for="(item, index) in editable_app_list"
                                         v-bind:refresh='refresh'
-                                        v-bind:id='"appid_" + item.base_component_id'
+                                        v-bind:id='"appid_" + item.code_id'
                                         v-on:mouseenter="if (!disableHighlightApp) {currentlyHighlightedAppstoreBCI = item.base_component_id;}"
                                         v-on:oldmouseleave="currentlyHighlightedAppstoreBCI = null;"
                                         v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedAppstoreBCI == item.base_component_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'
@@ -606,6 +608,7 @@ Code Ids:
                             lastEditedBaseComponentId:              null,
                             lastEditedCodeId:                       null,
                             editable_app_list:                      [],
+                            lastHighlightedEditableCodeId:          null,
                             currentlyHighlightedEditableCodeId:     null,
 
                             // apps  not downloaded but in the appstore
@@ -989,7 +992,7 @@ Code Ids:
                                              |__________________________________ */
                     let highlightAppOnStartup = getUrlParam("id")
                     if (highlightAppOnStartup) {
-                        mm.highlightApp(highlightAppOnStartup)
+                        mm.highlightEditableComponent(highlightAppOnStartup)
 
                     }
                 })
@@ -1244,8 +1247,8 @@ Code Ids:
                         //error block
                     })
                 },
-                highlightApp:               function        ( baseComponentId) {
-                    /*  highlightApp shows an app as larger on the home screen, like when selected
+                highlightEditableComponent:               function        ( baseComponentId, codeid ) {
+                    /*  highlightEditableComponent shows an editable componnent as larger on the home screen, like when selected
                     __________
                     | PARAMS |______________________________________________________________
                     |
@@ -1255,12 +1258,13 @@ Code Ids:
                     |________________________________________________________________________ */
                     let mm = this
                     setTimeout(function() {
-                        mm.currentlyHighlightedAppstoreBCI = baseComponentId
+                        mm.lastHighlightedEditableCodeId        = mm.currentlyHighlightedEditableCodeId
+                        mm.currentlyHighlightedEditableCodeId   = codeId
                         let a = document.getElementById("downloaded_apps")
                         if (!a) {
                             return
                         }
-                        let itemLeft = document.getElementById("appid_" + baseComponentId)
+                        let itemLeft = document.getElementById("appid_" + codeId)
                         if (!itemLeft) {
                             return
                         }
@@ -1432,7 +1436,7 @@ Code Ids:
                     await mm.addEditableComponentIcon(result.base_component_id, result.display_name, {codeId: ipfsHash})
                     setTimeout(async function() {
                         hideProgressBar()
-                        mm.highlightApp(result.base_component_id)
+                        mm.highlightEditableComponent(result.base_component_id)
                         await mm.editApp(result.base_component_id , ipfsHash)
                     },50)
                 },
@@ -1535,7 +1539,7 @@ Code Ids:
                   await mm.addEditableComponentIcon(result.base_component_id, result.display_name)
                   setTimeout(async function() {
                       hideProgressBar()
-                      await mm.highlightApp(result.base_component_id)
+                      await mm.highlightEditableComponent(result.base_component_id)
                       await mm.runAppInNewBrowserTab(result.base_component_id)
 
                   },50)
