@@ -127,8 +127,8 @@ Code Ids:
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
                             v-if="(editingBaseComponentId == item.base_component_id)"
-                            v-on:mouseenter="currentlyHighlightedAppstoreBCI = item.base_component_id;"
-                            v-on:mouseleave="currentlyHighlightedAppstoreBCI = null;"
+                            v-on:mouseenter="currentlyHighlightedEditableCodeId = item.code_id;"
+                            v-on:mouseleave="currentlyHighlightedEditableCodeId = null;"
                             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                             class='app_card'>
                       
