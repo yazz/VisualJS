@@ -536,11 +536,11 @@ return code
                  system_code  
                      (id, parent_id, code, base_component_id, 
                       display_name, creation_timestamp, 
-                      visibility,use_db, editors, read_write_status,properties, 
+                      logo_url, visibility,use_db, editors, read_write_status,properties, 
                       component_type, edit_file_path, 
                       code_changes, num_changes, fk_user_id, score, score_reason) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
             ,
             params
         )
@@ -719,6 +719,7 @@ return code
                             baseComponentId,
                             displayName,
                             updatedTimestamp,
+                            logoUrl,
                             visibility,
                             useDb,
                             editors,
