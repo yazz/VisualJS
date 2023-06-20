@@ -725,16 +725,19 @@ Code Ids:
                                         "/http_post_load_editable_apps"
                     fetch(openfileurl,
                         {
-                            method: 'post',
-                            credentials: "include"
+                            method:         'post',
+                            credentials:    "include"
                         })
                     .then((response) => response.json())
                     .then(async function(responseJson)
                     {
-                        for (let rt=0;rt<responseJson.length; rt++) {
-
-                            await mm.addEditableComponentIcon(responseJson[rt].base_component_id, responseJson[rt].display_name, {codeId: responseJson[rt].ipfs_hash})
-                            await mm.addLogoForApp(responseJson[rt].base_component_id)
+                        for ( let rt = 0 ; rt < responseJson.length ; rt++ ) {
+                            await mm.addEditableComponentIcon(
+                                responseJson[rt].base_component_id,
+                                responseJson[rt].display_name,
+                                {
+                                    codeId: responseJson[rt].ipfs_hash
+                                })
                         }
 
                     }).catch(err => {

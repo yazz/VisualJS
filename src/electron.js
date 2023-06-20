@@ -4232,15 +4232,11 @@ async function  startServices                           (  ) {
         return getRoot(req, res, next);
     })
 
-    // app store helpers
+    //  Get a list of all apps that can be edited
     app.post(   '/http_post_load_editable_apps',                            async function (req, res) {
-
-        //console.log("app.post('/http_post_load_editable_apps'): ")
-        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let editableApps = []
-        let userId = await getUserId(req)
-
-        let promise = new Promise(async function(returnfn) {
+        let editableApps    = []
+        let userId          = await getUserId(req)
+        let promise         = new Promise(async function(returnfn) {
 
             dbsearch.serialize(
                 function() {
