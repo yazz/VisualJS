@@ -1242,7 +1242,7 @@ End of app preview menu
 
 //zzz
                 mm.$root.$emit('message', {
-                    type:               "rename_editable_component_on_homepage",
+                    type:               "update_editable_components_on_homepage",
                     base_component_id:   mm.base_component_id,
                     display_name:        mm.component_display_name
                 })

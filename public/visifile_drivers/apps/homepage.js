@@ -744,10 +744,6 @@ Code Ids:
                         }
 
 
-
-
-
-
                         /*
                         ____________________________________________________________
                         |    mounted
@@ -755,7 +751,7 @@ Code Ids:
                                                  | Rename an app on the
                                                  | homepage
                                                  |__________________________________ */
-                        if (text.type == "rename_editable_component_on_homepage") {
+                        if (text.type == "update_editable_components_on_homepage") {
                             await mm.reloadEditedAppsFromServer()
                             mm.refresh++
                         }
