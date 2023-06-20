@@ -20,47 +20,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
       ----------------------------------------------
       ----------------------------------------------
 
-        This contains everything needed to show the appstore and editable apps. The
-        embedded Vue objects has the following functions:
-
-        Related to loading apps from the app store
-        ------------------------------------------
-            downloadAndRunApp(  ipfsHash  )                 -
-            runAppInNewBrowserTab(  baseComponentId  )      -
-
-        Related to the edit or appstore apps on the homepage
-        ----------------------------------------------------
-            highlightEditableComponent(  baseComponentId  )                           -
-            loadAppStoreApps( )                                         -
-            addLogoForApp(  baseComponentId  )                          -
-            renameApp(  baseComponentId , displayName  )                -
-            addEditableComponentIcon(  baseComponentId , displayName , other  )   -
-
-
-
-        Related to editing apps or components
-        -------------------------------------
-            copyAndEditApp(  compInfo  )            - copies an existing app and opens it in the editor
-            editApp(  baseComponentId , codeId  )   - go into edit mode for an app
-            addToEditableAppsAndEdit(  ipfsHash  )  - add an app to the editable apps and go into edit mode
-
-
-
-        Related to loading apps from the filesystem:
-        -------------------------------------------
-            submitFormAjax( )                           -
-            openFileChange( )                           -
-            openFile( )                                 -
-            selectOpenFileOrFolder(  fileOrFolder  )    -
-            chosenFolderUp( )                           -
-            importApp( )                                -
-
+        This contains everything needed to show the appstore and editable apps
 
 
          --------
         | Params |
     ----          --------------------------------------------------------------
    |
+   |    NONE
    |
     ------------------------------------------------------------------------------ */
     Yazz.component(
@@ -1245,7 +1212,7 @@ Code Ids:
                         //error block
                     })
                 },
-                highlightEditableComponent:               function        ( baseComponentId, codeid ) {
+                highlightEditableComponent: function        ( baseComponentId, codeid ) {
                     /*  highlightEditableComponent shows an editable componnent as larger on the home screen, like when selected
                     __________
                     | PARAMS |______________________________________________________________
@@ -1315,7 +1282,7 @@ Code Ids:
                 },
 
                 // amend the edited apps
-                addEditableComponentIcon:             async function  ( baseComponentId, displayName, other) {
+                addEditableComponentIcon:   async function  ( baseComponentId, displayName, other) {
                     /* Given the base component ID of an app, a new display name, and
                     some other data, add a new editable app to the homepage
 
