@@ -47,6 +47,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                      
                      
                      -->
+                    <!  ----------------------------------------------------------------------------------------------------------- -->
                     <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
                         <button style="margin: 20px;"
                                 class='btn btn-lg btn-danger'
@@ -111,6 +112,7 @@ Code Ids:
                      
                      
                      -->
+                    <!  ----------------------------------------------------------------------------------------------------------- -->
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
                             v-if="(editingBaseComponentId == item.base_component_id)"
@@ -165,6 +167,7 @@ Code Ids:
                      
                      
                      -->
+                    <!  ----------------------------------------------------------------------------------------------------------- -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
                             v-bind:refresh='refresh'>
@@ -238,6 +241,7 @@ Code Ids:
                      
                      
                      -->
+                    <!  ----------------------------------------------------------------------------------------------------------- -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
                             v-bind:refresh='refresh'>
@@ -412,6 +416,7 @@ Code Ids:
                      
                      
                      -->
+                    <!  ----------------------------------------------------------------------------------------------------------- -->
                     <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
                             <span style="font-size: 60px; color: white;">Editable Apps</span>
 
@@ -514,6 +519,7 @@ Code Ids:
                      
                      
                      -->
+                    <!  ----------------------------------------------------------------------------------------------------------- -->
                     <div    class=""
                             v-bind:refresh='refresh'
                             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
