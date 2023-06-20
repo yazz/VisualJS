@@ -797,8 +797,7 @@ Code Ids:
                                                  | Rename an app on the
                                                  | homepage
                                                  |__________________________________ */
-                        if (text.type == "rename_app") {
-                            //debugger
+                        if (text.type == "rename_editable_component_on_homepage") {
                             await mm.renameApp(text.base_component_id, text.display_name)
                             mm.refresh++
                         }
