@@ -715,49 +715,7 @@ Code Ids:
                     } else {
                         mm.hideImportButtons = false
                     }
-
-
-
-
-
-
-
-                    /*
-                    ____________________________________________________________
-                    |    mounted
-                    |_________________________
-                                             | get the editable apps
-                                             |__________________________________ */
-                    let openfileurl =   "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST +
-                                        "/http_post_load_editable_apps"
-                    fetch(openfileurl,
-                        {
-                            method:         'post',
-                            credentials:    "include"
-                        })
-                    .then((response) => response.json())
-                    .then(async function(responseJson)
-                    {
-                        for ( let rt = 0 ; rt < responseJson.length ; rt++ ) {
-                            await mm.addEditableComponentToHomepage(
-                                responseJson[rt].base_component_id,
-                                responseJson[rt].display_name,
-                                {
-                                    codeId:     responseJson[rt].ipfs_hash,
-                                    logo_url:    responseJson[rt].logo_url
-                                })
-                        }
-
-                    }).catch(err => {
-                        //error block
-                    })
-                    mm.refresh++
-
-
-
-
-
-
+                    await mm.extracted(mm);
 
 
                     /*
@@ -1638,8 +1596,40 @@ Code Ids:
                     mm.editingCodeId                    = codeId
                     mm.currentlyHighlightedAppstoreBCI  = null
                     mm.refresh ++
+                },
+                extracted:                  async function (mm) {
+                    /*
+                    ____________________________________________________________
+                    |    mounted
+                    |_________________________
+                                             | get the editable apps
+                                             |__________________________________ */
+                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443) ? "s" : "") + "://" + $CENTRALHOST +
+                        "/http_post_load_editable_apps"
+                    fetch(openfileurl,
+                        {
+                            method: 'post',
+                            credentials: "include"
+                        })
+                        .then((response) => response.json())
+                        .then(async function (responseJson) {
+                            for (let rt = 0; rt < responseJson.length; rt++) {
+                                await mm.addEditableComponentToHomepage(
+                                    responseJson[rt].base_component_id,
+                                    responseJson[rt].display_name,
+                                    {
+                                        codeId: responseJson[rt].ipfs_hash,
+                                        logo_url: responseJson[rt].logo_url
+                                    })
+                            }
+
+                        }).catch(err => {
+                        //error block
+                    })
+                    mm.refresh++
                 }
-            }
+
+}
         }
     )
 }
