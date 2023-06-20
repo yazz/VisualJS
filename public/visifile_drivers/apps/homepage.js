@@ -1376,7 +1376,7 @@ Code Ids:
                     |     -----
                     |________________________________________________________________________ */
                     let mm = this
-
+debugger
                     // add the app to the list of BCI apps
                     if (baseComponentId) {
                         for (let thisApp of mm.editable_app_list) {
@@ -1519,9 +1519,14 @@ Code Ids:
                             code_id:            codeId?codeId:""
                         })
 
-                    await mm.addLogoForApp(result.base_component_id)
+                    await mm.addEditableComponentToHomepage(
+                        result.base_component_id,
+                        result.new_display_name,
+                        {
+                            codeId:     result.code_id,
+                            logo_url:   result.logo_url
+                        })
 
-                    await mm.addEditableComponentToHomepage(result.base_component_id, result.new_display_name, {codeId: result.code_id})
                     setTimeout(async function() {
                         await mm.editApp(result.base_component_id, result.code_id)
                     },50)
