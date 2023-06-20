@@ -490,12 +490,12 @@ Code Ids:
                                                       style='border-radius: 0px;padding:0px; margin:0;'
                                                       v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
                                                   
-                                                      <img  v-if='item.logo_urls'
+                                                      <img  v-if='item.logo_url'
                                                             v-bind:src='item.logo_url'
                                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                                             v-bind:alt='item.displayName'
                                                             v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
-                                                    </img>
+                                                      </img>
                         
                                                     <a  v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'
                                                         class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
@@ -737,7 +737,7 @@ Code Ids:
                                 responseJson[rt].display_name,
                                 {
                                     codeId:     responseJson[rt].ipfs_hash,
-                                    logoUrl:    responseJson[rt].logo_url
+                                    logo_url:    responseJson[rt].logo_url
                                 })
                         }
 
@@ -1391,8 +1391,8 @@ Code Ids:
                             if (other.codeId) {
                                 app.code_id = other.codeId
                             }
-                            if (other.logoUrl) {
-                                app.logo_url = other.logoUrl
+                            if (other.logo_url) {
+                                app.logo_url = other.logo_url
                             }
                         }
 
