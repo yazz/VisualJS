@@ -1005,7 +1005,6 @@ Code Ids:
                                              |__________________________________ */
                     globalEventBus.$on('new-appshare-app-uploaded',
                         async function(uploadedAppBaseComponentId) {
-                            await mm.addLogoForApp(uploadedAppBaseComponentId)
                             await mm.addEditableComponentToHomepage(uploadedAppBaseComponentId)
                             setTimeout(async function() {
                                 await mm.editApp(uploadedAppBaseComponentId)
@@ -1383,7 +1382,6 @@ Code Ids:
                     |     -----
                     |________________________________________________________________________ */
                     let mm = this
-debugger
                     // add the app to the list of BCI apps
                     if (baseComponentId) {
                         for (let thisApp of mm.editable_app_list) {
