@@ -491,7 +491,7 @@ Code Ids:
                                                       v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
                                                   
                                                       <img  v-if='(app_store_component_logos_by_BCI[item.base_component_id] && (app_store_component_logos_by_BCI[item.base_component_id] != ""))'
-                                                            v-bind:src='app_store_component_logos_by_BCI[item.base_component_id]'
+                                                            v-bind:src='item.logo_url'
                                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                                             v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
                                                             v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
