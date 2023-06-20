@@ -715,7 +715,7 @@ Code Ids:
                     } else {
                         mm.hideImportButtons = false
                     }
-                    await mm.extracted(mm);
+                    await mm.reloadEditedAppsFromServer();
 
 
                     /*
@@ -1597,13 +1597,15 @@ Code Ids:
                     mm.currentlyHighlightedAppstoreBCI  = null
                     mm.refresh ++
                 },
-                extracted:                          async function  ( mm ) {
+                reloadEditedAppsFromServer:         async function  ( ) {
                     /*
                     ____________________________________________________________
-                    |    mounted
+                    |    reloadEditedAppsFromServer
                     |_________________________
                                              | get the editable apps
                                              |__________________________________ */
+                    let mm = this
+                    mm.editable_app_list = []
                     let openfileurl = "http" + (($CENTRALHOSTPORT == 443) ? "s" : "") + "://" + $CENTRALHOST +
                         "/http_post_load_editable_apps"
                     fetch(openfileurl,
