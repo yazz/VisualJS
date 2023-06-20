@@ -486,18 +486,18 @@ Code Ids:
                                                 </div>
                         
                                           
-                                                <div  v-if="currentlyHighlightedAppstoreBCI != item.base_component_id"
+                                                <div  v-if="currentlyHighlightedEditableCodeId != item.code_id"
                                                       style='border-radius: 0px;padding:0px; margin:0;'
-                                                      v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
+                                                      v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
                                                   
-                                                      <img  v-if='(app_store_component_logos_by_BCI[item.base_component_id] && (app_store_component_logos_by_BCI[item.base_component_id] != ""))'
+                                                      <img  v-if='item.logo_urls'
                                                             v-bind:src='item.logo_url'
                                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
-                                                            v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
-                                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
+                                                            v-bind:alt='item.displayName'
+                                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
                                                     </img>
                         
-                                                    <a  v-on:click='$event.stopPropagation();editApp(item.base_component_id)'
+                                                    <a  v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'
                                                         class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
                         
                                                         {{item.displayName}}
