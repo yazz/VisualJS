@@ -4244,7 +4244,8 @@ async function  startServices                           (  ) {
                                         system_code.id,
                                         system_code.base_component_id,
                                         system_code.read_write_status,
-                                        system_code.display_name
+                                        system_code.display_name,
+                                        system_code.logo_url
                                    FROM
                                         code_tags_table, system_code
                                     WHERE
@@ -4272,6 +4273,8 @@ async function  startServices                           (  ) {
                                                     ipfs_hash: thisRow.id
                                                     ,
                                                     display_name: thisRow.display_name
+                                                    ,
+                                                    logo_url: thisRow.logo_url
                                                 })
                                         }
                                     }

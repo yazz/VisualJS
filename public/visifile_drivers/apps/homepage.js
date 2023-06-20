@@ -736,7 +736,8 @@ Code Ids:
                                 responseJson[rt].base_component_id,
                                 responseJson[rt].display_name,
                                 {
-                                    codeId: responseJson[rt].ipfs_hash
+                                    codeId:     responseJson[rt].ipfs_hash,
+                                    logoUrl:    responseJson[rt].logo_url
                                 })
                         }
 
@@ -1389,6 +1390,9 @@ Code Ids:
                             }
                             if (other.codeId) {
                                 app.code_id = other.codeId
+                            }
+                            if (other.logoUrl) {
+                                app.logo_url = other.logoUrl
                             }
                         }
 
