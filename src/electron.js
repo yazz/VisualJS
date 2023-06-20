@@ -3801,6 +3801,7 @@ async function  copyAppshareApp                         (  args  ) {
         var listOfSubComponents     = []
         let dbToCopyFrom            = argsBaseComponentId
         let altDbUsed               = yz.getValueOfCodeString(code,"use_db")
+        let logoUrl                 = yz.getValueOfCodeString(code,"logo_url")
         let codeIdRet               = null
         let saveret
 
@@ -3842,7 +3843,8 @@ async function  copyAppshareApp                         (  args  ) {
         returnfn({
             new_display_name:   newDisplayName,
             base_component_id:  newBaseid,
-            code_id:            codeIdRet
+            code_id:            codeIdRet,
+            logo_url:           logoUrl
         })
 
     }
@@ -5107,7 +5109,7 @@ async function  startServices                           (  ) {
                 base_component_id:      baseComponentId,
                 code_id:                codeId,
                 new_base_component_id:  newBaseComponentId,
-                user_id:                userId
+                user_id:                userId,
             }
 
         let response = await copyAppshareApp(args)

@@ -1337,7 +1337,8 @@ End of app preview menu
                         type:               "insert_app_at",
                         base_component_id:   result.base_component_id,
                         display_name:        result.new_display_name,
-                        code_id:             result.code_id
+                        code_id:             result.code_id,
+                        logo_url:            result.logo_url
                     })
 
                 }
