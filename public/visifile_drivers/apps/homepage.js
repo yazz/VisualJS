@@ -664,8 +664,7 @@ Code Ids:
                 |             mounted                  |
                 |                                      |
                 |______________________________________|
-                This sets up:
-                 - The "d" key as a debug key
+
                 __________
                 | PARAMS |______________________________________________________________
                 |
@@ -695,15 +694,18 @@ Code Ids:
 
 
 
-                await onPageInitialized( async function() {
 
-                    /*
-                    ____________________________________________________________
-                    |    mounted
-                    |_________________________
-                                             | Hide the more complex buttons by
-                                             | default
-                                             |__________________________________ */
+
+
+                /*
+                ____________________________________________________________
+                |    mounted
+                |_________________________
+                                         | Hide the more complex buttons by
+                                         | default
+                                         |__________________________________ */
+
+                await onPageInitialized( async function() {
                     if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
                         if ($HIDEIMPORTBUTTONS == 'true') {
                             mm.hideImportButtons = true
@@ -713,6 +715,11 @@ Code Ids:
                     } else {
                         mm.hideImportButtons = false
                     }
+
+
+
+
+
 
 
                     /*
@@ -751,16 +758,17 @@ Code Ids:
 
 
 
+
+
                     /*
                     ____________________________________________________________
                     |    mounted
                     |_________________________
-                                             | Insert new editable app on the
-                                             | homepage
+                                             | Add some events which update the
+                                             | apps on the homepage
                                              |__________________________________ */
                     mm.$root.$on('message', async function(text) {
-                        if (text.type == "insert_app_at") {
-                            await mm.addLogoForApp(text.base_component_id)
+                        if (text.type == "insert_editable_component_on_homepage") {
                             await mm.addEditableComponentToHomepage(
                                 text.base_component_id,
                                 text.display_name,

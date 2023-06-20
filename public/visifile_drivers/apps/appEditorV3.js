@@ -1334,7 +1334,7 @@ End of app preview menu
                 let result = await getFromYazzReturnJson("/http_get_copy_component",copyArgs)
                 if (isValidObject(result)) {
                     mm.$root.$emit('message', {
-                        type:               "insert_app_at",
+                        type:               "insert_editable_component_on_homepage",
                         base_component_id:   result.base_component_id,
                         display_name:        result.new_display_name,
                         code_id:             result.code_id,
