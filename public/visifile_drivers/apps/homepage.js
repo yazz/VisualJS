@@ -756,7 +756,7 @@ Code Ids:
                                                  | homepage
                                                  |__________________________________ */
                         if (text.type == "rename_editable_component_on_homepage") {
-                            await mm.renameApp(text.base_component_id, text.display_name)
+                            await mm.reloadEditedAppsFromServer()
                             mm.refresh++
                         }
 
@@ -1372,35 +1372,6 @@ Code Ids:
                         mm.refresh++
                     }
 
-                    return null
-                },
-                renameApp:                          async function  ( baseComponentId, displayName) {
-                    /* rename App
-                    ________________________________________
-                    |                                      |
-                    |             renameApp                |
-                    |                                      |
-                    |______________________________________|
-                    Given the base component ID of an app and a new display name, rename
-                    the app on the homepage (Only works for editable apps)
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |
-                    |     displayName
-                    |     -----------
-                    |________________________________________________________________________ */
-                    let mm = this
-                    for (let thisApp of mm.editable_app_list) {
-                        if (thisApp) {
-                            if (thisApp.base_component_id ==  baseComponentId) {
-                                thisApp.displayName = displayName
-                            }
-                        }
-                    }
-                    mm.refresh++
                     return null
                 },
                 addToEditableAppsAndEdit:           async function  ( ipfsHash ) {
