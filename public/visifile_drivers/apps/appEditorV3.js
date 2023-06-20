@@ -1890,7 +1890,7 @@ End of app preview menu
                     mm.editor_shell_locked = false
 
                     mm.$root.$emit('message', {
-                        type:               "update_app",
+                        type:               "update_editable_components_on_homepage",
                         base_component_id:   baseCompIdFromSrcCode,
                         code_id:             mm.code_id
                     })
@@ -2279,7 +2279,7 @@ End of app preview menu
                     //mm.checkSavedFile()
                     await mm.loadComponentIntoEditor(   {codeId: message.commitId , runThisApp: true} )
                     mm.$root.$emit('message', {
-                        type:               "update_app",
+                        type:               "update_editable_components_on_homepage",
                         base_component_id:   mm.arg_edit_base_component_id,
                         code_id:             message.commitId
                     })

@@ -780,33 +780,6 @@ Code Ids:
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    mounted
-                        |_________________________
-                                                 | Called when we update the version
-                                                 | of an app on the homepage. Since
-                                                 | every app points to a commit ID
-                                                 | we update the "code_id" of the app.
-                                                 | Of course this app will be in the
-                                                 | list of editable apps
-                                                 |__________________________________ */
-                        if (text.type == "update_app") {
-                            let bci = text.base_component_id
-                            let cid = text.code_id
-                            for (let thisApp of mm.editable_app_list) {
-                                if (thisApp.base_component_id == bci) {
-                                    thisApp.code_id = cid
-                                    mm.refresh++
-                                    return
-                                }
-                            }
-                        }
-
-
-
-
-
 
                         /*
                         ____________________________________________________________
@@ -1572,7 +1545,6 @@ Code Ids:
                                              | get the editable apps
                                              |__________________________________ */
                     let mm = this
-                    mm.editable_app_list = []
                     let openfileurl = "http" + (($CENTRALHOSTPORT == 443) ? "s" : "") + "://" + $CENTRALHOST +
                         "/http_post_load_editable_apps"
                     fetch(openfileurl,
