@@ -20,7 +20,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
       ----------------------------------------------
       ----------------------------------------------
 
-        This contains everything needed to show the appstore and editable apps
+        This contains everything needed to show the appstore and editable apps. Note that there should
+        be a sister page to this called "mobile_homepage" which is almost identical, except that it
+        only has the code for playing apps, not editing them
 
 
          --------
@@ -36,6 +38,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 `<div   v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
                 
                     <!  ----------------------------------------    Show the debug mode    ---------------------------------------- -->
+                    <!-- 
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     -->
                     <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
                         <button style="margin: 20px;"
                                 class='btn btn-lg btn-danger'
@@ -91,6 +102,15 @@ Code Ids:
                     </div>
                     
                     <!  --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
+                    <!-- 
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     -->
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
                             v-if="(editingBaseComponentId == item.base_component_id)"
@@ -136,6 +156,15 @@ Code Ids:
                     </div>
                     
                     <!-- -------------------------------------  Show the Yazz logo and top tabs   ------------------------------------------------ -->
+                    <!-- 
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
                             v-bind:refresh='refresh'>
@@ -200,6 +229,15 @@ Code Ids:
                     </div>
                 
                     <!-- ------------------------------------   Show the top buttons, New App, etc    -->
+                    <!-- 
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
                             v-bind:refresh='refresh'>
@@ -365,12 +403,19 @@ Code Ids:
                     </div>
 
                     <!-- -----------------------------------    Show the "Editable" apps ------------------------------------------------ -->
+                    <!-- 
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     -->
                     <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
-
-                            <!-- ---------------------------    "Editable" apps title ------------------------------------------------ -->
                             <span style="font-size: 60px; color: white;">Editable Apps</span>
 
-                            <!-- ---------------------------  Show the actual "Editable" clickable icons ------------------------------------------------ -->
+                            <!-- ---------------------------  Loop through the "Editable apps" and show clickable icons ------------------------------------------------ -->
                             <div v-bind:refresh='refresh'
                                  class='force_scrollbars'
                                  id="downloaded_apps"
@@ -460,6 +505,15 @@ Code Ids:
                             </div>
                 
                     <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
+                    <!-- 
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     -->
                     <div    class=""
                             v-bind:refresh='refresh'
                             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
