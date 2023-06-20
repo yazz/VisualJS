@@ -998,7 +998,7 @@ Code Ids:
               },
             methods:    {
                 // local filesystem stuff
-                openFile:                   async function  ( ) {
+                openFile:                           async function  ( ) {
                     /* Show the file open dialog box
                     ________________________________________
                     |                                      |
@@ -1032,7 +1032,7 @@ Code Ids:
                         this.open_file_list = result2
                     }
                 },
-                openFileChange:             function        ( ) {
+                openFileChange:                     function        ( ) {
                     /* openFileChange
                     ________________________________________
                     |                                      |
@@ -1054,7 +1054,7 @@ Code Ids:
                     xmlhttp.open("POST","/http_post_file_open_single",true);
                     xmlhttp.send(formData);
                 },
-                selectOpenFileOrFolder:     async function  ( fileOrFolder ) {
+                selectOpenFileOrFolder:             async function  ( fileOrFolder ) {
                     /* selectOpenFileOrFolder
                     ________________________________________
                     |                                      |
@@ -1111,7 +1111,7 @@ Code Ids:
 
                     //
                 },
-                chosenFolderUp:             async function  ( ) {
+                chosenFolderUp:                     async function  ( ) {
                     /* Navigate when opening a file
                     ________________________________________
                     |                                      |
@@ -1166,7 +1166,7 @@ Code Ids:
 
 
                 },
-                importApp:                  function        ( ) {
+                importApp:                          function        ( ) {
                     /* Import a file. This is mostly used for Electron or desktop
                     applications
                     ________________________________________
@@ -1184,7 +1184,7 @@ Code Ids:
                     saveCodeToFile = null
                     document.getElementById("uploadfilefromhomepage").click();
                 },
-                submitFormAjax:             function        ( ) {
+                submitFormAjax:                     function        ( ) {
                     /* submitFormAjax
                     ________________________________________
                     |                                      |
@@ -1208,7 +1208,7 @@ Code Ids:
                 },
 
                 // load apps from app store
-                loadAppStoreApps:           async function  ( ) {
+                loadAppStoreApps:                   async function  ( ) {
                     /* ____________________________________
                     |                                      |
                     |           loadAppStoreApps           |
@@ -1246,7 +1246,7 @@ Code Ids:
                         //error block
                     })
                 },
-                highlightEditableComponent: function        ( baseComponentId, codeid ) {
+                highlightEditableComponent:         function        ( baseComponentId, codeid ) {
                     /*  highlightEditableComponent shows an editable componnent as larger on the home screen, like when selected
                     __________
                     | PARAMS |______________________________________________________________
@@ -1274,7 +1274,7 @@ Code Ids:
                         },4000)
                     },150)
                 },
-                addLogoForApp:              async function  ( baseComponentId) {
+                addLogoForApp:                      async function  ( baseComponentId) {
                     /* Given the base component ID of a component, insert the logo image into the
                     local cache stored in "app_store_component_logos_by_BCI"
                     ________________________________________
@@ -1316,7 +1316,7 @@ Code Ids:
                 },
 
                 // amend the edited apps
-                addEditableComponentToHomepage:   async function  ( baseComponentId, displayName, other) {
+                addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
                     /* Given the base component ID of an app, a new display name, and
                     some other data, add a new editable app to the homepage
 
@@ -1374,7 +1374,7 @@ Code Ids:
 
                     return null
                 },
-                renameApp:                  async function  ( baseComponentId, displayName) {
+                renameApp:                          async function  ( baseComponentId, displayName) {
                     /* rename App
                     ________________________________________
                     |                                      |
@@ -1403,7 +1403,7 @@ Code Ids:
                     mm.refresh++
                     return null
                 },
-                addToEditableAppsAndEdit:   async function  ( ipfsHash ) {
+                addToEditableAppsAndEdit:           async function  ( ipfsHash ) {
                     /* Given the commit ID of an app in the app store, download it and edit it
                     ________________________________________
                     |                                      |
@@ -1448,7 +1448,7 @@ Code Ids:
                         await mm.editApp(result.base_component_id , ipfsHash)
                     },50)
                 },
-                copyAndEditApp:             async function  ( compInfo ) {
+                copyAndEditApp:                     async function  ( compInfo ) {
                     /* copyAndEditApp
                     ________________________________________
                     |                                      |
@@ -1494,7 +1494,7 @@ Code Ids:
                         await mm.editApp(result.base_component_id, result.code_id)
                     },50)
                 },
-                runAppInNewBrowserTab:      async function  ( baseComponentId, code_id ) {
+                runAppInNewBrowserTab:              async function  ( baseComponentId, code_id ) {
                     /* Given the base component ID of an app, open that app in a separate
                     browser tab as an app
                     ________________________________________
@@ -1519,7 +1519,7 @@ Code Ids:
                         baseComponentId)
                     mm.refresh++
                 },
-                downloadAndRunApp:          async function  ( ipfsHash ) {
+                downloadAndRunApp:                  async function  ( ipfsHash ) {
                     /* downloadAndRunApp
                     ________________________________________
                     |                                      |
@@ -1557,7 +1557,7 @@ Code Ids:
 
                   },50)
                 },
-                editApp:                    async function  ( baseComponentId, codeId) {
+                editApp:                            async function  ( baseComponentId, codeId) {
                     /* editApp
                     ________________________________________
                     |                                      |
@@ -1597,7 +1597,7 @@ Code Ids:
                     mm.currentlyHighlightedAppstoreBCI  = null
                     mm.refresh ++
                 },
-                extracted:                  async function (mm) {
+                extracted:                          async function  ( mm ) {
                     /*
                     ____________________________________________________________
                     |    mounted
