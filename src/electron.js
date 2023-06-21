@@ -3935,10 +3935,11 @@ async function  copyAppshareApp                         (  args  ) {
                 formEditor.id = newBaseid
                 code = yz.deleteCodeString(code, "formEditor", ")//formEditor")
                 code = yz.insertCodeString(code, "formEditor", formEditor, ")//formEditor")
-
-                code = yz.deleteCodeString(code, "display_name")
-                code = yz.insertCodeString(code, "display_name", newDisplayName)
             }
+
+            code = yz.deleteCodeString(code, "display_name")
+            code = yz.insertCodeString(code, "display_name", newDisplayName)
+
             code = yz.insertCodeString(code, "visibility", "PRIVATE")
 
 
