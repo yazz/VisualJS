@@ -1291,7 +1291,7 @@ Code Ids:
 
                     ________________________________________
                     |                                      |
-                    |        addEditableComponentToHomepage      |
+                    |   addEditableComponentToHomepage     |
                     |                                      |
                     |______________________________________|
                     Given the base component ID of an app, a new display name, and
@@ -1312,8 +1312,9 @@ Code Ids:
                     // add the app to the list of BCI apps
                     if (baseComponentId) {
                         for (let thisApp of mm.editable_app_list) {
-                            if (thisApp.base_component_id == baseComponentId) {
-                                mm.refresh++
+                            if (thisApp.code_id == other.codeId) {
+                                debugger
+                                thisApp.delete = false
                                 return
                             }
                         }
@@ -1338,7 +1339,6 @@ Code Ids:
 
                         //await makeSureUiComponentLoadedV5(baseComponentId)
                         mm.editable_app_list.push( app  )
-                        mm.refresh++
                     }
 
                     return null
@@ -1554,6 +1554,12 @@ Code Ids:
                         })
                         .then((response) => response.json())
                         .then(async function (responseJson) {
+                            // first mark all editable components as deletable
+                            for (let editableItem of mm.editable_app_list) {
+                                editableItem.delete = true
+                            }
+
+                            // add all the items to the homepage
                             for (let rt = 0; rt < responseJson.length; rt++) {
                                 await mm.addEditableComponentToHomepage(
                                     responseJson[rt].base_component_id,
@@ -1562,6 +1568,12 @@ Code Ids:
                                         codeId: responseJson[rt].ipfs_hash,
                                         logo_url: responseJson[rt].logo_url
                                     })
+                            }
+
+                            // delete any items that should not be there
+                            for (let editableItem of mm.editable_app_list) {
+                                mm.editable_app_list = mm.editable_app_list.filter(
+                                    editableItem => !editableItem.delete)
                             }
 
                         }).catch(err => {
