@@ -1151,8 +1151,15 @@ newCode += newCode2
 
         if (parentCodeTag) {
             await mm.executeQuickSql(
-                thisDb,
-                "delete from code_tags_table  where fk_system_code_id = ? and code_tag = 'TIP'  ",
+                thisDb
+                ,
+                `delete from 
+                    code_tags_table  
+                where 
+                    fk_system_code_id = ? 
+                        and 
+                    code_tag = 'TIP'  `
+                ,
                 [parentHash])
         }
 
