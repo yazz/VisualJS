@@ -1154,7 +1154,7 @@ newCode += newCode2
                  values  
                      (?,?,?,?,?,?)
                      `,
-            [uuidv1(), baseComponentId, "TIP", userId, codeId, userId])
+            [uuidv1(), baseComponentId, "TIP", null, codeId, userId])
     },
     pointEditMarkerAtCommit:        async function  (  thisDb  ,  args  ) {
         /*
