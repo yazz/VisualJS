@@ -1160,7 +1160,7 @@ newCode += newCode2
         /*
         ________________________________________
         |                                      |
-        |      pointEditMarkerAtCommit       |
+        |      pointEditMarkerAtCommit         |
         |                                      |
         |______________________________________|
         This makes sure that the current EDIT marker for some code is set. There can be
@@ -1206,8 +1206,9 @@ newCode += newCode2
                 `
                 update
                    code_tags_table
-                set  fk_system_code_id = ?
-                   where
+                set  
+                    fk_system_code_id = ?
+                where
                     base_component_id = ? 
                         and 
                     code_tag = "EDIT" 
@@ -1222,11 +1223,11 @@ newCode += newCode2
                 `
                 insert or ignore
                     into
-               code_tags_table
-                    (id,   base_component_id,   code_tag,   code_tag_value,   fk_system_code_id,   fk_user_id) 
-               values ( ?, ?, ?, ?, ? , ?)`
+                code_tags_table
+                    (   id   ,   base_component_id   ,   code_tag   ,   code_tag_value   ,   fk_system_code_id   ,   fk_user_id   ) 
+                values ( ?, ?, ?, ?, ? , ?)`
                 ,
-                [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     userId, sha1sum     ,      userId    ]
+                [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     userId   ,   sha1sum     ,      userId    ]
             )
         }
     }
