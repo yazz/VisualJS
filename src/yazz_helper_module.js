@@ -742,7 +742,7 @@ return code
                             codeId:             sha1sum,
                             userId:             userId
                         })
-                    await mm.createNewTip(thisDb, code, sha1sum, userId)
+                    await mm.setTipsForCommit(thisDb, code, sha1sum)
 
 
                     stmtDeleteDependencies.run(sha1sum)
@@ -1109,15 +1109,14 @@ newCode += newCode2
     },
 
     // CODE_TAGS
-    createNewTip:                   async function  (  thisDb  ,  savedCode  ,  codeId  ,  userId  ) {
+    setTipsForCommit:                   async function  (  thisDb  ,  savedCode  ,  codeId  ,  userId  ) {
         /*
         ________________________________________
         |                                      |
-        |               createNewTip           |
+        |               setTipsForCommit       |
         |                                      |
         |______________________________________|
-        Create a new code tip for the current code. This code tip
-        moves the TIP tag forward to this commit ID for the code. The code can have
+        Create a new commit tip for the current code, if needed. The code can have
         multiple tips, one for each branch
         __________
         | PARAMS |______________________________________________________________
@@ -1130,6 +1129,10 @@ newCode += newCode2
         let parentHash
         let mm                = this
 
+        //
+        // first check to see if this commit has a parent. If so then delete the TIP
+        // from the parent commit
+        //
         baseComponentId = mm.getValueOfCodeString(savedCode,"base_component_id")
         parentHash      = mm.getValueOfCodeString(savedCode,"parent_hash")
 
@@ -1143,11 +1146,9 @@ newCode += newCode2
             where 
                 fk_system_code_id = ? 
                     and 
-                code_tag = 'TIP' 
-                    and 
-                fk_user_id = ? `
+                code_tag = 'TIP'`
             ,
-            [parentHash, userId])
+            [parentHash])
 
         if (parentCodeTag) {
             await mm.executeQuickSql(
@@ -1163,16 +1164,46 @@ newCode += newCode2
                 [parentHash])
         }
 
-        await mm.executeQuickSql(
+        //
+        // Then check if the current commit descendants. If so then delete the TIP from this commit
+        //
+        let descendants = await mm.getQuickSqlOneRow(
             thisDb
             ,
-            `insert into 
+            `select 
+                count(*) as descendant_count
+            from  
+                system_code  
+            where 
+                parent_id = ? `
+            ,
+            [codeId])
+
+        if (descendants.descendant_count > 0) {
+            await mm.executeQuickSql(
+                thisDb
+                ,
+                `delete from 
+                    code_tags_table  
+                where 
+                    fk_system_code_id = ? 
+                        and 
+                    code_tag = 'TIP'  `
+                ,
+                [codeId])
+        } else {
+
+            await mm.executeQuickSql(
+                thisDb
+                ,
+                `insert into 
                     code_tags_table 
                     (   id   ,    base_component_id   ,   code_tag   ,   code_tag_value   ,   fk_system_code_id   ,   fk_user_id   ) 
                  values  
                      (?,?,?,?,?,?)
                      `,
-            [uuidv1(), baseComponentId, "TIP", null, codeId, userId])
+                [uuidv1(), baseComponentId, "TIP", null, codeId, userId])
+        }
     },
     pointEditMarkerAtCommit:        async function  (  thisDb  ,  args  ) {
         /*
