@@ -278,10 +278,10 @@ return code
         await this.executeQuickSql(thisDb,
             `insert into 
                 code_tags_table 
-             (id , base_component_id , code_tag , code_tag_value, fk_system_code_id)
+            (id , base_component_id , code_tag , code_tag_value, fk_system_code_id)
                 values
-             (?,?,?,?,?) 
-             `
+            (?,?,?,?,?) 
+            `
             ,
             [ uuidv1()  ,  baseComponentId  , "PROD" , dateTime,  ipfs_hash])
     },
@@ -1118,7 +1118,7 @@ newCode += newCode2
         |______________________________________|
         Create a new code tip for the current code. This code tip
         moves the TIP tag forward to this commit ID for the code. The code can have
-        multiple tips, one for each user editing the code
+        multiple tips, one for each branch
         __________
         | PARAMS |______________________________________________________________
         |
@@ -1134,8 +1134,19 @@ newCode += newCode2
         parentHash      = mm.getValueOfCodeString(savedCode,"parent_hash")
 
         parentCodeTag = await mm.getQuickSqlOneRow(
-            thisDb,
-            "select id from  code_tags_table  where fk_system_code_id = ? and code_tag = 'TIP' and fk_user_id = ? ",
+            thisDb
+            ,
+            `select 
+                id 
+            from  
+                code_tags_table  
+            where 
+                fk_system_code_id = ? 
+                    and 
+                code_tag = 'TIP' 
+                    and 
+                fk_user_id = ? `
+            ,
             [parentHash, userId])
 
         if (parentCodeTag) {
@@ -1150,7 +1161,7 @@ newCode += newCode2
             ,
             `insert into 
                     code_tags_table 
-                    (id,  base_component_id, code_tag, code_tag_value, fk_system_code_id, fk_user_id ) 
+                    (   id   ,    base_component_id   ,   code_tag   ,   code_tag_value   ,   fk_system_code_id   ,   fk_user_id   ) 
                  values  
                      (?,?,?,?,?,?)
                      `,
