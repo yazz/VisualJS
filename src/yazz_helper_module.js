@@ -1186,7 +1186,18 @@ newCode += newCode2
 
         let existingCodeTags = await mm.getQuickSqlOneRow(
             thisDb,
-            "select * from code_tags_table where base_component_id = ? and fk_user_id = ? and code_tag='EDIT'  ",
+
+            `select
+                * 
+            from 
+                code_tags_table 
+            where 
+                base_component_id = ? 
+                    and 
+                fk_user_id = ? 
+                    and 
+                code_tag='EDIT'  `,
+
             [baseComponentId, userId])
 
         if (existingCodeTags) {
