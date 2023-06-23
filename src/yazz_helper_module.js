@@ -274,16 +274,16 @@ return code
     //code commit helpers
     tagVersion:                     async function  (  thisDb  ,  ipfs_hash  ,  srcCode  ) {
         let baseComponentId = this.getValueOfCodeString(srcCode,"base_component_id")
-        let dateTime = new Date().toString()
+        let dateTime = new Date().getTime()
         await this.executeQuickSql(thisDb,
             `insert into 
                 code_tags_table 
-             (id , base_component_id , code_tag , fk_system_code_id)
+             (id , base_component_id , code_tag , code_tag_value, fk_system_code_id)
                 values
-             (?,?,?,?) 
+             (?,?,?,?,?) 
              `
             ,
-            [ uuidv1()  ,  baseComponentId  ,  dateTime,  ipfs_hash])
+            [ uuidv1()  ,  baseComponentId  , "PROD" , dateTime,  ipfs_hash])
     },
     getCodeForCommit:               async function  (  thisDb  ,  commitId  ) {
         let thisCommit = await this.getQuickSqlOneRow(thisDb,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
