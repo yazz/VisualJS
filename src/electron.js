@@ -5074,7 +5074,7 @@ async function  startServices                           (  ) {
         let userid
         let optionsForSave
         let saveResult
-        let savedCode
+        let savedCode       = req.body.value.code
 
         userid          = await getUserId(req)
         optionsForSave  = req.body.value.options
@@ -5085,16 +5085,8 @@ async function  startServices                           (  ) {
 
         saveResult = await yz.saveCodeV3(
             dbsearch,
-            req.body.value.code,
-            optionsForSave)
-
-        savedCode       = req.body.value.code
-        await yz.createNewTip(
-            dbsearch,
             savedCode,
-            saveResult.code_id,
-            userid);
-
+            optionsForSave)
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify(saveResult))
