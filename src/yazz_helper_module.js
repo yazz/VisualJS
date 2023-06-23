@@ -277,11 +277,11 @@ return code
         let dateTime = new Date().toString()
         await this.executeQuickSql(thisDb,
             `insert into 
-            code_tags_table 
-         (id , base_component_id , code_tag , fk_system_code_id)
-            values
-         (?,?,?,?) 
-         `
+                code_tags_table 
+             (id , base_component_id , code_tag , fk_system_code_id)
+                values
+             (?,?,?,?) 
+             `
             ,
             [ uuidv1()  ,  baseComponentId  ,  dateTime,  ipfs_hash])
     },

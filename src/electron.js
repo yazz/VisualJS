@@ -4732,27 +4732,27 @@ async function  startServices                           (  ) {
                 dbsearch,
 
                 `update 
-                system_code  
-           set  
-                score = ?  
-            where  
-                id = ? `,
+                    system_code  
+                set  
+                    score = ?  
+                where  
+                    id = ? `,
 
-                [numCommits, tip.fk_system_code_id]
+                    [numCommits, tip.fk_system_code_id]
             )
             await yz.executeQuickSql(
                 dbsearch,
 
                 `update 
-                code_tags_table  
-           set  
-                main_score = ?  
-            where  
-                base_component_id = ? 
-                    and 
-                fk_system_code_id = ?  
-                    and 
-                code_tag = 'TIP'  `,
+                    code_tags_table  
+                set  
+                    main_score = ?  
+                where  
+                    base_component_id = ? 
+                        and 
+                    fk_system_code_id = ?  
+                        and 
+                    code_tag = 'TIP'  `,
 
                 [numCommits, baseComponentId, tip.fk_system_code_id ]
             )
