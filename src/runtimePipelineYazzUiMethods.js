@@ -26,6 +26,7 @@
                 let sql =
                     `select  
                         base_component_id,  
+                        ipfs_hash,
                         app_icon_data as logo_url  
                     from  
                         yz_cache_released_components 
@@ -45,8 +46,9 @@
                 let itemsToLoad = []
                 for (let thiscc of results) {
                     let cbase = thiscc.base_component_id
+                    let codeId = thiscc.ipfs_hash
                     //console.log("Component: " + JSON.stringify(cbase))
-                    itemsToLoad.push(cbase)
+                    itemsToLoad.push({baseComponentId: cbase, codeid: codeId })
                 }
                 await GLOBALS.makeSureUiComponentLoadedV5(itemsToLoad)
                 //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
