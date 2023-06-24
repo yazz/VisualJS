@@ -23,11 +23,20 @@
                 |     NONE
                 |________________________________________________________________________ */
                 let mm  = this
-                let sql =    "select  base_component_id,  app_icon_data as logo_url  from  yz_cache_released_components  " +
-                    " inner JOIN " +
-                    "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
-                    "where " +
-                    "    icon_image_id is not null and component_type = 'component'"
+                let sql =
+                    `select  
+                        base_component_id,  
+                        app_icon_data as logo_url  
+                    from  
+                        yz_cache_released_components 
+                    inner JOIN 
+                         icon_images 
+                            ON 
+                         yz_cache_released_components.icon_image_id = icon_images.id 
+                    where 
+                        icon_image_id is not null 
+                            and 
+                        component_type = 'component'`
 
                 let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
                     {   sql: sql  })
