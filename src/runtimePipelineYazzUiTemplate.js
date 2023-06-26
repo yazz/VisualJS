@@ -90,7 +90,8 @@
                                                 drag(   $event,
                                                         {
                                                             type:               "add_component",
-                                                            base_component_id:  av.base_component_id
+                                                            base_component_id:  av.base_component_id,
+                                                            code_id:            av.ipfh_hash
                                                         })
                                             } else {
                                                 event.preventDefault()

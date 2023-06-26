@@ -3775,7 +3775,7 @@ return {}
                 /*
                 ________________________________________
                 |                                      |
-                |                   |
+                |             drag                     |
                 |                                      |
                 |______________________________________|
 
@@ -3787,11 +3787,11 @@ return {}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                let mm = this
-                let doc = document.documentElement;
-                let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-                let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-                let rrr = ev.target.getBoundingClientRect()
+                let mm          = this
+                let doc         = document.documentElement;
+                let left        = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+                let top         = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+                let rrr         = ev.target.getBoundingClientRect()
                 message.offsetX = (ev.clientX - rrr.left )
                 message.offsetY = (ev.clientY - rrr.top )
 
@@ -3800,7 +3800,6 @@ return {}
                 }
                 ev.dataTransfer.setData("message",
                     JSON.stringify(message,null,2));
-
             },
             switchEditor:                           async function  (editorComponentName) {
                 /*
