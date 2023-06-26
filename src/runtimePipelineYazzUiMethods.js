@@ -3888,11 +3888,12 @@ return {}
                 /*
                 ________________________________________
                 |                                      |
-                |                   |
+                |               drop                   |
                 |                                      |
                 |______________________________________|
 
-                TO BE FILLED IN
+                This is called when something happens on the main drag and drop
+                grid
 
                 __________
                 | Params |
@@ -3900,11 +3901,6 @@ return {}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                //
-                // This is called when something happens on the main drag and drop
-                // grid
-                //
-                //-------------------------------------------------------------------
                 ev.preventDefault();
                 let mm = this
 
@@ -3914,21 +3910,20 @@ return {}
                     this.cursorSource = null
                 }
 
-                let data2 = ev.dataTransfer.getData("message");
-                let data = eval("(" + data2 + ")")
+                let data2               = ev.dataTransfer.getData("message");
+                let data                = eval("(" + data2 + ")")
+                let newItem2            = new Object()
+                let rrr2                = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
+                newItem2.leftX          = (ev.clientX  - rrr2.left)  - data.offsetX;
+                newItem2.topY           = (ev.clientY  - rrr2.top)   - data.offsetY;
+                let parentType          = null
+                let parentName          = null
+                let parentOffsetX       = 0
+                let parentOffsetY       = 0
+                let parentOffsetWidth   = 0
+                let parentOffsetHeight  = 0
+                let parentContainer     = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
 
-                let newItem2 = new Object()
-                let rrr2 = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
-                newItem2.leftX = (ev.clientX  - rrr2.left)  - data.offsetX;
-                newItem2.topY = (ev.clientY  - rrr2.top)   - data.offsetY;
-
-                let parentType = null
-                let parentName = null
-                let parentOffsetX = 0
-                let parentOffsetY = 0
-                let parentOffsetWidth = 0
-                let parentOffsetHeight = 0
-                let parentContainer = this.getContainerForPoint(  newItem2.leftX,  newItem2.topY  )
                 if (parentContainer) {
                     parentOffsetX = parentContainer.x
                     parentOffsetY = parentContainer.y
@@ -3936,7 +3931,7 @@ return {}
                     parentName    = parentContainer.name
                 }
 
-
+debugger
                 if (data.type == "add_component") {
                     let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                     let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;

@@ -91,7 +91,7 @@
                                                         {
                                                             type:               "add_component",
                                                             base_component_id:  av.base_component_id,
-                                                            code_id:            av.ipfh_hash
+                                                            code_id:            av.ipfs_hash
                                                         })
                                             } else {
                                                 event.preventDefault()
