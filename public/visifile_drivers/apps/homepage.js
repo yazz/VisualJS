@@ -1313,7 +1313,7 @@ Code Ids:
                     if (baseComponentId) {
                         for (let thisApp of mm.editable_app_list) {
                             if (thisApp.code_id == other.codeId) {
-                                debugger
+                                //debugger
                                 thisApp.delete = false
                                 return
                             }

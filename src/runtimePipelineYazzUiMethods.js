@@ -525,7 +525,7 @@
                     }
 
 
-
+debugger
                     /*
                     _______________________________________
                     |    addComponentV2                    |
@@ -560,14 +560,13 @@
                                      |__________________________________
                     */
                     mm.refresh++
-                    if (!GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
-                        if (newItem.code_id) {
-                            await GLOBALS.makeSureUiComponentLoadedV5([{codeId: newItem.code_id}])
-                        } else {
-                            await GLOBALS.makeSureUiComponentLoadedV5([newItem.base_component_id])
-                        }
-                        mm.components_used_in_this_app[newItem.base_component_id] = true
+                    if (newItem.code_id) {
+                        await GLOBALS.makeSureUiComponentLoadedV5([{codeId: newItem.code_id}])
+                    } else {
+                        await GLOBALS.makeSureUiComponentLoadedV5([newItem.base_component_id])
+                        newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
                     }
+                    mm.components_used_in_this_app[newItem.base_component_id] = true
 
                     //qqqDONE
                     //if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
@@ -575,23 +574,20 @@
 
                     //    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                     //if (isValidObject(compEvaled1)) {
-                    if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
-                        //newItem.code_id = compEvaled1.code_id
-                        newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
-                        //let compEvaled = compEvaled1.properties
-                        let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
-                        if (isValidObject(compEvaled)) {
-                            for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
-                                let prop = compEvaled[cpp].id
+                    //newItem.code_id = compEvaled1.code_id
+                    //let compEvaled = compEvaled1.properties
+                    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
+                    if (isValidObject(compEvaled)) {
+                        for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
+                            let prop = compEvaled[cpp].id
 
-                                if (!isValidObject(newItem[prop])){
-                                    if (isValidObject(compEvaled[cpp].default)) {
-                                        newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
-                                    } else if (isValidObject(compEvaled[cpp].default_expression)){
-                                        newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
-                                    } else {
-                                        newItem[prop] = ""
-                                    }
+                            if (!isValidObject(newItem[prop])){
+                                if (isValidObject(compEvaled[cpp].default)) {
+                                    newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
+                                } else if (isValidObject(compEvaled[cpp].default_expression)){
+                                    newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
+                                } else {
+                                    newItem[prop] = ""
                                 }
                             }
                         }
@@ -3931,7 +3927,6 @@ return {}
                     parentName    = parentContainer.name
                 }
 
-debugger
                 if (data.type == "add_component") {
                     let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                     let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
