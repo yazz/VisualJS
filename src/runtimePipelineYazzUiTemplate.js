@@ -2188,7 +2188,16 @@ Pushlist
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                   <div    v-if="property.id == 'base_component_id'"    
                                           style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                          v-on:click='debug_component_bci=model.forms[active_form].components[active_component_index].base_component_id;'  > ..
+                                          v-on:click='debug_component_bci = model.forms[active_form].components[active_component_index].base_component_id;
+                                                      // if we have the commit ID
+                                                      if (debug_component_code_id && (debug_component_code_id != "")) {
+                                                            debug_component_code_id=model.forms[active_form].components[active_component_index].code_id;
+                                                            
+                                                      // if only a BCI
+                                                      } else {
+                                                            debug_component_code_id=GLOBALS.getCommitIdForBaseComponentId( model.forms[active_form].components[active_component_index].base_component_id);
+                                                      }'
+                                                      > ..
                                   </div>
                                 </div>
 
