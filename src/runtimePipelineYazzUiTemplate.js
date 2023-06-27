@@ -12,25 +12,25 @@
         <slot style='display: inline-block;float: left;' v-if='text'>
         </slot>
         
-        <div  v-if="debug_component"
+        <div  v-if="debug_component_bci"
               style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;"
         >
-          <div  v-if="debug_component"
+          <div  v-if="debug_component_bci"
                 style="background-color: blue;padding: 12px;color:white;"
-                v-on:click="debug_component = null"
+                v-on:click="debug_component_bci = null;debug_component_code_id = null;"
           >
-            <b>Component type: </b>{{ debug_component }}
+            <b>Component type: </b>{{ debug_component_bci }}
             <button  type=button class=' btn btn-danger btn-sm'
                      style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                     v-on:click='debug_component = null' >x</button>
+                     v-on:click='debug_component_bci = null;debug_component_code_id=null' >x</button>
           </div> 
           <br>
           <div>
 
-            IPFS: {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCommitIdForBaseComponentId( debug_component ):""}}
+            IPFS: {{debug_component_code_id?debug_component_code_id:"Error: No Commit ID"}}
           </div>
           <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{GLOBALS.isComponentTypeCached(debug_component)?GLOBALS.getCodeForComponent({baseComponentId: debug_component}):""}}
+            {{debug_component_code_id?GLOBALS.getCodeForComponent({codeId: debug_component_code_id}):""}}
           </pre>
           
         </div>
@@ -109,7 +109,7 @@
 
                   </div>
                     <div  style="width:100%; height:3px;background-color: lightgray"
-                          v-on:click="debug_component=av.base_component_id;"></div>
+                          v-on:click="debug_component_bci=av.base_component_id;debug_component_code_id=av.ipfs_hash;"></div>
 
                   </div>
                 </div>
@@ -2188,7 +2188,7 @@ Pushlist
                                         v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
                                   <div    v-if="property.id == 'base_component_id'"    
                                           style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                          v-on:click='debug_component=model.forms[active_form].components[active_component_index].base_component_id;'  > ..
+                                          v-on:click='debug_component_bci=model.forms[active_form].components[active_component_index].base_component_id;'  > ..
                                   </div>
                                 </div>
 
