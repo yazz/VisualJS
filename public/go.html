@@ -530,8 +530,11 @@
                         codeId = args.codeId
                     }
                     let code = GLOBALS.getCodeForComponent({codeId: codeId})
-                    let displayName = yz.getValueOfCodeString(code, "display_name")
-                    return displayName
+                    if (code) {
+                        let displayName = yz.getValueOfCodeString(code, "display_name")
+                        return displayName
+                    }
+                    return "Error: No Type Name"
                 },
                 getPipelineCodeFromServer:      async function  (   fileName   ) {
                     let resultsCode = await postToYazzReturnJson(
