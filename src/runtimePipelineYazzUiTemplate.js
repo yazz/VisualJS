@@ -2318,6 +2318,19 @@ Pushlist
                                     </div>
 
                                     <div v-if='property.readonly'>
+                                        <div    v-if='property.id == "display_name"'
+                                                style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                                class='col-md-12 small'>
+
+                                            {{GLOBALS.getTypeDisplayName(
+                                                {
+                                                    baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
+                                                    codeId:             model.forms[active_form].components[active_component_index].code_id
+                                                })
+                                            }}
+
+                                        </div>
+                                        
                                         <div    v-if='active_component_index != null'
                                                 style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
                                                 class='col-md-12 small'>

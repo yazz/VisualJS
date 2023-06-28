@@ -4541,12 +4541,13 @@ return {}
                 let properties = []
                 let compEvaled = this.getComponentProperties(base_component_id)
 
-                properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
-                properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
-                properties.push({   id:     "code_id",             name:   "Type IPFS",   type:   "String" , readonly: true   })
+                properties.push({   id:     "name",                 name:   "Name",         type:   "String"    })
+                properties.push({   id:     "display_name",         name:   "Type Name",    type:   "String" , readonly: true   })
+                properties.push({   id:     "base_component_id",    name:   "Type",         type:   "String" , readonly: true   })
+                properties.push({   id:     "code_id",              name:   "Type IPFS",    type:   "String" , readonly: true   })
+                properties.push({   id:     "leftX",                name:   "X",            type:   "Number"    })
+                properties.push({   id:     "topY",                 name:   "Y",            type:   "Number"    })
 
-                properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
-                properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
                 if (!this.existsProp(compEvaled,"width")) {
                     properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
                 }
@@ -4557,17 +4558,14 @@ return {}
                     properties.push({   id:     "load",   name:   "Load Event",   type:   "Event"    })
                 }
 
-
-
-
                 properties = properties.concat(compEvaled)
 
 
                 if (!this.existsProp(compEvaled,"on_property_in")) {
                     properties.push({   id:     "on_property_in",
-                        name:   "On Property In",
-                        type:   "Event",
-                        help:
+                                        name:   "On Property In",
+                                        type:   "Event",
+                                        help:
                             `
 <pre>
 Vars to use:

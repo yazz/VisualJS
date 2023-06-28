@@ -522,6 +522,18 @@
                 //
                 baseComponentIdReturnsCommitId:                 new Object(),
 
+                getTypeDisplayName:             function        (   args   ) {
+                    debugger
+                    let codeId = null
+                    if ((args.codeId == null) || (args.codeId == "")) {
+                        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                    } else {
+                        codeId = args.codeId
+                    }
+                    let code = GLOBALS.getCodeForComponent({codeId: codeId})
+                    let displayName = yz.getValueOfCodeString(code, "display_name")
+                    return displayName
+                },
                 getPipelineCodeFromServer:      async function  (   fileName   ) {
                     let resultsCode = await postToYazzReturnJson(
                         "/http_post_load_pipeline_code",
