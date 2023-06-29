@@ -792,23 +792,20 @@ return code
 
 
                         if (mm.isValidObject(options) && options.save_html) {
-                            //showTimer(`13`)
                             //
                             // create the static HTML file to link to on the web/intranet
                             //
-                            let origFilePath = path.join(__dirname, '../public/go.html')
-                            let newStaticFilePath = path.join( mm.userData, 'apps/' + baseComponentId + '.html' )
-                            let newLocalStaticFilePath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.html' )
-                            let newLocalJSPath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
-                            let newLocalYazzPath = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
-
-                            let newStaticFileContent = fs.readFileSync( origFilePath )
+                            let origFilePath            = path.join(__dirname, '../public/go.html')
+                            let newStaticFilePath       = path.join( mm.userData, 'apps/' + baseComponentId + '.html' )
+                            let newLocalStaticFilePath  = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.html' )
+                            let newLocalJSPath          = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                            let newLocalYazzPath        = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                            let newStaticFileContent    = fs.readFileSync( origFilePath )
 
                             newStaticFileContent = newStaticFileContent.toString().replace("isStaticHtmlPageApp: false", "isStaticHtmlPageApp: true")
 
                             let escapedCode = escape( code.toString() )
 
-
                             newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
                             newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
                             newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
@@ -816,104 +813,103 @@ return code
                             newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
                             newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
 
-let pipelineCode = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzApp.js"})
-let escapedPipelineCode = escape( pipelineCode.toString() )
-let pipelineCode2 = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzUiMethods.js"})
-let escapedPipelineCode2 = escape( pipelineCode2.toString() )
-let pipelineCode3 = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzUiTemplate.js"})
-let escapedPipelineCode3 = escape( pipelineCode3.toString() )
+                            let pipelineCode            = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzApp.js"})
+                            let escapedPipelineCode     = escape( pipelineCode.toString() )
+                            let pipelineCode2           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzUiMethods.js"})
+                            let escapedPipelineCode2    = escape( pipelineCode2.toString() )
+                            let pipelineCode3           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzUiTemplate.js"})
+                            let escapedPipelineCode3    = escape( pipelineCode3.toString() )
 
-let newCode =  `
-//
-// Add the pipelines to the HTML output
-//
-GLOBALS.runtimePipelines["APP"] = {}
-GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
-
-GLOBALS.runtimePipelines["APP_UI_METHODS"] = {}
-GLOBALS.runtimePipelines["APP_UI_METHODS"].code = unescape(\`${escapedPipelineCode2}\`)
-
-GLOBALS.runtimePipelines["APP_UI_TEMPLATE"] = {}
-GLOBALS.runtimePipelines["APP_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode3}\`)
-
-
-
-GLOBALS.cacheThisComponentCode(
-{   
-codeId:             "${sha1sum}",
-code:               /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/
-})
-
-GLOBALS.pointBaseComponentIdAtCode(
-{   
-baseComponentId:    "${baseComponentId}",
-codeId:             "${sha1sum}"
-})
-
-`
-
-
-
-//
-// Add the subcomponents code
-//
-if (baseComponentId == "homepage") {
-//debugger
-}
-let results = await mm.getSubComponents(code)
-for (let i = 0  ;   i < results.length;    i ++ ) {
-if (!results[i].child_code_id) {
-
-let sqlR = await mm.getQuickSqlOneRow(
-thisDb
-,
-"select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
-,
-[  results[i].child_base_component_id  ])
-
-
-if (!sqlR) {
-sqlR = await mm.getQuickSqlOneRow(
-thisDb
-,
-"select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
-,
-[  results[i].child_base_component_id  ])
-}
-
-results[i].sha1 = sqlR.id
-results[i].child_code_id = results[i].sha1
-} else {
-results[i].sha1 = results[i].child_code_id
-}
-
-let sqlr2 = await mm.getQuickSqlOneRow(
-thisDb,
-"select  code  from   system_code where id = ? ",
-[  results[i].child_code_id  ])
-
-results[i].code = sqlr2.code
-
-let newcodeEs = escape("(" + results[i].code.toString() + ")")
-let newCode2 =  `
-
-
-GLOBALS.cacheThisComponentCode(
-{   
-codeId:             "${results[i].sha1}",
-code:                unescape(\`${newcodeEs}\`)
-})
-
-GLOBALS.pointBaseComponentIdAtCode(
-{   
-baseComponentId:    "${results[i].child_base_component_id}",
-codeId:             "${results[i].sha1}"
-})
-
+                            let newCode =
+                                `
+                                //
+                                // Add the pipelines to the HTML output
+                                //
+                                GLOBALS.runtimePipelines["APP"] = {}
+                                GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
+                                
+                                GLOBALS.runtimePipelines["APP_UI_METHODS"] = {}
+                                GLOBALS.runtimePipelines["APP_UI_METHODS"].code = unescape(\`${escapedPipelineCode2}\`)
+                                
+                                GLOBALS.runtimePipelines["APP_UI_TEMPLATE"] = {}
+                                GLOBALS.runtimePipelines["APP_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode3}\`)
+                                
+                                
+                                
+                                GLOBALS.cacheThisComponentCode(
+                                {   
+                                    codeId:             "${sha1sum}",
+                                    code:               /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/
+                                })
+                                
+                                GLOBALS.pointBaseComponentIdAtCode(
+                                {   
+                                    baseComponentId:    "${baseComponentId}",
+                                    codeId:             "${sha1sum}"
+                                })
 
 `
-newCode += newCode2
-}
+
+                            //
+                            // Add the subcomponents code
+                            //
+                            if (baseComponentId == "homepage") {
+                                //debugger
+                            }
+                            let results = await mm.getSubComponents(code)
+                            for (let i = 0  ;   i < results.length;    i ++ ) {
+                                if (!results[i].child_code_id) {
+
+                                let sqlR = await mm.getQuickSqlOneRow(
+                                thisDb
+                                ,
+                                "select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
+                                ,
+                                [  results[i].child_base_component_id  ])
+
+
+                                if (!sqlR) {
+                                sqlR = await mm.getQuickSqlOneRow(
+                                thisDb
+                                ,
+                                "select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
+                                ,
+                                [  results[i].child_base_component_id  ])
+                                }
+
+                                results[i].sha1 = sqlR.id
+                                results[i].child_code_id = results[i].sha1
+                                } else {
+                                results[i].sha1 = results[i].child_code_id
+                                }
+
+                                let sqlr2 = await mm.getQuickSqlOneRow(
+                                thisDb,
+                                "select  code  from   system_code where id = ? ",
+                                [  results[i].child_code_id  ])
+
+                                results[i].code = sqlr2.code
+
+                                let newcodeEs = escape("(" + results[i].code.toString() + ")")
+                                let newCode2 =  `
+                                
+                                
+                                GLOBALS.cacheThisComponentCode(
+                                {   
+                                codeId:             "${results[i].sha1}",
+                                code:                unescape(\`${newcodeEs}\`)
+                                })
+                                
+                                GLOBALS.pointBaseComponentIdAtCode(
+                                {   
+                                baseComponentId:    "${results[i].child_base_component_id}",
+                                codeId:             "${results[i].sha1}"
+                                })
+                                
+                                
+                                `
+                                newCode += newCode2
+                            }
 
 
 
