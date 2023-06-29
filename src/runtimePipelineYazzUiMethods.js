@@ -4949,9 +4949,11 @@ return {}
                 this.in_generate_code_from_model = true
                 if (GLOBALS.online && this.design_mode) {
 
-                    let subComponents = yz.getValueOfCodeString(this.text, "sub_components")
-                    let subComponentsMap = {}
-
+                    //
+                    // store the subcomponent types that this app depends on
+                    //
+                    let subComponents       = yz.getValueOfCodeString(this.text, "sub_components")
+                    let subComponentsMap    = {}
 
                     if (subComponents) {
                         this.text = yz.deleteCodeString(this.text, "sub_components")
@@ -4963,9 +4965,8 @@ return {}
                         let subComponentName = subComponents[tt]
                         subComponentsMap[subComponentName] = {}
                     }
+
                     let forms = mm.getForms()
-
-
                     for (  let formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
                         let formName = forms[formIndex].name
 
@@ -4978,31 +4979,21 @@ return {}
                             }
                         }
                     }
-                    let newListOfSubcomponents = Object.keys(  subComponentsMap  )
-                    this.text = yz.insertCodeString(this.text, "sub_components", newListOfSubcomponents)
+                    let newListOfSubcomponents  = Object.keys(  subComponentsMap  )
+                    this.text                   = yz.insertCodeString(  this.text, "sub_components", newListOfSubcomponents)
 
 
-                    this.text = yz.deleteCodeString(  this.text, "component_type")
-
-                    this.text = yz.insertCodeString(  this.text,
-                        "component_type",
-                        "APP")
-
-                    this.text = yz.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
-
-                    this.text = yz.insertCodeString(  this.text,
-                        "formEditor",
-                        mm.model,
-                        ")//form" + "Editor")
 
 
-                    this.text = yz.deleteCodeString(  this.text, "properties", ")//prope" + "rties")
-
-                    this.text = yz.insertCodeString(  this.text,
-                        "properties",
-                        mm.model.app_properties,
-                        ")//prope" + "rties")
-
+                    //
+                    // other stuff
+                    //
+                    this.text   = yz.deleteCodeString(  this.text, "component_type")
+                    this.text   = yz.insertCodeString(  this.text, "component_type", "APP")
+                    this.text   = yz.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
+                    this.text   = yz.insertCodeString(  this.text, "formEditor", mm.model, ")//form" + "Editor")
+                    this.text   = yz.deleteCodeString(  this.text, "properties", ")//prope" + "rties")
+                    this.text   = yz.insertCodeString(  this.text, "properties", mm.model.app_properties, ")//prope" + "rties")
 
                     let codeChanges = yz.getValueOfCodeString(this.text,"code_changes",")//code_" + "changes")
                     if (codeChanges) {
@@ -5011,14 +5002,12 @@ return {}
                     if (!this.code_changes) {
                         this.code_changes = []
                     }
-                    this.text = yz.insertCodeString(  this.text,
+                    this.text = yz.insertCodeString(
+                        this.text,
                         "code_changes",
                         this.code_changes,
                         ")//code_" + "changes")
 
-
-
-                    //console.log("end generateCodeFromModel.Done")
                     this.in_generate_code_from_model = false
                     return
                 }
