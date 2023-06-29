@@ -79,7 +79,6 @@ let stmtInsertMetaMaskLogin;
 let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
 let stmtInsertReleasedComponentListItem;
-let stmtUpdateReleasedComponentList;
 let stmtInsertIconImageData;
 let setProcessToRunning;
 let setProcessToIdle;
@@ -1766,12 +1765,6 @@ function        setUpSql                                (  ) {
                                                values (?,?,?,?,?,?,?,?,?,?)`)
 
 
-    stmtUpdateReleasedComponentList = dbsearch.prepare(`update yz_cache_released_components 
-                                            set 
-                                                ipfs_hash = ?  
-                                            where
-                                               base_component_id  = ?
-                                               `)
 
 
     stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
@@ -3681,36 +3674,32 @@ async function  releaseCode                             (  commitId  ) {
     let promise = new Promise(async function(returnfn) {
 
         let componentListRecord = await yz.getQuickSqlOneRow(dbsearch, "select * from yz_cache_released_components where base_component_id = ?", [base_component_id])
-        if (!componentListRecord) {
-            dbsearch.serialize(function () {
-                dbsearch.run("begin exclusive transaction");
-                dbsearch.run("commit", function () {
-                    dbsearch.serialize(function () {
-                        dbsearch.run("begin exclusive transaction");
-                        stmtInsertReleasedComponentListItem.run(
-                            id, base_component_id, app_name, component_type,
-                            app_description, icon_image_id, ipfs_hash, '',
-                            readWriteStatus, codeString)
-                        dbsearch.run("commit")
-                        returnfn()
-                    })
-                })
 
-            })
-        } else {
-            dbsearch.serialize(function () {
-                dbsearch.run("begin exclusive transaction");
-                dbsearch.run("commit", function () {
-                    dbsearch.serialize(function () {
-                        dbsearch.run("begin exclusive transaction");
-                        stmtUpdateReleasedComponentList.run(ipfs_hash, base_component_id)
-                        dbsearch.run("commit")
-                        returnfn()
-                    })
-                })
-
-            })
+        if (componentListRecord) {
+            await yz.executeQuickSql(
+                dbsearch,
+                `delete from
+                    yz_cache_released_components 
+                where
+                   base_component_id  = ?`,
+                [   base_component_id   ])
         }
+
+        dbsearch.serialize(function () {
+            dbsearch.run("begin exclusive transaction");
+            dbsearch.run("commit", function () {
+                dbsearch.serialize(function () {
+                    dbsearch.run("begin exclusive transaction");
+                    stmtInsertReleasedComponentListItem.run(
+                        id, base_component_id, app_name, component_type,
+                        app_description, icon_image_id, ipfs_hash, '',
+                        readWriteStatus, codeString)
+                    dbsearch.run("commit")
+                    returnfn()
+                })
+            })
+
+        })
     })
     let ret2 = await promise
     return ret2
