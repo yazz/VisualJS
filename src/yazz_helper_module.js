@@ -860,137 +860,113 @@ return code
                             for (let i = 0  ;   i < results.length;    i ++ ) {
                                 if (!results[i].child_code_id) {
 
-                                let sqlR = await mm.getQuickSqlOneRow(
-                                thisDb
-                                ,
-                                "select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
-                                ,
-                                [  results[i].child_base_component_id  ])
+                                    let sqlR = await mm.getQuickSqlOneRow(
+                                        thisDb
+                                        ,
+                                        "select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
+                                        ,
+                                        [  results[i].child_base_component_id  ])
 
 
-                                if (!sqlR) {
-                                sqlR = await mm.getQuickSqlOneRow(
-                                thisDb
-                                ,
-                                "select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
-                                ,
-                                [  results[i].child_base_component_id  ])
-                                }
+                                    if (!sqlR) {
+                                        sqlR = await mm.getQuickSqlOneRow(
+                                            thisDb
+                                            ,
+                                            "select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
+                                            ,
+                                            [  results[i].child_base_component_id  ])
+                                    }
 
-                                results[i].sha1 = sqlR.id
-                                results[i].child_code_id = results[i].sha1
+                                    results[i].sha1             = sqlR.id
+                                    results[i].child_code_id    = results[i].sha1
+
+
                                 } else {
-                                results[i].sha1 = results[i].child_code_id
+                                    results[i].sha1 = results[i].child_code_id
                                 }
 
                                 let sqlr2 = await mm.getQuickSqlOneRow(
-                                thisDb,
-                                "select  code  from   system_code where id = ? ",
-                                [  results[i].child_code_id  ])
+                                    thisDb
+                                    ,
+                                    "select  code  from   system_code where id = ? "
+                                    ,
+                                    [  results[i].child_code_id  ])
 
                                 results[i].code = sqlr2.code
 
-                                let newcodeEs = escape("(" + results[i].code.toString() + ")")
-                                let newCode2 =  `
-                                
-                                
-                                GLOBALS.cacheThisComponentCode(
-                                {   
-                                codeId:             "${results[i].sha1}",
-                                code:                unescape(\`${newcodeEs}\`)
-                                })
-                                
-                                GLOBALS.pointBaseComponentIdAtCode(
-                                {   
-                                baseComponentId:    "${results[i].child_base_component_id}",
-                                codeId:             "${results[i].sha1}"
-                                })
-                                
-                                
-                                `
+                                let newcodeEs   = escape("(" + results[i].code.toString() + ")")
+                                let newCode2    =
+                                    `
+                                    GLOBALS.cacheThisComponentCode(
+                                    {   
+                                    codeId:             "${results[i].sha1}",
+                                    code:                unescape(\`${newcodeEs}\`)
+                                    })
+                                    
+                                    GLOBALS.pointBaseComponentIdAtCode(
+                                    {   
+                                    baseComponentId:    "${results[i].child_base_component_id}",
+                                    codeId:             "${results[i].sha1}"
+                                    })`
                                 newCode += newCode2
+                            }
+
+                            newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
+                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
+                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
+
+                            //
+                            // we use "slice" here as string replace doesn't work with large strings (over 1MB) and most of the aframe and js
+                            // code we insert is LARGE!!
+                            //
+                            let pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
+                            newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
+
+
+                            //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
+                            fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
+
+
+
+                            //
+                            // save the standalone app
+                            //
+                            if (options && options.allowAppToWorkOffline) {
+                                sqliteCode = fs.readFileSync(path.join(__dirname, '../public/sql.js'))
+                                let indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
+                                newStaticFileContent = newStaticFileContent.substring(0, indexOfSqlite) +
+                                    sqliteCode +
+                                    newStaticFileContent.substring(indexOfSqlite)
+                                newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/", "/*use_local_sqlite_end*/", "let localAppshareApp = true")
                             }
 
 
 
+                            let dbToUse = baseComponentId
+                            if (useDb) {
+                                dbToUse = useDb
+                            }
+                            let sqliteAppDbPath = path.join( mm.userData, 'app_dbs/' + dbToUse + '.visi' )
 
 
-                                            //showTimer(`15.1`)
-                                            newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
+                            if (options && options.allowAppToWorkOffline) {
+                                if (fs.existsSync(sqliteAppDbPath)) {
+                                    //showTimer(`15.5`)
+                                    let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
+                                    let indexOfSqliteData = newStaticFileContent.indexOf("let sqlitedata = ''")
 
 
+                                    newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
+                                        "'" + sqliteAppDbContent + "'//sqlitedata" +
+                                        newStaticFileContent.substring(indexOfSqliteData + 19)
 
-                                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
-                                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
+                                }
+                            }
 
-                                            //
-                                            // we use "slice" here as string replace doesn't work with large strings (over 1MB) and most of the aframe and js
-                                            // code we insert is LARGE!!
-                                            //
-                                            let pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
-                                            newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
-                                            //showTimer(`15.2`)
-
-
-                                            //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )
-                                            fs.writeFileSync( newStaticFilePath,  newStaticFileContent )
-
-
-                                            //showTimer(`15.3`)
-
-                                            //
-                                            // save the standalone app
-                                            //
-                                            if (options && options.allowAppToWorkOffline) {
-                                                sqliteCode = fs.readFileSync(path.join(__dirname, '../public/sql.js'))
-                                                let indexOfSqlite = newStaticFileContent.indexOf("//SQLITE")
-                                                newStaticFileContent = newStaticFileContent.substring(0, indexOfSqlite) +
-                                                    sqliteCode +
-                                                    newStaticFileContent.substring(indexOfSqlite)
-                                                newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/", "/*use_local_sqlite_end*/", "let localAppshareApp = true")
-                                            }
-
-
-                                            //showTimer(`15.4`)
-
-                                            let dbToUse = baseComponentId
-                                            if (useDb) {
-                                                dbToUse = useDb
-                                            }
-                                            let sqliteAppDbPath = path.join( mm.userData, 'app_dbs/' + dbToUse + '.visi' )
-
-
-                                            if (options && options.allowAppToWorkOffline) {
-                                                if (fs.existsSync(sqliteAppDbPath)) {
-                                                    //showTimer(`15.5`)
-                                                    let sqliteAppDbContent = fs.readFileSync( sqliteAppDbPath , 'base64')
-                                                    let indexOfSqliteData = newStaticFileContent.indexOf("let sqlitedata = ''")
-
-
-                                                    newStaticFileContent = newStaticFileContent.substring(0,indexOfSqliteData + 17) +
-                                                        "'" + sqliteAppDbContent + "'//sqlitedata" +
-                                                        newStaticFileContent.substring(indexOfSqliteData + 19)
-
-                                                }
-                                            }
-                                            //showTimer(`15.6`)
-
-                                            fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
-                                            fs.writeFileSync( newLocalJSPath,  code )
-                                            fs.writeFileSync( newLocalYazzPath,  code )
-                                            //showTimer(`15.7`)
-
-
-                            //showTimer(`15.8`)
+                            fs.writeFileSync( newLocalStaticFilePath,  newStaticFileContent )
+                            fs.writeFileSync( newLocalJSPath,  code )
+                            fs.writeFileSync( newLocalYazzPath,  code )
                         }
-                        //showTimer(`15.9`)
-
-
-
-
-
-
-                        //showTimer(`16`)
 
 
 
