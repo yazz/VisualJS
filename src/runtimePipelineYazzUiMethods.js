@@ -4924,21 +4924,22 @@ return {}
                 return json2
             },
             generateCodeFromModel:                  async function  (  ) {
-                /*      ________________________________________
-                        |                                      |
-                        |       generateCodeFromModel          |
-                        |                                      |
-                        |______________________________________|
+                /*
+                ________________________________________
+                |                                      |
+                |       generateCodeFromModel          |
+                |                                      |
+                |______________________________________|
 
-                        Generates new code based on the "model"
+                Generates new code based on the "model"
 
-                        __________
-                        | Params |
-                        |        |_________________________________________
-                        |
-                        |   NONE
-                        |
-                        |__________________________________________________ */
+                __________
+                | Params |
+                |        |_________________________________________
+                |
+                |   NONE
+                |
+                |__________________________________________________ */
                 let mm = this
                 if (this.in_generate_code_from_model) {
                     return
@@ -5013,22 +5014,22 @@ return {}
                 }
             },
             openFile:                               async function  () {
-                /*      ________________________________________
-                        |                                      |
-                        |               openFile               |
-                        |                                      |
-                        |______________________________________|
+                /*
+                ________________________________________
+                |                                      |
+                |               openFile               |
+                |                                      |
+                |______________________________________|
 
-                        Opens a file from the file system
+                Opens a file from the file system
 
-                        __________
-                        | Params |
-                        |        |_________________________________________
-                        |
-                        |     NONE
-                        |
-                        |__________________________________________________ */
-                //alert(1)
+                __________
+                | Params |
+                |        |_________________________________________
+                |
+                |     NONE
+                |
+                |__________________________________________________ */
                 //document.getElementById("openfilefromhomepage").click();
                 this.showFilePicker = true
                 let result = await callComponent(
@@ -5054,7 +5055,7 @@ return {}
                 /*
                 ________________________________________
                 |                                      |
-                |                   |
+                |          selectOpenFileOrFolder      |
                 |                                      |
                 |______________________________________|
 
