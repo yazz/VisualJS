@@ -536,6 +536,20 @@
                     }
                     return "Error: No Type Name"
                 },
+                getTypeDisplayIcon:             function        (   args   ) {
+                    let codeId = null
+                    if ((args.codeId == null) || (args.codeId == "")) {
+                        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                    } else {
+                        codeId = args.codeId
+                    }
+                    let code = GLOBALS.getCodeForComponent({codeId: codeId})
+                    if (code) {
+                        let displayName = yz.getValueOfCodeString(code, "logo_url")
+                        return displayName
+                    }
+                    return "Error: No Type Icon"
+                },
                 getPipelineCodeFromServer:      async function  (   fileName   ) {
                     let resultsCode = await postToYazzReturnJson(
                         "/http_post_load_pipeline_code",
