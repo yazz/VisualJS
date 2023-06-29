@@ -4985,6 +4985,46 @@ return {}
 
 
 
+                    //
+                    // store the subcomponent types that this app depends on (BY CODE ID)
+                    //
+                    let subComponentsByCodeid       = yz.getValueOfCodeString(this.text, "sub_components_by_code_id")
+                    let subComponentsMapByCodeid    = {}
+
+                    if (subComponentsByCodeid) {
+                        this.text = yz.deleteCodeString(this.text, "sub_components_by_code_id")
+                    } else {
+                        subComponentsByCodeid = []
+                    }
+
+                    for (let tt = 0; tt < subComponentsByCodeid.length ; tt++) {
+                        let subComponentName = subComponentsByCodeid[tt]
+                        subComponentsMapByCodeid[subComponentName] = {}
+                    }
+
+                    for (  let formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
+                        let formName = forms[formIndex].name
+
+                        for (  let compenentInFormIndex = 0;  compenentInFormIndex < mm.model.forms[formName].components.length;  compenentInFormIndex ++  ) {
+                            let newItem = mm.model.forms[formName].components[compenentInFormIndex]
+                            if (newItem && newItem.base_component_id) {
+                                if (!subComponentsMapByCodeid[newItem.base_component_id]) {
+                                    subComponentsMapByCodeid[newItem.base_component_id] = {}
+                                }
+                            }
+                        }
+                    }
+                    let newListOfSubcomponentsByCodeid  = Object.keys(  subComponentsMapByCodeid  )
+                    this.text                   = yz.insertCodeString(  this.text, "sub_components_by_code_id", newListOfSubcomponentsByCodeid)
+
+
+
+
+
+
+
+
+
 
                     //
                     // other stuff
