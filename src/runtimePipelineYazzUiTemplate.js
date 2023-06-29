@@ -2334,12 +2334,16 @@ Pushlist
                                                 style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
                                                 class='col-md-12 small'>
 
-                                            {{GLOBALS.getTypeDisplayIcon(
-                                                {
-                                                    baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
-                                                    codeId:             model.forms[active_form].components[active_component_index].code_id
-                                                })
-                                            }}
+                                            <img    v-bind:src='GLOBALS.getTypeDisplayIcon(
+                                                                    {
+                                                                        baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
+                                                                        codeId:             model.forms[active_form].components[active_component_index].code_id
+                                                                    })
+                                                                '
+                                                    style='height: 20px;'
+                                                    class='img-fluid'>
+                                            </img>
+                                            
 
                                         </div>       
                                         
