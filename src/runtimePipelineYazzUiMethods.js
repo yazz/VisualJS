@@ -6364,8 +6364,7 @@ return {}
                     let formName = forms[formIndex].name
 
                     let formProps = mm.getFormProperties()
-                    for (let cpp = 0 ; cpp < formProps.length; cpp ++) {
-                        let formprop = formProps[cpp]
+                    for (let formprop   of    formProps   ) {
                         let formDef = mm.model.forms[formName]
                         if (formprop.type == "Action") {
                             formDef[formprop.id] =
@@ -6403,8 +6402,7 @@ return {}
                     // For each app property
                     // ---------------------------------------------------------
                     let appProps = mm.getAllAppPropeties()
-                    for (let appPropIndex = 0 ; appPropIndex < appProps.length ; appPropIndex ++ ) {
-                        let propDetails = appProps[appPropIndex]
+                    for (  let propDetails   of   appProps  ) {
                         if (propDetails.type == "Action") {
                             mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
                         } else if (!isValidObject(mm.model[propDetails.id])){
@@ -6466,8 +6464,7 @@ return {}
                 // start of update all watched vars when a form is activated
                 //
                 if (!this.design_mode) {
-                    for (let componentIndex = 0; componentIndex < mm.model.forms[this.active_form].components.length; componentIndex++){
-                        let thisComponent = mm.model.forms[this.active_form].components[componentIndex]
+                    for (let thisComponent    of    mm.model.forms[this.active_form].components  ){
                         let uuid = thisComponent.uuid
                         //console.log("UUID: " + JSON.stringify(uuid,null,2))
                         //console.log(this.watchList[uuid])
