@@ -4988,19 +4988,22 @@ return {}
                     //
                     // store the subcomponent types that this app depends on (BY CODE ID or BCI) = v2
                     //
-                    let subComponentsByCodeid       = yz.getValueOfCodeString(this.text, "sub_components_v2")
-                    let subComponentsMapByBCI       = {}
-                    let subComponentsMapByCodeid    = {}
-
-                    if (subComponentsByCodeid) {
+                    let subComponentsv2 = yz.getValueOfCodeString(this.text, "sub_components_v2")
+                    if (subComponentsv2) {
                         this.text = yz.deleteCodeString(this.text, "sub_components_v2")
                     } else {
-                        subComponentsByCodeid = []
+                        subComponentsv2 = []
                     }
 
-                    for (let tt = 0; tt < subComponentsByCodeid.length ; tt++) {
-                        let subComponentName = subComponentsByCodeid[tt]
-                        subComponentsMapByCodeid[subComponentName] = {}
+                    let mapSubComponentsByBCI = {}
+                    let mapSubComponentsByCodeId = {}
+                    for (let tt = 0; tt < subComponentsv2.length ; tt++) {
+                        let subComponentInfo = subComponentsv2[tt]
+                        if (subComponentInfo.code_id) {
+                            mapSubComponentsByCodeId[   subComponentInfo.code_id            ] = {}
+                        } else {
+                            mapSubComponentsByBCI[      subComponentInfo.base_component_id  ] = {}
+                        }
                     }
 
                     for (  let formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
@@ -5008,15 +5011,21 @@ return {}
 
                         for (  let compenentInFormIndex = 0;  compenentInFormIndex < mm.model.forms[formName].components.length;  compenentInFormIndex ++  ) {
                             let newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                            if (newItem && newItem.base_component_id) {
-                                if (!subComponentsMapByCodeid[newItem.base_component_id]) {
-                                    subComponentsMapByCodeid[newItem.base_component_id] = {}
+                            if (newItem && newItem.code_id && newItem.code_id != "") {
+                                if (!mapSubComponentsByCodeId[newItem.code_id]) {
+                                    mapSubComponentsByCodeId[newItem.code_id] = {}
                                 }
+                            } else if (newItem && newItem.base_component_id) {
+                                mapSubComponentsByBCI[newItem.base_component_id] = {}
                             }
                         }
                     }
-                    let newListOfSubcomponentsByCodeid  = Object.keys(  subComponentsMapByCodeid  )
-                    this.text                   = yz.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsByCodeid)
+                    debugger
+                    let newListOfSubcomponentsV2  = []
+                    for (let bcikey of Object.keys(mapSubComponentsByBCI)) {
+                        newListOfSubcomponentsV2.push({base_component_id: bcikey})
+                    }
+                    this.text                   = yz.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsV2)
 
 
 
