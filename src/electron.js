@@ -3786,25 +3786,17 @@ async function  copyAppshareApp                         (  args  ) {
 
     async function saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
 
-        let listOfSubComponentsRes  = await yz.getSubComponents(code)
-        var listOfSubComponents     = []
         let dbToCopyFrom            = argsBaseComponentId
         let altDbUsed               = yz.getValueOfCodeString(code,"use_db")
         let logoUrl                 = yz.getValueOfCodeString(code,"logo_url")
         let codeIdRet               = null
         let saveret
 
-        for (var yuy = 0; yuy < listOfSubComponentsRes.length ; yuy++ ) {
-
-            listOfSubComponents.push( listOfSubComponentsRes[yuy].child_base_component_id )
-
-        }
         console.log("    async function saveCopyOfAppWithDependencies( " + argsBaseComponentId)
         console.log("              newBaseid:           " + newBaseid)
         console.log("              parentHashId:        " + parentHashId)
         console.log("              argsBaseComponentId: " + argsBaseComponentId)
         console.log("              userId:              " + userId)
-        //console.log("              code:                " + code)
 
         if (altDbUsed) {
             dbToCopyFrom = altDbUsed
@@ -3814,7 +3806,6 @@ async function  copyAppshareApp                         (  args  ) {
             dbsearch,
             code,
             {
-                sub_components:         listOfSubComponents,
                 copy_db_from:           dbToCopyFrom,
                 save_html:              true,
                 userId:                 userId
