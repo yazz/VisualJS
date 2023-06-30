@@ -4950,41 +4950,6 @@ return {}
                 if (GLOBALS.online && this.design_mode) {
 
                     //
-                    // store the subcomponent types that this app depends on
-                    //
-                    let subComponents       = yz.getValueOfCodeString(this.text, "sub_components")
-                    let subComponentsMap    = {}
-
-                    if (subComponents) {
-                        this.text = yz.deleteCodeString(this.text, "sub_components")
-                    } else {
-                        subComponents = []
-                    }
-
-                    for (let tt = 0; tt < subComponents.length ; tt++) {
-                        let subComponentName = subComponents[tt]
-                        subComponentsMap[subComponentName] = {}
-                    }
-
-                    let forms = mm.getForms()
-                    for (  let formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
-                        let formName = forms[formIndex].name
-
-                        for (  let compenentInFormIndex = 0;  compenentInFormIndex < mm.model.forms[formName].components.length;  compenentInFormIndex ++  ) {
-                            let newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                            if (newItem && newItem.base_component_id) {
-                                if (!subComponentsMap[newItem.base_component_id]) {
-                                    subComponentsMap[newItem.base_component_id] = {}
-                                }
-                            }
-                        }
-                    }
-                    let newListOfSubcomponents  = Object.keys(  subComponentsMap  )
-                    this.text                   = yz.insertCodeString(  this.text, "sub_components", newListOfSubcomponents)
-
-
-
-                    //
                     // store the subcomponent types that this app depends on (BY CODE ID or BCI) = v2
                     //
                     let subComponentsv2 = yz.getValueOfCodeString(this.text, "sub_components_v2")
@@ -5005,6 +4970,7 @@ return {}
                         }
                     }
 
+                    let forms = mm.getForms()
                     for (  let formIndex = 0;  formIndex < forms.length;  formIndex ++  ) {
                         let formName = forms[formIndex].name
 
