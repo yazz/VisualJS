@@ -4988,11 +4988,11 @@ return {}
                     //
                     // store the subcomponent types that this app depends on (BY CODE ID)
                     //
-                    let subComponentsByCodeid       = yz.getValueOfCodeString(this.text, "sub_components_by_code_id")
+                    let subComponentsByCodeid       = yz.getValueOfCodeString(this.text, "sub_components_v2")
                     let subComponentsMapByCodeid    = {}
 
                     if (subComponentsByCodeid) {
-                        this.text = yz.deleteCodeString(this.text, "sub_components_by_code_id")
+                        this.text = yz.deleteCodeString(this.text, "sub_components_v2")
                     } else {
                         subComponentsByCodeid = []
                     }
@@ -5015,7 +5015,7 @@ return {}
                         }
                     }
                     let newListOfSubcomponentsByCodeid  = Object.keys(  subComponentsMapByCodeid  )
-                    this.text                   = yz.insertCodeString(  this.text, "sub_components_by_code_id", newListOfSubcomponentsByCodeid)
+                    this.text                   = yz.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsByCodeid)
 
 
 
