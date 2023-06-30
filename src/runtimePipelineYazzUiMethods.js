@@ -6387,9 +6387,8 @@ return {}
                                      | this form
                                      |_____________________________________________________
                     */
-                    for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
+                    for (   let newItem   of   mm.model.forms[formName].components   )
                     {
-                        let newItem = mm.model.forms[formName].components[compenentInFormIndex]
                         await GLOBALS.makeSureUiComponentLoadedV5(
                             {
                                 baseComponentId:   newItem.base_component_id,
