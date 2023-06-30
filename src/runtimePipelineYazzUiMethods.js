@@ -6387,21 +6387,16 @@ return {}
                                      | this form
                                      |_____________________________________________________
                     */
-                    let compsToLoad = []
                     for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                     {
                         let newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                        //if (!GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
-                        if (!GLOBALS.isComponentLoaded({baseComponentId: newItem.base_component_id})) {
-                            compsToLoad.push(
-                                {
-                                    baseComponentId:   newItem.base_component_id,
-                                    codeId:            newItem.code_id
-                                }
-                            )
-                        }
+                        await GLOBALS.makeSureUiComponentLoadedV5(
+                            {
+                                baseComponentId:   newItem.base_component_id,
+                                codeId:            newItem.code_id
+                            }
+                        )
                     }
-                    await GLOBALS.makeSureUiComponentLoadedV5(compsToLoad)
 
 
 
