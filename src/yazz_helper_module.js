@@ -196,7 +196,7 @@ return code
     getSubComponents:               async function  (  srcCode  ) {
         let yz = this
 
-        let subC = yz.getValueOfCodeString(srcCode,"sub_components")
+        let subC = yz.getValueOfCodeString(srcCode,"sub_components_v2")
         if (!subC) {
             return []
         }
@@ -204,8 +204,10 @@ return code
         for (let subComponent  of  subC) {
             if (typeof subComponent === 'string' || subComponent instanceof String) {
                 retRes.push({child_base_component_id: subComponent})
+            } else if (subComponent.code_id != null && (subComponent.code_id != "")) {
+                retRes.push({child_base_component_id: subComponent.base_component_id, child_code_id: subComponent.code_id})
             } else {
-                retRes.push(subComponent)
+                retRes.push({child_base_component_id: subComponent.base_component_id})
             }
         }
         return retRes
