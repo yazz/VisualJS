@@ -6421,43 +6421,21 @@ return {}
                 // For each form ...
                 // ---------------------------------------------------------
 
-
-                //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
-
-
-
                 //
-                // get the availabe components
+                // get the available components
                 //
                 if (GLOBALS.online) {
-                    //debugger
                     await mm.loadControlPalette()
                 }
 
-
-
-
-
-
-
                 mm.updateAllFormCaches()
-                //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
-
-
-
-                //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
-
-
                 mm.$forceUpdate();
-                //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
-
                 mm.updatePropertySelector()
 
                 texti = null
 
                 setTimeout(async function(){
                     mm.selectForm(mm.model.default_form)
-
                 },500)
 
 
@@ -6478,9 +6456,9 @@ return {}
                 })
 
                 hideProgressBar()
-                mm.in_change_model = false
+                mm.in_change_model  = false
+                mm.old_model        = JSON.parse(JSON.stringify(mm.model));
 
-                mm.old_model = JSON.parse(JSON.stringify(mm.model));
 
 
 
@@ -6560,14 +6538,15 @@ return {}
 
 
                 /*
-         _______________________________________
-         |    mounted                           |
-         |_________________                     |____________
-                          | Change a UI control in the app
-                          | after the Ui control class definition
-                          | has been edited in another editor
-                          |__________________________________
-         */            if (mm.design_mode) {
+                 _______________________________________
+                 |    mounted                           |
+                 |_________________                     |____________
+                                  | Change a UI control in the app
+                                  | after the Ui control class definition
+                                  | has been edited in another editor
+                                  |__________________________________
+                 */
+                if (mm.design_mode) {
 
                     if (GLOBALS.subEditorAction == "FORK_CONTROL") {
                             setTimeout(function(){
@@ -6619,12 +6598,12 @@ return {}
                 }
 
 
-//
-// This is only used when previewing a component. Since we use the "Totally Blank App"
-// for previews we need to see if the argument 'control_type' is passed in, and if
-// it is then we add the component being previewed instead
-//
-// START
+                //
+                // This is only used when previewing a component. Since we use the "Totally Blank App"
+                // for previews we need to see if the argument 'control_type' is passed in, and if
+                // it is then we add the component being previewed instead
+                //
+                // START
                 setTimeout(async function(){
                 if (mm.args && mm.args.control_type) {
 
@@ -6641,7 +6620,7 @@ return {}
                         if (mm.args.control_code_id) {
                             compArgs.code_id = mm.args.control_code_id
                         }
-    //debugger
+
                         await mm.addComponentV2(
                             200,
                             200,
@@ -6652,8 +6631,8 @@ return {}
                     },200)
                 }
                 },800)
-// END
-//
+                // END
+                //
 
                 setTimeout(async function(){
                     if (GLOBALS.isStaticHtmlPageApp) {
