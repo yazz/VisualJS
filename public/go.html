@@ -1221,9 +1221,9 @@
                                                  | HTML page then run the SQL queries
                                                  | from the embedded SQLite database
                                                  |__________________________________ */
+                        let component_type = yz.getValueOfCodeString(code, "component_type")
                         let addP = "'" + codeId + "', '" + useDb + "', "
-                        if (localAppshareApp) {
-
+                        if (localAppshareApp && ((component_type == "APP") || (component_type == "SYSTEM"))) {
                             if (sqlitedata) {
                                 let b = base64ToUint8Array(sqlitedata)
                                 localSqliteDb = new SQL.Database(b);
@@ -1257,7 +1257,6 @@
                                                  |__________________________________ */
                         let trcode2 = "(" + code + ")"
 
-                        let component_type = yz.getValueOfCodeString(code, "component_type")
                         if (
                             (component_type != "APP") &&
                             (component_type != "SYSTEM") &&

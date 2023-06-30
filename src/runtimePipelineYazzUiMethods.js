@@ -4978,7 +4978,7 @@ return {}
                     for (let codeIdkey of Object.keys(mapSubComponentsByCodeId)) {
                         newListOfSubcomponentsV2.push({base_component_id: mapSubComponentsByCodeId[codeIdkey].base_component_id, code_id: codeIdkey})
                     }
-                    debugger
+
                     this.text = yz.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsV2)
 
 
