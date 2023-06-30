@@ -525,7 +525,6 @@
                     }
 
 
-debugger
                     /*
                     _______________________________________
                     |    addComponentV2                    |
@@ -5011,21 +5010,24 @@ return {}
 
                         for (  let compenentInFormIndex = 0;  compenentInFormIndex < mm.model.forms[formName].components.length;  compenentInFormIndex ++  ) {
                             let newItem = mm.model.forms[formName].components[compenentInFormIndex]
-                            if (newItem && newItem.code_id && newItem.code_id != "") {
+                            if (newItem && newItem.code_id && (newItem.code_id != "")) {
                                 if (!mapSubComponentsByCodeId[newItem.code_id]) {
-                                    mapSubComponentsByCodeId[newItem.code_id] = {}
+                                    mapSubComponentsByCodeId[newItem.code_id] = {base_component_id: newItem.base_component_id}
                                 }
                             } else if (newItem && newItem.base_component_id) {
                                 mapSubComponentsByBCI[newItem.base_component_id] = {}
                             }
                         }
                     }
-                    debugger
                     let newListOfSubcomponentsV2  = []
                     for (let bcikey of Object.keys(mapSubComponentsByBCI)) {
                         newListOfSubcomponentsV2.push({base_component_id: bcikey})
                     }
-                    this.text                   = yz.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsV2)
+                    debugger
+                    for (let codeIdkey of Object.keys(mapSubComponentsByCodeId)) {
+                        newListOfSubcomponentsV2.push({base_component_id: mapSubComponentsByCodeId[codeIdkey].base_component_id, code_id: codeIdkey})
+                    }
+                    this.text = yz.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsV2)
 
 
 
