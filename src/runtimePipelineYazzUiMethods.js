@@ -86,19 +86,6 @@
                     for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                     {
                         // ---------------------------------------------------------
-                        // ... Make sure that the component is added as a
-                        //     dependency of this app (Useful for
-                        //     when we compile the app as standalone HTML)
-                        // ---------------------------------------------------------
-
-                        let componentConfig = mm.model.forms[formName].components[compenentInFormIndex]
-                        if (mm.edited_app_component_id) {
-                            mm.components_used_in_this_app[  componentConfig.base_component_id  ] = true
-                        }
-
-
-
-                        // ---------------------------------------------------------
                         // ...
                         //
                         //
@@ -565,7 +552,6 @@
                         await GLOBALS.makeSureUiComponentLoadedV5([newItem.base_component_id])
                         newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
                     }
-                    mm.components_used_in_this_app[newItem.base_component_id] = true
 
                     //qqqDONE
                     //if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
@@ -6324,7 +6310,6 @@ return {}
                 |________________________________________________________________________ */
                 let mm                          = this
                 let json2
-                let subComponentsUsedInThisApp
 
                 mm.unique_app_dom_element_id    = uuidv4()
                 mm.vb_grid_element_id           = "vb_grid_"+ uuidv4()
@@ -6363,30 +6348,6 @@ return {}
                     mm.read_only                = yz.getValueOfCodeString(texti, "read_only")
                 }
                 mm.active_form = mm.model.default_form
-
-
-
-
-
-
-                /*
-                ________________________________________
-                |    mounted                           |
-                |_________________                     |_______________________________
-                                 | find out which sub components are used by this app
-                                 | and save the result in "this.components_used_in_this_app"
-                                 | which just sets the value to "true" for the base_component_id
-                                 | of that component
-                                 |_____________________________________________________
-                */
-                if (mm.edited_app_component_id) {
-                    subComponentsUsedInThisApp = await getSubComponents(mm.text)
-
-                    for (let i = 0; i < subComponentsUsedInThisApp.length; i++) {
-                        mm.components_used_in_this_app[subComponentsUsedInThisApp[i].child_base_component_id] = true
-                    }
-                }
-
 
 
 
@@ -6965,7 +6926,6 @@ __________
                 design_mode_pane:                    {type: "drag_drop"},
                 show_advanced_transform:             false,
                 available_components:                [],
-                components_used_in_this_app:         new Object(),
                 ui_code_editor:                      null,
                 form_runtime_info:                   {},
                 active_form:                         "Form_1",
