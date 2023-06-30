@@ -78,6 +78,17 @@ sub_components([
   "horiz_scroll_control",
   "vert_scroll_control"
 ])
+sub_components_v2([
+  { base_component_id: "app_editor_3"           },
+  { base_component_id: "vb_editor_component"    },
+  { base_component_id: "input_control"          },
+  { base_component_id: "button_control"         },
+  { base_component_id: "label_control"          },
+  { base_component_id: "table_control"          },
+  { base_component_id: "group_control"          },
+  { base_component_id: "horiz_scroll_control"   },
+  { base_component_id: "vert_scroll_control"    }
+])
 base_component_id("yazz_blank")
 visibility("PRIVATE")
 display_name("GUI App")

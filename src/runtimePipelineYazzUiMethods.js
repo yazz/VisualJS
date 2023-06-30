@@ -4986,9 +4986,10 @@ return {}
 
 
                     //
-                    // store the subcomponent types that this app depends on (BY CODE ID)
+                    // store the subcomponent types that this app depends on (BY CODE ID or BCI) = v2
                     //
                     let subComponentsByCodeid       = yz.getValueOfCodeString(this.text, "sub_components_v2")
+                    let subComponentsMapByBCI       = {}
                     let subComponentsMapByCodeid    = {}
 
                     if (subComponentsByCodeid) {
