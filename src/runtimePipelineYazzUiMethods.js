@@ -4999,9 +4999,9 @@ return {}
                     for (let tt = 0; tt < subComponentsv2.length ; tt++) {
                         let subComponentInfo = subComponentsv2[tt]
                         if (subComponentInfo.code_id) {
-                            mapSubComponentsByCodeId[   subComponentInfo.code_id            ] = {}
+                            mapSubComponentsByCodeId[ subComponentInfo.code_id ] = { base_component_id: subComponentInfo.base_component_id }
                         } else {
-                            mapSubComponentsByBCI[      subComponentInfo.base_component_id  ] = {}
+                            mapSubComponentsByBCI[ subComponentInfo.base_component_id ] = {}
                         }
                     }
 
@@ -5023,10 +5023,10 @@ return {}
                     for (let bcikey of Object.keys(mapSubComponentsByBCI)) {
                         newListOfSubcomponentsV2.push({base_component_id: bcikey})
                     }
-                    debugger
                     for (let codeIdkey of Object.keys(mapSubComponentsByCodeId)) {
                         newListOfSubcomponentsV2.push({base_component_id: mapSubComponentsByCodeId[codeIdkey].base_component_id, code_id: codeIdkey})
                     }
+                    debugger
                     this.text = yz.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsV2)
 
 
