@@ -2606,7 +2606,9 @@
                                 submit_info_message:    "",
                                 tab:                    "",
                                 debug_sign_tx_out:      "",
-                                showSettings:           true
+                                showSettings:           true,
+                                showLoadedVueObjects:   false
+
                             }
                         }
                         ,
@@ -2757,6 +2759,25 @@
 
                                 <div v-if='tab=="debug"'>
 
+
+                        <button style="margin: 20px;"
+                              class='btn btn-lg btn-danger'
+                              v-on:click='showLoadedVueObjects = !showLoadedVueObjects'>
+                              Show Loaded Vue objects
+                        </button>
+
+
+                        <div v-if="showLoadedVueObjects">
+                            <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
+                          <pre style="color: white; overflow: scroll; height: 50%;">
+
+Code Ids:
+{{ GLOBALS.isVueLoadedForCodeId }}
+
+                          </pre>
+                        </div>
+
+
                                     <div v-if='!accountNumber'>
                                         You are not signed into Metamask. Please login first
                                     </div>
@@ -2809,13 +2830,13 @@
                         ,
                         data: function() {
                             return {
-                                count:              1,
-                                console_output:     "",
-                                selected_card:      -1,
-                                cards:              [],
-                                show_loader:        false,
-                                is_static:          false,
-                                local_app:          false
+                                count:                  1,
+                                console_output:         "",
+                                selected_card:          -1,
+                                cards:                  [],
+                                show_loader:            false,
+                                is_static:              false,
+                                local_app:              false
                             }
                         }
                         ,
