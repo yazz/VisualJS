@@ -1878,7 +1878,11 @@ End of app preview menu
 
                     mm.code_id  = await getIpfsHash(mm.editor_text)
                     GLOBALS.cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
-
+                    GLOBALS.pointBaseComponentIdAtCode(
+                        {
+                            baseComponentId:    baseCompIdFromSrcCode,
+                            codeId:             mm.code_id
+                        })
 
                     if (mm.app_shown) {
                         // if the app has been changed during the save then don't reload the app

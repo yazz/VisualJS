@@ -772,13 +772,6 @@
                     } else {
                         GLOBALS.codeCache[   args.codeId  ].properties   = []
                     }
-
-
-                    GLOBALS.pointBaseComponentIdAtCode(
-                        {
-                            baseComponentId:    baseComponentId,
-                            codeId:             args.codeId
-                        })
                 },
                 pointBaseComponentIdAtCode:     function        (   args   ) {
                     GLOBALS.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
@@ -1194,6 +1187,11 @@
                             //if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
                             let codeId = await getIpfsHash(  code  )
                             GLOBALS.cacheThisComponentCode(  {codeId: codeId,    code: code}  )
+                            GLOBALS.pointBaseComponentIdAtCode(
+                                {
+                                    baseComponentId:    baseComponentId,
+                                    codeId:             codeId
+                                })
                         }
 
 
