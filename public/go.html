@@ -1623,7 +1623,12 @@
                                 //console.log("makeSureUiComponentLoadedV5: " + componentType)
                                 //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
-                                let newDataCodeId   = GLOBALS.getCommitIdForBaseComponentId( componentType )
+                                let newDataCodeId
+                                if (whichComponentsToLoadAsTuples[tt].codeId && (whichComponentsToLoadAsTuples[tt].codeId != "")) {
+                                    newDataCodeId = whichComponentsToLoadAsTuples[tt].codeId
+                                }   else {
+                                    newDataCodeId = GLOBALS.getCommitIdForBaseComponentId( componentType )
+                                }
                                 let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
                                 let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
                                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
