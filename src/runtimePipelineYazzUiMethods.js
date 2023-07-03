@@ -6310,334 +6310,326 @@ return {}
                 |________________________________________________________________________ */
                 let mm                          = this
                 let json2
+                try {
 
-                mm.unique_app_dom_element_id    = uuidv4()
-                mm.vb_grid_element_id           = "vb_grid_"+ uuidv4()
-                mm.vb_editor_element_id         = "vb_editor_"+ uuidv4()
-                mm.local_app                    = localAppshareApp
-                mm.in_change_model              = true
+                    mm.unique_app_dom_element_id = uuidv4()
+                    mm.vb_grid_element_id = "vb_grid_" + uuidv4()
+                    mm.vb_editor_element_id = "vb_editor_" + uuidv4()
+                    mm.local_app = localAppshareApp
+                    mm.in_change_model = true
 
-                if (mm.properties && mm.args) {
-                    mm.args = {...mm.args,...mm.properties}
-                    mm.properties = mm.args
-                } else if (mm.properties) {
-                    mm.args = mm.properties
-                } else {
-                    mm.properties = mm.args
-                }
-
-                if (mm.design_mode) {
-                    disableAutoSave = false
-                }
-
-
-                /*
-                ________________________________________
-                |    mounted                           |
-                |_________________                     |_______________________________
-                                 | Get the base component ID of the code to edit/run
-                                 |
-                                 | Save it in "this.edited_app_component_id"
-                                 |_____________________________________________________
-                */
-                if (texti) {
-                    json2                       = mm.getJsonModelFromCode(  texti  )
-                    mm.old_model                = JSON.parse(JSON.stringify(json2));
-                    mm.model                    = json2
-                    mm.edited_app_component_id  = yz.getValueOfCodeString(texti, "base_component_id")
-                    mm.read_only                = yz.getValueOfCodeString(texti, "read_only")
-                }
-                mm.active_form = mm.model.default_form
-
-
-
-
-                /*
-                ________________________________________
-                |    mounted                           |
-                |_________________                     |_______________________________
-                                 | Set up all the form methods
-                                 |_____________________________________________________
-                */
-                let forms = mm.getForms()
-                for (let formIndex = 0; formIndex < forms.length; formIndex ++) {
-                    let formName = forms[formIndex].name
-
-                    let formProps = mm.getFormProperties()
-                    for (let formprop   of    formProps   ) {
-                        let formDef = mm.model.forms[formName]
-                        if (formprop.type == "Action") {
-                            formDef[formprop.id] =
-                                mm.getFormMethod(   formName   ,   formprop   )
-
-                        } else if (   !isValidObject(   formprop   )   ){
-                            formDef[formprop.id] = ""
-                        }
+                    if (mm.properties && mm.args) {
+                        mm.args = {...mm.args, ...mm.properties}
+                        mm.properties = mm.args
+                    } else if (mm.properties) {
+                        mm.args = mm.properties
+                    } else {
+                        mm.properties = mm.args
                     }
 
-
+                    if (mm.design_mode) {
+                        disableAutoSave = false
+                    }
 
 
                     /*
                     ________________________________________
                     |    mounted                           |
                     |_________________                     |_______________________________
-                                     | Load the component definitions for all components on
-                                     | this form
+                                     | Get the base component ID of the code to edit/run
+                                     |
+                                     | Save it in "this.edited_app_component_id"
                                      |_____________________________________________________
                     */
-                    for (   let newItem   of   mm.model.forms[formName].components   )
-                    {
-                        await GLOBALS.makeSureUiComponentLoadedV5(
-                            {
-                                baseComponentId:   newItem.base_component_id,
-                                codeId:            newItem.code_id
+                    if (texti) {
+                        json2 = mm.getJsonModelFromCode(texti)
+                        mm.old_model = JSON.parse(JSON.stringify(json2));
+                        mm.model = json2
+                        mm.edited_app_component_id = yz.getValueOfCodeString(texti, "base_component_id")
+                        mm.read_only = yz.getValueOfCodeString(texti, "read_only")
+                    }
+                    mm.active_form = mm.model.default_form
+
+
+                    /*
+                    ________________________________________
+                    |    mounted                           |
+                    |_________________                     |_______________________________
+                                     | Set up all the form methods
+                                     |_____________________________________________________
+                    */
+                    let forms = mm.getForms()
+                    for (let formIndex = 0; formIndex < forms.length; formIndex++) {
+                        let formName = forms[formIndex].name
+
+                        let formProps = mm.getFormProperties()
+                        for (let formprop of formProps) {
+                            let formDef = mm.model.forms[formName]
+                            if (formprop.type == "Action") {
+                                formDef[formprop.id] =
+                                    mm.getFormMethod(formName, formprop)
+
+                            } else if (!isValidObject(formprop)) {
+                                formDef[formprop.id] = ""
                             }
-                        )
-                    }
-
-
-
-                    // ---------------------------------------------------------
-                    // For each app property
-                    // ---------------------------------------------------------
-                    let appProps = mm.getAllAppPropeties()
-                    for (  let propDetails   of   appProps  ) {
-                        if (propDetails.type == "Action") {
-                            mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
-                        } else if (!isValidObject(mm.model[propDetails.id])){
-                            if (isValidObject(propDetails.default)){
-                                mm.model[propDetails.id] = propDetails.default
-                            } else if (isValidObject(propDetails.default_expression)){
-                                mm.model[propDetails.id] = eval("(" + propDetails.default_expression + ")")
-                            }
                         }
-                    }
-                }
-                // ---------------------------------------------------------
-                // For each form ...
-                // ---------------------------------------------------------
-
-                //
-                // get the available components
-                //
-                if (GLOBALS.online) {
-                    await mm.loadControlPalette()
-                }
-
-                mm.updateAllFormCaches()
-                mm.$forceUpdate();
-                mm.updatePropertySelector()
-
-                texti = null
-
-                setTimeout(async function(){
-                    mm.selectForm(mm.model.default_form)
-                },500)
 
 
-                mm.$root.$on('message', async function(text) {
-                    if (text.type == "delete_design_time_component") {
-                        if (mm.design_mode != false) {
-                            mm.model.forms[mm.active_form].components.splice(text.component_index, 1);
+                        /*
+                        ________________________________________
+                        |    mounted                           |
+                        |_________________                     |_______________________________
+                                         | Load the component definitions for all components on
+                                         | this form
+                                         |_____________________________________________________
+                        */
+                        for (let newItem of mm.model.forms[formName].components) {
+                            await GLOBALS.makeSureUiComponentLoadedV5(
+                                {
+                                    baseComponentId: newItem.base_component_id,
+                                    codeId: newItem.code_id
+                                }
+                            )
                         }
-                    } else if (text.type == "select_design_time_component") {
-                        if (mm.design_mode != false) {
-                            mm.selectComponent(text.component_index, true);
-                        }
-                    } else if (text.type == "load_controls") {
-                        if (mm.design_mode != false) {
-                            mm.loadControlPalette();
-                        }
-                    }
-                })
-
-                hideProgressBar()
-                mm.in_change_model  = false
-                mm.old_model        = JSON.parse(JSON.stringify(mm.model));
 
 
-
-
-
-                //
-                // start of update all watched vars when a form is activated
-                //
-                if (!this.design_mode) {
-                    for (let thisComponent    of    mm.model.forms[this.active_form].components  ){
-                        let uuid = thisComponent.uuid
-                        //console.log("UUID: " + JSON.stringify(uuid,null,2))
-                        //console.log(this.watchList[uuid])
-                        let ww2 = this.watchList
-                        for (let aaq=0;aaq<ww2.length;aaq++) {
-                            let ww = ww2[aaq]
-                            if (ww) {
-                                if (ww.from_component_uuid == uuid) {
-                                    //debugger
-                                    //console.log(ww)
-
-                                    let fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
-                                    //console.log("fromc: " + JSON.stringify(fromc,null,2))
-
-
-                                    let touuid = ww.to_component_uuid
-                                    let toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
-                                    //console.log("toc: " + JSON.stringify(toc,null,2))
-
-
-
-                                    //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
-                                    let vvvvvv = fromc[ww.from_component_property_name]
-                                    let toValue = JSON.parse(JSON.stringify(vvvvvv))
-
-                                    if (ww.transform_fn) {
-                                        try {
-                                            let toValueFn = eval("("+ ww.transform_fn + ")")
-                                            toValue = toValueFn(toValue)
-                                        } catch (err) {
-                                            console.log(err)
-                                        }
-                                    }
-                                    let oldValue = toc[ww.to_component_property_name]
-                                    toc[ww.to_component_property_name] = toValue
-                                    //debugger
-                                    mm.processControlEvent(
-                                        {
-                                            type:               "subcomponent_event",
-                                            form_name:           mm.active_form,
-                                            control_name:        toc.name,
-                                            sub_type:           "on_property_in",
-                                            code:                toc.on_property_in,
-                                            args:               {
-                                                from_form:           mm.active_form,
-                                                from_component:      fromc.name,
-                                                from_property:       ww.from_component_property_name,
-                                                from_value:          toValue,
-                                                to_form:             mm.active_form,
-                                                to_component:        toc.name,
-                                                to_property:         ww.to_component_property_name,
-                                                to_value:            toValue,
-                                                to_old_value:        oldValue,
-                                                to_new_value:        toValue
-                                            }
-                                        })
+                        // ---------------------------------------------------------
+                        // For each app property
+                        // ---------------------------------------------------------
+                        let appProps = mm.getAllAppPropeties()
+                        for (let propDetails of appProps) {
+                            if (propDetails.type == "Action") {
+                                mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
+                            } else if (!isValidObject(mm.model[propDetails.id])) {
+                                if (isValidObject(propDetails.default)) {
+                                    mm.model[propDetails.id] = propDetails.default
+                                } else if (isValidObject(propDetails.default_expression)) {
+                                    mm.model[propDetails.id] = eval("(" + propDetails.default_expression + ")")
                                 }
                             }
                         }
                     }
-                }
-                //
-                // end of update all watched vars when a form is activated
-                //
+                    // ---------------------------------------------------------
+                    // For each form ...
+                    // ---------------------------------------------------------
+
+                    //
+                    // get the available components
+                    //
+                    if (GLOBALS.online) {
+                        await mm.loadControlPalette()
+                    }
+
+                    mm.updateAllFormCaches()
+                    mm.$forceUpdate();
+                    mm.updatePropertySelector()
+
+                    texti = null
+
+                    setTimeout(async function () {
+                        mm.selectForm(mm.model.default_form)
+                    }, 500)
 
 
+                    mm.$root.$on('message', async function (text) {
+                        if (text.type == "delete_design_time_component") {
+                            if (mm.design_mode != false) {
+                                mm.model.forms[mm.active_form].components.splice(text.component_index, 1);
+                            }
+                        } else if (text.type == "select_design_time_component") {
+                            if (mm.design_mode != false) {
+                                mm.selectComponent(text.component_index, true);
+                            }
+                        } else if (text.type == "load_controls") {
+                            if (mm.design_mode != false) {
+                                mm.loadControlPalette();
+                            }
+                        }
+                    })
+
+                    hideProgressBar()
+                    mm.in_change_model = false
+                    mm.old_model = JSON.parse(JSON.stringify(mm.model));
 
 
-                /*
-                 _______________________________________
-                 |    mounted                           |
-                 |_________________                     |____________
-                                  | Change a UI control in the app
-                                  | after the Ui control class definition
-                                  | has been edited in another editor
-                                  |__________________________________
-                 */
-                if (mm.design_mode) {
+                    //
+                    // start of update all watched vars when a form is activated
+                    //
+                    if (!this.design_mode) {
+                        for (let thisComponent of mm.model.forms[this.active_form].components) {
+                            let uuid = thisComponent.uuid
+                            //console.log("UUID: " + JSON.stringify(uuid,null,2))
+                            //console.log(this.watchList[uuid])
+                            let ww2 = this.watchList
+                            for (let aaq = 0; aaq < ww2.length; aaq++) {
+                                let ww = ww2[aaq]
+                                if (ww) {
+                                    if (ww.from_component_uuid == uuid) {
+                                        //debugger
+                                        //console.log(ww)
 
-                    if (GLOBALS.subEditorAction == "FORK_CONTROL") {
-                            setTimeout(function(){
+                                        let fromc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[uuid]
+                                        //console.log("fromc: " + JSON.stringify(fromc,null,2))
+
+
+                                        let touuid = ww.to_component_uuid
+                                        let toc = mm.form_runtime_info[ww.form_name].component_lookup_by_uuid[touuid]
+                                        //console.log("toc: " + JSON.stringify(toc,null,2))
+
+
+                                        //mm.model.forms[this.active_form].components[0].text = "" + mm.model.forms[this.active_form].components[1].value
+                                        let vvvvvv = fromc[ww.from_component_property_name]
+                                        let toValue = JSON.parse(JSON.stringify(vvvvvv))
+
+                                        if (ww.transform_fn) {
+                                            try {
+                                                let toValueFn = eval("(" + ww.transform_fn + ")")
+                                                toValue = toValueFn(toValue)
+                                            } catch (err) {
+                                                console.log(err)
+                                            }
+                                        }
+                                        let oldValue = toc[ww.to_component_property_name]
+                                        toc[ww.to_component_property_name] = toValue
+                                        //debugger
+                                        mm.processControlEvent(
+                                            {
+                                                type: "subcomponent_event",
+                                                form_name: mm.active_form,
+                                                control_name: toc.name,
+                                                sub_type: "on_property_in",
+                                                code: toc.on_property_in,
+                                                args: {
+                                                    from_form: mm.active_form,
+                                                    from_component: fromc.name,
+                                                    from_property: ww.from_component_property_name,
+                                                    from_value: toValue,
+                                                    to_form: mm.active_form,
+                                                    to_component: toc.name,
+                                                    to_property: ww.to_component_property_name,
+                                                    to_value: toValue,
+                                                    to_old_value: oldValue,
+                                                    to_new_value: toValue
+                                                }
+                                            })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //
+                    // end of update all watched vars when a form is activated
+                    //
+
+
+                    /*
+                     _______________________________________
+                     |    mounted                           |
+                     |_________________                     |____________
+                                      | Change a UI control in the app
+                                      | after the Ui control class definition
+                                      | has been edited in another editor
+                                      |__________________________________
+                     */
+                    if (mm.design_mode) {
+
+                        if (GLOBALS.subEditorAction == "FORK_CONTROL") {
+                            setTimeout(function () {
                                 if (GLOBALS.saveControlChanges) {
                                     mm.changePropertyValue(
                                         {
-                                            componentName:   GLOBALS.originalNameOfEditedUiControl,
-                                            propertyName:   "base_component_id",
-                                            propertyValue:   GLOBALS.finalBaseComponentIdOfEditedUiControl
+                                            componentName: GLOBALS.originalNameOfEditedUiControl,
+                                            propertyName: "base_component_id",
+                                            propertyValue: GLOBALS.finalBaseComponentIdOfEditedUiControl
                                         }
                                     )
                                     mm.changePropertyValue(
                                         {
-                                            componentName:   GLOBALS.originalNameOfEditedUiControl,
-                                            propertyName:   "code_id",
-                                            propertyValue:   GLOBALS.finalCodeIdOfEditedUiControl
+                                            componentName: GLOBALS.originalNameOfEditedUiControl,
+                                            propertyName: "code_id",
+                                            propertyValue: GLOBALS.finalCodeIdOfEditedUiControl
                                         }
                                     )
                                 }
-                                GLOBALS.originalNameOfEditedUiControl   = null
-                                GLOBALS.subEditorAction                 = null
-                                GLOBALS.saveControlChanges              = false
+                                GLOBALS.originalNameOfEditedUiControl = null
+                                GLOBALS.subEditorAction = null
+                                GLOBALS.saveControlChanges = false
 
-                            },1000)
-                    } else if (GLOBALS.subEditorAction == "EDIT_CONTROL") {
-                        setTimeout(function(){
-                            if (GLOBALS.saveControlChanges) {
-                                mm.changePropertyValue(
-                                    {
-                                        componentName: GLOBALS.originalNameOfEditedUiControl,
-                                        propertyName: "base_component_id",
-                                        propertyValue: GLOBALS.finalBaseComponentIdOfEditedUiControl
-                                    }
-                                )
-                                mm.changePropertyValue(
-                                    {
-                                        componentName: GLOBALS.originalNameOfEditedUiControl,
-                                        propertyName: "code_id",
-                                        propertyValue: GLOBALS.finalCodeIdOfEditedUiControl
-                                    }
-                                )
-                            }
-                            GLOBALS.originalNameOfEditedUiControl   = null
-                            GLOBALS.subEditorAction                 = null
-                            GLOBALS.saveControlChanges              = false
-                        },1000)
+                            }, 1000)
+                        } else if (GLOBALS.subEditorAction == "EDIT_CONTROL") {
+                            setTimeout(function () {
+                                if (GLOBALS.saveControlChanges) {
+                                    mm.changePropertyValue(
+                                        {
+                                            componentName: GLOBALS.originalNameOfEditedUiControl,
+                                            propertyName: "base_component_id",
+                                            propertyValue: GLOBALS.finalBaseComponentIdOfEditedUiControl
+                                        }
+                                    )
+                                    mm.changePropertyValue(
+                                        {
+                                            componentName: GLOBALS.originalNameOfEditedUiControl,
+                                            propertyName: "code_id",
+                                            propertyValue: GLOBALS.finalCodeIdOfEditedUiControl
+                                        }
+                                    )
+                                }
+                                GLOBALS.originalNameOfEditedUiControl = null
+                                GLOBALS.subEditorAction = null
+                                GLOBALS.saveControlChanges = false
+                            }, 1000)
 
+                        }
                     }
-                }
 
 
-                //
-                // This is only used when previewing a component. Since we use the "Totally Blank App"
-                // for previews we need to see if the argument 'control_type' is passed in, and if
-                // it is then we add the component being previewed instead
-                //
-                // START
-                setTimeout(async function(){
-                if (mm.args && mm.args.control_type) {
+                    //
+                    // This is only used when previewing a component. Since we use the "Totally Blank App"
+                    // for previews we need to see if the argument 'control_type' is passed in, and if
+                    // it is then we add the component being previewed instead
+                    //
+                    // START
+                    setTimeout(async function () {
+                        if (mm.args && mm.args.control_type) {
 
-                    //debugger
-                    setTimeout(async function(){
-                        let compArgs =  {
-                            base_component_id:   mm.args.control_type,
-                            type:               "add_component",
-                            text:               "this.highlighted_control",
-                            offsetX:             100,
-                            offsetY:             100
+                            //debugger
+                            setTimeout(async function () {
+                                let compArgs = {
+                                    base_component_id: mm.args.control_type,
+                                    type: "add_component",
+                                    text: "this.highlighted_control",
+                                    offsetX: 100,
+                                    offsetY: 100
+                                }
+
+                                if (mm.args.control_code_id) {
+                                    compArgs.code_id = mm.args.control_code_id
+                                }
+
+                                await mm.addComponentV2(
+                                    200,
+                                    200,
+                                    compArgs,
+                                    null,
+                                    null,
+                                    [])
+                            }, 200)
                         }
+                    }, 800)
+                    // END
+                    //
 
-                        if (mm.args.control_code_id) {
-                            compArgs.code_id = mm.args.control_code_id
+                    setTimeout(async function () {
+                        if (GLOBALS.isStaticHtmlPageApp) {
+                            mm.editor_locked = false
                         }
-
-                        await mm.addComponentV2(
-                            200,
-                            200,
-                            compArgs,
-                            null,
-                            null,
-                            [])
-                    },200)
-                }
-                },800)
-                // END
-                //
-
-                setTimeout(async function(){
-                    if (GLOBALS.isStaticHtmlPageApp) {
+                        await mm.loadControlPalette()
                         mm.editor_locked = false
-                    }
-                    await mm.loadControlPalette()
-                    mm.editor_locked = false
-                },2000)
-
+                    }, 2000)
+                } catch ( mountedErr ) {
+                    debugger
+                    console.log("Mounted error: " + mountedErr)
+                }
 
             }
             //*** copy_mounted_end ***//,
