@@ -1548,6 +1548,8 @@ End of app preview menu
                                     })
 
                                 this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
+
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
                                     mm.editor_text = code
@@ -1582,7 +1584,6 @@ End of app preview menu
                                 },200)
                             }
 
-                            await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
                             mm.resetDebugger()
                             mm.refresh++
 
@@ -1598,6 +1599,18 @@ End of app preview menu
                     // load app from source code
                     //
                     } else if (code) {
+
+                        let bci = yz.getValueOfCodeString(code.toString(),"base_component_id")
+
+                        GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                        GLOBALS.pointBaseComponentIdAtCode(
+                            {
+                                baseComponentId:    bci,
+                                codeId:             codeId
+                            })
+                        await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
+
+
                         // ******* load the editor **********
                         if ( !mm.editor_loaded ) {
                             let editorName = "textEditorPlugInComponent"
@@ -1608,15 +1621,6 @@ End of app preview menu
                                 editorName = newEditor
                             }
 
-                            let bci = yz.getValueOfCodeString(code.toString(),"base_component_id")
-
-                            GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
-                            GLOBALS.pointBaseComponentIdAtCode(
-                                {
-                                    baseComponentId:    bci,
-                                    codeId:             codeId
-                                })
-
                             await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
                             mm.refresh++
 
@@ -1626,7 +1630,6 @@ End of app preview menu
 
 
                         this.resetDebugger()
-                        await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
                         mm.refresh++
 
 
@@ -1676,6 +1679,13 @@ End of app preview menu
                                 codeId                      = results[0].id
                                 mm.code_id                  = codeId
                                 this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                GLOBALS.pointBaseComponentIdAtCode(
+                                    {
+                                        baseComponentId:    baseComponentId,
+                                        codeId:             codeId
+                                    })
+
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
                                     mm.editor_text = code
@@ -1691,13 +1701,6 @@ End of app preview menu
                                     if (newEditor) {
                                         editorName = newEditor
                                     }
-
-                                    GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
-                                    GLOBALS.pointBaseComponentIdAtCode(
-                                        {
-                                            baseComponentId:    baseComponentId,
-                                            codeId:             codeId
-                                        })
 
                                     await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
                                     mm.refresh++
