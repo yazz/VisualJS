@@ -1476,6 +1476,8 @@ End of app preview menu
                 let results
                 let codeId          = null
                 let runThisApp      = false
+                let newEditor       = null
+
                 mm.preview_type     = ""
 
                 if (options.codeId) {
@@ -1530,7 +1532,6 @@ End of app preview menu
                                 let editors2 = results[0].editors
                                 mm.base_component_id = results[0].base_component_id
 
-                                let newEditor = null
                                 if (isValidObject(editors2) && (mm.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
@@ -1556,22 +1557,7 @@ End of app preview menu
                                 }
 
 
-                                // ****** load the editor ********
-                                if ( !mm.editor_loaded ) {
-                                    let editorName = "textEditorPlugInComponent"
-                                    if (mm.override_app_editor != null) {
-                                        editorName = mm.override_app_editor
-                                    }
-                                    if (newEditor) {
-                                        editorName = newEditor
-                                    }
 
-                                    await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
-                                    mm.refresh++
-
-                                    mm.editor_loaded    = true
-                                    mm.editor_component = editorName
-                                }
                             }
                         }
 
@@ -1595,23 +1581,6 @@ End of app preview menu
                             })
                         await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
 
-
-                        // ******* load the editor **********
-                        if ( !mm.editor_loaded ) {
-                            let editorName = "textEditorPlugInComponent"
-                            if (mm.override_app_editor != null) {
-                                editorName = mm.override_app_editor
-                            }
-                            if (newEditor) {
-                                editorName = newEditor
-                            }
-
-                            await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
-                            mm.refresh++
-
-                            mm.editor_loaded    = true
-                            mm.editor_component = editorName
-                        }
 
 
 
@@ -1673,27 +1642,35 @@ End of app preview menu
                                     console.log("2) mm.code_id= " + mm.code_id)
                                 }
 
-                                // ****** load the editor ********
-                                if ( !mm.editor_loaded ) {
-                                    let editorName = "textEditorPlugInComponent"
-                                    if (mm.override_app_editor != null) {
-                                        editorName = mm.override_app_editor
-                                    }
-                                    if (newEditor) {
-                                        editorName = newEditor
-                                    }
-
-                                    await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
-                                    mm.refresh++
-
-                                    mm.editor_loaded    = true
-                                    mm.editor_component = editorName
-                                }
 
 
                             }
                         }
                     }
+
+
+                    //
+                    // load the editor
+                    //
+                    debugger
+                    if ( !mm.editor_loaded ) {
+                        let editorName = "textEditorPlugInComponent"
+                        if (mm.override_app_editor != null) {
+                            editorName = mm.override_app_editor
+                        }
+                        if (newEditor) {
+                            editorName = newEditor
+                        }
+
+                        await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
+                        mm.refresh++
+
+                        mm.editor_loaded    = true
+                        mm.editor_component = editorName
+                    }
+
+
+
 
 
                     //
