@@ -6331,15 +6331,14 @@ return {}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                let mm                          = this
+                let mm = this
                 let json2
                 try {
-
-                    mm.unique_app_dom_element_id = uuidv4()
-                    mm.vb_grid_element_id = "vb_grid_" + uuidv4()
-                    mm.vb_editor_element_id = "vb_editor_" + uuidv4()
-                    mm.local_app = localAppshareApp
-                    mm.in_change_model = true
+                    mm.unique_app_dom_element_id    = uuidv4()
+                    mm.vb_grid_element_id           = "vb_grid_" + uuidv4()
+                    mm.vb_editor_element_id         = "vb_editor_" + uuidv4()
+                    mm.local_app                    = localAppshareApp
+                    mm.in_change_model              = true
 
                     if (mm.properties && mm.args) {
                         mm.args = {...mm.args, ...mm.properties}
@@ -6365,11 +6364,11 @@ return {}
                                      |_____________________________________________________
                     */
                     if (texti) {
-                        json2 = mm.getJsonModelFromCode(texti)
-                        mm.old_model = JSON.parse(JSON.stringify(json2));
-                        mm.model = json2
-                        mm.edited_app_component_id = yz.getValueOfCodeString(texti, "base_component_id")
-                        mm.read_only = yz.getValueOfCodeString(texti, "read_only")
+                        json2                       = mm.getJsonModelFromCode(texti)
+                        mm.old_model                = JSON.parse(JSON.stringify(json2));
+                        mm.model                    = json2
+                        mm.edited_app_component_id  = yz.getValueOfCodeString(texti, "base_component_id")
+                        mm.read_only                = yz.getValueOfCodeString(texti, "read_only")
                     }
                     mm.active_form = mm.model.default_form
 
