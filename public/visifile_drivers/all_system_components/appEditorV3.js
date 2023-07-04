@@ -1010,7 +1010,7 @@ End of app preview menu
        },
         methods:    {
             // editor actions
-            closeSubEditor:                 async function  () {
+            closeSubEditor:                 async function  (  ) {
                // ---------------------------------------------------------------
                //                         closeSubEditor
                //
@@ -1031,7 +1031,7 @@ End of app preview menu
                     newApp:     true}
                     )
            },
-            switchEditor:                   async function  (editor_component_id) {
+            switchEditor:                   async function  (  editor_component_id  ) {
                // ---------------------------------------------------------------
                //                         switchEditor
                //
@@ -1057,7 +1057,7 @@ End of app preview menu
                     })
 
            },
-            setInfo:                        function        (text) {
+            setInfo:                        function        (  text  ) {
                // ---------------------------------------------------------------
                //                         setInfo
                //
@@ -1068,7 +1068,7 @@ End of app preview menu
                    text:    text
                })
            },
-            closeEditor:                    async function  (event,item) {
+            closeEditor:                    async function  (  event,item  ) {
                // ---------------------------------------------------------------
                //                         closeEditor
                //
@@ -1105,7 +1105,7 @@ End of app preview menu
                GLOBALS.lastEditingAppCodeId             = null;
                GLOBALS.inEditor                         = false
            },
-            chooseApp:                      async function  () {
+            chooseApp:                      async function  (  ) {
                 // ---------------------------------------------------------------
                 //                         chooseApp
                 //
@@ -1143,7 +1143,7 @@ End of app preview menu
                     hideProgressBar()
                 }
             },
-            chooseCode:                     async function  () {
+            chooseCode:                     async function  (  ) {
                 // ---------------------------------------------------------------
                 //                         chooseCode
                 //
@@ -1171,7 +1171,7 @@ End of app preview menu
                     appClearIntervals()
                 },2500)
             },
-            chooseBoth:                     async function  () {
+            chooseBoth:                     async function  (  ) {
                 // ---------------------------------------------------------------
                 //                         chooseBoth
                 //
@@ -1198,7 +1198,7 @@ End of app preview menu
                 }
                 hideProgressBar()
             },
-            chooseProfiler:                 async function  () {
+            chooseProfiler:                 async function  (  ) {
                 // ---------------------------------------------------------------
                 //                         chooseProfiler
                 //
@@ -1230,7 +1230,7 @@ End of app preview menu
                     },
                     200)
             },
-            rename:                         async function  (nn) {
+            rename:                         async function  (  nn  ) {
                 // ---------------------------------------------------------------
                 //                         rename
                 //
@@ -1259,7 +1259,7 @@ End of app preview menu
                     display_name:        mm.component_display_name
                 })
             },
-            editAsText:                     async function  () {
+            editAsText:                     async function  (  ) {
                 /*
                  _______________________________________
                  |       editAsText                     |
@@ -1285,7 +1285,7 @@ End of app preview menu
 
                 await mm.loadComponentIntoEditor({newApp: true, codeId:  this.code_id } )
             },
-            checkSavedFile:                 function        () {
+            checkSavedFile:                 function        (  ) {
                 // ---------------------------------------------------------------
                 //                          checkSavedFile
                 //
@@ -1301,7 +1301,7 @@ End of app preview menu
                     this.file_save_state = ""
                 }
             },
-            copyApp:                        async function  ( appId , newAppId, codeId) {
+            copyApp:                        async function  (  appId , newAppId, codeId  ) {
                 // ---------------------------------------------------------------
                 //
                 //
@@ -1363,7 +1363,7 @@ End of app preview menu
                     },1500)
                 },200)
             },
-            bookmarkCode:                   async function  () {
+            bookmarkCode:                   async function  (  ) {
                 // ---------------------------------------------------------------
                 //                          bookmarkCode
                 //
@@ -1401,7 +1401,7 @@ End of app preview menu
                     //this.checkSavedFile()
                 }
             },
-            releaseCode:                    async function  () {
+            releaseCode:                    async function  (  ) {
                 // ---------------------------------------------------------------
                 //                          releaseCode
                 //
@@ -1434,9 +1434,7 @@ End of app preview menu
                     //this.checkSavedFile()
                 }
             },
-            loadComponentIntoEditor: async function  ( options ) {
-                console.log("loadComponentIntoEditor")
-
+            loadComponentIntoEditor:        async function  (  options  ) {
                 /*
                 ----------------------------------------
                 |                                      |
@@ -1748,6 +1746,13 @@ End of app preview menu
                     hideProgressBar()
                 }
                 hideProgressBar()
+
+                //
+                // Set the Preview type for this component. Remember that apps and
+                // controls are previewed differently since controls need to have a
+                // container around them, since they can not live independantly without
+                // an app
+                //
                 if (code && (yz.getValueOfCodeString(code,"component_type") == "VB")) {
                     mm.preview_type = "control"
                 } else {
@@ -1760,7 +1765,7 @@ End of app preview menu
                     mm.editor_shell_locked = false
                 }
             },
-            save:                           async function  ( base_component_id, code_id , textIn, extras) {
+            save:                           async function  (  base_component_id  ,  code_id  ,  textIn  ,  extras  ) {
                 // ---------------------------------------------------------------
                 //                           save
                 //
@@ -1868,7 +1873,7 @@ End of app preview menu
             },
 
             // debugger
-            getVarAsHtml:                   function        (viewer,varName) {
+            getVarAsHtml:                   function        (  viewer  ,  varName  ) {
                // ---------------------------------------------------------------
                //                         getVarAsHtml
                //
@@ -1890,7 +1895,7 @@ End of app preview menu
                return returnVal
 
            },
-            getVarAsBarChart:               function        (value) {
+            getVarAsBarChart:               function        (  value  ) {
                 // ---------------------------------------------------------------
                 //                         getVarAsBarChart
                 //
@@ -1912,7 +1917,7 @@ End of app preview menu
                 return html
 
             },
-            resetDebugger:                  function        () {
+            resetDebugger:                  function        (  ) {
                 // ---------------------------------------------------------------
                 //                         resetDebugger
                 //
@@ -1930,7 +1935,7 @@ End of app preview menu
                this.current_execution_step_y_line = -1
                this.updateTimeline()
            },
-            stepForward:                    function        () {
+            stepForward:                    function        (  ) {
                 // ---------------------------------------------------------------
                 //                         stepForward
                 //
@@ -1945,7 +1950,7 @@ End of app preview menu
                    this.updateTimeline({allowScroll: true})
                }
            },
-            stepBack:                       function        () {
+            stepBack:                       function        (  ) {
                 // ---------------------------------------------------------------
                 //                         stepBack
                 //
@@ -1960,7 +1965,7 @@ End of app preview menu
                    this.updateTimeline({allowScroll: true})
                }
            },
-            timelineRefresh:                function        (move) {
+            timelineRefresh:                function        (  move  ) {
                 // ---------------------------------------------------------------
                 //                         timelineRefresh
                 //
@@ -1971,7 +1976,7 @@ End of app preview menu
                     mm.updateTimeline({allowScroll: move})
                 },200)
             },
-            chooseRightDebugPane:           function        (ff) {
+            chooseRightDebugPane:           function        (  ff  ) {
                 // ---------------------------------------------------------------
                 //                         chooseRightDebugPane
                 //
@@ -1979,7 +1984,7 @@ End of app preview menu
                 // ---------------------------------------------------------------
                 this.debugger_right_mode = ff
             },
-            updateTimeline:                 function        ( args ) {
+            updateTimeline:                 function        (  args  ) {
                 // ---------------------------------------------------------------
                 //                         updateTimeline
                 //
@@ -2041,7 +2046,7 @@ End of app preview menu
                 }
 
             },
-            mouseEnterTimeline:             function        (ev) {
+            mouseEnterTimeline:             function        (  ev  ) {
                 // ---------------------------------------------------------------
                 //                         mouseEnterTimeline
                 //
@@ -2049,7 +2054,7 @@ End of app preview menu
                 // ---------------------------------------------------------------
                 this.timeline_pause = false
             },
-            mouseClickTimeline:             function        (ev) {
+            mouseClickTimeline:             function        (  ev  ) {
                 // ---------------------------------------------------------------
                 //                         mouseClickTimeline
                 //
@@ -2057,7 +2062,7 @@ End of app preview menu
                 // ---------------------------------------------------------------
                 this.timeline_pause = !this.timeline_pause
             },
-            inTimelineScroll:               function        () {
+            inTimelineScroll:               function        (  ) {
                 // ---------------------------------------------------------------
                 //                         inTimelineScroll
                 //
@@ -2069,7 +2074,7 @@ End of app preview menu
                     mm.timeline_pause = false;
                 }, 66);
             },
-            mouseMoveTimeline:              function        (ev) {
+            mouseMoveTimeline:              function        (  ev  ) {
                 // ---------------------------------------------------------------
                 //                         mouseMoveTimeline
                 //
@@ -2092,7 +2097,7 @@ End of app preview menu
                     }
                 }
             },
-            addWatch:                       async function  (varN){
+            addWatch:                       async function  (  varN  ){
                 // ---------------------------------------------------------------
                 //                         addWatch
                 //
@@ -2105,7 +2110,7 @@ End of app preview menu
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
                 }
             },
-            deleteWatch:                    async function  (varN){
+            deleteWatch:                    async function  (  varN  ){
                 // ---------------------------------------------------------------
                 //                         deleteWatch
                 //
@@ -2113,7 +2118,7 @@ End of app preview menu
                 // ---------------------------------------------------------------
                 delete globalWatchList[varN]
             },
-            keepWatch:                      async function  (varN){
+            keepWatch:                      async function  (  varN  ){
                 // ---------------------------------------------------------------
                 //                         keepWatch
                 //
@@ -2126,7 +2131,7 @@ End of app preview menu
                     }
                 }
             },
-            setupTimelineEditor:            function        () {
+            setupTimelineEditor:            function        (  ) {
                 // ---------------------------------------------------------------
                 //                         setupTimelineEditor
                 //
