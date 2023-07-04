@@ -1584,6 +1584,9 @@ End of app preview menu
                                 },200)
                             }
 
+                            await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
+                            mm.resetDebugger()
+                            mm.refresh++
 
                             setTimeout(async function() {
                                 if (mm.$refs.editor_component_ref) {
@@ -1591,9 +1594,6 @@ End of app preview menu
                                         mm.$refs.editor_component_ref.setText(code)
                                     }
                                 }
-                                mm.resetDebugger()
-                                await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
-                                mm.refresh++
                             },500)
                         }
 
