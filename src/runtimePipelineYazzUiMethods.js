@@ -3509,13 +3509,11 @@ ${eventMessage.code}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                let componentType = yz.getValueOfCodeString(this.text,"component_type")
-                if (componentType == "APP") {
+                if (this.model && this.model.forms) {
                     return true
                 }
-                if (componentType == "SYSTEM") {
-                    return true
-                }
+                debugger
+
                 return false
             },
             getFormProperties:                      function        (    formName    ) {
@@ -4914,7 +4912,7 @@ return {}
                 /*
                 ________________________________________
                 |                                      |
-                |                   |
+                |         getJsonModelFromCode         |
                 |                                      |
                 |______________________________________|
 
@@ -4927,7 +4925,8 @@ return {}
                 |     NONE
                 |________________________________________________________________________ */
                 let mm = this
-                mm.edited_app_component_id = yz.getValueOfCodeString(codeV, "base_component_id")
+                mm.edited_app_component_id  = yz.getValueOfCodeString(codeV, "base_component_id")
+                mm.componentType            = yz.getValueOfCodeString(codeV, "component_type")
                 let json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
                 return json2
             },
@@ -6611,6 +6610,7 @@ return {}
                     // it is then we add the component being previewed instead
                     //
                     // START
+
                     if (mm.isThisComponentAnApp()) {
                         setTimeout(async function () {
                             if (mm.args && mm.args.control_type) {
@@ -6895,6 +6895,7 @@ __________
                 runtime_mode:                        runtimeMode,
                 highlighted_control:                 null,
                 edited_app_component_id:             null,
+                componentType:                       null,
                 event_code:                          null,
                 text:                                texti,
                 leftHandWidth:                       130,
