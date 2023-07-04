@@ -1618,7 +1618,6 @@ End of app preview menu
 
                                 // ****** find the editor *******
                                 let editors2 = results[0].editors
-                                let newEditor = null
                                 if (isValidObject(editors2) && (mm.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
