@@ -1144,24 +1144,24 @@
                     |_________________________
                                              | Set the commit ID and type
                                              |__________________________________ */
-                    if (!args) {
-
-                    } else if (args.codeId) {
-                        codeId          = args.codeId
-                        baseComponentId = GLOBALS.getTypeForCommitId(codeId)
-
-                    } else if (args.baseComponentId) {
-                        baseComponentId = args.baseComponentId
-                        codeId          = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
-                    }
-
-                    //if (!codeId) {
-                    //    codeId          = await getIpfsHash(code)
-                    //}
-
-
-
                     try {
+                        if (!args) {
+
+                        } else if (args.codeId) {
+                            codeId          = args.codeId
+                            baseComponentId = GLOBALS.getTypeForCommitId(codeId)
+
+                        } else if (args.baseComponentId) {
+                            baseComponentId = args.baseComponentId
+                            codeId          = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                        }
+
+                        //if (!codeId) {
+                        //    codeId          = await getIpfsHash(code)
+                        //}
+
+
+
                         /*
                         ____________________________________________________________
                         |    runCodeForYazzUiComponent
@@ -1529,8 +1529,8 @@
                             }
 
                         }
-                    } catch (err) {
-                        alert(err)
+                    } catch (runtimeError) {
+                        console.log("runtime err: " + runtimeError)
 
                         hideProgressBar()
                     }
