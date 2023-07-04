@@ -1575,17 +1575,7 @@ End of app preview menu
 
                             }
 
-                            if ((isValidObject(runThisApp))   && (!runThisApp)) {
-                                //do nothing if we set "runthisapp" to false
-                            } else {
-                                this.resetDebugger()
-                                setTimeout(async function() {
-                                    mm.refresh++
-                                },200)
-                            }
 
-                            mm.resetDebugger()
-                            mm.refresh++
 
 
                         }
@@ -1713,6 +1703,24 @@ End of app preview menu
                             }
                         }
                     }
+
+
+                    //
+                    // should we run this app?
+                    //
+                    if ((isValidObject(runThisApp))   && (!runThisApp)) {
+                        //do nothing if we set "runthisapp" to false
+                    } else {
+                        this.resetDebugger()
+                        setTimeout(async function() {
+                            mm.refresh++
+                        },200)
+                    }
+
+                    mm.resetDebugger()
+                    mm.refresh++
+
+
 
                 } catch (e) {
                 } finally {
