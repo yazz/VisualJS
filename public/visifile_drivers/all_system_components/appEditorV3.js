@@ -1588,13 +1588,7 @@ End of app preview menu
                             mm.resetDebugger()
                             mm.refresh++
 
-                            setTimeout(async function() {
-                                if (mm.$refs.editor_component_ref) {
-                                    if (mm.$refs.editor_component_ref.setText) {
-                                        mm.$refs.editor_component_ref.setText(code)
-                                    }
-                                }
-                            },500)
+
                         }
 
 
@@ -1640,13 +1634,6 @@ End of app preview menu
                         await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
                         mm.refresh++
 
-                        setTimeout(async function() {
-                            if (mm.$refs.editor_component_ref) {
-                                if (mm.$refs.editor_component_ref.setText) {
-                                    mm.$refs.editor_component_ref.setText(code)
-                                }
-                            }
-                        },500)
 
 
 
@@ -1728,14 +1715,6 @@ End of app preview menu
                                 // ****** set readonly *******
                                 this.read_only = yz.getValueOfCodeString(code, "read_only")
                             }
-
-                            setTimeout(async function() {
-                                if (mm.$refs.editor_component_ref) {
-                                    if (mm.$refs.editor_component_ref.setText) {
-                                        mm.$refs.editor_component_ref.setText(code)
-                                    }
-                                }
-                            },500)
                         }
                     }
 
@@ -1772,6 +1751,19 @@ End of app preview menu
                     mm.editor_shell_locked = false
                 }
 
+
+
+
+                //
+                // load the code into the editor
+                //
+                setTimeout(async function() {
+                    if (mm.$refs.editor_component_ref) {
+                        if (mm.$refs.editor_component_ref.setText) {
+                            mm.$refs.editor_component_ref.setText(code)
+                        }
+                    }
+                },500)
 
             },
             save:                           async function  (  base_component_id  ,  code_id  ,  textIn  ,  extras  ) {
