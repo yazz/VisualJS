@@ -1437,17 +1437,16 @@ End of app preview menu
             loadComponentIntoEditor: async function  ( options ) {
                 console.log("loadComponentIntoEditor")
 
-                /*            --------------------------------------
-                             |                                      |
-                             |       loadComponentIntoEditor        |
-                             |                                      |
-                              --------------------------------------
-
-                        This loads a new version of the currently edited app.
-
-                     --------
-                    | Params |
-                ----          --------------------------------------------------------------
+                /*
+                ----------------------------------------
+                |                                      |
+                |       loadComponentIntoEditor        |
+                |                                      |
+                ----------------------------------------
+                This loads a new version of the currently edited app.
+               ----------
+               | Params |
+               |        --------------------------------------------------------------
                |
                |     options: {
                |     -------    baseComponentId - if set then load the latest
@@ -1467,14 +1466,12 @@ End of app preview menu
                |                ------
                |     }
                |
-                ------------------------------------------------------------------------------ */
+               ------------------------------------------------------------------------------ */
 
 
-                /*   --------------------------------------
-                    |    loadComponentIntoEditor           |
-                     ----------------               -------
-                                     |  init stuff |
-                                      ------------- */
+                //
+                // init stuff
+                //
                 let mm              = this
                 let baseComponentId = options.baseComponentId
                 let code            = null
@@ -1515,32 +1512,23 @@ End of app preview menu
 
 
                 try {
-
-                    /*   --------------------------------------
-                        |       loadComponentIntoEditor        |
-                         ----------------                       -----
-                                         |  load app from commit ID  |
-                                          --------------------------- */
-
+                    // ******** load app from commit ID  **************
                     if (codeId) {
                         results = await sqliteQuery(
                             `select
-                                          id, 
-                                          cast(code as text)  as  code, 
-                                          editors, 
-                                          base_component_id
-                                      from
-                                          system_code
-                                      where
-                                          id = '${codeId}'`)
-
+                                id, 
+                                cast(code as text)  as  code, 
+                                editors, 
+                                base_component_id
+                            from
+                                system_code
+                            where
+                                id = '${codeId}'`)
 
                         if (results) {
                             if (results.length > 0) {
 
-                                //
-                                // find the editor
-                                //
+                                // ****** find the editor *******
                                 let editors2 = results[0].editors
                                 mm.base_component_id = results[0].base_component_id
 
@@ -1550,14 +1538,10 @@ End of app preview menu
                                     newEditor = edd[0]
                                 }
 
-
-                                //
-                                // find the code
-                                //
-                                code = results[0].code
-
-                                codeId = results[0].id
-                                mm.code_id = codeId
+                                // ******* find the code ********
+                                code        = results[0].code
+                                codeId      = results[0].id
+                                mm.code_id  = codeId
                                 GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
                                 GLOBALS.pointBaseComponentIdAtCode(
                                     {
@@ -1572,9 +1556,7 @@ End of app preview menu
                                 }
 
 
-                                //
-                                // load the editor
-                                //
+                                // ****** load the editor ********
                                 if ( !mm.editor_loaded ) {
                                     let editorName = "textEditorPlugInComponent"
                                     if (mm.override_app_editor != null) {
@@ -1589,13 +1571,9 @@ End of app preview menu
 
                                     mm.editor_loaded    = true
                                     mm.editor_component = editorName
-
                                 }
 
-
-                                //
-                                // set readonly
-                                //
+                                // ******* set readonly ***********
                                 this.read_only = yz.getValueOfCodeString(code, "read_only")
                             }
 
@@ -1610,11 +1588,6 @@ End of app preview menu
 
 
                             setTimeout(async function() {
-
-                                //code = yz.deleteCodeString(code, "display_name")
-                                //code = yz.insertCodeString(code, "display_name", newDisplayName)
-
-                                //mm.component_display_name = baseComponentId
                                 mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                                 if (mm.$refs.editor_component_ref) {
                                     if (mm.$refs.editor_component_ref.setText) {
@@ -1630,15 +1603,13 @@ End of app preview menu
 
 
 
-                        /* --------------------------------------
-                          |    loadComponentIntoEditor    |
-                           -----------------                      ------
-                                            | load app from source code |
-                                             --------------------------- */
+
+
+                    //
+                    // load app from source code
+                    //
                     } else if (code) {
-                        //
-                        // load the editor
-                        //
+                        // ******* load the editor **********
                         if ( !mm.editor_loaded ) {
                             let editorName = "textEditorPlugInComponent"
                             if (mm.override_app_editor != null) {
@@ -1647,7 +1618,7 @@ End of app preview menu
                             if (newEditor) {
                                 editorName = newEditor
                             }
-//debugger
+
                             let bci = yz.getValueOfCodeString(code.toString(),"base_component_id")
 
                             GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
@@ -1665,20 +1636,14 @@ End of app preview menu
                         }
 
 
-                        //
-                        // set readonly
-                        //
+                        // ******  set readonly *******
                         this.read_only = yz.getValueOfCodeString(code, "read_only")
-
 
                         this.resetDebugger()
                         await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
                         mm.refresh++
 
-
-
                         setTimeout(async function() {
-                            //mm.component_display_name = baseComponentId
                             mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                             if (mm.$refs.editor_component_ref) {
                                 if (mm.$refs.editor_component_ref.setText) {
@@ -1688,16 +1653,15 @@ End of app preview menu
                         },500)
 
 
-                        /* --------------------------------------
-                          |    loadComponentIntoEditor    |
-                           -----------------                      ----------------------------
-                                            | load app based on App Type (base_component_id") |
-                                             -------------------------------------------------   */
+
+
+
+                    //
+                    // load app based on App Type (base_component_id")
+                    //
                     } else {
                         mm.base_component_id     = baseComponentId
-                        //
-                        // read the code for the component that we are editing
-                        //
+                        // ******  read the code for the component that we are editing ********
                         results = await sqliteQuery(
                             `select
                                     system_code.id, cast(system_code.code as text)  as  code, system_code.editors
@@ -1718,13 +1682,10 @@ End of app preview menu
                                            `)
                         }
 
-
                         if (results) {
                             if (results.length > 0) {
 
-                                //
-                                // find the editor
-                                //
+                                // ****** find the editor *******
                                 let editors2 = results[0].editors
                                 let newEditor = null
                                 if (isValidObject(editors2) && (mm.override_app_editor == null)) {
@@ -1732,26 +1693,18 @@ End of app preview menu
                                     newEditor = edd[0]
                                 }
 
-
-                                //
-                                // find the code
-                                //
-                                code = results[0].code
-
-                                codeId                  = results[0].id
-                                mm.code_id              = codeId
+                                // ******* find the code ************
+                                code                        = results[0].code
+                                codeId                      = results[0].id
+                                mm.code_id                  = codeId
                                 this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
-
 
                                 if (mm.editor_loaded && (mm.editor_text != code)) {
                                     mm.editor_text = code
                                     console.log("2) mm.code_id= " + mm.code_id)
                                 }
 
-
-                                //
-                                // load the editor
-                                //
+                                // ****** load the editor ********
                                 if ( !mm.editor_loaded ) {
                                     let editorName = "textEditorPlugInComponent"
                                     if (mm.override_app_editor != null) {
@@ -1760,7 +1713,6 @@ End of app preview menu
                                     if (newEditor) {
                                         editorName = newEditor
                                     }
-
 
                                     GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
                                     GLOBALS.pointBaseComponentIdAtCode(
@@ -1774,23 +1726,14 @@ End of app preview menu
 
                                     mm.editor_loaded    = true
                                     mm.editor_component = editorName
-
                                 }
 
 
-                                //
-                                // set readonly
-                                //
+                                // ****** set readonly *******
                                 this.read_only = yz.getValueOfCodeString(code, "read_only")
                             }
 
-
                             setTimeout(async function() {
-
-                                //code = yz.deleteCodeString(code, "display_name")
-                                //code = yz.insertCodeString(code, "display_name", newDisplayName)
-
-                                //mm.component_display_name = baseComponentId
                                 mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                                 if (mm.$refs.editor_component_ref) {
                                     if (mm.$refs.editor_component_ref.setText) {
