@@ -1572,12 +1572,7 @@ End of app preview menu
                                     mm.editor_loaded    = true
                                     mm.editor_component = editorName
                                 }
-
                             }
-
-
-
-
                         }
 
 
@@ -1617,10 +1612,6 @@ End of app preview menu
                             mm.editor_loaded    = true
                             mm.editor_component = editorName
                         }
-
-
-                        this.resetDebugger()
-                        mm.refresh++
 
 
 
