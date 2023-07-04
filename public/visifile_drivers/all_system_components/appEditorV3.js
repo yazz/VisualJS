@@ -1571,8 +1571,6 @@ End of app preview menu
                                     mm.editor_component = editorName
                                 }
 
-                                // ******* set readonly ***********
-                                this.read_only = yz.getValueOfCodeString(code, "read_only")
                             }
 
                             if ((isValidObject(runThisApp))   && (!runThisApp)) {
@@ -1626,9 +1624,6 @@ End of app preview menu
                             mm.editor_component = editorName
                         }
 
-
-                        // ******  set readonly *******
-                        this.read_only = yz.getValueOfCodeString(code, "read_only")
 
                         this.resetDebugger()
                         await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
@@ -1712,8 +1707,6 @@ End of app preview menu
                                 }
 
 
-                                // ****** set readonly *******
-                                this.read_only = yz.getValueOfCodeString(code, "read_only")
                             }
                         }
                     }
@@ -1739,7 +1732,8 @@ End of app preview menu
                 // set other vars based on the code
                 //
                 mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
-
+                // ****** set readonly *******
+                this.read_only = yz.getValueOfCodeString(code, "read_only")
 
 
                 //
