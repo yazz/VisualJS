@@ -1712,9 +1712,10 @@ End of app preview menu
                     }
 
                 } catch (e) {
+                } finally {
                     hideProgressBar()
+
                 }
-                hideProgressBar()
 
                 //
                 // Set the Preview type for this component. Remember that apps and
