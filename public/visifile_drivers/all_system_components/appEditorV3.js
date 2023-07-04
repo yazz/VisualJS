@@ -1550,14 +1550,6 @@ End of app preview menu
 
                                 this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
                                 await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
-
-
-                                if (mm.editor_loaded && (mm.editor_text != code)) {
-                                    mm.editor_text = code
-                                }
-
-
-
                             }
                         }
 
@@ -1570,7 +1562,6 @@ End of app preview menu
                     // load app from source code
                     //
                     } else if (code) {
-
                         let bci = yz.getValueOfCodeString(code.toString(),"base_component_id")
 
                         GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
@@ -1580,7 +1571,6 @@ End of app preview menu
                                 codeId:             codeId
                             })
                         await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
-
 
 
 
@@ -1634,24 +1624,27 @@ End of app preview menu
                                         baseComponentId:    baseComponentId,
                                         codeId:             codeId
                                     })
-
-
-                                if (mm.editor_loaded && (mm.editor_text != code)) {
-                                    mm.editor_text = code
-                                    console.log("2) mm.code_id= " + mm.code_id)
-                                }
-
-
-
                             }
                         }
                     }
 
 
+
+
+
+                    //
+                    // if the code has changed then update the editor text
+                    //
+                    if (mm.editor_loaded && (mm.editor_text != code)) {
+                        mm.editor_text = code
+                    }
+
+
+
+
                     //
                     // load the editor
                     //
-                    debugger
                     if ( !mm.editor_loaded ) {
                         let editorName = "textEditorPlugInComponent"
                         if (mm.override_app_editor != null) {
