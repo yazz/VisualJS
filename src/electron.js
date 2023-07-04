@@ -1514,29 +1514,29 @@ async function  setUpComponentsLocally                  (  ) {
     // functions
     //
 
-    //await releaseComponentFromPath( '/functions/system.js')
-    await releaseComponentFromPath( '/functions/system2.js')
-    //await releaseComponentFromPath( '/functions/system3.js')
-    await releaseComponentFromPath( '/functions/systemFunctionAppSql.js')
+    //await releaseComponentFromPath( '/all_system_components/system.js')
+    await releaseComponentFromPath( '/all_system_components/system2.js')
+    //await releaseComponentFromPath( '/all_system_components/system3.js')
+    await releaseComponentFromPath( '/all_system_components/systemFunctionAppSql.js')
 
     //
     // UI components
     //
-    await releaseComponentFromPath( '/ui_components/comp.js')
-    await releaseComponentFromPath( '/ui_components/sqliteEditorComponent.js')
-    await releaseComponentFromPath( '/ui_components/keycloakEditorComponent.js')
-    await releaseComponentFromPath( '/ui_components/historyViewerComponent.js')
-    await releaseComponentFromPath( '/ui_components/iconEditorComponent.js')
-    await releaseComponentFromPath( '/ui_components/controlEditor.js')
-    await releaseComponentFromPath( '/ui_components/exportEditorComponent.js')
-    await releaseComponentFromPath( '/ui_components/embedAppComponent.js')
-    //await releaseComponentFromPath( '/ui_components/simpleDisplayEditorComponent.js')
+    await releaseComponentFromPath( '/all_system_components//comp.js')
+    await releaseComponentFromPath( '/all_system_components//sqliteEditorComponent.js')
+    await releaseComponentFromPath( '/all_system_components//keycloakEditorComponent.js')
+    await releaseComponentFromPath( '/all_system_components//historyViewerComponent.js')
+    await releaseComponentFromPath( '/all_system_components//iconEditorComponent.js')
+    await releaseComponentFromPath( '/all_system_components//controlEditor.js')
+    await releaseComponentFromPath( '/all_system_components//exportEditorComponent.js')
+    await releaseComponentFromPath( '/all_system_components//embedAppComponent.js')
+    //await releaseComponentFromPath( '/all_system_components//simpleDisplayEditorComponent.js')
 
     //
     // code editors
     //
-    await releaseComponentFromPath( '/ui_components/codePlugInVbEditor.js')
-    await releaseComponentFromPath( '/ui_components/codePlugInTextEditor.js')
+    await releaseComponentFromPath( '/all_system_components//codePlugInVbEditor.js')
+    await releaseComponentFromPath( '/all_system_components//codePlugInTextEditor.js')
 
     outputDebug("Loaded main drivers")
 
@@ -1545,12 +1545,12 @@ async function  setUpComponentsLocally                  (  ) {
     //
     // apps
     //
-    await releaseComponentFromPath( '/apps/appEditorV3.js')
+    await releaseComponentFromPath( '/all_system_components/appEditorV3.js')
 
     await evalHtmlComponentFromPath( '/apps/homepage.js')
     await evalHtmlComponentFromPath( '/apps/mobilehomepage.js')
-    await releaseComponentFromPath( '/apps/yazz_blank.js')
-    await releaseComponentFromPath( '/apps/totally_blank_app.js')
+    await releaseComponentFromPath( '/all_system_components/yazz_blank.js')
+    await releaseComponentFromPath( '/all_system_components/totally_blank_app.js')
 
     //await releaseComponentFromPath( '/apps/search.js')
     //await releaseComponentFromPath( '/apps/test.js')
@@ -1594,10 +1594,10 @@ async function  setUpComponentsLocally                  (  ) {
     //
     // non GUI front end apps
     //
-    await releaseComponentFromPath( '/apps/rh3scale_app.js')
+    //await releaseComponentFromPath( '/apps/rh3scale_app.js')
     await releaseComponentFromPath('/apps/quicksort.js')
     //await releaseComponentFromPath( '/apps/bubblesort.js')
-    await releaseComponentFromPath( '/apps/blank_app.js')
+    await releaseComponentFromPath( '/all_system_components/blank_app.js')
     //await evalHtmlComponentFromPath( '/apps/blank_microservice.js')
     //await releaseComponentFromPath( '/apps/demo_microservice.js')
     ////await releaseComponentFromPath( '/apps/echo_microservice.js')
