@@ -2253,16 +2253,15 @@ End of app preview menu
             //
             // make sure we load the component that is being edited by this app
             //
+            // ******* if we have the code ID *********
             if (mm.arg_edit_code_id) {
                 GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                 GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
                 GLOBALS.inEditor                                    = true
-
                 await mm.loadComponentIntoEditor({codeId: GLOBALS.editingAppCodeId})
-
+            // ******* if we only have the BCI *********
             } else if (mm.arg_edit_base_component_id) {
                 GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
-debugger
                 await mm.loadComponentIntoEditor({baseComponentId: this.arg_edit_base_component_id})
             }
 
@@ -2271,7 +2270,7 @@ debugger
 
 
             //
-            // some helper callbacks
+            // some helper callbacks so outsiders can changed the state of the editor
             //
             this.$root.$on('message', async function(message) {
                 if (message.type == "set_info_text") {
@@ -2308,25 +2307,42 @@ debugger
                         mm.refresh ++
                     },500)
                 }
-
-
             })
+
+
+
+            //
+            // Load miscalaneous components
+            //
             await GLOBALS.makeSureUiComponentLoadedV5(["yazz_blank"])
             await GLOBALS.makeSureUiComponentLoadedV5(["totally_blank_app"])
-            setInterval(async function() {
 
+
+
+
+
+
+            //
+            // set up the AUTOSAVE timer every 4 seconds
+            //
+            setInterval(async function() {
+                // ******** if a change has been made **************
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
-                    //debugger
+                    // ******** if AUTOSAVE is on then save the code ************
                     if (!disableAutoSave) {
                         appClearIntervals();
-
                         await mm.save(mm.base_component_id, mm.code_id, null)
                     }
                 }
-            },5000)
+            }, 4000)
+
+
+
+
+            //
+            // Refresh the editor
+            //
             mm.refresh ++
-
-
        }
     })
 }
