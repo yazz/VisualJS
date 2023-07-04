@@ -3493,6 +3493,31 @@ ${eventMessage.code}
                 }
                 return forms
             },
+            isApp:                                  function        (  ) {
+                /*
+                ________________________________________
+                |                                      |
+                |                 isApp                |
+                |                                      |
+                |______________________________________|
+
+                TO BE FILLED IN
+
+                __________
+                | Params |
+                |        |______________________________________________________________
+                |
+                |     NONE
+                |________________________________________________________________________ */
+                let componentType = yz.getValueOfCodeString(this.text,"component_type")
+                if (componentType == "APP") {
+                    return true
+                }
+                if (componentType == "SYSTEM") {
+                    return true
+                }
+                return false
+            },
             getFormProperties:                      function        (    formName    ) {
                 //-------------------------------------------------------------------
                 //                        getFormProperties
@@ -4860,7 +4885,7 @@ return {}
                 /*
                 ________________________________________
                 |                                      |
-                |                   |
+                |                setText               |
                 |                                      |
                 |______________________________________|
 
@@ -4872,20 +4897,18 @@ return {}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                //debugger
-                //console.log("start setText")
-                let mm = this
-                this.text =  textValue
-                let json2 = this.getJsonModelFromCode(  textValue  )
-                //console.log("setText: mm.model = json2")
+                let mm      = this
+                this.text   = textValue
+                let json2   = this.getJsonModelFromCode(  textValue  )
+
                 mm.edited_app_component_id = yz.getValueOfCodeString(textValue, "base_component_id")
 
-                mm.old_model = JSON.parse(JSON.stringify(json2));
-                mm.model = json2
+                mm.old_model    = JSON.parse(JSON.stringify(json2));
+                mm.model        = json2
+
                 mm.updatePropertySelector()
                 mm.updateAllFormCaches()
                 mm.refresh ++
-                //console.log("end setText")
             },
             getJsonModelFromCode:                   function        (  codeV  ) {
                 /*
