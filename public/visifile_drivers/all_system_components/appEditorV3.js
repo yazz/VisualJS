@@ -1586,7 +1586,6 @@ End of app preview menu
 
 
                             setTimeout(async function() {
-                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                                 if (mm.$refs.editor_component_ref) {
                                     if (mm.$refs.editor_component_ref.setText) {
                                         mm.$refs.editor_component_ref.setText(code)
@@ -1642,7 +1641,6 @@ End of app preview menu
                         mm.refresh++
 
                         setTimeout(async function() {
-                            mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                             if (mm.$refs.editor_component_ref) {
                                 if (mm.$refs.editor_component_ref.setText) {
                                     mm.$refs.editor_component_ref.setText(code)
@@ -1732,7 +1730,6 @@ End of app preview menu
                             }
 
                             setTimeout(async function() {
-                                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
                                 if (mm.$refs.editor_component_ref) {
                                     if (mm.$refs.editor_component_ref.setText) {
                                         mm.$refs.editor_component_ref.setText(code)
@@ -1759,11 +1756,23 @@ End of app preview menu
                     mm.preview_type = "app"
                 }
 
+                //
+                // set other vars based on the code
+                //
+                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
+
+
+
+                //
+                // if the app is read only then lock the editor
+                //
                 if (mm.read_only) {
                     mm.editor_shell_locked = true
                 } else {
                     mm.editor_shell_locked = false
                 }
+
+
             },
             save:                           async function  (  base_component_id  ,  code_id  ,  textIn  ,  extras  ) {
                 // ---------------------------------------------------------------
