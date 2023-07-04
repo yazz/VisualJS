@@ -2239,35 +2239,40 @@ End of app preview menu
             if ($HIDEIMPORTBUTTONS == 'false') {
                 mm.hideImportButtons = false
             }
-            mm.override_app_editor = null
+            mm.override_app_editor  = null
+            mm.show_download_save   = true
+            mm.show_filename_save   = false
+            mm.execution_timeline   = executionTimeline
+            mm.execution_code       = executionCode
+            mm.execution_block_list = Object.keys(this.execution_code)
 
-            this.show_download_save = true
-            this.show_filename_save = false
 
 
-            this.execution_timeline   = executionTimeline
-            this.execution_code       = executionCode
-            this.execution_block_list = Object.keys(this.execution_code)
+
 
             //
-            // make sure we load the component for this app
+            // make sure we load the component that is being edited by this app
             //
             if (mm.arg_edit_code_id) {
                 GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                 GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
                 GLOBALS.inEditor                                    = true
 
-
                 await mm.loadComponentIntoEditor({codeId: GLOBALS.editingAppCodeId})
-
 
             } else if (mm.arg_edit_base_component_id) {
                 GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
-
+debugger
                 await mm.loadComponentIntoEditor({baseComponentId: this.arg_edit_base_component_id})
-
             }
 
+
+
+
+
+            //
+            // some helper callbacks
+            //
             this.$root.$on('message', async function(message) {
                 if (message.type == "set_info_text") {
                     mm.info_text = message.text
