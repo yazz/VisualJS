@@ -555,7 +555,7 @@ ___________
 
 
             <div    v-if='app_loaded'
-                    v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
+                    v-bind:style="'display:flex;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
 
     
 
@@ -584,14 +584,14 @@ ___________
                 <input
                     readonly
                     v-if='preview_type=="app"'
-                    style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                    style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                     v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                    v-bind:value='(preview_type=="app")?location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html":"Previewing " + base_component_id'>
+                    v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
                 </input>
 
                 <span
                     v-if='preview_type!="app"'
-                    style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;margin-top:2px;text-decoration: none;'>
+                    style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;margin-top:2px;'>
                         {{ "Previewing '" + base_component_id + "'" }}
                 </span>
 
