@@ -4303,7 +4303,7 @@ async function  startServices                           (  ) {
                 function() {
                     dbsearch.all(
                         " select  " +
-                        "     distinct(yz_cache_released_components.id), component_name, app_icon_data, ipfs_hash, yz_cache_released_components.base_component_id, logo_url " +
+                        "     distinct(yz_cache_released_components.id), component_name, ipfs_hash, yz_cache_released_components.base_component_id, logo_url " +
                         " from " +
                         "     yz_cache_released_components " +
                         " and " +
@@ -4324,7 +4324,7 @@ async function  startServices                           (  ) {
                                                     ,
                                                     base_component_id:  thisRow.base_component_id
                                                     ,
-                                                    logo:               thisRow.app_icon_data
+                                                    logo:               thisRow.logo_url
                                                     ,
                                                     ipfs_hash:          thisRow.ipfs_hash
                                                     ,
