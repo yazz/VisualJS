@@ -4303,11 +4303,9 @@ async function  startServices                           (  ) {
                 function() {
                     dbsearch.all(
                         " select  " +
-                        "     distinct(yz_cache_released_components.id), component_name, app_icon_data, ipfs_hash, yz_cache_released_components.base_component_id " +
+                        "     distinct(yz_cache_released_components.id), component_name, app_icon_data, ipfs_hash, yz_cache_released_components.base_component_id, logo_url " +
                         " from " +
                         "     yz_cache_released_components " +
-                        " inner JOIN " +
-                        "     icon_images ON yz_cache_released_components.icon_image_id = icon_images.id " +
                         " and " +
                         "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
                         ,
