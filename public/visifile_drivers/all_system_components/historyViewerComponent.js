@@ -41,6 +41,9 @@ load_once_from_file(true)
                 },
                 highlightedItems:       {},
                 inUnHighlightAll:       false,
+                timelineStart:          null,
+                timelineEnd:            null,
+
 
                 /* when was the change in a commit first made (each commit can have many changes)
                 eg:
@@ -307,6 +310,11 @@ load_once_from_file(true)
                     mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
                     await mm.selectItemDetails(mm.codeId)
                     await mm.highlightItem(mm.codeId)
+
+                    mm.timeline.on('rangechange', function (properties) {
+                        mm.timelineStart    = properties.start
+                        mm.timelineEnd      = properties.end
+                    });
                 },100)
             },
 
@@ -766,8 +774,9 @@ load_once_from_file(true)
                     'message'
                     ,
                     {
-                        type:       "force_raw_load",
-                        commitId:    mm.selectedCommitId
+                        type:            "force_raw_load",
+                        commitId:        mm.selectedCommitId,
+                        options:        {}
                     }
                 )
 
