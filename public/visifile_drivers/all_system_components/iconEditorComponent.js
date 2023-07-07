@@ -15,7 +15,7 @@ load_once_from_file(true)
                 mousedown:              false,
                 icon_image_data:        null,
                 draw_color:             "black",
-                brush_width:            3,
+                brush_width:            12,
                 baseComponentId:        null,
                 colors:                 [ "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray", "cyan","lightblue" ]  ,
                 iconHeightPixels:       200,
