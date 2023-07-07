@@ -332,37 +332,6 @@ load_once_from_file(true)
             },
 
             // interaction with the timeline UI
-            previewItemDetails:                 async function (  commitId  ) {
-            try {
-                let mm = this
-                if (commitId) {
-                    await mm.unHighlightAllExceptLockedItem(true)
-                    await mm.clearDetailsPane()
-
-                    mm.showCode="details"
-                    mm.previewedCommitId = commitId
-                    await mm.highlightItem(commitId)
-                    //await mm.showCommit()
-
-
-                    let thisHistoryItem = mm.listOfAllCommits[commitId]
-                    //if (thisHistoryItem.parent_id) {
-                    //    await mm.highlightItem(thisHistoryItem.parent_id)
-                    //}
-                    if (thisHistoryItem.descendants) {
-                        for (let descendant of thisHistoryItem.descendants) {
-                            await mm.highlightItem(descendant.id, {style: "border: solid black 2px;"})
-                        }
-                    }
-
-                }
-
-            } catch (err) {
-                debugger
-            }
-
-
-         },
             selectItemDetails:                  async function (  commitId  ) {
          //debugger
              let mm = this
