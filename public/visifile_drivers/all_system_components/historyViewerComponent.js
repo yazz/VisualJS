@@ -321,9 +321,9 @@ load_once_from_file(true)
                     await mm.selectItemDetails(mm.codeId)
                     await mm.highlightItem(mm.codeId)
 
-                    mm.timeline.on('rangechange', function (properties) {
-                        mm.timelineStart    = properties.start
-                        mm.timelineEnd      = properties.end
+                    mm.timeline.on('rangechanged', function (properties) {
+                        mm.timelineStart    = properties.start.getTime()
+                        mm.timelineEnd      = properties.end.getTime()
                     });
                 },100)
             },
