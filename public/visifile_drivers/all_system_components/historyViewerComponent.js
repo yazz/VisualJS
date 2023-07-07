@@ -753,23 +753,32 @@ load_once_from_file(true)
             //alert(JSON.stringify(result))
             },
             checkoutCode:                       async function () {
-                //debugger
-                let mm = this
-                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.selectedCommitId})
+                let mm              = this
+                let responseJson    = await getFromYazzReturnJson(
+                    "/http_get_load_code_commit",
+                    {
+                        commit_id: mm.selectedCommitId
+                    }
+                )
                 mm.text = responseJson.code
 
                 mm.$root.$emit(
-                'message', {
-                 type:   "force_raw_load",
-                 commitId: mm.selectedCommitId
-                })
+                    'message'
+                    ,
+                    {
+                        type:       "force_raw_load",
+                        commitId:    mm.selectedCommitId
+                    }
+                )
 
-                //debugger
-                let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
-                {
-                sha1sum:            mm.selectedCommitId,
-                baseComponentId:    mm.baseComponentId
-                })
+                let responseJson2 = await getFromYazzReturnJson(
+                    "/http_get_point_edit_marker_at_commit"
+                    ,
+                    {
+                        sha1sum:            mm.selectedCommitId,
+                        baseComponentId:    mm.baseComponentId
+                    }
+                )
             }
         }
     })
