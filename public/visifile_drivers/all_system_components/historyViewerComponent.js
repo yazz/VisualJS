@@ -15,14 +15,7 @@ load_once_from_file(true)
             |                                      |
             |                DATA                  |
             |                                      |
-            |______________________________________|
-            Function description
-            __________
-            | PARAMS |______________________________________________________________
-            |
-            |     NONE
-            |     ----
-            |________________________________________________________________________ */
+            |______________________________________|*/
             return {
                 // the component code
                 text:                   args.text,
@@ -54,7 +47,6 @@ load_once_from_file(true)
                 },
                 highlightedItems:       {},
                 inUnHighlightAll:       false,
-                processingMouse:        false,
 
                 /* when was the change in a commit first made (each commit can have many changes)
                 eg:
@@ -308,31 +300,8 @@ load_once_from_file(true)
                     // Create a Timeline
                     mm.timeline = new vis.Timeline(container, mm.timelineData, options);
                     mm.timeline.setGroups(groups)
-                    mm.timeline.on("mouseOver", async function (properties) {
-                        if (mm.processingMouse) {return}
-                        mm.processingMouse = true
-                        await mm.previewItemDetails(properties.item)
-                        mm.processingMouse = false
-                    });
-                    mm.timeline.on("mouseMove", async function (properties) {
-                        if (mm.processingMouse) {return}
-                        mm.processingMouse = true
-                        await mm.previewItemDetails(properties.item)
-                        if (properties.item == null) {
 
-                            await mm.unHighlightAllExceptLockedItem()
-                            if (mm.lockedSelectedCommit) {
-                                await mm.onlyHighlightLockedItem()
-                            } else {
-                                mm.previewedCommitId = null
-                                await mm.clearDetailsPane()
-                            }
-                        }
-                        mm.processingMouse = false
-                    });
                     mm.timeline.on("click", async function (properties) {
-                        if (mm.processingMouse) {return}
-                        mm.processingMouse = true
                         if (properties.item) {
                             await mm.selectItemDetails(properties.item)
                         } else {
@@ -340,7 +309,6 @@ load_once_from_file(true)
                             mm.previewedCommitId = null
                             mm.lockedSelectedCommit = null
                         }
-                        mm.processingMouse = false
                     });
 
                     mm.timeline.moveTo(mm.listOfAllCommits[mm.selectedCommitId].timestamp)
