@@ -279,10 +279,20 @@ load_once_from_file(true)
                     timeNow         = new Date().getTime()
                     time2MinsAgo    = new Date().getTime() - (2 * 60 * 1000)
                     groups          = new vis.DataSet()
+
+                    if (isValidObject(window.keepTimeline) && window.keepTimeline) {
+                        mm.timelineStart    = window.timelineStart
+                        mm.timelineEnd      = window.timelineEnd
+                    } else {
+                        mm.timelineStart    = time2MinsAgo
+                        mm.timelineEnd      = timeNow
+                    }
+                    window.keepTimeline = false
+
                     options         = {
                                         zoomable:  true,
-                                        start:     time2MinsAgo,
-                                        end:       timeNow
+                                        start:     mm.timelineStart,
+                                        end:       mm.timelineEnd
                                       };
 
                     for (let rew = 1; rew < 6; rew++) {
@@ -770,13 +780,16 @@ load_once_from_file(true)
                 )
                 mm.text = responseJson.code
 
+                window.timelineStart    = mm.timelineStart
+                window.timelineEnd      = mm.timelineEnd
+                window.keepTimeline     = true
+
                 mm.$root.$emit(
                     'message'
                     ,
                     {
                         type:            "force_raw_load",
-                        commitId:        mm.selectedCommitId,
-                        options:        {}
+                        commitId:        mm.selectedCommitId
                     }
                 )
 
