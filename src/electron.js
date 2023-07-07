@@ -3722,40 +3722,22 @@ async function  createLogoUrlData                       (  logo  ) {
     |________________________________________________________________________ */
 
     let dataString          = null
-    let rowhash             = crypto.createHash('sha256');
     let fullPath
     let imageExtension
-    let icon_image_id       = null
 
-    let promise = new Promise(async function(returnfn) {
-
-        if (logo) {
-            if (logo.startsWith("data:")) {
-                rowhash.setEncoding('hex');
-                rowhash.write(logo);
-                rowhash.end();
-                icon_image_id = rowhash.read();
-                dataString = logo
-            } else if (logo.startsWith("http")) {
-            } else {
-                fullPath        = path.join(__dirname, "../public" + logo)
-                logoFileIn      = fs.readFileSync(fullPath);
-                dataString      = new Buffer(logoFileIn).toString('base64');
-                imageExtension  = logo.substring(logo.lastIndexOf(".") + 1)
-                dataString      = "data:image/" + imageExtension + ";base64," + dataString
-
-                rowhash.setEncoding('hex');
-                rowhash.write(dataString);
-                rowhash.end();
-
-                icon_image_id = rowhash.read();
-            }
+    if (logo) {
+        if (logo.startsWith("data:")) {
+            dataString = logo
+        } else if (logo.startsWith("http")) {
+        } else {
+            fullPath        = path.join(__dirname, "../public" + logo)
+            logoFileIn      = fs.readFileSync(fullPath);
+            dataString      = new Buffer(logoFileIn).toString('base64');
+            imageExtension  = logo.substring(logo.lastIndexOf(".") + 1)
+            dataString      = "data:image/" + imageExtension + ";base64," + dataString
         }
-        returnfn(icon_image_id)
-
-    })
-    let ret2 = await promise
-    return ret2
+    }
+    return dataString
 }
 async function  createIconImageEntryReturnsId            (  logo  ) {
     /*
