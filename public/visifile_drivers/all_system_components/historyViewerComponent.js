@@ -22,7 +22,7 @@ load_once_from_file(true)
                 showCode:               "details",
 
                 // used to preview and select commits
-                previewedCommitId:      null,
+                selectedCommitId:      null,
 
                 // the type of the commit
                 baseComponentId:        null,
@@ -126,46 +126,46 @@ load_once_from_file(true)
                       <div  id="visualization_commit_details"
                             style="padding: 10px;">
                             
-                        <div v-if="(previewedCommitId != null) && (listOfAllCommits[previewedCommitId])">
+                        <div v-if="(selectedCommitId != null) && (listOfAllCommits[selectedCommitId])">
                           
                           <div v-if="showCode=='details'">
         
-                            <div><b>Number of Changes:</b> {{listOfAllCommits[previewedCommitId].num_changes}}</div>
-                            <div v-if="listOfAllCommits[previewedCommitId].changes">
+                            <div><b>Number of Changes:</b> {{listOfAllCommits[selectedCommitId].num_changes}}</div>
+                            <div v-if="listOfAllCommits[selectedCommitId].changes">
                               <div style="margin-left: 80px;"
-                                   v-for="(item,i) in listOfAllCommits[previewedCommitId].changes.slice().reverse()">
-                                <span v-if="i==(listOfAllCommits[previewedCommitId].changes.length - 1)"><b>First commit</b> - </span>
-                                <span v-if="i!=(listOfAllCommits[previewedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[previewedCommitId], item.timestamp)) }}</b> - </span>
+                                   v-for="(item,i) in listOfAllCommits[selectedCommitId].changes.slice().reverse()">
+                                <span v-if="i==(listOfAllCommits[selectedCommitId].changes.length - 1)"><b>First commit</b> - </span>
+                                <span v-if="i!=(listOfAllCommits[selectedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[selectedCommitId], item.timestamp)) }}</b> - </span>
         
                                 {{ item.code_change_text }}
                               </div>
                             </div>
                             <br/>
         
-                                <div><b>Tags:</b> {{listOfAllCommits[previewedCommitId].code_tag_list.length}}</div>
+                                <div><b>Tags:</b> {{listOfAllCommits[selectedCommitId].code_tag_list.length}}</div>
                                   <div style="margin-left: 80px;"
-                                       v-for="(item,i) in listOfAllCommits[previewedCommitId].code_tag_list">
+                                       v-for="(item,i) in listOfAllCommits[selectedCommitId].code_tag_list">
                                     {{ item.code_tag }}
                                     <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
                                   </div>
         
-                              <div v-bind:style="listOfAllCommits[previewedCommitId].id==codeId?'color:red;fpnt-style:bold;':''">
-                                  <b>Commit ID:</b> {{listOfAllCommits[previewedCommitId].id}}
-                                  <b v-if="listOfAllCommits[previewedCommitId].id==codeId"> (Current commit)</b>
+                              <div v-bind:style="listOfAllCommits[selectedCommitId].id==codeId?'color:red;fpnt-style:bold;':''">
+                                  <b>Commit ID:</b> {{listOfAllCommits[selectedCommitId].id}}
+                                  <b v-if="listOfAllCommits[selectedCommitId].id==codeId"> (Current commit)</b>
                                   </div>
-                              <div><b>Time:</b> {{msToTime(listOfAllCommits[previewedCommitId].timestamp,{timeOnly: true})}} </div>
-                              <div><b>User ID:</b> {{listOfAllCommits[previewedCommitId].user_id}}</div>
-                              <div><b>Parent:</b> {{listOfAllCommits[previewedCommitId].parent_id}}</div>
-                              <div><b>Type:</b> {{listOfAllCommits[previewedCommitId].base_component_id}}</div>
+                              <div><b>Time:</b> {{msToTime(listOfAllCommits[selectedCommitId].timestamp,{timeOnly: true})}} </div>
+                              <div><b>User ID:</b> {{listOfAllCommits[selectedCommitId].user_id}}</div>
+                              <div><b>Parent:</b> {{listOfAllCommits[selectedCommitId].parent_id}}</div>
+                              <div><b>Type:</b> {{listOfAllCommits[selectedCommitId].base_component_id}}</div>
                               <div><b>Descendants:</b>
-                                  <span v-if="listOfAllCommits[previewedCommitId].descendants.length==1">
-                                    ({{listOfAllCommits[previewedCommitId].descendants.length}})
+                                  <span v-if="listOfAllCommits[selectedCommitId].descendants.length==1">
+                                    ({{listOfAllCommits[selectedCommitId].descendants.length}})
                                   </span>
-                                <span v-if="listOfAllCommits[previewedCommitId].descendants.length>1" style="color:red;">
-                                    ({{listOfAllCommits[previewedCommitId].descendants.length}})
+                                <span v-if="listOfAllCommits[selectedCommitId].descendants.length>1" style="color:red;">
+                                    ({{listOfAllCommits[selectedCommitId].descendants.length}})
                                   </span>
                                    
-                                <span v-for='(descendant,index) in listOfAllCommits[previewedCommitId].descendants'>
+                                <span v-for='(descendant,index) in listOfAllCommits[selectedCommitId].descendants'>
                                   <a href="#"
                                     v-on:click="jumpToCommitId(descendant.id)" 
                                         >
@@ -300,7 +300,7 @@ load_once_from_file(true)
                             await mm.selectItemDetails(properties.item)
                         } else {
                             await mm.unHighlightAllExceptLockedItem()
-                            mm.previewedCommitId = null
+                            mm.selectedCommitId = null
                         }
                     });
 
@@ -326,10 +326,9 @@ load_once_from_file(true)
 
             // interaction with the timeline UI
             selectItemDetails:                  async function (  commitId  ) {
-                let mm = this
-                mm.previewedCommitId = commitId
+                let mm              = this
+                mm.selectedCommitId = commitId
                 mm.showCode='details'
-                //await mm.showCommit()
 
                 if (mm.listOfAllCommits[commitId].descendants) {
                     for(let descendant of mm.listOfAllCommits[commitId].descendants) {
@@ -342,7 +341,7 @@ load_once_from_file(true)
             onlyHighlightLockedItem:            async function () {
              //debugger
              let mm = this
-             await mm.highlightItem(mm.previewedCommitId)
+             await mm.highlightItem(mm.selectedCommitId)
              await mm.unHighlightAllExceptLockedItem()
          },
             unHighlightAllExceptLockedItem:     async function (  unhighlightLockedItem  ) {
@@ -354,7 +353,7 @@ load_once_from_file(true)
                 mm.inUnHighlightAll = true
                 for (let highlightedItem of Object.keys(mm.highlightedItems)) {
                      if (mm.highlightedItems[highlightedItem]) {
-                        if ((unhighlightLockedItem == true) || highlightedItem != mm.previewedCommitId) {
+                        if ((unhighlightLockedItem == true) || highlightedItem != mm.selectedCommitId) {
                             let itemStyle = ""
                             let selectedCommitDataItem = mm.listOfAllCommits[highlightedItem]
                             if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
@@ -502,7 +501,7 @@ load_once_from_file(true)
                 let mm = this
                 mm.showCode='commit'
 
-                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
+                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.selectedCommitId})
                 mm.commitCode = responseJson.code
             },
             showDetails:                        async function () {
@@ -514,7 +513,7 @@ load_once_from_file(true)
                 let mm = this
                 mm.showCode = "diff"
 
-                let commitId = mm.previewedCommitId
+                let commitId = mm.selectedCommitId
                 if (!commitId) {
                     return
                 }
@@ -564,11 +563,11 @@ load_once_from_file(true)
                 // -----------------------------------------------------
 
                 let mm = this
-                if (!mm.previewedCommitId) {
+                if (!mm.selectedCommitId) {
                     return
                 }
 
-                let parentId = mm.listOfAllCommits[mm.previewedCommitId].parent_id
+                let parentId = mm.listOfAllCommits[mm.selectedCommitId].parent_id
                 //alert("goto parent : " + parentId)
                 mm.timeline.moveTo(mm.listOfAllCommits[parentId].timestamp)
                 await mm.selectItemDetails(parentId)
@@ -585,11 +584,11 @@ load_once_from_file(true)
                 //
                 // -----------------------------------------------------
                 let mm = this
-                if (!mm.previewedCommitId) {
+                if (!mm.selectedCommitId) {
                     return
                 }
 
-                let descendants = mm.listOfAllCommits[mm.previewedCommitId].descendants
+                let descendants = mm.listOfAllCommits[mm.selectedCommitId].descendants
                 if (!descendants) {
                     return
                 }
@@ -745,7 +744,7 @@ load_once_from_file(true)
             let responseJson = await getFromYazzReturnJson(
                                 "/http_get_bulk_calculate_branch_strength_for_component",
                                 {
-                                    commit_id:          mm.previewedCommitId,
+                                    commit_id:          mm.selectedCommitId,
                                     baseComponentId:    mm.baseComponentId
                                     })
             //let result = responseJson
@@ -754,19 +753,19 @@ load_once_from_file(true)
             checkoutCode:                       async function () {
                 //debugger
                 let mm = this
-                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
+                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.selectedCommitId})
                 mm.text = responseJson.code
 
                 mm.$root.$emit(
                 'message', {
                  type:   "force_raw_load",
-                 commitId: mm.previewedCommitId
+                 commitId: mm.selectedCommitId
                 })
 
                 //debugger
                 let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
                 {
-                sha1sum:            mm.previewedCommitId,
+                sha1sum:            mm.selectedCommitId,
                 baseComponentId:    mm.baseComponentId
                 })
             }
