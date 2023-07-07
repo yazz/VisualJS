@@ -1762,9 +1762,9 @@ End of app preview menu
                     }
 
 
-                    if (mm.$refs.editor_component_ref.lockEditor) {
-                        mm.$refs.editor_component_ref.lockEditor()
-                    }
+                    //if (mm.$refs.editor_component_ref.lockEditor) {
+                        //mm.$refs.editor_component_ref.lockEditor()
+                    //}
                     mm.editor_shell_locked = true
 
                     showProgressBar()
@@ -1815,9 +1815,9 @@ End of app preview menu
                         }
                     }
                     hideProgressBar()
-                    if (mm.$refs.editor_component_ref.unlockEditor) {
-                        mm.$refs.editor_component_ref.unlockEditor()
-                    }
+                    //if (mm.$refs.editor_component_ref.unlockEditor) {
+                        //mm.$refs.editor_component_ref.unlockEditor()
+                    //}
                     mm.editor_shell_locked = false
 
                     mm.save_state = "saved"
