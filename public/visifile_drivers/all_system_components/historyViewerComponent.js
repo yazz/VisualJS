@@ -287,7 +287,6 @@ load_once_from_file(true)
                         mm.timelineStart    = time2MinsAgo
                         mm.timelineEnd      = timeNow
                     }
-                    window.keepTimeline = false
 
                     options         = {
                                         zoomable:  true,
@@ -317,7 +316,12 @@ load_once_from_file(true)
                         }
                     });
 
-                    mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
+                    if (isValidObject(window.keepTimeline) && window.keepTimeline) {
+                    } else {
+                        mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
+                    }
+                    window.keepTimeline = false
+
                     await mm.selectItemDetails(mm.codeId)
                     await mm.highlightItem(mm.codeId)
 
