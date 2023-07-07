@@ -80,7 +80,7 @@ module.exports = {
             "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                   ON ipfs_hashes (ipfs_hash);",
 
 
-            "CREATE TABLE IF NOT EXISTS yz_cache_released_components (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, icon_image_id TEXT, avg_rating NUMBER, num_ratings NUMBER, code TEXT);",
+            "CREATE TABLE IF NOT EXISTS yz_cache_released_components (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, icon_image_id TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, code TEXT);",
             "CREATE INDEX IF NOT EXISTS released_components_idx                      ON yz_cache_released_components (id);",
 
 
