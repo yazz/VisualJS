@@ -4306,7 +4306,7 @@ async function  startServices                           (  ) {
                         "     distinct(yz_cache_released_components.id), component_name, ipfs_hash, yz_cache_released_components.base_component_id, logo_url " +
                         " from " +
                         "     yz_cache_released_components " +
-                        " and " +
+                        " where " +
                         "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
                         ,
                         []
