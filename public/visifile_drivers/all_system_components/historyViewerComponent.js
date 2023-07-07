@@ -23,11 +23,10 @@ load_once_from_file(true)
 
                 // used to preview and select commits
                 previewedCommitId:      null,
-                lockedSelectedCommit:   null,
-                codeId:       null,
 
                 // the type of the commit
                 baseComponentId:        null,
+                codeId:                 null,
 
                 // info for the UI timeline
                 timeline:               null,
@@ -302,7 +301,6 @@ load_once_from_file(true)
                         } else {
                             await mm.unHighlightAllExceptLockedItem()
                             mm.previewedCommitId = null
-                            mm.lockedSelectedCommit = null
                         }
                     });
 
@@ -329,7 +327,6 @@ load_once_from_file(true)
             // interaction with the timeline UI
             selectItemDetails:                  async function (  commitId  ) {
                 let mm = this
-                mm.lockedSelectedCommit = commitId
                 mm.previewedCommitId = commitId
                 mm.showCode='details'
                 //await mm.showCommit()
@@ -345,7 +342,7 @@ load_once_from_file(true)
             onlyHighlightLockedItem:            async function () {
              //debugger
              let mm = this
-             await mm.highlightItem(mm.lockedSelectedCommit)
+             await mm.highlightItem(mm.previewedCommitId)
              await mm.unHighlightAllExceptLockedItem()
          },
             unHighlightAllExceptLockedItem:     async function (  unhighlightLockedItem  ) {
@@ -357,7 +354,7 @@ load_once_from_file(true)
                 mm.inUnHighlightAll = true
                 for (let highlightedItem of Object.keys(mm.highlightedItems)) {
                      if (mm.highlightedItems[highlightedItem]) {
-                        if ((unhighlightLockedItem == true) || highlightedItem != mm.lockedSelectedCommit) {
+                        if ((unhighlightLockedItem == true) || highlightedItem != mm.previewedCommitId) {
                             let itemStyle = ""
                             let selectedCommitDataItem = mm.listOfAllCommits[highlightedItem]
                             if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
@@ -567,11 +564,11 @@ load_once_from_file(true)
                 // -----------------------------------------------------
 
                 let mm = this
-                if (!mm.lockedSelectedCommit) {
+                if (!mm.previewedCommitId) {
                     return
                 }
 
-                let parentId = mm.listOfAllCommits[mm.lockedSelectedCommit].parent_id
+                let parentId = mm.listOfAllCommits[mm.previewedCommitId].parent_id
                 //alert("goto parent : " + parentId)
                 mm.timeline.moveTo(mm.listOfAllCommits[parentId].timestamp)
                 await mm.selectItemDetails(parentId)
@@ -588,11 +585,11 @@ load_once_from_file(true)
                 //
                 // -----------------------------------------------------
                 let mm = this
-                if (!mm.lockedSelectedCommit) {
+                if (!mm.previewedCommitId) {
                     return
                 }
 
-                let descendants = mm.listOfAllCommits[mm.lockedSelectedCommit].descendants
+                let descendants = mm.listOfAllCommits[mm.previewedCommitId].descendants
                 if (!descendants) {
                     return
                 }
@@ -745,11 +742,10 @@ load_once_from_file(true)
             calculateBranchStrength:            async function () {
             //debugger
             let mm = this
-            //alert("Checking out commit: " + mm.lockedSelectedCommit)
             let responseJson = await getFromYazzReturnJson(
                                 "/http_get_bulk_calculate_branch_strength_for_component",
                                 {
-                                    commit_id:          mm.lockedSelectedCommit,
+                                    commit_id:          mm.previewedCommitId,
                                     baseComponentId:    mm.baseComponentId
                                     })
             //let result = responseJson
@@ -758,20 +754,19 @@ load_once_from_file(true)
             checkoutCode:                       async function () {
                 //debugger
                 let mm = this
-                //alert("Checking out commit: " + mm.lockedSelectedCommit)
-                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
+                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
                 mm.text = responseJson.code
 
                 mm.$root.$emit(
                 'message', {
                  type:   "force_raw_load",
-                 commitId: mm.lockedSelectedCommit
+                 commitId: mm.previewedCommitId
                 })
 
                 //debugger
                 let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
                 {
-                sha1sum:            mm.lockedSelectedCommit,
+                sha1sum:            mm.previewedCommitId,
                 baseComponentId:    mm.baseComponentId
                 })
             }
