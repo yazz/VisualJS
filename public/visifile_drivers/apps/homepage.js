@@ -1542,6 +1542,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                     let mm = this
                     let openfileurl = "http" + (($CENTRALHOSTPORT == 443) ? "s" : "") + "://" + $CENTRALHOST +
                         "/http_post_load_editable_apps"
+
                     fetch(openfileurl,
                         {
                             method: 'post',

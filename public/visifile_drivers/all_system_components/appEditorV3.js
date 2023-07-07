@@ -2213,12 +2213,13 @@ End of app preview menu
                     if (message.previewType) {
                         mm.preview_type = message.previewType
                     }
-                    //mm.save_state = "saved"
-                    //mm.checkSavedFile()
                 } else if (message.type == "force_raw_load") {
-                    //mm.save_state = "pending"
-                    //mm.checkSavedFile()
-                    await mm.loadComponentIntoEditor(   {codeId: message.commitId , runThisApp: true} )
+                    await mm.loadComponentIntoEditor(
+                        {
+                            codeId:     message.commitId ,
+                            runThisApp: true
+                        })
+
                     mm.$root.$emit('message', {
                         type:               "update_editable_components_on_homepage",
                         base_component_id:   mm.arg_edit_base_component_id,
