@@ -355,36 +355,34 @@ load_once_from_file(true)
              await mm.unHighlightAllExceptLockedItem()
          },
             unHighlightAllExceptLockedItem:     async function (  unhighlightLockedItem  ) {
-             //debugger
-             let mm = this
-            if (mm.inUnHighlightAll) {
-                return
-            }
+                let mm = this
+                if (mm.inUnHighlightAll) {
+                    return
+                }
 
-            mm.inUnHighlightAll = true
-             for (let highlightedItem of Object.keys(mm.highlightedItems)) {
-
-                 if (mm.highlightedItems[highlightedItem]) {
-                    if ((unhighlightLockedItem == true) || highlightedItem != mm.lockedSelectedCommit) {
-                        let itemStyle = ""
-                        let selectedCommitDataItem = mm.listOfAllCommits[highlightedItem]
-                        if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
-                            itemStyle += "font-weight: bold;"
+                mm.inUnHighlightAll = true
+                for (let highlightedItem of Object.keys(mm.highlightedItems)) {
+                     if (mm.highlightedItems[highlightedItem]) {
+                        if ((unhighlightLockedItem == true) || highlightedItem != mm.lockedSelectedCommit) {
+                            let itemStyle = ""
+                            let selectedCommitDataItem = mm.listOfAllCommits[highlightedItem]
+                            if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
+                                itemStyle += "font-weight: bold;"
+                            }
+                            let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
+                            let itemGroup = selectedCommitUiItem.group
+                            itemStyle += mm.groupColors[itemGroup].normal
+                            itemStyle += "border: solid white 2px;"
+                            mm.timelineData.update({
+                                id: highlightedItem,
+                                style: itemStyle
+                            });
+                            mm.highlightedItems[highlightedItem] = false
                         }
-                        let selectedCommitUiItem = mm.timelineData.get(highlightedItem);
-                        let itemGroup = selectedCommitUiItem.group
-                        itemStyle += mm.groupColors[itemGroup].normal
-                        itemStyle += "border: solid white 2px;"
-                        mm.timelineData.update({
-                            id: highlightedItem,
-                            style: itemStyle
-                        });
-                        mm.highlightedItems[highlightedItem] = false
-                    }
-                 }
-             }
-             mm.inUnHighlightAll = false
-         },
+                     }
+                }
+                mm.inUnHighlightAll = false
+             },
             highlightItem:                      async function (  commitId  ,  options  ) {
              let mm = this
              try {
