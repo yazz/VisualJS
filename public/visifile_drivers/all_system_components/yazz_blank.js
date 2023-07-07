@@ -31,30 +31,6 @@ formEditor({
       "height": 400,
       "add_block": "alert('Add block called')",
       "components": [
-        {
-          "leftX": 24,
-          "topY": 47,
-          "name": "aaa",
-          "base_component_id": "label_control",
-          "width": 320,
-          "height": 99,
-          "text": "Drag controls from the left onto this grid",
-          "background_color": "",
-          "parent": null,
-          "uuid": "d0bfeadc-20c0-4cd1-b405-36d5f8d601e8",
-          "watch": [],
-          "border_width_px": 1,
-          "padding_px": 5,
-          "load": "",
-          "color": "",
-          "border_color": "",
-          "use_pre": "",
-          "font_size_units": "",
-          "font_size": "",
-          "on_property_in": "",
-          "on_property_out": "",
-          "on_property_changed": ""
-        }
       ]
     },
     "Form_2": {
