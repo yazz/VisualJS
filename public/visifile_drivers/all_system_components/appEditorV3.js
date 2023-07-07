@@ -2256,7 +2256,7 @@ End of app preview menu
                         await mm.save(mm.base_component_id, mm.code_id, null)
                     }
                 }
-            }, 4000)
+            }, 1000)
 
 
 
