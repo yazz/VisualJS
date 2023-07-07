@@ -79,7 +79,6 @@ let stmtInsertMetaMaskLogin;
 let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
 let stmtInsertReleasedComponentListItem;
-let stmtInsertIconImageData;
 let setProcessToRunning;
 let setProcessToIdle;
 let setProcessRunningDurationMs;
@@ -1763,22 +1762,6 @@ function        setUpSql                                (  ) {
                                                         component_description  ,  
                                                         ipfs_hash , version,read_write_status, code, logo_url )
                                                values (?,?,?,?,?,?,?,?,?,?)`)
-
-
-
-
-    stmtInsertIconImageData = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               icon_images
-                                                    (  id  ,  app_icon_data  )
-                                               values (?,?)`)
-
-
-
-
-
-
-
 
 
 
