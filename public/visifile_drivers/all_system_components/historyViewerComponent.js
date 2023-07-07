@@ -299,8 +299,8 @@ load_once_from_file(true)
                         if (properties.item) {
                             await mm.selectItemDetails(properties.item)
                         } else {
-                            await mm.unHighlightAllExceptLockedItem()
                             mm.selectedCommitId = null
+                            await mm.unHighlightAllExceptLockedItem()
                         }
                     });
 
@@ -337,6 +337,8 @@ load_once_from_file(true)
                          }
                     }
                 }
+                await mm.highlightItem(commitId)
+                await mm.unHighlightAllExceptLockedItem()
             },
             onlyHighlightLockedItem:            async function () {
              //debugger
