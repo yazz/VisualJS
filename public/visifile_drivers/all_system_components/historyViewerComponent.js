@@ -10,12 +10,7 @@ load_once_from_file(true)
     Yazz.component( {
 
         data:       function () {
-            /*
-            ________________________________________
-            |                                      |
-            |                DATA                  |
-            |                                      |
-            |______________________________________|*/
+            // ******** DATA ********
             return {
                 // the component code
                 text:                   args.text,
@@ -29,7 +24,7 @@ load_once_from_file(true)
                 // used to preview and select commits
                 previewedCommitId:      null,
                 lockedSelectedCommit:   null,
-                selectedCommitId:       null,
+                codeId:       null,
 
                 // the type of the commit
                 baseComponentId:        null,
@@ -155,9 +150,9 @@ load_once_from_file(true)
                                     <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
                                   </div>
         
-                              <div v-bind:style="listOfAllCommits[previewedCommitId].id==selectedCommitId?'color:red;fpnt-style:bold;':''">
+                              <div v-bind:style="listOfAllCommits[previewedCommitId].id==codeId?'color:red;fpnt-style:bold;':''">
                                   <b>Commit ID:</b> {{listOfAllCommits[previewedCommitId].id}}
-                                  <b v-if="listOfAllCommits[previewedCommitId].id==selectedCommitId"> (Current commit)</b>
+                                  <b v-if="listOfAllCommits[previewedCommitId].id==codeId"> (Current commit)</b>
                                   </div>
                               <div><b>Time:</b> {{msToTime(listOfAllCommits[previewedCommitId].timestamp,{timeOnly: true})}} </div>
                               <div><b>User ID:</b> {{listOfAllCommits[previewedCommitId].user_id}}</div>
@@ -235,14 +230,14 @@ load_once_from_file(true)
                 |     textValue     Use the component code to find out what changes
                 |     ---------     have been made to this code
                 |________________________________________________________________________ */
-                let mm     =  this
-                this.text  = textValue
-                if (!isValidObject(this.text)) {
+                if (!isValidObject(textValue)) {
                     return
                 }
 
-                this.baseComponentId        = yz.getValueOfCodeString(this.text, "base_component_id")
-                this.selectedCommitId    = await this.getCurrentCommitId()
+                let mm                  =  this
+                this.text               = textValue
+                this.baseComponentId    = yz.getValueOfCodeString(this.text, "base_component_id")
+                this.codeId   = await this.getCurrentCommitId()
 
                 await this.setupTimeline()
                 setTimeout(async function(){
@@ -311,9 +306,9 @@ load_once_from_file(true)
                         }
                     });
 
-                    mm.timeline.moveTo(mm.listOfAllCommits[mm.selectedCommitId].timestamp)
-                    await mm.selectItemDetails(mm.selectedCommitId)
-                    await mm.highlightItem(mm.selectedCommitId)
+                    mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
+                    await mm.selectItemDetails(mm.codeId)
+                    await mm.highlightItem(mm.codeId)
                 },100)
             },
 
@@ -333,21 +328,20 @@ load_once_from_file(true)
 
             // interaction with the timeline UI
             selectItemDetails:                  async function (  commitId  ) {
-         //debugger
-             let mm = this
-             mm.lockedSelectedCommit = commitId
-             mm.previewedCommitId = commitId
-             mm.showCode='details'
-             //await mm.showCommit()
+                let mm = this
+                mm.lockedSelectedCommit = commitId
+                mm.previewedCommitId = commitId
+                mm.showCode='details'
+                //await mm.showCommit()
 
-             if (mm.listOfAllCommits[commitId].descendants) {
-                 for(let descendant of mm.listOfAllCommits[commitId].descendants) {
-                     if (!mm.listOfAllCommits[descendant.id]) {
-                         await mm.findFutureCommits(descendant.id)
-                     }
-                 }
-             }
-         },
+                if (mm.listOfAllCommits[commitId].descendants) {
+                    for(let descendant of mm.listOfAllCommits[commitId].descendants) {
+                        if (!mm.listOfAllCommits[descendant.id]) {
+                             await mm.findFutureCommits(descendant.id)
+                         }
+                    }
+                }
+            },
             onlyHighlightLockedItem:            async function () {
              //debugger
              let mm = this
@@ -636,9 +630,9 @@ load_once_from_file(true)
 
                 let mm = this
 
-                mm.timeline.moveTo(mm.listOfAllCommits[mm.selectedCommitId].timestamp)
-                await mm.selectItemDetails(mm.selectedCommitId)
-                await mm.highlightItem(mm.selectedCommitId)
+                mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
+                await mm.selectItemDetails(mm.codeId)
+                await mm.highlightItem(mm.codeId)
                 await mm.unHighlightAllExceptLockedItem()
             },
 
@@ -654,7 +648,7 @@ load_once_from_file(true)
                         "/http_get_load_version_history_v2?" +
                          new URLSearchParams({
                              id:        mm.baseComponentId,
-                             commit_id: mm.selectedCommitId
+                             commit_id: mm.codeId
                          })
 
                 let promise = new Promise(async function (returnfn) {
