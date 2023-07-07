@@ -1761,8 +1761,8 @@ function        setUpSql                                (  ) {
                                                yz_cache_released_components
                                                     (   id  ,  base_component_id  ,  component_name  ,  component_type, 
                                                         component_description  ,  icon_image_id  ,  
-                                                        ipfs_hash , version,read_write_status, code )
-                                               values (?,?,?,?,?,?,?,?,?,?)`)
+                                                        ipfs_hash , version,read_write_status, code, logo_url )
+                                               values (?,?,?,?,?,?,?,?,?,?,?)`)
 
 
 
@@ -3670,6 +3670,7 @@ async function  releaseCode                             (  commitId  ) {
     let logoFileIn
     let imageExtension
     let icon_image_id       = await createIconImageEntryReturnsId(logo)
+    let logoUrl             = await createLogoUrlData(logo)
 
     let promise = new Promise(async function(returnfn) {
 
@@ -3693,7 +3694,7 @@ async function  releaseCode                             (  commitId  ) {
                     stmtInsertReleasedComponentListItem.run(
                         id, base_component_id, app_name, component_type,
                         app_description, icon_image_id, ipfs_hash, '',
-                        readWriteStatus, codeString)
+                        readWriteStatus, codeString, logoUrl)
                     dbsearch.run("commit")
                     returnfn()
                 })
@@ -3704,6 +3705,57 @@ async function  releaseCode                             (  commitId  ) {
     let ret2 = await promise
     return ret2
 
+}
+async function  createLogoUrlData                       (  logo  ) {
+    /*
+    ________________________________________
+    |                                      |
+    |           createLogoUrlData          |
+    |                                      |
+    |______________________________________|
+    Used to add an image to the image registry
+    __________
+    | PARAMS |______________________________________________________________
+    |
+    |     imageUrl
+    |     --------      Data URI or file path
+    |________________________________________________________________________ */
+
+    let dataString          = null
+    let rowhash             = crypto.createHash('sha256');
+    let fullPath
+    let imageExtension
+    let icon_image_id       = null
+
+    let promise = new Promise(async function(returnfn) {
+
+        if (logo) {
+            if (logo.startsWith("data:")) {
+                rowhash.setEncoding('hex');
+                rowhash.write(logo);
+                rowhash.end();
+                icon_image_id = rowhash.read();
+                dataString = logo
+            } else if (logo.startsWith("http")) {
+            } else {
+                fullPath        = path.join(__dirname, "../public" + logo)
+                logoFileIn      = fs.readFileSync(fullPath);
+                dataString      = new Buffer(logoFileIn).toString('base64');
+                imageExtension  = logo.substring(logo.lastIndexOf(".") + 1)
+                dataString      = "data:image/" + imageExtension + ";base64," + dataString
+
+                rowhash.setEncoding('hex');
+                rowhash.write(dataString);
+                rowhash.end();
+
+                icon_image_id = rowhash.read();
+            }
+        }
+        returnfn(icon_image_id)
+
+    })
+    let ret2 = await promise
+    return ret2
 }
 async function  createIconImageEntryReturnsId            (  logo  ) {
     /*
