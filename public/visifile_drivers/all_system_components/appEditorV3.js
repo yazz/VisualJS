@@ -1750,26 +1750,16 @@ End of app preview menu
                 }
                 mm.inSave = true
 
-                //resetTimer("save")
-
                 try {
                     if (textIn == null) {
-                        //showTimer("before getText")
                         this.editor_text = await this.$refs.editor_component_ref.getText()
-                        //showTimer("after getText")
                     } else {
                         this.editor_text = textIn
                     }
 
 
-                    //if (mm.$refs.editor_component_ref.lockEditor) {
-                        //mm.$refs.editor_component_ref.lockEditor()
-                    //}
                     mm.editor_shell_locked = true
 
-                    showProgressBar()
-
-                    //showTimer("before save code")
                     let allowAppToWorkOffline = false
                     if (extras) {
                         allowAppToWorkOffline = extras.allowAppToWorkOffline
@@ -1790,7 +1780,6 @@ End of app preview menu
                             allowChanges:           false
                         })
 
-                    //showTimer("in save code response")
                     if (mm.$refs.editor_component_ref) {
                         if (mm.$refs.editor_component_ref.savedStatus !== undefined) {
                             await mm.$refs.editor_component_ref.savedStatus({status: "ok"})
@@ -1811,13 +1800,9 @@ End of app preview menu
                             await mm.loadComponentIntoEditor({code: mm.editor_text, runThisApp: true})
 
                         } else {
-                            hideProgressBar()
                         }
                     }
                     hideProgressBar()
-                    //if (mm.$refs.editor_component_ref.unlockEditor) {
-                        //mm.$refs.editor_component_ref.unlockEditor()
-                    //}
                     mm.editor_shell_locked = false
 
                     mm.save_state = "saved"
