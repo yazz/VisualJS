@@ -1011,6 +1011,8 @@ End of app preview menu
                edit_name:                       false,
                editor_text:                     "",
                yazz_debug_mode:                 false,
+               autosaveTimer:                   null,
+               deleteAutosaveTimer:             false,
                save_state:                      "saved"
            }
        },
@@ -2234,13 +2236,11 @@ End of app preview menu
             //
             console.log("Set up Ausosave for mm.code_id: " + mm.code_id)
 
-            if (GLOBALS.autosaveTimer) {
-                clearInterval(GLOBALS.autosaveTimer)
-                GLOBALS.autosaveTimer = null
-            }
 
-            if (mm.save_state != "pending") {
-                console.log("Delete Ausosave for mm.code_id: " + mm.code_id)
+            console.log("Create Ausosave for mm.code_id: " + mm.code_id)
+            console.log("         mm.save_state : " + mm.save_state )
+            mm.autosaveTimer = setInterval(async function() {
+                // ******** if a change has been made **************
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
                     // ******** if AUTOSAVE is on then save the code ************
                     if (!disableAutoSave) {
@@ -2249,19 +2249,10 @@ End of app preview menu
                         await mm.save(mm.base_component_id, mm.code_id, null)
                     }
                 }
-            }
-
-            console.log("Create Ausosave for mm.code_id: " + mm.code_id)
-            console.log("         mm.save_state : " + mm.save_state )
-            GLOBALS.autosaveTimer = setInterval(async function() {
-
-                // ******** if a change has been made **************
-                if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
-                    // ******** if AUTOSAVE is on then save the code ************
-                    if (!disableAutoSave) {
-                        console.log("     saved: " + mm.code_id)
-                        appClearIntervals();
-                        await mm.save(mm.base_component_id, mm.code_id, null)
+                if (mm.deleteAutosaveTimer) {
+                    if (mm.autosaveTimer) {
+                        clearInterval(mm.autosaveTimer)
+                        mm.autosaveTimer = null
                     }
                 }
             }, 1000)
@@ -2274,7 +2265,11 @@ End of app preview menu
             // Refresh the editor
             //
             mm.refresh ++
-       }
+        },
+        beforeDestroy() {
+            this.deleteAutosaveTimer = true
+        }
+
     })
 }
 
