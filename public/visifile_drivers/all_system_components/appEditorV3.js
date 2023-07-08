@@ -157,8 +157,8 @@ ___________
     GLOBALS.isStaticHtmlPageApp = false
     Yazz.component(
     {
-        props:      ['arg_edit_base_component_id', 'arg_edit_code_id'],
-        template:   `
+        props:          ['arg_edit_base_component_id', 'arg_edit_code_id'],
+        template:       `
 <div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;position:relative;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;display: block;overflow: auto;'>
         <img
@@ -962,7 +962,7 @@ End of app preview menu
     </div>
 </div>
 `,
-        data:       function() {
+        data:           function() {
            return {
                sqlite_data_saved_in_html:       false,
                file_save_state:                 (saveCodeToFile?saveCodeToFile:""),
@@ -1014,7 +1014,7 @@ End of app preview menu
                save_state:                      "saved"
            }
        },
-        methods:    {
+        methods:        {
             // editor actions
             closeSubEditor:                 async function  (  ) {
                // ---------------------------------------------------------------
@@ -2133,7 +2133,7 @@ End of app preview menu
 
             }
         },
-        mounted:    async function () {
+        mounted:        async function () {
             let mm = this
             await useIdeTools()
             await useEstraverse()
@@ -2233,10 +2233,12 @@ End of app preview menu
             // set up the AUTOSAVE timer every 4 seconds
             //
             setInterval(async function() {
+                console.log("Ausosave for mm.code_id: " + mm.code_id)
                 // ******** if a change has been made **************
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
                     // ******** if AUTOSAVE is on then save the code ************
                     if (!disableAutoSave) {
+                        console.log("     saved: " + mm.code_id)
                         appClearIntervals();
                         await mm.save(mm.base_component_id, mm.code_id, null)
                     }
@@ -2250,7 +2252,10 @@ End of app preview menu
             // Refresh the editor
             //
             mm.refresh ++
-       }
+       },
+        beforeDestroy:  async function () {
+            console.log("Destroying ...")
+        }
     })
 }
 
