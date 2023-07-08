@@ -2230,25 +2230,28 @@ End of app preview menu
 
 
             //
-            // set up the AUTOSAVE timer every 4 seconds
+            // set up the AUTOSAVE timer every second
             //
-            if (GLOBALS.autosaveTimer) {
+            if (GLOBALS.autosaveTimer && (mm.save_state != "pending")) {
                 clearInterval(GLOBALS.autosaveTimer)
                 GLOBALS.autosaveTimer = null
             }
-            GLOBALS.autosaveTimer = setInterval(async function() {
-                console.log("Ausosave for mm.code_id: " + mm.code_id)
+            if (GLOBALS.autosaveTimer == null) {
+                GLOBALS.autosaveTimer = setInterval(async function() {
+                    console.log("Ausosave for mm.code_id: " + mm.code_id)
+                    console.log("         mm.save_state : " + mm.save_state )
 
-                // ******** if a change has been made **************
-                if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
-                    // ******** if AUTOSAVE is on then save the code ************
-                    if (!disableAutoSave) {
-                        console.log("     saved: " + mm.code_id)
-                        appClearIntervals();
-                        await mm.save(mm.base_component_id, mm.code_id, null)
+                    // ******** if a change has been made **************
+                    if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
+                        // ******** if AUTOSAVE is on then save the code ************
+                        if (!disableAutoSave) {
+                            console.log("     saved: " + mm.code_id)
+                            appClearIntervals();
+                            await mm.save(mm.base_component_id, mm.code_id, null)
+                        }
                     }
-                }
-            }, 1000)
+                }, 1000)
+            }
 
 
 
