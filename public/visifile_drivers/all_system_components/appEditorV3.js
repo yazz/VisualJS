@@ -2234,6 +2234,7 @@ End of app preview menu
             //
             if (GLOBALS.autosaveTimer) {
                 clearInterval(GLOBALS.autosaveTimer)
+                GLOBALS.autosaveTimer = null
             }
             GLOBALS.autosaveTimer = setInterval(async function() {
                 console.log("Ausosave for mm.code_id: " + mm.code_id)
