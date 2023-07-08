@@ -2252,10 +2252,7 @@ End of app preview menu
             // Refresh the editor
             //
             mm.refresh ++
-       },
-        beforeDestroy:  async function () {
-            console.log("Destroying ...")
-        }
+       }
     })
 }
 
