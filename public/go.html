@@ -423,6 +423,10 @@
                 lastEditingAppCodeId:                           null,   // if we jump to edit another component save this
                 inEditor:                                       false,  // Always set to true when we enter the editor
 
+                // editor helpers
+                previousAutosaveTimer:                          null,
+                autosaveTimer:                                  null,
+
                 //
                 // This is used when we have edited a UI control and want to jump back to the app and update the control
                 // that was edited in the app
