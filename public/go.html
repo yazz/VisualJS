@@ -699,7 +699,11 @@
                     return false
                 },
                 getTypeForCommitId:             function        (   codeId   ) {
-                    return GLOBALS.codeCache[codeId].base_component_id
+                    if ( GLOBALS.codeCache[codeId] ) {
+                        return GLOBALS.codeCache[codeId].base_component_id
+                    } else {
+                        return null
+                    }
                 },
                 getDbToUse:                     function        (   args   ) {
                     let useDb =  null
@@ -1153,6 +1157,9 @@
                         } else if (args.codeId) {
                             codeId          = args.codeId
                             baseComponentId = GLOBALS.getTypeForCommitId(codeId)
+                            if (baseComponentId == null) {
+                                baseComponentId = yz.getValueOfCodeString(code,"base_component_id")
+                            }
 
                         } else if (args.baseComponentId) {
                             baseComponentId = args.baseComponentId
@@ -1703,6 +1710,7 @@
 
                         if (componentsItemsToLoad.length > 0) {
                             let promise = new Promise(async function(returnfn) {
+                                debugger
                                 let resultsUi = await postToYazzReturnJson(
                                     "/http_post_load_ui_components_v3",
                                     {
@@ -1719,7 +1727,7 @@
                                         }
                                         await GLOBALS.runCodeForYazzUiComponent(
                                             {
-                                                codeId:             sdf[i].code_id,
+                                                codeId:             sdf[i].id,
                                                 baseComponentId:    sdf[i].base_component_id,
                                                 code:               sdf[i].code,
                                                 codeArgs:           argsToPassToUiComponents
