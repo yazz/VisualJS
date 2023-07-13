@@ -1884,25 +1884,21 @@
                     }
                 },
                 makeSureUiComponentLoadedV6PT2: async function  (   args   ) {
-                    /*
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     args      {
-                    |     ----          codeId
-                    |                   baseComponentId
-                    |               }
-                    |________________________________________________________________________ */
+                    // PARAMS
+                    // -----
+                    //
+                    //    args
+                    //    {
+                    //        codeId
+                    //        baseComponentId
+                    //    }
+                    //
                     let codeId          = null
                     let baseComponentId = null
                     let code            = args.code
 
 
-                    /*
-                    ____________________________________________________________
-                    |_________________________
-                                             | Set the commit ID and type
-                                             |__________________________________ */
+                    // Set the commit ID and type
                     try {
                         if (!args) {
 
@@ -1957,12 +1953,7 @@
 
 
 
-                        /*
-                         ____________________________________________________________
-                         |_________________________
-                                                  | if the component has already been
-                                                  | loaded then do nothing
-                                                  |__________________________________ */
+                        // if the component has already been loaded then do nothing
                         if (isValidObject(GLOBALS.isVueLoadedForCodeId[codeId])) {
                             return
                         }
@@ -1970,13 +1961,8 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |_________________________
-                                                 | If we are running the app from a
-                                                 | HTML page then run the SQL queries
-                                                 | from the embedded SQLite database
-                                                 |__________________________________ */
+                        // If we are running the app from a HTML page then run the SQL queries
+                        // from the embedded SQLite database
                         let component_type = yz.getValueOfCodeString(code, "component_type")
                         let addP = "'" + codeId + "', '" + useDb + "', "
                         if (localAppshareApp && ((component_type == "APP") || (component_type == "SYSTEM"))) {
@@ -2004,12 +1990,7 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |_________________________
-                                                 | Add debugger info to the code to
-                                                 | allow step by step debugging
-                                                 |__________________________________ */
+                        // Add debugger info to the code to allow step by step debugging
                         let trcode2 = "(" + code + ")"
 
                         if (
@@ -2030,11 +2011,7 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |_________________________
-                                                 | Sqlite stuff
-                                                 |__________________________________ */
+                        // Sqlite stuff
                         trcode2 = trcode2.toString().replaceAll("sql[(]","await rxsql(" + addP)
                         trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
                         trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
@@ -2045,11 +2022,7 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |_________________________
-                                                 | User auth stuff
-                                                 |__________________________________ */
+                        // User auth stuff
                         let kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
                         if (kkk) {
                             //alert(JSON.stringify(kkk,null,2))
@@ -2065,35 +2038,13 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |_________________________
-                                                 | replace "Yazz.component(" with
-                                                 | "Vue.component(COMPONENT_ID,
-                                                 |__________________________________ */
-                        //trcode2 = trcode2.toString().replaceAll(
-                        //    "Yazz.component[(]",
-                        //    "Vue.component(" + "\"" + baseComponentId + "\", "
-                        //)
+                        // replace "Yazz.component(" with "Vue.component(COMPONENT_ID,
+
                         if (!codeId) {
                             codeId   = GLOBALS.getCommitIdForBaseComponentId( baseComponentId )
                         }
 
-                        //console.log(".......................  ")
-                        //console.log("Base component ID:  "  + baseComponentId)
-                        //console.log("Code ID:  "            + codeId)
-                        if (baseComponentId.startsWith("todo")) {
-                            //debugger
-                        }
-
-
-
-                        /*
-                        ____________________________________________________________
-                        |_________________________
-                                                 | Transform the code using the
-                                                 | runtime pipelines
-                                                 |__________________________________ */
+                        // Transform the code using the runtime pipelines
                         let runtimePipeline = yz.getValueOfCodeString(trcode2, "runtime_pipeline")
                         if (runtimePipeline){
                             for (let pipelineItem of runtimePipeline) {
@@ -2165,10 +2116,6 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-
-                                    //if (baseComponentId.startsWith("COMP_")) {
-                                    //debugger
-                                    //}
 
                                     let model = yz.getValueOfCodeString(trcode2,"formEditor",")//formEditor")
                                     let modelAsText =  JSON.stringify( model,
