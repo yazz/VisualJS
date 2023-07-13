@@ -4821,21 +4821,12 @@ async function  startServices                           (  ) {
 
     // load component helpers
     app.post(   '/http_post_load_ui_components_v3',                         async function (req, res) {
-        /*
-                            POST    '/http_post_load_ui_components_v3'
-
-                            Loads a bunch of components
-         */
+        // Loads a bunch of components
         let inputComponentsToLoad       = req.body.find_components.items
         let outputComponents            = []
 
-
-        //----------------------------------------------------------------------------
-        // Go through all the components
-        //----------------------------------------------------------------------------
         for (let componentItem    of    inputComponentsToLoad ) {
             let resultsRow = null
-
 
 
 
@@ -4848,14 +4839,12 @@ async function  startServices                           (  ) {
                 resultsRow = await yz.getQuickSqlOneRow(
                     dbsearch
                     ,
-                    `
-                        SELECT  
-                            system_code.*  
-                        FROM
-                            system_code  
-                        WHERE  
-                            id  = ?
-                        `
+                    `SELECT  
+                        system_code.*  
+                    FROM
+                        system_code  
+                    WHERE  
+                        id  = ?`
                     ,
                     componentItem.codeId)
 
@@ -4863,17 +4852,15 @@ async function  startServices                           (  ) {
 
 
 
-
-
-                //----------------------------------------------------------------------------
-                // if baseComponentId given
-                //----------------------------------------------------------------------------
+            //----------------------------------------------------------------------------
+            // otherwise, if ONLY baseComponentId given then get the published component.
+            // If there is no published component then just get the latest one
+            //----------------------------------------------------------------------------
             } else if (componentItem.baseComponentId) {
                 resultsRow = await yz.getQuickSqlOneRow(
                     dbsearch
                     ,
-                    `
-                    SELECT  
+                    `SELECT  
                         system_code.*  
                     FROM   
                         system_code, 
@@ -4890,8 +4877,7 @@ async function  startServices                           (  ) {
                     resultsRow = await yz.getQuickSqlOneRow(
                         dbsearch
                         ,
-                        `
-                        SELECT  
+                        `SELECT  
                             system_code.*  
                         FROM
                             system_code  
@@ -4909,16 +4895,8 @@ async function  startServices                           (  ) {
 
 
 
-
-
-
-
-
-
-
-
             //----------------------------------------------------------------------------
-            // Add the libs
+            // Add any dependencies to these components
             //----------------------------------------------------------------------------
             if (resultsRow) {
                 let codeId = resultsRow.id
