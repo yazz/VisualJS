@@ -1227,7 +1227,7 @@
                                     //debugger
                                 }
 
-                                await GLOBALS.runCodeForYazzUiComponent({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
+                                await GLOBALS.makeSureUiComponentLoadedV5part2({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                                 GLOBALS.setComponentLoaded({codeId: newDataCodeId})
                                 loadedStatic = true
                             }
@@ -1263,7 +1263,7 @@
                                 if (compCode) {
                                     let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
                                     await checkLibsV3(libsForCode)
-                                    await GLOBALS.runCodeForYazzUiComponent({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
+                                    await GLOBALS.makeSureUiComponentLoadedV5part2({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
                                 //
@@ -1303,7 +1303,7 @@
                                         if (sdf[i]) {
                                             await checkLibsV3(sdf[i])
                                         }
-                                        await GLOBALS.runCodeForYazzUiComponent(
+                                        await GLOBALS.makeSureUiComponentLoadedV5part2(
                                             {
                                                 codeId:             sdf[i].id,
                                                 baseComponentId:    sdf[i].base_component_id,
@@ -1428,7 +1428,7 @@
                                     //debugger
                                 }
 
-                                await GLOBALS.runCodeForYazzUiComponentV2({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
+                                await GLOBALS.makeSureUiComponentLoadedV6part2({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                                 GLOBALS.setComponentLoaded({codeId: newDataCodeId})
                                 loadedStatic = true
                             }
@@ -1464,7 +1464,7 @@
                                 if (compCode) {
                                     let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
                                     await checkLibsV3(libsForCode)
-                                    await GLOBALS.runCodeForYazzUiComponentV2({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
+                                    await GLOBALS.makeSureUiComponentLoadedV6part2({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
                                 //
@@ -1504,7 +1504,7 @@
                                         if (sdf[i]) {
                                             await checkLibsV3(sdf[i])
                                         }
-                                        await GLOBALS.runCodeForYazzUiComponent(
+                                        await GLOBALS.makeSureUiComponentLoadedV5part2(
                                             {
                                                 codeId:             sdf[i].id,
                                                 baseComponentId:    sdf[i].base_component_id,
@@ -1526,11 +1526,11 @@
 
                     return {}
                 },
-                runCodeForYazzUiComponent:      async function  (   args   ) {
+                makeSureUiComponentLoadedV5part2:      async function  (   args   ) {
                     /*
                     ________________________________________
                     |                                      |
-                    |        runCodeForYazzUiComponent     |
+                    |        makeSureUiComponentLoadedV5part2     |
                     |                                      |
                     |______________________________________|
                     Function description
@@ -1549,7 +1549,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    runCodeForYazzUiComponent
+                    |    makeSureUiComponentLoadedV5part2
                     |_________________________
                                              | Set the commit ID and type
                                              |__________________________________ */
@@ -1576,7 +1576,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | Determine the apps SQlite database
                                                  | to use
@@ -1588,7 +1588,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | if the component type hasn't been
                                                  | added to the type database then add it
@@ -1611,7 +1611,7 @@
 
                         /*
                          ____________________________________________________________
-                         |    runCodeForYazzUiComponent
+                         |    makeSureUiComponentLoadedV5part2
                          |_________________________
                                                   | if the component has already been
                                                   | loaded then do nothing
@@ -1625,7 +1625,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | If we are running the app from a
                                                  | HTML page then run the SQL queries
@@ -1660,7 +1660,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | Add debugger info to the code to
                                                  | allow step by step debugging
@@ -1687,7 +1687,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | Sqlite stuff
                                                  |__________________________________ */
@@ -1703,7 +1703,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | User auth stuff
                                                  |__________________________________ */
@@ -1724,7 +1724,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | replace "Yazz.component(" with
                                                  | "Vue.component(COMPONENT_ID,
@@ -1748,7 +1748,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | Transform the code using the
                                                  | runtime pipelines
@@ -1947,11 +1947,11 @@
                         hideProgressBar()
                     }
                 },
-                runCodeForYazzUiComponentV2:    async function  (   args   ) {
+                makeSureUiComponentLoadedV6part2:    async function  (   args   ) {
                     /*
                     ________________________________________
                     |                                      |
-                    |        runCodeForYazzUiComponent     |
+                    |        makeSureUiComponentLoadedV5part2     |
                     |                                      |
                     |______________________________________|
                     Function description
@@ -1970,7 +1970,7 @@
 
                     /*
                     ____________________________________________________________
-                    |    runCodeForYazzUiComponent
+                    |    makeSureUiComponentLoadedV5part2
                     |_________________________
                                              | Set the commit ID and type
                                              |__________________________________ */
@@ -1997,7 +1997,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | Determine the apps SQlite database
                                                  | to use
@@ -2009,7 +2009,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | if the component type hasn't been
                                                  | added to the type database then add it
@@ -2032,7 +2032,7 @@
 
                         /*
                          ____________________________________________________________
-                         |    runCodeForYazzUiComponent
+                         |    makeSureUiComponentLoadedV5part2
                          |_________________________
                                                   | if the component has already been
                                                   | loaded then do nothing
@@ -2046,7 +2046,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | If we are running the app from a
                                                  | HTML page then run the SQL queries
@@ -2081,7 +2081,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | Add debugger info to the code to
                                                  | allow step by step debugging
@@ -2108,7 +2108,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | Sqlite stuff
                                                  |__________________________________ */
@@ -2124,7 +2124,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | User auth stuff
                                                  |__________________________________ */
@@ -2145,7 +2145,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | replace "Yazz.component(" with
                                                  | "Vue.component(COMPONENT_ID,
@@ -2169,7 +2169,7 @@
 
                         /*
                         ____________________________________________________________
-                        |    runCodeForYazzUiComponent
+                        |    makeSureUiComponentLoadedV5part2
                         |_________________________
                                                  | Transform the code using the
                                                  | runtime pipelines
@@ -4963,7 +4963,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                     Loads Yazz UI components only
 
                   ---------------------------
-                - runCodeForYazzUiComponent
+                - makeSureUiComponentLoadedV5part2
                   ---------------------------
                     parse and run the source code for a Yazz Component loaded into the front end
 
