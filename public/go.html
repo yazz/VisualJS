@@ -2306,7 +2306,7 @@
                                 if (compCode) {
                                     let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
                                     await checkLibsV3(libsForCode)
-                                    await GLOBALS.runCodeForYazzUiComponent({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
+                                    await GLOBALS.runCodeForYazzUiComponentV2({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
                                 //
