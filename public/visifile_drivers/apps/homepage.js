@@ -1515,7 +1515,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
 
                     globalEventBus.$emit('hide_settings', {});
 
-                    await GLOBALS.makeSureUiComponentLoadedV5([{baseComponentId: "app_editor_3"}])
+                    await GLOBALS.makeSureUiComponentLoadedV6([{baseComponentId: "app_editor_3"}])
 
                     if (codeId) {
                         await GLOBALS.makeSureUiComponentLoadedV5([{codeId: codeId}])
