@@ -686,11 +686,7 @@
                     return false
                 },
                 getTypeForCommitId:             function        (   codeId   ) {
-                    if ( GLOBALS.codeCache[codeId] ) {
-                        return GLOBALS.codeCache[codeId].base_component_id
-                    } else {
-                        return null
-                    }
+                    return GLOBALS.codeCache[codeId].base_component_id
                 },
                 getDbToUse:                     function        (   args   ) {
                     let useDb =  null
@@ -1282,7 +1278,7 @@
                                     for (var i=0; i< sdf.length; i++) {
                                         await GLOBALS.makeSureUiComponentLoadedV5PT2(
                                             {
-                                                codeId:             sdf[i].id,
+                                                codeId:             sdf[i].code_id,
                                                 baseComponentId:    sdf[i].base_component_id,
                                                 code:               sdf[i].code,
                                                 codeArgs:           argsToPassToUiComponents
@@ -1473,7 +1469,7 @@
                                     for (var i=0; i< sdf.length; i++) {
                                         await GLOBALS.makeSureUiComponentLoadedV6PT2(
                                             {
-                                                codeId:             sdf[i].id,
+                                                codeId:             sdf[i].code_id,
                                                 baseComponentId:    sdf[i].base_component_id,
                                                 code:               sdf[i].code,
                                                 codeArgs:           argsToPassToUiComponents
@@ -1515,9 +1511,6 @@
                         } else if (args.codeId) {
                             codeId          = args.codeId
                             baseComponentId = GLOBALS.getTypeForCommitId(codeId)
-                            if (baseComponentId == null) {
-                                baseComponentId = yz.getValueOfCodeString(code,"base_component_id")
-                            }
 
                         } else if (args.baseComponentId) {
                             baseComponentId = args.baseComponentId
