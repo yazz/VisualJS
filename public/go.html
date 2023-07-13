@@ -1528,12 +1528,6 @@
                 },
                 makeSureUiComponentLoadedV5PT2: async function  (   args   ) {
                     /*
-                    ________________________________________
-                    |                                      |
-                    |        makeSureUiComponentLoadedV5PT2     |
-                    |                                      |
-                    |______________________________________|
-                    Function description
                     __________
                     | PARAMS |______________________________________________________________
                     |
@@ -1547,12 +1541,7 @@
                     let code            = args.code
 
 
-                    /*
-                    ____________________________________________________________
-                    |    makeSureUiComponentLoadedV5PT2
-                    |_________________________
-                                             | Set the commit ID and type
-                                             |__________________________________ */
+                    // Set the commit ID and type
                     try {
                         if (!args) {
 
@@ -1574,27 +1563,14 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
-                        |_________________________
-                                                 | Determine the apps SQlite database
-                                                 | to use
-                                                 |__________________________________ */
+                        // Determine the apps SQlite database to use
                         let useDb = GLOBALS.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
 
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
-                        |_________________________
-                                                 | if the component type hasn't been
-                                                 | added to the type database then add it
-                                                 | to use
-                                                 |__________________________________ */
-
+                        // if the component type hasn't been
+                        // added to the type database then add it to use
                         if (!GLOBALS.getCommitIdForBaseComponentId( baseComponentId )) {
                             //if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
                             let codeId = await getIpfsHash(  code  )
@@ -1608,14 +1584,7 @@
 
 
 
-
-                        /*
-                         ____________________________________________________________
-                         |    makeSureUiComponentLoadedV5PT2
-                         |_________________________
-                                                  | if the component has already been
-                                                  | loaded then do nothing
-                                                  |__________________________________ */
+                        // if the component has already been loaded then do nothing
                         if (isValidObject(GLOBALS.isVueLoadedForCodeId[codeId])) {
                             return
                         }
@@ -1623,14 +1592,9 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
-                        |_________________________
-                                                 | If we are running the app from a
-                                                 | HTML page then run the SQL queries
-                                                 | from the embedded SQLite database
-                                                 |__________________________________ */
+                        // If we are running the app from a
+                        // HTML page then run the SQL queries
+                        // from the embedded SQLite database
                         let component_type = yz.getValueOfCodeString(code, "component_type")
                         let addP = "'" + codeId + "', '" + useDb + "', "
                         if (localAppshareApp && ((component_type == "APP") || (component_type == "SYSTEM"))) {
@@ -1658,13 +1622,7 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
-                        |_________________________
-                                                 | Add debugger info to the code to
-                                                 | allow step by step debugging
-                                                 |__________________________________ */
+                        // Add debugger info to the code to allow step by step debugging
                         let trcode2 = "(" + code + ")"
 
                         if (
@@ -1685,12 +1643,7 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
-                        |_________________________
-                                                 | Sqlite stuff
-                                                 |__________________________________ */
+                        // Sqlite stuff
                         trcode2 = trcode2.toString().replaceAll("sql[(]","await rxsql(" + addP)
                         trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
                         trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
@@ -1701,12 +1654,7 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
-                        |_________________________
-                                                 | User auth stuff
-                                                 |__________________________________ */
+                        //  User auth stuff
                         let kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
                         if (kkk) {
                             //alert(JSON.stringify(kkk,null,2))
@@ -1722,13 +1670,7 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
-                        |_________________________
-                                                 | replace "Yazz.component(" with
-                                                 | "Vue.component(COMPONENT_ID,
-                                                 |__________________________________ */
+                        // replace "Yazz.component(" with  "Vue.component(COMPONENT_ID,
                         //trcode2 = trcode2.toString().replaceAll(
                         //    "Yazz.component[(]",
                         //    "Vue.component(" + "\"" + baseComponentId + "\", "
@@ -1746,13 +1688,7 @@
 
 
 
-                        /*
-                        ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
-                        |_________________________
-                                                 | Transform the code using the
-                                                 | runtime pipelines
-                                                 |__________________________________ */
+                        //Transform the code using the  runtime pipelines
                         let runtimePipeline = yz.getValueOfCodeString(trcode2, "runtime_pipeline")
                         if (runtimePipeline){
                             for (let pipelineItem of runtimePipeline) {
@@ -1949,12 +1885,6 @@
                 },
                 makeSureUiComponentLoadedV6PT2: async function  (   args   ) {
                     /*
-                    ________________________________________
-                    |                                      |
-                    |        makeSureUiComponentLoadedV5PT2     |
-                    |                                      |
-                    |______________________________________|
-                    Function description
                     __________
                     | PARAMS |______________________________________________________________
                     |
@@ -1970,7 +1900,6 @@
 
                     /*
                     ____________________________________________________________
-                    |    makeSureUiComponentLoadedV5PT2
                     |_________________________
                                              | Set the commit ID and type
                                              |__________________________________ */
@@ -1997,7 +1926,6 @@
 
                         /*
                         ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
                         |_________________________
                                                  | Determine the apps SQlite database
                                                  | to use
@@ -2009,7 +1937,6 @@
 
                         /*
                         ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
                         |_________________________
                                                  | if the component type hasn't been
                                                  | added to the type database then add it
@@ -2032,7 +1959,6 @@
 
                         /*
                          ____________________________________________________________
-                         |    makeSureUiComponentLoadedV5PT2
                          |_________________________
                                                   | if the component has already been
                                                   | loaded then do nothing
@@ -2046,7 +1972,6 @@
 
                         /*
                         ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
                         |_________________________
                                                  | If we are running the app from a
                                                  | HTML page then run the SQL queries
@@ -2081,7 +2006,6 @@
 
                         /*
                         ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
                         |_________________________
                                                  | Add debugger info to the code to
                                                  | allow step by step debugging
@@ -2108,7 +2032,6 @@
 
                         /*
                         ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
                         |_________________________
                                                  | Sqlite stuff
                                                  |__________________________________ */
@@ -2124,7 +2047,6 @@
 
                         /*
                         ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
                         |_________________________
                                                  | User auth stuff
                                                  |__________________________________ */
@@ -2145,7 +2067,6 @@
 
                         /*
                         ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
                         |_________________________
                                                  | replace "Yazz.component(" with
                                                  | "Vue.component(COMPONENT_ID,
@@ -2169,7 +2090,6 @@
 
                         /*
                         ____________________________________________________________
-                        |    makeSureUiComponentLoadedV5PT2
                         |_________________________
                                                  | Transform the code using the
                                                  | runtime pipelines
@@ -4955,17 +4875,6 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                 - checkLibsV3
                   -----------
                     checks that related libs are loaded
-
-
-                  ------------------
-                - makeSureUiComponentLoadedV5
-                  ------------------
-                    Loads Yazz UI components only
-
-                  ---------------------------
-                - makeSureUiComponentLoadedV5PT2
-                  ---------------------------
-                    parse and run the source code for a Yazz Component loaded into the front end
 
 
 
