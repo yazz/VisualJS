@@ -1746,6 +1746,207 @@
 
                     return {}
                 },
+                makeSureUiComponentLoadedV6:    async function  (   argComponentsToLoad   ,   argsToPassToUiComponents   ) {
+                    /*
+                    ________________________________________
+                    |                                      |
+                    |       makeSureUiComponentLoadedV5    |
+                    |                                      |
+                    |______________________________________|
+                     Dynamically loads a component class into the currently running system. V4
+                     should have the ability to load components via IPFS as well
+
+                     Can be called like:
+
+                     makeSureUiComponentLoadedV5(    "button_control"  )
+                     makeSureUiComponentLoadedV5(  [ "button_control" ]  )
+                     makeSureUiComponentLoadedV5(  [ "button_control"   ,  "label_control"  ]  )
+                     makeSureUiComponentLoadedV5(  [ { baseComponentId: "button_control" }]  )
+                     makeSureUiComponentLoadedV5(  [ { baseComponentId: "button_control" }  ,  { codeId: "Qmeff737e7878...3223" } ]  )
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     argComponentsToLoad
+                    |     -------------------   This is a list of all the UI components that
+                    |                           we wish to load
+                    |
+                    |     argsToPassToUiComponents
+                    |     ------------------------      This is the arguments that we wish to pass into the UI component.
+                    |                                   I am not sure where this is used. I will have to look to find out
+                    |                                   more
+                    |
+                    |________________________________________________________________________ */
+
+                    //console.log("makeSureUiComponentLoadedV5")
+                    //console.log("    argComponentsToLoad := " + JSON.stringify(argComponentsToLoad,null,2))
+                    //console.log("    argsToPassToUiComponents := " + JSON.stringify(argsToPassToUiComponents,null,2))
+                    //console.log("")
+
+                    /*
+                    ________________________________________
+                    |    makeSureUiComponentLoadedV5       |
+                    |_________________                     |______________________________________
+                                     |
+                                     | Transform "argComponentsToLoad" from a list
+                                     | into a list of tuples in "whichComponentsToLoadAsTuples":
+                                     | [
+                                     |    {baseComponentId: "label"},
+                                     |    {baseComponentId: "button"},
+                                     |    {baseComponentId: "button",  codeId: "1f"},
+                                     |    {codeId: "1f"}
+                                     | ]
+                                     |____________________________________________________________
+                    */
+                    if (typeof argComponentsToLoad === 'string' || argComponentsToLoad instanceof String) {
+                        argComponentsToLoad = [{baseComponentId: argComponentsToLoad}]
+                    } else if (!Array.isArray(argComponentsToLoad)) {
+                        argComponentsToLoad = [argComponentsToLoad]
+                    }
+
+                    let whichComponentsToLoadAsTuples = []
+                    for ( let componentItem  of  argComponentsToLoad ) {
+                        if (typeof componentItem == 'string') {
+                            whichComponentsToLoadAsTuples.push({baseComponentId: componentItem})
+                        } else {
+                            whichComponentsToLoadAsTuples.push(componentItem)
+                        }
+                    }
+
+
+
+                    /*
+                    ________________________________________
+                    |    makeSureUiComponentLoadedV5       |
+                    |_________________                     |______________________________________
+                                     |
+                                     | For static HTML pages (ie: just HTML , with no Yazz engine)
+                                     | then load the components from the global componenet cache which
+                                     | contains all the UI control definitions
+                                     |____________________________________________________________
+                    */
+
+                    let loadedStatic = false
+                    if (GLOBALS.isStaticHtmlPageApp) {
+                        for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
+                            let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
+                            GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
+                            if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId(componentType)  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
+                                //console.log("makeSureUiComponentLoadedV5: " + componentType)
+                                //alert("Reading app from cache: " + findComponentArgs.base_component_id)
+
+                                let newDataCodeId
+                                if (whichComponentsToLoadAsTuples[tt].codeId && (whichComponentsToLoadAsTuples[tt].codeId != "")) {
+                                    newDataCodeId = whichComponentsToLoadAsTuples[tt].codeId
+                                }   else {
+                                    newDataCodeId = GLOBALS.getCommitIdForBaseComponentId( componentType )
+                                }
+                                let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
+                                let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
+                                let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
+
+                                await checkLibsV3(libsForCode)
+                                if (componentType.startsWith("label_control")) {
+                                    //debugger
+                                }
+
+                                await GLOBALS.runCodeForYazzUiComponent({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
+                                GLOBALS.setComponentLoaded({codeId: newDataCodeId})
+                                loadedStatic = true
+                            }
+                        }
+                    }
+
+
+
+
+
+                    /*
+                    ________________________________________
+                    |    makeSureUiComponentLoadedV5       |
+                    |_________________                     |______________________________________
+                                     |
+                                     | For Dynamic HTML pages (which have access to the Yazz engine)
+                                     | first find out which components are not loaded and need to be
+                                     | loaded in
+                                     |____________________________________________________________
+                    */
+                    let componentsItemsToLoad = []
+                    if (!loadedStatic) {
+                        for (let  componentTuple  of  whichComponentsToLoadAsTuples  ) {
+                            let componentType       = componentTuple.baseComponentId
+                            let componentCodeId     = componentTuple.codeId
+
+
+                            //
+                            // if we have cached the component then run it
+                            //
+                            if (componentCodeId && GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
+                                let compCode        = GLOBALS.getCodeForComponent({codeId: componentCodeId})
+                                if (compCode) {
+                                    let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
+                                    await checkLibsV3(libsForCode)
+                                    await GLOBALS.runCodeForYazzUiComponent({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
+                                }
+
+                                //
+                                // if we have haven't cached the component (given the code ID) then put it on the list of things to load
+                                //
+                            } else if (componentCodeId && !GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
+                                componentsItemsToLoad.push(componentTuple)
+
+                                //
+                                // if we have haven't cached the component (given the Type) then put it on the list of things to load
+                                //
+                            } else if (componentType && (!GLOBALS.isComponentTypeCached(componentType))) {
+                                componentsItemsToLoad.push(componentTuple)
+
+                                //
+                                // Otherwise just put it on the list of things to load
+                                //
+                            } else {
+                                //Causes a crash as editor is reloaded
+                                //componentsItemsToLoad.push(componentTuple)
+                            }
+                        }
+
+                        if (componentsItemsToLoad.length > 0) {
+                            let promise = new Promise(async function(returnfn) {
+                                let resultsUi = await postToYazzReturnJson(
+                                    "/http_post_load_ui_components_v3",
+                                    {
+                                        find_components:  {items: componentsItemsToLoad},
+                                    })
+
+                                for (const data of resultsUi) {
+
+                                    var sdf     = eval("(" + data.record + ")")
+
+                                    for (var i=0; i< sdf.length; i++) {
+                                        if (sdf[i]) {
+                                            await checkLibsV3(sdf[i])
+                                        }
+                                        await GLOBALS.runCodeForYazzUiComponent(
+                                            {
+                                                codeId:             sdf[i].id,
+                                                baseComponentId:    sdf[i].base_component_id,
+                                                code:               sdf[i].code,
+                                                codeArgs:           argsToPassToUiComponents
+                                            })
+                                    }
+                                };
+
+                                returnfn({})
+
+                            })
+
+                            let ret = await promise
+                            return ret
+                        }
+                    }
+
+
+                    return {}
+                },
 
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
