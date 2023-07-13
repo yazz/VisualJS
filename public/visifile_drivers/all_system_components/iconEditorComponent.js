@@ -15,7 +15,7 @@ load_once_from_file(true)
                 mousedown:              false,
                 icon_image_data:        null,
                 draw_color:             "black",
-                brush_width:            12,
+                brush_width:            32,
                 baseComponentId:        null,
                 colors:                 [ "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray", "cyan","lightblue" ]  ,
                 iconHeightPixels:       200,
@@ -54,7 +54,7 @@ load_once_from_file(true)
                               </div>
                               
                               <!-- ------------- Brushes ----------------- -->
-                              <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]"
+                              <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]"
                                       v-on:click='brush_width = brush_size;'
                                       v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
                                                                       'px;background-color: ' + draw_color + ';border: black solid 1px ;margin-right: 2px;'">
@@ -65,6 +65,10 @@ load_once_from_file(true)
                             <button    class="btn btn-dark"
                                        v-on:click="save">
                               Save
+                            </button>
+                            <button    class="btn btn-light"
+                                       v-on:click="clear">
+                              Clear
                             </button>
                           </div>
                       </div>`,
@@ -136,6 +140,14 @@ load_once_from_file(true)
                 mm.$root.$emit('message', {
                     type:   "pending"
                 })
+            },
+            clear: function() {
+                let mm = this
+                var el = document.getElementById( "_canvas_" )
+                if (isValidObject(el)) {
+                    var context = el.getContext("2d");
+                    context.clearRect(0, 0, el.width, el.height);
+                }
             }
         }
     })

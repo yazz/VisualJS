@@ -1710,7 +1710,6 @@
 
                         if (componentsItemsToLoad.length > 0) {
                             let promise = new Promise(async function(returnfn) {
-                                debugger
                                 let resultsUi = await postToYazzReturnJson(
                                     "/http_post_load_ui_components_v3",
                                     {
