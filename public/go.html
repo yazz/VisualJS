@@ -465,11 +465,6 @@
                 isVueLoadedForCodeId:                           {},
 
                 //
-                // A list of loaded libs for an app
-                //
-                libLoaded:                                      new Object(),
-
-                //
                 // If the Yazz server is current online with internet access
                 //
                 online:                                         false,
@@ -623,14 +618,6 @@
                     //debugger
                     //throw "getCodeForComponent: Can't find code for {" + JSON.stringify(args,null,2) + "}"
                     return null
-                },
-                getLibsForCommit:               function        (   args   ) {
-                    return []
-                    if (args.codeId) {
-                        if (GLOBALS.codeCache[args.codeId]) {
-                            return GLOBALS.codeCache[args.codeId].libs
-                        }
-                    }
                 },
                 getControlPropertyDefns:        function        (   args   ) {
                     if (args.baseComponentId) {
@@ -1219,13 +1206,8 @@
                                     newDataCodeId = GLOBALS.getCommitIdForBaseComponentId( componentType )
                                 }
                                 let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
-                                let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
                                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
 
-                                await checkLibsV3(libsForCode)
-                                if (componentType.startsWith("label_control")) {
-                                    //debugger
-                                }
 
                                 await GLOBALS.makeSureUiComponentLoadedV5PT2({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                                 GLOBALS.setComponentLoaded({codeId: newDataCodeId})
@@ -1261,8 +1243,6 @@
                             if (componentCodeId && GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
                                 let compCode        = GLOBALS.getCodeForComponent({codeId: componentCodeId})
                                 if (compCode) {
-                                    let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
-                                    await checkLibsV3(libsForCode)
                                     await GLOBALS.makeSureUiComponentLoadedV5PT2({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
@@ -1300,9 +1280,6 @@
                                     var sdf     = eval("(" + data.record + ")")
 
                                     for (var i=0; i< sdf.length; i++) {
-                                        if (sdf[i]) {
-                                            await checkLibsV3(sdf[i])
-                                        }
                                         await GLOBALS.makeSureUiComponentLoadedV5PT2(
                                             {
                                                 codeId:             sdf[i].id,
@@ -1420,13 +1397,8 @@
                                     newDataCodeId = GLOBALS.getCommitIdForBaseComponentId( componentType )
                                 }
                                 let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
-                                let libsForCode     = GLOBALS.getLibsForCommit({codeId: newDataCodeId })
                                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
 
-                                await checkLibsV3(libsForCode)
-                                if (componentType.startsWith("label_control")) {
-                                    //debugger
-                                }
 
                                 await GLOBALS.makeSureUiComponentLoadedV6PT2({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                                 GLOBALS.setComponentLoaded({codeId: newDataCodeId})
@@ -1462,8 +1434,6 @@
                             if (componentCodeId && GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
                                 let compCode        = GLOBALS.getCodeForComponent({codeId: componentCodeId})
                                 if (compCode) {
-                                    let libsForCode     = GLOBALS.getLibsForCommit({codeId: componentCodeId })
-                                    await checkLibsV3(libsForCode)
                                     await GLOBALS.makeSureUiComponentLoadedV6PT2({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
@@ -1501,9 +1471,6 @@
                                     var sdf     = eval("(" + data.record + ")")
 
                                     for (var i=0; i< sdf.length; i++) {
-                                        if (sdf[i]) {
-                                            await checkLibsV3(sdf[i])
-                                        }
                                         await GLOBALS.makeSureUiComponentLoadedV6PT2(
                                             {
                                                 codeId:             sdf[i].id,
@@ -3645,15 +3612,6 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
             function        getYazzCookie                       (   ) {
                 return getCookie("yazz")
             }
-            async function  checkLibsV3                         (   libsToLoad   ){
-                if (libsToLoad && libsToLoad.length > 0 ) {
-                    for (var tt = 0; tt < libsToLoad.length ; tt++) {
-                        if (!GLOBALS.libLoaded[ libsToLoad[tt].dependency_name ]) {
-                            GLOBALS.libLoaded[ libsToLoad[tt].dependency_name ] = true
-                        }
-                    }
-                }
-            }
             async function  callComponent                       (   componentSearchDetails   ,  fnCallArgs   ) {
                 /*
                 ________________________________________
@@ -4817,12 +4775,6 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
 
                 METHODS
                 -------
-
-                  -----------
-                - checkLibsV3
-                  -----------
-                    checks that related libs are loaded
-
 
 
                   -------------

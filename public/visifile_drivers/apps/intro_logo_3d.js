@@ -5,7 +5,6 @@ base_component_id("intro_logo_3d")
 is_app(true)
 display_name("Intro Logo 3D")
 description('Intro logo app, this will return a spinning logo')
-uses_javascript_libraries(["advanced_bundle"])
 load_once_from_file(true)
 */
 

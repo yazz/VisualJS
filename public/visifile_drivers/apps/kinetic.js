@@ -6,7 +6,6 @@ visibility("PUBLIC")
 display_name("Kinetic app")
 is_app(true)
 description('Kinetic app')
-uses_javascript_libraries(["advanced_bundle"])
 logo_url("/man.jpg")
 */
 

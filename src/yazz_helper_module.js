@@ -2,10 +2,8 @@ const OnlyIpfsHash                              = require("ipfs-only-hash");
 const path                                      = require("path");
 let sqlite3                                     = require('sqlite3');
 let uuidv1                                      = require('uuid/v1');
-let stmtDeleteDependencies
 let stmtDeleteTypesForComponentProperty
 let stmtDeleteAcceptTypesForComponentProperty
-let stmtInsertDependency
 let fs                                          = require('fs');
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
@@ -14,17 +12,10 @@ let copyMigration;
 module.exports = {
     //setup this module
     setup:                          async function  (  thisDb  ) {
-        stmtDeleteDependencies = thisDb.prepare(
-            " delete from  app_dependencies   where   code_id = ?");
         stmtDeleteTypesForComponentProperty = thisDb.prepare(
             " delete from  component_property_types   where   base_component_id = ?");
         stmtDeleteAcceptTypesForComponentProperty = thisDb.prepare(
             " delete from  component_property_accept_types   where   base_component_id = ?");
-        stmtInsertDependency = thisDb.prepare(
-            " insert or replace into app_dependencies " +
-            "    (id,  code_id, dependency_type, dependency_name, dependency_version ) " +
-            " values " +
-            "    (?, ?, ?, ?, ? );");
         stmtInsertAppDDLRevision = thisDb.prepare(
             " insert into app_db_latest_ddl_revisions " +
             "      ( base_component_id,  latest_revision  ) " +
@@ -747,32 +738,6 @@ return code
                     await mm.setTipsForCommit(thisDb, code, sha1sum)
 
 
-                    stmtDeleteDependencies.run(sha1sum)
-
-                        let scriptCode = ""
-                        //showTimer(`11`)
-                        let jsLibs = mm.getValueOfCodeString(code, "uses_javascript_libraries")
-                        if (jsLibs) {
-                            ////showTimer(JSON.stringify(jsLibs,null,2))
-                            for (let tt = 0; tt < jsLibs.length ; tt++) {
-                                scriptCode += `GLOBALS.libLoaded[ "${jsLibs[tt]}" ] = true;
-                              `
-                                stmtInsertDependency.run(
-                                    uuidv1(),
-                                    sha1sum,
-                                    "js_browser_lib",
-                                    jsLibs[tt],
-                                    "latest")
-
-                                if ( jsLibs[tt] == "advanced_bundle" ) {
-                                    //scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/advanced_js_bundle.js') )
-                                    scriptCode += `
-                                `
-                                }
-
-
-                            }
-                        }
 
                         let sqliteCode = ""
                         thisDb.run("commit", async function() {
@@ -922,7 +887,7 @@ return code
                             // code we insert is LARGE!!
                             //
                             let pos = newStaticFileContent.indexOf("//***ADD_SCRIPT")
-                            newStaticFileContent = newStaticFileContent.slice(0, pos)  + scriptCode + newStaticFileContent.slice( pos)
+                            newStaticFileContent = newStaticFileContent.slice(0, pos) + newStaticFileContent.slice( pos)
 
 
                             //fs.writeFileSync( path.join(__dirname, '../public/sql2.js'),  sqliteCode )

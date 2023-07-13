@@ -6,7 +6,6 @@ is_app(true)
 description('Game app, this will return the game app')
 load_once_from_file(true)
 visibility("PUBLIC")
-uses_javascript_libraries(["advanced_bundle"])
 logo_url("/driver_icons/game.png")
 read_only(true)
 

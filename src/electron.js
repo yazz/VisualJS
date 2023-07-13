@@ -4896,17 +4896,8 @@ async function  startServices                           (  ) {
 
 
             //----------------------------------------------------------------------------
-            // Add any dependencies to these components
             //----------------------------------------------------------------------------
             if (resultsRow) {
-                let codeId = resultsRow.id
-                let results2 = await yz.getQuickSql(
-                    dbsearch
-                    ,
-                    "SELECT dependency_name FROM app_dependencies where code_id = ?; "
-                    ,
-                    codeId)
-                resultsRow.libs = results2
                 outputComponents.push(resultsRow)
             }
         }

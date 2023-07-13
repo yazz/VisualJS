@@ -6,7 +6,6 @@ is_app(true)
 description('Game app, this will return the game app')
 load_once_from_file(true)
 visibility("PUBLIC")
-uses_javascript_libraries(["advanced_bundle"])
 logo_url("https://yt3.ggpht.com/Ekz8dWfyjZl56kIa2teWnUgCl3JSqCk5ZLowTlxcsd31GUP0L0xNwvvM734RAAbwoXr65I5rDHKpFvmx2Vw=s900-mo-c-c0xffffffff-rj-k-no")
 read_only(true)
 

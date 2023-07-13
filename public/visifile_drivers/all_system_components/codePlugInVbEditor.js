@@ -4,7 +4,6 @@ base_component_id("vb_editor_component")
 component_type("SYSTEM")
 load_once_from_file(true)
 runtime_pipeline(["EDITOR_PLUG_IN"])
-uses_javascript_libraries(["advanced_bundle"])
 */
 
     let designMode          = true
