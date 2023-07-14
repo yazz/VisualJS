@@ -1861,7 +1861,7 @@
                     // Set the commit ID and type
                     try {
                         if (!args) {
-
+                            throw new Exception("Wrong args given to fn makeSureUiComponentLoadedV6PT2(...)")
                         } else if (args.codeId) {
                             codeId          = args.codeId
                             baseComponentId = GLOBALS.getTypeForCommitId(codeId)
@@ -1976,23 +1976,6 @@
                         trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
                         trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
                         trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
-
-
-
-
-
-
-                        // User auth stuff
-                        let kkk = yz.getValueOfCodeString(trcode2.toString(), "keycloak",")//keycloak")
-                        if (kkk) {
-                            //alert(JSON.stringify(kkk,null,2))
-                            if (!kkk.clientId) {
-                                kkk.clientId = kkk.resource
-                            }
-                            loadKeycloak(
-                                kkk
-                            )
-                        }
 
 
 
