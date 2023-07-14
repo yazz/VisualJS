@@ -2089,21 +2089,18 @@
                             }
                         }
 
-                        let listOfCodeToExecute = []
                         let codeIdVueObjectCode = trcode2.toString().replaceAll(
                             "Yazz.component[(]",
                             "Vue.component(" + "\"" + codeId + "\", "
                         )
-                        listOfCodeToExecute.push(codeIdVueObjectCode)
 
-                        for (codeToExecute  of  listOfCodeToExecute) {
-                            let fnfn = eval( codeToExecute  )
-                            if (codeToExecute.indexOf("async ")  == -1) {
-                                fnfn(codeArgs)
-                            } else {
-                                await fnfn(codeArgs)
-                            }
+                        let fnfn = eval( codeIdVueObjectCode  )
+                        if (codeIdVueObjectCode.indexOf("async ")  == -1) {
+                            fnfn(codeArgs)
+                        } else {
+                            await fnfn(codeArgs)
                         }
+
                         GLOBALS.isVueLoadedForCodeId[codeId] = {
                             component_type:     component_type,
                             base_component_id:  baseComponentId
