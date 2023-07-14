@@ -1907,11 +1907,6 @@
                             (component_type != "VB"))
                         {
                             trcode2 = getDebugCode(baseComponentId,  trcode2)
-                        } else if (component_type == "VB") {
-                            //console.log("Component to index: " + componentRecord.base_component_id)
-                            if (baseComponentId.startsWith("label_control")) {
-                                //debugger
-                            }
                         }
 
 
@@ -1928,12 +1923,6 @@
 
 
 
-
-                        // replace "Yazz.component(" with "Vue.component(COMPONENT_ID,
-
-                        if (!codeId) {
-                            codeId   = GLOBALS.getCommitIdForBaseComponentId( baseComponentId )
-                        }
 
                         // Transform the code using the runtime pipelines
                         let runtimePipeline = yz.getValueOfCodeString(trcode2, "runtime_pipeline")
@@ -2118,7 +2107,6 @@
                             } else {
                                 await fnfn(codeArgs)
                             }
-
                         }
                     } catch (runtimeError) {
                         console.log("runtime err: " + runtimeError)
