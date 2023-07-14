@@ -1557,7 +1557,7 @@ End of app preview menu
                                     })
 
                                 this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
-                                await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
+                                await GLOBALS.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
                             }
                         }
 
@@ -1578,7 +1578,7 @@ End of app preview menu
                                 baseComponentId:    bci,
                                 codeId:             codeId
                             })
-                        await GLOBALS.makeSureUiComponentLoadedV5( {codeId: mm.code_id }, {} )
+                        await GLOBALS.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
 
 
 
@@ -1662,7 +1662,7 @@ End of app preview menu
                             editorName = newEditor
                         }
 
-                        await GLOBALS.makeSureUiComponentLoadedV5( editorName, {text: code} )
+                        await GLOBALS.makeSureUiComponentLoadedV6( editorName, {text: code} )
                         mm.refresh++
 
                         mm.editor_loaded    = true
@@ -2223,8 +2223,8 @@ End of app preview menu
             //
             // Load miscalaneous components
             //
-            await GLOBALS.makeSureUiComponentLoadedV5(["yazz_blank"])
-            await GLOBALS.makeSureUiComponentLoadedV5(["totally_blank_app"])
+            await GLOBALS.makeSureUiComponentLoadedV6(["yazz_blank"])
+            await GLOBALS.makeSureUiComponentLoadedV6(["totally_blank_app"])
 
 
 

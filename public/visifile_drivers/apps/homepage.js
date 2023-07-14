@@ -1335,7 +1335,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
 
                         GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
 
-                        //await makeSureUiComponentLoadedV5(baseComponentId)
+                        //await makeSureUiComponentLoadedV6(baseComponentId)
                         mm.editable_app_list.push( app  )
                     }
 
@@ -1518,10 +1518,10 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                     await GLOBALS.makeSureUiComponentLoadedV6([{baseComponentId: "app_editor_3"}])
 
                     if (codeId) {
-                        await GLOBALS.makeSureUiComponentLoadedV5([{codeId: codeId}])
+                        await GLOBALS.makeSureUiComponentLoadedV6([{codeId: codeId}])
                     } else if (baseComponentId) {
                         if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
-                            await GLOBALS.makeSureUiComponentLoadedV5([{baseComponentId: baseComponentId}])
+                            await GLOBALS.makeSureUiComponentLoadedV6([{baseComponentId: baseComponentId}])
                         }
                     }
 

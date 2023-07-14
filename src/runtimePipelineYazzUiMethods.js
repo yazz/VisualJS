@@ -44,7 +44,7 @@
                     //console.log("Component: " + JSON.stringify(cbase))
                     itemsToLoad.push({baseComponentId: cbase, codeid: codeId })
                 }
-                await GLOBALS.makeSureUiComponentLoadedV5(itemsToLoad)
+                await GLOBALS.makeSureUiComponentLoadedV6(itemsToLoad)
                 //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
             },
 
@@ -541,9 +541,9 @@
                     */
                     mm.refresh++
                     if (newItem.code_id) {
-                        await GLOBALS.makeSureUiComponentLoadedV5([{codeId: newItem.code_id}])
+                        await GLOBALS.makeSureUiComponentLoadedV6([{codeId: newItem.code_id}])
                     } else {
-                        await GLOBALS.makeSureUiComponentLoadedV5([newItem.base_component_id])
+                        await GLOBALS.makeSureUiComponentLoadedV6([newItem.base_component_id])
                         newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
                     }
 
@@ -6399,7 +6399,7 @@ return {}
                                          |_____________________________________________________
                         */
                         for (let newItem of mm.model.forms[formName].components) {
-                            await GLOBALS.makeSureUiComponentLoadedV5(
+                            await GLOBALS.makeSureUiComponentLoadedV6(
                                 {
                                     baseComponentId: newItem.base_component_id,
                                     codeId: newItem.code_id
