@@ -1654,17 +1654,23 @@
                 },
                 makeSureUiComponentLoadedV6:    async function  (   argComponentsToLoad   ,   argsToPassToUiComponents   ) {
                     /*
-                    Dynamically loads a component class into the currently running system. V4
-                    should have the ability to load components via IPFS as well
-                    */
+                    Dynamically loads a component class into the currently running system. Should
+                    have the ability to load components via IPFS as well
 
+                    Can be called like:
+
+                    makeSureUiComponentLoadedV5(    "button_control"  )
+                    makeSureUiComponentLoadedV5(  [ "button_control" ]  )
+                    makeSureUiComponentLoadedV5(  [ "button_control"   ,  "label_control"  ]  )
+                    makeSureUiComponentLoadedV5(  [ { baseComponentId: "button_control" }]  )
+                    makeSureUiComponentLoadedV5(  [ { baseComponentId: "button_control" }  ,  { codeId: "Qmeff737e7878...3223" } ]  )
+                     */
                     if (typeof argComponentsToLoad === 'string' || argComponentsToLoad instanceof String) {
-                        throw new Error("makeSureUiComponentLoadedV6(" + argComponentsToLoad + ")  not allowed")
                         argComponentsToLoad = [{baseComponentId: argComponentsToLoad}]
                     } else if (!Array.isArray(argComponentsToLoad)) {
-                        throw new Error("makeSureUiComponentLoadedV6([ ... Array .... ]])  not allowed")
                         argComponentsToLoad = [argComponentsToLoad]
                     }
+
 
                     let whichComponentsToLoadAsTuples = []
                     for ( let componentItem  of  argComponentsToLoad ) {
@@ -1677,24 +1683,15 @@
 
 
 
-                    /*
-                    ________________________________________
-                    |_________________                     |______________________________________
-                                     |
-                                     | For static HTML pages (ie: just HTML , with no Yazz engine)
-                                     | then load the components from the global componenet cache which
-                                     | contains all the UI control definitions
-                                     |____________________________________________________________
-                    */
-
+                    // For static HTML pages (ie: just HTML , with no Yazz engine)
+                    // then load the components from the global componenet cache which
+                    // contains all the UI control definitions
                     let loadedStatic = false
                     if (GLOBALS.isStaticHtmlPageApp) {
                         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
                             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
                             GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
                             if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId(componentType)  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
-                                //console.log("makeSureUiComponentLoadedV5: " + componentType)
-                                //alert("Reading app from cache: " + findComponentArgs.base_component_id)
 
                                 let newDataCodeId
                                 if (whichComponentsToLoadAsTuples[tt].codeId && (whichComponentsToLoadAsTuples[tt].codeId != "")) {
@@ -1703,8 +1700,6 @@
                                     newDataCodeId = GLOBALS.getCommitIdForBaseComponentId( componentType )
                                 }
                                 let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
-                                let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
-
 
                                 await GLOBALS.addRuntimePipelinesAndRunCode({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                                 GLOBALS.setComponentLoaded({codeId: newDataCodeId})
@@ -1717,15 +1712,9 @@
 
 
 
-                    /*
-                    ________________________________________
-                    |_________________                     |______________________________________
-                                     |
-                                     | For Dynamic HTML pages (which have access to the Yazz engine)
-                                     | first find out which components are not loaded and need to be
-                                     | loaded in
-                                     |____________________________________________________________
-                    */
+                    // For Dynamic HTML pages (which have access to the Yazz engine)
+                    // first find out which components are not loaded and need to be
+                    // loaded in
                     let componentsItemsToLoad = []
                     if (!loadedStatic) {
                         for (let  componentTuple  of  whichComponentsToLoadAsTuples  ) {
@@ -1742,21 +1731,21 @@
                                     await GLOBALS.addRuntimePipelinesAndRunCode({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
-                                //
-                                // if we have haven't cached the component (given the code ID) then put it on the list of things to load
-                                //
+                            //
+                            // if we have haven't cached the component (given the code ID) then put it on the list of things to load
+                            //
                             } else if (componentCodeId && !GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
                                 componentsItemsToLoad.push(componentTuple)
 
-                                //
-                                // if we have haven't cached the component (given the Type) then put it on the list of things to load
-                                //
+                            //
+                            // if we have haven't cached the component (given the Type) then put it on the list of things to load
+                            //
                             } else if (componentType && (!GLOBALS.isComponentTypeCached(componentType))) {
                                 componentsItemsToLoad.push(componentTuple)
 
-                                //
-                                // Otherwise just put it on the list of things to load
-                                //
+                            //
+                            // Otherwise just put it on the list of things to load
+                            //
                             } else {
                                 //Causes a crash as editor is reloaded
                                 //componentsItemsToLoad.push(componentTuple)
@@ -1776,7 +1765,6 @@
                                     var sdf     = eval("(" + data.record + ")")
 
                                     for (var i=0; i< sdf.length; i++) {
-                                        debugger
                                         let codeId = await getIpfsHash(  sdf[i].code  )
                                         if (isValidObject(GLOBALS.isVueLoadedForCodeId[codeId])) {
                                             returnfn({})
