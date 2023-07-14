@@ -1656,19 +1656,17 @@
                     /*
                     ________________________________________
                     |                                      |
-                    |       makeSureUiComponentLoadedV5    |
-                    |                                      |
                     |______________________________________|
                      Dynamically loads a component class into the currently running system. V4
                      should have the ability to load components via IPFS as well
 
                      Can be called like:
 
-                     makeSureUiComponentLoadedV5(    "button_control"  )
-                     makeSureUiComponentLoadedV5(  [ "button_control" ]  )
-                     makeSureUiComponentLoadedV5(  [ "button_control"   ,  "label_control"  ]  )
-                     makeSureUiComponentLoadedV5(  [ { baseComponentId: "button_control" }]  )
-                     makeSureUiComponentLoadedV5(  [ { baseComponentId: "button_control" }  ,  { codeId: "Qmeff737e7878...3223" } ]  )
+                     makeSureUiComponentLoadedV6(    "button_control"  )
+                     makeSureUiComponentLoadedV6(  [ "button_control" ]  )
+                     makeSureUiComponentLoadedV6(  [ "button_control"   ,  "label_control"  ]  )
+                     makeSureUiComponentLoadedV6(  [ { baseComponentId: "button_control" }]  )
+                     makeSureUiComponentLoadedV6(  [ { baseComponentId: "button_control" }  ,  { codeId: "Qmeff737e7878...3223" } ]  )
                     __________
                     | PARAMS |______________________________________________________________
                     |
@@ -1690,7 +1688,6 @@
 
                     /*
                     ________________________________________
-                    |    makeSureUiComponentLoadedV5       |
                     |_________________                     |______________________________________
                                      |
                                      | Transform "argComponentsToLoad" from a list
@@ -1722,7 +1719,6 @@
 
                     /*
                     ________________________________________
-                    |    makeSureUiComponentLoadedV5       |
                     |_________________                     |______________________________________
                                      |
                                      | For static HTML pages (ie: just HTML , with no Yazz engine)
@@ -1763,7 +1759,6 @@
 
                     /*
                     ________________________________________
-                    |    makeSureUiComponentLoadedV5       |
                     |_________________                     |______________________________________
                                      |
                                      | For Dynamic HTML pages (which have access to the Yazz engine)
@@ -1823,6 +1818,10 @@
                                     for (var i=0; i< sdf.length; i++) {
                                         debugger
                                         let codeId = await getIpfsHash(  sdf[i].code  )
+                                        if (isValidObject(GLOBALS.isVueLoadedForCodeId[codeId])) {
+                                            returnfn({})
+                                        }
+
                                         GLOBALS.cacheThisComponentCode(  {codeId: codeId,    code: sdf[i].code}  )
                                         GLOBALS.pointBaseComponentIdAtCode(
                                             {
@@ -1853,20 +1852,10 @@
                     return {}
                 },
                 makeSureUiComponentLoadedV6PT2: async function  (   {codeId, codeArgs}   ) {
-                    // PARAMS
-                    // -----
-                    //
-                    //    args
-                    //    {
-                    //        codeId
-                    //        baseComponentId
-                    //    }
-                    //
+                    // Init - Set the BCI
                     let baseComponentId = null
                     let code            = GLOBALS.getCodeForComponent({codeId: codeId})
 
-
-                    // Set the commit ID and type
                     try {
                         baseComponentId = GLOBALS.getTypeForCommitId(codeId)
                         if (baseComponentId == null) {
@@ -1874,37 +1863,8 @@
                         }
 
 
-                        /*
-                        ____________________________________________________________
-                        |_________________________
-                                                 | Determine the apps SQlite database
-                                                 | to use
-                                                 |__________________________________ */
+                        // Determine the apps SQlite database to use
                         let useDb = GLOBALS.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
-
-                        /*
-                        ____________________________________________________________
-                        |_________________________
-                                                 | if the component type hasn't been
-                                                 | added to the type database then add it
-                                                 | to use
-                                                 |__________________________________ */
-
-                        if (!GLOBALS.getCommitIdForBaseComponentId( baseComponentId )) {
-                            //if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
-                            let codeId = await getIpfsHash(  code  )
-                            GLOBALS.cacheThisComponentCode(  {codeId: codeId,    code: code}  )
-                            GLOBALS.pointBaseComponentIdAtCode(
-                                {
-                                    baseComponentId:    baseComponentId,
-                                    codeId:             codeId
-                                })
-                        }
-
-                        // if the component has already been loaded then do nothing
-                        if (isValidObject(GLOBALS.isVueLoadedForCodeId[codeId])) {
-                            return
-                        }
 
 
 
