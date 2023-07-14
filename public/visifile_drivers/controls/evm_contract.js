@@ -374,7 +374,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             }
             ,
             deployCode: async function() {
-                disableAutoSave = true;
+                yz.mainVars.disableAutoSave = true;
               let mm = this
               mm.deployError = null
               let Hello = new web3.eth.Contract(JSON.parse(this.properties.abi), null, {
@@ -514,7 +514,7 @@ return sdf
                 mm.deployError = error
                 mm.deployingStatus = "FAILED"
               });
-                disableAutoSave = false;
+                yz.mainVars.disableAutoSave = false;
 
 
 

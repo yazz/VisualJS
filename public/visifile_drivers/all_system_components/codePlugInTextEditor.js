@@ -83,7 +83,7 @@ load_once_from_file(true)
     |________________________________________________________________________ */
     mounted: function() {
         let mm             = this
-        disableAutoSave    = true
+        yz.mainVars.disableAutoSave    = true
 
         ace.config.set('basePath', '/');
         mm.editor = ace.edit(

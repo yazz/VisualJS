@@ -239,7 +239,7 @@ logo_url("/driver_icons/ace_editor.jpeg")
                 mm.editorElement.getSession().on('change', function() {
                    mm.args.value = mm.editorElement.getSession().getValue();
                 })
-                testObject = mm.editorElement
+                yz.mainVars.testObject = mm.editorElement
 
 
                 mm.editorElement.on("mousemove", function(e) {

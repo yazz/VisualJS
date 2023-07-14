@@ -450,7 +450,7 @@ ___________
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn  btn-warning"
-                              v-if="(((!hideImportButtons) || disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
+                              v-if="(((!hideImportButtons) || yz.mainVars.disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
                               >
 
                               <img
@@ -487,7 +487,7 @@ ___________
                     </span>
                   
                   <span
-                      v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!disableAutoSave)"
+                      v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!yz.mainVars.disableAutoSave)"
                   >
                           Unsaved...
                     </span>
@@ -1771,7 +1771,7 @@ End of app preview menu
                         this.editor_text = GLOBALS.enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
                     }
                     let baseCompIdFromSrcCode = yz.helpers.getValueOfCodeString(this.editor_text,"base_component_id")
-                    await saveCodeViaWebWorker(
+                    await yz.mainVars.saveCodeViaWebWorker(
                         this.editor_text
                         ,
                         {
@@ -2243,7 +2243,7 @@ End of app preview menu
                 // ******** if a change has been made **************
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
                     // ******** if AUTOSAVE is on then save the code ************
-                    if (!disableAutoSave) {
+                    if (!yz.mainVars.disableAutoSave) {
                         console.log("     saved: " + mm.code_id)
                         appClearIntervals();
                         await mm.save(mm.base_component_id, mm.code_id, null)

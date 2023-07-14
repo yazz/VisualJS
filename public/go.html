@@ -294,31 +294,33 @@
         </style>
 
         <script>
-            var mainVueApp                     = null
-            var visJsloaded                     = false
-            var mousedown                       = false;
-            var saveCodeViaWebWorker            = null
-            var worker                          = null;
-            var ipfs                            = null
-            var web3loaded                      = false
-            var disableAutoSave                 = false;
-            var pageInitialised                 = false
-            var executeOnPageLoad               = null
-            var diffJsloaded                    = false
-            var ideToolsloaded                  = false
-            var visCssloaded                    = false
-            var ipfsServerloaded                = false
-            var d3loaded                        = false
-            var chartsJsloaded                  = false
-            var tabulatorJsLoaded               = false
-            var estraverseloaded                = false
-            var esCodeGenLoaded                 = false
-            var testObject                      = null; // Use this to test elements at debug time
-            var params                          = {}
-            var autoScroll                      = false;
-            var nextItem                        = 1;
-            var wait_and_select_app             = null
             var yz                              = {
+                mainVars: {
+                    mainVueApp:                 null,
+                    visJsloaded:                false,
+                    mousedown:                  false,
+                    saveCodeViaWebWorker:       null,
+                    worker:                     null,
+                    ipfs:                       null,
+                    web3loaded:                 false,
+                    disableAutoSave:            false,
+                    pageInitialised:            false,
+                    executeOnPageLoad:          null,
+                    diffJsloaded:               false,
+                    ideToolsloaded:             false,
+                    visCssloaded:               false,
+                    ipfsServerloaded:           false,
+                    d3loaded:                   false,
+                    chartsJsloaded:             false,
+                    tabulatorJsLoaded:          false,
+                    estraverseloaded:           false,
+                    esCodeGenLoaded:            false,
+                    testObject:                 null, // Use this to test elements at debug time
+                    params:                     {},   // change this name as it is terrible (not unique)
+                    autoScroll:                 false,
+                    nextItem:                   1,      // change this name as it is terrible (not unique)
+                    wait_and_select_app:        null
+                },
                 helpers: {
                     insertCodeString:               function(  code  ,  st   ,  vall        ,  optionalEnd  ) {
                         let endIndicator = ")"
@@ -427,8 +429,7 @@
                     originalBaseComponentIdOfEditedUiControl:       null,
                     originalCodeIdOfEditedUiControl:                null,
                     finalBaseComponentIdOfEditedUiControl:          null,
-                    finalCodeIdOfEditedUiControl:                   null,
-
+                    finalCodeIdOfEditedUiControl:                   null
                 }
             }
             var GLOBALS                         = {
@@ -1724,7 +1725,7 @@
         <script>
             //External Public JS Library load code fns
             async function  useVisJs                            (   ) {
-                if (!visJsloaded) {
+                if (!yz.mainVars.visJsloaded) {
                     //debugger
                     let loadVisJsScript = document.createElement('script');
                     loadVisJsScript.src = "/js_libs/vis-timeline-graph2d.min.css";
@@ -1734,12 +1735,12 @@
                         try {
                         } catch (error) {
                         }
-                        visJsloaded = true
+                        yz.mainVars.visJsloaded = true
                     };
                 }
             }
             async function  useIpfsServer                       (   ) {
-                if (!ipfsServerloaded) {
+                if (!yz.mainVars.ipfsServerloaded) {
                     let promise = new Promise(async function(returnfn) {
                         //debugger
                         let loadIpfsServerScript = document.createElement('script');
@@ -1751,7 +1752,7 @@
                             } catch (error) {
                                 debugger
                             }
-                            ipfsServerloaded = true
+                            yz.mainVars.ipfsServerloaded = true
                             returnfn()
                         };
                     })
@@ -1760,7 +1761,7 @@
                 }
             }
             async function  useVisCss                           (   ) {
-                if (!visCssloaded) {
+                if (!yz.mainVars.visCssloaded) {
                     //debugger
                     let loadVisCssScript = document.createElement('script');
                     loadVisCssScript.src = "/js_libs/vis-timeline-graph2d.min.js";
@@ -1770,12 +1771,12 @@
                         try {
                         } catch (error) {
                         }
-                        visCssloaded = true
+                        yz.mainVars.visCssloaded = true
                     };
                 }
             }
             async function  useWeb3                             (   ) {
-                if (!web3loaded) {
+                if (!yz.mainVars.web3loaded) {
                     let loadWeb3LibScript = document.createElement('script');
                     loadWeb3LibScript.src = "/js_libs/web3.min.js";
 
@@ -1793,12 +1794,12 @@
                         } catch (error) {
 
                         }
-                        web3loaded = true
+                        yz.mainVars.web3loaded = true
                     };
                 }
             }
             async function  useIdeTools                         (   ) {
-                if (!ideToolsloaded) {
+                if (!yz.mainVars.ideToolsloaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
                         let loadIdeToolsLibScript = document.createElement('script');
@@ -1808,7 +1809,7 @@
                             try {
                             } catch (error) {
                             }
-                            ideToolsloaded = true
+                            yz.mainVars.ideToolsloaded = true
                             returnfn()
                         };
                     })
@@ -1816,7 +1817,7 @@
                 }
             }
             async function  useDiffJs                           (   ) {
-                if (!diffJsloaded) {
+                if (!yz.mainVars.diffJsloaded) {
                     let promise = new Promise(returnfn => {
                         let loadDiffJsScript = document.createElement('script');
                         loadDiffJsScript.src = "/js_libs/diff.js";
@@ -1825,7 +1826,7 @@
                             try {
                             } catch (error) {
                             }
-                            diffJsloaded = true
+                            yz.mainVars.diffJsloaded = true
                             returnfn()
                         };
                     })
@@ -1834,7 +1835,7 @@
             }
             async function  useChartsJs                         (   ) {
 
-                if (!chartsJsloaded) {
+                if (!yz.mainVars.chartsJsloaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
                         let loadChartsJsLibScript = document.createElement('script');
@@ -1849,7 +1850,7 @@
                             } catch (error) {
 
                             }
-                            chartsJsloaded = true
+                            yz.mainVars.chartsJsloaded = true
                             returnfn()
                         };
 
@@ -1862,7 +1863,7 @@
             }
             async function  useEstraverse                       (   ) {
 
-                if (!estraverseloaded) {
+                if (!yz.mainVars.estraverseloaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
                         let loadEstraverseScript = document.createElement('script');
@@ -1874,7 +1875,7 @@
                             try {
                             } catch (error) {
                             }
-                            estraverseloaded = true
+                            yz.mainVars.estraverseloaded = true
                             returnfn()
                         };
                     })
@@ -1885,7 +1886,7 @@
                 }
             }
             async function  useEsCodeGen                        (   ) {
-                if (!esCodeGenLoaded) {
+                if (!yz.mainVars.esCodeGenLoaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
                         let loadEsCodeGenScript = document.createElement('script');
@@ -1897,7 +1898,7 @@
                             try {
                             } catch (error) {
                             }
-                            esCodeGenLoaded = true
+                            yz.mainVars.esCodeGenLoaded = true
                             returnfn()
                         };
                     })
@@ -1909,7 +1910,7 @@
             }
             async function  useTabulatorJs                      (   ) {
 
-                if (!tabulatorJsLoaded) {
+                if (!yz.mainVars.tabulatorJsLoaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
                         let loadTabulatorJsLibScript = document.createElement('script');
@@ -1924,7 +1925,7 @@
                             } catch (error) {
 
                             }
-                            tabulatorJsLoaded = true
+                            yz.mainVars.tabulatorJsLoaded = true
                             returnfn()
                         };
 
@@ -1989,10 +1990,10 @@
 
             // Yazz system fns
             async function  onPageInitialized                   (   doCode   ) {
-                executeOnPageLoad = doCode
-                if (pageInitialised) {
-                    await executeOnPageLoad()
-                    executeOnPageLoad = null
+                yz.mainVars.executeOnPageLoad = doCode
+                if (yz.mainVars.pageInitialised) {
+                    await yz.mainVars.executeOnPageLoad()
+                    yz.mainVars.executeOnPageLoad = null
                 }
 
                 //debugger
@@ -2001,14 +2002,14 @@
                 ], { type: "text/javascript" })
 
                 // Note: window.webkitURL.createObjectURL() in Chrome 10+.
-                worker = new Worker(window.URL.createObjectURL(blob));
-                worker.onmessage = function(e) {
+                yz.mainVars.worker = new Worker(window.URL.createObjectURL(blob));
+                yz.mainVars.worker.onmessage = function(e) {
                     console.log("Received: " + e.data);
                 }
 
 
-                saveCodeViaWebWorker = async function(code, options) {
-                    worker.postMessage(
+                yz.mainVars.saveCodeViaWebWorker = async function(code, options) {
+                    yz.mainVars.worker.postMessage(
                         {
                             hostPort:       $HOSTPORT,
                             host:           $HOST,
@@ -2020,13 +2021,13 @@
             }
             async function  addToIpfs                           (   sometext   ) {
                 //debugger
-                let ret = await ipfs.add(sometext)
+                let ret = await yz.mainVars.ipfs.add(sometext)
                 return ret
             }
             async function  getIpfsHash                         (   sometext   ) {
                 //debugger
-                if (ipfs) {
-                    let ret = await ipfs.add(sometext)
+                if (yz.mainVars.ipfs) {
+                    let ret = await yz.mainVars.ipfs.add(sometext)
 
                     return ret.path
                 } else {
@@ -2194,7 +2195,7 @@
                         ,
                         methods: {
                             click_card: async function(id) {
-                                autoScroll = false;
+                                yz.mainVars.autoScroll = false;
                                 await select_card(id)
                             }
                             ,
@@ -2627,7 +2628,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
 
 
 
-                    mainVueApp = new Vue({
+                    yz.mainVars.mainVueApp = new Vue({
                         el: "#infinite-list"
                         ,
                         data: function() {
@@ -2657,7 +2658,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                     //alert(0)
                     if (GLOBALS.isStaticHtmlPageApp) {
                         //alert(1)
-                        let nid = nextItem++;
+                        let nid = yz.mainVars.nextItem++;
                         add_card({
                             id: nid,
                             card: {
@@ -2668,8 +2669,8 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                                 display_name:       "***STATIC_NAME***",
                                 type:               "app"
                             }});
-                        mainVueApp.show_loader = false
-                        autoScroll = false
+                        yz.mainVars.mainVueApp.show_loader = false
+                        yz.mainVars.autoScroll = false
                         setTimeout(async function() {
                             await select_card(nid)
                         },20)
@@ -2691,23 +2692,23 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                         url = window.location.href,
                         match;
                     while(match = regex.exec(url)) {
-                        params[match[1]] = match[2];
+                        yz.mainVars.params[match[1]] = match[2];
                     }
 
-                    if (params.goto) {
-                        wait_and_select_app = params.goto.replaceAll("%20"," ").toLowerCase()
-                        autoScroll = false;
-                        mainVueApp.show_loader = true
-                    } else if (params.embed) {
-                        wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
-                        autoScroll = false;
-                        mainVueApp.show_loader = true
+                    if (yz.mainVars.params.goto) {
+                        yz.mainVars.wait_and_select_app = yz.mainVars.params.goto.replaceAll("%20"," ").toLowerCase()
+                        yz.mainVars.autoScroll = false;
+                        yz.mainVars.mainVueApp.show_loader = true
+                    } else if (yz.mainVars.params.embed) {
+                        yz.mainVars.wait_and_select_app = yz.mainVars.params.embed.replaceAll("%20"," ").toLowerCase()
+                        yz.mainVars.autoScroll = false;
+                        yz.mainVars.mainVueApp.show_loader = true
                     } else if (!GLOBALS.isStaticHtmlPageApp) {
                         setTimeout(async function() {
                             await select_card(1)
                         },200)
                     } else if (GLOBALS.isStaticHtmlPageApp) {
-                        mainVueApp.is_static = true
+                        yz.mainVars.mainVueApp.is_static = true
                     }
 
 
@@ -2829,7 +2830,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                             console.log(errr)
                         }
                     }
-                    pageInitialised = true
+                    yz.mainVars.pageInitialised = true
 
 
 
@@ -2837,7 +2838,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                         //debugger
                         await useIpfsServer()
                         try {
-                            ipfs = await Ipfs.create({offline: true, start: false})
+                            yz.mainVars.ipfs = await Ipfs.create({offline: true, start: false})
                             console.log('IPFS server loaded:')
                         } catch (ipfsError) {
                             console.log('IPFS server erroe: ' + ipfsError)
@@ -2845,9 +2846,9 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                     }
 
 
-                    if (executeOnPageLoad) {
-                        await executeOnPageLoad()
-                        executeOnPageLoad = null
+                    if (yz.mainVars.executeOnPageLoad) {
+                        await yz.mainVars.executeOnPageLoad()
+                        yz.mainVars.executeOnPageLoad = null
                     }
                 });
 
@@ -3152,7 +3153,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                 GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
 
                 let rootElement = "app_" + id
-                if ((mainVueApp.cards[id - 1].card.base_component_id != base_component_id) ||
+                if ((yz.mainVars.mainVueApp.cards[id - 1].card.base_component_id != base_component_id) ||
                     (!newAppArgs[id]))
                 {
                     newAppArgs[id] = args
@@ -3162,7 +3163,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                 // loadAppIntoElement
                 //
                 await GLOBALS.makeSureUiComponentLoadedV6(base_component_id)
-                if (mainVueApp.cards[id - 1].card.base_component_id == base_component_id) {
+                if (yz.mainVars.mainVueApp.cards[id - 1].card.base_component_id == base_component_id) {
 
                     if (!document.getElementById(rootElement)) {
                         let newRootId = rootElement.substring(4)
@@ -3181,31 +3182,31 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
             }
             function        add_card                            (   payload   ) {
                 let ccy = document.getElementById('wrapper').scrollTop
-                mainVueApp.cards.push(payload);
+                yz.mainVars.mainVueApp.cards.push(payload);
                 setTimeout(function() {
                     document.getElementById('wrapper').scrollTop = ccy
                 },100)
             }
             async function  select_card                         (   id   ) {
-                if (mainVueApp.selected_card == id) {
+                if (yz.mainVars.mainVueApp.selected_card == id) {
                     return;
                 }
-                if (mainVueApp.selected_card != -1) {
+                if (yz.mainVars.mainVueApp.selected_card != -1) {
                     if (id != -1) {
-                        document.querySelector('#card_' + mainVueApp.selected_card).classList.remove("expand");
+                        document.querySelector('#card_' + yz.mainVars.mainVueApp.selected_card).classList.remove("expand");
                     }
-                    document.querySelector('#card_' + mainVueApp.selected_card).classList.add('contract');
+                    document.querySelector('#card_' + yz.mainVars.mainVueApp.selected_card).classList.add('contract');
                 }
 
                 if (id != -1) {
                     let elmnt = document.querySelector('#card_' + id);
                     if (elmnt) {
                         if (GLOBALS.isStaticHtmlPageApp) {
-                            mainVueApp.selected_card = id;
+                            yz.mainVars.mainVueApp.selected_card = id;
                             setTimeout(async function() {
-                                let thisApp = mainVueApp.cards[id - 1]
-                                if (mainVueApp.cards[id - 1].card.fn) {
-                                    setTimeout( mainVueApp.cards[id - 1].card.fn, 3000)
+                                let thisApp = yz.mainVars.mainVueApp.cards[id - 1]
+                                if (yz.mainVars.mainVueApp.cards[id - 1].card.fn) {
+                                    setTimeout( yz.mainVars.mainVueApp.cards[id - 1].card.fn, 3000)
                                 }
                                 if (thisApp.card.base_component_id) {
                                     await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -3216,11 +3217,11 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                             document.querySelector('#card_' + id).classList.add('expand');
                             setTimeout(function()
                             {
-                                mainVueApp.selected_card = id;
+                                yz.mainVars.mainVueApp.selected_card = id;
                                 setTimeout(async function() {
-                                    let thisApp = mainVueApp.cards[id - 1]
-                                    if (mainVueApp.cards[id - 1].card.fn) {
-                                        setTimeout( mainVueApp.cards[id - 1].card.fn, 3000)
+                                    let thisApp = yz.mainVars.mainVueApp.cards[id - 1]
+                                    if (yz.mainVars.mainVueApp.cards[id - 1].card.fn) {
+                                        setTimeout( yz.mainVars.mainVueApp.cards[id - 1].card.fn, 3000)
                                     }
                                     if (thisApp.card.base_component_id) {
                                         await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -3235,20 +3236,20 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
 
             // Simple web UI helpers
             function        onscrolled                          (   ) {
-                if (mousedown) {
-                    autoScroll = false;
+                if (yz.mainVars.mousedown) {
+                    yz.mainVars.autoScroll = false;
                 }
             };
             function        onemousedown                        (   ) {
                 //console.log("onmousedown")
-                mousedown = true
+                yz.mainVars.mousedown = true
             };
             function        onemouseup                          (   ) {
                 //console.log("onmouseup")
-                mousedown = false
+                yz.mainVars.mousedown = false
             };
             function        refresh                             (   ) {
-                mainVueApp.count += 1;
+                yz.mainVars.mainVueApp.count += 1;
             }
             function        getPosition                         (   el   ) {
                 let xPos = 0;
@@ -3276,10 +3277,10 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                 };
             }
             function        showProgressBar                     (   ) {
-                mainVueApp.show_loader = true
+                yz.mainVars.mainVueApp.show_loader = true
             }
             function        hideProgressBar                     (   ) {
-                mainVueApp.show_loader = false
+                yz.mainVars.mainVueApp.show_loader = false
             }
 
             //debug helpers

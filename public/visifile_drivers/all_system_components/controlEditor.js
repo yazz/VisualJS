@@ -258,7 +258,7 @@ load_once_from_file(true)
     //
     // ----------------------------------------------------------------------
      mounted: async function() {
-         //disableAutoSave     = true
+         //yz.mainVars.disableAutoSave     = true
 
      },
      methods: {

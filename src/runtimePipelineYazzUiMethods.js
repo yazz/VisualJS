@@ -6313,7 +6313,7 @@ return {}
                     }
 
                     if (mm.design_mode) {
-                        disableAutoSave = false
+                        yz.mainVars.disableAutoSave = false
                     }
 
 

@@ -47,7 +47,7 @@ load_once_from_file(true)
          let thisVueInstance = this
          let mm = this
          args.text           = null
-         disableAutoSave     = true
+         yz.mainVars.disableAutoSave     = true
 
          ace.config.set('basePath', '/');
          mm.editor = ace.edit(           mm.editorDomId, {
