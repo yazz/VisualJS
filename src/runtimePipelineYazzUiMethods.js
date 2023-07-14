@@ -6518,7 +6518,7 @@ return {}
                      */
                     if (mm.design_mode) {
 
-                        if (yz.components.subEditorAction == "FORK_CONTROL") {
+                        if (yz.editor.subEditorAction == "FORK_CONTROL") {
                             setTimeout(function () {
                                 if (GLOBALS.saveControlChanges) {
                                     mm.changePropertyValue(
@@ -6537,11 +6537,11 @@ return {}
                                     )
                                 }
                                 GLOBALS.originalNameOfEditedUiControl = null
-                                yz.components.subEditorAction = null
+                                yz.editor.subEditorAction = null
                                 GLOBALS.saveControlChanges = false
 
                             }, 1000)
-                        } else if (yz.components.subEditorAction == "EDIT_CONTROL") {
+                        } else if (yz.editor.subEditorAction == "EDIT_CONTROL") {
                             setTimeout(function () {
                                 if (GLOBALS.saveControlChanges) {
                                     mm.changePropertyValue(
@@ -6560,7 +6560,7 @@ return {}
                                     )
                                 }
                                 GLOBALS.originalNameOfEditedUiControl = null
-                                yz.components.subEditorAction = null
+                                yz.editor.subEditorAction = null
                                 GLOBALS.saveControlChanges = false
                             }, 1000)
 

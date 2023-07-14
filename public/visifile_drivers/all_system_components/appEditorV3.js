@@ -240,14 +240,14 @@ ___________
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();GLOBALS.saveControlChanges=true;closeEditor()' >
-                  <span v-if="!yz.components.lastEditingAppCodeId">Close</span>
-                  <span v-if="yz.components.lastEditingAppCodeId">Update app</span>
+                  <span v-if="!yz.editor.lastEditingAppCodeId">Close</span>
+                  <span v-if="yz.editor.lastEditingAppCodeId">Update app</span>
                 </button>
             </div>
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();GLOBALS.saveControlChanges=false;closeEditor()'
-                         v-if="yz.components.lastEditingAppCodeId">
-                  <span v-if="yz.components.lastEditingAppCodeId">Cancel</span>
+                         v-if="yz.editor.lastEditingAppCodeId">
+                  <span v-if="yz.editor.lastEditingAppCodeId">Cancel</span>
                 </button>
             </div>
 
@@ -314,7 +314,7 @@ ___________
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.components.editingAppBaseComponentId + ".yazz"'
+                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
                        download
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Download app source code")'
@@ -467,7 +467,7 @@ ___________
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
                               type="button" class="btn  btn-primary"
-                              v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.components.lastEditingAppCodeId == null))'>
+                              v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
 
                               <img
                                   src='/driver_icons/remix.png'
@@ -622,7 +622,7 @@ ___________
                 </a>
                 
                 <a          
-                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.components.editingAppBaseComponentId + ".html"'
+                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".html"'
                     v-if="(preview_type=='app')"
                     download
                     id="saveHTMLButton"
@@ -1084,33 +1084,33 @@ End of app preview menu
                // with all the apps)
                // ---------------------------------------------------------------
                let mm = this
-               if (yz.components.subEditorAction == "FORK_CONTROL") {
+               if (yz.editor.subEditorAction == "FORK_CONTROL") {
                    GLOBALS.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
                    GLOBALS.finalCodeIdOfEditedUiControl = mm.code_id
                    this.$root.$emit("message", {
                        type: "return_from_fork_component",
-                       base_component_id: yz.components.lastEditingAppBaseComponentId,
-                       code_id: yz.components.lastEditingAppCodeId
+                       base_component_id: yz.editor.lastEditingAppBaseComponentId,
+                       code_id: yz.editor.lastEditingAppCodeId
                    })
 
-               } else if (yz.components.subEditorAction == "EDIT_CONTROL") {
+               } else if (yz.editor.subEditorAction == "EDIT_CONTROL") {
                        GLOBALS.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
                        GLOBALS.finalCodeIdOfEditedUiControl            = mm.code_id
                        this.$root.$emit("message", {    type:               "return_from_edit_component",
-                           base_component_id:   yz.components.lastEditingAppBaseComponentId,
-                           code_id:             yz.components.lastEditingAppCodeId
+                           base_component_id:   yz.editor.lastEditingAppBaseComponentId,
+                           code_id:             yz.editor.lastEditingAppCodeId
                        })
 
-               } else if (yz.components.lastEditingAppBaseComponentId) {
-                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   yz.components.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
+               } else if (yz.editor.lastEditingAppBaseComponentId) {
+                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   yz.editor.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
 
                } else {
                    this.$root.$emit('message', {
                        type:        "close_app"
                    })
                }
-               yz.components.lastEditingAppBaseComponentId    = null;
-               yz.components.lastEditingAppCodeId             = null;
+               yz.editor.lastEditingAppBaseComponentId    = null;
+               yz.editor.lastEditingAppCodeId             = null;
                GLOBALS.inEditor                         = false
            },
             chooseApp:                      async function  (  ) {
@@ -2163,13 +2163,13 @@ End of app preview menu
             //
             // ******* if we have the code ID *********
             if (mm.arg_edit_code_id) {
-                yz.components.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
-                yz.components.editingAppCodeId                            = mm.arg_edit_code_id
+                yz.editor.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
+                yz.editor.editingAppCodeId                            = mm.arg_edit_code_id
                 GLOBALS.inEditor                                    = true
-                await mm.loadComponentIntoEditor({codeId: yz.components.editingAppCodeId})
+                await mm.loadComponentIntoEditor({codeId: yz.editor.editingAppCodeId})
             // ******* if we only have the BCI *********
             } else if (mm.arg_edit_base_component_id) {
-                yz.components.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
+                yz.editor.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
                 await mm.loadComponentIntoEditor({baseComponentId: this.arg_edit_base_component_id})
             }
 
