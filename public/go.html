@@ -403,31 +403,6 @@
                         let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
                         return newString
                     }
-                },
-                replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
-                    let startIndex  = target.indexOf(start)
-                    if (startIndex == -1) {
-                        return target
-                    }
-                    startIndex      += start.length
-                    let endIndex    = target.indexOf(end)
-                    if (endIndex == -1) {
-                        return target
-                    }
-                    let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                    return newString
-                },
-                addAfter:                       function        (  target  ,  start  ,  replaceWith  ) {
-                    let startIndex  = target.indexOf(start) + start.length
-                    let endIndex    = startIndex
-                    let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                    return newString
-                },
-                addBefore:                      function        (  target  ,  end  ,  replaceWith  ) {
-                    let startIndex  = target.indexOf(end)
-                    let endIndex    = startIndex + replaceWith.length - 1
-                    let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                    return newString
                 }
             }
             var GLOBALS                         = {
@@ -3044,11 +3019,11 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                     })
 
                 if (mode == "INSERT_AFTER") {
-                    trcode2 = yz.addAfter(trcode2, pasteMarker, editorCodeToCopy)
+                    trcode2 = yz.helpers.addAfter(trcode2, pasteMarker, editorCodeToCopy)
                 } else if (mode == "REPLACE") {
-                    trcode2 = yz.replaceBetween(trcode2, pasteStartMarker, pasteEndMarker, editorCodeToCopy)
+                    trcode2 = yz.helpers.replaceBetween(trcode2, pasteStartMarker, pasteEndMarker, editorCodeToCopy)
                 } else if (mode == "INSERT_BEFORE") {
-                    trcode2 = yz.addBefore(trcode2, pasteMarker, editorCodeToCopy)
+                    trcode2 = yz.helpers.addBefore(trcode2, pasteMarker, editorCodeToCopy)
                 } else {
                     throw "No such mode in 'enhanceCodeWithPipeline' called '" + mode + "'"
                 }
