@@ -316,9 +316,9 @@
                     estraverseloaded:           false,
                     esCodeGenLoaded:            false,
                     testObject:                 null, // Use this to test elements at debug time
-                    params:                     {},   // change this name as it is terrible (not unique)
+                    webpageParams:              {},
                     autoScroll:                 false,
-                    nextItem:                   1,      // change this name as it is terrible (not unique)
+                    nextGlobalAppId:            1,
                     wait_and_select_app:        null
                 },
                 helpers: {
@@ -2655,10 +2655,8 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
 
 
 
-                    //alert(0)
                     if (GLOBALS.isStaticHtmlPageApp) {
-                        //alert(1)
-                        let nid = yz.mainVars.nextItem++;
+                        let nid = yz.mainVars.nextGlobalAppId++;
                         add_card({
                             id: nid,
                             card: {
@@ -2692,15 +2690,15 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                         url = window.location.href,
                         match;
                     while(match = regex.exec(url)) {
-                        yz.mainVars.params[match[1]] = match[2];
+                        yz.mainVars.webpageParams[match[1]] = match[2];
                     }
 
-                    if (yz.mainVars.params.goto) {
-                        yz.mainVars.wait_and_select_app = yz.mainVars.params.goto.replaceAll("%20"," ").toLowerCase()
+                    if (yz.mainVars.webpageParams.goto) {
+                        yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.goto.replaceAll("%20"," ").toLowerCase()
                         yz.mainVars.autoScroll = false;
                         yz.mainVars.mainVueApp.show_loader = true
-                    } else if (yz.mainVars.params.embed) {
-                        yz.mainVars.wait_and_select_app = yz.mainVars.params.embed.replaceAll("%20"," ").toLowerCase()
+                    } else if (yz.mainVars.webpageParams.embed) {
+                        yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
                         yz.mainVars.autoScroll = false;
                         yz.mainVars.mainVueApp.show_loader = true
                     } else if (!GLOBALS.isStaticHtmlPageApp) {
