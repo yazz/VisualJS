@@ -1746,7 +1746,7 @@
                                 let properties = yz.getValueOfCodeString(codeForCommit, "properties",")//properties")
 
 
-                                await GLOBALS.makeSureUiComponentLoadedV6PT2({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
+                                await GLOBALS.addRuntimePipelinesAndRunCode({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                                 GLOBALS.setComponentLoaded({codeId: newDataCodeId})
                                 loadedStatic = true
                             }
@@ -1779,7 +1779,7 @@
                             if (componentCodeId && GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
                                 let compCode        = GLOBALS.getCodeForComponent({codeId: componentCodeId})
                                 if (compCode) {
-                                    await GLOBALS.makeSureUiComponentLoadedV6PT2({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
+                                    await GLOBALS.addRuntimePipelinesAndRunCode({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
                                 //
@@ -1829,7 +1829,7 @@
                                                 codeId:             codeId
                                             })
 
-                                        await GLOBALS.makeSureUiComponentLoadedV6PT2(
+                                        await GLOBALS.addRuntimePipelinesAndRunCode(
                                             {
                                                 codeId:             codeId,
                                                 baseComponentId:    sdf[i].base_component_id,
@@ -1851,7 +1851,7 @@
 
                     return {}
                 },
-                makeSureUiComponentLoadedV6PT2: async function  (   {codeId, codeArgs}   ) {
+                addRuntimePipelinesAndRunCode:  async function  (   {codeId , codeArgs}   ) {
                     // Init - Set the BCI
                     let baseComponentId = null
                     let code            = GLOBALS.getCodeForComponent({codeId: codeId})
