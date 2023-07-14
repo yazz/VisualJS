@@ -416,6 +416,19 @@
                     //
                     inEditor:                                       false,  // Always set to true when we enter the editor
 
+
+                    //
+                    // This is used when we have edited a UI control and want to jump back to the app and update the control
+                    // that was edited in the app
+                    //
+                    saveControlChanges:                             false,
+                    originalFormIdOfEditedUiControl:                null,
+                    originalNameOfEditedUiControl:                  null,
+                    originalBaseComponentIdOfEditedUiControl:       null,
+                    originalCodeIdOfEditedUiControl:                null,
+                    finalBaseComponentIdOfEditedUiControl:          null,
+                    finalCodeIdOfEditedUiControl:                   null,
+
                 }
             }
             var GLOBALS                         = {
@@ -427,18 +440,6 @@
                 app editors. So instead of having global variables all over the place
                 we have decided to just have one global object
                  ----------------------------------------------------------------------- */
-
-                //
-                // This is used when we have edited a UI control and want to jump back to the app and update the control
-                // that was edited in the app
-                //
-                saveControlChanges:                             false,
-                originalFormIdOfEditedUiControl:                null,
-                originalNameOfEditedUiControl:                  null,
-                originalBaseComponentIdOfEditedUiControl:       null,
-                originalCodeIdOfEditedUiControl:                null,
-                finalBaseComponentIdOfEditedUiControl:          null,
-                finalCodeIdOfEditedUiControl:                   null,
 
                 //
                 // This is a map from the UI control name to the corresponding Vue object

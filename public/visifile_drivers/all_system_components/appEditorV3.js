@@ -239,13 +239,13 @@ ___________
 
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();GLOBALS.saveControlChanges=true;closeEditor()' >
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();yz.editor.saveControlChanges=true;closeEditor()' >
                   <span v-if="!yz.editor.lastEditingAppCodeId">Close</span>
                   <span v-if="yz.editor.lastEditingAppCodeId">Update app</span>
                 </button>
             </div>
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();GLOBALS.saveControlChanges=false;closeEditor()'
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();yz.editor.saveControlChanges=false;closeEditor()'
                          v-if="yz.editor.lastEditingAppCodeId">
                   <span v-if="yz.editor.lastEditingAppCodeId">Cancel</span>
                 </button>
@@ -1085,8 +1085,8 @@ End of app preview menu
                // ---------------------------------------------------------------
                let mm = this
                if (yz.editor.subEditorAction == "FORK_CONTROL") {
-                   GLOBALS.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
-                   GLOBALS.finalCodeIdOfEditedUiControl = mm.code_id
+                   yz.editor.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
+                   yz.editor.finalCodeIdOfEditedUiControl = mm.code_id
                    this.$root.$emit("message", {
                        type: "return_from_fork_component",
                        base_component_id: yz.editor.lastEditingAppBaseComponentId,
@@ -1094,8 +1094,8 @@ End of app preview menu
                    })
 
                } else if (yz.editor.subEditorAction == "EDIT_CONTROL") {
-                       GLOBALS.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
-                       GLOBALS.finalCodeIdOfEditedUiControl            = mm.code_id
+                       yz.editor.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
+                       yz.editor.finalCodeIdOfEditedUiControl            = mm.code_id
                        this.$root.$emit("message", {    type:               "return_from_edit_component",
                            base_component_id:   yz.editor.lastEditingAppBaseComponentId,
                            code_id:             yz.editor.lastEditingAppCodeId

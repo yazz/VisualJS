@@ -806,10 +806,10 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                                 }
                                 let fid = text.form_id
                                 let cni = text.control_name
-                                GLOBALS.originalFormIdOfEditedUiControl           = fid
-                                GLOBALS.originalNameOfEditedUiControl             = cni
-                                GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
-                                GLOBALS.originalCodeIdOfEditedUiControl           = cid
+                                yz.editor.originalFormIdOfEditedUiControl           = fid
+                                yz.editor.originalNameOfEditedUiControl             = cni
+                                yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                yz.editor.originalCodeIdOfEditedUiControl           = cid
                                 await mm.copyAndEditApp(
                                     {base_component_id: bci  ,  code_id: cid})
                             },200)
@@ -837,10 +837,10 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                                 let cid = text.code_id
                                 let fid = text.form_id
                                 let cni = text.control_name
-                                //GLOBALS.originalFormIdOfEditedUiControl           = fid
-                                //GLOBALS.originalNameOfEditedUiControl             = cni
-                                GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
-                                GLOBALS.originalCodeIdOfEditedUiControl           = cid
+                                //yz.editor.originalFormIdOfEditedUiControl           = fid
+                                //yz.editor.originalNameOfEditedUiControl             = cni
+                                yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                yz.editor.originalCodeIdOfEditedUiControl           = cid
                                 setTimeout(async function() {
                                     await mm.editApp(bci,  text.code_id)
                                 },50)
@@ -879,10 +879,10 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                                 }
                                 let fid = text.form_id
                                 let cni = text.control_name
-                                GLOBALS.originalFormIdOfEditedUiControl           = fid
-                                GLOBALS.originalNameOfEditedUiControl             = cni
-                                GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
-                                GLOBALS.originalCodeIdOfEditedUiControl           = cid
+                                yz.editor.originalFormIdOfEditedUiControl           = fid
+                                yz.editor.originalNameOfEditedUiControl             = cni
+                                yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                yz.editor.originalCodeIdOfEditedUiControl           = cid
                                 await mm.addToEditableAppsAndEdit(cid)
                             },200)
                         }
@@ -909,10 +909,10 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                                 let cid = text.code_id
                                 let fid = text.form_id
                                 let cni = text.control_name
-                                //GLOBALS.originalFormIdOfEditedUiControl           = fid
-                                //GLOBALS.originalNameOfEditedUiControl             = cni
-                                GLOBALS.originalBaseComponentIdOfEditedUiControl  = bci
-                                GLOBALS.originalCodeIdOfEditedUiControl           = cid
+                                //yz.editor.originalFormIdOfEditedUiControl           = fid
+                                //yz.editor.originalNameOfEditedUiControl             = cni
+                                yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                yz.editor.originalCodeIdOfEditedUiControl           = cid
                                 setTimeout(async function() {
                                     await mm.editApp(bci,  text.code_id)
                                 },50)

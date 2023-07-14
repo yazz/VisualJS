@@ -6520,48 +6520,48 @@ return {}
 
                         if (yz.editor.subEditorAction == "FORK_CONTROL") {
                             setTimeout(function () {
-                                if (GLOBALS.saveControlChanges) {
+                                if (yz.editor.saveControlChanges) {
                                     mm.changePropertyValue(
                                         {
-                                            componentName: GLOBALS.originalNameOfEditedUiControl,
+                                            componentName: yz.editor.originalNameOfEditedUiControl,
                                             propertyName: "base_component_id",
-                                            propertyValue: GLOBALS.finalBaseComponentIdOfEditedUiControl
+                                            propertyValue: yz.editor.finalBaseComponentIdOfEditedUiControl
                                         }
                                     )
                                     mm.changePropertyValue(
                                         {
-                                            componentName: GLOBALS.originalNameOfEditedUiControl,
+                                            componentName: yz.editor.originalNameOfEditedUiControl,
                                             propertyName: "code_id",
-                                            propertyValue: GLOBALS.finalCodeIdOfEditedUiControl
+                                            propertyValue: yz.editor.finalCodeIdOfEditedUiControl
                                         }
                                     )
                                 }
-                                GLOBALS.originalNameOfEditedUiControl = null
+                                yz.editor.originalNameOfEditedUiControl = null
                                 yz.editor.subEditorAction = null
-                                GLOBALS.saveControlChanges = false
+                                yz.editor.saveControlChanges = false
 
                             }, 1000)
                         } else if (yz.editor.subEditorAction == "EDIT_CONTROL") {
                             setTimeout(function () {
-                                if (GLOBALS.saveControlChanges) {
+                                if (yz.editor.saveControlChanges) {
                                     mm.changePropertyValue(
                                         {
-                                            componentName: GLOBALS.originalNameOfEditedUiControl,
+                                            componentName: yz.editor.originalNameOfEditedUiControl,
                                             propertyName: "base_component_id",
-                                            propertyValue: GLOBALS.finalBaseComponentIdOfEditedUiControl
+                                            propertyValue: yz.editor.finalBaseComponentIdOfEditedUiControl
                                         }
                                     )
                                     mm.changePropertyValue(
                                         {
-                                            componentName: GLOBALS.originalNameOfEditedUiControl,
+                                            componentName: yz.editor.originalNameOfEditedUiControl,
                                             propertyName: "code_id",
-                                            propertyValue: GLOBALS.finalCodeIdOfEditedUiControl
+                                            propertyValue: yz.editor.finalCodeIdOfEditedUiControl
                                         }
                                     )
                                 }
-                                GLOBALS.originalNameOfEditedUiControl = null
+                                yz.editor.originalNameOfEditedUiControl = null
                                 yz.editor.subEditorAction = null
-                                GLOBALS.saveControlChanges = false
+                                yz.editor.saveControlChanges = false
                             }, 1000)
 
                         }
