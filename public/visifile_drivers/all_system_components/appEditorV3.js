@@ -314,7 +314,7 @@ ___________
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GLOBALS.editingAppBaseComponentId + ".yazz"'
+                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.components.editingAppBaseComponentId + ".yazz"'
                        download
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Download app source code")'
@@ -622,7 +622,7 @@ ___________
                 </a>
                 
                 <a          
-                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + GLOBALS.editingAppBaseComponentId + ".html"'
+                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.components.editingAppBaseComponentId + ".html"'
                     v-if="(preview_type=='app')"
                     download
                     id="saveHTMLButton"
@@ -2163,13 +2163,13 @@ End of app preview menu
             //
             // ******* if we have the code ID *********
             if (mm.arg_edit_code_id) {
-                GLOBALS.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
+                yz.components.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                 GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
                 GLOBALS.inEditor                                    = true
                 await mm.loadComponentIntoEditor({codeId: GLOBALS.editingAppCodeId})
             // ******* if we only have the BCI *********
             } else if (mm.arg_edit_base_component_id) {
-                GLOBALS.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
+                yz.components.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
                 await mm.loadComponentIntoEditor({baseComponentId: this.arg_edit_base_component_id})
             }
 
