@@ -127,6 +127,7 @@ module.exports = {
         return newString
     },
     replacePropertyValue:           function        (  code  ,  propertyId  ,  propertyValue  ) {
+        let yz = this
       let properties = this.helpers.getValueOfCodeString(code,"properties",")//prope" + "rties")
       if (properties) {
           let index =0;
@@ -138,9 +139,9 @@ module.exports = {
             }
           }
 
-          code = this.deleteCodeString(  code, "properties", ")//prope" + "rties")
+          code = yz.helpers.deleteCodeString(  code, "properties", ")//prope" + "rties")
 
-          code = this.insertCodeString(    code,
+          code = yz.helpers.insertCodeString(    code,
                                                      "properties",
                                                       properties,
                                                      ")//prope" + "rties")
@@ -155,9 +156,9 @@ module.exports = {
         if (properties) {
             properties.push(newProperty)
 
-            code = this.deleteCodeString(  code, "properties", ")//prope" + "rties")
+            code = yz.helpers.deleteCodeString(  code, "properties", ")//prope" + "rties")
 
-            code = this.insertCodeString(    code,
+            code = yz.helpers.insertCodeString(    code,
                 "properties",
                 properties,
                 ")//prope" + "rties")
@@ -165,12 +166,13 @@ module.exports = {
         return code
     },
     addMethod:                      function        (  code  ,  newMethod  ) {
+        let yz = this
          let existingCode = this.getBetween(
              code,
              "/*NEW_METHODS_START*/",
              "/*NEW_METHODS_END*/")
 
-        code = this.replaceBetween(
+        code = yz.helpers.replaceBetween(
                         code,
                         "/*NEW_METHODS_START*/",
                         "/*NEW_METHODS_END*/",
