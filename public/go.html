@@ -404,40 +404,6 @@
                         return newString
                     }
                 },
-                deleteCodeString:               function(   code   ,   st   ,   optionalEnd   ) {
-                    let endIndicator = ")"
-                    if (optionalEnd) {
-                        endIndicator = optionalEnd
-                    }
-                    let findd = st + "("
-                    let codeStart = code.toString().indexOf(findd)
-                    if (codeStart != -1) {
-                        let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
-
-                        code = code.toString().substring(0,codeStart) +
-                            code.toString().substring(codeEnd + 1 + endIndicator.length)
-
-                        return code
-                    }
-                    return code
-                },
-                getValueOfCodeString:           function(   code   ,   st   ,   optionalEnd   ) {
-                    let endIndicator = ")"
-                    if (optionalEnd) {
-                        endIndicator = optionalEnd
-                    }
-                    let toFind = st + "("
-                    if (code.toString().indexOf(toFind) != -1) {
-                        let codeStart = code.toString().indexOf(toFind) + toFind.length
-                        let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
-
-                        code = code.toString().substring(codeStart, codeEnd)
-                        let val = eval( "(" + code.toString() + ")")
-                        return val
-
-                    }
-                    return null
-                },
                 replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
                     let startIndex  = target.indexOf(start)
                     if (startIndex == -1) {
@@ -2792,7 +2758,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                     });
                     myDropzone.on("complete", function(file) {
                         myDropzone.removeFile(file);
-                        //let eds = yz.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
+                        //let eds = yz.helpers.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
                     });
 
 
@@ -3091,7 +3057,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
 
             // app helpers
             async function  getSubComponents                    (   srcCode   ) {
-                let subC = yz.getValueOfCodeString(srcCode,"sub_components")
+                let subC = yz.helpers.getValueOfCodeString(srcCode,"sub_components")
                 if (!subC) {
                     return []
                 }

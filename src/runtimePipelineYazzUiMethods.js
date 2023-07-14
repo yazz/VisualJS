@@ -6333,8 +6333,8 @@ return {}
                         json2                       = mm.getJsonModelFromCode(texti)
                         mm.old_model                = JSON.parse(JSON.stringify(json2));
                         mm.model                    = json2
-                        mm.edited_app_component_id  = yz.getValueOfCodeString(texti, "base_component_id")
-                        mm.read_only                = yz.getValueOfCodeString(texti, "read_only")
+                        mm.edited_app_component_id  = yz.helpers.getValueOfCodeString(texti, "base_component_id")
+                        mm.read_only                = yz.helpers.getValueOfCodeString(texti, "read_only")
                     }
                     mm.active_form = mm.model.default_form
 
