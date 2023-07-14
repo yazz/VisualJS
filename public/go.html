@@ -321,6 +321,7 @@
                     nextGlobalAppId:            1,
                     wait_and_select_app:        null,
                     online:                     false,   // If the Yazz server is current online with internet access
+                    localSqliteDb:              null
 
                 },
                 helpers:    {
@@ -1283,7 +1284,7 @@
                         if (localAppshareApp && ((component_type == "APP") || (component_type == "SYSTEM"))) {
                             if (sqlitedata) {
                                 let b = base64ToUint8Array(sqlitedata)
-                                localSqliteDb = new SQL.Database(b);
+                                yz.mainVars.localSqliteDb = new SQL.Database(b);
                             } else {
                                 let eds = yz.helpers.getValueOfCodeString(code, "sqlite",")//sqlite")
                                 if (eds){
@@ -1527,7 +1528,6 @@
                 //
                 isStaticHtmlPageApp: false
             }
-            var localSqliteDb                   = null
             var networkIntranetIpAddress        = null
             var file_upload_uuid                = null
             var base_component_id               = null
@@ -1683,7 +1683,7 @@
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
 
             if (window.SQL) {
-                localSqliteDb = new window.SQL.Database()
+                yz.mainVars.localSqliteDb = new window.SQL.Database()
             }
             String.prototype.replaceAll = function(search, replacement) {
             let target = this;
@@ -3070,7 +3070,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                 } else {
                     resOut = []
                     try {
-                        let stmt = localSqliteDb.prepare(sql);
+                        let stmt = yz.mainVars.localSqliteDb.prepare(sql);
                         let res = stmt.bind(params)
                         let moreRows = stmt.step()
                         while (moreRows) {
