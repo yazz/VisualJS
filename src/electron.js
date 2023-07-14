@@ -1234,7 +1234,7 @@ async function  checkForJSLoaded                        (  ) {
               // The whole response has been received. Print out the result.
               resp.on('end', () => {
                 //console.log("code:" + data);
-                let baseComponentIdForUrl = yz.getValueOfCodeString(data, "base_component_id")
+                let baseComponentIdForUrl = yz.helpers.getValueOfCodeString(data, "base_component_id")
                 outputDebug("baseComponentIdForUrl:" + baseComponentIdForUrl);
                 if (!isValidObject(baseComponentIdForUrl)) {
                     baseComponentIdForUrl = loadjsurl.replace(/[^A-Z0-9]/ig, "_");
@@ -1266,7 +1266,7 @@ async function  checkForJSLoaded                        (  ) {
             let jsFile = loadjsfile
 
             let data2 = fs.readFileSync(jsFile).toString()
-            let baseComponentIdForFile = yz.getValueOfCodeString(data2, "base_component_id")
+            let baseComponentIdForFile = yz.helpers.getValueOfCodeString(data2, "base_component_id")
             if (!isValidObject(baseComponentIdForFile)) {
                 baseComponentIdForFile = loadjsfile.replace(/[^A-Z0-9]/ig, "_");
             }
@@ -1293,7 +1293,7 @@ async function  checkForJSLoaded                        (  ) {
              outputDebug("*********** Using loadjscode ************")
              setUpSql()
              let data2 = loadjscode
-             let baseComponentIdForCode = yz.getValueOfCodeString(data2, "base_component_id")
+             let baseComponentIdForCode = yz.helpers.getValueOfCodeString(data2, "base_component_id")
              outputDebug("baseComponentIdForCode:" + baseComponentIdForCode);
              if (!isValidObject(baseComponentIdForCode)) {
                  baseComponentIdForCode = "code_" + (("" + Math.random()).replace(/[^A-Z0-9]/ig, "_"));
@@ -1995,7 +1995,7 @@ function        keycloakProtector                       (  params  ) {
                             let fileC = results[0].code.toString()
                             //console.log("Code : " + fileC)
 
-                            let sscode = yz.getValueOfCodeString(fileC,"keycloak",")//keycloak")
+                            let sscode = yz.helpers.getValueOfCodeString(fileC,"keycloak",")//keycloak")
                             //console.log("sscode:" + sscode)
 
 
@@ -2275,7 +2275,7 @@ async function  file_uploadSingleFn                     (  req  ,  res  ) {
             //console.log(tts)
             let ytr = unescape(tts)
             outputDebug("SENDING FROM UPLOAD___=+++****")
-            let bci = yz.getValueOfCodeString(ytr, "base_component_id")
+            let bci = yz.helpers.getValueOfCodeString(ytr, "base_component_id")
 
             let indexStart = readIn.indexOf("/*APP_START*/")
             let indexEnd = readIn.indexOf("/*APP_END*/")
@@ -2305,7 +2305,7 @@ async function  file_uploadSingleFn                     (  req  ,  res  ) {
         let localp = localp2 + '.' + ext;
         fs.renameSync(localp2, localp);
         let readIn = fs.readFileSync(localp).toString()
-        let bci = yz.getValueOfCodeString(readIn, "base_component_id")
+        let bci = yz.helpers.getValueOfCodeString(readIn, "base_component_id")
 
 
 
@@ -2374,7 +2374,7 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                 //console.log(tts)
                 let ytr = unescape(tts)
                 outputDebug("SENDING FROM UPLOAD___=+++****")
-                let bci = yz.getValueOfCodeString(ytr, "base_component_id")
+                let bci = yz.helpers.getValueOfCodeString(ytr, "base_component_id")
 
                 indexStart = readIn.indexOf("/*APP_START*/")
                 indexEnd = readIn.indexOf("/*APP_END*/")
@@ -2420,7 +2420,7 @@ async function  file_name_load                          (  req  ,  res  ,  next 
 async function  loadAppFromFile                         (  localp  ,  client_file_upload_id  ) {
     console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
     let readIn = fs.readFileSync(localp).toString()
-    let bci = yz.getValueOfCodeString(readIn, "base_component_id")
+    let bci = yz.helpers.getValueOfCodeString(readIn, "base_component_id")
 
 
 
@@ -2487,9 +2487,9 @@ async function  findLocalIpfsContent                    (  ) {
                     let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
                     let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
 
-                    let itemType = yz.getValueOfCodeString(ipfsContent,"component_type")
+                    let itemType = yz.helpers.getValueOfCodeString(ipfsContent,"component_type")
                     if (itemType == "COMPONENT_COMMENT") {
-                        let formatType = yz.getValueOfCodeString(ipfsContent,"format")
+                        let formatType = yz.helpers.getValueOfCodeString(ipfsContent,"format")
                         if (formatType == "JSON") {
                             let jsonComment = JSON.parse(ipfsContent)
                             await insertCommentIntoDb(
@@ -2530,12 +2530,12 @@ async function  loadComponentFromIpfs                   (  ipfsHash  ) {
         {
             let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
             let srcCode = fs.readFileSync(fullIpfsFilePath);
-            let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
+            let baseComponentId = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
 
 
 
-            /* let properties = yz.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-             srcCode = yz.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+            /* let properties = yz.helpers.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+             srcCode = yz.helpers.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
              for (let irte = 0 ; irte < properties.length ; irte++ ) {
                  let brje = properties[irte]
                  if (brje.id == "ipfs_hash_id") {
@@ -2543,7 +2543,7 @@ async function  loadComponentFromIpfs                   (  ipfsHash  ) {
                  }
              }
 
-             srcCode = yz.insertCodeString(  srcCode,
+             srcCode = yz.helpers.insertCodeString(  srcCode,
                  "properties",
                  properties,
                  ")//prope" + "rties")*/
@@ -2565,12 +2565,12 @@ async function  loadComponentFromIpfs                   (  ipfsHash  ) {
 
 
 
-                        let baseComponentId = yz.getValueOfCodeString(srcCode,"base_component_id")
+                        let baseComponentId = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
 
 
 
-                        let properties = yz.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-                        srcCode = yz.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+                        let properties = yz.helpers.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                        srcCode = yz.helpers.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
                         for (let irte = 0 ; irte < properties.length ; irte++ ) {
                             let brje = properties[irte]
                             if (brje.id == "ipfs_hash_id") {
@@ -2578,7 +2578,7 @@ async function  loadComponentFromIpfs                   (  ipfsHash  ) {
                             }
                         }
 
-                        srcCode = yz.insertCodeString(  srcCode,
+                        srcCode = yz.helpers.insertCodeString(  srcCode,
                             "properties",
                             properties,
                             ")//prope" + "rties")
@@ -2824,16 +2824,16 @@ function        function_call_response                  (  msg  ) {
 }
 async function  parseCode                               (  code  ) {
 
-    let baseComponentIdOfItem = yz.getValueOfCodeString(code,"base_component_id")
+    let baseComponentIdOfItem = yz.helpers.getValueOfCodeString(code,"base_component_id")
 
-    let itemName = yz.getValueOfCodeString(code,"display_name")
+    let itemName = yz.helpers.getValueOfCodeString(code,"display_name")
 
-    let iconUrl = yz.getValueOfCodeString(code,"logo_url")
+    let iconUrl = yz.helpers.getValueOfCodeString(code,"logo_url")
 
     let ipfsHashId = await OnlyIpfsHash.of(code)
 
     let readWriteStatus = ""
-    let rws = yz.getValueOfCodeString(code,"read_only")
+    let rws = yz.helpers.getValueOfCodeString(code,"read_only")
     if (rws) {
         if (rws == true) {
             readWriteStatus = "read"
@@ -2841,11 +2841,11 @@ async function  parseCode                               (  code  ) {
     }
 
     let componentType = ""
-    if (yz.getValueOfCodeString(code,"component_type") == "SYSTEM") {
+    if (yz.helpers.getValueOfCodeString(code,"component_type") == "SYSTEM") {
         componentType = "system"
-    } else if (yz.getValueOfCodeString(code,"component_type") == "APP") {
+    } else if (yz.helpers.getValueOfCodeString(code,"component_type") == "APP") {
         componentType = "app"
-    } else if (yz.getValueOfCodeString(code,"component_type") == "VB") {
+    } else if (yz.helpers.getValueOfCodeString(code,"component_type") == "VB") {
         componentType = "component"
     }
     return {
@@ -3737,8 +3737,8 @@ async function  copyAppshareApp                         (  args  ) {
     async function saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
 
         let dbToCopyFrom            = argsBaseComponentId
-        let altDbUsed               = yz.getValueOfCodeString(code,"use_db")
-        let logoUrl                 = yz.getValueOfCodeString(code,"logo_url")
+        let altDbUsed               = yz.helpers.getValueOfCodeString(code,"use_db")
+        let logoUrl                 = yz.helpers.getValueOfCodeString(code,"logo_url")
         let codeIdRet               = null
         let saveret
 
@@ -3847,35 +3847,35 @@ async function  copyAppshareApp                         (  args  ) {
             var parentHashId = results[0].id
             var newDisplayName = "Copy of " + oldDisplayName
             console.log("    parentHashId:        " + parentHashId)
-            code = yz.deleteCodeString(code, "load_once_from_file")
-            code = yz.deleteCodeString(code, "read_only")
-            code = yz.deleteCodeString(code, "visibility")
+            code = yz.helpers.deleteCodeString(code, "load_once_from_file")
+            code = yz.helpers.deleteCodeString(code, "read_only")
+            code = yz.helpers.deleteCodeString(code, "visibility")
 
-            var componentType = yz.getValueOfCodeString(code, "component_type")
+            var componentType = yz.helpers.getValueOfCodeString(code, "component_type")
             if (componentType) {
             }
             if (componentType == "SYSTEM") {
-                code = yz.deleteCodeString(code, "component_type")
-                code = yz.insertCodeString(code, "component_type", "APP")
+                code = yz.helpers.deleteCodeString(code, "component_type")
+                code = yz.helpers.insertCodeString(code, "component_type", "APP")
             }
 
 
-            var formEditor = yz.getValueOfCodeString(code, "formEditor", ")//formEditor")
+            var formEditor = yz.helpers.getValueOfCodeString(code, "formEditor", ")//formEditor")
             if (formEditor) {
                 formEditor.id = newBaseid
-                code = yz.deleteCodeString(code, "formEditor", ")//formEditor")
-                code = yz.insertCodeString(code, "formEditor", formEditor, ")//formEditor")
+                code = yz.helpers.deleteCodeString(code, "formEditor", ")//formEditor")
+                code = yz.helpers.insertCodeString(code, "formEditor", formEditor, ")//formEditor")
             }
 
-            code = yz.deleteCodeString(code, "display_name")
-            code = yz.insertCodeString(code, "display_name", newDisplayName)
+            code = yz.helpers.deleteCodeString(code, "display_name")
+            code = yz.helpers.insertCodeString(code, "display_name", newDisplayName)
 
-            code = yz.insertCodeString(code, "visibility", "PRIVATE")
+            code = yz.helpers.insertCodeString(code, "visibility", "PRIVATE")
 
 
-            let previousBaseComponentId = yz.getValueOfCodeString(code, "base_component_id")
-            code = yz.deleteCodeString(code, "base_component_id")
-            code = yz.insertCodeString(code, "base_component_id", newBaseid)
+            let previousBaseComponentId = yz.helpers.getValueOfCodeString(code, "base_component_id")
+            code = yz.helpers.deleteCodeString(code, "base_component_id")
+            code = yz.helpers.insertCodeString(code, "base_component_id", newBaseid)
 
 
 
@@ -3885,20 +3885,20 @@ async function  copyAppshareApp                         (  args  ) {
             //
             console.log("    previousBaseComponentId:  "          + previousBaseComponentId)
             console.log("    parent_base_component_id: "          + newBaseid)
-            if (yz.getValueOfCodeString(code, "base_component_id_derived_from")) {
-                code = yz.deleteCodeString(code, "base_component_id_derived_from")
+            if (yz.helpers.getValueOfCodeString(code, "base_component_id_derived_from")) {
+                code = yz.helpers.deleteCodeString(code, "base_component_id_derived_from")
             }
             if (previousBaseComponentId != newBaseid) {
-                code = yz.insertCodeString(code, "base_component_id_derived_from", previousBaseComponentId)
+                code = yz.helpers.insertCodeString(code, "base_component_id_derived_from", previousBaseComponentId)
                 console.log(" INSERTED *     parent_base_component_id: "          + previousBaseComponentId)
             }
 
 
-            code = yz.deleteCodeString(code, "created_timestamp")
-            code = yz.insertCodeString(code, "created_timestamp", timeNow)
+            code = yz.helpers.deleteCodeString(code, "created_timestamp")
+            code = yz.helpers.insertCodeString(code, "created_timestamp", timeNow)
 
-            code = yz.deleteCodeString(code, "updated_timestamp")
-            code = yz.insertCodeString(code, "updated_timestamp", timeNow)
+            code = yz.helpers.deleteCodeString(code, "updated_timestamp")
+            code = yz.helpers.insertCodeString(code, "updated_timestamp", timeNow)
 
 
             //hack city - Vue and component strings are separated as otherwise they mark the
@@ -5029,7 +5029,7 @@ async function  startServices                           (  ) {
         //
         // give the new smart contract control a new name
         //
-        let componentToCopyBaseComponentId = yz.getValueOfCodeString(srcText,"base_component_id")
+        let componentToCopyBaseComponentId = yz.helpers.getValueOfCodeString(srcText,"base_component_id")
         srcText = srcText.replaceAll(componentToCopyBaseComponentId, copy_base_component_id)
 
 
@@ -5038,7 +5038,7 @@ async function  startServices                           (  ) {
         //
         let design_time_html = req.body.value.design_time_html
         if ( design_time_html ) {
-            srcText = yz.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
+            srcText = yz.helpers.replaceBetween(srcText,"<!-- design_time_html_start -->", "<!-- design_time_html_end -->",design_time_html)
         }
 
 
@@ -5047,7 +5047,7 @@ async function  startServices                           (  ) {
         //
         let designTimeMountedCode = req.body.value.design_time_mounted_code
         if (designTimeMountedCode) {
-            srcText = yz.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
+            srcText = yz.helpers.replaceBetween(srcText,"/*NEW_DESIGN_TIME_MOUNTED_START*/", "/*NEW_DESIGN_TIME_MOUNTED_END*/",designTimeMountedCode)
         }
 
 
@@ -5057,7 +5057,7 @@ async function  startServices                           (  ) {
         //
         let runtimeMountedCode = req.body.value.runtime_mounted_code
         if (runtimeMountedCode) {
-            srcText = yz.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
+            srcText = yz.helpers.replaceBetween(srcText,"/*NEW_RUNTIME_MOUNTED_START*/", "/*NEW_RUNTIME_MOUNTED_END*/",runtimeMountedCode)
         }
 
 
@@ -5067,7 +5067,7 @@ async function  startServices                           (  ) {
         //
         let varsCode = req.body.value.vars_code
         if (varsCode) {
-            srcText = yz.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
+            srcText = yz.helpers.replaceBetween(srcText,"/*NEW_VARS_START*/", "/*NEW_VARS_END*/",varsCode)
         }
 
 
@@ -5078,7 +5078,7 @@ async function  startServices                           (  ) {
         //
         let run_time_html = req.body.value.run_time_html
         if (run_time_html) {
-            srcText = yz.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
+            srcText = yz.helpers.replaceBetween(srcText,"<!-- run_time_html_start -->", "<!-- run_time_html_end -->",run_time_html)
         }
 
 
@@ -5090,11 +5090,11 @@ async function  startServices                           (  ) {
         // give the new smart contract control a new icon logo
         //
         if (copy_image_data) {
-            let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
+            let logoValue = yz.helpers.getValueOfCodeString(srcText,"logo_url")
             if (logoValue) {
-                srcText = yz.deleteCodeString(srcText, "logo_url")
+                srcText = yz.helpers.deleteCodeString(srcText, "logo_url")
             }
-            srcText = yz.insertCodeString(srcText, "logo_url",copy_image_data)
+            srcText = yz.helpers.insertCodeString(srcText, "logo_url",copy_image_data)
         }
 
 
@@ -5105,11 +5105,11 @@ async function  startServices                           (  ) {
         // give the new component a new logo
         //
         if (req.body.value.logo_url) {
-            let logoValue = yz.getValueOfCodeString(srcText,"logo_url")
+            let logoValue = yz.helpers.getValueOfCodeString(srcText,"logo_url")
             if (logoValue) {
-                srcText = yz.deleteCodeString(srcText, "logo_url")
+                srcText = yz.helpers.deleteCodeString(srcText, "logo_url")
             }
-            srcText = yz.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
+            srcText = yz.helpers.insertCodeString(srcText, "logo_url", "/driver_icons/blue_eth.png")
         }
 
 
@@ -5167,8 +5167,8 @@ async function  startServices                           (  ) {
         //
         // Delete any IPFS from the component class. Unfortunately this can't be stored in IPFS itself
         //
-        let properties = yz.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
-        srcText = yz.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
+        let properties = yz.helpers.getValueOfCodeString(srcText,"properties", ")//prope" + "rties")
+        srcText = yz.helpers.deleteCodeString(  srcText, "properties", ")//prope" + "rties")
         for (let irte = 0 ; irte < properties.length ; irte++ ) {
             let brje = properties[irte]
             if (brje) {
@@ -5177,7 +5177,7 @@ async function  startServices                           (  ) {
                 }
             }
         }
-        srcText = yz.insertCodeString(  srcText,
+        srcText = yz.helpers.insertCodeString(  srcText,
             "properties",
             properties,
             ")//prope" + "rties")

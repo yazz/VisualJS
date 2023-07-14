@@ -10,6 +10,91 @@ let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
 
 module.exports = {
+    helpers: {
+        insertCodeString:               function        (  code  ,  st  ,  vall  ,  optionalEnd  ) {
+            let endIndicator = ")"
+            if (optionalEnd) {
+                endIndicator = optionalEnd
+            }
+            let findd = st + "("
+            let startIndexOfComment = code.toString().indexOf("/*")
+            let startIndexOfFn = code.toString().indexOf("{")
+
+            if (startIndexOfFn != -1) {
+                if (startIndexOfComment == -1) {
+                    code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
+                        code.toString().substring(startIndexOfFn + 1)
+                    startIndexOfComment = code.toString().indexOf("/*")
+                }
+                code = code.toString().substring(0,startIndexOfComment + 3) +
+                    "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
+                    code.toString().substring(startIndexOfComment + 3)
+
+            }
+
+            return code
+
+        },
+        deleteCodeString:               function        (  code  ,  st  ,  optionalEnd  ) {
+            let endIndicator = ")"
+            if (optionalEnd) {
+                endIndicator = optionalEnd
+            }
+            let findd = st + "("
+            let codeStart = code.toString().indexOf(findd)
+            if (codeStart != -1) {
+                let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
+
+                code = code.toString().substring(0,codeStart) +
+                    code.toString().substring(codeEnd + 1 + endIndicator.length)
+
+                return code
+            }
+            return code
+        },
+        getValueOfCodeString:           function        (  code  ,  st  ,  optionalEnd  ) {
+            let endIndicator = ")"
+            if (optionalEnd) {
+                endIndicator = optionalEnd
+            }
+            let toFind = st + "("
+            if (code.toString().indexOf(toFind) != -1) {
+                let codeStart = code.toString().indexOf(toFind) + toFind.length
+                let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
+
+                code = code.toString().substring(codeStart, codeEnd)
+                let val = eval( "(" + code.toString() + ")")
+                return val
+
+            }
+            return null
+        },
+        replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
+            let startIndex  = target.indexOf(start)
+            if (startIndex == -1) {
+                return target
+            }
+            startIndex      += start.length
+            let endIndex    = target.indexOf(end)
+            if (endIndex == -1) {
+                return target
+            }
+            let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+            return newString
+        },
+        addAfter:                       function        (  target  ,  start  ,  replaceWith  ) {
+            let startIndex  = target.indexOf(start) + start.length
+            let endIndex    = startIndex
+            let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+            return newString
+        },
+        addBefore:                      function        (  target  ,  end  ,  replaceWith  ) {
+            let startIndex  = target.indexOf(end)
+            let endIndex    = startIndex + replaceWith.length - 1
+            let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+            return newString
+        }
+    },
     //setup this module
     setup:                          async function  (  thisDb  ) {
         stmtDeleteTypesForComponentProperty = thisDb.prepare(
@@ -34,92 +119,7 @@ module.exports = {
         );
 },
 
-    //manipulate code meta data
-    insertCodeString:               function        (  code  ,  st  ,  vall  ,  optionalEnd  ) {
-    let endIndicator = ")"
-    if (optionalEnd) {
-    endIndicator = optionalEnd
-    }
-    let findd = st + "("
-    let startIndexOfComment = code.toString().indexOf("/*")
-    let startIndexOfFn = code.toString().indexOf("{")
-
-    if (startIndexOfFn != -1) {
-    if (startIndexOfComment == -1) {
-    code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
-        code.toString().substring(startIndexOfFn + 1)
-    startIndexOfComment = code.toString().indexOf("/*")
-    }
-    code = code.toString().substring(0,startIndexOfComment + 3) +
-                "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
-                code.toString().substring(startIndexOfComment + 3)
-
-    }
-
-    return code
-
-    },
-    deleteCodeString:               function        (  code  ,  st  ,  optionalEnd  ) {
-let endIndicator = ")"
-if (optionalEnd) {
-endIndicator = optionalEnd
-}
-let findd = st + "("
-let codeStart = code.toString().indexOf(findd)
-if (codeStart != -1) {
-let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
-
-code = code.toString().substring(0,codeStart) +
-            code.toString().substring(codeEnd + 1 + endIndicator.length)
-
-return code
-}
-return code
-},
-    getValueOfCodeString:           function        (  code  ,  st  ,  optionalEnd  ) {
-        let endIndicator = ")"
-        if (optionalEnd) {
-            endIndicator = optionalEnd
-        }
-        let toFind = st + "("
-        if (code.toString().indexOf(toFind) != -1) {
-            let codeStart = code.toString().indexOf(toFind) + toFind.length
-            let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
-
-            code = code.toString().substring(codeStart, codeEnd)
-            let val = eval( "(" + code.toString() + ")")
-            return val
-
-            }
-            return null
-    },
-    addAfter:                       function        (  target  ,  start  ,  replaceWith  ) {
-        let startIndex  = target.indexOf(start) + start.length
-        let endIndex    = startIndex
-        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-        return newString
-    },
-    addBefore:                      function        (  target  ,  end  ,  replaceWith  ) {
-        let startIndex  = target.indexOf(end)
-        let endIndex    = startIndex + replaceWith.length - 1
-        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-        return newString
-    },
-
     //text retrieval and replacement
-    replaceBetween:                 function        (  target  ,  start  ,  end  ,  replaceWith  ) {
-        let startIndex  = target.indexOf(start)
-        if (startIndex == -1) {
-            return target
-        }
-        startIndex      += start.length
-        let endIndex    = target.indexOf(end)
-        if (endIndex == -1) {
-            return target
-        }
-        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-        return newString
-    },
     getBetween:                     function        (  target  ,  start  ,  end  ) {
         let startIndex = target.indexOf(start) + start.length
         let endIndex = target.indexOf(end)
@@ -127,7 +127,7 @@ return code
         return newString
     },
     replacePropertyValue:           function        (  code  ,  propertyId  ,  propertyValue  ) {
-      let properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
+      let properties = this.helpers.getValueOfCodeString(code,"properties",")//prope" + "rties")
       if (properties) {
           let index =0;
           for (let i=0; i < properties.length; i++) {
@@ -150,7 +150,8 @@ return code
 
     //manipulate components
     addProperty:                    function        (  code  ,  newProperty  ) {
-        let properties = this.getValueOfCodeString(code,"properties",")//prope" + "rties")
+        let yz = this
+        let properties = this.helpers.getValueOfCodeString(code,"properties",")//prope" + "rties")
         if (properties) {
             properties.push(newProperty)
 
@@ -187,7 +188,7 @@ return code
     getSubComponents:               async function  (  srcCode  ) {
         let yz = this
 
-        let subC = yz.getValueOfCodeString(srcCode,"sub_components_v2")
+        let subC = yz.helpers.getValueOfCodeString(srcCode,"sub_components_v2")
         if (!subC) {
             return []
         }
@@ -266,7 +267,8 @@ return code
 
     //code commit helpers
     tagVersion:                     async function  (  thisDb  ,  ipfs_hash  ,  srcCode  ) {
-        let baseComponentId = this.getValueOfCodeString(srcCode,"base_component_id")
+        let yz = this
+        let baseComponentId = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
         let dateTime = new Date().getTime()
         await this.executeQuickSql(thisDb,
             `insert into 
@@ -601,6 +603,8 @@ return code
 
         // ********** setup **********
         let mm = this
+        let yz                = this
+
         await mm.setup(thisDb)
         if (code) {
             code = code.toString()
@@ -609,18 +613,18 @@ return code
 
 
         // ********** get info from the code **********
-        let properties          = mm.getValueOfCodeString(code,"properties",")//properties")
-        let baseComponentId     = mm.getValueOfCodeString(code,"base_component_id")
-        let parentHash          = mm.getValueOfCodeString(code,"parent_hash")
-        let visibility          = mm.getValueOfCodeString(code,"visibility")
-        let logoUrl             = mm.getValueOfCodeString(code,"logo_url")
-        let updatedTimestamp    = mm.getValueOfCodeString(code, "updated_timestamp")
-        let readOnly            = mm.getValueOfCodeString(code,"read_only")
-        let displayName         = mm.getValueOfCodeString(code,"display_name")
-        let useDb               = mm.getValueOfCodeString(code,"use_db")
-        let editors2            = mm.getValueOfCodeString(code,"editors")
-        let controlType         = mm.getValueOfCodeString(code,"component_type")
-        let codeChanges         = mm.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
+        let properties          = yz.helpers.getValueOfCodeString(code,"properties",")//properties")
+        let baseComponentId     = yz.helpers.getValueOfCodeString(code,"base_component_id")
+        let parentHash          = yz.helpers.getValueOfCodeString(code,"parent_hash")
+        let visibility          = yz.helpers.getValueOfCodeString(code,"visibility")
+        let logoUrl             = yz.helpers.getValueOfCodeString(code,"logo_url")
+        let updatedTimestamp    = yz.helpers.getValueOfCodeString(code, "updated_timestamp")
+        let readOnly            = yz.helpers.getValueOfCodeString(code,"read_only")
+        let displayName         = yz.helpers.getValueOfCodeString(code,"display_name")
+        let useDb               = yz.helpers.getValueOfCodeString(code,"use_db")
+        let editors2            = yz.helpers.getValueOfCodeString(code,"editors")
+        let controlType         = yz.helpers.getValueOfCodeString(code,"component_type")
+        let codeChanges         = yz.helpers.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
 
 
         // set up local vars
@@ -879,8 +883,8 @@ return code
                             }
 
                             newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
-                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
-                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
+                            newStaticFileContent = yz.helpers.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
+                            newStaticFileContent = yz.helpers.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
 
                             //
                             // we use "slice" here as string replace doesn't work with large strings (over 1MB) and most of the aframe and js
@@ -904,7 +908,7 @@ return code
                                 newStaticFileContent = newStaticFileContent.substring(0, indexOfSqlite) +
                                     sqliteCode +
                                     newStaticFileContent.substring(indexOfSqlite)
-                                newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/", "/*use_local_sqlite_end*/", "let localAppshareApp = true")
+                                newStaticFileContent = yz.helpers.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/", "/*use_local_sqlite_end*/", "let localAppshareApp = true")
                             }
 
 
@@ -940,7 +944,7 @@ return code
                         //
                         // save the app db
                         //
-                        let sqlite = mm.getValueOfCodeString(code, "sqlite",")//sqlite")
+                        let sqlite = yz.helpers.getValueOfCodeString(code, "sqlite",")//sqlite")
                         if (sqlite) {
                             if (mm.isValidObject(options) && options.copy_db_from) {
 
@@ -996,13 +1000,13 @@ return code
                     if (fs.existsSync(oldStaticFilePath)) {
                         let oldStaticFileContent = fs.readFileSync( oldStaticFilePath )
 
-                        let oldHostname = mm.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
-                        let oldPort = mm.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
+                        let oldHostname = yz.helpers.getValueOfCodeString(oldStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/")
+                        let oldPort = yz.helpers.getValueOfCodeString(oldStaticFileContent, "/*static_port_start*/","/*static_port_end*/")
 
                         if ((oldHostname != mm.hostaddress) || (oldPort != mm.port)) {
                             let newStaticFileContent = oldStaticFileContent.toString()
-                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
-                            newStaticFileContent = mm.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
+                            newStaticFileContent = yz.helpers.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")
+                            newStaticFileContent = yz.helpers.replaceBetween(newStaticFileContent, "/*static_port_start*/","/*static_port_end*/",mm.port)
                             fs.writeFileSync( oldStaticFilePath,  newStaticFileContent )
                         }
                     }
@@ -1067,13 +1071,14 @@ return code
         let baseComponentId
         let parentHash
         let mm                = this
+        let yz                = this
 
         //
         // first check to see if this commit has a parent. If so then delete the TIP
         // from the parent commit
         //
-        baseComponentId = mm.getValueOfCodeString(savedCode,"base_component_id")
-        parentHash      = mm.getValueOfCodeString(savedCode,"parent_hash")
+        baseComponentId = yz.helpers.getValueOfCodeString(savedCode,"base_component_id")
+        parentHash      = yz.helpers.getValueOfCodeString(savedCode,"parent_hash")
 
         parentCodeTag = await mm.getQuickSqlOneRow(
             thisDb
