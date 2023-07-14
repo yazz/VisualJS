@@ -1852,7 +1852,7 @@
 
                     return {}
                 },
-                makeSureUiComponentLoadedV6PT2: async function  (   args   ) {
+                makeSureUiComponentLoadedV6PT2: async function  (   {codeId, codeArgs}   ) {
                     // PARAMS
                     // -----
                     //
@@ -1862,33 +1862,16 @@
                     //        baseComponentId
                     //    }
                     //
-                    let codeId          = null
                     let baseComponentId = null
-                    let code            = args.code
+                    let code            = GLOBALS.getCodeForComponent({codeId: codeId})
 
 
                     // Set the commit ID and type
                     try {
-                        if (!args) {
-                            throw new Error("Wrong args given to fn makeSureUiComponentLoadedV6PT2(...)")
-                        } else if (args.codeId) {
-                            codeId          = args.codeId
-                            baseComponentId = GLOBALS.getTypeForCommitId(codeId)
-                            if (baseComponentId == null) {
-                                baseComponentId = yz.getValueOfCodeString(code,"base_component_id")
-                            }
-
-                        } else if (args.baseComponentId) {
-                            debugger
-                            throw new Error("baseComponentId used fn makeSureUiComponentLoadedV6PT2(" + args.baseComponentId + ")")
-                            baseComponentId = args.baseComponentId
-                            codeId          = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                        baseComponentId = GLOBALS.getTypeForCommitId(codeId)
+                        if (baseComponentId == null) {
+                            baseComponentId = yz.getValueOfCodeString(code,"base_component_id")
                         }
-
-                        //if (!codeId) {
-                        //    codeId          = await getIpfsHash(code)
-                        //}
-
 
 
                         /*
@@ -2171,9 +2154,9 @@
                         for (codeToExecute  of  listOfCodeToExecute) {
                             let fnfn = eval( codeToExecute  )
                             if (codeToExecute.indexOf("async ")  == -1) {
-                                fnfn(args.codeArgs)
+                                fnfn(codeArgs)
                             } else {
-                                await fnfn(args.codeArgs)
+                                await fnfn(codeArgs)
                             }
 
                         }
