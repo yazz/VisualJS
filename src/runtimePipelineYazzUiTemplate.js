@@ -69,7 +69,7 @@
             <div class='' >
                 <div class='' style='display:flex;overflow-y:scroll;flex-flow: row wrap;height:65vh;'>
                     <div    class='flex'
-                            v-on:click='highlighted_control = null;'
+                            v-on:click='highlighted_control = null;highlighted_control_code_id = null;'
                             v-bind:style='"display:flex;cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
                         <img    src='/driver_icons/cursor.png'
                                 style='width: 100%;'
@@ -85,9 +85,10 @@
                                             $event.stopPropagation();
                                             if (design_mode_pane.type == "drag_drop") 
                                             {
-                                            //debugger
+                                                debugger
                                                 switchCursor($event,"grab","grabbing");
-                                                highlighted_control = av.base_component_id;
+                                                highlighted_control         = av.base_component_id;
+                                                highlighted_control_code_id = av.ipfs_hash;
                                                 drag(   $event,
                                                         {
                                                             type:               "add_component",
@@ -98,7 +99,7 @@
                                                 event.preventDefault()
                                                 gotoDragDropEditor();
                                             }'
-                            v-on:click='highlighted_control = av.base_component_id;gotoDragDropEditor();'
+                            v-on:click='debugger;highlighted_control = av.base_component_id;highlighted_control_code_id = av.ipfs_hash;gotoDragDropEditor();'
                             v-bind:style='"display-old:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'

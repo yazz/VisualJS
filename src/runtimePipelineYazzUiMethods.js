@@ -1967,8 +1967,9 @@ ${origCode}
                         let parentOffsetY   = 0
                         let newItem2        = new Object()
                         let data            = {
-                                                type:               "add_component",
+                                                type:              "add_component",
                                                 base_component_id:  this.highlighted_control,
+                                                code_id:            this.highlighted_control_code_id,
                                                 offsetX:            offsetX,
                                                 offsetY:            offsetY
                                             }
@@ -1989,7 +1990,8 @@ ${origCode}
                             parentName,
                             [])
 
-                        this.highlighted_control = null
+                        this.highlighted_control            = null
+                        this.highlighted_control_code_id    = null
 
                     } else {
                         this.selectForm(this.active_form, true);
@@ -3906,7 +3908,8 @@ return {}
                     let yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
                     debugger
                     await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
-                    this.highlighted_control = null
+                    this.highlighted_control            = null
+                    this.highlighted_control_code_id    = null
 
                 } else if (data.type == "move_component") {
                     let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
