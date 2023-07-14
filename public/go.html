@@ -2657,16 +2657,22 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
 
                     if (GLOBALS.isStaticHtmlPageApp) {
                         let nid = yz.mainVars.nextGlobalAppId++;
-                        add_card({
-                            id: nid,
-                            card: {
-                                id:                 nid,
-                                name:               "***STATIC_NAME***",
-                                base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
-                                code_id:            "***STATIC_BASE_COMPONENT_ID***",
-                                display_name:       "***STATIC_NAME***",
-                                type:               "app"
-                            }});
+                        let ccy = document.getElementById('wrapper').scrollTop
+                        yz.mainVars.mainVueApp.cards.push(
+                            {
+                                id: nid,
+                                card: {
+                                    id:                 nid,
+                                    name:               "***STATIC_NAME***",
+                                    base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
+                                    code_id:            "***STATIC_BASE_COMPONENT_ID***",
+                                    display_name:       "***STATIC_NAME***",
+                                    type:               "app"
+                                }});
+                        setTimeout(function() {
+                            document.getElementById('wrapper').scrollTop = ccy
+                        },100)
+
                         yz.mainVars.mainVueApp.show_loader = false
                         yz.mainVars.autoScroll = false
                         setTimeout(async function() {
@@ -3177,13 +3183,6 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                             el:         "#" + rootElement
                         })
                 }
-            }
-            function        add_card                            (   payload   ) {
-                let ccy = document.getElementById('wrapper').scrollTop
-                yz.mainVars.mainVueApp.cards.push(payload);
-                setTimeout(function() {
-                    document.getElementById('wrapper').scrollTop = ccy
-                },100)
             }
             async function  select_card                         (   id   ) {
                 if (yz.mainVars.mainVueApp.selected_card == id) {
