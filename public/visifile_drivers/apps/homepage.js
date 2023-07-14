@@ -684,7 +684,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                                          | editor
                                          |__________________________________ */
                 mm.listenerD = function(event) {
-                    if (!GLOBALS.inEditor) {
+                    if (!yz.editor.inEditor) {
                         if (event.keyCode == 100) {
                             mm.debugMode = !mm.debugMode
                         }

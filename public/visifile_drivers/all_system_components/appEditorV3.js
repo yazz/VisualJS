@@ -1111,7 +1111,7 @@ End of app preview menu
                }
                yz.editor.lastEditingAppBaseComponentId    = null;
                yz.editor.lastEditingAppCodeId             = null;
-               GLOBALS.inEditor                         = false
+               yz.editor.inEditor                         = false
            },
             chooseApp:                      async function  (  ) {
                 // ---------------------------------------------------------------
@@ -2165,7 +2165,7 @@ End of app preview menu
             if (mm.arg_edit_code_id) {
                 yz.editor.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
                 yz.editor.editingAppCodeId                            = mm.arg_edit_code_id
-                GLOBALS.inEditor                                    = true
+                yz.editor.inEditor                                    = true
                 await mm.loadComponentIntoEditor({codeId: yz.editor.editingAppCodeId})
             // ******* if we only have the BCI *********
             } else if (mm.arg_edit_base_component_id) {
