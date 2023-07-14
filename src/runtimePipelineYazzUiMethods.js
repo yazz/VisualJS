@@ -599,7 +599,7 @@
 //debugger
                     //qqqDONE
                     let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id})
-                    let childrenCode  = yz.getValueOfCodeString(compCode, "children",")//children")
+                    let childrenCode  = yz.helpers.getValueOfCodeString(compCode, "children",")//children")
                     if (isValidObject(childrenCode)) {
                         for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
                             let childBaseId = childrenCode[ee].base_component_id
@@ -4866,7 +4866,7 @@ return {}
                 this.text   = textValue
                 let json2   = this.getJsonModelFromCode(  textValue  )
 
-                mm.edited_app_component_id = yz.getValueOfCodeString(textValue, "base_component_id")
+                mm.edited_app_component_id = yz.helpers.getValueOfCodeString(textValue, "base_component_id")
 
                 mm.old_model    = JSON.parse(JSON.stringify(json2));
                 mm.model        = json2
@@ -4892,9 +4892,9 @@ return {}
                 |     NONE
                 |________________________________________________________________________ */
                 let mm = this
-                mm.edited_app_component_id  = yz.getValueOfCodeString(codeV, "base_component_id")
-                mm.componentType            = yz.getValueOfCodeString(codeV, "component_type")
-                let json2 = yz.getValueOfCodeString(codeV,"formEditor",")//formEditor")
+                mm.edited_app_component_id  = yz.helpers.getValueOfCodeString(codeV, "base_component_id")
+                mm.componentType            = yz.helpers.getValueOfCodeString(codeV, "component_type")
+                let json2 = yz.helpers.getValueOfCodeString(codeV,"formEditor",")//formEditor")
                 return json2
             },
             generateCodeFromModel:                  async function  (  ) {
@@ -4927,9 +4927,9 @@ return {}
                     //
                     // store the subcomponent types that this app depends on (BY CODE ID or BCI) = v2
                     //
-                    let subComponentsv2 = yz.getValueOfCodeString(this.text, "sub_components_v2")
+                    let subComponentsv2 = yz.helpers.getValueOfCodeString(this.text, "sub_components_v2")
                     if (subComponentsv2) {
-                        this.text = yz.deleteCodeString(this.text, "sub_components_v2")
+                        this.text = yz.helpers.deleteCodeString(this.text, "sub_components_v2")
                     } else {
                         subComponentsv2 = []
                     }
@@ -4968,7 +4968,7 @@ return {}
                         newListOfSubcomponentsV2.push({base_component_id: mapSubComponentsByCodeId[codeIdkey].base_component_id, code_id: codeIdkey})
                     }
 
-                    this.text = yz.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsV2)
+                    this.text = yz.helpers.insertCodeString(  this.text, "sub_components_v2", newListOfSubcomponentsV2)
 
 
 
@@ -4982,10 +4982,10 @@ return {}
                     //
                     // other stuff
                     //
-                    this.text   = yz.deleteCodeString(  this.text, "component_type")
-                    this.text   = yz.insertCodeString(  this.text, "component_type", "APP")
-                    this.text   = yz.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
-                    this.text   = yz.insertCodeString(  this.text, "formEditor", mm.model, ")//form" + "Editor")
+                    this.text   = yz.helpers.deleteCodeString(  this.text, "component_type")
+                    this.text   = yz.helpers.insertCodeString(  this.text, "component_type", "APP")
+                    this.text   = yz.helpers.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
+                    this.text   = yz.helpers.insertCodeString(  this.text, "formEditor", mm.model, ")//form" + "Editor")
                     this.text   = yz.deleteCodeString(  this.text, "properties", ")//prope" + "rties")
                     this.text   = yz.insertCodeString(  this.text, "properties", mm.model.app_properties, ")//prope" + "rties")
 

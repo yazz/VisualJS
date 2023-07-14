@@ -614,7 +614,7 @@
                     }
                     let code = GLOBALS.getCodeForComponent({codeId: codeId})
                     if (code) {
-                        let displayName = yz.getValueOfCodeString(code, "display_name")
+                        let displayName = yz.helpers.getValueOfCodeString(code, "display_name")
                         return displayName
                     }
                     return "Error: No Type Name"
@@ -628,7 +628,7 @@
                     }
                     let code = GLOBALS.getCodeForComponent({codeId: codeId})
                     if (code) {
-                        let displayName = yz.getValueOfCodeString(code, "logo_url")
+                        let displayName = yz.helpers.getValueOfCodeString(code, "logo_url")
                         return displayName
                     }
                     return "Error: No Type Icon"
@@ -794,7 +794,7 @@
                         } else {
                             useDb = GLOBALS.getTypeForCommitId(args.codeId)
                             let codeFor = GLOBALS.getCodeForComponent({codeId: args.codeId})
-                            let useOtherDb = yz.getValueOfCodeString(codeFor, "use_db")
+                            let useOtherDb = yz.helpers.getValueOfCodeString(codeFor, "use_db")
                             if (useOtherDb) {
                                 useDb = useOtherDb
                             }
@@ -828,8 +828,8 @@
                     return listOfControls.reverse()
                 },
                 cacheThisComponentCode:         function        (   args   ) {
-                    let baseComponentId = yz.getValueOfCodeString(args.code, "base_component_id")
-                    let componentType   = yz.getValueOfCodeString(args.code, "component_type")
+                    let baseComponentId = yz.helpers.getValueOfCodeString(args.code, "base_component_id")
+                    let componentType   = yz.helpers.getValueOfCodeString(args.code, "component_type")
 
                     //
                     // Add the components code
@@ -841,7 +841,7 @@
                         base_component_id:  baseComponentId
                     }
 
-                    let properties = yz.getValueOfCodeString(args.code, "properties",")//properties")
+                    let properties = yz.helpers.getValueOfCodeString(args.code, "properties",")//properties")
                     if (isValidObject(properties)) {
                         GLOBALS.codeCache[   args.codeId  ].properties   = properties
                     } else {
@@ -1121,22 +1121,22 @@
                     //
                     // parent HASH
                     //
-                    lastParentHash = yz.getValueOfCodeString(code,"parent_hash")
+                    lastParentHash = yz.helpers.getValueOfCodeString(code,"parent_hash")
                     if (lastParentHash) {
-                        code = yz.deleteCodeString(code, "parent_hash")
+                        code = yz.helpers.deleteCodeString(code, "parent_hash")
                     }
                     if (parentHash) {
-                        code = yz.insertCodeString(code, "parent_hash", parentHash)
+                        code = yz.helpers.insertCodeString(code, "parent_hash", parentHash)
                     }
 
 
                     //
                     // type
                     //
-                    oldBaseComp = yz.getValueOfCodeString(code,"base_component_id")
+                    oldBaseComp = yz.helpers.getValueOfCodeString(code,"base_component_id")
                     if (oldBaseComp != baseComponentId ) {
-                        code = yz.deleteCodeString(code, "base_component_id")
-                        code = yz.insertCodeString(code, "base_component_id", baseComponentId)
+                        code = yz.helpers.deleteCodeString(code, "base_component_id")
+                        code = yz.helpers.insertCodeString(code, "base_component_id", baseComponentId)
                     }
 
 
@@ -1144,35 +1144,35 @@
                     // timestamps
                     //
                     // if we don't want to reload this file then don't update the timestamp
-                    createdTimestamp = yz.getValueOfCodeString(code, "created_timestamp")
+                    createdTimestamp = yz.helpers.getValueOfCodeString(code, "created_timestamp")
                     if ((createdTimestamp == null) || (createdTimestamp == "-1")) {
-                        if (yz.getValueOfCodeString(code,"load_once_from_file")) {
+                        if (yz.helpers.getValueOfCodeString(code,"load_once_from_file")) {
                             timeNow = -1
                         }
                     }
                     if (!createdTimestamp) {
-                        code = yz.deleteCodeString(code, "created_timestamp")
-                        code = yz.insertCodeString(code, "created_timestamp", timeNow)
+                        code = yz.helpers.deleteCodeString(code, "created_timestamp")
+                        code = yz.helpers.insertCodeString(code, "created_timestamp", timeNow)
                     }
 
-                    code = yz.deleteCodeString(code, "updated_timestamp")
-                    code = yz.insertCodeString(code, "updated_timestamp", timeNow)
+                    code = yz.helpers.deleteCodeString(code, "updated_timestamp")
+                    code = yz.helpers.insertCodeString(code, "updated_timestamp", timeNow)
 
 
                     //
                     // Add a logo if none supplied
                     //
-                    logoUrl = yz.getValueOfCodeString(code,"logo_url")
+                    logoUrl = yz.helpers.getValueOfCodeString(code,"logo_url")
                     if (!isValidObject(logoUrl)) {
                         logoUrl = "/driver_icons/js.png"
-                        code = yz.insertCodeString(code, "logo_url", logoUrl)
+                        code = yz.helpers.insertCodeString(code, "logo_url", logoUrl)
                     }
 
 
                     //
                     // visibility
                     //
-                    visibility = yz.getValueOfCodeString(code,"visibility")
+                    visibility = yz.helpers.getValueOfCodeString(code,"visibility")
                     newvisibility = visibility
                     if (!isValidObject(visibility)) {
                         if (isValidObject(options) && options.make_public) {
@@ -1182,8 +1182,8 @@
                         }
                     }
                     if (newvisibility != visibility) {
-                        code = yz.deleteCodeString(code, "visibility")
-                        code = yz.insertCodeString(code, "visibility", newvisibility)
+                        code = yz.helpers.deleteCodeString(code, "visibility")
+                        code = yz.helpers.insertCodeString(code, "visibility", newvisibility)
                     }
 
 
@@ -1349,7 +1349,7 @@
                     try {
                         baseComponentId = GLOBALS.getTypeForCommitId(codeId)
                         if (baseComponentId == null) {
-                            baseComponentId = yz.getValueOfCodeString(code,"base_component_id")
+                            baseComponentId = yz.helpers.getValueOfCodeString(code,"base_component_id")
                         }
 
 
@@ -1361,14 +1361,14 @@
 
                         // If we are running the app from a HTML page then run the SQL queries
                         // from the embedded SQLite database
-                        let component_type = yz.getValueOfCodeString(code, "component_type")
+                        let component_type = yz.helpers.getValueOfCodeString(code, "component_type")
                         let addP = "'" + codeId + "', '" + useDb + "', "
                         if (localAppshareApp && ((component_type == "APP") || (component_type == "SYSTEM"))) {
                             if (sqlitedata) {
                                 let b = base64ToUint8Array(sqlitedata)
                                 localSqliteDb = new SQL.Database(b);
                             } else {
-                                let eds = yz.getValueOfCodeString(code, "sqlite",")//sqlite")
+                                let eds = yz.helpers.getValueOfCodeString(code, "sqlite",")//sqlite")
                                 if (eds){
                                     for (let te = 1; te < eds.length ; te = te + 2) {
                                         let sqlStatements = eds[te]
@@ -1415,7 +1415,7 @@
 
 
                         // Transform the code using the runtime pipelines
-                        let runtimePipeline = yz.getValueOfCodeString(trcode2, "runtime_pipeline")
+                        let runtimePipeline = yz.helpers.getValueOfCodeString(trcode2, "runtime_pipeline")
                         if (runtimePipeline){
                             for (let pipelineItem of runtimePipeline) {
                                 if (pipelineItem == "APP") {
@@ -1487,7 +1487,7 @@
                                         }
                                     );
 
-                                    let model = yz.getValueOfCodeString(trcode2,"formEditor",")//formEditor")
+                                    let model = yz.helpers.getValueOfCodeString(trcode2,"formEditor",")//formEditor")
                                     let modelAsText =  JSON.stringify( model,
 
                                         function(key, value) {

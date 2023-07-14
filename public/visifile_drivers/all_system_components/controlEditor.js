@@ -303,7 +303,7 @@ load_once_from_file(true)
 
 
 
-             this.baseComponentId = yz.getValueOfCodeString(this.text, "base_component_id")
+             this.baseComponentId = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
 
              //debugger
              this.currentCommithashId = await this.getCurrentCommitId()

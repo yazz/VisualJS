@@ -84,12 +84,12 @@ load_once_from_file(true)
             setText:                            async function (  textValue  ) {
                 let mm     =  this
                 this.text  = textValue
-                this.icon_image_data = yz.getValueOfCodeString(this.text, "logo_url")
+                this.icon_image_data = yz.helpers.getValueOfCodeString(this.text, "logo_url")
                 if (!isValidObject(this.text)) {
                     return
                 }
 
-                this.baseComponentId        = yz.getValueOfCodeString(this.text, "base_component_id")
+                this.baseComponentId        = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.loadImageToCanvas()
             },
             drawNow: function(event) {
@@ -135,8 +135,8 @@ load_once_from_file(true)
             },
             save: function() {
                 let mm = this
-                this.text = yz.deleteCodeString(this.text, "logo_url")
-                this.text = yz.insertCodeString(this.text, "logo_url", this.icon_image_data)
+                this.text = yz.helpers.deleteCodeString(this.text, "logo_url")
+                this.text = yz.helpers.insertCodeString(this.text, "logo_url", this.icon_image_data)
                 mm.$root.$emit('message', {
                     type:   "pending"
                 })

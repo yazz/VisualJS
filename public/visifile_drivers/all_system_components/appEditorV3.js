@@ -1253,8 +1253,8 @@ End of app preview menu
 
                 this.editor_text = await this.$refs.editor_component_ref.getText()
 
-                this.editor_text = yz.deleteCodeString(this.editor_text, "display_name")
-                this.editor_text = yz.insertCodeString(this.editor_text, "display_name",nn)
+                this.editor_text = yz.helpers.deleteCodeString(this.editor_text, "display_name")
+                this.editor_text = yz.helpers.insertCodeString(this.editor_text, "display_name",nn)
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
@@ -1283,10 +1283,10 @@ End of app preview menu
 
                 this.editor_text = await this.$refs.editor_component_ref.getText()
 
-                let eds = yz.getValueOfCodeString(this.editor_text, "editors")
+                let eds = yz.helpers.getValueOfCodeString(this.editor_text, "editors")
                 if (eds) {
-                    this.editor_text = yz.deleteCodeString(this.editor_text, "editors")
-                    this.editor_text = yz.insertCodeString(this.editor_text, "editors_old",eds)
+                    this.editor_text = yz.helpers.deleteCodeString(this.editor_text, "editors")
+                    this.editor_text = yz.helpers.insertCodeString(this.editor_text, "editors_old",eds)
                 }
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
@@ -1556,7 +1556,7 @@ End of app preview menu
                                         codeId:             codeId
                                     })
 
-                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                this.component_display_name = yz.helpers.getValueOfCodeString(code.toString(),"display_name")
                                 await GLOBALS.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
                             }
                         }
@@ -1570,7 +1570,7 @@ End of app preview menu
                     // load app from source code
                     //
                     } else if (code) {
-                        let bci = yz.getValueOfCodeString(code.toString(),"base_component_id")
+                        let bci = yz.helpers.getValueOfCodeString(code.toString(),"base_component_id")
 
                         GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
                         GLOBALS.pointBaseComponentIdAtCode(
@@ -1625,7 +1625,7 @@ End of app preview menu
                                 code                        = results[0].code
                                 codeId                      = results[0].id
                                 mm.code_id                  = codeId
-                                this.component_display_name = yz.getValueOfCodeString(code.toString(),"display_name")
+                                this.component_display_name = yz.helpers.getValueOfCodeString(code.toString(),"display_name")
                                 GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
                                 GLOBALS.pointBaseComponentIdAtCode(
                                     {
@@ -1702,7 +1702,7 @@ End of app preview menu
                 // container around them, since they can not live independantly without
                 // an app
                 //
-                if (code && (yz.getValueOfCodeString(code,"component_type") == "VB")) {
+                if (code && (yz.helpers.getValueOfCodeString(code,"component_type") == "VB")) {
                     mm.preview_type = "control"
                 } else {
                     mm.preview_type = "app"
@@ -1711,9 +1711,9 @@ End of app preview menu
                 //
                 // set other vars based on the code
                 //
-                mm.component_display_name = yz.getValueOfCodeString(code,"display_name")
+                mm.component_display_name = yz.helpers.getValueOfCodeString(code,"display_name")
                 // ****** set readonly *******
-                this.read_only = yz.getValueOfCodeString(code, "read_only")
+                this.read_only = yz.helpers.getValueOfCodeString(code, "read_only")
 
 
                 //
@@ -1770,7 +1770,7 @@ End of app preview menu
                     if (!allowAppToWorkOffline) {
                         this.editor_text = GLOBALS.enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
                     }
-                    let baseCompIdFromSrcCode = yz.getValueOfCodeString(this.editor_text,"base_component_id")
+                    let baseCompIdFromSrcCode = yz.helpers.getValueOfCodeString(this.editor_text,"base_component_id")
                     await saveCodeViaWebWorker(
                         this.editor_text
                         ,

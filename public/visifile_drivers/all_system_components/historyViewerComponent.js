@@ -238,7 +238,7 @@ load_once_from_file(true)
 
                 let mm                  =  this
                 this.text               = textValue
-                this.baseComponentId    = yz.getValueOfCodeString(this.text, "base_component_id")
+                this.baseComponentId    = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.codeId   = await this.getCurrentCommitId()
 
                 await this.setupTimeline()

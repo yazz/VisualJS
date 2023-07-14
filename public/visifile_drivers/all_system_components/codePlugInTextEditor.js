@@ -113,7 +113,7 @@ load_once_from_file(true)
 
         if (mm.text) {
             mm.editor.getSession().setValue(  mm.text  );
-            mm.read_only = yz.getValueOfCodeString( mm.text, "read_only" )
+            mm.read_only = yz.helpers.getValueOfCodeString( mm.text, "read_only" )
         }
 
         mm.editor.getSession().setUseWorker(false);
@@ -253,7 +253,7 @@ load_once_from_file(true)
          setText: function(textValue) {
             let mm = this
             mm.text =  textValue
-            mm.read_only = yz.getValueOfCodeString(mm.text, "read_only")
+            mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
             if (mm.read_only) {
                mm.editor.setReadOnly(true)
             }
