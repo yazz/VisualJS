@@ -2095,10 +2095,6 @@
                             "Vue.component(" + "\"" + codeId + "\", "
                         )
                         listOfCodeToExecute.push(codeIdVueObjectCode)
-                        GLOBALS.isVueLoadedForCodeId[codeId] = {
-                            component_type:     component_type,
-                            base_component_id:  baseComponentId
-                        }
 
                         for (codeToExecute  of  listOfCodeToExecute) {
                             let fnfn = eval( codeToExecute  )
@@ -2108,6 +2104,11 @@
                                 await fnfn(codeArgs)
                             }
                         }
+                        GLOBALS.isVueLoadedForCodeId[codeId] = {
+                            component_type:     component_type,
+                            base_component_id:  baseComponentId
+                        }
+
                     } catch (runtimeError) {
                         console.log("runtime err: " + runtimeError)
 
