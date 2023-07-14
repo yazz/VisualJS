@@ -295,7 +295,7 @@
 
         <script>
             var yz                              = {
-                mainVars: {
+                mainVars:   {
                     mainVueApp:                 null,
                     visJsloaded:                false,
                     mousedown:                  false,
@@ -319,9 +319,11 @@
                     webpageParams:              {},
                     autoScroll:                 false,
                     nextGlobalAppId:            1,
-                    wait_and_select_app:        null
+                    wait_and_select_app:        null,
+                    online:                     false,   // If the Yazz server is current online with internet access
+
                 },
-                helpers: {
+                helpers:    {
                     insertCodeString:               function(  code  ,  st   ,  vall        ,  optionalEnd  ) {
                         let endIndicator = ")"
                         if (optionalEnd) {
@@ -406,7 +408,7 @@
                         return newString
                     }
                 },
-                editor: {
+                editor:     {
                     subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
                     editingAppBaseComponentId:                      null,   // Type (BCI) of the currently edited component
                     editingAppCodeId:                               null,   // Commit ID for the currently edited component
@@ -467,11 +469,6 @@
                 // on the Code ID
                 //
                 isVueLoadedForCodeId:                           {},
-
-                //
-                // If the Yazz server is current online with internet access
-                //
-                online:                                         false,
 
                 //
                 // current base_component_id of the app being run
@@ -2752,7 +2749,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                 //***ADD_STATIC_CODE
             }
             function        sendToServerViaWebSocket            (   msg   ) {
-                if (GLOBALS.online) {
+                if (yz.mainVars.online) {
                     msg.cookie = getYazzCookie()
                     socket.send(JSON.stringify(msg));
                 }
@@ -2764,7 +2761,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                 socket = io();
                 //console.log('opening web socketio');
                 socket.on('ws_socket_connected',function(data){
-                    GLOBALS.online = true
+                    yz.mainVars.online = true
                     //console.log("Connected: " + JSON.stringify(data,null,2));
 
                     setTimeout(function(){

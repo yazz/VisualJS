@@ -4919,7 +4919,7 @@ return {}
                     return
                 }
                 this.in_generate_code_from_model = true
-                if (GLOBALS.online && this.design_mode) {
+                if (yz.mainVars.online && this.design_mode) {
 
                     //
                     // store the subcomponent types that this app depends on (BY CODE ID or BCI) = v2
@@ -6401,7 +6401,7 @@ return {}
                     //
                     // get the available components
                     //
-                    if (GLOBALS.online) {
+                    if (yz.mainVars.online) {
                         await mm.loadControlPalette()
                     }
 
