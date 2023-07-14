@@ -99,7 +99,7 @@
                                                 event.preventDefault()
                                                 gotoDragDropEditor();
                                             }'
-                            v-on:click='debugger;highlighted_control = av.base_component_id;highlighted_control_code_id = av.ipfs_hash;gotoDragDropEditor();'
+                            v-on:click='highlighted_control = av.base_component_id;highlighted_control_code_id = av.ipfs_hash;gotoDragDropEditor();'
                             v-bind:style='"display-old:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
@@ -1717,7 +1717,7 @@ Pushlist
                                     v-bind:refresh='refresh'
                                     v-on:ondragover="$event.stopPropagation();allowDrop($event)"
                                     v-bind:class='(design_mode?"dotted":"" )'
-                                    v-on:click='debugger;clickOnMainGrid($event)'
+                                    v-on:click='clickOnMainGrid($event)'
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
