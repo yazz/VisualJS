@@ -404,30 +404,6 @@
                         return newString
                     }
                 },
-                insertCodeString:               function(   code   ,   st   ,   vall   ,   optionalEnd   ) {
-                    let endIndicator = ")"
-                    if (optionalEnd) {
-                        endIndicator = optionalEnd
-                    }
-                    let findd = st + "("
-                    let startIndexOfComment = code.toString().indexOf("/*")
-                    let startIndexOfFn = code.toString().indexOf("{")
-
-                    if (startIndexOfFn != -1) {
-                        if (startIndexOfComment == -1) {
-                            code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
-                                code.toString().substring(startIndexOfFn + 1)
-                            startIndexOfComment = code.toString().indexOf("/*")
-                        }
-                        code = code.toString().substring(0,startIndexOfComment + 3) +
-                            "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
-                            code.toString().substring(startIndexOfComment + 3)
-
-                    }
-
-                    return code
-
-                },
                 deleteCodeString:               function(   code   ,   st   ,   optionalEnd   ) {
                     let endIndicator = ")"
                     if (optionalEnd) {

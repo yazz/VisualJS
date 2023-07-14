@@ -4986,17 +4986,17 @@ return {}
                     this.text   = yz.helpers.insertCodeString(  this.text, "component_type", "APP")
                     this.text   = yz.helpers.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
                     this.text   = yz.helpers.insertCodeString(  this.text, "formEditor", mm.model, ")//form" + "Editor")
-                    this.text   = yz.deleteCodeString(  this.text, "properties", ")//prope" + "rties")
-                    this.text   = yz.insertCodeString(  this.text, "properties", mm.model.app_properties, ")//prope" + "rties")
+                    this.text   = yz.helpers.deleteCodeString(  this.text, "properties", ")//prope" + "rties")
+                    this.text   = yz.helpers.insertCodeString(  this.text, "properties", mm.model.app_properties, ")//prope" + "rties")
 
-                    let codeChanges = yz.getValueOfCodeString(this.text,"code_changes",")//code_" + "changes")
+                    let codeChanges = yz.helpers.getValueOfCodeString(this.text,"code_changes",")//code_" + "changes")
                     if (codeChanges) {
-                        this.text = yz.deleteCodeString(  this.text, "code_changes", ")//code_" + "changes")
+                        this.text = yz.helpers.deleteCodeString(  this.text, "code_changes", ")//code_" + "changes")
                     }
                     if (!this.code_changes) {
                         this.code_changes = []
                     }
-                    this.text = yz.insertCodeString(
+                    this.text = yz.helpers.insertCodeString(
                         this.text,
                         "code_changes",
                         this.code_changes,
