@@ -1821,9 +1821,18 @@
                                     var sdf     = eval("(" + data.record + ")")
 
                                     for (var i=0; i< sdf.length; i++) {
+                                        debugger
+                                        let codeId = await getIpfsHash(  sdf[i].code  )
+                                        GLOBALS.cacheThisComponentCode(  {codeId: codeId,    code: sdf[i].code}  )
+                                        GLOBALS.pointBaseComponentIdAtCode(
+                                            {
+                                                baseComponentId:    sdf[i].base_component_id,
+                                                codeId:             codeId
+                                            })
+
                                         await GLOBALS.makeSureUiComponentLoadedV6PT2(
                                             {
-                                                codeId:             sdf[i].code_id,
+                                                codeId:             codeId,
                                                 baseComponentId:    sdf[i].base_component_id,
                                                 code:               sdf[i].code,
                                                 codeArgs:           argsToPassToUiComponents
@@ -1861,7 +1870,7 @@
                     // Set the commit ID and type
                     try {
                         if (!args) {
-                            throw new Exception("Wrong args given to fn makeSureUiComponentLoadedV6PT2(...)")
+                            throw new Error("Wrong args given to fn makeSureUiComponentLoadedV6PT2(...)")
                         } else if (args.codeId) {
                             codeId          = args.codeId
                             baseComponentId = GLOBALS.getTypeForCommitId(codeId)
@@ -1870,6 +1879,8 @@
                             }
 
                         } else if (args.baseComponentId) {
+                            debugger
+                            throw new Error("baseComponentId used fn makeSureUiComponentLoadedV6PT2(" + args.baseComponentId + ")")
                             baseComponentId = args.baseComponentId
                             codeId          = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
                         }
@@ -1887,9 +1898,6 @@
                                                  | to use
                                                  |__________________________________ */
                         let useDb = GLOBALS.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
-
-
-
 
                         /*
                         ____________________________________________________________
@@ -1909,9 +1917,6 @@
                                     codeId:             codeId
                                 })
                         }
-
-
-
 
                         // if the component has already been loaded then do nothing
                         if (isValidObject(GLOBALS.isVueLoadedForCodeId[codeId])) {
