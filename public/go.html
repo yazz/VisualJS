@@ -407,6 +407,9 @@
                 components: {
                     subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
                     editingAppBaseComponentId:                      null,   // Type (BCI) of the currently edited component
+                    editingAppCodeId:                               null,   // Commit ID for the currently edited component
+                    lastEditingAppBaseComponentId:                  null,   // if we jump to edit another component save this
+                    lastEditingAppCodeId:                           null,   // if we jump to edit another component save this
 
                 }
             }
@@ -423,9 +426,6 @@
                 //
                 // This is used to jump from editing an app to editing a UI control and back again
                 //
-                editingAppCodeId:                               null,   // Commit ID for the currently edited component
-                lastEditingAppBaseComponentId:                  null,   // if we jump to edit another component save this
-                lastEditingAppCodeId:                           null,   // if we jump to edit another component save this
                 inEditor:                                       false,  // Always set to true when we enter the editor
 
                 // editor helpers

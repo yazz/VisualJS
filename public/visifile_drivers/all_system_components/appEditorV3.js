@@ -240,14 +240,14 @@ ___________
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();GLOBALS.saveControlChanges=true;closeEditor()' >
-                  <span v-if="!GLOBALS.lastEditingAppCodeId">Close</span>
-                  <span v-if="GLOBALS.lastEditingAppCodeId">Update app</span>
+                  <span v-if="!yz.components.lastEditingAppCodeId">Close</span>
+                  <span v-if="yz.components.lastEditingAppCodeId">Update app</span>
                 </button>
             </div>
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();GLOBALS.saveControlChanges=false;closeEditor()'
-                         v-if="GLOBALS.lastEditingAppCodeId">
-                  <span v-if="GLOBALS.lastEditingAppCodeId">Cancel</span>
+                         v-if="yz.components.lastEditingAppCodeId">
+                  <span v-if="yz.components.lastEditingAppCodeId">Cancel</span>
                 </button>
             </div>
 
@@ -467,7 +467,7 @@ ___________
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
                               type="button" class="btn  btn-primary"
-                              v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (GLOBALS.lastEditingAppCodeId == null))'>
+                              v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.components.lastEditingAppCodeId == null))'>
 
                               <img
                                   src='/driver_icons/remix.png'
@@ -1089,28 +1089,28 @@ End of app preview menu
                    GLOBALS.finalCodeIdOfEditedUiControl = mm.code_id
                    this.$root.$emit("message", {
                        type: "return_from_fork_component",
-                       base_component_id: GLOBALS.lastEditingAppBaseComponentId,
-                       code_id: GLOBALS.lastEditingAppCodeId
+                       base_component_id: yz.components.lastEditingAppBaseComponentId,
+                       code_id: yz.components.lastEditingAppCodeId
                    })
 
                } else if (yz.components.subEditorAction == "EDIT_CONTROL") {
                        GLOBALS.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
                        GLOBALS.finalCodeIdOfEditedUiControl            = mm.code_id
                        this.$root.$emit("message", {    type:               "return_from_edit_component",
-                           base_component_id:   GLOBALS.lastEditingAppBaseComponentId,
-                           code_id:             GLOBALS.lastEditingAppCodeId
+                           base_component_id:   yz.components.lastEditingAppBaseComponentId,
+                           code_id:             yz.components.lastEditingAppCodeId
                        })
 
-               } else if (GLOBALS.lastEditingAppBaseComponentId) {
-                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   GLOBALS.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
+               } else if (yz.components.lastEditingAppBaseComponentId) {
+                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   yz.components.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
 
                } else {
                    this.$root.$emit('message', {
                        type:        "close_app"
                    })
                }
-               GLOBALS.lastEditingAppBaseComponentId    = null;
-               GLOBALS.lastEditingAppCodeId             = null;
+               yz.components.lastEditingAppBaseComponentId    = null;
+               yz.components.lastEditingAppCodeId             = null;
                GLOBALS.inEditor                         = false
            },
             chooseApp:                      async function  (  ) {
@@ -2164,9 +2164,9 @@ End of app preview menu
             // ******* if we have the code ID *********
             if (mm.arg_edit_code_id) {
                 yz.components.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
-                GLOBALS.editingAppCodeId                            = mm.arg_edit_code_id
+                yz.components.editingAppCodeId                            = mm.arg_edit_code_id
                 GLOBALS.inEditor                                    = true
-                await mm.loadComponentIntoEditor({codeId: GLOBALS.editingAppCodeId})
+                await mm.loadComponentIntoEditor({codeId: yz.components.editingAppCodeId})
             // ******* if we only have the BCI *********
             } else if (mm.arg_edit_base_component_id) {
                 yz.components.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
