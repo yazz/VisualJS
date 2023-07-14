@@ -319,6 +319,91 @@
             var nextItem                        = 1;
             var wait_and_select_app             = null
             var yz                              = {
+                helpers: {
+                    insertCodeString:               function(  code  ,  st   ,  vall        ,  optionalEnd  ) {
+                        let endIndicator = ")"
+                        if (optionalEnd) {
+                            endIndicator = optionalEnd
+                        }
+                        let findd = st + "("
+                        let startIndexOfComment = code.toString().indexOf("/*")
+                        let startIndexOfFn = code.toString().indexOf("{")
+
+                        if (startIndexOfFn != -1) {
+                            if (startIndexOfComment == -1) {
+                                code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
+                                    code.toString().substring(startIndexOfFn + 1)
+                                startIndexOfComment = code.toString().indexOf("/*")
+                            }
+                            code = code.toString().substring(0,startIndexOfComment + 3) +
+                                "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
+                                code.toString().substring(startIndexOfComment + 3)
+
+                        }
+
+                        return code
+
+                    },
+                    deleteCodeString:               function(  code  ,  st   ,  optionalEnd  ) {
+                        let endIndicator = ")"
+                        if (optionalEnd) {
+                            endIndicator = optionalEnd
+                        }
+                        let findd = st + "("
+                        let codeStart = code.toString().indexOf(findd)
+                        if (codeStart != -1) {
+                            let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
+
+                            code = code.toString().substring(0,codeStart) +
+                                code.toString().substring(codeEnd + 1 + endIndicator.length)
+
+                            return code
+                        }
+                        return code
+                    },
+                    getValueOfCodeString:           function(  code  ,  st   ,  optionalEnd  ) {
+                        let endIndicator = ")"
+                        if (optionalEnd) {
+                            endIndicator = optionalEnd
+                        }
+                        let toFind = st + "("
+                        if (code.toString().indexOf(toFind) != -1) {
+                            let codeStart = code.toString().indexOf(toFind) + toFind.length
+                            let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
+
+                            code = code.toString().substring(codeStart, codeEnd)
+                            let val = eval( "(" + code.toString() + ")")
+                            return val
+
+                        }
+                        return null
+                    },
+                    replaceBetween:                 function(  target,  start,  end         ,  replaceWith  ) {
+                        let startIndex  = target.indexOf(start)
+                        if (startIndex == -1) {
+                            return target
+                        }
+                        startIndex      += start.length
+                        let endIndex    = target.indexOf(end)
+                        if (endIndex == -1) {
+                            return target
+                        }
+                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                        return newString
+                    },
+                    addAfter:                       function(  target,  start,  replaceWith  ) {
+                        let startIndex  = target.indexOf(start) + start.length
+                        let endIndex    = startIndex
+                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                        return newString
+                    },
+                    addBefore:                      function(  target,  end  ,  replaceWith  ) {
+                        let startIndex  = target.indexOf(end)
+                        let endIndex    = startIndex + replaceWith.length - 1
+                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                        return newString
+                    }
+                },
                 insertCodeString:               function(   code   ,   st   ,   vall   ,   optionalEnd   ) {
                     let endIndicator = ")"
                     if (optionalEnd) {
