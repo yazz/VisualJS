@@ -1654,55 +1654,15 @@
                 },
                 makeSureUiComponentLoadedV6:    async function  (   argComponentsToLoad   ,   argsToPassToUiComponents   ) {
                     /*
-                    ________________________________________
-                    |                                      |
-                    |______________________________________|
-                     Dynamically loads a component class into the currently running system. V4
-                     should have the ability to load components via IPFS as well
-
-                     Can be called like:
-
-                     makeSureUiComponentLoadedV6(    "button_control"  )
-                     makeSureUiComponentLoadedV6(  [ "button_control" ]  )
-                     makeSureUiComponentLoadedV6(  [ "button_control"   ,  "label_control"  ]  )
-                     makeSureUiComponentLoadedV6(  [ { baseComponentId: "button_control" }]  )
-                     makeSureUiComponentLoadedV6(  [ { baseComponentId: "button_control" }  ,  { codeId: "Qmeff737e7878...3223" } ]  )
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     argComponentsToLoad
-                    |     -------------------   This is a list of all the UI components that
-                    |                           we wish to load
-                    |
-                    |     argsToPassToUiComponents
-                    |     ------------------------      This is the arguments that we wish to pass into the UI component.
-                    |                                   I am not sure where this is used. I will have to look to find out
-                    |                                   more
-                    |
-                    |________________________________________________________________________ */
-
-                    //console.log("makeSureUiComponentLoadedV5")
-                    //console.log("    argComponentsToLoad := " + JSON.stringify(argComponentsToLoad,null,2))
-                    //console.log("    argsToPassToUiComponents := " + JSON.stringify(argsToPassToUiComponents,null,2))
-                    //console.log("")
-
-                    /*
-                    ________________________________________
-                    |_________________                     |______________________________________
-                                     |
-                                     | Transform "argComponentsToLoad" from a list
-                                     | into a list of tuples in "whichComponentsToLoadAsTuples":
-                                     | [
-                                     |    {baseComponentId: "label"},
-                                     |    {baseComponentId: "button"},
-                                     |    {baseComponentId: "button",  codeId: "1f"},
-                                     |    {codeId: "1f"}
-                                     | ]
-                                     |____________________________________________________________
+                    Dynamically loads a component class into the currently running system. V4
+                    should have the ability to load components via IPFS as well
                     */
+
                     if (typeof argComponentsToLoad === 'string' || argComponentsToLoad instanceof String) {
+                        throw new Error("makeSureUiComponentLoadedV6(" + argComponentsToLoad + ")  not allowed")
                         argComponentsToLoad = [{baseComponentId: argComponentsToLoad}]
                     } else if (!Array.isArray(argComponentsToLoad)) {
+                        throw new Error("makeSureUiComponentLoadedV6([ ... Array .... ]])  not allowed")
                         argComponentsToLoad = [argComponentsToLoad]
                     }
 
