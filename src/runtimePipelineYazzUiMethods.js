@@ -6,22 +6,8 @@
 
             // Load the list of controls available
             loadControlPalette:                     async function  (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |             loadControlPalette             |
-                |                                      |
-                |______________________________________|
-
-                This loads the controls for the control palette, which allows the user
-                to add buttons, labels, and other controls to their app
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+                // This loads the controls for the control palette, which allows the user
+                // to add buttons, labels, and other controls to their app
                 let mm  = this
                 let sql =
                     `select  
@@ -33,16 +19,17 @@
                     where 
                         component_type = 'component'`
 
-                let results = await callComponent({ base_component_id:    "readFromInternalSqliteDatabase"},
+                mm.available_components  = await callComponent(
+                    { base_component_id:    "readFromInternalSqliteDatabase"}
+                    ,
                     {   sql: sql  })
 
-                mm.available_components = results
                 let itemsToLoad = []
-                for (let thiscc of results) {
+                for (let thiscc of mm.available_components) {
                     let cbase = thiscc.base_component_id
                     let codeId = thiscc.ipfs_hash
                     //console.log("Component: " + JSON.stringify(cbase))
-                    itemsToLoad.push({baseComponentId: cbase, codeid: codeId })
+                    itemsToLoad.push({baseComponentId: cbase, codeId: codeId })
                 }
                 await GLOBALS.makeSureUiComponentLoadedV6(itemsToLoad)
                 //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
@@ -453,9 +440,6 @@
             },
             addComponentV2:                         async function  (  leftX  ,  topY  ,  data  ,  parentType  ,  parentName  ,  defProps  ) {
                 /*
-                ________________________________________
-                |           addComponentV2             |
-                |______________________________________|
                 Adds a component to the form
                 __________
                 | PARAMS |______________________________________________________________
@@ -508,7 +492,6 @@
 
                     /*
                     _______________________________________
-                    |    addComponentV2                    |
                     |________________                      |____________
                                      | Calculate the name of
                                      | the new component
@@ -533,7 +516,6 @@
 
                     /*
                     _______________________________________
-                    |    addComponentV2                    |
                     |________________                      |____________
                                      | If the component isn't loaded
                                      | then load it
@@ -543,6 +525,7 @@
                     if (newItem.code_id) {
                         await GLOBALS.makeSureUiComponentLoadedV6([{codeId: newItem.code_id}])
                     } else {
+                        debugger
                         await GLOBALS.makeSureUiComponentLoadedV6([newItem.base_component_id])
                         newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
                     }
@@ -621,6 +604,7 @@
                         for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
                             let childBaseId = childrenCode[ee].base_component_id
                             let childDefProps = childrenCode[ee].properties
+                            debugger
                             await mm.addComponentV2(    0 ,
                                 0 ,
                                 {base_component_id: childBaseId} ,
@@ -728,6 +712,7 @@
                 |     controlDetails:
                 |________________________________________________________________________ */
                 let mm = this
+                debugger
                 let newControl = await mm.addComponentV2( 10,
                     10,
                     {
@@ -738,7 +723,8 @@
                     controlDetails.parent_base_component_id,
                     controlDetails.parent_name,
                     [])
-                mm.highlighted_control = null
+                mm.highlighted_control          = null
+                mm.highlighted_control_code_id  = null
                 mm.updateAllFormCaches()
                 mm.refresh ++
 
@@ -1964,43 +1950,28 @@ ${origCode}
 
             },
             clickOnMainGrid:                        async function  (  event  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 if (this.design_mode)
                 {
                     event.stopPropagation();
                     if (this.highlighted_control)
                     {
-                        let doc = document.documentElement;
-                        let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-                        let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-                        let rrr = event.target.getBoundingClientRect()
-                        let offsetX = (event.clientX - rrr.left )
-                        let offsetY = (event.clientY - rrr.top )
-                        let parentType = null
-                        let parentName = null
-                        let parentOffsetX = 0
-                        let parentOffsetY = 0
-                        let newItem2 = new Object()
-                        let data = {
-                            type:       "add_component",
-                            base_component_id:        this.highlighted_control,
-                            offsetX:     offsetX,
-                            offsetY:     offsetY
-                        }
+                        let doc             = document.documentElement;
+                        let left            = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+                        let top             = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+                        let rrr             = event.target.getBoundingClientRect()
+                        let offsetX         = (event.clientX - rrr.left )
+                        let offsetY         = (event.clientY - rrr.top )
+                        let parentType      = null
+                        let parentName      = null
+                        let parentOffsetX   = 0
+                        let parentOffsetY   = 0
+                        let newItem2        = new Object()
+                        let data            = {
+                                                type:               "add_component",
+                                                base_component_id:  this.highlighted_control,
+                                                offsetX:            offsetX,
+                                                offsetY:            offsetY
+                                            }
 
                         let parentContainer = this.getContainerForPoint(  offsetX,  offsetY  )
                         if (parentContainer) {
@@ -2010,7 +1981,7 @@ ${origCode}
                             parentName    = parentContainer.name
                         }
 
-                        //debugger
+                        debugger
                         await this.addComponentV2(  offsetX,
                             offsetY,
                             data,
@@ -3933,7 +3904,7 @@ return {}
                     let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                     let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                     let yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                    //debugger
+                    debugger
                     await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
                     this.highlighted_control = null
 
@@ -6623,6 +6594,7 @@ return {}
                                         compArgs.code_id = mm.args.control_code_id
                                     }
 
+                                    debugger
                                     await mm.addComponentV2(
                                         200,
                                         200,
@@ -6888,6 +6860,7 @@ __________
                 design_mode:                         designMode,
                 runtime_mode:                        runtimeMode,
                 highlighted_control:                 null,
+                highlighted_control_code_id:         null,
                 edited_app_component_id:             null,
                 componentType:                       null,
                 event_code:                          null,

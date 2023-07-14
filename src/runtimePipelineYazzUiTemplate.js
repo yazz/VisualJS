@@ -85,6 +85,7 @@
                                             $event.stopPropagation();
                                             if (design_mode_pane.type == "drag_drop") 
                                             {
+                                            //debugger
                                                 switchCursor($event,"grab","grabbing");
                                                 highlighted_control = av.base_component_id;
                                                 drag(   $event,
@@ -1715,7 +1716,7 @@ Pushlist
                                     v-bind:refresh='refresh'
                                     v-on:ondragover="$event.stopPropagation();allowDrop($event)"
                                     v-bind:class='(design_mode?"dotted":"" )'
-                                    v-on:click='clickOnMainGrid($event)'
+                                    v-on:click='debugger;clickOnMainGrid($event)'
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
@@ -1745,7 +1746,9 @@ Pushlist
                                         ((getTop(active_form,active_component_index)) - 15) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");
+                                                    //debugger
+                                                    drag($event,{
                                                                 type:   "resize_top",
                                                                 base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:   active_component_index
@@ -1758,11 +1761,13 @@ Pushlist
                                         ((getTop(active_form,active_component_index)) - 15) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
-                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");drag($event,{
-                                           type:   "resize_top_right",
-                                           base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
-                                           index:   active_component_index
-                                           })'>
+                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");
+                                                        //debugger
+                                                        drag($event,{
+                                                           type:                   "resize_top_right",
+                                                           base_component_id:       model.forms[active_form].components[active_component_index].base_component_id,
+                                                           index:                   active_component_index
+                                                           })'>
                             </div>
 
                             <!-- middle left -->
@@ -1772,10 +1777,11 @@ Pushlist
                                         ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
-                                                                type:   "resize_left",
-                                                                base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
-                                                                index:   active_component_index
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");
+                                                    drag($event,{
+                                                                type:              "resize_left",
+                                                                base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
+                                                                index:              active_component_index
                                                              })'>
                             </div>
                             <!-- middle right -->
@@ -1785,11 +1791,15 @@ Pushlist
                                         ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
                                 v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
-                                                                type:   "resize_right",
-                                                                base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
-                                                                index:   active_component_index
-                                                             })'>
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");
+                                                                //debugger
+                                                                drag(   $event
+                                                                        ,
+                                                                        {
+                                                                            type:              "resize_right",
+                                                                            base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
+                                                                            index:              active_component_index
+                                                                        })'>
                             </div>
                             <!-- bottom left -->
                             <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
@@ -1798,10 +1808,11 @@ Pushlist
                                         ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                         v-bind:draggable='true'
-                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");drag($event,{
-                                                                    type:   "resize_bottom_left",
-                                                                    base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
-                                                                    index:   active_component_index
+                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");
+                                                        drag($event,{
+                                                                    type:              "resize_bottom_left",
+                                                                    base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
+                                                                    index:              active_component_index
                                                                  })'>
                             </div>
                             <!-- bottom middle -->
@@ -1811,10 +1822,12 @@ Pushlist
                                         ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
-                                                                type:   "resize_bottom",
-                                                                base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
-                                                                index:   active_component_index
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");
+                                                    //debugger
+                                                    drag($event,{
+                                                                type:              "resize_bottom",
+                                                                base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
+                                                                index:              active_component_index
                                                              })'>
                             </div>
 
@@ -1825,10 +1838,12 @@ Pushlist
                                         ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
                                     v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
-                                                                   type:   "resize_bottom_right",
-                                                                   base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
-                                                                   index:   active_component_index
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");
+                                                    //debugger
+                                                    drag($event,{
+                                                                   type:               "resize_bottom_right",
+                                                                   base_component_id:   model.forms[active_form].components[active_component_index].base_component_id,
+                                                                   index:               active_component_index
                                                                         })'>
                             </div>
 
@@ -2014,11 +2029,13 @@ Pushlist
                                         v-bind:draggable='design_mode'
                                         v-if='design_mode && isVisible(active_form,index)'
                                         ondrop="return false;"
-                                        v-on:dragstart='$event.stopPropagation();drag($event,{
-                                                                                       type:   "move_component",
-                                                                                       base_component_id:    item.base_component_id,
-                                                                                       index:   index
-                                                                                    })'>
+                                        v-on:dragstart='$event.stopPropagation();
+                                                        //debugger
+                                                        drag($event,{
+                                                           type:               "move_component",
+                                                           base_component_id:   item.base_component_id,
+                                                           index:               index
+                                                        })'>
 
                                     <div    v-if='design_mode && isVisible(active_form,index)'
                                             ondrop="return false;"
