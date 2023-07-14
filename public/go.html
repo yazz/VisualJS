@@ -403,6 +403,10 @@
                         let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
                         return newString
                     }
+                },
+                components: {
+                    subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
+
                 }
             }
             var GLOBALS                         = {
@@ -418,7 +422,6 @@
                 //
                 // This is used to jump from editing an app to editing a UI control and back again
                 //
-                subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
                 editingAppBaseComponentId:                      null,   // Type (BCI) of the currently edited component
                 editingAppCodeId:                               null,   // Commit ID for the currently edited component
                 lastEditingAppBaseComponentId:                  null,   // if we jump to edit another component save this

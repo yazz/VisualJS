@@ -1084,7 +1084,7 @@ End of app preview menu
                // with all the apps)
                // ---------------------------------------------------------------
                let mm = this
-               if (GLOBALS.subEditorAction == "FORK_CONTROL") {
+               if (yz.components.subEditorAction == "FORK_CONTROL") {
                    GLOBALS.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
                    GLOBALS.finalCodeIdOfEditedUiControl = mm.code_id
                    this.$root.$emit("message", {
@@ -1093,7 +1093,7 @@ End of app preview menu
                        code_id: GLOBALS.lastEditingAppCodeId
                    })
 
-               } else if (GLOBALS.subEditorAction == "EDIT_CONTROL") {
+               } else if (yz.components.subEditorAction == "EDIT_CONTROL") {
                        GLOBALS.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
                        GLOBALS.finalCodeIdOfEditedUiControl            = mm.code_id
                        this.$root.$emit("message", {    type:               "return_from_edit_component",

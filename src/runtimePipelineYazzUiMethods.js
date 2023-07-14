@@ -525,7 +525,6 @@
                     if (newItem.code_id) {
                         await GLOBALS.makeSureUiComponentLoadedV6([{codeId: newItem.code_id}])
                     } else {
-                        debugger
                         await GLOBALS.makeSureUiComponentLoadedV6([newItem.base_component_id])
                         newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
                     }
@@ -712,7 +711,6 @@
                 |     controlDetails:
                 |________________________________________________________________________ */
                 let mm = this
-                debugger
                 let newControl = await mm.addComponentV2( 10,
                     10,
                     {
@@ -3905,7 +3903,6 @@ return {}
                     let rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                     let xx = ((ev.clientX  - rrr.left)  - data.offsetX) - parentOffsetX  - 10;
                     let yy = ((ev.clientY  - rrr.top)   - data.offsetY) - parentOffsetY - 10;
-                    debugger
                     await mm.addComponentV2(xx,yy,data, parentType, parentName, [])
                     this.highlighted_control            = null
                     this.highlighted_control_code_id    = null
@@ -6521,7 +6518,7 @@ return {}
                      */
                     if (mm.design_mode) {
 
-                        if (GLOBALS.subEditorAction == "FORK_CONTROL") {
+                        if (yz.components.subEditorAction == "FORK_CONTROL") {
                             setTimeout(function () {
                                 if (GLOBALS.saveControlChanges) {
                                     mm.changePropertyValue(
@@ -6540,11 +6537,11 @@ return {}
                                     )
                                 }
                                 GLOBALS.originalNameOfEditedUiControl = null
-                                GLOBALS.subEditorAction = null
+                                yz.components.subEditorAction = null
                                 GLOBALS.saveControlChanges = false
 
                             }, 1000)
-                        } else if (GLOBALS.subEditorAction == "EDIT_CONTROL") {
+                        } else if (yz.components.subEditorAction == "EDIT_CONTROL") {
                             setTimeout(function () {
                                 if (GLOBALS.saveControlChanges) {
                                     mm.changePropertyValue(
@@ -6563,7 +6560,7 @@ return {}
                                     )
                                 }
                                 GLOBALS.originalNameOfEditedUiControl = null
-                                GLOBALS.subEditorAction = null
+                                yz.components.subEditorAction = null
                                 GLOBALS.saveControlChanges = false
                             }, 1000)
 
@@ -6596,7 +6593,6 @@ return {}
                                         compArgs.code_id = mm.args.control_code_id
                                     }
 
-                                    debugger
                                     await mm.addComponentV2(
                                         200,
                                         200,
