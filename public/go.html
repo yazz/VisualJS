@@ -525,11 +525,11 @@
                 getTypeDisplayName:             function        (   args   ) {
                     let codeId = null
                     if ((args.codeId == null) || (args.codeId == "")) {
-                        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                        codeId = this.getCommitIdForBaseComponentId(args.baseComponentId)
                     } else {
                         codeId = args.codeId
                     }
-                    let code = GLOBALS.getCodeForComponent({codeId: codeId})
+                    let code = this.getCodeForComponent({codeId: codeId})
                     if (code) {
                         let displayName = yz.helpers.getValueOfCodeString(code, "display_name")
                         return displayName
@@ -539,11 +539,11 @@
                 getTypeDisplayIcon:             function        (   args   ) {
                     let codeId = null
                     if ((args.codeId == null) || (args.codeId == "")) {
-                        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                        codeId = this.getCommitIdForBaseComponentId(args.baseComponentId)
                     } else {
                         codeId = args.codeId
                     }
-                    let code = GLOBALS.getCodeForComponent({codeId: codeId})
+                    let code = this.getCodeForComponent({codeId: codeId})
                     if (code) {
                         let displayName = yz.helpers.getValueOfCodeString(code, "logo_url")
                         return displayName
@@ -578,13 +578,13 @@
                     |           }
                     |________________________________________________________________________ */
                     let codeToCopy = null
-                    if (GLOBALS.runtimePipelines[args.pipelineName]) {
-                        codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
+                    if (this.runtimePipelines[args.pipelineName]) {
+                        codeToCopy = this.runtimePipelines[args.pipelineName].code
                     } else {
-                        GLOBALS.runtimePipelines[args.pipelineName] = {}
-                        GLOBALS.runtimePipelines[args.pipelineName].code = await GLOBALS.getPipelineCodeFromServer(args.fileName)
+                        this.runtimePipelines[args.pipelineName] = {}
+                        this.runtimePipelines[args.pipelineName].code = await this.getPipelineCodeFromServer(args.fileName)
 
-                        codeToCopy = GLOBALS.runtimePipelines[args.pipelineName].code
+                        codeToCopy = this.runtimePipelines[args.pipelineName].code
                     }
 
                     let stt = args.fromMarker
@@ -600,21 +600,21 @@
                 },
                 getCommitIdForBaseComponentId:  function        (   baseComponentId   ) {
                     if (baseComponentId) {
-                        return GLOBALS.baseComponentIdReturnsCommitId[ baseComponentId ]
+                        return this.baseComponentIdReturnsCommitId[ baseComponentId ]
                     }
                 },
                 getCodeForComponent:            function        (   args   ) {
                     let codeId = args.codeId
                     if (!codeId) {
                         if (args.baseComponentId) {
-                            codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+                            codeId = this.baseComponentIdReturnsCommitId[args.baseComponentId]
                         }
                     }
 
 
                     if (codeId) {
-                        if (GLOBALS.codeCache[codeId]) {
-                            return GLOBALS.codeCache[codeId].code
+                        if (this.codeCache[codeId]) {
+                            return this.codeCache[codeId].code
                         }
                     }
                     //debugger
@@ -623,12 +623,12 @@
                 },
                 getControlPropertyDefns:        function        (   args   ) {
                     if (args.baseComponentId) {
-                        return GLOBALS.codeCache[GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)].properties
+                        return this.codeCache[this.getCommitIdForBaseComponentId(args.baseComponentId)].properties
                     }
                 },
                 isComponentTypeCached:          function        (   baseComponentId   ) {
                     if (baseComponentId) {
-                        if (GLOBALS.getCommitIdForBaseComponentId(baseComponentId)) {
+                        if (this.getCommitIdForBaseComponentId(baseComponentId)) {
                             return true
                         }
                     }
@@ -639,11 +639,11 @@
                     if (args.codeId) {
                         codeId = args.codeId
                     } else if (args.baseComponentId) {
-                        codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+                        codeId = this.baseComponentIdReturnsCommitId[args.baseComponentId]
                     }
                     if (codeId) {
-                        if (GLOBALS.codeCache[codeId]) {
-                            if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
+                        if (this.codeCache[codeId]) {
+                            if (this.codeCache[codeId].uiComponentLoaded) {
                                 return true
                             }
                         }
@@ -659,18 +659,18 @@
                     if (args.codeId) {
                         codeId = args.codeId
                     } else if (args.baseComponentId) {
-                        codeId = GLOBALS.baseComponentIdReturnsCommitId[args.baseComponentId]
+                        codeId = this.baseComponentIdReturnsCommitId[args.baseComponentId]
                     }
 
                     if (codeId) {
-                        previousCachedCode = GLOBALS.codeCache[  codeId  ]
+                        previousCachedCode = this.codeCache[  codeId  ]
                         if (previousCachedCode) {
-                            previousBaseComponentId = GLOBALS.codeCache[  codeId  ].base_component_id
+                            previousBaseComponentId = this.codeCache[  codeId  ].base_component_id
                             if (previousBaseComponentId) {
-                                previousCodeId = GLOBALS.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
+                                previousCodeId = this.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
                                 if (previousCodeId) {
-                                    if (GLOBALS.codeCache[previousCodeId]) {
-                                        GLOBALS.codeCache[previousCodeId].uiComponentLoaded = false
+                                    if (this.codeCache[previousCodeId]) {
+                                        this.codeCache[previousCodeId].uiComponentLoaded = false
                                     }
                                 }
                             }
@@ -679,8 +679,8 @@
 
 
                     if (codeId) {
-                        if (GLOBALS.codeCache[codeId]) {
-                            if (GLOBALS.codeCache[codeId].uiComponentLoaded) {
+                        if (this.codeCache[codeId]) {
+                            if (this.codeCache[codeId].uiComponentLoaded) {
                                 return true
                             }
                         }
@@ -688,13 +688,13 @@
                     return false
                 },
                 getTypeForCommitId:             function        (   codeId   ) {
-                    return GLOBALS.codeCache[codeId].base_component_id
+                    return this.codeCache[codeId].base_component_id
                 },
                 getDbToUse:                     function        (   args   ) {
                     let useDb =  null
                     let codeId = args.codeId
                     if (!codeId ) {
-                        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                        codeId = this.getCommitIdForBaseComponentId(args.baseComponentId)
                     }
                     if (!codeId ) {
                         return args.baseComponentId
@@ -702,20 +702,20 @@
 
                     if (codeId)
                     {
-                        if (!GLOBALS.codeCache[codeId]) {
+                        if (!this.codeCache[codeId]) {
                             return useDb
                         }
 
-                        if (GLOBALS.codeCache[codeId].use_db) {
-                            useDb =  GLOBALS.codeCache[codeId].use_db
+                        if (this.codeCache[codeId].use_db) {
+                            useDb =  this.codeCache[codeId].use_db
                         } else {
-                            useDb = GLOBALS.getTypeForCommitId(args.codeId)
-                            let codeFor = GLOBALS.getCodeForComponent({codeId: args.codeId})
+                            useDb = this.getTypeForCommitId(args.codeId)
+                            let codeFor = this.getCodeForComponent({codeId: args.codeId})
                             let useOtherDb = yz.helpers.getValueOfCodeString(codeFor, "use_db")
                             if (useOtherDb) {
                                 useDb = useOtherDb
                             }
-                            GLOBALS.codeCache[codeId].use_db = useDb
+                            this.codeCache[codeId].use_db = useDb
                         }
                     }
                     return useDb
@@ -723,11 +723,11 @@
                 isControl:                      function        (   args   ) {
                     let codeId = args.codeId
                     if (!codeId ) {
-                        codeId = GLOBALS.getCommitIdForBaseComponentId(args.baseComponentId)
+                        codeId = this.getCommitIdForBaseComponentId(args.baseComponentId)
                     }
                     if (codeId) {
-                        if (GLOBALS.codeCache[codeId]) {
-                            if (GLOBALS.codeCache[codeId].component_type == "VB") {
+                        if (this.codeCache[codeId]) {
+                            if (this.codeCache[codeId].component_type == "VB") {
                                 return true
                             }
                         }
@@ -735,10 +735,10 @@
                     return false
                 },
                 getAllLoadedControlTypeNames:   function        (   ) {
-                    let listOfAllComponents = Object.keys(GLOBALS.baseComponentIdReturnsCommitId)
+                    let listOfAllComponents = Object.keys(this.baseComponentIdReturnsCommitId)
                     let listOfControls = []
                     for (let aComponentType of listOfAllComponents) {
-                        if (GLOBALS.isControl({baseComponentId: aComponentType})) {
+                        if (this.isControl({baseComponentId: aComponentType})) {
                             listOfControls.push(aComponentType)
                         }
                     }
@@ -751,7 +751,7 @@
                     //
                     // Add the components code
                     //
-                    GLOBALS.codeCache[   args.codeId  ] = {
+                    this.codeCache[   args.codeId  ] = {
                         code:               args.code,
                         code_id:            args.codeId,
                         component_type:     componentType,
@@ -760,16 +760,16 @@
 
                     let properties = yz.helpers.getValueOfCodeString(args.code, "properties",")//properties")
                     if (isValidObject(properties)) {
-                        GLOBALS.codeCache[   args.codeId  ].properties   = properties
+                        this.codeCache[   args.codeId  ].properties   = properties
                     } else {
-                        GLOBALS.codeCache[   args.codeId  ].properties   = []
+                        this.codeCache[   args.codeId  ].properties   = []
                     }
                 },
                 pointBaseComponentIdAtCode:     function        (   args   ) {
-                    GLOBALS.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
+                    this.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
 
-                    if (GLOBALS.isControl({baseComponentId: args.baseComponentId})) {
-                        GLOBALS.indexComponent( args.baseComponentId  )
+                    if (this.isControl({baseComponentId: args.baseComponentId})) {
+                        this.indexComponent( args.baseComponentId  )
                     }
 
                 },
@@ -802,7 +802,7 @@
                                                  | component in the "linkedProperties"
                                                  | data structure
                                                  |__________________________________ */
-                        GLOBALS.linkedProperties[  typeName ] = {
+                        this.linkedProperties[  typeName ] = {
                             incoming: {
                                 me: {},
                                 them: {}
@@ -836,8 +836,8 @@
                                                  | Go through and match up all
                                                  | incoming and outgoing links
                                                  |__________________________________ */
-                        if (GLOBALS.isComponentTypeCached(typeName)) {
-                            for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: typeName})) {
+                        if (this.isComponentTypeCached(typeName)) {
+                            for (let oneProperty of this.getControlPropertyDefns({baseComponentId: typeName})) {
                                 let propertyName = oneProperty.name
                                 if (propertyName) {
 
@@ -855,60 +855,60 @@
                                         let acceptTypes = Object.keys(oneProperty.accept_types)
                                         for (let acceptType of acceptTypes) {
 
-                                            for (let otherComponentName of GLOBALS.getAllLoadedControlTypeNames()) {
+                                            for (let otherComponentName of this.getAllLoadedControlTypeNames()) {
                                                 if (otherComponentName == "database_control") {
 
                                                 }
                                                 if (otherComponentName != typeName) {
-                                                    if (GLOBALS.isComponentTypeCached(otherComponentName)) {
-                                                        if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
-                                                            let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
+                                                    if (this.isComponentTypeCached(otherComponentName)) {
+                                                        if (this.getControlPropertyDefns({baseComponentId: otherComponentName})) {
+                                                            let otherProperties = this.getControlPropertyDefns({baseComponentId: otherComponentName})
                                                             for (let otherProperty of otherProperties) {
                                                                 if (otherProperty.types) {
                                                                     for (let otherPropertyType of Object.keys(otherProperty.types)) {
                                                                         if (otherPropertyType == acceptType) {
 
                                                                             //console.log("        Found Match for " + acceptType)
-                                                                            if (!GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName]) {
-                                                                                GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName] = {}
+                                                                            if (!this.linkedProperties[typeName].incoming.them[otherComponentName]) {
+                                                                                this.linkedProperties[typeName].incoming.them[otherComponentName] = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id]) {
-                                                                                GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
+                                                                            if (!this.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id]) {
+                                                                                this.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
                                                                             }
-                                                                            GLOBALS.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                                            this.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-                                                                            if (!GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id]) {
-                                                                                GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id] = {}
+                                                                            if (!this.linkedProperties[typeName].incoming.me[oneProperty.id]) {
+                                                                                this.linkedProperties[typeName].incoming.me[oneProperty.id] = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
-                                                                                GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName] = {}
-                                                                            }
-
-                                                                            GLOBALS.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
-
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
+                                                                            if (!this.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
+                                                                                this.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName] = {}
                                                                             }
 
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
+                                                                            this.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
+
+                                                                            if (!this.linkedProperties[otherComponentName].outgoing.them[typeName]) {
+                                                                                this.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
+
+                                                                            if (!this.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
+                                                                                this.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
+                                                                            }
+                                                                            if (!this.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                                                this.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
                                                                             }
 
 
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.me = {}
+                                                                            if (!this.linkedProperties[otherComponentName].outgoing.me) {
+                                                                                this.linkedProperties[otherComponentName].outgoing.me = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id] = {}
+                                                                            if (!this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id]) {
+                                                                                this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id] = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
+                                                                            if (!this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
+                                                                                this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
+                                                                            if (!this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                                                this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
                                                                             }
 
 
@@ -933,63 +933,63 @@
                                         let types = Object.keys(oneProperty.types)
                                         for (let myType of types) {
                                             //console.log("    " + myType)
-                                            for (let otherComponentName of GLOBALS.getAllLoadedControlTypeNames()) {
+                                            for (let otherComponentName of this.getAllLoadedControlTypeNames()) {
                                                 //if (otherComponentName == "table_control") {
                                                 //debugger
                                                 //}
                                                 if (otherComponentName != typeName) {
-                                                    if (GLOBALS.isComponentTypeCached(otherComponentName)) {
-                                                        if (GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})) {
-                                                            let otherProperties = GLOBALS.getControlPropertyDefns({baseComponentId: otherComponentName})
+                                                    if (this.isComponentTypeCached(otherComponentName)) {
+                                                        if (this.getControlPropertyDefns({baseComponentId: otherComponentName})) {
+                                                            let otherProperties = this.getControlPropertyDefns({baseComponentId: otherComponentName})
                                                             for (let otherProperty of otherProperties) {
                                                                 if (otherProperty.accept_types) {
                                                                     for (let otherPropertyAcceptType of Object.keys(otherProperty.accept_types)) {
                                                                         if (otherPropertyAcceptType == myType) {
                                                                             //debugger
                                                                             //console.log("        Found Match for " + myType)
-                                                                            if (!GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName]) {
-                                                                                GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName] = {}
+                                                                            if (!this.linkedProperties[typeName].outgoing.them[otherComponentName]) {
+                                                                                this.linkedProperties[typeName].outgoing.them[otherComponentName] = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
-                                                                                GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
+                                                                            if (!this.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
+                                                                                this.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
                                                                             }
-                                                                            GLOBALS.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                                            this.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-                                                                            if (!GLOBALS.linkedProperties[typeName].outgoing.me) {
-                                                                                GLOBALS.linkedProperties[typeName].outgoing.me = {}
+                                                                            if (!this.linkedProperties[typeName].outgoing.me) {
+                                                                                this.linkedProperties[typeName].outgoing.me = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id]) {
-                                                                                GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id] = {}
-                                                                            }
-
-                                                                            if (!GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
-                                                                                GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
-                                                                            }
-                                                                            GLOBALS.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
-
-
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName] = {}
-                                                                            }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id] = {}
-                                                                            }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
+                                                                            if (!this.linkedProperties[typeName].outgoing.me[oneProperty.id]) {
+                                                                                this.linkedProperties[typeName].outgoing.me[oneProperty.id] = {}
                                                                             }
 
+                                                                            if (!this.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
+                                                                                this.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
+                                                                            }
+                                                                            this.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
 
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].incoming.me) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].incoming.me = {}
+
+                                                                            if (!this.linkedProperties[otherComponentName].incoming.them[typeName]) {
+                                                                                this.linkedProperties[otherComponentName].incoming.them[typeName] = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id] = {}
+                                                                            if (!this.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
+                                                                                this.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id] = {}
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
+                                                                            if (!this.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                                                this.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
                                                                             }
-                                                                            if (!GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
-                                                                                GLOBALS.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
+
+
+                                                                            if (!this.linkedProperties[otherComponentName].incoming.me) {
+                                                                                this.linkedProperties[otherComponentName].incoming.me = {}
+                                                                            }
+                                                                            if (!this.linkedProperties[otherComponentName].incoming.me[otherProperty.id]) {
+                                                                                this.linkedProperties[otherComponentName].incoming.me[otherProperty.id] = {}
+                                                                            }
+                                                                            if (!this.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
+                                                                                this.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
+                                                                            }
+                                                                            if (!this.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                                                this.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
                                                                             }
 
 
@@ -1110,6 +1110,7 @@
                     return code
                 },
                 makeSureUiComponentLoadedV6:    async function  (   argComponentsToLoad   ,   argsToPassToUiComponents   ) {
+                    let mm = this
                     /*
                     Dynamically loads a component class into the currently running system. Should
                     have the ability to load components via IPFS as well
@@ -1144,22 +1145,22 @@
                     // then load the components from the global componenet cache which
                     // contains all the UI control definitions
                     let loadedStatic = false
-                    if (GLOBALS.isStaticHtmlPageApp) {
+                    if (mm.isStaticHtmlPageApp) {
                         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
                             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-                            GLOBALS.loadedControlsMapInCurrentlyEditedApp[componentType] = true
-                            if (GLOBALS.isStaticHtmlPageApp  &&  GLOBALS.getCommitIdForBaseComponentId(componentType)  && !GLOBALS.isComponentLoaded({baseComponentId: componentType})) {
+                            this.loadedControlsMapInCurrentlyEditedApp[componentType] = true
+                            if (this.isStaticHtmlPageApp  &&  this.getCommitIdForBaseComponentId(componentType)  && !this.isComponentLoaded({baseComponentId: componentType})) {
 
                                 let newDataCodeId
                                 if (whichComponentsToLoadAsTuples[tt].codeId && (whichComponentsToLoadAsTuples[tt].codeId != "")) {
                                     newDataCodeId = whichComponentsToLoadAsTuples[tt].codeId
                                 }   else {
-                                    newDataCodeId = GLOBALS.getCommitIdForBaseComponentId( componentType )
+                                    newDataCodeId = this.getCommitIdForBaseComponentId( componentType )
                                 }
-                                let codeForCommit   = GLOBALS.getCodeForComponent({codeId: newDataCodeId })
+                                let codeForCommit   = this.getCodeForComponent({codeId: newDataCodeId })
 
-                                await GLOBALS.addRuntimePipelinesAndRunCode({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
-                                GLOBALS.setComponentLoaded({codeId: newDataCodeId})
+                                await this.addRuntimePipelinesAndRunCode({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
+                                this.setComponentLoaded({codeId: newDataCodeId})
                                 loadedStatic = true
                             }
                         }
@@ -1182,22 +1183,22 @@
                             //
                             // if we have cached the component then run it
                             //
-                            if (componentCodeId && GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
-                                let compCode        = GLOBALS.getCodeForComponent({codeId: componentCodeId})
+                            if (componentCodeId && this.getCodeForComponent({codeId: componentCodeId})) {
+                                let compCode        = this.getCodeForComponent({codeId: componentCodeId})
                                 if (compCode) {
-                                    await GLOBALS.addRuntimePipelinesAndRunCode({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
+                                    await this.addRuntimePipelinesAndRunCode({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
                             //
                             // if we have haven't cached the component (given the code ID) then put it on the list of things to load
                             //
-                            } else if (componentCodeId && !GLOBALS.getCodeForComponent({codeId: componentCodeId})) {
+                            } else if (componentCodeId && !this.getCodeForComponent({codeId: componentCodeId})) {
                                 componentsItemsToLoad.push(componentTuple)
 
                             //
                             // if we have haven't cached the component (given the Type) then put it on the list of things to load
                             //
-                            } else if (componentType && (!GLOBALS.isComponentTypeCached(componentType))) {
+                            } else if (componentType && (!this.isComponentTypeCached(componentType))) {
                                 componentsItemsToLoad.push(componentTuple)
 
                             //
@@ -1225,18 +1226,18 @@
 
                                     for (var i=0; i< sdf.length; i++) {
                                         let codeId = await getIpfsHash(  sdf[i].code  )
-                                        if (isValidObject(GLOBALS.isVueLoadedForCodeId[codeId])) {
+                                        if (isValidObject(mm.isVueLoadedForCodeId[codeId])) {
                                             returnfn({})
                                         }
 
-                                        GLOBALS.cacheThisComponentCode(  {codeId: codeId,    code: sdf[i].code}  )
-                                        GLOBALS.pointBaseComponentIdAtCode(
+                                        mm.cacheThisComponentCode(  {codeId: codeId,    code: sdf[i].code}  )
+                                        mm.pointBaseComponentIdAtCode(
                                             {
                                                 baseComponentId:    sdf[i].base_component_id,
                                                 codeId:             codeId
                                             })
 
-                                        await GLOBALS.addRuntimePipelinesAndRunCode(
+                                        await mm.addRuntimePipelinesAndRunCode(
                                             {
                                                 codeId:             codeId,
                                                 baseComponentId:    sdf[i].base_component_id,
@@ -1261,17 +1262,17 @@
                 addRuntimePipelinesAndRunCode:  async function  (   {codeId , codeArgs}   ) {
                     // Init - Set the BCI
                     let baseComponentId = null
-                    let code            = GLOBALS.getCodeForComponent({codeId: codeId})
+                    let code            = this.getCodeForComponent({codeId: codeId})
 
                     try {
-                        baseComponentId = GLOBALS.getTypeForCommitId(codeId)
+                        baseComponentId = this.getTypeForCommitId(codeId)
                         if (baseComponentId == null) {
                             baseComponentId = yz.helpers.getValueOfCodeString(code,"base_component_id")
                         }
 
 
                         // Determine the apps SQlite database to use
-                        let useDb = GLOBALS.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
+                        let useDb = this.getDbToUse({codeId: codeId, baseComponentId: baseComponentId})
 
 
 
@@ -1508,7 +1509,7 @@
                             await fnfn(codeArgs)
                         }
 
-                        GLOBALS.isVueLoadedForCodeId[codeId] = {
+                        this.isVueLoadedForCodeId[codeId] = {
                             component_type:     component_type,
                             base_component_id:  baseComponentId
                         }
