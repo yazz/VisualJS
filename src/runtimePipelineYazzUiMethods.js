@@ -523,7 +523,6 @@
                     */
                     mm.refresh++
                     if (newItem.code_id) {
-                        debugger
                         await GLOBALS.makeSureUiComponentLoadedV6([{codeId: newItem.code_id}])
                     } else {
                         await GLOBALS.makeSureUiComponentLoadedV6([newItem.base_component_id])
