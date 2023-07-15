@@ -470,9 +470,13 @@
                     setLoadedControlInCurrentlyEditedApp: async function({baseComponentId, value}) {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = value
                     },
-                    getLoadedControlsMapInCurrentlyEditedApp: async function(controlName) {
+                    getLoadedControlsMapInCurrentlyEditedApp: async function() {
                         return Object.keys(yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp)
                     },
+                    resetLoadedControlsMapInCurrentlyEditedApp: async function() {
+                        yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp = new Object()
+                    },
+
 
                 }
             }
@@ -2180,9 +2184,9 @@
                     if (isValidObject(usePropVar)) {
                         if (isValidObject(usePropVar.name)) {
                             if (vueComponentObject.design_mode) {
-                                yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[usePropVar.name] =  vueComponentObject
+                                yz.componentsAPI.setDesignModeUiControlNameReturnsVueInstance(  {controlName: usePropVar.name, vueInstance: vueComponentObject})
                             } else {
-                                yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[usePropVar.name] =  vueComponentObject
+                                yz.componentsAPI.setRuntimeUiControlNameReturnsVueInstance(     {controlName: usePropVar.name, vueInstance: vueComponentObject})
                             }
                         }
 
@@ -2202,8 +2206,8 @@
                 }
             }
             function        unregisterComponent                 (   componentName   ) {
-                yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[componentName]   = null
-                yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[componentName]               = null
+                yz.componentsAPI.setDesignModeUiControlNameReturnsVueInstance(  {controlName: componentName, vueInstance: null})
+                yz.componentsAPI.setRuntimeUiControlNameReturnsVueInstance(     {controlName: componentName, vueInstance: null})
             }
             async function  initFn                              (   ) {
                 setTimeout(async function(){

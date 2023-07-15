@@ -1333,7 +1333,7 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                             }
                         }
 
-                        yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
+                        yz.componentsAPI.setLoadedControlInCurrentlyEditedApp({baseComponentId: baseComponentId, value: false})
 
                         //await makeSureUiComponentLoadedV6(baseComponentId)
                         mm.editable_app_list.push( app  )

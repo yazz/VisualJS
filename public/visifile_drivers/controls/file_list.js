@@ -73,7 +73,7 @@ logo_url("/driver_icons/file_list.png")
       ,
       mounted: async function() {
           if (isValidObject(this.args.name)) {
-              yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[this.args.name] =  this
+              yz.componentsAPI.setRuntimeUiControlNameReturnsVueInstance({controlName: this.args.name, vueInstance: this})
           }
 
           this.load()
