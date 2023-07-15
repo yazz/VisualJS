@@ -1517,11 +1517,13 @@
 
                         let fnfn = eval( codeIdVueObjectCode  )
 
-                        //yz.debug.writeTextFile(
-                        //    {
-                        //        fileName:  "z.txt",
-                        //        fileText:   codeIdVueObjectCode
-                        //    })
+                        if (baseComponentId.startsWith("total")) {
+                            yz.debug.writeTextFile(
+                                {
+                                    fileName: "z.txt",
+                                    fileText: codeIdVueObjectCode
+                                })
+                        }
 
                         if (codeIdVueObjectCode.indexOf("async ")  == -1) {
                             fnfn(codeArgs)
