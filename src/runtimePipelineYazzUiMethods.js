@@ -1765,9 +1765,9 @@
                     } else {
                         let controlDetails = null
                         if (isComponentInDesignMode) {
-                            controlDetails = yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[componentDetails.name]
+                            controlDetails = yz.componentsAPI.getDesignModeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
                         } else {
-                            controlDetails = yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[componentDetails.name]
+                            controlDetails = yz.componentsAPI.getRuntimeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
                         }
                         fnDetails = controlDetails[methodId]
                     }
