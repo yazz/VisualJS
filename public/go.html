@@ -467,7 +467,7 @@
                     getLoadedControlInCurrentlyEditedApp: async function({baseComponentId}) {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId]
                     },
-                    setLoadedControlInCurrentlyEditedApp: async function({baseComponenetId, value}) {
+                    setLoadedControlInCurrentlyEditedApp: async function({baseComponentId, value}) {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = value
                     },
                     getLoadedControlsMapInCurrentlyEditedApp: async function(controlName) {
@@ -1172,7 +1172,7 @@
                     if (mm.isStaticHtmlPageApp) {
                         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
                             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-                            yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[componentType] = true
+                            yz.componentsAPI.setLoadedControlInCurrentlyEditedApp({baseComponenetId: componentType, value: true})
                             if (this.isStaticHtmlPageApp  &&  this.getCommitIdForBaseComponentId(componentType)  && !this.isComponentLoaded({baseComponentId: componentType})) {
 
                                 let newDataCodeId

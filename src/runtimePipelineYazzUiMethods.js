@@ -1719,9 +1719,9 @@
                     let fnDetails       = null
                     let controlDetails = null
                     if (isComponentInDesignMode) {
-                        controlDetails = yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[componentDetails.name]
+                        controlDetails = yz.componentsAPI.getDesignModeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
                     } else {
-                        controlDetails = yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[componentDetails.name]
+                        controlDetails = yz.componentsAPI.getRuntimeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
                     }
                     fnDetails = controlDetails[methodId]
                     retv =  fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
