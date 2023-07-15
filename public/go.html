@@ -452,28 +452,28 @@
                     loadedControlsMapInCurrentlyEditedApp:           new Object(),   // Which controls are used only in the currently edited app. This is used so that we know what controls to embed if we export the app as HTML
                 },
                 componentsAPI:              {
-                    getDesignModeUiControlNameReturnsVueInstance: async function({controlName}) {
+                    getDesignModeUiControlNameReturnsVueInstance: function({controlName}) {
                         return yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName]
                     },
-                    setDesignModeUiControlNameReturnsVueInstance: async function({controlName, vueInstance}) {
+                    setDesignModeUiControlNameReturnsVueInstance: function({controlName, vueInstance}) {
                         yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
-                    getRuntimeUiControlNameReturnsVueInstance: async function({controlName}) {
+                    getRuntimeUiControlNameReturnsVueInstance: function({controlName}) {
                         return yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName]
                     },
-                    setRuntimeUiControlNameReturnsVueInstance: async function({controlName, vueInstance}) {
+                    setRuntimeUiControlNameReturnsVueInstance: function({controlName, vueInstance}) {
                         yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
-                    getLoadedControlInCurrentlyEditedApp: async function({baseComponentId}) {
+                    getLoadedControlInCurrentlyEditedApp: function({baseComponentId}) {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId]
                     },
-                    setLoadedControlInCurrentlyEditedApp: async function({baseComponentId, value}) {
+                    setLoadedControlInCurrentlyEditedApp: function({baseComponentId, value}) {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = value
                     },
-                    getLoadedControlsMapInCurrentlyEditedApp: async function() {
+                    getLoadedControlsMapInCurrentlyEditedApp: function() {
                         return Object.keys(yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp)
                     },
-                    resetLoadedControlsMapInCurrentlyEditedApp: async function() {
+                    resetLoadedControlsMapInCurrentlyEditedApp: function() {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp = new Object()
                     },
 
