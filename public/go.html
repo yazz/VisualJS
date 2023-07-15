@@ -295,7 +295,7 @@
 
         <script>
             var yz                              = {
-                mainVars:   {
+                mainVars:                   {
                     mainVueApp:                 null,
                     visJsloaded:                false,
                     mousedown:                  false,
@@ -324,7 +324,7 @@
                     localSqliteDb:              null
 
                 },
-                helpers:    {
+                helpers:                    {
                     insertCodeString:               function(  code  ,  st   ,  vall        ,  optionalEnd  ) {
                         let endIndicator = ")"
                         if (optionalEnd) {
@@ -409,7 +409,7 @@
                         return newString
                     }
                 },
-                editor:     {
+                editor:                     {
                     subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
                     editingAppBaseComponentId:                      null,   // Type (BCI) of the currently edited component
                     editingAppCodeId:                               null,   // Commit ID for the currently edited component
@@ -433,7 +433,20 @@
                     originalCodeIdOfEditedUiControl:                null,
                     finalBaseComponentIdOfEditedUiControl:          null,
                     finalCodeIdOfEditedUiControl:                   null
-                }
+                },
+                debug:                      {
+                    writeTextFile:  async function({fileName, fileText}) {
+                        let resultsCode = await postToYazzReturnJson(
+                            "/http_post_save_debug_text_as_file",
+                            {
+                                debugFileName:  fileName,
+                                debugFileText:  fileText
+                            })
+                    }
+
+                },
+                componentsImplementation:   {},
+                componentsAPI:              {}
             }
             var GLOBALS                         = {
                 /* Used to load and query components
@@ -1503,11 +1516,19 @@
                         )
 
                         let fnfn = eval( codeIdVueObjectCode  )
+
+                        yz.debug.writeTextFile(
+                            {
+                                fileName:  "z.txt",
+                                fileText:   codeIdVueObjectCode
+                            })
+
                         if (codeIdVueObjectCode.indexOf("async ")  == -1) {
                             fnfn(codeArgs)
                         } else {
                             await fnfn(codeArgs)
                         }
+
 
                         this.isVueLoadedForCodeId[codeId] = {
                             component_type:     component_type,

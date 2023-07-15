@@ -4616,6 +4616,15 @@ async function  startServices                           (  ) {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({value: fileOut}))
     })
+    app.post(   '/http_post_save_debug_text_as_file',                            async function (req, res) {
+        let debugFileName        = req.body.debugFileName
+        let debugFileText        = req.body.debugFileText
+
+        fs.writeFileSync( debugFileName,  debugFileText.toString() )
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({value: "File written"}))
+    })
     app.get(    '/http_get_bulk_calculate_branch_strength_for_component',   async function (req, res) {
         console.log("app.post('/http_get_bulk_calculate_branch_strength_for_component'): ")
         let baseComponentId = req.query.baseComponentId;
