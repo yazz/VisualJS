@@ -482,7 +482,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                   mm.loaded_app[baseComponentId] = true
                   //GLOBALS.isComponentTypeCached[baseComponentId] = false
-                  GLOBALS.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
+                  yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = false
                   //await makeSureUiComponentLoadedV6(baseComponentId)
                   mm.intro_apps.push( app  )
                   mm.refresh++
