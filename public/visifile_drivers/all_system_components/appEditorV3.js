@@ -1500,7 +1500,6 @@ End of app preview menu
                 }
 
                 if (options.newApp == true) {
-                    yz.componentsAPI.resetLoadedControlsMapInCurrentlyEditedApp()
                     mm.editor_loaded                               = false
                 }
 
@@ -1775,7 +1774,7 @@ End of app preview menu
                         this.editor_text
                         ,
                         {
-                            sub_components:         yz.componentsAPI.getAllLoadedControlBCIsInCurrentlyEditedApp(),
+                            //sub_components:         yz.componentsAPI.getAllLoadedControlBCIsInCurrentlyEditedApp(),
                             save_html:              true,
                             save_code_to_file:      saveCodeToFile,
                             allowAppToWorkOffline:  allowAppToWorkOffline,

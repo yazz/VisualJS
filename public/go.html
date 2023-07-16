@@ -451,7 +451,6 @@
                 componentsImplementation:   {
                     designModeUiControlNameReturnsVueInstance:      {},                         // This is a map from the UI control name to the corresponding Vue object in an edited app
                     runtimeUiControlNameReturnsVueInstance:         {}, // This points to the Vue objects for the components in an app
-                    loadedControlsMapInCurrentlyEditedApp:           new Object(),   // Which controls are used only in the currently edited app. This is used so that we know what controls to embed if we export the app as HTML
                 },
                 componentsAPI:              {
                     getDesignModeUiControlNameReturnsVueInstance:   function({controlName}) {
@@ -466,19 +465,6 @@
                     mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
                         yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
-                    getLoadedControlInCurrentlyEditedApp:           function({baseComponentId}) {
-                        yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId]
-                    },
-                    setLoadedControlInCurrentlyEditedApp:           function({baseComponentId, value}) {
-                        yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = value
-                    },
-                    getAllLoadedControlBCIsInCurrentlyEditedApp:    function() {
-                        return Object.keys(yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp)
-                    },
-                    resetLoadedControlsMapInCurrentlyEditedApp:     function() {
-                        yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp = new Object()
-                    },
-
 
                 }
             }
@@ -1178,7 +1164,6 @@
                     if (mm.isStaticHtmlPageApp) {
                         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
                             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-                            yz.componentsAPI.setLoadedControlInCurrentlyEditedApp({baseComponenetId: componentType, value: true})
                             if (this.isStaticHtmlPageApp  &&  this.getCommitIdForBaseComponentId(componentType)  && !this.isComponentLoaded({baseComponentId: componentType})) {
 
                                 let newDataCodeId
