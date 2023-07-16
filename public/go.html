@@ -455,13 +455,13 @@
                     getDesignModeUiControlNameReturnsVueInstance: function({controlName}) {
                         return yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName]
                     },
-                    setDesignModeUiControlNameReturnsVueInstance: function({controlName, vueInstance}) {
+                    mapDesignTimeControlNameToVueInstance: function({controlName, vueInstance}) {
                         yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
                     getRuntimeUiControlNameReturnsVueInstance: function({controlName}) {
                         return yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName]
                     },
-                    setRuntimeUiControlNameReturnsVueInstance: function({controlName, vueInstance}) {
+                    mapDesignTimeControlNameToVueInstance: function({controlName, vueInstance}) {
                         yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
                     getLoadedControlInCurrentlyEditedApp: function({baseComponentId}) {
@@ -2184,9 +2184,9 @@
                     if (isValidObject(usePropVar)) {
                         if (isValidObject(usePropVar.name)) {
                             if (vueComponentObject.design_mode) {
-                                yz.componentsAPI.setDesignModeUiControlNameReturnsVueInstance(  {controlName: usePropVar.name, vueInstance: vueComponentObject})
+                                yz.componentsAPI.mapDesignTimeControlNameToVueInstance(  {controlName: usePropVar.name, vueInstance: vueComponentObject})
                             } else {
-                                yz.componentsAPI.setRuntimeUiControlNameReturnsVueInstance(     {controlName: usePropVar.name, vueInstance: vueComponentObject})
+                                yz.componentsAPI.mapDesignTimeControlNameToVueInstance(     {controlName: usePropVar.name, vueInstance: vueComponentObject})
                             }
                         }
 
@@ -2206,8 +2206,8 @@
                 }
             }
             function        unregisterComponent                 (   componentName   ) {
-                yz.componentsAPI.setDesignModeUiControlNameReturnsVueInstance(  {controlName: componentName, vueInstance: null})
-                yz.componentsAPI.setRuntimeUiControlNameReturnsVueInstance(     {controlName: componentName, vueInstance: null})
+                yz.componentsAPI.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
+                yz.componentsAPI.mapDesignTimeControlNameToVueInstance(     {controlName: componentName, vueInstance: null})
             }
             async function  initFn                              (   ) {
                 setTimeout(async function(){
