@@ -1774,7 +1774,6 @@ End of app preview menu
                         this.editor_text
                         ,
                         {
-                            //sub_components:         yz.componentsAPI.getAllLoadedControlBCIsInCurrentlyEditedApp(),
                             save_html:              true,
                             save_code_to_file:      saveCodeToFile,
                             allowAppToWorkOffline:  allowAppToWorkOffline,

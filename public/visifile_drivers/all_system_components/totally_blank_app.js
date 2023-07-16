@@ -37,17 +37,6 @@ formEditor({
 })//formEditor
 component_type("SYSTEM")
 runtime_pipeline(["APP"])
-sub_components([
-  "app_editor_3",
-  "vb_editor_component",
-  "input_control",
-  "button_control",
-  "label_control",
-  "table_control",
-  "group_control",
-  "horiz_scroll_control",
-  "vert_scroll_control"
-])
 base_component_id("totally_blank_app")
 visibility("PRIVATE")
 display_name("GUI App")

@@ -3060,22 +3060,6 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
             }
 
             // app helpers
-            async function  getSubComponents                    (   srcCode   ) {
-                let subC = yz.helpers.getValueOfCodeString(srcCode,"sub_components")
-                if (!subC) {
-                    return []
-                }
-                let retRes = []
-                for (let subComponent  of  subC) {
-                    if (typeof subComponent === 'string' || subComponent instanceof String) {
-                        retRes.push({child_base_component_id: subComponent})
-                    } else {
-                        retRes.push(subComponent)
-                    }
-                }
-
-                return retRes
-            }
             function        appSetInterval                      (   fnn   ,   interval   ) {
                 var xx = setInterval(fnn,interval)
                 appIntervalTimers.push(xx)
@@ -4245,7 +4229,6 @@ Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
                     value: {
                         code:       code,
                         options:    {
-                                        sub_components:         options.sub_components,
                                         save_html:              true,
                                         save_code_to_file:      options.saveCodeToFile,
                                         allowAppToWorkOffline:  options.allowAppToWorkOffline,

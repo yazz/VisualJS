@@ -66,14 +66,6 @@ formEditor({
 })//formEditor
 component_type("APP")
 runtime_pipeline(["APP"])
-sub_components([
-  "app_editor_3",
-  "vb_editor_component",
-  "input_control",
-  "button_control",
-  "label_control",
-  "timer_control"
-])
 base_component_id("demo_timer")
 visibility("PUBLIC")
 display_name("Timer demo")
