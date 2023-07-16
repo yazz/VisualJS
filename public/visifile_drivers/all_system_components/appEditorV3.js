@@ -1771,7 +1771,7 @@ End of app preview menu
                         this.editor_text = GLOBALS.enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
                     }
                     let baseCompIdFromSrcCode = yz.helpers.getValueOfCodeString(this.editor_text,"base_component_id")
-                    await yz.mainVars.saveCodeViaWebWorker(
+                    await yz.savingCode.saveCodeViaWebWorker(
                         this.editor_text
                         ,
                         {

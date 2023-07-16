@@ -300,8 +300,6 @@
                     mainVueApp:                 null,
                     visJsloaded:                false,
                     mousedown:                  false,
-                    saveCodeViaWebWorker:       null,
-                    worker:                     null,
                     ipfs:                       null,
                     web3loaded:                 false,
                     disableAutoSave:            false,
@@ -410,6 +408,10 @@
                         return newString
                     }
                 },
+                savingCode:                 {
+                    saveCodeViaWebWorker:       null,
+                    worker:                     null,
+                },
                 editor:                     {
                     subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
                     editingAppBaseComponentId:                      null,   // Type (BCI) of the currently edited component
@@ -452,28 +454,28 @@
                     loadedControlsMapInCurrentlyEditedApp:           new Object(),   // Which controls are used only in the currently edited app. This is used so that we know what controls to embed if we export the app as HTML
                 },
                 componentsAPI:              {
-                    getDesignModeUiControlNameReturnsVueInstance: function({controlName}) {
+                    getDesignModeUiControlNameReturnsVueInstance:   function({controlName}) {
                         return yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName]
                     },
-                    mapDesignTimeControlNameToVueInstance: function({controlName, vueInstance}) {
+                    mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
                         yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
-                    getRuntimeUiControlNameReturnsVueInstance: function({controlName}) {
+                    getRuntimeUiControlNameReturnsVueInstance:      function({controlName}) {
                         return yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName]
                     },
-                    mapDesignTimeControlNameToVueInstance: function({controlName, vueInstance}) {
+                    mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
                         yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
-                    getLoadedControlInCurrentlyEditedApp: function({baseComponentId}) {
+                    getLoadedControlInCurrentlyEditedApp:           function({baseComponentId}) {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId]
                     },
-                    setLoadedControlInCurrentlyEditedApp: function({baseComponentId, value}) {
+                    setLoadedControlInCurrentlyEditedApp:           function({baseComponentId, value}) {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp[baseComponentId] = value
                     },
-                    getLoadedControlsMapInCurrentlyEditedApp: function() {
+                    getLoadedControlsMapInCurrentlyEditedApp:       function() {
                         return Object.keys(yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp)
                     },
-                    resetLoadedControlsMapInCurrentlyEditedApp: function() {
+                    resetLoadedControlsMapInCurrentlyEditedApp:     function() {
                         yz.componentsImplementation.loadedControlsMapInCurrentlyEditedApp = new Object()
                     },
 
@@ -2037,14 +2039,14 @@
                 ], { type: "text/javascript" })
 
                 // Note: window.webkitURL.createObjectURL() in Chrome 10+.
-                yz.mainVars.worker = new Worker(window.URL.createObjectURL(blob));
-                yz.mainVars.worker.onmessage = function(e) {
+                yz.savingCode.worker = new Worker(window.URL.createObjectURL(blob));
+                yz.savingCode.worker.onmessage = function(e) {
                     console.log("Received: " + e.data);
                 }
 
 
-                yz.mainVars.saveCodeViaWebWorker = async function(code, options) {
-                    yz.mainVars.worker.postMessage(
+                yz.savingCode.saveCodeViaWebWorker = async function(code, options) {
+                    yz.savingCode.worker.postMessage(
                         {
                             hostPort:       $HOSTPORT,
                             host:           $HOST,
