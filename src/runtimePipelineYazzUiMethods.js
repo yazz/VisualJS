@@ -5556,34 +5556,14 @@ return {}
                 mm.selectComponent(old_active_component_index, true)
 
             },
-            setWatchComponent:                      function        (event) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-
+            setWatchComponent:                      function        ({controlUuid}) {
                 let mm      = this
-                let val     = null
-                let type    = null
 
-//debugger
-                this.selectedWatchComponentUuid = event.target.value
                 this.selectedWatchFromProperties = []
-                let ccomp =  this.form_runtime_info[mm.active_form].component_lookup_by_uuid[this.selectedWatchComponentUuid]
+                let ccomp =  mm.form_runtime_info[mm.active_form].component_lookup_by_uuid[controlUuid]
                 let ccomkeys = Object.keys(ccomp)
                 for (let aaa =0; aaa<ccomkeys.length;aaa++) {
-                    this.selectedWatchFromProperties.push(ccomkeys[aaa])
+                    mm.selectedWatchFromProperties.push(ccomkeys[aaa])
                 }
             },
             setIncomingFormWatchComponent:          function        (event) {

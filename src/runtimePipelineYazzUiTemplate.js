@@ -1382,7 +1382,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
           <td style='vertical-align: top; width: 50%;'>
               <div    style="margin:5px;height:150px;">
                   <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
-                  <select  @change='setWatchComponent($event)'  style='margin:7px;'>
+                  <select  @change='setWatchComponent({controlUuid: $event.target.value})'  style='margin:7px;'>
                       <option     value=""
                                   selected="true">
                       </option>
