@@ -465,6 +465,7 @@
                     mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
                         yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
+                    isVueLoadedForCodeId:                           {},                   // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
 
                 }
             }
@@ -482,10 +483,8 @@
 
 
                 //
-                // This is a true/false hashmap for whether a Vue component is loaded based
-                // on the Code ID
                 //
-                isVueLoadedForCodeId:                           {},
+
 
                 //
                 // current base_component_id of the app being run
@@ -1243,7 +1242,7 @@
 
                                     for (var i=0; i< sdf.length; i++) {
                                         let codeId = await getIpfsHash(  sdf[i].code  )
-                                        if (isValidObject(mm.isVueLoadedForCodeId[codeId])) {
+                                        if (isValidObject(yz.componentsAPI.isVueLoadedForCodeId[codeId])) {
                                             returnfn({})
                                         }
 
@@ -1536,7 +1535,7 @@
                         }
 
 
-                        this.isVueLoadedForCodeId[codeId] = {
+                        yz.componentsAPI.isVueLoadedForCodeId[codeId] = {
                             component_type:     component_type,
                             base_component_id:  baseComponentId
                         }
@@ -2590,8 +2589,8 @@
                             <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
                           <pre style="color: white; overflow: scroll; height: 50%;">
 
-Code Ids: (GLOBALS.isVueLoadedForCodeId[ ... ])
-{{ GLOBALS.isVueLoadedForCodeId }}
+Code Ids: (yz.componentsAPI.isVueLoadedForCodeId[ ... ])
+{{ yz.componentsAPI.isVueLoadedForCodeId }}
 
                           </pre>
                         </div>
