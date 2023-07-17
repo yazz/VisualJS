@@ -466,7 +466,15 @@
                     mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
                         yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
-
+                    getVueComponentInfo:                            function({codeId}) {
+                        return yz.componentsImplementation.codeIdToVueComponentInfo[codeId]
+                    },
+                    setVueComponentInfo:                            function ({codeId, vueInfo}) {
+                        yz.componentsImplementation.codeIdToVueComponentInfo[codeId] = vueInfo
+                    },
+                    getVueInfoForAllLoadedComponents:               function() {
+                        return yz.componentsImplementation.codeIdToVueComponentInfo
+                    }
                 }
             }
             var GLOBALS                         = {
@@ -1242,7 +1250,8 @@
 
                                     for (var i=0; i< sdf.length; i++) {
                                         let codeId = await getIpfsHash(  sdf[i].code  )
-                                        if (isValidObject(yz.componentsImplementation.codeIdToVueComponentInfo[codeId])) {
+                                        if (isValidObject(yz.componentsAPI.getVueComponentInfo({codeId: codeId})))
+                                        {
                                             returnfn({})
                                         }
 
@@ -1535,10 +1544,13 @@
                         }
 
 
-                        yz.componentsImplementation.codeIdToVueComponentInfo[codeId] = {
-                            component_type:     component_type,
-                            base_component_id:  baseComponentId
-                        }
+                        yz.componentsAPI.setVueComponentInfo({
+                            codeId:     codeId,
+                            vueInfo:    {
+                                            component_type:     component_type,
+                                            base_component_id:  baseComponentId
+                                        }
+                        })
 
                     } catch (runtimeError) {
                         console.log("runtime err: " + runtimeError)
@@ -2589,8 +2601,8 @@
                             <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
                           <pre style="color: white; overflow: scroll; height: 50%;">
 
-Code Ids: (yz.componentsImplementation.codeIdToVueComponentInfo[ ... ])
-{{ yz.componentsImplementation.codeIdToVueComponentInfo }}
+Code Ids: (yz.componentsAPI.getVueInfoForAllLoadedComponents())
+{{ yz.componentsAPI.getVueInfoForAllLoadedComponents() }}
 
                           </pre>
                         </div>
