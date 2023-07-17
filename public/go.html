@@ -466,6 +466,7 @@
                     mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
                         yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
                     },
+
                     getVueComponentInfo:                            function({codeId}) {
                         return yz.componentsImplementation.codeIdToVueComponentInfo[codeId]
                     },
@@ -486,21 +487,6 @@
                 app editors. So instead of having global variables all over the place
                 we have decided to just have one global object
                  ----------------------------------------------------------------------- */
-
-
-
-
-                //
-                //
-
-
-                //
-                // current base_component_id of the app being run
-                // This can confuse people as when editing an app the "base_component_id" is
-                // set to "homepage" as that is the main app being run. The editor is run on
-                // top of that
-                //
-                base_component_id_of_main_runtime_component:    null,
 
                 //
                 // properties on UI components where the output of one property is linked to
@@ -3173,7 +3159,6 @@ Code Ids: (yz.componentsAPI.getVueInfoForAllLoadedComponents())
             // Load app into UI fns
             async function  prepareApp                          (   id   ,  bbase_component_id   ,  args  ) {
                 base_component_id                                   = bbase_component_id
-                GLOBALS.base_component_id_of_main_runtime_component = bbase_component_id
 
                 let rootElement = "app_" + id
                 if ((yz.mainVars.mainVueApp.cards[id - 1].card.base_component_id != base_component_id) ||
