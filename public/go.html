@@ -454,40 +454,33 @@
                     codeIdToVueComponentInfo:                           {},   // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
                 },
                 componentsAPI:              {
-                    getDesignModeUiControlNameReturnsVueInstance:   function({controlName}) {
-                        return yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName]
-                    },
-                    mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
-                        yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName] = vueInstance
-                    },
-                    getRuntimeUiControlNameReturnsVueInstance:      function({controlName}) {
-                        return yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName]
-                    },
-                    mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
-                        yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
-                    },
+                    vue: {
+                        getDesignModeUiControlNameReturnsVueInstance:   function({controlName}) {
+                            return yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName]
+                        },
+                        mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
+                            yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName] = vueInstance
+                        },
+                        getRuntimeUiControlNameReturnsVueInstance:      function({controlName}) {
+                            return yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName]
+                        },
+                        mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
+                            yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
+                        },
 
-                    getVueComponentInfo:                            function({codeId}) {
-                        return yz.componentsImplementation.codeIdToVueComponentInfo[codeId]
-                    },
-                    setVueComponentInfo:                            function ({codeId, vueInfo}) {
-                        yz.componentsImplementation.codeIdToVueComponentInfo[codeId] = vueInfo
-                    },
-                    getVueInfoForAllLoadedComponents:               function() {
-                        return yz.componentsImplementation.codeIdToVueComponentInfo
+                        getVueComponentInfo:                            function({codeId}) {
+                            return yz.componentsImplementation.codeIdToVueComponentInfo[codeId]
+                        },
+                        setVueComponentInfo:                            function ({codeId, vueInfo}) {
+                            yz.componentsImplementation.codeIdToVueComponentInfo[codeId] = vueInfo
+                        },
+                        getVueInfoForAllLoadedComponents:               function() {
+                            return yz.componentsImplementation.codeIdToVueComponentInfo
+                        }
                     }
                 }
             }
             var GLOBALS                         = {
-                /* Used to load and query components
-                -----------------------------------------------------------------------
-                GLOBALS
-                ----------------------------------
-                There seems to be alot of specialised, but global communication in the
-                app editors. So instead of having global variables all over the place
-                we have decided to just have one global object
-                 ----------------------------------------------------------------------- */
-
                 //
                 // properties on UI components where the output of one property is linked to
                 // the input of another property
@@ -1236,7 +1229,7 @@
 
                                     for (var i=0; i< sdf.length; i++) {
                                         let codeId = await getIpfsHash(  sdf[i].code  )
-                                        if (isValidObject(yz.componentsAPI.getVueComponentInfo({codeId: codeId})))
+                                        if (isValidObject(yz.componentsAPI.vue.getVueComponentInfo({codeId: codeId})))
                                         {
                                             returnfn({})
                                         }
@@ -1530,7 +1523,7 @@
                         }
 
 
-                        yz.componentsAPI.setVueComponentInfo({
+                        yz.componentsAPI.vue.setVueComponentInfo({
                             codeId:     codeId,
                             vueInfo:    {
                                             component_type:     component_type,
@@ -2170,9 +2163,9 @@
                     if (isValidObject(usePropVar)) {
                         if (isValidObject(usePropVar.name)) {
                             if (vueComponentObject.design_mode) {
-                                yz.componentsAPI.mapDesignTimeControlNameToVueInstance(  {controlName: usePropVar.name, vueInstance: vueComponentObject})
+                                yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: usePropVar.name, vueInstance: vueComponentObject})
                             } else {
-                                yz.componentsAPI.mapDesignTimeControlNameToVueInstance(     {controlName: usePropVar.name, vueInstance: vueComponentObject})
+                                yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(     {controlName: usePropVar.name, vueInstance: vueComponentObject})
                             }
                         }
 
@@ -2192,8 +2185,8 @@
                 }
             }
             function        unregisterComponent                 (   componentName   ) {
-                yz.componentsAPI.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
-                yz.componentsAPI.mapDesignTimeControlNameToVueInstance(     {controlName: componentName, vueInstance: null})
+                yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
+                yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(     {controlName: componentName, vueInstance: null})
             }
             async function  initFn                              (   ) {
                 setTimeout(async function(){
@@ -2587,8 +2580,8 @@
                             <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
                           <pre style="color: white; overflow: scroll; height: 50%;">
 
-Code Ids: (yz.componentsAPI.getVueInfoForAllLoadedComponents())
-{{ yz.componentsAPI.getVueInfoForAllLoadedComponents() }}
+Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
+{{ yz.componentsAPI.vue.getVueInfoForAllLoadedComponents() }}
 
                           </pre>
                         </div>
