@@ -95,8 +95,8 @@ disableHighlightEditableApp:                    {{ disableHighlightEditableApp }
                   <pre>
     <div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
     
-Code Ids: (yz.componentsAPI.isVueLoadedForCodeId[ ... ])
-{{ yz.componentsAPI.isVueLoadedForCodeId }}
+Code Ids: (yz.componentsImplementation.codeIdToVueComponentInfo[ ... ])
+{{ yz.componentsImplementation.codeIdToVueComponentInfo }}
     
                   </pre>
                 </div>
