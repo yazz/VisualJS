@@ -553,6 +553,8 @@
                     return "Error: No Type Name"
                 },
                 getTypeDisplayIcon:             function        (   args   ) {
+                    console.assert(true, "Error");
+
                     let codeId = null
                     if ((args.codeId == null) || (args.codeId == "")) {
                         codeId = this.getCommitIdForBaseComponentId(args.baseComponentId)
