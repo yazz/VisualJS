@@ -449,9 +449,10 @@
 
                 },
                 componentsImplementation:   {
-                    designModeUiControlNameReturnsVueInstance:      {},                         // This is a map from the UI control name to the corresponding Vue object in an edited app
-                    runtimeUiControlNameReturnsVueInstance:         {}, // This points to the Vue objects for the components in an app
-                    codeIdToVueComponentInfo:                           {},   // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
+                    designModeUiControlNameReturnsVueInstance:      {},             // This is a map from the UI control name to the corresponding Vue object in an edited app
+                    runtimeUiControlNameReturnsVueInstance:         {},             // This points to the Vue objects for the components in an app
+                    codeIdToVueComponentInfo:                       {},             // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
+                    linkedControlProperties:                         new Object(),  // properties on UI components where the output of one property is linked to  the input of another property
                 },
                 componentsAPI:              {
                     vue: {
@@ -471,7 +472,7 @@
                         getVueComponentInfo:                            function({codeId}) {
                             return yz.componentsImplementation.codeIdToVueComponentInfo[codeId]
                         },
-                        setVueComponentInfo:                            function ({codeId, vueInfo}) {
+                        setVueComponentInfo:                            function({codeId, vueInfo}) {
                             yz.componentsImplementation.codeIdToVueComponentInfo[codeId] = vueInfo
                         },
                         getVueInfoForAllLoadedComponents:               function() {
@@ -481,11 +482,6 @@
                 }
             }
             var GLOBALS                         = {
-                //
-                // properties on UI components where the output of one property is linked to
-                // the input of another property
-                //
-                linkedProperties:                               new Object(),
 
                 //
                 // This contains the engines that allows components to be decorated at
@@ -803,10 +799,10 @@
                         |    indexComponent
                         |_________________________
                                                  | Set up a blank entry for this
-                                                 | component in the "linkedProperties"
+                                                 | component in the "linkedControlProperties"
                                                  | data structure
                                                  |__________________________________ */
-                        this.linkedProperties[  typeName ] = {
+                        yz.componentsImplementation.linkedControlProperties[  typeName ] = {
                             incoming: {
                                 me: {},
                                 them: {}
@@ -873,46 +869,46 @@
                                                                         if (otherPropertyType == acceptType) {
 
                                                                             //console.log("        Found Match for " + acceptType)
-                                                                            if (!this.linkedProperties[typeName].incoming.them[otherComponentName]) {
-                                                                                this.linkedProperties[typeName].incoming.them[otherComponentName] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].incoming.them[otherComponentName]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].incoming.them[otherComponentName] = {}
                                                                             }
-                                                                            if (!this.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id]) {
-                                                                                this.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].incoming.them[otherComponentName][otherProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].incoming.them[otherComponentName][otherProperty.id] = {}
                                                                             }
-                                                                            this.linkedProperties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                                            yz.componentsImplementation.linkedControlProperties[typeName].incoming.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-                                                                            if (!this.linkedProperties[typeName].incoming.me[oneProperty.id]) {
-                                                                                this.linkedProperties[typeName].incoming.me[oneProperty.id] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].incoming.me[oneProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].incoming.me[oneProperty.id] = {}
                                                                             }
-                                                                            if (!this.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
-                                                                                this.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName] = {}
-                                                                            }
-
-                                                                            this.linkedProperties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
-
-                                                                            if (!this.linkedProperties[otherComponentName].outgoing.them[typeName]) {
-                                                                                this.linkedProperties[otherComponentName].outgoing.them[typeName] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].incoming.me[oneProperty.id][otherComponentName]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].incoming.me[oneProperty.id][otherComponentName] = {}
                                                                             }
 
-                                                                            if (!this.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
-                                                                                this.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
+                                                                            yz.componentsImplementation.linkedControlProperties[typeName].incoming.me[oneProperty.id][otherComponentName][otherProperty.id] = true
+
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.them[typeName]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.them[typeName] = {}
                                                                             }
-                                                                            if (!this.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
-                                                                                this.linkedProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
+
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.them[typeName][oneProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.them[typeName][oneProperty.id] = {}
+                                                                            }
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.them[typeName][oneProperty.id][otherProperty.id] = true
                                                                             }
 
 
-                                                                            if (!this.linkedProperties[otherComponentName].outgoing.me) {
-                                                                                this.linkedProperties[otherComponentName].outgoing.me = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.me) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.me = {}
                                                                             }
-                                                                            if (!this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id]) {
-                                                                                this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.me[otherProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.me[otherProperty.id] = {}
                                                                             }
-                                                                            if (!this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
-                                                                                this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.me[otherProperty.id][typeName]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.me[otherProperty.id][typeName] = {}
                                                                             }
-                                                                            if (!this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
-                                                                                this.linkedProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].outgoing.me[otherProperty.id][typeName][oneProperty.id] = true
                                                                             }
 
 
@@ -951,49 +947,49 @@
                                                                         if (otherPropertyAcceptType == myType) {
                                                                             //debugger
                                                                             //console.log("        Found Match for " + myType)
-                                                                            if (!this.linkedProperties[typeName].outgoing.them[otherComponentName]) {
-                                                                                this.linkedProperties[typeName].outgoing.them[otherComponentName] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].outgoing.them[otherComponentName]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].outgoing.them[otherComponentName] = {}
                                                                             }
-                                                                            if (!this.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
-                                                                                this.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].outgoing.them[otherComponentName][otherProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].outgoing.them[otherComponentName][otherProperty.id] = {}
                                                                             }
-                                                                            this.linkedProperties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
+                                                                            yz.componentsImplementation.linkedControlProperties[typeName].outgoing.them[otherComponentName][otherProperty.id][oneProperty.id] = true
 
-                                                                            if (!this.linkedProperties[typeName].outgoing.me) {
-                                                                                this.linkedProperties[typeName].outgoing.me = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].outgoing.me) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].outgoing.me = {}
                                                                             }
-                                                                            if (!this.linkedProperties[typeName].outgoing.me[oneProperty.id]) {
-                                                                                this.linkedProperties[typeName].outgoing.me[oneProperty.id] = {}
-                                                                            }
-
-                                                                            if (!this.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
-                                                                                this.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
-                                                                            }
-                                                                            this.linkedProperties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
-
-
-                                                                            if (!this.linkedProperties[otherComponentName].incoming.them[typeName]) {
-                                                                                this.linkedProperties[otherComponentName].incoming.them[typeName] = {}
-                                                                            }
-                                                                            if (!this.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
-                                                                                this.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id] = {}
-                                                                            }
-                                                                            if (!this.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
-                                                                                this.linkedProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].outgoing.me[oneProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].outgoing.me[oneProperty.id] = {}
                                                                             }
 
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[typeName].outgoing.me[oneProperty.id][otherComponentName]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[typeName].outgoing.me[oneProperty.id][otherComponentName] = {}
+                                                                            }
+                                                                            yz.componentsImplementation.linkedControlProperties[typeName].outgoing.me[oneProperty.id][otherComponentName][otherProperty.id] = true
 
-                                                                            if (!this.linkedProperties[otherComponentName].incoming.me) {
-                                                                                this.linkedProperties[otherComponentName].incoming.me = {}
+
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.them[typeName]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.them[typeName] = {}
                                                                             }
-                                                                            if (!this.linkedProperties[otherComponentName].incoming.me[otherProperty.id]) {
-                                                                                this.linkedProperties[otherComponentName].incoming.me[otherProperty.id] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.them[typeName][oneProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.them[typeName][oneProperty.id] = {}
                                                                             }
-                                                                            if (!this.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
-                                                                                this.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.them[typeName][oneProperty.id][otherProperty.id] = true
                                                                             }
-                                                                            if (!this.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
-                                                                                this.linkedProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
+
+
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.me) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.me = {}
+                                                                            }
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.me[otherProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.me[otherProperty.id] = {}
+                                                                            }
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.me[otherProperty.id][typeName]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.me[otherProperty.id][typeName] = {}
+                                                                            }
+                                                                            if (!yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id]) {
+                                                                                yz.componentsImplementation.linkedControlProperties[otherComponentName].incoming.me[otherProperty.id][typeName][oneProperty.id] = true
                                                                             }
 
 
@@ -3959,7 +3955,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
             /*
             creates the following:
 
-            GLOBALS.linkedProperties = {
+            yz.componentsImplementation.linkedControlProperties = {
             horiz_scroll_control: {
             outgoing: {
             me: {
