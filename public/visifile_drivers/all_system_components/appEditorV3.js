@@ -289,7 +289,7 @@ ___________
                              Icon editor
                         
                         ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-on:click='setTimeout(async function(){await switchEditor("icon_editor_component")},100)'
                        v-if="show_download_save"
@@ -299,7 +299,7 @@ ___________
 
                     <img
                         src='/driver_icons/icon.png'
-                        style='height:35px; margin-right: 10px;'
+                        style='height:35px; margin-right: 0px;'
                         class='img-fluid'>
                     </img>
                     Icon
@@ -312,7 +312,7 @@ ___________
                        Download
                   
                   ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
                        download
@@ -323,7 +323,7 @@ ___________
 
                     <img
                         src='/driver_icons/download.png'
-                        style='height:35px; margin-right: 10px;'
+                        style='height:35px; margin-right: 0px;'
                         class='img-fluid'>
                     </img>
                     Download
@@ -331,7 +331,7 @@ ___________
                   </a>
                   
                   
-                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-on:click='setTimeout(async function(){await switchEditor("history_viewer_component")},100)'
                        v-if="show_download_save"
@@ -341,7 +341,7 @@ ___________
 
                     <img
                         src='/driver_icons/history2.png'
-                        style='height:35px; margin-right: 10px;'
+                        style='height:35px; margin-right: 0px;'
                         class='img-fluid'>
                     </img>
                     History
@@ -360,7 +360,7 @@ ___________
                       The bookmark will be a timestamp by default
                   
                   ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-on:click='setTimeout(async function(){appClearIntervals();await bookmarkCode()},100)'
                        v-if="show_download_save"
@@ -370,7 +370,7 @@ ___________
 
                     <img
                         src='/driver_icons/bookmark.png'
-                        style='height:35px; margin-right: 10px;'
+                        style='height:35px; margin-right: 0px;'
                         class='img-fluid'>
                     </img>
                     Bookmark
@@ -384,7 +384,7 @@ ___________
                       GO LIVE BUTTON
                   
                   ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
                        v-on:click='setTimeout(async function(){appClearIntervals();await releaseCode()},100)'
                        v-if="show_download_save"
@@ -407,7 +407,7 @@ ___________
 
 
 
-                    <button   v-bind:style="'margin-left:20px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){closeSubEditor()},100)'
                               v-if="editor_overloaded"
                               v-on:mouseenter='setInfo("Back to editor")'
@@ -441,11 +441,25 @@ ___________
                     </button>
 
 
+                  <button   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                            v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
+                            v-on:mouseleave='setInfo(null)'
+                            v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
+                            type="button" class="btn  btn-primary"
+                            v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
+
+                    <img
+                        src='/driver_icons/remix.png'
+                        style='height:35px; margin-right: 0px;'
+                        class='img-fluid'>
+                    </img>Remix
+
+                  </button>
 
 
 
                     <button   v-bind:disabled='read_only?"":false'
-                              v-bind:style="'margin-left:50px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                              v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
@@ -455,27 +469,13 @@ ___________
 
                               <img
                                   src='/driver_icons/save.png'
-                                  style='height:35px; margin-right: 10px;'
+                                  style='height:35px; margin-right: 0px;'
                                   class='img-fluid'>
                               </img>{{saveCodeToFile?"Save":"Save"}}
 
                     </button>
 
 
-                    <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
-                              v-on:mouseleave='setInfo(null)'
-                              v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
-                              type="button" class="btn  btn-primary"
-                              v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
-
-                              <img
-                                  src='/driver_icons/remix.png'
-                                  style='height:35px; margin-right: 10px;'
-                                  class='img-fluid'>
-                              </img>Remix
-
-                    </button>
 
 
                   

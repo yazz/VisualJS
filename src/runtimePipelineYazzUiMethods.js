@@ -776,11 +776,12 @@
                 //
 
                 setTimeout(function(){
-                    mm.design_mode_pane.type                   = "event_editor"
-                    mm.design_mode_pane.app_selected           = aa.app_selected
-                    mm.design_mode_pane.active_form            = aa.active_form
-                    mm.design_mode_pane.active_component_index = aa.active_component_index
-                    mm.design_mode_pane.property_id            = aa.property_id
+                    mm.design_mode_pane.type                    = "event_editor"
+                    mm.design_mode_pane.app_selected            = aa.app_selected
+                    mm.design_mode_pane.active_form             = aa.active_form
+                    mm.design_mode_pane.active_component_index  = aa.active_component_index
+                    mm.design_mode_pane.property_id             = aa.property_id
+                    yz.mainVars.disableAutoSave                 = true
 
                     setTimeout(function(){
                         if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
@@ -3372,7 +3373,12 @@ ${eventMessage.code}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                this.design_mode_pane.type = "drag_drop";
+                this.design_mode_pane.type          = "drag_drop";
+                yz.mainVars.disableAutoSave         = false
+                this.active_component_detail_name   = null
+                this.active_component_detail_index  = null
+                this.active_component_links_name    = null
+                this.active_component_links_index   = null
                 if (this.ui_code_editor) {
                     if (this.ui_code_editor.completer) {
                         this.ui_code_editor.completer.detach()
@@ -3380,11 +3386,6 @@ ${eventMessage.code}
                     this.ui_code_editor.destroy()
                     this.ui_code_editor = null
                 }
-                this.active_component_detail_name = null
-                this.active_component_detail_index = null
-                this.active_component_links_name = null
-                this.active_component_links_index = null
-
             },
             chooseRight:                            function        (  ff  ) {
                 /*
