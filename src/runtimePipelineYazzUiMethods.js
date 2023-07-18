@@ -1183,25 +1183,9 @@
                 let mm = this
                 mm.add_property = false
             },
-            recalcComponentLinks:                   async function  (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                let mm = this
-//debugger
-                mm.incoming_link_objects = []
+            recalcControlPropertyLinksAvailableInUI:                   async function  (  ) {
+                let mm                      = this
+                mm.incoming_link_objects    = []
 
                 let ccc = mm.model.forms[mm.active_form].components
                 for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
@@ -1228,12 +1212,9 @@
                         }
 
                     }
-
-
                 }
 
 
-//debugger
                 mm.outgoing_link_objects = []
 
                 for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
@@ -1323,7 +1304,7 @@
                             }
                         }
 
-                    } else if (mm.design_mode_pane.direction=="incoming") {
+                    } else if (mm.design_mode_pane.direction == "incoming") {
                         mm.selectedWatchToProperties = []
                         let typeSelected = this.model.forms[this.active_form].components[this.active_component_links_index].base_component_id
                         if (yz.componentsImplementation.treeOfPossibleControlPropertyLinks[typeSelected]) {
@@ -1334,17 +1315,11 @@
                                     for (let aaa =0; aaa<ccomkeys2.length;aaa++) {
                                         mm.selectedWatchToProperties.push(ccomkeys2[aaa])
                                     }
-
                                 }
                             }
-
                         }
-
                     }
-
-
-
-                    //selectedWatchToProperties
+                //selectedWatchToProperties
                 } else if (mm.design_mode_pane.links_type == "manual") {
 
                     let ccomp2 =  mm.model.forms[mm.active_form].components[mm.active_component_index]
@@ -1353,8 +1328,6 @@
                         mm.selectedPushFromProperties.push(ccomkeys2[aaa])
                     }
                 }
-
-
 
                 mm.refresh++
             },
@@ -5403,7 +5376,7 @@ return {}
                 mm.selectedPushToProperty        = null
                 mm.selectedPushTransformFn        = null
                 mm.selectedPushComponentType = null
-                await mm.recalcComponentLinks()
+                await mm.recalcControlPropertyLinksAvailableInUI()
             },
             addWatch:                               function        () {
                 /*
@@ -6246,7 +6219,7 @@ return {}
 
 
                 mm.selected_link_component_type = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
-                await mm.recalcComponentLinks()
+                await mm.recalcControlPropertyLinksAvailableInUI()
                 //alert()
 
                 setTimeout(function() {
