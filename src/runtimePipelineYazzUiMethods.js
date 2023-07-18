@@ -5376,7 +5376,7 @@ return {}
 
 
             },
-            clearLinks:                             async function  () {
+            clearAllControlPropertyLinkFields:      async function  () {
                 /*
                 ________________________________________
                 |                                      |
@@ -5448,7 +5448,7 @@ return {}
                 mm.updateAllFormCaches()
                 mm.showSaveButton()
 
-                mm.clearLinks()
+                mm.clearAllControlPropertyLinkFields()
 
             },
             addNewComponentPush:                    async function  () {
@@ -6237,7 +6237,7 @@ return {}
                 mm.design_mode_pane.type = "control_links_editor"
                 mm.design_mode_pane.direction = diretionOfLinks
                 mm.design_mode_pane.links_type = "form"
-                mm.clearLinks();
+                mm.clearAllControlPropertyLinkFields();
 
                 this.active_component_links_index = index;
                 this.active_component_links_name = this.model.forms[this.active_form].components[index].name;

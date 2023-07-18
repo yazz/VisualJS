@@ -531,7 +531,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
   <li class="nav-item" style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "form"?"active":""  )'
         id="links-form-tab"
-        v-on:click='design_mode_pane.links_type = "form";clearLinks();refresh++;'
+        v-on:click='design_mode_pane.links_type = "form";clearAllControlPropertyLinkFields();refresh++;'
         data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Form</a>
   </li>
 
@@ -539,7 +539,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
   <li class="nav-item"  style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "create_new_component"?"active":""  )'
         id="links-create-new-component-tab"
-        v-on:click='design_mode_pane.links_type = "create_new_component";clearLinks();refresh++;'
+        v-on:click='design_mode_pane.links_type = "create_new_component";clearAllControlPropertyLinkFields();refresh++;'
         data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Create New</a>
   </li>
 
@@ -547,7 +547,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
   <li class="nav-item"  style="width:30%">
     <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "manual"?"active":""  )'
         id="manual-links-tab"
-        v-on:click='design_mode_pane.links_type = "manual";clearLinks();refresh++;'
+        v-on:click='design_mode_pane.links_type = "manual";clearAllControlPropertyLinkFields();refresh++;'
         data-toggle="tab" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
   </li>
 
@@ -768,7 +768,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                   <button type=button class='btn btn-sm btn-warning'
                           v-bind:style='""'
-                          v-on:click='$event.stopPropagation(); clearLinks();'  >
+                          v-on:click='$event.stopPropagation(); clearAllControlPropertyLinkFields();'  >
                        Clear
                   </button>
 
@@ -922,7 +922,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                   <button type=button class='btn btn-sm btn-warning'
                           v-bind:style='""'
-                          v-on:click='$event.stopPropagation(); clearLinks();'  >
+                          v-on:click='$event.stopPropagation(); clearAllControlPropertyLinkFields();'  >
                        Clear
                   </button>
 
@@ -1165,7 +1165,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                    <button type=button class='btn btn-sm btn-warning'
                            v-bind:style='""'
-                           v-on:click='$event.stopPropagation(); clearLinks();'  >
+                           v-on:click='$event.stopPropagation(); clearAllControlPropertyLinkFields();'  >
                         Clear
                    </button>
 
@@ -1323,7 +1323,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
                    <button type=button class='btn btn-sm btn-warning'
                            v-bind:style='""'
-                           v-on:click='$event.stopPropagation(); clearLinks();'  >
+                           v-on:click='$event.stopPropagation(); clearAllControlPropertyLinkFields();'  >
                         Clear
                    </button>
 
