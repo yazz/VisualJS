@@ -5559,11 +5559,11 @@ return {}
             setWatchComponent:                      function        ({controlUuid}) {
                 let mm      = this
 
-                this.selectedWatchFromProperties = []
-                let ccomp =  mm.form_runtime_info[mm.active_form].component_lookup_by_uuid[controlUuid]
-                let ccomkeys = Object.keys(ccomp)
-                for (let aaa =0; aaa<ccomkeys.length;aaa++) {
-                    mm.selectedWatchFromProperties.push(ccomkeys[aaa])
+                mm.selectedWatchFromProperties  = []
+                let ccomp                       =  mm.form_runtime_info[mm.active_form].component_lookup_by_uuid[controlUuid]
+                let ccomkeys                    = Object.keys(ccomp)
+                for (  let compKey   of   ccomkeys  ) {
+                    mm.selectedWatchFromProperties.push(compKey)
                 }
             },
             setIncomingFormWatchComponent:          function        (event) {
