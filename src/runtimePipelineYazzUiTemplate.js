@@ -1984,8 +1984,8 @@ Pushlist
                                         v-for='(item,index) in getFormComponents({formName: formName})'
                                         ondrop="return false;"
                                         v-on:click='if ( isVisible(formName,index)){ $event.stopPropagation();selectComponent(index,true); }'
-                                        v-bind:style='((design_mode && isVisible(formName,index))?"border: 1px solid black;background: white;":"") +
-                                                        "position: absolute;top: " + getTop(formName,index) + ";left:" + getLeft(formName,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
+                                        v-bind:style='(formName==active_form)?(((design_mode && isVisible(formName,index))?"border: 1px solid black;background: white;":"") +
+                                                        "position: absolute;top: " + getTop(formName,index) + ";left:" + getLeft(formName,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"):"display:none;"'>
     
                                     <div ondrop="return false;"
                                          v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;":"display:none;"'>
