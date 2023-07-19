@@ -1979,29 +1979,30 @@ Pushlist
 
                             <div    v-bind:refresh='refresh'
                                     v-for='(formName,formindex) in getForms()'
-                                    v-bind:style=''>
+                                    v-bind:style='(active_form == formName)?"":"hidden:true;"'>
                                 <div    v-bind:refresh='refresh'
-                                        v-for='(item,index) in getActiveFormComponents()'
+                                        v-for='(item,index) in getFormComponents({formName: formName})'
                                         ondrop="return false;"
-                                        v-on:click='if ( isVisible(active_form,index)){ $event.stopPropagation();selectComponent(index,true); }'
-                                        v-bind:style='((design_mode && isVisible(active_form,index))?"border: 1px solid black;background: white;":"") +
-                                                        "position: absolute;top: " + getTop(active_form,index) + ";left:" + getLeft(active_form,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
+                                        v-on:click='if ( isVisible(formName,index)){ $event.stopPropagation();selectComponent(index,true); }'
+                                        v-bind:style='((design_mode && isVisible(formName,index) && (active_form == formName))?
+                                                            "border: 1px solid black;background: white;":"") +
+                                                            "position: absolute;top: " + getTop(formName,index) + ";left:" + getLeft(formName,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"'>
     
                                     <div ondrop="return false;"
                                          v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;"'>
-                                        <component  v-bind:id='active_form + "_" + model.forms[active_form].components[index].name + (design_mode?"_design":"")'
+                                        <component  v-bind:id='formName + "_" + model.forms[formName].components[index].name + (design_mode?"_design":"")'
                                                     v-bind:refresh='refresh'
-                                                    v-bind:meta='{form: active_form,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
-                                                    v-bind:form="active_form"
+                                                    v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                    v-bind:form="formName"
                                                     v-bind:design_mode='design_mode'
                                                     v-bind:children='getChildren(item.name)'
                                                     v-on:send="processControlEvent"
                                                     v-bind:is='item.code_id?item.code_id:GLOBALS.baseComponentIdReturnsCommitId[item.base_component_id]'
-                                                    v-if='!item.parent && model.forms[active_form].components[index]'
+                                                    v-if='!item.parent && model.forms[formName].components[index]'
                                                     v-bind:name='item.name + "_design_mode_" + design_mode'
-                                                    v-bind:properties='model.forms[active_form].components[index]'
-                                                    v-bind:props='model.forms[active_form].components[index]'
-                                                    v-bind:args='model.forms[active_form].components[index]'>
+                                                    v-bind:properties='model.forms[formName].components[index]'
+                                                    v-bind:props='model.forms[formName].components[index]'
+                                                    v-bind:args='model.forms[formName].components[index]'>
     
                                             <template       slot-scope="child_components"
                                                             v-bind:refresh='refresh'
@@ -2010,17 +2011,17 @@ Pushlist
                                                 <component  v-for='child_item  in  getChildren(item.name)'
                                                             v-bind:design_mode='design_mode'
                                                             v-bind:refresh='refresh'
-                                                            v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
-                                                            v-bind:form="active_form"
+                                                            v-bind:meta='{form: formName,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                            v-bind:form="formName"
                                                             v-bind:style='"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
-                                                            v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
+                                                            v-bind:id='formName + "_" + model.forms[formName].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                             v-on:send="processControlEvent"
                                                             v-bind:is='child_item.code_id?child_item.code_id:GLOBALS.baseComponentIdReturnsCommitId[child_item.base_component_id]'
                                                             v-bind:name='child_item.name + "_design_mode_" + design_mode'
-                                                            v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
-                                                            v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
-                                                            v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
-                                                            v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
+                                                            v-bind:properties='model.forms[formName].components[child_item.index_in_parent_array]'
+                                                            v-if='model.forms[formName].components[child_item.index_in_parent_array]'
+                                                            v-bind:props='model.forms[formName].components[child_item.index_in_parent_array]'
+                                                            v-bind:args='model.forms[formName].components[child_item.index_in_parent_array]'>
                                                 </component>
     
                                             </template>
@@ -2030,7 +2031,7 @@ Pushlist
     
                                     <div    v-bind:style='"cursor: move;position: absolute; top: 0px; left: 0px;z-index: " + (item.is_container?"1":"10000000") + ";width: 100%;height: 100%;border: 1px solid black;"'
                                             v-bind:draggable='design_mode'
-                                            v-if='design_mode && isVisible(active_form,index)'
+                                            v-if='design_mode && isVisible(formName,index)'
                                             ondrop="return false;"
                                             v-on:dragstart='$event.stopPropagation();
                                                             //debugger
@@ -2040,7 +2041,7 @@ Pushlist
                                                                index:               index
                                                             })'>
     
-                                        <div    v-if='design_mode && isVisible(active_form,index)'
+                                        <div    v-if='design_mode && isVisible(formName,index)'
                                                 ondrop="return false;"
                                                 v-bind:refresh='refresh'
                                                 v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +

@@ -2070,21 +2070,6 @@ ${origCode}
                 return false
             },
             isVisible:                              function        (  formName  ,  componentIndex  ) {
-                /*
-     ________________________________________
-     |                                      |
-     |                   |
-     |                                      |
-     |______________________________________|
-
-     TO BE FILLED IN
-
-     __________
-     | Params |
-     |        |______________________________________________________________
-     |
-     |     NONE
-     |________________________________________________________________________ */
                 let mm = this
                 let component = mm.model.forms[formName].components[componentIndex]
                 if (!component) {
