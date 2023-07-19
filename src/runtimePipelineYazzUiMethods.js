@@ -2070,21 +2070,6 @@ ${origCode}
                 return false
             },
             isVisible:                              function        (  formName  ,  componentIndex  ) {
-                /*
-     ________________________________________
-     |                                      |
-     |                   |
-     |                                      |
-     |______________________________________|
-
-     TO BE FILLED IN
-
-     __________
-     | Params |
-     |        |______________________________________________________________
-     |
-     |     NONE
-     |________________________________________________________________________ */
                 let mm = this
                 let component = mm.model.forms[formName].components[componentIndex]
                 if (!component) {
@@ -3172,9 +3157,6 @@ ${origCode}
                 console.log("FormName: " + formName)
                 return this.model.forms[ formName ].components
             },
-            getForms:                               function        (  ) {
-                return this.model.forms[ formName ]
-            },
             getFormNames:                           function        (  ) {
                 return Object.keys(this.model.forms)
             },
@@ -3184,21 +3166,6 @@ ${origCode}
                 //
                 // This is used to run user written event code
                 //-------------------------------------------------------------------
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
 
                 let shallIProcessThisEvent = false
@@ -3400,39 +3367,10 @@ ${eventMessage.code}
                 }
             },
             chooseRight:                            function        (  ff  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 this.right_mode = ff
             },
             getForms:                               function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let forms = []
                 let llf = Object.keys(this.model.forms)
                 for (let ii = 0; ii < llf.length ; ii ++) {
@@ -6289,6 +6227,21 @@ return {}
                     texti = null
 
                     setTimeout(async function () {
+                        for (let formName of mm.getFormNames()) {
+                            let thisForm = mm.model.forms[formName]
+                            if (  thisForm.form_load && (!mm.design_mode)) {
+                                let formLoadCode = thisForm.form_load
+
+                                let formEvent = {
+                                    type:               "form_event",
+                                    form_name:           formName,
+                                    code:                formLoadCode,
+                                    sub_type:           "load"
+                                }
+                                mm.processControlEvent(formEvent)
+                            }
+                        }
+
                         mm.selectForm(mm.model.default_form)
                     }, 500)
 
