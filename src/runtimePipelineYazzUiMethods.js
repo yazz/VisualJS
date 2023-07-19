@@ -3482,40 +3482,36 @@ ${eventMessage.code}
                 props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
 
 
-                props.push({   id:         "add_control",
-                    name:       "Add Control()",
-                    type:       "Action"  ,
-                    snippet:    `add_control({name: "name_of_new_control"})`,
-                    help:       `<div>Help text for
-                                            <b>addControl</b> method
-                                            <br/><br/>
-                                            Call <b>form.addControl({ })</b> to add a new control to this form
-                                         </div>`,
-                    fn:
-                        `mm.addControl(  arg1  )
-return {}
-`                       })
 
+                props.push({    id:         "add_control",
+                                name:       "Add Control()",
+                                type:       "Action"  ,
+                                snippet:    `add_control({name: "name_of_new_control"})`,
 
+                                help:       `<div>Help text for <b>addControl</b> method
+                                                 <br/><br/>
+                                                 Call <b>form.addControl({ })</b> to add a new control to this form
+                                             </div>`,
 
-//alert(formName)
+                                fn:         `mm.addControl(  arg1  )
+                                             return {}
+                                            `})
 
-                props.push({    id:     "show",
-                    name:   "Show form()",
-                    type:   "Action"  ,
-                    snippet:    `show()`,
-                    help:       `<div>Help text for
-                                           <b>show</b> method
-                                           <br/><br/>
-                                           Call <b>form.show()</b> to show this form
-                                        </div>`,
-                    fn:
-                        `mm.selectForm(formName)
-return {}
-`                       })
+                
 
+                props.push({    id:         "show",
+                                name:       "Show form()",
+                                type:       "Action",
+                                snippet:    `show()`,
 
+                                help:       `<div>Help text for <b>show</b> method
+                                                 <br/><br/>
+                                                 Call <b>form.show()</b> to show this form
+                                             </div>`,
 
+                                fn:         `mm.selectForm(formName)
+                                             return {}
+                                            `})
 
                 return props
             },
