@@ -1978,10 +1978,10 @@ Pushlist
 
 
                             <div    v-bind:refresh='refresh'
-                                    v-for='(formName,formindex) in getForms()'
+                                    v-for='( formName,formindex ) in getFormNames( )'
                                     v-bind:style=''>
                                 <div    v-bind:refresh='refresh'
-                                        v-for='(item,index) in getActiveFormComponents()'
+                                        v-for='(item,index) in getFormComponents({formName: formName})'
                                         ondrop="return false;"
                                         v-on:click='if ( isVisible(active_form,index)){ $event.stopPropagation();selectComponent(index,true); }'
                                         v-bind:style='((design_mode && isVisible(active_form,index))?"border: 1px solid black;background: white;":"") +
