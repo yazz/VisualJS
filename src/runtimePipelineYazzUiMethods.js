@@ -3166,22 +3166,10 @@ ${origCode}
                 },100)
             },
             getActiveFormComponents:                function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 return this.model.forms[this.active_form].components
+            },
+            getFormComponents:                      function        (  {  formName  }  ) {
+                return this.model.forms[ formName ].components
             },
             processControlEvent:                    async function  (  eventMessage  ) {
                 //-------------------------------------------------------------------
