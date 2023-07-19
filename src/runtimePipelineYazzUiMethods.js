@@ -3497,7 +3497,7 @@ ${eventMessage.code}
                                              return {}
                                             `})
 
-                
+
 
                 props.push({    id:         "show",
                                 name:       "Show form()",
@@ -3539,48 +3539,28 @@ ${eventMessage.code}
                 return []
             },
             selectForm:                             function        (  formId  ,  showProps  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
 
-
-                mm.active_component_index = null
-                mm.model.app_selected = false
-                mm.properties = mm.getFormProperties(formId)
-
-                mm.active_form = formId
+                mm.active_component_index   = null
+                mm.model.app_selected       = false
+                mm.properties               = mm.getFormProperties( formId )
+                mm.active_form              = formId
                 mm.refresh ++
 
                 if (  mm.model.forms[  formId  ].form_activate && (!mm.design_mode)) {
 
-
-
-
                     if (!isValidObject(this.args)) {
+                        //TODO
+                        // WHY does this ever get called? remove it when you can!!!!
                         mm.args = mm.model
                     }
 
-                    let args = mm.args
-                    let app = mm.model
-                    let crt = mm.model.forms[formId].form_activate
+                    let formActivateCode = mm.model.forms[formId].form_activate
 
                     let formEvent = {
                         type:               "form_event",
                         form_name:           formId,
-                        code:                crt,
+                        code:                formActivateCode,
                         sub_type:           "activate"
                     }
                     mm.processControlEvent(formEvent)
