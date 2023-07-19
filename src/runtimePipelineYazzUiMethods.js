@@ -6210,20 +6210,10 @@ return {}
         mounted:
             //*** copy_mounted_start ***//
             async function() {
-                /*
-                ________________________________________
-                |                                      |
-                |             MOUNTED                  |
-                |                                      |
-                |______________________________________|
-                This is called whenever an app is loaded, either at design
-                time or at runtime
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+debugger
+                // This is called whenever an app is loaded, either at design
+                // time or at runtime
+
                 let mm = this
                 let json2
                 try {
@@ -6247,15 +6237,10 @@ return {}
                     }
 
 
-                    /*
-                    ________________________________________
-                    |    mounted                           |
-                    |_________________                     |_______________________________
-                                     | Get the base component ID of the code to edit/run
-                                     |
-                                     | Save it in "this.edited_app_component_id"
-                                     |_____________________________________________________
-                    */
+
+                    // Get the base component ID of the code to edit/run
+                    // Save it in "this.edited_app_component_id"
+
                     if (texti) {
                         json2                       = mm.getJsonModelFromCode(texti)
                         mm.old_model                = JSON.parse(JSON.stringify(json2));
@@ -6266,13 +6251,10 @@ return {}
                     mm.active_form = mm.model.default_form
 
 
-                    /*
-                    ________________________________________
-                    |    mounted                           |
-                    |_________________                     |_______________________________
-                                     | Set up all the form methods
-                                     |_____________________________________________________
-                    */
+
+                    //
+                    // Set up all the form methods
+                    //
                     let forms = mm.getForms()
                     for (let formIndex = 0; formIndex < forms.length; formIndex++) {
                         let formName = forms[formIndex].name
@@ -6290,19 +6272,13 @@ return {}
                         }
 
 
-                        /*
-                        ________________________________________
-                        |    mounted                           |
-                        |_________________                     |_______________________________
-                                         | Load the component definitions for all components on
-                                         | this form
-                                         |_____________________________________________________
-                        */
+                        // Load the component definitions for all components on
+                        // this form
                         for (let newItem of mm.model.forms[formName].components) {
                             await GLOBALS.makeSureUiComponentLoadedV6(
                                 {
-                                    baseComponentId: newItem.base_component_id,
-                                    codeId: newItem.code_id
+                                    baseComponentId:    newItem.base_component_id,
+                                    codeId:             newItem.code_id
                                 }
                             )
                         }
@@ -6437,15 +6413,13 @@ return {}
                     //
 
 
-                    /*
-                     _______________________________________
-                     |    mounted                           |
-                     |_________________                     |____________
-                                      | Change a UI control in the app
-                                      | after the Ui control class definition
-                                      | has been edited in another editor
-                                      |__________________________________
-                     */
+
+
+                    //
+                    // Change a UI control in the app
+                    // after the Ui control class definition
+                    // has been edited in another editor
+                    //
                     if (mm.design_mode) {
 
                         if (yz.editor.subEditorAction == "FORK_CONTROL") {
