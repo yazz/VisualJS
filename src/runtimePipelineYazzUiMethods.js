@@ -3169,6 +3169,12 @@ ${origCode}
                 return this.model.forms[this.active_form].components
             },
             getFormComponents:                      function        (  {  formName  }  ) {
+                return this.model.forms[ formName ]
+            },
+            getForms:                      function        (  ) {
+                return this.model.forms[ formName ]
+            },
+            getForm:                      function        (  {  formName  }  ) {
                 return this.model.forms[ formName ].components
             },
             processControlEvent:                    async function  (  eventMessage  ) {
