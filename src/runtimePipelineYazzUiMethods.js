@@ -3047,9 +3047,6 @@ ${origCode}
                     } else if (  isValidObject(mm.active_form)  ) {
                         let ccc        = mm.model.forms[mm.active_form]
 
-                        let properties = mm.getComponentProperties(  ccc.base_component_id  )
-
-
                         methodListForSelector.push(
                             {
                                 value:              "" + indexActionSelector,
@@ -3062,6 +3059,26 @@ ${origCode}
                                 action_index:       null
                             })
                         if ( property_id == "form_activate" ) {
+                            selectedCodeAction = indexActionSelector
+                        }
+                        indexActionSelector++
+
+
+
+
+
+                        methodListForSelector.push(
+                            {
+                                value:              "" + indexActionSelector,
+                                app:                null,
+                                form:               mm.active_form,
+                                component:          ccc.name,
+                                action_id:          "form_load",
+                                action_name:        "Form Load Event",
+                                action_type:        "Event",
+                                action_index:       null
+                            })
+                        if ( property_id == "form_load" ) {
                             selectedCodeAction = indexActionSelector
                         }
                         indexActionSelector++
@@ -3455,33 +3472,13 @@ ${eventMessage.code}
                 return false
             },
             getFormProperties:                      function        (    formName    ) {
-                //-------------------------------------------------------------------
-                //                        getFormProperties
-                //
-                //                          event, property
-                //-------------------------------------------------------------------
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let props = []
-                props.push({   id:     "name",   name:   "Name",   type:   "String"    })
-                props.push({   id:     "width",   name:   "Width",   type:   "Number"    })
-                props.push({   id:     "height",   name:   "Height",   type:   "Number"    })
-                props.push({   id:     "form_activate",   name:   "Activate Event",   type:   "Event"    })
-
-
+                props.push({   id: "name",          name: "Name",           type:   "String"    })
+                props.push({   id: "width",         name: "Width",          type:   "Number"    })
+                props.push({   id: "height",        name: "Height",         type:   "Number"    })
+                props.push({   id: "form_activate", name: "Activate Event", type:   "Event"    })
+                props.push({   id: "form_load",     name: "Load Event",     type:   "Event"    })
 
                 props.push({    id:         "add_control",
                                 name:       "Add Control()",
