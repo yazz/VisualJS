@@ -5555,27 +5555,8 @@ return {}
                     this.selectedWatchFromProperties.push(ccomkeys[aaa])
                 }
 
-//debugger
-
-
-
             },
             setWatchToProperty:                     function        (event) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 this.selectedWatchToProperty = event.target.value
                 this.toLinkPropertySelected = true
@@ -5587,7 +5568,6 @@ return {}
 
                 }
 
-                //debugger
                 if (mm.design_mode_pane.links_type == "form") {
                     if (mm.linkSideSelected == "to") {
 
@@ -6210,7 +6190,6 @@ return {}
         mounted:
             //*** copy_mounted_start ***//
             async function() {
-debugger
                 // This is called whenever an app is loaded, either at design
                 // time or at runtime
 
