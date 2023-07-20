@@ -165,54 +165,37 @@
                 this.inUpdateAllFormCaches = false
             },
             updateFormCache:                        function        (  formName  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                //debugger
-                let mm = this
-                let form = this.model.forms[formName]
-                let components = form.components
-                if (!isValidObject(this.form_runtime_info[formName])) {
-                    this.form_runtime_info[formName] = new Object()
+                let mm          = this
+                let form        = mm.model.forms[formName]
+                let components  = form.components
+                if (!isValidObject(mm.form_runtime_info[formName])) {
+                    mm.form_runtime_info[formName] = new Object()
                 }
-                this.form_runtime_info[formName].component_lookup_by_name = {}
-                this.form_runtime_info[formName].component_lookup_by_uuid = {}
-                this.form_runtime_info[formName].component_incoming_count_by_uuid = {}
-                this.form_runtime_info[formName].component_outgoing_count_by_uuid = {}
+                mm.form_runtime_info[formName].component_lookup_by_name         = {}
+                mm.form_runtime_info[formName].component_lookup_by_uuid         = {}
+                mm.form_runtime_info[formName].component_incoming_count_by_uuid = {}
+                mm.form_runtime_info[formName].component_outgoing_count_by_uuid = {}
 
-                for (let gjh = 0; gjh < components.length; gjh ++) {
-                    let cc = components[gjh]
+                for (let cc  of  components) {
                     if (isValidObject(cc)) {
-                        this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
+                        mm.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
                     }
                     if (!cc.uuid) {
                         cc.uuid = uuidv4()
-                        this.refresh ++
+                        mm.refresh ++
                     }
-                    this.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
+                    mm.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
 
 
-                    if (!this.watchList) {
-                        this.watchList = []
+                    if (!mm.watchList) {
+                        mm.watchList = []
                     }
-                    if (this.watchList) {
+                    if (mm.watchList) {
                         //debugger
                         if (cc.watch) {
                             //debugger
                             for (let ff=0;ff<cc.watch.length;ff++){
-                                this.watchList.push(
+                                mm.watchList.push(
                                     {
                                         form_name:                      formName
                                         ,
@@ -232,26 +215,26 @@
                                     })
 
 
-                                if (this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid]) {
-                                    this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] ++
+                                if (mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid]) {
+                                    mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] ++
                                 } else {
-                                    this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] = 1
+                                    mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] = 1
                                 }
 
-                                if (this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid]) {
-                                    this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] ++
+                                if (mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid]) {
+                                    mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] ++
                                 } else {
-                                    this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] = 1
+                                    mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] = 1
                                 }
 
                             }
                         }
                         //console.log("Watch list setup")
-                        //console.log(JSON.stringify(this.watchList,null,2))
+                        //console.log(JSON.stringify(mm.watchList,null,2))
                         if (cc.push) {
                             //debugger
                             for (let ff=0;ff<cc.push.length;ff++){
-                                this.watchList.push(
+                                mm.watchList.push(
                                     {
                                         form_name:                      formName
                                         ,
@@ -269,16 +252,16 @@
                                         ,
                                         transform_fn:                   cc.push[ff].transform_fn
                                     })
-                                if (this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid]) {
-                                    this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] ++
+                                if (mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid]) {
+                                    mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] ++
                                 } else {
-                                    this.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] = 1
+                                    mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] = 1
                                 }
 
-                                if (this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid]) {
-                                    this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] ++
+                                if (mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid]) {
+                                    mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] ++
                                 } else {
-                                    this.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] = 1
+                                    mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] = 1
                                 }
 
                             }
