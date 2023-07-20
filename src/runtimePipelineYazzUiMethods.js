@@ -2409,93 +2409,93 @@ ${origCode}
                         if (firstObjectToAutocomplete == null) {
 
                             wordList.push(  {
-                                                "word":    "app",
-                                                "freq":     24,
-                                                "score":    300,
-                                                "flags":    "bc",
-                                                "syllables":"1",
-                                                meta:      "Main application"
+                                                "word":         "app",
+                                                "freq":         24,
+                                                "score":        300,
+                                                "flags":        "bc",
+                                                "syllables":    "1",
+                                                meta:           "Main application"
                                             })
 
                             wordList.push(  {
-                                                "word":    "forms",
-                                                "freq":     24,
-                                                "score":    300,
-                                                "flags":    "bc",
-                                                "syllables":"1",
-                                                meta:      "List of forms"
+                                                "word":         "forms",
+                                                "freq":         24,
+                                                "score":        300,
+                                                "flags":        "bc",
+                                                "syllables":    "1",
+                                                meta:           "List of forms"
                                             })
 
                             if (mm.design_mode_pane.app_selected) {
                                 wordList.push(  {
-                                                    "word":    "me",
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                    meta:      "The current app"
+                                                    "word":         "me",
+                                                    "freq":         24,
+                                                    "score":        300,
+                                                    "flags":        "bc",
+                                                    "syllables":    "1",
+                                                    meta:           "The current app"
                                                 })
 
                             } else if (mm.design_mode_pane.active_component_index == null) {
                                 wordList.push(  {
-                                                    "word":    "me",
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                    meta:      "The current form"
+                                                    "word":         "me",
+                                                    "freq":         24,
+                                                    "score":        300,
+                                                    "flags":        "bc",
+                                                    "syllables":    "1",
+                                                    meta:           "The current form"
                                                 })
 
                             } else {
                                 wordList.push(  {
-                                                    "word":    "me",
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                    meta:      "The current control"
+                                                    "word":         "me",
+                                                    "freq":         24,
+                                                    "score":        300,
+                                                    "flags":        "bc",
+                                                    "syllables":    "1",
+                                                    meta:           "The current control"
                                                 })
                                 wordList.push(  {
-                                                    "word":    "myForm",
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                    meta:      "The current form"
+                                                    "word":         "myForm",
+                                                    "freq":         24,
+                                                    "score":        300,
+                                                    "flags":        "bc",
+                                                    "syllables":    "1",
+                                                    meta:           "The current form"
                                                 })
                             }
 
                             wordList.push(  {
-                                                "word":    "parent",
-                                                "freq":     24,
-                                                "score":    300,
-                                                "flags":    "bc",
-                                                "syllables":"1",
-                                                meta:      "The parent/container control of this"
+                                                "word":        "parent",
+                                                "freq":         24,
+                                                "score":        300,
+                                                "flags":        "bc",
+                                                "syllables":    "1",
+                                                meta:           "The parent/container control of this"
                                             })
 
                             let ccc = mm.model.forms[mm.active_form].components
                             for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                                 let component = ccc[ytr]
                                 wordList.push(  {
-                                                    "word":    component.name,
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                    meta:      "Control"
+                                                    "word":         component.name,
+                                                    "freq":         24,
+                                                    "score":        300,
+                                                    "flags":        "bc",
+                                                    "syllables":    "1",
+                                                    meta:           "Control"
                                                 })
                             }
 
                             ccc = Object.keys(mm.model.forms)
                             for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                                 wordList.push(  {
-                                                    "word":    ccc[ytr],
-                                                    "freq":     24,
-                                                    "score":    300,
-                                                    "flags":    "bc",
-                                                    "syllables":"1",
-                                                    meta:      "Form"
+                                                    "word":         ccc[ytr],
+                                                    "freq":         24,
+                                                    "score":        300,
+                                                    "flags":        "bc",
+                                                    "syllables":    "1",
+                                                    meta:           "Form"
                                                 })
                             }
 
@@ -2616,13 +2616,14 @@ ${origCode}
                                     }
 
                                     if (addProp) {
-                                        wordList.push({ "word":         propName ,
-                                            "freq":         24,
-                                            "score":        300,
-                                            "flags":        "bc",
-                                            "syllables":    "1",
-                                            "meta":         meta
-                                        })
+                                        wordList.push(  {
+                                                            "word":         propName ,
+                                                            "freq":         24,
+                                                            "score":        300,
+                                                            "flags":        "bc",
+                                                            "syllables":    "1",
+                                                            "meta":         meta
+                                                        })
                                     }
                                 }
 
@@ -2655,13 +2656,14 @@ ${origCode}
                                         meta = "Event"
                                     }
 
-                                    wordList.push({ "word":         propName ,
-                                        "freq":         24,
-                                        "score":        300,
-                                        "flags":        "bc",
-                                        "syllables":    "1",
-                                        "meta":         meta
-                                    })
+                                    wordList.push(  {
+                                                        "word":         propName ,
+                                                        "freq":         24,
+                                                        "score":        300,
+                                                        "flags":        "bc",
+                                                        "syllables":    "1",
+                                                        "meta":         meta
+                                                    })
                                 }
 
 
@@ -2691,13 +2693,14 @@ ${origCode}
                                         meta = "Event"
                                     }
 
-                                    wordList.push({ "word":         propName ,
-                                        "freq":         24,
-                                        "score":        300,
-                                        "flags":        "bc",
-                                        "syllables":    "1",
-                                        "meta":         meta
-                                    })
+                                    wordList.push(  {
+                                                        "word":         propName ,
+                                                        "freq":         24,
+                                                        "score":        300,
+                                                        "flags":        "bc",
+                                                        "syllables":    "1",
+                                                        "meta":         meta
+                                                    })
                                 }
 
                             }
