@@ -3228,21 +3228,22 @@ ${origCode}
                     if (true) {
                         debugger
                         for (  let  aForm  of  this.getForms() ) {
-                            class UiForm {
-                                constructor({formName}) {
+                            let callableUiForm = {
+                                init: function({formName}) {
                                     this.name = formName;
-                                }
-                                show() {
+                                },
+                                show: function() {
                                     mm.model.forms[this.name].show()
                                 }
                             }
                             for (let formControl  of  mm.model.forms[  aForm.name ].components) {
                                 if (formControl.name) {
-                                    UiForm[formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
+                                    callableUiForm[formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
                                 }
                             }
+                            callableUiForm.init({formName: aForm.name})
 
-                            let formEval = ("var " + aForm.name + " = new UiForm({formName: '" + aForm.name + "'});")
+                            let formEval = ("var " + aForm.name + " = callableUiForm;")
                             eval(formEval)
                         }
 
