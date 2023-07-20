@@ -2638,10 +2638,10 @@ ${origCode}
                                 }
 
                                 // Add form.CONTROL_NAME
-debugger
+
                                 for ( let  aComp  of  mm.model.forms[formName].components  ) {
                                     wordList.push(  {
-                                        "word":         aComp.name,
+                                        "word":         firstObjectToAutocomplete + "." + aComp.name,
                                         "freq":         24,
                                         "score":        300,
                                         "flags":        "bc",
