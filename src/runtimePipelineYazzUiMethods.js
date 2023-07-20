@@ -2655,7 +2655,6 @@ ${origCode}
                                         })
                                     }
                                 } else if (textBeforeSecondDot) {
-                                    debugger
                                     let comps       = mm.model.forms[formName].components
 
                                     for (let rt=0; rt < comps.length; rt++) {
@@ -3182,11 +3181,9 @@ ${origCode}
                 return Object.keys(this.model.forms)
             },
             processControlEvent:                    async function  (  eventMessage  ) {
-                //-------------------------------------------------------------------
-                //                        processControlEvent
-                //
+
                 // This is used to run user written event code
-                //-------------------------------------------------------------------
+
                 let mm = this
 
                 let shallIProcessThisEvent = false
@@ -3201,14 +3198,13 @@ ${origCode}
                 }
 
                 if (shallIProcessThisEvent) {
-                    this.updateAllFormCaches()
+                    mm.updateAllFormCaches()
 
-                    //
                     // set up property access for all forms
-                    //
 
                     let formHandler = {
                         get: function(target,name){
+                            debugger
                             let formName = target.name
                             if (mm.model.forms[formName][name]) {
                                 return mm.model.forms[formName][name]
