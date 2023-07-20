@@ -3185,6 +3185,7 @@ ${origCode}
                 // This is used to run user written event code
 
                 let mm = this
+                let callableUiForms = {}
 
                 let shallIProcessThisEvent = false
                 if ((!mm.design_mode) && (mm.model)) {
@@ -3225,10 +3226,11 @@ ${origCode}
                         }
                         eval(formEval)
                     }
+                    let formEval = ""
                     if (true) {
                         debugger
                         for (  let  aForm  of  this.getForms() ) {
-                            let callableUiForm = {
+                            callableUiForms[ aForm.name  ] = {
                                 init: function({formName}) {
                                     this.name = formName;
                                 },
@@ -3238,16 +3240,15 @@ ${origCode}
                             }
                             for (let formControl  of  mm.model.forms[  aForm.name ].components) {
                                 if (formControl.name) {
-                                    callableUiForm[formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
+                                    callableUiForms[ aForm.name  ][formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
                                 }
                             }
-                            callableUiForm.init({formName: aForm.name})
+                            callableUiForms[ aForm.name  ].init({formName: aForm.name})
 
-                            let formEval = ("var " + aForm.name + " = callableUiForm;")
-                            eval(formEval)
+                            formEval += ("var " + aForm.name + " = callableUiForms[ '" + aForm.name + "'  ];")
                         }
-
                     }
+                    eval(formEval)
 
 
 
