@@ -728,7 +728,7 @@
 
                 return newControl
             },
-            editAsCode:                             async function  (  aa  ) {
+            editAsCode:                             async function  (  { app_selected , active_form , active_component_index , property_id }  ) {
 
                 // This is called when the "..." button is pressed for
                 // a property in the property inspector
@@ -755,10 +755,10 @@
 
                 setTimeout(function(){
                     mm.design_mode_pane.type                    = "event_editor"
-                    mm.design_mode_pane.app_selected            = aa.app_selected
-                    mm.design_mode_pane.active_form             = aa.active_form
-                    mm.design_mode_pane.active_component_index  = aa.active_component_index
-                    mm.design_mode_pane.property_id             = aa.property_id
+                    mm.design_mode_pane.app_selected            = app_selected
+                    mm.design_mode_pane.active_form             = active_form
+                    mm.design_mode_pane.active_component_index  = active_component_index
+                    mm.design_mode_pane.property_id             = property_id
                     yz.mainVars.disableAutoSave                 = true
 
                     setTimeout(function(){
@@ -805,19 +805,19 @@
                             let ccode = ""
 
                             // application code (THIS MUST BE FIST IN THE IF STATEMENT)
-                            if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
-                                ccode = mm.model[aa.property_id].fn
+                            if (property_id && mm.model[property_id] && isValidObject(mm.model[property_id].fn)) {
+                                ccode = mm.model[property_id].fn
                             } else if (mm.model.app_selected) {
-                                ccode = mm.model[aa.property_id]
+                                ccode = mm.model[property_id]
 
 
                             // form code
                             } else if ((mm.active_component_index == null) && (mm.active_form != null)) {
-                                ccode = mm.model.forms[mm.active_form][aa.property_id]
+                                ccode = mm.model.forms[mm.active_form][property_id]
 
                             // component code
                             } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
-                                ccode = mm.model.forms[mm.active_form].components[mm.active_component_index][aa.property_id]
+                                ccode = mm.model.forms[mm.active_form].components[mm.active_component_index][property_id]
                             }
 
 
@@ -869,15 +869,15 @@
 
 
 
-                                if (aa.property_id && mm.model[aa.property_id] && isValidObject(mm.model[aa.property_id].fn)) {
-                                    mm.model[aa.property_id].fn = newC
-                                } else if (aa.app_selected) {
-                                    mm.model[aa.property_id] = newC
+                                if (property_id && mm.model[property_id] && isValidObject(mm.model[property_id].fn)) {
+                                    mm.model[property_id].fn = newC
+                                } else if (app_selected) {
+                                    mm.model[property_id] = newC
                                 } else if ((mm.active_component_index == null) && (mm.active_form != null)) {
-                                    mm.model.forms[mm.active_form][aa.property_id] = newC
+                                    mm.model.forms[mm.active_form][property_id] = newC
 
                                 } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
-                                    mm.model.forms[mm.active_form].components[mm.active_component_index][aa.property_id] = newC
+                                    mm.model.forms[mm.active_form].components[mm.active_component_index][property_id] = newC
                                 }
                                 mm.$root.$emit('message', {
                                     type:   "pending"
@@ -893,7 +893,7 @@
                 },100)
 
 
-                mm.setupCodeEditorSelectors(aa.property_id)
+                mm.setupCodeEditorSelectors(property_id)
 
             },
             setVBEditorPropertyValue:               function        (  property  ,  val  ) {
