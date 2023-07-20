@@ -729,35 +729,15 @@
                 return newControl
             },
             editAsCode:                             async function  (  aa  ) {
-                // -----------------------------------------------------
-                //                      editAsCode
-                //
+
                 // This is called when the "..." button is pressed for
                 // a property in the property inspector
                 //
-                // This can show code for the app, a form, and for
-                // controls
-                //
-                // -----------------------------------------------------
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
+                // This opens a mini text editor and can show code for app events,
+                // forms, and for controls
 
-                TO BE FILLED IN
 
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-
-                //
                 // if the code editor is already open then close it
-                //
 
                 let mm = this
                 if (mm.ui_code_editor) {
@@ -771,9 +751,7 @@
 
 
 
-                //
                 // Set up the new code editor
-                //
 
                 setTimeout(function(){
                     mm.design_mode_pane.type                    = "event_editor"
@@ -786,20 +764,22 @@
                     setTimeout(function(){
                         if (document.getElementById('ui_code_editor') && (mm.ui_code_editor == null)) {
 
-                            //
                             //set up the ace editor for the timeline view
-                            //
 
                             ace.config.set('basePath', '/');
-                            mm.ui_code_editor = ace.edit( "ui_code_editor",
+                            mm.ui_code_editor = ace.edit(
+                                "ui_code_editor"
+                                ,
                                 {
                                     selectionStyle:  "text",
                                     mode:            "ace/mode/javascript"
                                 })
 
-                            //
+
+
+
+
                             //Hack city! Need a delay when setting theme or view is corrupted
-                            //
 
                             setTimeout(function(){
                                 mm.ui_code_editor.setTheme("ace/theme/sqlserver");
@@ -807,9 +787,8 @@
 
 
 
-                            //
+
                             // Stylize the code editor
-                            //
 
                             document.getElementById("ui_code_editor").style["font-size"]    = "16px"
                             document.getElementById("ui_code_editor").style.width           = "100%"
@@ -818,13 +797,10 @@
 
 
 
-                            //
                             // Get the code and store it in "ccode"
                             //
                             // The code is obtained from the VueJS model, depending on whether
                             // it is a control, a form, or application code
-                            //
-
 
                             let ccode = ""
 
@@ -835,11 +811,11 @@
                                 ccode = mm.model[aa.property_id]
 
 
-                                // form code
+                            // form code
                             } else if ((mm.active_component_index == null) && (mm.active_form != null)) {
                                 ccode = mm.model.forms[mm.active_form][aa.property_id]
 
-                                // component code
+                            // component code
                             } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
                                 ccode = mm.model.forms[mm.active_form].components[mm.active_component_index][aa.property_id]
                             }
@@ -858,7 +834,7 @@
                                 let newC = mm.ui_code_editor.getValue()
                                 try {
                                     //
-                                    // whack city: we add the new line as o0therwise an error on the last
+                                    // hack city: we add the new line as otherwise an error on the last
                                     // line generates an error  during code entry time, which we can detect
                                     // below by only flagging an error if the line exists within the typed
                                     // code
@@ -2381,9 +2357,7 @@ ${origCode}
                     getCompletions: function(editor, session, pos, prefix, callback) {
                         //console.log("Called autocompleterFunction: " + pos + " : " + prefix)
 
-                        //
                         // If no text entered then do nothing
-                        //
 
                         if (prefix.length === 0) {
                             callback(null, []);
@@ -2501,8 +2475,7 @@ ${origCode}
 
 
 
-                            //
-                            // If we have ented an object and pressed "." (period)
+                            // If we have entered an object and pressed "." (period)
                             // then we need to add the method that comes after the
                             // period, eg:
                             //
@@ -2510,7 +2483,6 @@ ${origCode}
                             //         .setText()
                             //         .setWidth()    <- choose one
                             //         .setHeight()
-                            //
 
                         } else {
 
@@ -2559,9 +2531,7 @@ ${origCode}
 
                             } else {
 
-                                //
                                 // see if the word is a component
-                                //
 
                                 let comps       = mm.model.forms[mm.active_form].components
 
@@ -2572,9 +2542,7 @@ ${origCode}
                                 }
 
 
-                                //
                                 // see if the word is a form
-                                //
 
                                 let formNames       = Object.keys(mm.model.forms)
 
@@ -2590,9 +2558,7 @@ ${origCode}
 
 
 
-                            //
                             // if a component was entered
-                            //
 
                             if (componentId) {
                                 let controlProperties = mm.getControlProperties(componentId)
@@ -2630,9 +2596,7 @@ ${origCode}
 
 
 
-                                //
-                                // if a form was entered
-                                //
+                            // if a form was entered
 
                             } else if (formName) {
 
