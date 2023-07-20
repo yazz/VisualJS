@@ -3200,32 +3200,48 @@ ${origCode}
                 if (shallIProcessThisEvent) {
                     mm.updateAllFormCaches()
 
-                    // set up property access for all forms
+                    // set up property access for all forms (old way)
+                    if (false) {
+                        let formHandler = {
+                            get: function (target, name) {
+                                debugger
+                                let formName = target.name
+                                if (mm.model.forms[formName][name]) {
+                                    return mm.model.forms[formName][name]
+                                }
 
-                    let formHandler = {
-                        get: function(target,name){
-                            debugger
-                            let formName = target.name
-                            if (mm.model.forms[formName][name]) {
-                                return mm.model.forms[formName][name]
+                                if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
+                                    return mm.form_runtime_info[formName].component_lookup_by_name[name]
+                                }
+
+                                return "Not found"
                             }
-
-                            if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
-                                return mm.form_runtime_info[formName].component_lookup_by_name[name]
-                            }
-
-                            return "Not found"
                         }
+                        let formEval = ""
+                        let allForms = this.getForms();
+                        for (let fi = 0; fi < allForms.length; fi++) {
+                            let aForm = allForms[fi]
+                            formEval += ("var " + aForm.name +
+                                " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
+
+                        }
+                        eval(formEval)
                     }
-                    let formEval = ""
-                    let allForms = this.getForms();
-                    for (let fi =0; fi < allForms.length ; fi ++) {
-                        let aForm = allForms[fi]
-                        formEval += ("var " + aForm.name +
-                            " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
+                    if (true) {
+                        for (  let  aForm  of  this.getForms() ) {
+                            class UiForm {
+                                constructor({formName}) {
+                                    this.name = formName;
+                                }
+                                show() {
+                                    mm.model.forms[this.name].show()
+                                }
+                            }
+                            let formEval = ("var " + aForm.name + " = new UiForm({formName: '" + aForm.name + "'});")
+                            eval(formEval)
+                        }
 
                     }
-                    eval(formEval)
 
 
 
