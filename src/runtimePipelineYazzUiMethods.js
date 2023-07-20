@@ -2372,10 +2372,10 @@ ${origCode}
                         // Get the first part of the text that the user entered, before the
                         // ".", for example, "Form_1." would return "Form_1"
 
-                        let firstObjectToAutocomplete = null
+                        let textBeforeFirstDot = null
                         if (prefix.indexOf(".") != -1) {
-                            firstObjectToAutocomplete = prefix.substring(0,prefix.indexOf("."))
-                            //console.log("firstObjectToAutocomplete: " + firstObjectToAutocomplete)
+                            textBeforeFirstDot = prefix.substring(0,prefix.indexOf("."))
+                            //console.log("textBeforeFirstDot: " + textBeforeFirstDot)
                         }
 
 
@@ -2384,7 +2384,7 @@ ${origCode}
                         // Create the list of initial objects to complete:
                         // app, forms, controls
 
-                        if (firstObjectToAutocomplete == null) {
+                        if (textBeforeFirstDot == null) {
 
                             wordList.push(  {
                                                 "word":         "app",
@@ -2501,7 +2501,7 @@ ${origCode}
 
 
 
-                            if (firstObjectToAutocomplete == "me") {
+                            if (textBeforeFirstDot == "me") {
 
                                 if (mm.design_mode_pane.app_selected) {
 
@@ -2512,11 +2512,11 @@ ${origCode}
                                     formName = mm.active_form
                                 }
 
-                            } else if (firstObjectToAutocomplete == "myForm") {
+                            } else if (textBeforeFirstDot == "myForm") {
 
                                 formName = mm.active_form
 
-                            } else if (firstObjectToAutocomplete == "parent") {
+                            } else if (textBeforeFirstDot == "parent") {
 
                                 if (mm.design_mode_pane.app_selected) {
 
@@ -2529,7 +2529,7 @@ ${origCode}
                                 } else if (isValidObject(mm.design_mode_pane.active_form)) {
                                 }
 
-                            } else if (firstObjectToAutocomplete == "app") {
+                            } else if (textBeforeFirstDot == "app") {
 
                                 isApp = true
 
@@ -2540,7 +2540,7 @@ ${origCode}
                                 let comps       = mm.model.forms[mm.active_form].components
 
                                 for (let rt=0; rt < comps.length; rt++) {
-                                    if (comps[rt].name == firstObjectToAutocomplete) {
+                                    if (comps[rt].name == textBeforeFirstDot) {
                                         componentId = comps[rt].base_component_id
                                     }
                                 }
@@ -2552,7 +2552,7 @@ ${origCode}
 
                                 for (let rt=0; rt < formNames.length; rt++) {
                                     let formName1 = formNames[rt]
-                                    if (formName1 == firstObjectToAutocomplete) {
+                                    if (formName1 == textBeforeFirstDot) {
                                         formName = formName1
                                     }
                                 }
@@ -2569,10 +2569,10 @@ ${origCode}
                                 let controlProperties = mm.getControlProperties(componentId)
                                 for (let fg=0;fg < controlProperties.length;fg++){
                                     let comm = controlProperties[fg]
-                                    let propName = firstObjectToAutocomplete + "." + comm.id
+                                    let propName = textBeforeFirstDot + "." + comm.id
                                     let meta = "Property"
                                     if (isValidObject(comm.snippet)) {
-                                        propName = firstObjectToAutocomplete + "." + comm.snippet
+                                        propName = textBeforeFirstDot + "." + comm.snippet
                                     }
                                     if (isValidObject(comm.pre_snippet)) {
                                         propName = comm.pre_snippet + propName
@@ -2604,6 +2604,7 @@ ${origCode}
                             // if a form was entered
 
                             } else if (formName) {
+                                debugger
 
                                 // Add form.PROPERTY_NAME
 
@@ -2611,11 +2612,11 @@ ${origCode}
                                 for (let formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
                                     let propDetails = formProps[formPropIndex]
-                                    let propName    = firstObjectToAutocomplete + "." + propDetails.id
+                                    let propName    = textBeforeFirstDot + "." + propDetails.id
                                     let meta        = "Property"
 
                                     if (isValidObject(propDetails.snippet)) {
-                                        propName = firstObjectToAutocomplete + "." + propDetails.snippet
+                                        propName = textBeforeFirstDot + "." + propDetails.snippet
                                     }
                                     if (isValidObject(propDetails.pre_snippet)) {
                                         propName = propDetails.pre_snippet + propName
@@ -2641,7 +2642,7 @@ ${origCode}
 
                                 for ( let  aComp  of  mm.model.forms[formName].components  ) {
                                     wordList.push(  {
-                                        "word":         firstObjectToAutocomplete + "." + aComp.name,
+                                        "word":         textBeforeFirstDot + "." + aComp.name,
                                         "freq":         24,
                                         "score":        300,
                                         "flags":        "bc",
@@ -2657,16 +2658,17 @@ ${origCode}
                                 //
 
                             } else if (isApp) {
+                                debugger
 
                                 let appProps = mm.getAllAppPropeties()
                                 for (let formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
 
                                     let propDetails = appProps[formPropIndex]
-                                    let propName    = firstObjectToAutocomplete + "." + propDetails.id
+                                    let propName    = textBeforeFirstDot + "." + propDetails.id
                                     let meta        = "Property"
 
                                     if (isValidObject(propDetails.snippet)) {
-                                        propName = firstObjectToAutocomplete + "." + propDetails.snippet
+                                        propName = textBeforeFirstDot + "." + propDetails.snippet
                                     }
                                     if (isValidObject(propDetails.snippet)) {
                                         propName = propDetails.snippet + propName
@@ -2688,6 +2690,8 @@ ${origCode}
                                                     })
                                 }
 
+                            } else {
+                                debugger
                             }
                         }
 
