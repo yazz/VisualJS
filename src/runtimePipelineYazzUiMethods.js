@@ -2358,45 +2358,22 @@ ${origCode}
                 this.ui_code_editor.gotoLine(line , 10, true);
             },
             setupCodeAutocompletions:               function        (  ) {
-                // -----------------------------------------------------
-                //                  setupCodeAutocompletions
-                //
+
                 // This is called when editing event code to autocomplete
                 // form names, control names, and methods
-                //
-                //
-                //
-                // -----------------------------------------------------
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
 
                 let mm          = this
                 let langTools   = ace.require("ace/ext/language_tools");
 
-                //
+
+
                 // Clear any default autocompleters that have been set
-                //
 
                 langTools.setCompleters([]);
 
 
 
-                //
                 // Create the autocompleter
-                //
 
                 let autocompleterFunction = {
                     identifierRegexps: [/[a-zA-Z_0-9.]/]
@@ -2415,10 +2392,7 @@ ${origCode}
 
 
 
-
-                        //
                         // Get the first part of the text to autocomplete
-                        //
 
                         let firstObjectToAutocomplete = null
                         if (prefix.indexOf(".") != -1) {
@@ -2429,93 +2403,100 @@ ${origCode}
 
                         let wordList = []
 
-                        //
                         // Create the list of initial objects to complete:
                         // app, forms, controls
-                        //
 
                         if (firstObjectToAutocomplete == null) {
 
-                            wordList.push(  {"word":    "app",
-                                "freq":     24,
-                                "score":    300,
-                                "flags":    "bc",
-                                "syllables":"1",
-                                meta:      "Main application"
-                            })
+                            wordList.push(  {
+                                                "word":    "app",
+                                                "freq":     24,
+                                                "score":    300,
+                                                "flags":    "bc",
+                                                "syllables":"1",
+                                                meta:      "Main application"
+                                            })
 
-                            wordList.push(  {"word":    "forms",
-                                "freq":     24,
-                                "score":    300,
-                                "flags":    "bc",
-                                "syllables":"1",
-                                meta:      "List of forms"
-                            })
+                            wordList.push(  {
+                                                "word":    "forms",
+                                                "freq":     24,
+                                                "score":    300,
+                                                "flags":    "bc",
+                                                "syllables":"1",
+                                                meta:      "List of forms"
+                                            })
 
                             if (mm.design_mode_pane.app_selected) {
-                                wordList.push(  {"word":    "me",
-                                    "freq":     24,
-                                    "score":    300,
-                                    "flags":    "bc",
-                                    "syllables":"1",
-                                    meta:      "The current app"
-                                })
+                                wordList.push(  {
+                                                    "word":    "me",
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                    meta:      "The current app"
+                                                })
 
                             } else if (mm.design_mode_pane.active_component_index == null) {
-                                wordList.push(  {"word":    "me",
-                                    "freq":     24,
-                                    "score":    300,
-                                    "flags":    "bc",
-                                    "syllables":"1",
-                                    meta:      "The current form"
-                                })
+                                wordList.push(  {
+                                                    "word":    "me",
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                    meta:      "The current form"
+                                                })
 
                             } else {
-                                wordList.push(  {"word":    "me",
-                                    "freq":     24,
-                                    "score":    300,
-                                    "flags":    "bc",
-                                    "syllables":"1",
-                                    meta:      "The current control"
-                                })
-                                wordList.push(  {"word":    "myForm",
-                                    "freq":     24,
-                                    "score":    300,
-                                    "flags":    "bc",
-                                    "syllables":"1",
-                                    meta:      "The current form"
-                                })
+                                wordList.push(  {
+                                                    "word":    "me",
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                    meta:      "The current control"
+                                                })
+                                wordList.push(  {
+                                                    "word":    "myForm",
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                    meta:      "The current form"
+                                                })
                             }
 
-                            wordList.push(  {"word":    "parent",
-                                "freq":     24,
-                                "score":    300,
-                                "flags":    "bc",
-                                "syllables":"1",
-                                meta:      "The parent/container control of this"
-                            })
+                            wordList.push(  {
+                                                "word":    "parent",
+                                                "freq":     24,
+                                                "score":    300,
+                                                "flags":    "bc",
+                                                "syllables":"1",
+                                                meta:      "The parent/container control of this"
+                                            })
 
                             let ccc = mm.model.forms[mm.active_form].components
                             for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                                 let component = ccc[ytr]
-                                wordList.push(  {"word":    component.name,
-                                    "freq":     24,
-                                    "score":    300,
-                                    "flags":    "bc",
-                                    "syllables":"1",
-                                    meta:      "Control"
-                                })
+                                wordList.push(  {
+                                                    "word":    component.name,
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                    meta:      "Control"
+                                                })
                             }
 
                             ccc = Object.keys(mm.model.forms)
                             for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
-                                wordList.push(  {"word":    ccc[ytr],
-                                    "freq":     24,
-                                    "score":    300,
-                                    "flags":    "bc",
-                                    "syllables":"1",
-                                    meta:      "Form"
-                                })
+                                wordList.push(  {
+                                                    "word":    ccc[ytr],
+                                                    "freq":     24,
+                                                    "score":    300,
+                                                    "flags":    "bc",
+                                                    "syllables":"1",
+                                                    meta:      "Form"
+                                                })
                             }
 
 
