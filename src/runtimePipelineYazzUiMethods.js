@@ -3245,10 +3245,10 @@ ${origCode}
                             }
                             callableUiForms[ aForm.name  ].init({formName: aForm.name})
 
-                            formEval += ("var " + aForm.name + " = callableUiForms[ '" + aForm.name + "'  ];")
+                            formEval += ("let " + aForm.name + " = callableUiForms[ '" + aForm.name + "'  ];")
                         }
                     }
-                    eval(formEval)
+                    //eval(formEval)
 
 
 
@@ -3314,7 +3314,7 @@ ${eventMessage.code}
 
 //debugger
                             let debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
-                            let efcc = eval(cacc + "" + debugFcc)
+                            let efcc = eval(formEval +  cacc + "" + debugFcc)
 
 
                             try {
