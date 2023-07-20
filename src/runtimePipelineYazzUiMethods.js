@@ -2373,9 +2373,14 @@ ${origCode}
                         // ".", for example, "Form_1." would return "Form_1"
 
                         let textBeforeFirstDot = null
+                        let textBeforeSecondDot = null
                         if (prefix.indexOf(".") != -1) {
                             textBeforeFirstDot = prefix.substring(0,prefix.indexOf("."))
                             //console.log("textBeforeFirstDot: " + textBeforeFirstDot)
+                            let textAfterFirstDot = prefix.substring(prefix.indexOf(".") + 1)
+                            if (textAfterFirstDot.indexOf(".") != -1) {
+                                textBeforeSecondDot = textAfterFirstDot.substring(0,textAfterFirstDot.indexOf("."))
+                            }
                         }
 
 
@@ -2604,52 +2609,95 @@ ${origCode}
                             // if a form was entered
 
                             } else if (formName) {
-                                debugger
+                                if (!textBeforeSecondDot) {
+                                    // Add form.PROPERTY_NAME
 
-                                // Add form.PROPERTY_NAME
+                                    let formProps = mm.getFormProperties(formName)
+                                    for (let formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
-                                let formProps = mm.getFormProperties(formName)
-                                for (let formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
+                                        let propDetails = formProps[formPropIndex]
+                                        let propName    = textBeforeFirstDot + "." + propDetails.id
+                                        let meta        = "Property"
 
-                                    let propDetails = formProps[formPropIndex]
-                                    let propName    = textBeforeFirstDot + "." + propDetails.id
-                                    let meta        = "Property"
+                                        if (isValidObject(propDetails.snippet)) {
+                                            propName = textBeforeFirstDot + "." + propDetails.snippet
+                                        }
+                                        if (isValidObject(propDetails.pre_snippet)) {
+                                            propName = propDetails.pre_snippet + propName
+                                        }
+                                        if (propDetails.type == "Action") {
+                                            meta = "Method"
+                                        }
+                                        if (propDetails.type == "Event") {
+                                            meta = "Event"
+                                        }
 
-                                    if (isValidObject(propDetails.snippet)) {
-                                        propName = textBeforeFirstDot + "." + propDetails.snippet
+                                        wordList.push(  {
+                                            "word":         propName ,
+                                            "freq":         24,
+                                            "score":        300,
+                                            "flags":        "bc",
+                                            "syllables":    "1",
+                                            "meta":         meta
+                                        })
                                     }
-                                    if (isValidObject(propDetails.pre_snippet)) {
-                                        propName = propDetails.pre_snippet + propName
-                                    }
-                                    if (propDetails.type == "Action") {
-                                        meta = "Method"
-                                    }
-                                    if (propDetails.type == "Event") {
-                                        meta = "Event"
-                                    }
 
-                                    wordList.push(  {
-                                                        "word":         propName ,
+                                    // Add form.CONTROL_NAME
+
+                                    for ( let  aComp  of  mm.model.forms[formName].components  ) {
+                                        wordList.push(  {
+                                            "word":         textBeforeFirstDot + "." + aComp.name,
+                                            "freq":         24,
+                                            "score":        300,
+                                            "flags":        "bc",
+                                            "syllables":    "1",
+                                            "meta":         "Control"
+                                        })
+                                    }
+                                } else if (textBeforeSecondDot) {
+                                    debugger
+                                    let comps       = mm.model.forms[formName].components
+
+                                    for (let rt=0; rt < comps.length; rt++) {
+                                        if (comps[rt].name == textBeforeSecondDot) {
+                                            componentId = comps[rt].base_component_id
+                                            let controlProperties = mm.getControlProperties(componentId)
+                                            for (let fg=0;fg < controlProperties.length;fg++){
+                                                let comm = controlProperties[fg]
+                                                let propName = textBeforeSecondDot + "." + comm.id
+                                                let meta = "Property"
+                                                if (isValidObject(comm.snippet)) {
+                                                    propName = textBeforeSecondDot + "." + comm.snippet
+                                                }
+                                                if (isValidObject(comm.pre_snippet)) {
+                                                    propName = comm.pre_snippet + propName
+                                                }
+                                                if (comm.type == "Action") {
+                                                    meta = "Method"
+                                                }
+
+                                                let addProp = true
+                                                if (comm.type == "Event") {
+                                                    addProp = false
+                                                }
+
+                                                if (addProp) {
+                                                    wordList.push(  {
+                                                        "word":         formName + "." +  propName ,
                                                         "freq":         24,
                                                         "score":        300,
                                                         "flags":        "bc",
                                                         "syllables":    "1",
                                                         "meta":         meta
                                                     })
+                                                }
+                                            }
+                                        }
+                                    }
+
                                 }
 
-                                // Add form.CONTROL_NAME
 
-                                for ( let  aComp  of  mm.model.forms[formName].components  ) {
-                                    wordList.push(  {
-                                        "word":         textBeforeFirstDot + "." + aComp.name,
-                                        "freq":         24,
-                                        "score":        300,
-                                        "flags":        "bc",
-                                        "syllables":    "1",
-                                        "meta":         "Control"
-                                    })
-                                }
 
 
 
