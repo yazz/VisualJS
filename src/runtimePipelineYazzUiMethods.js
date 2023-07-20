@@ -129,21 +129,6 @@
 
             },
             updateAllFormCaches:                    function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 if (typeof (this.inUpdateAllFormCaches) == 'undefined') {
                     this["inUpdateAllFormCaches"] = false
                 }
@@ -168,6 +153,7 @@
                 let mm          = this
                 let form        = mm.model.forms[formName]
                 let components  = form.components
+
                 if (!isValidObject(mm.form_runtime_info[formName])) {
                     mm.form_runtime_info[formName] = new Object()
                 }
@@ -176,7 +162,7 @@
                 mm.form_runtime_info[formName].component_incoming_count_by_uuid = {}
                 mm.form_runtime_info[formName].component_outgoing_count_by_uuid = {}
 
-                for (let cc  of  components) {
+                for (let  cc  of  components) {
                     if (isValidObject(cc)) {
                         mm.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
                     }
@@ -191,26 +177,17 @@
                         mm.watchList = []
                     }
                     if (mm.watchList) {
-                        //debugger
                         if (cc.watch) {
-                            //debugger
                             for (let ff=0;ff<cc.watch.length;ff++){
                                 mm.watchList.push(
                                     {
-                                        form_name:                      formName
-                                        ,
-                                        to_component_name:              cc.name
-                                        ,
-                                        to_component_uuid:              cc.uuid
-                                        ,
-                                        to_component_property_name:     cc.watch[ff].send_to
-                                        ,
-                                        from_component_uuid:            cc.watch[ff].uuid
-                                        ,
-                                        from_component_property_name:   cc.watch[ff].property
-                                        ,
-                                        type:                           "watch"
-                                        ,
+                                        form_name:                      formName,
+                                        to_component_name:              cc.name,
+                                        to_component_uuid:              cc.uuid,
+                                        to_component_property_name:     cc.watch[ff].send_to,
+                                        from_component_uuid:            cc.watch[ff].uuid,
+                                        from_component_property_name:   cc.watch[ff].property,
+                                        type:                           "watch",
                                         transform_fn:                   cc.watch[ff].transform_fn
                                     })
 
@@ -236,20 +213,13 @@
                             for (let ff=0;ff<cc.push.length;ff++){
                                 mm.watchList.push(
                                     {
-                                        form_name:                      formName
-                                        ,
-                                        from_component_name:              cc.name
-                                        ,
-                                        from_component_uuid:            cc.uuid
-                                        ,
-                                        from_component_property_name:   cc.push[ff].property
-                                        ,
-                                        to_component_uuid:              cc.push[ff].uuid
-                                        ,
-                                        to_component_property_name:     cc.push[ff].send_to
-                                        ,
-                                        type:                           "push"
-                                        ,
+                                        form_name:                      formName,
+                                        from_component_name:            cc.name,
+                                        from_component_uuid:            cc.uuid,
+                                        from_component_property_name:   cc.push[ff].property,
+                                        to_component_uuid:              cc.push[ff].uuid,
+                                        to_component_property_name:     cc.push[ff].send_to,
+                                        type:                           "push",
                                         transform_fn:                   cc.push[ff].transform_fn
                                     })
                                 if (mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid]) {
