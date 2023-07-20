@@ -2646,7 +2646,7 @@ ${origCode}
                                         "score":        300,
                                         "flags":        "bc",
                                         "syllables":    "1",
-                                        "meta":         "control"
+                                        "meta":         "Control"
                                     })
                                 }
 
