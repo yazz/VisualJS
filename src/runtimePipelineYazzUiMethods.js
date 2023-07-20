@@ -3204,7 +3204,6 @@ ${origCode}
                     if (false) {
                         let formHandler = {
                             get: function (target, name) {
-                                debugger
                                 let formName = target.name
                                 if (mm.model.forms[formName][name]) {
                                     return mm.model.forms[formName][name]
@@ -3223,11 +3222,11 @@ ${origCode}
                             let aForm = allForms[fi]
                             formEval += ("var " + aForm.name +
                                 " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
-
                         }
                         eval(formEval)
                     }
                     if (true) {
+                        debugger
                         for (  let  aForm  of  this.getForms() ) {
                             class UiForm {
                                 constructor({formName}) {
@@ -3237,6 +3236,12 @@ ${origCode}
                                     mm.model.forms[this.name].show()
                                 }
                             }
+                            for (let formControl  of  mm.model.forms[  aForm.name ].components) {
+                                if (formControl.name) {
+                                    UiForm[formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
+                                }
+                            }
+
                             let formEval = ("var " + aForm.name + " = new UiForm({formName: '" + aForm.name + "'});")
                             eval(formEval)
                         }
