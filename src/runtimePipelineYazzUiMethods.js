@@ -2343,10 +2343,9 @@ ${origCode}
 
 
 
-                // Clear any default autocompleters that have been set
+                // Clear any default auto-completers that have been set
 
                 langTools.setCompleters([]);
-
 
 
                 // Create the autocompleter
@@ -2354,8 +2353,12 @@ ${origCode}
                 let autocompleterFunction = {
                     identifierRegexps: [/[a-zA-Z_0-9.]/]
                     ,
+
+                    // The "getCompletions" callback is called every time the user
+                    // presses a key in the editor. So for example they may type
+                    // "Form_1" follow by the "." key, which caused this to be called
+
                     getCompletions: function(editor, session, pos, prefix, callback) {
-                        //console.log("Called autocompleterFunction: " + pos + " : " + prefix)
 
                         // If no text entered then do nothing
 
@@ -2366,7 +2369,8 @@ ${origCode}
 
 
 
-                        // Get the first part of the text to autocomplete
+                        // Get the first part of the text that the user entered, before the
+                        // ".", for example, "Form_1." would return "Form_1"
 
                         let firstObjectToAutocomplete = null
                         if (prefix.indexOf(".") != -1) {
@@ -2558,7 +2562,8 @@ ${origCode}
 
 
 
-                            // if a component was entered
+                            // if the left hand side of what the user entered was a
+                            // control name
 
                             if (componentId) {
                                 let controlProperties = mm.getControlProperties(componentId)
@@ -2600,6 +2605,8 @@ ${origCode}
 
                             } else if (formName) {
 
+                                // Add form.PROPERTY_NAME
+
                                 let formProps = mm.getFormProperties(formName)
                                 for (let formPropIndex = 0 ; formPropIndex < formProps.length ; formPropIndex++ ) {
 
@@ -2630,6 +2637,20 @@ ${origCode}
                                                     })
                                 }
 
+                                // Add form.CONTROL_NAME
+debugger
+                                for ( let  aComp  of  mm.model.forms[formName].components  ) {
+                                    wordList.push(  {
+                                        "word":         aComp.name,
+                                        "freq":         24,
+                                        "score":        300,
+                                        "flags":        "bc",
+                                        "syllables":    "1",
+                                        "meta":         "control"
+                                    })
+                                }
+
+
 
                                 //
                                 // if the main object is the VB app
@@ -2658,7 +2679,7 @@ ${origCode}
                                     }
 
                                     wordList.push(  {
-                                                        "word":         propName ,
+                                                        "word":         propName,
                                                         "freq":         24,
                                                         "score":        300,
                                                         "flags":        "bc",
