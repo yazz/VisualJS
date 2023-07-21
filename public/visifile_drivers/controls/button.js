@@ -107,11 +107,11 @@ logo_url("/driver_icons/button_control.png")
     mounted:    function() {
         registerComponent(this)
     },
-    data:       function() {
-        return {
-            msg: "..."
-        }
-    },
+    data:       function()  {
+                                return {
+                                    text: ""
+                                }
+                            },
     methods:    {
                     event_callback: function() {
                         console.log("----- button_control, event_callback: function() = " + this.name)

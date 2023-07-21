@@ -138,14 +138,15 @@ logo_url("/driver_icons/text_control.png")
                                         "font-size: "   +     ((args["font_size"]?args["font_size"]:16)  + (args["font_size_units"]?args["font_size_units"]:"px")+";") +
                                         "padding: "            +     args["padding_px"]  + ";" +
                                         "border-style: solid;" +
-                                    "overflow: auto;"'>
+                                        "overflow: auto;"'>
 
-<pre v-if="args.use_pre == 'True'">{{text}}</pre>
-
-<div v-else>
-     {{text}}
-</div>
-                 </div>`
+                    <pre v-if="args.use_pre == 'True'">{{text}}</pre>
+                    
+                    <div v-else>
+                    {{text}}
+                    </div>
+        
+                </div>`
         ,
         data: function() {
             return {

@@ -3015,7 +3015,7 @@ ${origCode}
                 return this.model.forms[this.active_form].components
             },
             getFormComponents:                      function        (  {  formName  }  ) {
-                console.log("FormName: " + formName)
+                //console.log("FormName: " + formName)
                 return this.model.forms[ formName ].components
             },
             getFormNames:                           function        (  ) {
