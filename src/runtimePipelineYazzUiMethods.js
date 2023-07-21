@@ -37,40 +37,21 @@
 
             // related to updating component caches
             updateComponentMethods:                 function        (  ) {
-                /*
-               ________________________________________
-               |                                      |
-               |         updateComponentMethods       |
-               |                                      |
-               |______________________________________|
 
-               I'm not entirely sure what this method does
-
-               __________
-               | Params |
-               |        |______________________________________________________________
-               |
-               |     NONE
-               |________________________________________________________________________ */
                 let mm = this
 
-                // ---------------------------------------------------------
-                // ... Set up all the form methods
-                // ---------------------------------------------------------
+                // Set up all the form methods. For each form ...
+
                 let forms = mm.getForms()
                 for (let formIndex = 0; formIndex < forms.length; formIndex ++) {
                     let formName = forms[formIndex].name
 
-                    // ---------------------------------------------------------
                     // For each component in the form ...
-                    // ---------------------------------------------------------
+
                     for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                     {
-                        // ---------------------------------------------------------
-                        // ...
                         //
                         //
-                        // ---------------------------------------------------------
 
                         let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
 
@@ -96,21 +77,7 @@
                 }
             },
             refreshControlIndexes:                  function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 if (mm.active_component_detail_name) {
 
@@ -124,13 +91,13 @@
 
                 } else {
                     this.active_component_detail_name = null
-
                 }
 
             },
             updateAllFormCaches:                    function        (  ) {
+
                 if (typeof (this.inUpdateAllFormCaches) == 'undefined') {
-                    this["inUpdateAllFormCaches"] = false
+                    this.inUpdateAllFormCaches = false
                 }
                 if (this.inUpdateAllFormCaches) {
                     return
@@ -206,10 +173,8 @@
 
                             }
                         }
-                        //console.log("Watch list setup")
-                        //console.log(JSON.stringify(mm.watchList,null,2))
+
                         if (cc.push) {
-                            //debugger
                             for (let ff=0;ff<cc.push.length;ff++){
                                 mm.watchList.push(
                                     {
@@ -240,27 +205,17 @@
                     }
                 }
                 mm.updateComponentMethods()
-
-
             },
 
             // Related to changes in the code
             addCodeChange:                          function        (  changeText  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |             addCodeChange            |
-                |                                      |
-                |______________________________________|
 
-                This is called to try to keep a log of changes that has occurred on a commit
+                //                /--------------------------------/
+                //               /          addCodeChange         /
+                //              /--------------------------------/
+                //
+                // This is called to try to keep a log of changes that has occurred on a commit
 
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 if (!mm.code_changes) {
                     mm.code_changes = []
@@ -274,26 +229,9 @@
                     })
             },
             changeComponentBaseId                                   (  args  ) {
-            /*
-            ________________________________________
-            |                                      |
-            |   changeComponentBaseId              |
-            |                                      |
-            |______________________________________|
 
-            TO BE FILLED IN
-
-            __________
-            | Params |
-            |        |______________________________________________________________
-            |
-            |     NONE
-            |________________________________________________________________________ */
             let mm = this
-            //alert("Hi from the editor" + JSON.stringify(args,null,2))
-            //evm_contract_control_114
 
-            //debugger
             let ccc = mm.model.forms[mm.active_form].components
             for (   let ytr = ccc.length - 1;    ytr >= 0;    ytr--   ) {
                 let component = ccc[ytr]
@@ -3103,7 +3041,7 @@ ${origCode}
 
                 // disallow processing this event if we are in design mode
                 // in most cases
-
+//debugger
                 if ( (!mm.design_mode) && (mm.model) )                              { shallIProcessThisEvent = true }
                 if ( (!mm.design_mode) && (mm.model) )                              { shallIProcessThisEvent = true }
                 if ( design_time_only_events && (mm.design_mode) && (mm.model) )    { shallIProcessThisEvent = true }
@@ -3242,7 +3180,7 @@ ${origCode}
                             // code sitting in "fullEvalCode" ready to be executed. This
                             // should make things easier to debug
 
-                            debugger
+//debugger
                             let efcc = eval(fullEvalCode)
 
 
