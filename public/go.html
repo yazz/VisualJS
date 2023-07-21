@@ -3382,7 +3382,6 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                             if (parent) {
                                 if ((node.loc.start.line - numLinesToSkip) > line) {
                                     line = node.loc.start.line - numLinesToSkip + 1
-                                    debugger
 
                                     if (line > 0) {
                                         let newLine = "logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
@@ -3406,27 +3405,33 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                                             if (node.declarations[0].init) {
                                                 //alert(`let ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
                                                 let varNameToUse = node.declarations[0].id.name
+                                                if (debugFromHere) {
+                                                    if (varNameToUse == "debug_from_here") {
+                                                        debugFromHere = false
+                                                    }
+                                                } else {
 
-                                                if (node.kind == "var") {
-                                                    let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line +",'" +
-                                                        varNameToUse + "', " + varNameToUse  + ");"
-                                                    let newNode = esprima.parse(newLine)
-                                                }
-                                                varsToAdd[varNameToUse] = {}
+                                                    if (node.kind == "var") {
+                                                        let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                            varNameToUse + "', " + varNameToUse + ");"
+                                                        let newNode = esprima.parse(newLine)
+                                                    }
+                                                    varsToAdd[varNameToUse] = {}
 
-                                                let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line +",'" +
-                                                    varNameToUse + "'," + varNameToUse  + ");"
-                                                let newNodeAfter = esprima.parse(newLineAfter)
+                                                    let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                        varNameToUse + "'," + varNameToUse + ");"
+                                                    let newNodeAfter = esprima.parse(newLineAfter)
 
-                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
-                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
+                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                    let logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
-                                                for (let rr=0; rr<parent.body.length; rr++){
-                                                    if (parent.body[rr] == node) {
-                                                        parent.body.splice(rr + 1, 0, logWatchVarsNode);
-                                                        parent.body.splice(rr + 1, 0, newNodeAfter);
-                                                        parent.body.splice(rr, 0, newNode);
-                                                        break;
+                                                    for (let rr = 0; rr < parent.body.length; rr++) {
+                                                        if (parent.body[rr] == node) {
+                                                            parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                                            parent.body.splice(rr + 1, 0, newNodeAfter);
+                                                            parent.body.splice(rr, 0, newNode);
+                                                            break;
+                                                        }
                                                     }
                                                 }
                                             }
