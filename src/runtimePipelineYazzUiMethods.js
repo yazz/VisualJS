@@ -50,8 +50,6 @@
 
                     for (let compenentInFormIndex = 0; compenentInFormIndex < mm.model.forms[formName].components.length ; compenentInFormIndex++ )
                     {
-                        //
-                        //
 
                         let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
 
@@ -3025,9 +3023,9 @@ ${origCode}
             },
             processControlEvent:                    async function  (  { design_time_only_events , type , code , control_name , args , sub_type , form_name }  ) {
 
-                //                    -------------------------------------
-                //                   |         processControlEvent         |
-                //                    -------------------------------------
+                //                    /-------------------------------------/
+                //                   /         processControlEvent         /
+                //                  /-------------------------------------/
                 //
                 // This is used to run user written event code in app, form, or control
                 // event handlers
@@ -3057,11 +3055,12 @@ ${origCode}
                     mm.updateAllFormCaches()
 
 
-                    //             --------------------
-                    //            |  UI control event  |
-                    //             --------------------
+                    //             /--------------------/
+                    //            /  UI control event  /
+                    //           /--------------------/
                     //
                     //       eg: "code to run when button clicked"
+                    //       -------------------------------------
                     //
                     // if this is processing an event generated from a control
                     // on a form
@@ -3180,7 +3179,7 @@ ${origCode}
                             // code sitting in "fullEvalCode" ready to be executed. This
                             // should make things easier to debug
 
-//debugger
+debugger
                             let efcc = eval(fullEvalCode)
 
 
@@ -3201,16 +3200,18 @@ ${origCode}
 
 
 
-                    //             --------------
-                    //            |  Form event  |
-                    //             --------------
+                    //             /--------------/
+                    //            /  Form event  /
+                    //           /--------------/
                     //
-                    //   eg: "code to run when form activated"
+                    //   eg: "code to run when form activated
+                    //   ------------------------------------
                     //
                     // This is only executed for events which are generated from a form, such as form
                     // load or activate
 
                     } else if (type == "form_event") {
+                        debugger
                         let fcc =
                             `(async function(){
                                 ${code}
