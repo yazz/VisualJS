@@ -1013,21 +1013,7 @@
                 return val
             },
             addProperty:                            function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 mm.add_property = true
                 mm.new_property_id = ""
@@ -1041,21 +1027,7 @@
                 },200)
             },
             addPropertySave:                        function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 if ((mm.new_property_name.length == 0) || (mm.new_property_id.length == 0)) {
                     alert("You must enter a property name and ID")
@@ -1095,25 +1067,12 @@
 
             },
             addPropertyCancel:                      function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 mm.add_property = false
             },
             recalcControlPropertyLinksAvailableInUI:                   async function  (  ) {
+
                 let mm                      = this
                 mm.incoming_link_objects    = []
 
@@ -3135,80 +3094,61 @@ ${origCode}
             },
             processControlEvent:                    async function  (  eventMessage  ) {
 
-                // This is used to run user written event code
+                // This is used to run user written event code in app, form, or control
+                // event handlers
 
-                let mm = this
-                let callableUiForms = {}
+                let mm                      = this
+                let callableUiForms         = {}
+                let fullEvalCode            = ""
+                let shallIProcessThisEvent  = false
 
-                let shallIProcessThisEvent = false
-                if ((!mm.design_mode) && (mm.model)) {
-                    shallIProcessThisEvent = true
-                }
-                if (eventMessage.design_time_only_events && (mm.design_mode) && (mm.model)) {
-                    shallIProcessThisEvent = true
-                }
-                if (eventMessage.design_time_only_events && (!mm.design_mode)) {
-                    shallIProcessThisEvent = false
-                }
+                // disallow processing this event if we are in design mode
+                // in most cases
+
+                if ((!mm.design_mode) && (mm.model))                                        { shallIProcessThisEvent = true }
+                if (eventMessage.design_time_only_events && (mm.design_mode) && (mm.model)) { shallIProcessThisEvent = true }
+                if (eventMessage.design_time_only_events && (!mm.design_mode))              { shallIProcessThisEvent = false }
+
+
+
+
+                // if we are allowed to process this even
 
                 if (shallIProcessThisEvent) {
+
                     mm.updateAllFormCaches()
 
+
+
                     // set up property access for all forms (old way)
-                    if (false) {
-                        let formHandler = {
-                            get: function (target, name) {
-                                let formName = target.name
-                                if (mm.model.forms[formName][name]) {
-                                    return mm.model.forms[formName][name]
-                                }
 
-                                if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
-                                    return mm.form_runtime_info[formName].component_lookup_by_name[name]
-                                }
 
-                                return "Not found"
-                            }
-                        }
-                        let formEval = ""
-                        let allForms = this.getForms();
-                        for (let fi = 0; fi < allForms.length; fi++) {
-                            let aForm = allForms[fi]
-                            formEval += ("var " + aForm.name +
-                                " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
-                        }
-                        eval(formEval)
-                    }
                     let formEval = ""
-                    if (true) {
-                        debugger
-                        for (  let  aForm  of  this.getForms() ) {
-                            callableUiForms[ aForm.name  ] = {
-                                init: function({formName}) {
-                                    this.name = formName;
-                                },
-                                show: function() {
-                                    mm.model.forms[this.name].show()
-                                }
+                    debugger
+                    for (  let  aForm  of  this.getForms() ) {
+                        callableUiForms[ aForm.name  ] = {
+                            init: function({formName}) {
+                                this.name = formName;
+                            },
+                            show: function() {
+                                mm.model.forms[this.name].show()
                             }
-                            for (let formControl  of  mm.model.forms[  aForm.name ].components) {
-                                if (formControl.name) {
-                                    callableUiForms[ aForm.name  ][formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
-                                }
-                            }
-                            callableUiForms[ aForm.name  ].init({formName: aForm.name})
-
-                            formEval += ("let " + aForm.name + " = callableUiForms[ '" + aForm.name + "'  ];")
                         }
+                        for (let formControl  of  mm.model.forms[  aForm.name ].components) {
+                            if (formControl.name) {
+                                callableUiForms[ aForm.name  ][formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
+                            }
+                        }
+                        callableUiForms[ aForm.name  ].init({formName: aForm.name})
+
+                        formEval += ("let " + aForm.name + " = callableUiForms[ '" + aForm.name + "'  ];")
                     }
-                    //eval(formEval)
 
 
 
 
-                    //
                     // set up property access for all controls on this form
-                    //
+
                     let allC = this.model.forms[this.active_form].components
                     let cacc =""
                     for (let xi =0; xi< allC.length ; xi ++) {
@@ -3216,20 +3156,19 @@ ${origCode}
                         // LEAVE this as a "var", otherwise components don't work inscripts
                         cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                     }
-                    //eval(cacc)
 
 
-
+                    // if this is processing an event generated from a control
+                    // on a form
 
                     if (eventMessage.type == "subcomponent_event") {
-                        //debugger
                         if ((eventMessage.code == null) || (eventMessage.code == "")) {
                             return
                         }
                         let fcc =
                             `(async function(args){
-${eventMessage.code}
-})`
+                                ${eventMessage.code}
+                            })`
 
 
                         let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
@@ -3265,9 +3204,10 @@ ${eventMessage.code}
                             eval(argsCode)
 
 
-//debugger
                             let debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
-                            let efcc = eval(formEval +  cacc + "" + debugFcc)
+                            fullEvalCode = formEval +  cacc + "" + debugFcc
+                            debugger
+                            let efcc = eval(fullEvalCode)
 
 
                             try {
@@ -3283,17 +3223,19 @@ ${eventMessage.code}
                                 alert(  "Error in " + eventMessage.form_name + ":" + eventMessage.control_name + ":" + eventMessage.sub_type + ":" + "\n" +
                                     "    " + JSON.stringify(errValue,null,2))
                             }
-
                         }
 
-                        //
-                        // form events
-                        //
+
+
+
+                    // This is only executed for events which are generated from a form, such as form
+                    // load or activate
+
                     } else if (eventMessage.type == "form_event") {
                         let fcc =
                             `(async function(){
-${eventMessage.code}
-})`
+                                ${eventMessage.code}
+                            })`
                         let meCode =""
                         meCode += ( "var me = mm.model.forms['" + this.active_form + "'];")
                         eval(meCode)
@@ -3322,12 +3264,11 @@ ${eventMessage.code}
 
 
 
-
+                    // force update on the UI
 
                     mm.refresh ++
                     mm.$forceUpdate();
                 }
-
             },
             gotoDragDropEditor:                     function        (  ) {
                 /*
