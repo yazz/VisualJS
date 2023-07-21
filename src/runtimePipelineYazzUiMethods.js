@@ -3227,14 +3227,15 @@ ${origCode}
 })
 `
                             let debugFcc = getDebugCode(mm.active_form +"_"+control_name+"_"+sub_type,fcc,{skipFirstAndLastLine: true})
-                            fullEvalCode =  formEval +
-                                            cacc +
-                                            parentCode +
-                                            meCode +
-                                            appCode +
-                                            myFormCode +
-                                            argsCode +
-                                            debugFcc
+                            let scopeCode =     formEval +
+                                                cacc +
+                                                parentCode +
+                                                meCode +
+                                                appCode +
+                                                myFormCode +
+                                                argsCode
+
+                            fullEvalCode =  scopeCode + debugFcc
 
 
                             // try to execute the code. Ideally, we should have all the
