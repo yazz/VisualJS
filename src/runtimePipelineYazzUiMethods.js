@@ -3119,49 +3119,44 @@ ${origCode}
                     mm.updateAllFormCaches()
 
 
-
-                    // set up property access for all forms (old way)
-
-
-                    let formEval = ""
-                    debugger
-                    for (  let  aForm  of  this.getForms() ) {
-                        callableUiForms[ aForm.name  ] = {
-                            init: function({formName}) {
-                                this.name = formName;
-                            },
-                            show: function() {
-                                mm.model.forms[this.name].show()
-                            }
-                        }
-                        for (let formControl  of  mm.model.forms[  aForm.name ].components) {
-                            if (formControl.name) {
-                                callableUiForms[ aForm.name  ][formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
-                            }
-                        }
-                        callableUiForms[ aForm.name  ].init({formName: aForm.name})
-
-                        formEval += ("let " + aForm.name + " = callableUiForms[ '" + aForm.name + "'  ];")
-                    }
-
-
-
-
-                    // set up property access for all controls on this form
-
-                    let allC = this.model.forms[this.active_form].components
-                    let cacc =""
-                    for (let xi =0; xi< allC.length ; xi ++) {
-                        let comp = allC[xi]
-                        // LEAVE this as a "var", otherwise components don't work inscripts
-                        cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
-                    }
-
-
                     // if this is processing an event generated from a control
                     // on a form
 
                     if (eventMessage.type == "subcomponent_event") {
+
+                        let formEval = ""
+                        debugger
+                        for (  let  aForm  of  this.getForms() ) {
+                            callableUiForms[ aForm.name  ] = {
+                                init: function({formName}) {
+                                    this.name = formName;
+                                },
+                                show: function() {
+                                    mm.model.forms[this.name].show()
+                                }
+                            }
+                            for (let formControl  of  mm.model.forms[  aForm.name ].components) {
+                                if (formControl.name) {
+                                    callableUiForms[ aForm.name  ][formControl.name] = mm.form_runtime_info[ aForm.name ].component_lookup_by_name[formControl.name]
+                                }
+                            }
+                            callableUiForms[ aForm.name  ].init({formName: aForm.name})
+
+                            formEval += ("let " + aForm.name + " = callableUiForms[ '" + aForm.name + "'  ];")
+                        }
+
+
+
+
+                        // set up property access for all controls on this form
+
+                        let allC = this.model.forms[this.active_form].components
+                        let cacc =""
+                        for (let xi =0; xi< allC.length ; xi ++) {
+                            let comp = allC[xi]
+                            // LEAVE this as a "var", otherwise components don't work inscripts
+                            cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
+                        }
                         if ((eventMessage.code == null) || (eventMessage.code == "")) {
                             return
                         }
