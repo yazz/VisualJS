@@ -127,6 +127,7 @@ logo_url("/driver_icons/button_control.png")
                                             })
                     },
                     setText:        function(newtext) {
+                        debugger
                                         this.text = newtext
                                         this.changedFn()
                                     },
@@ -135,7 +136,7 @@ logo_url("/driver_icons/button_control.png")
                                         this.changedFn()
                                     },
                     changedFn:      function() {
-                                        if (isValidObject(this.args)) {
+                                        if (isValidObject(this.properties)) {
                                             this.properties.text = this.text
                                         }
                                     }
