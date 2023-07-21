@@ -3123,6 +3123,12 @@ ${origCode}
                     // on a form
                     if (type == "subcomponent_event") {
 
+
+                        // set up form access like:
+                        //
+                        // Form_1.show()
+                        // Form_1.button_1.setText("Hello Ducks")
+
                         let formEval = ""
                         for (  let  aForm  of  this.getForms() ) {
                             callableUiForms[ aForm.name  ] = {
@@ -3149,19 +3155,19 @@ ${origCode}
 
 
                         // set up property access for all controls on this form
+                        // like:
+                        //
+                        // button_1.setText("Hello Ducks")
+                        // button_1.text = "Hello Ducks"
 
                         let allC = this.model.forms[this.active_form].components
                         let cacc =""
-                        for (let xi =0; xi< allC.length ; xi ++) {
-                            let comp = allC[xi]
+                        for ( let comp  of  allC ) {
                             // LEAVE this as a "var", otherwise components don't work inscripts
-                            cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
-                        }
-                        let fcc =
-`(async function(args){
-    ${code}
-})
+                            cacc +=
+`let ${comp.name} = mm.form_runtime_info['${this.active_form}'].component_lookup_by_name['${comp.name}'];
 `
+                        }
 
 
                         let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   control_name   ]
@@ -3199,6 +3205,15 @@ ${origCode}
 
 
 
+                            // insert the user generated event code found in "code"
+                            // preceeded by all the code that defines the controls and
+                            // properties that are in scope
+
+                            let fcc =
+`(async function(args){
+    ${code}
+})
+`
                             let debugFcc = getDebugCode(mm.active_form +"_"+control_name+"_"+sub_type,fcc,{skipFirstAndLastLine: true})
                             fullEvalCode = formEval +  cacc + "" + debugFcc
 
