@@ -465,7 +465,7 @@
                         getRuntimeUiControlNameReturnsVueInstance:      function({controlName}) {
                             return yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName]
                         },
-                        mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
+                        mapRuntimeTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
                             yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
                         },
 
@@ -2161,7 +2161,7 @@
                             if (vueComponentObject.design_mode) {
                                 yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: usePropVar.name, vueInstance: vueComponentObject})
                             } else {
-                                yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(     {controlName: usePropVar.name, vueInstance: vueComponentObject})
+                                yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance( {controlName: usePropVar.name, vueInstance: vueComponentObject})
                             }
                         }
 
@@ -2182,7 +2182,7 @@
             }
             function        unregisterComponent                 (   componentName   ) {
                 yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
-                yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(     {controlName: componentName, vueInstance: null})
+                yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
             }
             async function  initFn                              (   ) {
                 setTimeout(async function(){
