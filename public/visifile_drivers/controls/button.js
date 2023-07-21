@@ -14,8 +14,7 @@ properties(
             name:     "Text",
             default:  "Click me",
             type:     "String",
-            help:       `<div>This is the text that is displayed in the button
-                         </div>`
+            help:     `<div>This is the text that is displayed in the button</div>`
         }
         ,
         {
@@ -43,9 +42,10 @@ properties(
             name:   "Color",
             type:   "String"
         }
-        ,        {
-            id:     "button_size",
-            name:   "Button size",
+        ,
+        {
+            id:      "button_size",
+            name:       "Button size",
             type:       "Select",
             default:    "large",
             values:     [
@@ -59,55 +59,52 @@ properties(
             id:     "click_event",
             name:   "Clicked event",
             type:   "Event",
-            help:       `<div>Help text for
-                            <b>click_event</b> event
-                         </div>`
+            help:   `<div>Help text for
+                        <b>click_event</b> event
+                     </div>`
         }
-
     ]
 )//properties
 logo_url("/driver_icons/button_control.png")
 */
 
-    Yazz.component({
-      props: [ "meta",  "name",  "refresh",  "design_mode"   ,"properties" ]
-      ,
-      template: `<button    type=button
-      v-bind:class='"btn btn-info " + (((properties.button_size=="large") || (!properties.button_size))?"btn-lg ":"")  + (properties.button_size=="small"?"btn-sm ":"") '
-                            v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    properties["background_color"]  +  ";"+ "color: "+    (properties["color"]?properties["color"]:"black")  +  ";"'
-                            v-on:click='event_callback()'
-                            >
-
-                                                {{properties.text}}
-                 </button>`
+    Yazz.component(
+    {
+        props: [ "meta",  "name",  "refresh",  "design_mode"   ,"properties" ]
+        ,
+        template:
+            `<button  type=button
+                      v-bind:class='"btn btn-info " + (((properties.button_size=="large") || (!properties.button_size))?"btn-lg ":"")  + (properties.button_size=="small"?"btn-sm ":"") '
+                      v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    properties["background_color"]  +  ";"+ "color: "+    (properties["color"]?properties["color"]:"black")  +  ";"'
+                      v-on:click='event_callback()'
+            >
+            
+                {{properties.text}}
+            
+            </button>`
     ,
-    mounted: function() {
+    mounted:    function() {
         registerComponent(this)
-
-    }
-    ,
-    data: function() {
+    },
+    data:       function() {
         return {
             msg: "..."
         }
-    }
-    ,
-    methods: {
-        event_callback: function() {
-            console.log("----- button_control, event_callback: function() = " + this.name)
-            //eval("(function(){" + this.properties.click_event + "})")()
-            console.log("     design mode = " + this.design_mode)
+    },
+    methods:    {
+                    event_callback: function() {
+                        console.log("----- button_control, event_callback: function() = " + this.name)
+                        //eval("(function(){" + this.properties.click_event + "})")()
+                        console.log("     design mode = " + this.design_mode)
 
-            this.$emit('send', {
-                                            type:               "subcomponent_event",
-                                            form_name:           this.meta.form,
-                                            control_name:        this.meta.name,
-                                            sub_type:           "click",
-                                            code:                this.properties.click_event
-                                        })
-
-        }
-     }
-
+                        this.$emit('send', {
+                                                type:               "subcomponent_event",
+                                                form_name:           this.meta.form,
+                                                control_name:        this.meta.name,
+                                                sub_type:           "click",
+                                                code:                this.properties.click_event
+                                            })
+                    }
+                }
     })
 }
