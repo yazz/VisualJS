@@ -6351,21 +6351,7 @@ return {}
         watch:
             //*** copy_watch_start ***//
             {
-            /*
-________________________________________
-|                                      |
-|             WATCH                    |
-|                                      |
-|______________________________________|
-
-This watches for changes in the design of the application
-
-__________
-| Params |
-|        |______________________________________________________________
-|
-|     NONE
-|________________________________________________________________________ */
+            // This watches for changes in the application
             model: {
                 handler:
                     function() {
@@ -6374,6 +6360,12 @@ __________
                         if (!mm) {
                             return
                         }
+
+                        // if we are in design mode then any changes in the
+                        // application model means that the app has changed,
+                        // so we set the application to be "save pending"
+                        // which means that the application code will be saved
+                        // at the next autosave
 
                         if (this.design_mode) {
 
@@ -6405,6 +6397,8 @@ __________
                                     },500)
                                 }
                             }
+
+                        // if we are in runtime mode then ...
 
                         } else {
                             //console.log("Changed ********")
