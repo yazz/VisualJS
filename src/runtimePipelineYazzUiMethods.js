@@ -3168,7 +3168,7 @@ ${origCode}
                             let fcc =
 `(async function(args){
     ${scopeCode}
-    //debug_from_here
+    let debug_from_here = true;
     ${code}
 })`
                             let debugFcc = getDebugCode(
