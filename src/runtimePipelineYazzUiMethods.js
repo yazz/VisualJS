@@ -3099,18 +3099,20 @@ ${origCode}
                 let fullEvalCode            = ""
                 let shallIProcessThisEvent  = false
 
+
+
                 // disallow processing this event if we are in design mode
                 // in most cases
 
-                if ((!mm.design_mode) && (mm.model))                           { shallIProcessThisEvent = true }
-                if ((!mm.design_mode) && (mm.model))                           { shallIProcessThisEvent = true }
-                if (design_time_only_events && (mm.design_mode) && (mm.model)) { shallIProcessThisEvent = true }
-                if (design_time_only_events && (!mm.design_mode))              { shallIProcessThisEvent = false }
+                if ( (!mm.design_mode) && (mm.model) )                              { shallIProcessThisEvent = true }
+                if ( (!mm.design_mode) && (mm.model) )                              { shallIProcessThisEvent = true }
+                if ( design_time_only_events && (mm.design_mode) && (mm.model) )    { shallIProcessThisEvent = true }
+                if ( design_time_only_events && (!mm.design_mode) )                 { shallIProcessThisEvent = false }
+                if ( ( code == null) || ( code == "" ) )                            { shallIProcessThisEvent = false }
 
 
 
-
-                // if we are allowed to process this even
+                // if we are allowed to process this
 
                 if (shallIProcessThisEvent) {
 
@@ -3119,7 +3121,6 @@ ${origCode}
 
                     // if this is processing an event generated from a control
                     // on a form
-
                     if (type == "subcomponent_event") {
 
                         let formEval = ""
@@ -3139,7 +3140,9 @@ ${origCode}
                             }
                             callableUiForms[ aForm.name  ].init({formName: aForm.name})
 
-                            formEval += ("let " + aForm.name + " = callableUiForms[ '" + aForm.name + "'  ];")
+                            formEval +=
+`let ${aForm.name} = callableUiForms[ '${aForm.name}' ];
+`
                         }
 
 
@@ -3154,13 +3157,11 @@ ${origCode}
                             // LEAVE this as a "var", otherwise components don't work inscripts
                             cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                         }
-                        if ((   code == null) || ( code == "" )) {
-                            return
-                        }
                         let fcc =
-                            `(async function(args){
-                                ${code}
-                            })`
+`(async function(args){
+    ${code}
+})
+`
 
 
                         let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   control_name   ]
