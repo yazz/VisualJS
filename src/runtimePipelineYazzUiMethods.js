@@ -3179,27 +3179,23 @@ ${origCode}
 
                         let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   control_name   ]
                         if (isValidObject(thisControl)) {
+                            let parentCode  = ""
+                            let meCode      = ""
+                            let appCode     = ""
+                            let argsCode    = ""
+                            let myFormCode  = ""
 
                             if (isValidObject(thisControl.parent)) {
-                                let cacc =""
-                                cacc += ( "var parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
-                                eval(cacc)
+                                parentCode += ( "var parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
                             }
 
-                            let meCode =""
                             meCode += ( "var me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
-                            eval(meCode)
 
-                            let appCode =""
                             appCode += ( "var app = mm.model;")
-                            eval(appCode)
 
-                            meCode =""
-                            meCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
-                            eval(meCode)
+                            myFormCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
 
 
-                            let argsCode =""
                             let listOfArgs = []
                             if (isValidObject(args)) {
                                 listOfArgs = Object.keys(args)
@@ -3207,7 +3203,6 @@ ${origCode}
                                     argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(args[listOfArgs[rtt]]) +";"
                                 }
                             }
-                            eval(argsCode)
 
 
 
@@ -3222,7 +3217,14 @@ ${origCode}
 })
 `
                             let debugFcc = getDebugCode(mm.active_form +"_"+control_name+"_"+sub_type,fcc,{skipFirstAndLastLine: true})
-                            fullEvalCode = formEval +  cacc + "" + debugFcc
+                            fullEvalCode =  formEval +
+                                            cacc +
+                                            parentCode +
+                                            meCode +
+                                            appCode +
+                                            myFormCode +
+                                            argsCode +
+                                            debugFcc
 
 
                             // try to execute the code. Ideally, we should have all the
