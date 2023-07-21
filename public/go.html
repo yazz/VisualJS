@@ -3342,13 +3342,20 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                     return trcode2
                 }
 
+                let debugFromHere = false
+                if (trcode2.indexOf("//debug_from_here") != -1) {
+                    debugFromHere = true
+                }
+
                 let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
                 let line = -1
                 let varsToAdd = {}
                 let skipFirstAndLastLine = false
+                let numLinesToSkip = 0
                 if (isValidObject(args)) {
                     if (args.skipFirstAndLastLine){
                         skipFirstAndLastLine=true
+                        numLinesToSkip = 1
                     }
                 }
 
@@ -3365,8 +3372,8 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                             (node.type == "AssignmentExpression")
                         ) {
                             if (parent) {
-                                if ((node.loc.start.line - (skipFirstAndLastLine?1:0)) > line) {
-                                    line = node.loc.start.line - (skipFirstAndLastLine?1:0)
+                                if ((node.loc.start.line - numLinesToSkip) > line) {
+                                    line = node.loc.start.line - numLinesToSkip
 
                                     if (line > 0) {
                                         let newLine = "logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
@@ -3513,10 +3520,10 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 
                 executionCode[blockName] = {}
                 executionCode[blockName].debug_code = debugCode
-                if (skipFirstAndLastLine){
+                if (numLinesToSkip > 0){
                     let indexOfFirst = trcode2.indexOf("\n")
                     if (indexOfFirst != -1) {
-                        trcode2 = trcode2.substring(indexOfFirst + 1)
+                        trcode2 = trcode2.substring(indexOfFirst + numLinesToSkip)
                     }
 
                     let indexOfLast = trcode2.lastIndexOf("\n")

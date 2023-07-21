@@ -3168,9 +3168,14 @@ ${origCode}
                             let fcc =
 `(async function(args){
     ${scopeCode}
+    //debug_from_here
     ${code}
 })`
-                            let debugFcc = getDebugCode(mm.active_form +"_"+control_name+"_"+sub_type,fcc,{skipFirstAndLastLine: true})
+                            let debugFcc = getDebugCode(
+                                                mm.active_form + "_" + control_name + "_" + sub_type,fcc,
+                                                {
+                                                    skipFirstAndLastLine: true
+                                                })
                             fullEvalCode =  debugFcc
 
 
