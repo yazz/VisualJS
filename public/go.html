@@ -3358,6 +3358,13 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                         numLinesToSkip = 1
                     }
                 }
+                if (debugFromHere) {
+
+                    var index = trcode2.indexOf("//debug_from_here");
+                    var tempString = trcode2.substring(0, index);
+                    var lineNumber = tempString.split('\n').length;
+                    numLinesToSkip = lineNumber
+                }
 
                 estraverse.traverse(_b, {
                     enter: function (node, parent) {
@@ -3371,6 +3378,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                             ||
                             (node.type == "AssignmentExpression")
                         ) {
+                            debugger
                             if (parent) {
                                 if ((node.loc.start.line - numLinesToSkip) > line) {
                                     line = node.loc.start.line - numLinesToSkip

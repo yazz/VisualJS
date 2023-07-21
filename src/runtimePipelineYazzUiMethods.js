@@ -3183,7 +3183,7 @@ ${origCode}
                             // code sitting in "fullEvalCode" ready to be executed. This
                             // should make things easier to debug
 
-debugger
+//debugger
                             let efcc = eval(fullEvalCode)
 
 
