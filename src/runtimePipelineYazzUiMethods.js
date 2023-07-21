@@ -2827,14 +2827,7 @@ ${origCode}
 
 
 
-                    //
-                    //   get the list of properties
-                    //
-
-
-                    //
                     // get the app methods
-                    //
                     if (mm.model.app_selected) {
                         let allProperties = mm.getAllAppPropeties()
                         for (let ui=0;ui < allProperties.length; ui ++) {
@@ -3092,8 +3085,12 @@ ${origCode}
             getFormNames:                           function        (  ) {
                 return Object.keys(this.model.forms)
             },
-            processControlEvent:                    async function  (  eventMessage  ) {
+            processControlEvent:                    async function  (  { design_time_only_events , type , code , control_name , args , sub_type , form_name }  ) {
 
+                //                    -------------------------------------
+                //                   |         processControlEvent         |
+                //                    -------------------------------------
+                //
                 // This is used to run user written event code in app, form, or control
                 // event handlers
 
@@ -3105,9 +3102,10 @@ ${origCode}
                 // disallow processing this event if we are in design mode
                 // in most cases
 
-                if ((!mm.design_mode) && (mm.model))                                        { shallIProcessThisEvent = true }
-                if (eventMessage.design_time_only_events && (mm.design_mode) && (mm.model)) { shallIProcessThisEvent = true }
-                if (eventMessage.design_time_only_events && (!mm.design_mode))              { shallIProcessThisEvent = false }
+                if ((!mm.design_mode) && (mm.model))                           { shallIProcessThisEvent = true }
+                if ((!mm.design_mode) && (mm.model))                           { shallIProcessThisEvent = true }
+                if (design_time_only_events && (mm.design_mode) && (mm.model)) { shallIProcessThisEvent = true }
+                if (design_time_only_events && (!mm.design_mode))              { shallIProcessThisEvent = false }
 
 
 
@@ -3122,10 +3120,9 @@ ${origCode}
                     // if this is processing an event generated from a control
                     // on a form
 
-                    if (eventMessage.type == "subcomponent_event") {
+                    if (type == "subcomponent_event") {
 
                         let formEval = ""
-                        debugger
                         for (  let  aForm  of  this.getForms() ) {
                             callableUiForms[ aForm.name  ] = {
                                 init: function({formName}) {
@@ -3157,16 +3154,16 @@ ${origCode}
                             // LEAVE this as a "var", otherwise components don't work inscripts
                             cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                         }
-                        if ((eventMessage.code == null) || (eventMessage.code == "")) {
+                        if ((   code == null) || ( code == "" )) {
                             return
                         }
                         let fcc =
                             `(async function(args){
-                                ${eventMessage.code}
+                                ${code}
                             })`
 
 
-                        let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   eventMessage.control_name   ]
+                        let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   control_name   ]
                         if (isValidObject(thisControl)) {
 
                             if (isValidObject(thisControl.parent)) {
@@ -3190,17 +3187,25 @@ ${origCode}
 
                             let argsCode =""
                             let listOfArgs = []
-                            if (isValidObject(eventMessage.args)) {
-                                listOfArgs = Object.keys(eventMessage.args)
+                            if (isValidObject(args)) {
+                                listOfArgs = Object.keys(args)
                                 for (let rtt=0;rtt<listOfArgs.length;rtt++) {
-                                    argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(eventMessage.args[listOfArgs[rtt]]) +";"
+                                    argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(args[listOfArgs[rtt]]) +";"
                                 }
                             }
                             eval(argsCode)
 
 
-                            let debugFcc = getDebugCode(mm.active_form +"_"+eventMessage.control_name+"_"+eventMessage.sub_type,fcc,{skipFirstAndLastLine: true})
+
+
+                            let debugFcc = getDebugCode(mm.active_form +"_"+control_name+"_"+sub_type,fcc,{skipFirstAndLastLine: true})
                             fullEvalCode = formEval +  cacc + "" + debugFcc
+
+
+                            // try to execute the code. Ideally, we should have all the
+                            // code sitting in "fullEvalCode" ready to be executed. This
+                            // should make things easier to debug
+
                             debugger
                             let efcc = eval(fullEvalCode)
 
@@ -3215,7 +3220,7 @@ ${origCode}
                                 } else {
                                     errValue = err
                                 }
-                                alert(  "Error in " + eventMessage.form_name + ":" + eventMessage.control_name + ":" + eventMessage.sub_type + ":" + "\n" +
+                                alert(  "Error in " + form_name + ":" + control_name + ":" + sub_type + ":" + "\n" +
                                     "    " + JSON.stringify(errValue,null,2))
                             }
                         }
@@ -3226,10 +3231,10 @@ ${origCode}
                     // This is only executed for events which are generated from a form, such as form
                     // load or activate
 
-                    } else if (eventMessage.type == "form_event") {
+                    } else if (type == "form_event") {
                         let fcc =
                             `(async function(){
-                                ${eventMessage.code}
+                                ${code}
                             })`
                         let meCode =""
                         meCode += ( "var me = mm.model.forms['" + this.active_form + "'];")
@@ -3252,7 +3257,7 @@ ${origCode}
                             } else {
                                 errValue = err
                             }
-                            alert(  "Error in " +eventMessage.form_name + ":" + eventMessage.sub_type + "\n" +
+                            alert(  "Error in " + form_name + ":" + sub_type + "\n" +
                                 "    Error: " + JSON.stringify(errValue,null,2))
                         }
                     }
