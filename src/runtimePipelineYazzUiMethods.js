@@ -3157,28 +3157,28 @@ ${origCode}
                             // insert the user generated event code found in "code"
                             // preceeded by all the code that defines the controls and
                             // properties that are in scope
+                            let scopeCode =     formEval +
+                                cacc +
+                                parentCode +
+                                meCode +
+                                appCode +
+                                myFormCode +
+                                argsCode
 
                             let fcc =
 `(async function(args){
+    ${scopeCode}
     ${code}
 })`
                             let debugFcc = getDebugCode(mm.active_form +"_"+control_name+"_"+sub_type,fcc,{skipFirstAndLastLine: true})
-                            let scopeCode =     formEval +
-                                                cacc +
-                                                parentCode +
-                                                meCode +
-                                                appCode +
-                                                myFormCode +
-                                                argsCode
-
-                            fullEvalCode =  scopeCode + debugFcc
+                            fullEvalCode =  debugFcc
 
 
                             // try to execute the code. Ideally, we should have all the
                             // code sitting in "fullEvalCode" ready to be executed. This
                             // should make things easier to debug
 
-//debugger
+debugger
                             let efcc = eval(fullEvalCode)
 
 
