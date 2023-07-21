@@ -3161,8 +3161,7 @@ ${origCode}
                             let fcc =
 `(async function(args){
     ${code}
-})
-`
+})`
                             let debugFcc = getDebugCode(mm.active_form +"_"+control_name+"_"+sub_type,fcc,{skipFirstAndLastLine: true})
                             let scopeCode =     formEval +
                                                 cacc +
@@ -3179,7 +3178,7 @@ ${origCode}
                             // code sitting in "fullEvalCode" ready to be executed. This
                             // should make things easier to debug
 
-debugger
+//debugger
                             let efcc = eval(fullEvalCode)
 
 
