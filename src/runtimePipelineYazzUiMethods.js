@@ -3119,12 +3119,19 @@ ${origCode}
                     mm.updateAllFormCaches()
 
 
+                    //             --------------------
+                    //            |  UI control event  |
+                    //             --------------------
+                    //
+                    //       eg: "code to run when button clicked"
+                    //
                     // if this is processing an event generated from a control
                     // on a form
+
                     if (type == "subcomponent_event") {
 
 
-                        // set up form access like:
+                        // set up form access vars to enable:
                         //
                         // Form_1.show()
                         // Form_1.button_1.setText("Hello Ducks")
@@ -3243,7 +3250,12 @@ ${origCode}
 
 
 
-
+                    //             --------------
+                    //            |  Form event  |
+                    //             --------------
+                    //
+                    //   eg: "code to run when form activated"
+                    //
                     // This is only executed for events which are generated from a form, such as form
                     // load or activate
 
@@ -3287,21 +3299,7 @@ ${origCode}
                 }
             },
             gotoDragDropEditor:                     function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 this.design_mode_pane.type          = "drag_drop";
                 yz.mainVars.disableAutoSave         = false
                 this.active_component_detail_name   = null
