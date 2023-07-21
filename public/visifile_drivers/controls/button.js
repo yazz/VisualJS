@@ -91,56 +91,51 @@ logo_url("/driver_icons/button_control.png")
 
     Yazz.component(
     {
-        props: [ "meta",  "name",  "refresh",  "design_mode"   ,"properties" ]
-        ,
-        template:
-            `<button  type=button
+        props:      [ "meta",  "name",  "refresh",  "design_mode"   ,"properties" ],
+        template:   `<button  type=button
                       v-bind:class='"btn btn-info " + (((properties.button_size=="large") || (!properties.button_size))?"btn-lg ":"")  + (properties.button_size=="small"?"btn-sm ":"") '
                       v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    properties["background_color"]  +  ";"+ "color: "+    (properties["color"]?properties["color"]:"black")  +  ";"'
                       v-on:click='event_callback()'
-            >
-            
-                {{properties.text}}
-            
-            </button>`
-    ,
-    mounted:    function() {
-        registerComponent(this)
-    },
-    data:       function()  {
-                                return {
-                                    text: ""
-                                }
-                            },
-    methods:    {
-                    event_callback: function() {
-                        console.log("----- button_control, event_callback: function() = " + this.name)
-                        //eval("(function(){" + this.properties.click_event + "})")()
-                        console.log("     design mode = " + this.design_mode)
-
-                        this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                form_name:           this.meta.form,
-                                                control_name:        this.meta.name,
-                                                sub_type:           "click",
-                                                code:                this.properties.click_event
-                                            })
-                    },
-                    setText:        function(newtext) {
-                        debugger
-                                        this.text = newtext
-                                        this.changedFn()
-                                    },
-                    setTextAsync:   async function(newtext) {
-                                        this.text = newtext
-                                        this.changedFn()
-                                    },
-                    changedFn:      function() {
-                                        if (isValidObject(this.properties)) {
-                                            this.properties.text = this.text
-                                        }
+                    >
+                    
+                        {{properties.text}}
+                    
+                    </button>`,
+        mounted:    function( ) {
+            registerComponent(this)
+        },
+        data:       function( ) {
+                                    return {
+                                        text: ""
                                     }
+                                },
+        methods:    {
+                        event_callback: function        ( ) {
+                            console.log("----- button_control, event_callback: function() = " + this.name)
+                            //eval("(function(){" + this.properties.click_event + "})")()
+                            console.log("     design mode = " + this.design_mode)
 
-    }
+                            this.$emit('send', {
+                                                    type:               "subcomponent_event",
+                                                    form_name:           this.meta.form,
+                                                    control_name:        this.meta.name,
+                                                    sub_type:           "click",
+                                                    code:                this.properties.click_event
+                                                })
+                        },
+                        setText:        function        ( newtext ) {
+                                            this.text = newtext
+                                            this.changedFn()
+                                        },
+                        setTextAsync:   async function  ( newtext ) {
+                                            this.text = newtext
+                                            this.changedFn()
+                                        },
+                        changedFn:      function        ( ) {
+                                            if (isValidObject(this.properties)) {
+                                                this.properties.text = this.text
+                                            }
+                                        }
+                    }
     })
 }
