@@ -3186,21 +3186,31 @@ ${origCode}
                             let myFormCode  = ""
 
                             if (isValidObject(thisControl.parent)) {
-                                parentCode += ( "var parent = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.parent + "'];")
+                                parentCode +=
+`let parent     = mm.form_runtime_info[  '${this.active_form}'  ].component_lookup_by_name[  '${thisControl.parent}'  ];
+`
                             }
 
-                            meCode += ( "var me = mm.form_runtime_info['" + this.active_form + "'].component_lookup_by_name['" + thisControl.name + "'];")
+                            meCode +=
+`let me         = mm.form_runtime_info[  '${this.active_form}'  ].component_lookup_by_name[  '${thisControl.name}'  ];
+`
 
-                            appCode += ( "var app = mm.model;")
+                            appCode +=
+`let app        = mm.model;
+`
 
-                            myFormCode += ( "var myForm = mm.model.forms['" + this.active_form + "'];")
+                            myFormCode +=
+`let myForm     = mm.model.forms['${this.active_form}'];
+`
 
 
                             let listOfArgs = []
                             if (isValidObject(args)) {
                                 listOfArgs = Object.keys(args)
                                 for (let rtt=0;rtt<listOfArgs.length;rtt++) {
-                                    argsCode += "var " + listOfArgs[rtt] + " = " + JSON.stringify(args[listOfArgs[rtt]]) +";"
+                                    argsCode +=
+`let ${listOfArgs[rtt]}  = ${JSON.stringify(args[listOfArgs[rtt]])};
+`
                                 }
                             }
 
