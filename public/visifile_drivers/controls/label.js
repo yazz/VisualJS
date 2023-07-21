@@ -53,7 +53,6 @@ properties(
             default: 0
         }
         ,
-
         {
             id:     "padding_px",
             name:   "Padding px",
@@ -78,7 +77,7 @@ properties(
             name:       "setText",
             type:       "Action",
             help:       `<div>Help text for
-                            <b>setText2</b> function
+                            <b>setText</b> function
                          </div>`
         }
         ,

@@ -10,11 +10,32 @@ read_only(true)
 properties(
     [
         {
-            id:       "text",
-            name:     "Text",
-            default:  "Click me",
-            type:     "String",
-            help:     `<div>This is the text that is displayed in the button</div>`
+            id:         "text",
+            name:       "Text",
+            default:    "Click me",
+            type:       "String",
+            help:       `<div>This is the text that is displayed in the button</div>`
+        }
+        ,
+                {
+            id:         "setText",
+            snippet:    `setText("")`,
+            name:       "setText",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>setText2</b> function
+                         </div>`
+        }
+        ,
+        {
+            id:         "setTextAsync",
+            pre_snippet: `await `,
+            snippet:    `setTextAsync("")`,
+            name:       "setTextAsync",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>setTextAsync</b> function
+                         </div>`
         }
         ,
         {
@@ -32,19 +53,19 @@ properties(
         }
         ,
         {
-            id:     "background_color",
-            name:   "Background color",
-            type:   "String"
+            id:         "background_color",
+            name:       "Background color",
+            type:       "String"
         }
         ,
         {
-            id:     "color",
-            name:   "Color",
-            type:   "String"
+            id:         "color",
+            name:       "Color",
+            type:       "String"
         }
         ,
         {
-            id:      "button_size",
+            id:         "button_size",
             name:       "Button size",
             type:       "Select",
             default:    "large",
@@ -56,12 +77,12 @@ properties(
         }
         ,
         {
-            id:     "click_event",
-            name:   "Clicked event",
-            type:   "Event",
-            help:   `<div>Help text for
-                        <b>click_event</b> event
-                     </div>`
+            id:         "click_event",
+            name:       "Clicked event",
+            type:       "Event",
+            help:       `<div>Help text for
+                            <b>click_event</b> event
+                        </div>`
         }
     ]
 )//properties
@@ -104,7 +125,21 @@ logo_url("/driver_icons/button_control.png")
                                                 sub_type:           "click",
                                                 code:                this.properties.click_event
                                             })
-                    }
-                }
+                    },
+                    setText:        function(newtext) {
+                                        this.text = newtext
+                                        this.changedFn()
+                                    },
+                    setTextAsync:   async function(newtext) {
+                                        this.text = newtext
+                                        this.changedFn()
+                                    },
+                    changedFn:      function() {
+                                        if (isValidObject(this.args)) {
+                                            this.properties.text = this.text
+                                        }
+                                    }
+
+    }
     })
 }
