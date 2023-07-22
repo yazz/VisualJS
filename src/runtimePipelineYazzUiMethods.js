@@ -3157,7 +3157,8 @@ ${origCode}
                             // insert the user generated event code found in "code"
                             // preceeded by all the code that defines the controls and
                             // properties that are in scope
-                            let scopeCode =     formEval +
+                            let scopeCode =
+                                formEval +
                                 cacc +
                                 parentCode +
                                 meCode +
@@ -3167,8 +3168,6 @@ ${origCode}
 
                             let fcc =
 `(async function(args){
-    ${scopeCode}
-    let debug_from_here = true;
     ${code}
 })`
                             let debugFcc = getDebugCode(
@@ -3176,7 +3175,7 @@ ${origCode}
                                                 {
                                                     skipFirstAndLastLine: true
                                                 })
-                            fullEvalCode =  debugFcc
+                            fullEvalCode =  scopeCode + debugFcc
 
 
                             // try to execute the code. Ideally, we should have all the
