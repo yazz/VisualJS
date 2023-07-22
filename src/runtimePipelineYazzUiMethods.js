@@ -3032,7 +3032,6 @@ ${origCode}
 
                 let mm                      = this
                 let callableUiForms         = {}
-                let fullEvalCode            = ""
                 let shallIProcessThisEvent  = false
                 let argsToUserCodeString    = "{"
                 let argsToUserCode          = {}
@@ -3075,7 +3074,6 @@ ${origCode}
                         // Form_1.show()
                         // Form_1.button_1.setText("Hello Ducks")
 
-                        let formEval = ""
                         for (  let  aForm  of  this.getForms() ) {
                             callableUiForms[ aForm.name  ] = {
                                 init: function({formName}) {
@@ -3092,9 +3090,6 @@ ${origCode}
                             }
                             callableUiForms[ aForm.name  ].init({formName: aForm.name})
 
-                            formEval +=
-`let ${aForm.name} = callableUiForms[ '${aForm.name}' ];
-`
                             argsToUserCodeString += aForm.name + ","
                             argsToUserCode[aForm.name] = callableUiForms[ aForm.name ]
                         }
@@ -3109,12 +3104,7 @@ ${origCode}
                         // button_1.text = "Hello Ducks"
 
                         let allC = this.model.forms[this.active_form].components
-                        let cacc =""
                         for ( let comp  of  allC ) {
-                            // LEAVE this as a "var", otherwise components don't work inscripts
-                            cacc +=
-`let ${comp.name} = mm.form_runtime_info['${this.active_form}'].component_lookup_by_name['${comp.name}'];
-`
                             argsToUserCodeString += comp.name + ","
                             argsToUserCode[comp.name] = mm.form_runtime_info[this.active_form].component_lookup_by_name[comp.name];
                         }
@@ -3122,31 +3112,17 @@ ${origCode}
 
                         let thisControl = this.form_runtime_info[   this.active_form   ].component_lookup_by_name[   control_name   ]
                         if (isValidObject(thisControl)) {
-                            let parentCode  = ""
-                            let meCode      = ""
-                            let appCode     = ""
-                            let argsCode    = ""
-                            let myFormCode  = ""
 
                             if (isValidObject(thisControl.parent)) {
-                                parentCode +=
-`let parent     = mm.form_runtime_info[  '${this.active_form}'  ].component_lookup_by_name[  '${thisControl.parent}'  ];
-`
                                 argsToUserCodeString += parent + ","
                                 argsToUserCode["parent"] = mm.form_runtime_info[  this.active_form  ].component_lookup_by_name[  thisControl.parent  ];
                             }
 
 
-                            appCode +=
-`let app        = mm.model;
 `
                             argsToUserCodeString += "app ,"
                             argsToUserCode["app"] = mm.model;
 
-
-                            myFormCode +=
-`let myForm     = mm.model.forms['${this.active_form}'];
-`
                             argsToUserCodeString += "myForm ,"
                             argsToUserCode["myForm"] = mm.model.forms[this.active_form];
 
@@ -3155,55 +3131,34 @@ ${origCode}
                             if (isValidObject(args)) {
                                 listOfArgs = Object.keys(args)
                                 for (let rtt=0;rtt<listOfArgs.length;rtt++) {
-                                    argsCode +=
-`let ${listOfArgs[rtt]}  = ${JSON.stringify(args[listOfArgs[rtt]])};
-`
                                     argsToUserCodeString += listOfArgs[rtt] + " ,"
                                     argsToUserCode[listOfArgs[rtt]] = JSON.stringify(args[listOfArgs[rtt]])
                                 }
                             }
 
-
-
-                            meCode +=
-`let me         = mm.form_runtime_info[  '${this.active_form}'  ].component_lookup_by_name[  '${thisControl.name}'  ];
 `
                             argsToUserCodeString += "me }"
                             argsToUserCode["me"] = mm.form_runtime_info[mm.active_form].component_lookup_by_name[thisControl.name];
 
 
 
-
-                            // insert the user generated event code found in "code"
-                            // preceeded by all the code that defines the controls and
-                            // properties that are in scope
-                            let scopeCode =
-                                formEval +
-                                cacc +
-                                parentCode +
-                                meCode +
-                                appCode +
-                                myFormCode +
-                                argsCode
-
                             let fcc =
 `(async function(${argsToUserCodeString}){
-    ${code}
+${code}
 })`
                             let debugFcc = getDebugCode(
                                                 mm.active_form + "_" + control_name + "_" + sub_type,fcc,
                                                 {
                                                     skipFirstAndLastLine: true
                                                 })
-                            fullEvalCode =  scopeCode + debugFcc
+
 
 
                             // try to execute the code. Ideally, we should have all the
-                            // code sitting in "fullEvalCode" ready to be executed. This
+                            // code sitting in "debugFcc" ready to be executed. This
                             // should make things easier to debug
-
 debugger
-                            let efcc = eval(fullEvalCode)
+                            let efcc = eval(debugFcc)
 
 
                             try {
