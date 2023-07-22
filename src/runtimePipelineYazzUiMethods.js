@@ -3034,6 +3034,8 @@ ${origCode}
                 let callableUiForms         = {}
                 let fullEvalCode            = ""
                 let shallIProcessThisEvent  = false
+                let argsToUserCodeString    = "{"
+                let argsToUserCode          = {}
 
 
 
@@ -3093,6 +3095,8 @@ ${origCode}
                             formEval +=
 `let ${aForm.name} = callableUiForms[ '${aForm.name}' ];
 `
+                            argsToUserCodeString += aForm.name + ","
+                            argsToUserCode[aForm.name] = callableUiForms[ aForm.name ]
                         }
 
 
@@ -3111,6 +3115,8 @@ ${origCode}
                             cacc +=
 `let ${comp.name} = mm.form_runtime_info['${this.active_form}'].component_lookup_by_name['${comp.name}'];
 `
+                            argsToUserCodeString += comp.name + ","
+                            argsToUserCode[comp.name] = mm.form_runtime_info[this.active_form].component_lookup_by_name[comp.name];
                         }
 
 
@@ -3126,19 +3132,23 @@ ${origCode}
                                 parentCode +=
 `let parent     = mm.form_runtime_info[  '${this.active_form}'  ].component_lookup_by_name[  '${thisControl.parent}'  ];
 `
+                                argsToUserCodeString += parent + ","
+                                argsToUserCode["parent"] = mm.form_runtime_info[  this.active_form  ].component_lookup_by_name[  thisControl.parent  ];
                             }
 
-                            meCode +=
-`let me         = mm.form_runtime_info[  '${this.active_form}'  ].component_lookup_by_name[  '${thisControl.name}'  ];
-`
 
                             appCode +=
 `let app        = mm.model;
 `
+                            argsToUserCodeString += "app ,"
+                            argsToUserCode["app"] = mm.model;
+
 
                             myFormCode +=
 `let myForm     = mm.model.forms['${this.active_form}'];
 `
+                            argsToUserCodeString += "myForm ,"
+                            argsToUserCode["myForm"] = mm.model.forms[this.active_form];
 
 
                             let listOfArgs = []
@@ -3148,8 +3158,18 @@ ${origCode}
                                     argsCode +=
 `let ${listOfArgs[rtt]}  = ${JSON.stringify(args[listOfArgs[rtt]])};
 `
+                                    argsToUserCodeString += listOfArgs[rtt] + " ,"
+                                    argsToUserCode[listOfArgs[rtt]] = JSON.stringify(args[listOfArgs[rtt]])
                                 }
                             }
+
+
+
+                            meCode +=
+`let me         = mm.form_runtime_info[  '${this.active_form}'  ].component_lookup_by_name[  '${thisControl.name}'  ];
+`
+                            argsToUserCodeString += "me }"
+                            argsToUserCode["me"] = mm.form_runtime_info[mm.active_form].component_lookup_by_name[thisControl.name];
 
 
 
@@ -3167,7 +3187,7 @@ ${origCode}
                                 argsCode
 
                             let fcc =
-`(async function(args){
+`(async function(${argsToUserCodeString}){
     ${code}
 })`
                             let debugFcc = getDebugCode(
@@ -3182,12 +3202,12 @@ ${origCode}
                             // code sitting in "fullEvalCode" ready to be executed. This
                             // should make things easier to debug
 
-//debugger
+debugger
                             let efcc = eval(fullEvalCode)
 
 
                             try {
-                                await efcc()
+                                await efcc(argsToUserCode)
                             } catch(  err  ) {
 
                                 let errValue = ""
