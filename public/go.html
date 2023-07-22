@@ -3368,7 +3368,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                         ) {
                             if (parent) {
                                 if ((node.loc.start.line - numLinesToSkip) > line) {
-                                    line = node.loc.start.line - numLinesToSkip + 1
+                                    line = (node.loc.start.line - numLinesToSkip)
 
                                     if (line > 0) {
                                         let newLine = "logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
