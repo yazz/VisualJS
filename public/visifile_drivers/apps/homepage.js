@@ -1292,7 +1292,6 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 
                 // amend the edited apps
                 addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
-                    debugger
                     /* Given the base component ID of an app, a new display name, and
                     some other data, add a new editable app to the homepage
 

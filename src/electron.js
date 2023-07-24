@@ -2327,6 +2327,7 @@ async function  file_uploadSingleFn                     (  req  ,  res  ) {
 
 };
 async function  file_uploadFn                           (  req  ,  res  ,  next  ) {
+    let userId              = await getUserId(req)
     let client_file_upload_id = req.body.client_file_upload_id
     res.status( 200 ).send( req.files );
 
@@ -2374,7 +2375,7 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                     parent_hash:            null,
                     code:                   ytr,
                     client_file_upload_id:  client_file_upload_id,
-                    options:                {save_html: true, fast_forward_database_to_latest_revision: true},
+                    options:                {save_html: true, fast_forward_database_to_latest_revision: true, userId: userId},
                     sqlite_data:            sqlitedatafromupload
                 });
             }
@@ -2449,7 +2450,8 @@ async function  save_code_from_upload                   (  msg  ) {
         base_component_id:      ret.base_component_id,
         display_name:           displayName,
         client_file_upload_id:  msg.client_file_upload_id,
-        logo_url:               logoUrl
+        logo_url:               logoUrl,
+        user_id:                msg.options?msg.options.user_id:null
     });
 }
 
