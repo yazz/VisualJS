@@ -1429,7 +1429,6 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                             codeId:     result.code_id,
                             logo_url:   result.logo_url
                         })
-                    debugger
 
                     setTimeout(async function() {
                         await mm.editApp(result.base_component_id, result.code_id)

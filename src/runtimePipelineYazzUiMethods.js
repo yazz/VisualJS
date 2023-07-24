@@ -3157,7 +3157,7 @@ ${code}
                             // try to execute the code. Ideally, we should have all the
                             // code sitting in "debugFcc" ready to be executed. This
                             // should make things easier to debug
-debugger
+
                             let efcc = eval(debugFcc)
 
 
