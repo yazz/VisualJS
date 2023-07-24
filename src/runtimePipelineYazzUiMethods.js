@@ -3189,7 +3189,7 @@ debugger
                     // load or activate
 
                     } else if (type == "form_event") {
-                        debugger
+                        //debugger
                         let fcc =
                             `(async function(){
                                 ${code}
