@@ -2327,24 +2327,7 @@ async function  file_uploadSingleFn                     (  req  ,  res  ) {
 
 };
 async function  file_uploadFn                           (  req  ,  res  ,  next  ) {
-    //console.log('-------------------------------------------------------------------------------------');
-    //console.log('-------------------------------------------------------------------------------------');
-    //console.log('-------------------------------------------------------------------------------------');
-    //console.log('-------------------------------------------------------------------------------------');
-    //console.log('-------------------------------------------------------------------------------------');
-
-    //console.log(JSON.stringify(req.files.length));
-    //console.log("client_file_upload_id: " + JSON.stringify(req.body.client_file_upload_id,null,2))
     let client_file_upload_id = req.body.client_file_upload_id
-    //console.log("**FILES** " + JSON.stringify(req.files));
-    //console.log(    "    next: " + JSON.stringify(next));
-
-
-    //console.log('......................................................................................');
-    //console.log('......................................................................................');
-    //console.log('......................................................................................');
-    //console.log('......................................................................................');
-    //console.log('......................................................................................');
     res.status( 200 ).send( req.files );
 
     let ll = req.files.length;
@@ -2418,11 +2401,8 @@ async function  file_name_load                          (  req  ,  res  ,  next 
         req.query.client_file_upload_id)
 };
 async function  loadAppFromFile                         (  localp  ,  client_file_upload_id  ) {
-    console.log("loadAppFromFile(" + localp + "," + client_file_upload_id + ")")
-    let readIn = fs.readFileSync(localp).toString()
-    let bci = yz.helpers.getValueOfCodeString(readIn, "base_component_id")
-
-
+    let readIn  = fs.readFileSync(localp).toString()
+    let bci     = yz.helpers.getValueOfCodeString(readIn, "base_component_id")
 
     await save_code_from_upload({
         message_type:           "save_code_from_upload",
@@ -2431,10 +2411,11 @@ async function  loadAppFromFile                         (  localp  ,  client_fil
         code:                   readIn,
         client_file_upload_id:  client_file_upload_id,
         options:                {
-            save_html: true,
-            fast_forward_database_to_latest_revision: false,
-            save_code_to_file: localp
-        },                                          sqlite_data:            ""
+            save_html:                                  true,
+            fast_forward_database_to_latest_revision:   false,
+            save_code_to_file:                          localp
+        },
+        sqlite_data:            ""
     });
 
 }
