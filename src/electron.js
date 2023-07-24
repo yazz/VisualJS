@@ -2430,19 +2430,9 @@ async function  loadAppFromFile                         (  { localFilePath  ,  c
 
 }
 async function  save_code_from_upload                   (  msg  ) {
-    /*
-    ________________________________________
-    |                                      |
-    |       save_code_from_upload          |
-    |                                      |
-    |______________________________________|
-    Function description
-    __________
-    | PARAMS |______________________________________________________________
-    |
-    |     msg    Some text
-    |     ---
-    |________________________________________________________________________ */
+
+    //       save_code_from_upload
+
     let ret = await yz.saveCodeV3(  dbsearch  ,  msg.code  , msg.options);
     if (msg.sqlite_data) {
         let b = Buffer.from(msg.sqlite_data, 'base64')
@@ -2450,14 +2440,16 @@ async function  save_code_from_upload                   (  msg  ) {
         fs.writeFileSync(sqliteAppDbPath, b);
     }
 
-
+    let  logoUrl        = yz.helpers.getValueOfCodeString(msg.code ,"logo_url")
+    let  displayName    = yz.helpers.getValueOfCodeString(msg.code ,"display_name")
     outputDebug("uploaded_app_as_file_in_child: " + JSON.stringify(msg))
     sendOverWebSockets({
-        type:                 "uploaded_app_as_file_from_server",
-        code_id:               ret.code_id,
-        base_component_id:     ret.base_component_id,
-        client_file_upload_id: msg.client_file_upload_id
-
+        type:                   "uploaded_app_as_file_from_server",
+        code_id:                ret.code_id,
+        base_component_id:      ret.base_component_id,
+        display_name:           displayName,
+        client_file_upload_id:  msg.client_file_upload_id,
+        logo_url:               logoUrl
     });
 }
 

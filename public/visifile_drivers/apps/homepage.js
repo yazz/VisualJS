@@ -931,10 +931,18 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                                              | into the Yazz editor
                                              |__________________________________ */
                     globalEventBus.$on('new-appshare-app-uploaded',
-                        async function(uploadedAppBaseComponentId) {
-                            await mm.addEditableComponentToHomepage(uploadedAppBaseComponentId)
+                        async function({baseComponentId, codeId, logoUrl, displayName}) {
+
+                            await mm.addEditableComponentToHomepage(
+                                baseComponentId,
+                                displayName,
+                                {
+                                    codeId:     codeId,
+                                    logo_url:   logoUrl
+                                })
+
                             setTimeout(async function() {
-                                await mm.editApp(uploadedAppBaseComponentId)
+                                await mm.editApp(baseComponentId, codeId)
                             },250)
                         });
 
@@ -1284,6 +1292,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 
                 // amend the edited apps
                 addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
+                    debugger
                     /* Given the base component ID of an app, a new display name, and
                     some other data, add a new editable app to the homepage
 
@@ -1421,6 +1430,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                             codeId:     result.code_id,
                             logo_url:   result.logo_url
                         })
+                    debugger
 
                     setTimeout(async function() {
                         await mm.editApp(result.base_component_id, result.code_id)

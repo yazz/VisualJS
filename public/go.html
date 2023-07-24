@@ -2800,7 +2800,14 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 
                 socket.on('uploaded_app_as_file_from_server',async function(data) {
                     if (data.client_file_upload_id == file_upload_uuid) {
-                        globalEventBus.$emit('new-appshare-app-uploaded', data.base_component_id);
+                        globalEventBus.$emit('new-appshare-app-uploaded',
+                            {
+                                baseComponentId:    data.base_component_id,
+                                displayName:        data.display_name,
+                                codeId:             data.code_id,
+                                logoUrl:            data.logo_url
+                            }
+                        );
                     }
                 });
 
