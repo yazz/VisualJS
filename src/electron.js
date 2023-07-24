@@ -2335,23 +2335,23 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
         let ifile = req.files[i];
         let ext = ifile.originalname.split('.').pop();
         ext = ext.toLowerCase();
+
+        // if we are loading a HTML file then
+        // make sure that we read all the
+        // SQLite database data too
+
         if ((ext == "html") || (ext == "html")) {
             let localHtmlFilePath;
             localHtmlFilePath =  path.join(userData,  'uploads/' + ifile.filename);
             let localp = localHtmlFilePath + '.' + ext;
             fs.renameSync(localHtmlFilePath, localp);
             let readIn = fs.readFileSync(localp).toString()
-            //console.log('');
-            //console.log('Local saved path: ' + localp);
             let indexStart = readIn.indexOf("/*APP_START*/")
             let indexEnd = readIn.indexOf("/*APP_END*/")
-            //console.log(`indexStart: ${indexStart}`)
-            //console.log(`indexEnd: ${indexEnd}`)
             if ((indexStart > 0) && (indexEnd > 0)) {
                 indexStart += 13 + 10
                 indexEnd -= 2
                 let tts = readIn.substring(indexStart,indexEnd)
-                //console.log(tts)
                 let ytr = unescape(tts)
                 outputDebug("SENDING FROM UPLOAD___=+++****")
                 let bci = yz.helpers.getValueOfCodeString(ytr, "base_component_id")
@@ -2378,6 +2378,12 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                     sqlite_data:            sqlitedatafromupload
                 });
             }
+
+
+
+        // if we are loading a source file then
+        // do a normal app load
+
         } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz")  )  {
             let localSourceFilePath;
             localSourceFilePath =  path.join(userData,  'uploads/' + ifile.filename);
