@@ -2726,36 +2726,31 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                     }
 
 
+
+                    // set up the dropzone so that apps can be dragged
+                    // into yazz by dragging the source code into the
+                    // webapp
+
                     Dropzone.autoDiscover = false;
-
-
                     Dropzone.options.mydropzone = {
                         init: function() {
                             this.on("addedfile", function(file) {
-                                //alert("Added file.");
                             });
                         }
                     };
                     var myDropzone = new Dropzone("body#mydropzone", {
-                        url: "/http_post_file_upload"
-                        ,
-                        createImageThumbnails: false
-                        ,
-                        sending: function(file, xhr, formData){
-                            debugger
-
-                            showProgressBar()
-                            file_upload_uuid = uuidv4()
-                            //alert(fdfs)
-                            formData.append('client_file_upload_id', file_upload_uuid);
-                        }
+                        url:                    "/http_post_file_upload",
+                        createImageThumbnails:  false,
+                        sending:                function(file, xhr, formData)
+                                                {
+                                                    showProgressBar()
+                                                    file_upload_uuid = uuidv4()
+                                                    formData.append('client_file_upload_id', file_upload_uuid);
+                                                }
                     });
                     myDropzone.on("complete", function(file) {
                         myDropzone.removeFile(file);
-                        //let eds = yz.helpers.getValueOfCodeString(data.value.code, "sqlite",")//sqlite")
                     });
-
-
 
 
                 },100)
