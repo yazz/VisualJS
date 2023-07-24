@@ -716,7 +716,7 @@ End of app preview menu
 
 
 
-    <div v-if='mode == "profiler" && (execution_timeline.length == 0) ' style='width:100%;'>
+    <div v-if='mode == "profiler" && (executionTimeline.length == 0) ' style='width:100%;'>
         <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;padding:0;margin:0;">
             <h4 style="border:0px; padding: 5px; margin: 0px;margin-top: 20vh; padding-left:15px;font-family: Helvetica;color: black; text-align: center;">
                 No code to profile
@@ -734,7 +734,7 @@ End of app preview menu
         </div>
     </div>
 
-    <div v-if='mode == "profiler" && (execution_timeline.length > 0)' style='width:100%;'>
+    <div v-if='mode == "profiler" && (executionTimeline.length > 0)' style='width:100%;'>
 
         <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
 
@@ -790,12 +790,12 @@ End of app preview menu
 
                     <div v-if='(timeline_x_cursor <= 200) && ( timeline_x_cursor >= 0 )'
                          v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-family:verdana,helvetica;font-size: 13px;" '>
-                            {{current_execution_step + 1}} / {{execution_timeline.length}}
+                            {{current_execution_step + 1}} / {{executionTimeline.length}}
                     </div>
 
                     <div v-if='(timeline_x_cursor > 200) && ( timeline_x_cursor >= 0 )'
                          v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-family:verdana,helvetica;font-size: 13px; text-align:right;" '>
-                            {{current_execution_step + 1}} / {{execution_timeline.length}}
+                            {{current_execution_step + 1}} / {{executionTimeline.length}}
                     </div>
 
                     <div
@@ -827,7 +827,7 @@ End of app preview menu
 
                         </div>
 
-                        <div    v-for='exePoint in execution_timeline'
+                        <div    v-for='exePoint in executionTimeline'
 
                                 v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
                                                 "position: absolute; pointer-events: none;" +
@@ -863,7 +863,7 @@ End of app preview menu
                     <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (debugger_right_mode == "watches"?"":"display:none;")'>
                         <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
                             <div class='container' style="padding:0;margin:0">
-                                <div v-if='execution_timeline[current_execution_step]'>
+                                <div v-if='executionTimeline[current_execution_step]'>
 
                                     <div style='margin:0;padding:0;border:2px solid lightgray; min-height:50px;'>
 
@@ -924,22 +924,22 @@ End of app preview menu
 
 
                         <div v-for="varV in execution_var_list" style='padding: 2px;'>
-                            <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                            <div v-bind:v-if='executionTimeline[current_execution_step].vars[varV]'>
                                 <div>
                                     <b>{{varV}}</b>
                                 </div>
 
-                                <div v-bind:v-if='isValidObject(execution_timeline[current_execution_step].vars[varV])'>
+                                <div v-bind:v-if='isValidObject(executionTimeline[current_execution_step].vars[varV])'>
                                     <div style='margin-left:20px; margin-bottom: 15px;'>
                                         <b>Before</b>:
-                                        {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].before,null,2)}}
+                                        {{JSON.stringify(executionTimeline[current_execution_step].vars[varV].before,null,2)}}
                                     </div>
                                 </div>
 
-                                <div v-bind:v-if='execution_timeline[current_execution_step].vars[varV]'>
+                                <div v-bind:v-if='executionTimeline[current_execution_step].vars[varV]'>
                                     <div style='padding-left:20px;'>
                                         <b>After</b>:
-                                        {{JSON.stringify(execution_timeline[current_execution_step].vars[varV].after,null,2)}}
+                                        {{JSON.stringify(executionTimeline[current_execution_step].vars[varV].after,null,2)}}
 
                                     </div>
                                 </div>
