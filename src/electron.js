@@ -2389,7 +2389,11 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
             localSourceFilePath =  path.join(userData,  'uploads/' + ifile.filename);
             let fullLocalSourceFilePath = localSourceFilePath + '.' + ext;
             fs.renameSync(localSourceFilePath, fullLocalSourceFilePath);
-            await loadAppFromFile(fullLocalSourceFilePath,client_file_upload_id)
+            await loadAppFromFile(
+                {
+                    localFilePath:          fullLocalSourceFilePath,
+                    client_file_upload_id:  client_file_upload_id
+                })
         } else {
             outputDebug('Ignoring file ');
 
@@ -2400,11 +2404,14 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
 };
 async function  file_name_load                          (  req  ,  res  ,  next  ) {
     //console.log("params: " + JSON.stringify(req.query,null,2))
-    await loadAppFromFile(  req.query.file_name_load,
-        req.query.client_file_upload_id)
+    await loadAppFromFile(
+    {
+        localFilePath:          req.query.file_name_load,
+        client_file_upload_id:  req.query.client_file_upload_id
+    })
 };
-async function  loadAppFromFile                         (  localp  ,  client_file_upload_id  ) {
-    let readIn  = fs.readFileSync(localp).toString()
+async function  loadAppFromFile                         (  { localFilePath  ,  client_file_upload_id } ) {
+    let readIn  = fs.readFileSync(  localFilePath  ).toString()
     let bci     = yz.helpers.getValueOfCodeString(readIn, "base_component_id")
 
     await save_code_from_upload({
@@ -2416,7 +2423,7 @@ async function  loadAppFromFile                         (  localp  ,  client_fil
         options:                {
             save_html:                                  true,
             fast_forward_database_to_latest_revision:   false,
-            save_code_to_file:                          localp
+            save_code_to_file:                          localFilePath
         },
         sqlite_data:            ""
     });
