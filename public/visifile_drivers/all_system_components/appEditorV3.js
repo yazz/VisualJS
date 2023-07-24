@@ -38,7 +38,6 @@ ________
 |    DEBUGGING DATA  |
 |---------------------
 |     sqlite_data_saved_in_html     Save the Sqlite data in the app HTML file?
-|     execution_timeline            Array of execution points for the program
 |     execution_horiz_scale         horiz scale
 |     y_step                        how many y steps
 |     timeline_editor               ID for the timeline editor
@@ -978,7 +977,6 @@ End of app preview menu
                editor_component:                null,
                debugger_right_mode:             "scope",
                debugger_selected_pane:          "scope",
-               execution_timeline:              null,
                execution_horiz_scale:           3,
                y_step:                          30,
                timeline_editor:                 null,
@@ -1513,7 +1511,6 @@ End of app preview menu
 
                 mm.component_display_name   = null
                 mm.app_loaded               = true
-                mm.execution_timeline       = executionTimeline
                 mm.execution_code           = executionCode
                 mm.execution_block_list     = Object.keys(this.execution_code)
 
@@ -1885,7 +1882,6 @@ End of app preview menu
 
                executionTimeline   = []
                executionTimelineMapTimeToLine   = {}
-               this.execution_timeline = executionTimeline
                maxTimelineLogPoint = 0
                globalWatchList = {}
 
@@ -1997,8 +1993,8 @@ End of app preview menu
                     }
 
                 }
-                if (this.execution_timeline[this.current_execution_step]){
-                    this.execution_var_list = Object.keys(this.execution_timeline[this.current_execution_step].vars)
+                if (executionTimeline[this.current_execution_step]){
+                    this.execution_var_list = Object.keys(executionTimeline[this.current_execution_step].vars)
                     this.execution_watch_list = Object.keys(globalWatchList)
                     this.execution_watch_list.sort()
                 }
@@ -2148,7 +2144,6 @@ End of app preview menu
             mm.override_app_editor  = null
             mm.show_download_save   = true
             mm.show_filename_save   = false
-            mm.execution_timeline   = executionTimeline
             mm.execution_code       = executionCode
             mm.execution_block_list = Object.keys(this.execution_code)
 
