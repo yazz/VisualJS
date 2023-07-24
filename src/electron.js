@@ -2393,7 +2393,8 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
             await loadAppFromFile(
                 {
                     localFilePath:          fullLocalSourceFilePath,
-                    client_file_upload_id:  client_file_upload_id
+                    client_file_upload_id:  client_file_upload_id,
+                    user_id:                userId
                 })
         } else {
             outputDebug('Ignoring file ');
@@ -2411,7 +2412,7 @@ async function  file_name_load                          (  req  ,  res  ,  next 
         client_file_upload_id:  req.query.client_file_upload_id
     })
 };
-async function  loadAppFromFile                         (  { localFilePath  ,  client_file_upload_id } ) {
+async function  loadAppFromFile                         (  { localFilePath  ,  client_file_upload_id, user_id} ) {
     let readIn  = fs.readFileSync(  localFilePath  ).toString()
     let bci     = yz.helpers.getValueOfCodeString(readIn, "base_component_id")
 
@@ -2424,7 +2425,8 @@ async function  loadAppFromFile                         (  { localFilePath  ,  c
         options:                {
             save_html:                                  true,
             fast_forward_database_to_latest_revision:   false,
-            save_code_to_file:                          localFilePath
+            save_code_to_file:                          localFilePath,
+            userId:                                     user_id
         },
         sqlite_data:            ""
     });
