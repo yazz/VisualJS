@@ -2332,17 +2332,14 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
 
     let ll = req.files.length;
     for (let i = 0; i < ll ; i ++) {
-        //console.log('Loading saved Creator app' );
         let ifile = req.files[i];
-        //console.log("        " + JSON.stringify(ifile));
         let ext = ifile.originalname.split('.').pop();
         ext = ext.toLowerCase();
-        //console.log('Ext: ' + ext);
         if ((ext == "html") || (ext == "html")) {
-            let localp2;
-            localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-            let localp = localp2 + '.' + ext;
-            fs.renameSync(localp2, localp);
+            let localHtmlFilePath;
+            localHtmlFilePath =  path.join(userData,  'uploads/' + ifile.filename);
+            let localp = localHtmlFilePath + '.' + ext;
+            fs.renameSync(localHtmlFilePath, localp);
             let readIn = fs.readFileSync(localp).toString()
             //console.log('');
             //console.log('Local saved path: ' + localp);
@@ -2382,11 +2379,11 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                 });
             }
         } else if ((ext == "js") || (ext == "yazz") || (ext == "pilot") || (ext == "jsa") || (ext == "vjs") || (ext == "yazz")  )  {
-            let localp2;
-            localp2 =  path.join(userData,  'uploads/' + ifile.filename);
-            let localp = localp2 + '.' + ext;
-            fs.renameSync(localp2, localp);
-            await loadAppFromFile(localp,client_file_upload_id)
+            let localSourceFilePath;
+            localSourceFilePath =  path.join(userData,  'uploads/' + ifile.filename);
+            let fullLocalSourceFilePath = localSourceFilePath + '.' + ext;
+            fs.renameSync(localSourceFilePath, fullLocalSourceFilePath);
+            await loadAppFromFile(fullLocalSourceFilePath,client_file_upload_id)
         } else {
             outputDebug('Ignoring file ');
 
