@@ -128,9 +128,8 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                       <!--                                                                                               -->
                       
                         <div v-if='homepageDebugViewName=="ui_control_uuids"' style="">
-                          UI Control UUIDs
                           <pre>
-    <div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
+    <div style="font-size:60px;font-weight: bold;">UI Control UUIDs</div>
 
 (yz.componentsImplementation.runtimeComponentsInfo)
 {{ yz.componentsImplementation.runtimeComponentsInfo }}
