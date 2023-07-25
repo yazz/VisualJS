@@ -52,13 +52,25 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         <button style="margin: 20px;"
                                 class='btn btn-lg btn-danger'
                                 v-on:click='homepageDebugViewName = "homepage_vars"'>
-                                Show homepage vars
+                                  Show homepage vars
                         </button>
                         <button style="margin: 20px;"
                               class='btn btn-lg btn-danger'
                               v-on:click='homepageDebugViewName = "loaded_vue_objects"'>
-                              Show Loaded Vue objects
+                                  Show Loaded Vue objects
                         </button>
+                        <button style="margin: 20px;"
+                              class='btn btn-lg btn-danger'
+                              v-on:click='homepageDebugViewName = "ui_control_uuids"'>
+                                  Runtime UI control UUIDs
+                        </button>
+
+
+
+
+                      <!  --------------------------------------  Homepage vars  ------------------------------------>
+                      <!--                                                                                               -->
+
                         <div v-if='homepageDebugViewName=="homepage_vars"' style="">
                       <pre>
     <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
@@ -90,6 +102,14 @@ disableHighlightEditableApp:                    {{ disableHighlightEditableApp }
 
                       </pre>
                     </div>
+
+
+
+
+
+                      <!  --------------------------------------  loaded vue objects   ------------------------------------>
+                      <!--                                                                                               -->
+                      
                         <div v-if='homepageDebugViewName=="loaded_vue_objects"'>
                   <pre>
     <div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
@@ -99,10 +119,27 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
     
                   </pre>
                 </div>
-                    </div>
-                    
-                    <!  --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
-                    <!-- 
+
+
+
+
+
+                      <!  --------------------------------------  Runtime UI control UUIDs   ------------------------------------>
+                      <!--                                                                                               -->
+                      
+                        <div v-if='homepageDebugViewName=="ui_control_uuids"' style="">
+                          UI Control UUIDs
+                        </div>
+  
+  
+  
+  
+  
+  
+                        </div>
+                      
+                      <!  --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
+                    <!--                                                                                               -->
                      
                      
                      
@@ -110,7 +147,6 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                      
                      
                      
-                     -->
                     <!  ----------------------------------------------------------------------------------------------------------- -->
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
