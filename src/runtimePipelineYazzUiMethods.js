@@ -111,10 +111,10 @@
                         this.updateFormCache(formqq.name)
                     }
                 }
-                yz.componentsImplementation.runtimeComponentsInfo = new Object()
-                yz.componentsImplementation.runtimeComponentsInfo.component_lookup_by_uuid         = {}
-                yz.componentsImplementation.runtimeComponentsInfo.component_incoming_count_by_uuid = {}
-                yz.componentsImplementation.runtimeComponentsInfo.component_outgoing_count_by_uuid = {}
+                yz.componentsImplementation.runtimeComponentsInfo                               = new Object()
+                yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid      = {}
+                yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID  = {}
+                yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID  = {}
 
                 this.inUpdateAllFormCaches = false
             },
