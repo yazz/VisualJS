@@ -255,15 +255,34 @@ ___________
 
 
 
-    <div v-if='yazz_debug_mode'
+    <div  v-if='yazz_debug_mode'
           style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;"
     >
-        Debug editor
+
+      <button style="margin: 20px;"
+              class='btn btn-lg btn-danger'
+              v-on:click='debug_pane_name = "ui_control_uuids"'>
+        Runtime UI control UUIDs
+      </button>
+      
       <button  type=button class=' btn btn-danger btn-sm'
                style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
                v-on:click='yazz_debug_mode=false' >x</button>
 
+
+
+      <div v-if='debug_pane_name=="ui_control_uuids"' style="color: black;">
+        <div style="font-size:60px;font-weight: bold;color: black;">UI Control UUIDs</div>
+<pre style="color: black;">
+(yz.componentsImplementation.runtimeComponentsInfo)
+{{ yz.componentsImplementation.runtimeComponentsInfo }}
+</pre>
+      </div>
+      
+      
     </div>
+
+
 
 
     <div    id="status bar"
@@ -966,6 +985,7 @@ End of app preview menu
                sqlite_data_saved_in_html:       false,
                file_save_state:                 (saveCodeToFile?saveCodeToFile:""),
                editor_shell_locked:             true,
+               debug_pane_name:                 null,
                info_text:                       "",
                inSave:                          false,
                hideImportButtons:               true,
