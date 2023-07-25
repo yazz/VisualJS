@@ -278,9 +278,9 @@ NEW: (yz.componentsImplementation.runtimeComponentsInfo)
 {{ yz.componentsImplementation.runtimeComponentsInfo }}
 
 OLD: (FORM UUIDS)
-  <div v-if="model && model.forms">
-<div v-for='form in model.forms' v-bind:refresh='refresh'
-     v-if="model && model.forms">
+  <div v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
+<div v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'
+     v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
   {{form.name}}
 
 </div>
