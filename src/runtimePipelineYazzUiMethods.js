@@ -111,6 +111,10 @@
                         this.updateFormCache(formqq.name)
                     }
                 }
+                yz.componentsImplementation.runtimeComponentsInfo = new Object()
+                yz.componentsImplementation.runtimeComponentsInfo.component_lookup_by_uuid         = {}
+                yz.componentsImplementation.runtimeComponentsInfo.component_incoming_count_by_uuid = {}
+                yz.componentsImplementation.runtimeComponentsInfo.component_outgoing_count_by_uuid = {}
 
                 this.inUpdateAllFormCaches = false
             },
@@ -6568,7 +6572,6 @@ return {}
                 available_components:                [],
                 ui_code_editor:                      null,
                 form_runtime_info:                   {},
-                app_runtime_info:                    {},
                 active_form:                         "Form_1",
                 old_model:                           {},
                 model_changed_time:                  -1,

@@ -449,10 +449,11 @@
 
                 },
                 componentsImplementation:   {
-                    designModeUiControlNameReturnsVueInstance:      {},             // This is a map from the UI control name to the corresponding Vue object in an edited app
-                    runtimeUiControlNameReturnsVueInstance:         {},             // This points to the Vue objects for the components in an app
-                    codeIdToVueComponentInfo:                       {},             // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
+                    designModeUiControlNameReturnsVueInstance:       {},             // This is a map from the UI control name to the corresponding Vue object in an edited app
+                    runtimeUiControlNameReturnsVueInstance:          {},             // This points to the Vue objects for the components in an app
+                    codeIdToVueComponentInfo:                        {},             // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
                     treeOfPossibleControlPropertyLinks:              new Object(),  // properties on UI components where the output of one property is linked to  the input of another property
+                    runtimeComponentsInfo:                           {}
                 },
                 componentsAPI:              {
                     vue: {
