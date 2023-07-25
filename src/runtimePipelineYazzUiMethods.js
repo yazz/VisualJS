@@ -4920,7 +4920,7 @@ return {}
 
 
             // related to watches
-            getIncomingToPropertyName:              function        (currentWatch) {
+            getIncomingToPropertyName:              function        (  currentWatch) {
                 /*
                 ________________________________________
                 |                                      |
@@ -4949,7 +4949,7 @@ return {}
 
                 return ret
             },
-            getIncomingFromPropertyName:            function        (currentWatch) {
+            getIncomingFromPropertyName:            function        (  currentWatch) {
                 /*
                 ________________________________________
                 |                                      |
@@ -4978,7 +4978,7 @@ return {}
 
                 return ret
             },
-            getIncomingTransformFn:                 function        (currentWatch) {
+            getIncomingTransformFn:                 function        (  currentWatch) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5004,7 +5004,7 @@ return {}
 
                 return ret
             },
-            getOutgoingTransformFn:                 function        (currentPush) {
+            getOutgoingTransformFn:                 function        (  currentPush) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5030,7 +5030,7 @@ return {}
 
                 return ret
             },
-            getOutgoingFromPropertyName:            function        (currentPush) {
+            getOutgoingFromPropertyName:            function        (  currentPush) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5059,7 +5059,7 @@ return {}
 
                 return ret
             },
-            getOutgoingToPropertyName:              function        (currentPush) {
+            getOutgoingToPropertyName:              function        (  currentPush) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5088,7 +5088,7 @@ return {}
 
                 return ret
             },
-            addPush:                                function        () {
+            addPush:                                function        (  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5134,7 +5134,7 @@ return {}
 
 
             },
-            clearAllControlPropertyLinkFields:      async function  () {
+            clearAllControlPropertyLinkFields:      async function  (  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5163,7 +5163,7 @@ return {}
                 mm.selectedPushComponentType = null
                 await mm.recalcControlPropertyLinksAvailableInUI()
             },
-            addWatch:                               function        () {
+            addWatch:                               function        (  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5209,7 +5209,7 @@ return {}
                 mm.clearAllControlPropertyLinkFields()
 
             },
-            addNewComponentPush:                    async function  () {
+            addNewComponentPush:                    async function  (  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5262,7 +5262,7 @@ return {}
                 mm.selectComponent(old_active_component_index, true)
 
             },
-            addNewComponentWatch:                   async function  () {
+            addNewComponentWatch:                   async function  (  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5314,7 +5314,7 @@ return {}
                 mm.selectComponent(old_active_component_index, true)
 
             },
-            setWatchComponent:                      function        ({controlUuid}) {
+            setWatchComponent:                      function        (  {  controlUuid  }  ) {
                 let mm      = this
 
                 mm.selectedWatchFromProperties  = []
@@ -5324,7 +5324,7 @@ return {}
                     mm.selectedWatchFromProperties.push(compKey)
                 }
             },
-            setIncomingFormWatchComponent:          function        (event) {
+            setIncomingFormWatchComponent:          function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5364,7 +5364,7 @@ return {}
                 }
 
             },
-            setWatchToProperty:                     function        (event) {
+            setWatchToProperty:                     function        (  event  ) {
                 let mm = this
                 this.selectedWatchToProperty = event.target.value
                 this.toLinkPropertySelected = true
@@ -5427,7 +5427,7 @@ return {}
                     }
                 }
             },
-            setWatchTransformFn:                    function        (event) {
+            setWatchTransformFn:                    function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5445,7 +5445,7 @@ return {}
                 |________________________________________________________________________ */
                 this.selectedWatchTransformFn = event.target.value
             },
-            setPushTransformFn:                     function        (event) {
+            setPushTransformFn:                     function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5463,7 +5463,7 @@ return {}
                 |________________________________________________________________________ */
                 this.selectedPushTransformFn = event.target.value
             },
-            setWatchFromProperty:                   function        (event) {
+            setWatchFromProperty:                   function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5510,7 +5510,7 @@ return {}
 
                 }
             },
-            setPushComponentType:                   function        (event) {
+            setPushComponentType:                   function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5556,7 +5556,7 @@ return {}
                 }
 
             },
-            setWatchComponentType:                  function        (event) {
+            setWatchComponentType:                  function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5602,7 +5602,7 @@ return {}
                 }
 
             },
-            setPushComponent:                       function        (event) {
+            setPushComponent:                       function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5680,7 +5680,7 @@ return {}
                 }
 //debugger
             },
-            linkComponents:                         function        (options) {
+            linkComponents:                         function        (  options  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5766,7 +5766,7 @@ return {}
 
 
             },
-            setPushToProperty:                      function        (event) {
+            setPushToProperty:                      function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5784,7 +5784,7 @@ return {}
                 |________________________________________________________________________ */
                 this.selectedPushToProperty = event.target.value
             },
-            setPushFromProperty:                    function        (event) {
+            setPushFromProperty:                    function        (  event  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5823,24 +5823,7 @@ return {}
                     }
                 }
             },
-            deleteLinkedProperty:                   function        (watchListItem ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                //debugger
-                let currentWatchIndex
+            deleteLinkedProperty:                   function        (  watchListItem  ) {
                 let mm                     = this
                 let currentComponentCurrentWatch
                 let componentIndex
@@ -5905,7 +5888,7 @@ return {}
                 mm.showSaveButton()
 
             },
-            clearLinkToProperties:                  async function  () {
+            clearLinkToProperties:                  async function  (  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -5955,7 +5938,7 @@ return {}
                 }
 
             },
-            showComponentLinks:                     async function  (index,diretionOfLinks) {
+            showComponentLinks:                     async function  (  index  ,  diretionOfLinks  ) {
                 /*
                 ________________________________________
                 |                                      |
