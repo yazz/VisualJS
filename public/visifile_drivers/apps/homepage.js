@@ -51,15 +51,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
                         <button style="margin: 20px;"
                                 class='btn btn-lg btn-danger'
-                                v-on:click='showHomepageVars = !showHomepageVars'>
+                                v-on:click='homepageDebugViewName = "homepage_vars"'>
                                 Show homepage vars
                         </button>
                         <button style="margin: 20px;"
                               class='btn btn-lg btn-danger'
-                              v-on:click='showLoadedVueObjects = !showLoadedVueObjects'>
+                              v-on:click='homepageDebugViewName = "loaded_vue_objects"'>
                               Show Loaded Vue objects
                         </button>
-                        <div v-if="showHomepageVars" style="">
+                        <div v-if='homepageDebugViewName=="homepage_vars"' style="">
                       <pre>
     <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
 lastEditedBaseComponentId:              {{ lastEditedBaseComponentId }}
@@ -79,8 +79,7 @@ appstore_apps:
                         
                         
 app_store_component_logos_by_BCI:       {{ app_store_component_logos_by_BCI }}
-showHomepageVars:                       {{ showHomepageVars }}
-showLoadedVueObjects:                   {{ showLoadedVueObjects }}
+homepageDebugViewName:                  {{ homepageDebugViewName }}
 hideImportButtons:                      {{ hideImportButtons }}
 refresh:                                {{ refresh }}
 showFilePicker:                         {{ showFilePicker }}
@@ -91,7 +90,7 @@ disableHighlightEditableApp:                    {{ disableHighlightEditableApp }
 
                       </pre>
                     </div>
-                        <div v-if="showLoadedVueObjects">
+                        <div v-if='homepageDebugViewName=="loaded_vue_objects"'>
                   <pre>
     <div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
     
@@ -653,8 +652,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                             // debug helpers
                             listenerD:                              null,
                             debugMode:                              false,
-                            showHomepageVars:                       false,
-                            showLoadedVueObjects:                   false
+                            homepageDebugViewName:                  null
                         }
             },
             mounted:    async function() {
