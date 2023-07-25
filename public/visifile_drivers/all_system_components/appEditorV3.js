@@ -274,8 +274,18 @@ ___________
       <div v-if='debug_pane_name=="ui_control_uuids"' style="color: black;">
         <div style="font-size:60px;font-weight: bold;color: black;">UI Control UUIDs</div>
 <pre style="color: black;">
-(yz.componentsImplementation.runtimeComponentsInfo)
+NEW: (yz.componentsImplementation.runtimeComponentsInfo)
 {{ yz.componentsImplementation.runtimeComponentsInfo }}
+
+OLD: (FORM UUIDS)
+  <div v-if="model && model.forms">
+<div v-for='form in model.forms' v-bind:refresh='refresh'
+     v-if="model && model.forms">
+  {{form.name}}
+
+</div>
+</div>
+
 </pre>
       </div>
       
@@ -1120,6 +1130,7 @@ End of app preview menu
                        })
 
                } else if (yz.editor.lastEditingAppBaseComponentId) {
+                   debugger // where does "model" come from?
                    this.$root.$emit("message", { type:  "edit_component", base_component_id:   yz.editor.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
 
                } else {
