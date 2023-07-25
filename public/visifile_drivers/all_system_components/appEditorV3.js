@@ -281,8 +281,19 @@ OLD: (FORM UUIDS)
   <div v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
 <div v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'
      v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
-  {{form.name}}
+  
+  <div  v-if="$refs.editor_component_ref.form_runtime_info && $refs.editor_component_ref.form_runtime_info[form.name]">
+model.form[  "{{form.name}}"  ]
+.component_lookup_by_uuid: 
+{{$refs.editor_component_ref.form_runtime_info[form.name].component_lookup_by_uuid}}
 
+.component_incoming_count_by_uuid:
+{{$refs.editor_component_ref.form_runtime_info[form.name].component_incoming_count_by_uuid}}
+
+.component_outgoing_count_by_uuid:
+{{$refs.editor_component_ref.form_runtime_info[form.name].component_outgoing_count_by_uuid}}
+
+</div>
 </div>
 </div>
 
