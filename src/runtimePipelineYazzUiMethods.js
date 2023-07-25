@@ -6568,6 +6568,7 @@ return {}
                 available_components:                [],
                 ui_code_editor:                      null,
                 form_runtime_info:                   {},
+                app_runtime_info:                    {},
                 active_form:                         "Form_1",
                 old_model:                           {},
                 model_changed_time:                  -1,
