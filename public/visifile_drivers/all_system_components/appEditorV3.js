@@ -272,8 +272,8 @@ ___________
 
 
       <div v-if='debug_pane_name=="ui_control_uuids"' style="color: black;">
-        <div style="font-size:60px;font-weight: bold;color: black;">UI Control UUIDs</div>
-<pre style="color: black;">
+        <div style="height: 15%;font-size:30px;font-weight: bold;color: black;">UI Control UUIDs</div>
+<pre style="color: black;overflow: auto;height:60%;">
 NEW: (yz.componentsImplementation.runtimeComponentsInfo)
 {{ yz.componentsImplementation.runtimeComponentsInfo }}
 
