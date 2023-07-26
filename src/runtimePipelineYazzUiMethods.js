@@ -127,12 +127,15 @@
 
                 if (!isValidObject(mm.form_runtime_info[formName])) {
                     mm.form_runtime_info[formName] = new Object()
+                    yz.componentsImplementation.runtimeFormsInfo[formName] = new Object()
                 }
-                mm.form_runtime_info[formName].component_lookup_by_name         = {}
+                mm.form_runtime_info[formName].component_lookup_by_name                             = {}
+                yz.componentsImplementation.runtimeFormsInfo[formName].component_lookup_by_name     = {}
 
                 for (let  cc  of  components) {
                     if (isValidObject(cc)) {
                         mm.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
+                        yz.componentsImplementation.runtimeFormsInfo[formName].component_lookup_by_name[cc.name] = cc
                     }
                     if (!cc.uuid) {
                         cc.uuid = uuidv4()

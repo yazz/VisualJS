@@ -279,7 +279,10 @@ yz.componentsImplementation.runtimeComponentsInfo:
 {{ yz.componentsImplementation.runtimeComponentsInfo }}
 
   
+yz.componentsImplementation.runtimeFormsInfo:
   
+{{ yz.componentsImplementation.runtimeFormsInfo }}
+
   
   
   
@@ -292,6 +295,7 @@ Form runtime info
 form_runtime_info[  "{{form.name}}"  ]
 {{$refs.editor_component_ref.form_runtime_info[form.name]}}
 
+    
 </div>
 </div>
 </div>
