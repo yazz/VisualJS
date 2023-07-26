@@ -105,6 +105,7 @@
                 this.watchList = []
 
 
+                yz.componentsImplementation.runtimeComponentsInfo                               = new Object()
                 yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid      = {}
                 yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID  = {}
                 yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID  = {}
@@ -116,10 +117,6 @@
                         this.updateFormCache(formqq.name)
                     }
                 }
-                yz.componentsImplementation.runtimeComponentsInfo                               = new Object()
-                yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid      = {}
-                yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID  = {}
-                yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID  = {}
 
                 this.inUpdateAllFormCaches = false
             },
