@@ -274,14 +274,20 @@ ___________
       <div v-if='debug_pane_name=="ui_control_uuids"' style="color: black;">
         <div style="height: 15%;font-size:30px;font-weight: bold;color: black;">UI Control UUIDs</div>
 <pre style="color: black;overflow: auto;height:60%;">
-NEW: (yz.componentsImplementation.runtimeComponentsInfo)
+yz.componentsImplementation.runtimeComponentsInfo:
+  
 {{ yz.componentsImplementation.runtimeComponentsInfo }}
 
-OLD: (FORM UUIDS)
+  
+  
+  
+  
+  
   <div v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
 <div v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'
      v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
   
+OLD WAY: (FORM UUIDS)
   <div  v-if="$refs.editor_component_ref.form_runtime_info && $refs.editor_component_ref.form_runtime_info[form.name]">
 model.form[  "{{form.name}}"  ]
 .component_lookup_by_uuid: 

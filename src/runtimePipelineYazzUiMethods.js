@@ -104,6 +104,11 @@
 
                 this.watchList = []
 
+
+                yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid      = {}
+                yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID  = {}
+                yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID  = {}
+
                 let llf = Object.keys(this.model.forms)
                 for (let ii = 0; ii < llf.length ; ii ++) {
                     let formqq = this.model.forms[llf[ii]]
@@ -140,6 +145,7 @@
                         mm.refresh ++
                     }
                     mm.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
+                    yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[cc.uuid] = cc
 
 
                     if (!mm.watchList) {
