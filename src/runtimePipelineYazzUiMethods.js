@@ -789,7 +789,7 @@
                 mm.setupCodeEditorSelectors(property_id)
 
             },
-            setVBEditorPropertyValueOnSelection:    function        (  property  ,  val  ) {
+            setVBEditorPropertyValueOnSelection:    function        (  {  property  ,  val  }  ) {
                 let mm      = this
                 let type    = null
 
@@ -879,24 +879,9 @@
                 } else {
                     val     = value
                 }
-                mm.setVBEditorPropertyValueOnSelection(  property  ,  val  )
+                mm.setVBEditorPropertyValueOnSelection(  {  property: property  ,  val: val  }  )
             },
             getVBEditorProperty:                    function        (  property  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let val = ""
                 let type
                 if (this.active_component_index != null) {
@@ -4782,7 +4767,7 @@ return {}
                     }
 
                     let fileNameToLoad = this.open_file_name
-                    mm.setVBEditorPropertyValueOnSelection(  propertyType  ,  fileNameToLoad  )
+                    mm.setVBEditorPropertyValueOnSelection(  {property: propertyType  ,  val: fileNameToLoad  }  )
                     mm.gotoDragDropEditor()
                 }
             },
