@@ -293,9 +293,6 @@ model.form[  "{{form.name}}"  ]
 .component_lookup_by_uuid: 
 {{$refs.editor_component_ref.form_runtime_info[form.name].component_lookup_by_uuid}}
 
-.component_outgoing_count_by_uuid:
-{{$refs.editor_component_ref.form_runtime_info[form.name].component_outgoing_count_by_uuid}}
-
 </div>
 </div>
 </div>
