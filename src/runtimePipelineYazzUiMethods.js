@@ -164,7 +164,7 @@
                                     })
 
 
-                                if (mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid]) {
+                                if (yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid]) {
                                     mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.uuid] ++
                                     yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid] ++
                                 } else {
@@ -196,11 +196,11 @@
                                         type:                           "push",
                                         transform_fn:                   cc.push[ff].transform_fn
                                     })
-                                if (mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid]) {
+                                if (yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid]) {
                                     mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] ++
                                     yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] ++
                                 } else {
-                                    mm.form_runtime_info[formName].component_incoming_count_by_uuid[cc.push[ff].uuid] = 1
+                                    yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] = 1
                                     yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] = 1
                                 }
 
