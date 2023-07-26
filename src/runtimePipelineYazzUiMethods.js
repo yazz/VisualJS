@@ -789,7 +789,7 @@
                 mm.setupCodeEditorSelectors(property_id)
 
             },
-            setVBEditorPropertyValue:               function        (  property  ,  val  ) {
+            setVBEditorPropertyValueOnSelection:    function        (  property  ,  val  ) {
                 let mm      = this
                 let type    = null
 
@@ -879,7 +879,7 @@
                 } else {
                     val     = value
                 }
-                mm.setVBEditorPropertyValue(property, val)
+                mm.setVBEditorPropertyValueOnSelection(  property  ,  val  )
             },
             getVBEditorProperty:                    function        (  property  ) {
                 /*
@@ -4742,52 +4742,38 @@ return {}
                 //
             },
             selectOpenFileOrFolder:                 async function  (  fileorFolder  ,  fileExts  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |          selectOpenFileOrFolder      |
-                |                                      |
-                |______________________________________|
+                let mm = this
 
-                TO BE FILLED IN
 
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                //
                 // if this is a folder
-                //
+
                 if (fileorFolder.type == "folder") {
                     if (isWin) {
-                        this.open_file_path += "\\" + fileorFolder.name
+                        mm.open_file_path += "\\" + fileorFolder.name
                     } else {
-                        this.open_file_path += "/" + fileorFolder.name
+                        mm.open_file_path += "/" + fileorFolder.name
                     }
-                    //alert(JSON.stringify(fileExts,null,2))
                     let result2 = await callComponent(
                         {
-                            base_component_id: "serverFolderContentsV2"}
-                        ,{
-                            path:                      this.open_file_path,
-                            filter_file_exts_list:     fileExts
+                            base_component_id:          "serverFolderContentsV2"
+                        }
+                        ,
+                        {
+                            path:                       mm.open_file_path,
+                            filter_file_exts_list:      fileExts
                         })
                     if (result2) {
-                        this.open_file_list = result2
+                        mm.open_file_list = result2
                     }
 
 
-                    //
-                    // otherwise if this is a file
-                    //
-                } else {
-                    let mm=this
-                    this.showFilePicker=false
-                    this.open_file_name = this.open_file_path + "/" + fileorFolder.name
+                // otherwise if this is a file
 
-                    let propertyType = null
+                } else {
+                    this.showFilePicker =   false
+                    this.open_file_name =   this.open_file_path + "/" + fileorFolder.name
+                    let propertyType    =   null
+
                     for (  let ere = 0;  ere < mm.properties.length;  ere++  ) {
                         let property = mm.properties[ ere ]
                         if (property.id == mm.design_mode_pane.property_id) {
@@ -4796,11 +4782,9 @@ return {}
                     }
 
                     let fileNameToLoad = this.open_file_name
-                    mm.setVBEditorPropertyValue(propertyType,fileNameToLoad)
+                    mm.setVBEditorPropertyValueOnSelection(  propertyType  ,  fileNameToLoad  )
                     mm.gotoDragDropEditor()
                 }
-
-                //
             },
             chosenFolderUp:                         async function  (  ) {
                 /*
