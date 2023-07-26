@@ -901,18 +901,12 @@ logo_url("/driver_icons/mixer.png")
               //mm.properties.connect_error = retttq
               newcontrol.width = 600
               newcontrol.height = 700
-
-              //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
-              //newcontrol.setText2("helo duck")
-
-
           }
           ,
           test: function() {
               //debugger
               let mm = this
-              //let newcontrol =  mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name[newName]
-              let newcontrol = mm.meta.getEditor().form_runtime_info[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
+              let newcontrol = myz.componentsImplementation.runtimeFormsInfo[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
               //mm.dynamic = newcontrol.getDynamic()
               newcontrol.setText2("helo duck")
           }
