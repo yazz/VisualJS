@@ -286,20 +286,16 @@ yz.componentsImplementation.runtimeFormsInfo:
   
   
   
-  <div v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
-<div v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'
-     v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
-  
+<div v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
 Form runtime info
-  <div  v-if="$refs.editor_component_ref.form_runtime_info && $refs.editor_component_ref.form_runtime_info[form.name]">
-form_runtime_info[  "{{form.name}}"  ]
-{{$refs.editor_component_ref.form_runtime_info[form.name]}}
-
-    
-</div>
+<div v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'
+v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
+[  "{{form.name}}"  ]
 </div>
 </div>
 
+  
+  
 </pre>
       </div>
       
