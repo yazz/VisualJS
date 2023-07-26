@@ -981,7 +981,7 @@
                 let mm = this
                 mm.add_property = false
             },
-            recalcControlPropertyLinksAvailableInUI:                   async function  (  ) {
+            recalcPossibleControlPropertyLinks:     async function  (  ) {
 
                 let mm                      = this
                 mm.incoming_link_objects    = []
@@ -5103,7 +5103,7 @@ return {}
                 mm.selectedPushToProperty        = null
                 mm.selectedPushTransformFn        = null
                 mm.selectedPushComponentType = null
-                await mm.recalcControlPropertyLinksAvailableInUI()
+                await mm.recalcPossibleControlPropertyLinks()
             },
             addWatch:                               function        (  ) {
                 /*
@@ -5909,7 +5909,7 @@ return {}
 
 
                 mm.selected_link_component_type = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
-                await mm.recalcControlPropertyLinksAvailableInUI()
+                await mm.recalcPossibleControlPropertyLinks()
                 //alert()
 
                 setTimeout(function() {
