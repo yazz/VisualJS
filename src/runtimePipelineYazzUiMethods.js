@@ -133,7 +133,6 @@
                 for (let  cc  of  components) {
                     if (isValidObject(cc)) {
                         yz.componentsImplementation.runtimeFormsInfo[formName].component_lookup_by_name[cc.name] = cc
-                        yz.componentsImplementation.runtimeFormsInfo[formName].component_lookup_by_name[cc.name] = cc
                     }
                     if (!cc.uuid) {
                         cc.uuid = uuidv4()
