@@ -790,21 +790,6 @@
 
             },
             setVBEditorPropertyValue:               function        (  property  ,  val  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm      = this
                 let type    = null
 
@@ -885,29 +870,14 @@
                 }
 
             },
-            setVBEditorProperty:                    function        (  event  ,  property  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+            setVBEditorProperty:                    function        (  {  property  ,  value  }  ) {
                 let mm      = this
                 let val     = null
 
                 if (property.type == "Number") {
-                    val     = JSON.parse(event.target.value)
+                    val     = JSON.parse(value)
                 } else {
-                    val     = event.target.value
+                    val     = value
                 }
                 mm.setVBEditorPropertyValue(property, val)
             },
@@ -1373,21 +1343,6 @@
                 return this
             },
             lookupComponent:                        function        (  componentName  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let component  = null
                 let mm         = this
 

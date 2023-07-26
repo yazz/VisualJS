@@ -2250,7 +2250,7 @@ Pushlist
                                         <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                             <input
                                                     v-if="(property.textarea == null) || (property.textarea == '')"
-                                                    @change='setVBEditorProperty($event, property)'
+                                                    @change='setVBEditorProperty( {  property: property  ,  value: $event.target.value  } )'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     v-bind:type='property.password?"password":""'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
@@ -2258,7 +2258,7 @@ Pushlist
                                             <textarea
                                                     v-if="(property.textarea != null) && (property.textarea != '')"
                                                     rows=10
-                                                    @change='setVBEditorProperty($event, property)'
+                                                    @change='setVBEditorProperty(  {  property: property  ,  value: $event.target.value  }  )'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     v-bind:type='property.password?"password":""'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
@@ -2296,7 +2296,7 @@ Pushlist
 
 
                                         <div    v-if="(property.type  == 'Select')  ">
-                                            <select  @change='setVBEditorProperty($event, property)'>
+                                            <select  @change='setVBEditorProperty(  {  property: property  ,  value: $event.target.value  }  )'>
                                                   <option   v-for="propVal in property.values"
                                                             v-bind:value="propVal.value"
                                                             v-bind:selected="propVal.value == model.forms[active_form].components[active_component_index][property.id]">
