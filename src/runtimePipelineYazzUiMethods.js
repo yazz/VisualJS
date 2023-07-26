@@ -130,7 +130,6 @@
                 }
                 mm.form_runtime_info[formName].component_lookup_by_name         = {}
                 mm.form_runtime_info[formName].component_lookup_by_uuid         = {}
-                mm.form_runtime_info[formName].component_outgoing_count_by_uuid = {}
 
                 for (let  cc  of  components) {
                     if (isValidObject(cc)) {
@@ -169,11 +168,9 @@
                                     yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid] = 1
                                 }
 
-                                if (mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid]) {
-                                    mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] ++
+                                if (yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid]) {
                                     yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid] ++
                                 } else {
-                                    mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.watch[ff].uuid] = 1
                                     yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid] = 1
                                 }
 
@@ -200,11 +197,9 @@
                                     yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] = 1
                                 }
 
-                                if (mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid]) {
-                                    mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] ++
+                                if (yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid]) {
                                     yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid] ++
                                 } else {
-                                    mm.form_runtime_info[formName].component_outgoing_count_by_uuid[cc.uuid] = 1
                                     yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid] = 1
                                 }
 

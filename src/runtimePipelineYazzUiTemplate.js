@@ -410,7 +410,7 @@
 
                              <span   class="badge badge-primary"
                                      style='font-size: 20px; margin-right: 10px;'
-                                     v-html='(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid])?(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid]):0'>
+                                     v-html='(yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
                              </span>
 
                          Property linked changes
@@ -1902,7 +1902,7 @@ Pushlist
                                     -&gt;
 
                                     <span   class="badge badge-primary"
-                                            v-html='(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid])?(form_runtime_info[active_form].component_outgoing_count_by_uuid[model.forms[active_form].components[active_component_index].uuid]):0'>
+                                            v-html='(yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
                                     </span>
                             </div>
 
