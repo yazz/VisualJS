@@ -793,17 +793,16 @@
                 let mm      = this
                 let type    = null
 
-                mm.showSaveButton()
 
+                // determine if the currently selected item in
+                // the app editor is a a control, a form or the
+                // main app
 
-                //
-                // determine if this is a control, form or app
-                //
-                if (this.active_component_index != null) {
+                if (mm.active_component_index != null) {
                     type = "component"
-                } else if ((this.active_component_index == null) && (this.active_form != null) && (!this.model.app_selected)) {
+                } else if ((mm.active_component_index == null) && (mm.active_form != null) && (!mm.model.app_selected)) {
                     type = "form"
-                } else if (this.model.app_selected) {
+                } else if (mm.model.app_selected) {
                     type = "app"
                 }
 
