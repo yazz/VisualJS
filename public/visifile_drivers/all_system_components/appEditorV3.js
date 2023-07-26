@@ -287,11 +287,10 @@ yz.componentsImplementation.runtimeComponentsInfo:
 <div v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'
      v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
   
-OLD WAY: (FORM UUIDS)
+Form runtime info
   <div  v-if="$refs.editor_component_ref.form_runtime_info && $refs.editor_component_ref.form_runtime_info[form.name]">
-model.form[  "{{form.name}}"  ]
-.component_lookup_by_uuid: 
-{{$refs.editor_component_ref.form_runtime_info[form.name].component_lookup_by_uuid}}
+form_runtime_info[  "{{form.name}}"  ]
+{{$refs.editor_component_ref.form_runtime_info[form.name]}}
 
 </div>
 </div>

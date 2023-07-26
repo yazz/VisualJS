@@ -129,7 +129,6 @@
                     mm.form_runtime_info[formName] = new Object()
                 }
                 mm.form_runtime_info[formName].component_lookup_by_name         = {}
-                mm.form_runtime_info[formName].component_lookup_by_uuid         = {}
 
                 for (let  cc  of  components) {
                     if (isValidObject(cc)) {
@@ -139,7 +138,6 @@
                         cc.uuid = uuidv4()
                         mm.refresh ++
                     }
-                    //mm.form_runtime_info[formName].component_lookup_by_uuid[cc.uuid] = cc
                     yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[cc.uuid] = cc
 
 
