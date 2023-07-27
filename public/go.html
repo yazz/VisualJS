@@ -3732,8 +3732,14 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                 return ret
             }
             async function  getFromYazzReturnJson               (   urlToget   ,   urlParams   ) {
+                let urlParamsWithoutNulls = {}
+                for (let paramItemKey of Object.keys(urlParams)) {
+                    if (isValidObject(urlParams[paramItemKey])) {
+                        urlParamsWithoutNulls[  paramItemKey  ] = urlParams[paramItemKey]
+                    }
+                }
                 let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget + "?" +
-                    new URLSearchParams(urlParams)
+                    new URLSearchParams(urlParamsWithoutNulls)
 
                 let promise = new Promise(async function (returnfn) {
                     fetch(openfileurl, {

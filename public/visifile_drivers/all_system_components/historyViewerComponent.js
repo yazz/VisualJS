@@ -243,6 +243,7 @@ load_once_from_file(true)
 
                 await this.setupTimeline()
                 setTimeout(async function(){
+                    debugger
                     await mm.calculateBranchStrength()
                     await mm.getCommitHistoryForThisComponent()
                 })
@@ -763,16 +764,13 @@ load_once_from_file(true)
                 }
             },
             calculateBranchStrength:            async function () {
-            //debugger
-            let mm = this
-            let responseJson = await getFromYazzReturnJson(
-                                "/http_get_bulk_calculate_branch_strength_for_component",
-                                {
-                                    commit_id:          mm.selectedCommitId,
-                                    baseComponentId:    mm.baseComponentId
-                                    })
-            //let result = responseJson
-            //alert(JSON.stringify(result))
+                let mm = this
+                let responseJson = await getFromYazzReturnJson(
+                                        "/http_get_bulk_calculate_branch_strength_for_component",
+                                        {
+                                            commit_id:          mm.selectedCommitId,
+                                            baseComponentId:    mm.baseComponentId
+                                        })
             },
             checkoutCode:                       async function () {
                 let mm              = this
