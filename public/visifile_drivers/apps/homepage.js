@@ -131,8 +131,8 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                           <pre>
     <div style="font-size:60px;font-weight: bold;">UI Control UUIDs</div>
 
-(yz.componentsImplementation.runtimeComponentsInfo)
-{{ yz.componentsImplementation.runtimeComponentsInfo }}
+(runtimeComponentsInfo)
+{{ runtimeComponentsInfo }}
 
 
                             

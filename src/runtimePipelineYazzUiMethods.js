@@ -105,10 +105,10 @@
                 this.watchList = []
 
 
-                yz.componentsImplementation.runtimeComponentsInfo                               = new Object()
-                yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid      = {}
-                yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID  = {}
-                yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID  = {}
+                this.runtimeComponentsInfo                               = new Object()
+                this.runtimeComponentsInfo.componentModelDefnByUuid      = {}
+                this.runtimeComponentsInfo.componentIncomingCountByUUID  = {}
+                this.runtimeComponentsInfo.componentOutgoingCountByUUID  = {}
 
                 let llf = Object.keys(this.model.forms)
                 for (let ii = 0; ii < llf.length ; ii ++) {
@@ -138,7 +138,7 @@
                         cc.uuid = uuidv4()
                         mm.refresh ++
                     }
-                    yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[cc.uuid] = cc
+                    mm.runtimeComponentsInfo.componentModelDefnByUuid[cc.uuid] = cc
 
 
                     if (!mm.watchList) {
@@ -160,16 +160,16 @@
                                     })
 
 
-                                if (yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid]) {
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid] ++
+                                if (mm.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid]) {
+                                    mm.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid] ++
                                 } else {
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid] = 1
+                                    mm.runtimeComponentsInfo.componentIncomingCountByUUID[cc.uuid] = 1
                                 }
 
-                                if (yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid]) {
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid] ++
+                                if (mm.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid]) {
+                                    mm.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid] ++
                                 } else {
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid] = 1
+                                    mm.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.watch[ff].uuid] = 1
                                 }
 
                             }
@@ -188,17 +188,17 @@
                                         type:                           "push",
                                         transform_fn:                   cc.push[ff].transform_fn
                                     })
-                                if (yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid]) {
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] ++
+                                if (mm.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid]) {
+                                    mm.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] ++
                                 } else {
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] = 1
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] = 1
+                                    mm.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] = 1
+                                    mm.runtimeComponentsInfo.componentIncomingCountByUUID[cc.push[ff].uuid] = 1
                                 }
 
-                                if (yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid]) {
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid] ++
+                                if (mm.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid]) {
+                                    mm.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid] ++
                                 } else {
-                                    yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid] = 1
+                                    mm.runtimeComponentsInfo.componentOutgoingCountByUUID[cc.uuid] = 1
                                 }
 
                             }
@@ -4876,8 +4876,8 @@ return {}
                 |     NONE
                 |________________________________________________________________________ */
                 let ret
-                if (yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[currentWatch.from_component_uuid]) {
-                    ret = yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[currentWatch.from_component_uuid].name
+                if (this.runtimeComponentsInfo.componentModelDefnByUuid[currentWatch.from_component_uuid]) {
+                    ret = this.runtimeComponentsInfo.componentModelDefnByUuid[currentWatch.from_component_uuid].name
                         +
                         "."
                         +
@@ -4957,8 +4957,8 @@ return {}
                 |     NONE
                 |________________________________________________________________________ */
                 let ret
-                if (yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.from_component_uuid]) {
-                    ret = yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.from_component_uuid].name
+                if (this.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.from_component_uuid]) {
+                    ret = this.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.from_component_uuid].name
                         +
                         "."
                         +
@@ -4986,8 +4986,8 @@ return {}
                 |     NONE
                 |________________________________________________________________________ */
                 let ret
-                if (yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.to_component_uuid]) {
-                    ret = yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.to_component_uuid].name
+                if (this.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.to_component_uuid]) {
+                    ret = this.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.to_component_uuid].name
                         +
                         "."
                         +
@@ -5228,7 +5228,7 @@ return {}
                 let mm      = this
 
                 mm.selectedWatchFromProperties  = []
-                let ccomp                       =  yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[controlUuid]
+                let ccomp                       =  mm.runtimeComponentsInfo.componentModelDefnByUuid[controlUuid]
                 let ccomkeys                    = Object.keys(ccomp)
                 for (  let compKey   of   ccomkeys  ) {
                     mm.selectedWatchFromProperties.push(compKey)
@@ -5266,7 +5266,7 @@ return {}
                 }
                 this.selectedWatchComponentUuid = event.target.value
                 this.selectedWatchFromProperties = []
-                let ccomp =  yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedWatchComponentUuid]
+                let ccomp =  mm.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedWatchComponentUuid]
                 let Acttyoe = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
                 let ccomkeys = Object.keys(yz.componentsImplementation.treeOfPossibleControlPropertyLinks[Acttyoe].incoming.them[ccomp.base_component_id])
                 for (let aaa =0; aaa<ccomkeys.length;aaa++) {
@@ -5403,7 +5403,7 @@ return {}
                         if (  yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ]  ) {
                             if (  yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ].incoming  ) {
                                 if (  yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ].incoming.them  ) {
-                                    let them =  yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedWatchComponentUuid]
+                                    let them =  mm.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedWatchComponentUuid]
                                     if (  yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ].incoming.them[  them.base_component_id  ]  ) {
                                         let ccomkeys2 = Object.keys(yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ].incoming.them[  them.base_component_id  ][mm.selectedWatchFromProperty] )
 
@@ -5534,7 +5534,7 @@ return {}
 
 
                 this.selectedPushComponentUuid = event.target.value
-                let ccomp =  yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedPushComponentUuid]
+                let ccomp =  mm.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedPushComponentUuid]
                 let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
                 this.selectedPushToProperties = []
                 mm.linkSideSelected = "to"
@@ -6054,12 +6054,12 @@ return {}
                                         //debugger
                                         //console.log(ww)
 
-                                        let fromc = yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[uuid]
+                                        let fromc = mm.runtimeComponentsInfo.componentModelDefnByUuid[uuid]
                                         //console.log("fromc: " + JSON.stringify(fromc,null,2))
 
 
                                         let touuid = ww.to_component_uuid
-                                        let toc = yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[touuid]
+                                        let toc = mm.runtimeComponentsInfo.componentModelDefnByUuid[touuid]
                                         //console.log("toc: " + JSON.stringify(toc,null,2))
 
 
@@ -6340,12 +6340,12 @@ return {}
                                                         //debugger
                                                         //console.log(ww)
 
-                                                        let fromc = yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[uuid]
+                                                        let fromc = mm.runtimeComponentsInfo.componentModelDefnByUuid[uuid]
                                                         //console.log("fromc: " + JSON.stringify(fromc,null,2))
 
 
                                                         let touuid = ww.to_component_uuid
-                                                        let toc = yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[touuid]
+                                                        let toc = mm.runtimeComponentsInfo.componentModelDefnByUuid[touuid]
                                                         //console.log("toc: " + JSON.stringify(toc,null,2))
 
 
@@ -6421,6 +6421,7 @@ return {}
                 file_exts:                           [],
                 errors:                              null,
                 inUpdateAllFormCaches:               false,
+                runtimeComponentsInfo:               {},
                 newCursor:                           null,
                 watchList:                           [],
                 selectedWatchComponentUuid:          null,

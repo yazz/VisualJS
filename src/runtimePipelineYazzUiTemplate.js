@@ -403,14 +403,14 @@
 
                              <span   class="badge badge-primary"
                                      style='font-size: 20px;'
-                                     v-html='(yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
+                                     v-html='(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
                              </span>
 
                              <span    style='font-size: 20px;'>-&gt;</span>
 
                              <span   class="badge badge-primary"
                                      style='font-size: 20px; margin-right: 10px;'
-                                     v-html='(yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
+                                     v-html='(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
                              </span>
 
                          Property linked changes
@@ -630,7 +630,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                              <div
                                 v-if='selectedWatchComponentUuid'
                              >
-                                {{yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[selectedWatchComponentUuid].name}}
+                                {{runtimeComponentsInfo.componentModelDefnByUuid[selectedWatchComponentUuid].name}}
                              </div>
 
 
@@ -1032,7 +1032,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                               <div
                                  v-if='selectedWatchComponentUuid'
                               >
-                                 {{yz.componentsImplementation.runtimeComponentsInfo.componentModelDefnByUuid[selectedWatchComponentUuid].name}}
+                                 {{runtimeComponentsInfo.componentModelDefnByUuid[selectedWatchComponentUuid].name}}
                               </div>
 
 
@@ -1883,7 +1883,7 @@ Pushlist
                                     -&gt;
 
                                     <span   class="badge badge-primary"
-                                            v-html='(yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(yz.componentsImplementation.runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
+                                            v-html='(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
                                     </span>
                             </div>
 
@@ -1902,7 +1902,7 @@ Pushlist
                                     -&gt;
 
                                     <span   class="badge badge-primary"
-                                            v-html='(yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(yz.componentsImplementation.runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
+                                            v-html='(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
                                     </span>
                             </div>
 
