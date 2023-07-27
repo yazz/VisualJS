@@ -243,7 +243,6 @@ load_once_from_file(true)
 
                 await this.setupTimeline()
                 setTimeout(async function(){
-                    debugger
                     await mm.calculateBranchStrength()
                     await mm.getCommitHistoryForThisComponent()
                 })
@@ -318,8 +317,10 @@ load_once_from_file(true)
                     });
 
                     if (isValidObject(window.keepTimeline) && window.keepTimeline) {
-                    } else {
+                    } else if (mm.listOfAllCommits[mm.codeId].timestamp) {
                         mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
+                    } else {
+
                     }
                     window.keepTimeline = false
 
@@ -643,18 +644,19 @@ load_once_from_file(true)
                 // -----------------------------------------------------
                 //                      gotoHome
                 //
-                // Go to the current commid ID item
+                // Go to the current commit ID ID item
                 //
                 //
                 //
                 // -----------------------------------------------------
 
                 let mm = this
-
-                mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
-                await mm.selectItemDetails(mm.codeId)
-                await mm.highlightItem(mm.codeId)
-                await mm.unHighlightAllExceptLockedItem()
+                if (mm.listOfAllCommits[mm.codeId].timestamp) {
+                    mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
+                    await mm.selectItemDetails(mm.codeId)
+                    await mm.highlightItem(mm.codeId)
+                    await mm.unHighlightAllExceptLockedItem()
+                }
             },
 
             // interaction with the Yazz system
