@@ -279,9 +279,9 @@ runtimeComponentsInfo:
 {{ runtimeComponentsInfo }}
 
   
-yz.componentsImplementation.runtimeFormsInfo:
+runtimeFormsInfo:
   
-{{ yz.componentsImplementation.runtimeFormsInfo }}
+{{ runtimeFormsInfo }}
 
   
   

@@ -125,14 +125,14 @@
                 let form        = mm.model.forms[formName]
                 let components  = form.components
 
-                if (!isValidObject(yz.componentsImplementation.runtimeFormsInfo[formName])) {
-                    yz.componentsImplementation.runtimeFormsInfo[formName] = new Object()
+                if (!isValidObject(mm.runtimeFormsInfo[formName])) {
+                    mm.runtimeFormsInfo[formName] = new Object()
                 }
-                yz.componentsImplementation.runtimeFormsInfo[formName].component_lookup_by_name     = {}
+                mm.runtimeFormsInfo[formName].component_lookup_by_name     = {}
 
                 for (let  cc  of  components) {
                     if (isValidObject(cc)) {
-                        yz.componentsImplementation.runtimeFormsInfo[formName].component_lookup_by_name[cc.name] = cc
+                        mm.runtimeFormsInfo[formName].component_lookup_by_name[cc.name] = cc
                     }
                     if (!cc.uuid) {
                         cc.uuid = uuidv4()
@@ -513,7 +513,7 @@
                         let selectParent = false
                         let parentItemIndex = null
                         if (isValidObject(newItem.parent)) {
-                            let parentItem = yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[newItem.parent]
+                            let parentItem = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[newItem.parent]
 
                             if (isValidObject(parentItem.select_parent_when_child_added) &&
                                 (parentItem.select_parent_when_child_added == true)) {
@@ -843,7 +843,7 @@
                         this.model.forms[val] = this.model.forms[oldval]
                         this.model.forms[val]["name"] = val
 
-                        yz.componentsImplementation.runtimeFormsInfo[val] = yz.componentsImplementation.runtimeFormsInfo[oldval]
+                        this.runtimeFormsInfo[val] = mm.runtimeFormsInfo[oldval]
 
 
                         if (this.model.default_form == oldval) {
@@ -852,7 +852,7 @@
                         //this.active_form = val
 
 
-                        yz.componentsImplementation.runtimeFormsInfo[oldval] = null
+                        mm.runtimeFormsInfo[oldval] = null
                         mm.model.forms[oldval] = null
                         //alert(this.active_form)
 
@@ -1330,11 +1330,11 @@
                 let component  = null
                 let mm         = this
 
-                if (yz.componentsImplementation.runtimeFormsInfo) {
-                    if (yz.componentsImplementation.runtimeFormsInfo[mm.active_form]) {
-                        if (yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name) {
-                            if (yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[componentName]) {
-                                component = yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[componentName]
+                if (mm.runtimeFormsInfo) {
+                    if (mm.runtimeFormsInfo[mm.active_form]) {
+                        if (mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name) {
+                            if (mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[componentName]) {
+                                component = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[componentName]
                             }
                         }
                     }
@@ -1364,11 +1364,11 @@
 
                 if (lookupArgs.componentName) {
                     let componentName = lookupArgs.componentName
-                    if (yz.componentsImplementation.runtimeFormsInfo) {
-                        if (yz.componentsImplementation.runtimeFormsInfo[mm.active_form]) {
-                            if (yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name) {
-                                if (yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[componentName]) {
-                                    component = yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[componentName]
+                    if (mm.runtimeFormsInfo) {
+                        if (mm.runtimeFormsInfo[mm.active_form]) {
+                            if (mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name) {
+                                if (mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[componentName]) {
+                                    component = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[componentName]
                                 }
                             }
                         }
@@ -1453,7 +1453,7 @@
                     let me = componentDetails
                     let parent = null
                     if (me.parent) {
-                        parent = yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
+                        parent = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
                     }
 
                     let retv =  null
@@ -1491,7 +1491,7 @@
                     let me = componentDetails
                     let parent = null
                     if (me.parent) {
-                        parent = yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
+                        parent = this.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
                     }
 
                     let fnDetails = null
@@ -2319,7 +2319,7 @@ ${origCode}
                                 } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
                                     let parentId = mm.model.forms[mm.active_form].components[ mm.design_mode_pane.active_component_index ].parent
                                     if (isValidObject(parentId)) {
-                                        componentId = yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[parentId].base_component_id
+                                        componentId = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[parentId].base_component_id
                                     }
 
                                 } else if (isValidObject(mm.design_mode_pane.active_form)) {
@@ -3028,7 +3028,7 @@ ${origCode}
                             }
                             for (let formControl  of  mm.model.forms[  aForm.name ].components) {
                                 if (formControl.name) {
-                                    callableUiForms[ aForm.name  ][formControl.name] = yz.componentsImplementation.runtimeFormsInfo[ aForm.name ].component_lookup_by_name[formControl.name]
+                                    callableUiForms[ aForm.name  ][formControl.name] = mm.runtimeFormsInfo[ aForm.name ].component_lookup_by_name[formControl.name]
                                 }
                             }
                             callableUiForms[ aForm.name  ].init({formName: aForm.name})
@@ -3049,16 +3049,16 @@ ${origCode}
                         let allC = this.model.forms[this.active_form].components
                         for ( let comp  of  allC ) {
                             argsToUserCodeString += comp.name + ","
-                            argsToUserCode[comp.name] = yz.componentsImplementation.runtimeFormsInfo[this.active_form].component_lookup_by_name[comp.name];
+                            argsToUserCode[comp.name] = mm.runtimeFormsInfo[this.active_form].component_lookup_by_name[comp.name];
                         }
 
 
-                        let thisControl = yz.componentsImplementation.runtimeFormsInfo[   this.active_form   ].component_lookup_by_name[   control_name   ]
+                        let thisControl = mm.runtimeFormsInfo[   this.active_form   ].component_lookup_by_name[   control_name   ]
                         if (isValidObject(thisControl)) {
 
                             if (isValidObject(thisControl.parent)) {
                                 argsToUserCodeString += parent + ","
-                                argsToUserCode["parent"] = yz.componentsImplementation.runtimeFormsInfo[  this.active_form  ].component_lookup_by_name[  thisControl.parent  ];
+                                argsToUserCode["parent"] = mm.runtimeFormsInfo[  this.active_form  ].component_lookup_by_name[  thisControl.parent  ];
                             }
 
 
@@ -3081,7 +3081,7 @@ ${origCode}
 
 `
                             argsToUserCodeString += "me }"
-                            argsToUserCode["me"] = yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[thisControl.name];
+                            argsToUserCode["me"] = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[thisControl.name];
 
 
 
@@ -5612,8 +5612,8 @@ return {}
                 //debugger
 
                 if (options.link_type == "outgoing") {
-                    let fromComponent =   yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[options.from_component]
-                    let toComponent =     yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[options.to_component]
+                    let fromComponent =   mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[options.from_component]
+                    let toComponent =     mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[options.to_component]
 
                     mm.old_model = JSON.parse(JSON.stringify( mm.model ));
                     if (! fromComponent.push) {
@@ -5638,8 +5638,8 @@ return {}
 
                 } else if (options.link_type == "incoming") {
                     //debugger
-                    let fromComponent =   yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[options.from_component]
-                    let toComponent =     yz.componentsImplementation.runtimeFormsInfo[mm.active_form].component_lookup_by_name[options.to_component]
+                    let fromComponent =   mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[options.from_component]
+                    let toComponent =     mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[options.to_component]
 
                     mm.old_model = JSON.parse(JSON.stringify( mm.model ));
                     if (! toComponent.watch) {
@@ -6422,6 +6422,7 @@ return {}
                 errors:                              null,
                 inUpdateAllFormCaches:               false,
                 runtimeComponentsInfo:               {},
+                runtimeFormsInfo:                    {},
                 newCursor:                           null,
                 watchList:                           [],
                 selectedWatchComponentUuid:          null,

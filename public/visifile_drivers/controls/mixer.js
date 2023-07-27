@@ -906,7 +906,7 @@ logo_url("/driver_icons/mixer.png")
           test: function() {
               //debugger
               let mm = this
-              let newcontrol = yz.componentsImplementation.runtimeFormsInfo[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
+              let newcontrol = mm.runtimeFormsInfo[mm.meta.getEditor().active_form].component_lookup_by_name["aaa"]
               //mm.dynamic = newcontrol.getDynamic()
               newcontrol.setText2("helo duck")
           }
