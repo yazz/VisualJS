@@ -15,7 +15,7 @@ formEditor({
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,
-  "id": "totally_blank_app",
+  "id": "control_preview_container_app",
   "next_component_id": 114,
   "app_properties": [
     {
@@ -37,7 +37,7 @@ formEditor({
 })//formEditor
 component_type("SYSTEM")
 runtime_pipeline(["APP"])
-base_component_id("totally_blank_app")
+base_component_id("control_preview_container_app")
 visibility("PRIVATE")
 display_name("GUI App")
 editors([

@@ -715,7 +715,7 @@ End of app preview menu
                               ref="control_preview_component"
                               v-if='app_loaded  &&  (preview_type=="control")'
                               style='background-color: white;'
-                              v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["totally_blank_app"]'
+                              v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["control_preview_container_app"]'
                               v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
                               >
                   </component>
@@ -2258,7 +2258,7 @@ End of app preview menu
             // Load miscalaneous components
             //
             await GLOBALS.makeSureUiComponentLoadedV6(["yazz_blank"])
-            await GLOBALS.makeSureUiComponentLoadedV6(["totally_blank_app"])
+            await GLOBALS.makeSureUiComponentLoadedV6(["control_preview_container_app"])
 
 
 
