@@ -28,27 +28,16 @@ formEditor({
   "forms": {
     "Form_1": {
       "form_load": `
-if (mm.args && mm.args.control_type) {
+if ( mm.args ) {
 
-    let compArgs = {
-        base_component_id:  mm.args.control_type,
-        type:               "add_component",
-        text:               "",
-        offsetX:            100,
-        offsetY:            100
-    }
+    mm.addControl({
+              "leftX":              100,
+              "topY":               100,
+              "name":               "aaa",
+              "base_component_id":  mm.args.control_type,
+              code_id:              mm.args.control_code_id
+    })
 
-    if (mm.args.control_code_id) {
-        compArgs.code_id = mm.args.control_code_id
-    }
-debugger
-    await mm.addComponentV2(
-        200,
-        200,
-        compArgs,
-        null,
-        null,
-        [])
 }
 `,
       "name": "Form_1",
