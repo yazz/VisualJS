@@ -27,31 +27,27 @@ formEditor({
   "forms": {
     "Form_1": {
       "form_load": `
-console.log("UI Control Preview loaded")
 if (mm.args && mm.args.control_type) {
 
-    //debugger
-    setTimeout(async function () {
-        let compArgs = {
-            base_component_id: mm.args.control_type,
-            type: "add_component",
-            text: "this.highlighted_control",
-            offsetX: 100,
-            offsetY: 100
-        }
+    let compArgs = {
+        base_component_id:  mm.args.control_type,
+        type:               "add_component",
+        text:               "",
+        offsetX:            100,
+        offsetY:            100
+    }
 
-        if (mm.args.control_code_id) {
-            compArgs.code_id = mm.args.control_code_id
-        }
+    if (mm.args.control_code_id) {
+        compArgs.code_id = mm.args.control_code_id
+    }
 
-        await mm.addComponentV2(
-            200,
-            200,
-            compArgs,
-            null,
-            null,
-            [])
-    }, 200)
+    await mm.addComponentV2(
+        200,
+        200,
+        compArgs,
+        null,
+        null,
+        [])
 }
 `,
       "name": "Form_1",
