@@ -2999,17 +2999,18 @@ ${origCode}
                     mm.updateAllFormCaches()
 
 
-                    //             /--------------------/
-                    //            /  UI control event  /
-                    //           /--------------------/
+                    //             /----------------------------/
+                    //            /  UI control or form event  /
+                    //           /----------------------------/
                     //
                     //       eg: "code to run when button clicked"
                     //       -------------------------------------
                     //
                     // if this is processing an event generated from a control
-                    // on a form
+                    // on a form, or for events which are generated from a
+                    // form, such as form load or activate
 
-                    if (type == "subcomponent_event") {
+                    if ((type == "subcomponent_event") || (type == "form_event")) {
 
 
                         // set up form access vars to enable:
@@ -3081,7 +3082,12 @@ ${origCode}
 
 `
                             argsToUserCodeString += "me }"
-                            argsToUserCode["me"] = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[thisControl.name];
+                            if (type == "subcomponent_event") {
+                                argsToUserCode["me"] = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[thisControl.name];
+                            } else if (type == "form_event") {
+                                argsToUserCode["me"] = mm.model.forms[mm.active_form]
+                            }
+
 
 
 
@@ -3089,8 +3095,17 @@ ${origCode}
 `(async function(${argsToUserCodeString}){
 ${code}
 })`
+                            let blockName = ""
+                            if (type == "subcomponent_event") {
+                                blockName = mm.active_form + "_" + control_name + "_" + sub_type
+                            } else if (type == "form_event") {
+                                blackName = this.active_form
+                            }
+
+
                             let debugFcc = getDebugCode(
-                                                mm.active_form + "_" + control_name + "_" + sub_type,fcc,
+                                                blockName,
+                                                fcc,
                                                 {
                                                     skipFirstAndLastLine: true
                                                 })
@@ -3114,52 +3129,16 @@ ${code}
                                 } else {
                                     errValue = err
                                 }
-                                alert(  "Error in " + form_name + ":" + control_name + ":" + sub_type + ":" + "\n" +
-                                    "    " + JSON.stringify(errValue,null,2))
+                                if (type == "subcomponent_event") {
+
+                                    alert("Error in " + form_name + ":" + control_name + ":" + sub_type + ":" + "\n" +
+                                        "    " + JSON.stringify(errValue, null, 2))
+
+                                } else if (type == "form_event") {
+                                    alert("Error in " + form_name + ":" + sub_type + "\n" +
+                                        "    Error: " + JSON.stringify(errValue, null, 2))
+                                }
                             }
-                        }
-
-
-
-                    //             /--------------/
-                    //            /  Form event  /
-                    //           /--------------/
-                    //
-                    //   eg: "code to run when form activated
-                    //   ------------------------------------
-                    //
-                    // This is only executed for events which are generated from a form, such as form
-                    // load or activate
-
-                    } else if (type == "form_event") {
-                        //debugger
-                        let fcc =
-                            `(async function(){
-                                ${code}
-                            })`
-                        let meCode =""
-                        meCode += ( "var me = mm.model.forms['" + this.active_form + "'];")
-                        eval(meCode)
-
-                        let appCode =""
-                        appCode += ( "var app = mm.model;")
-                        eval(appCode)
-
-                        let debugFcc = getDebugCode(this.active_form ,fcc,{skipFirstAndLastLine: true})
-                        let efcc = eval(debugFcc)
-
-                        try {
-                            await efcc()
-                        } catch(  err  ) {
-
-                            let errValue = ""
-                            if (err.message) {
-                                errValue = err.message
-                            } else {
-                                errValue = err
-                            }
-                            alert(  "Error in " + form_name + ":" + sub_type + "\n" +
-                                "    Error: " + JSON.stringify(errValue,null,2))
                         }
                     }
 
