@@ -553,21 +553,6 @@
                 return ret
             },
             selectComponentByName:                  function        (  compName  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |           selectComponentByName      |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 let parentItemIndex = -1;
                 let ccc = mm.model.forms[mm.active_form].components
