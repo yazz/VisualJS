@@ -1,5 +1,6 @@
 async function(args) {
     /*
+base_component_id("control_preview_container_app")
 updated_timestamp(1677214094918)
 code_changes([])//code_changes
 properties([
@@ -61,7 +62,6 @@ if (mm.args && mm.args.control_type) {
 })//formEditor
 component_type("SYSTEM")
 runtime_pipeline(["APP"])
-base_component_id("control_preview_container_app")
 visibility("PRIVATE")
 display_name("GUI App")
 editors([
