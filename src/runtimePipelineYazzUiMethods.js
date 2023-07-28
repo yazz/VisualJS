@@ -6176,31 +6176,7 @@ return {}
 
                     if (mm.isThisComponentAnApp()) {
                         setTimeout(async function () {
-                            if (mm.args && mm.args.control_type) {
 
-                                //debugger
-                                setTimeout(async function () {
-                                    let compArgs = {
-                                        base_component_id: mm.args.control_type,
-                                        type: "add_component",
-                                        text: "this.highlighted_control",
-                                        offsetX: 100,
-                                        offsetY: 100
-                                    }
-
-                                    if (mm.args.control_code_id) {
-                                        compArgs.code_id = mm.args.control_code_id
-                                    }
-
-                                    await mm.addComponentV2(
-                                        200,
-                                        200,
-                                        compArgs,
-                                        null,
-                                        null,
-                                        [])
-                                }, 200)
-                            }
                         }, 800)
                     }
                     // END
