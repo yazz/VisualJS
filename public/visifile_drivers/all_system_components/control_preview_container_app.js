@@ -30,6 +30,8 @@ formEditor({
 
       "form_load": `
         //alert(1)
+        debugger
+        mm.zoo="bear"
         if ( mm.args ) {
 
             await mm.addControl({
@@ -39,11 +41,22 @@ formEditor({
                       "base_component_id":  mm.args.control_type,
                       code_id:              mm.args.control_code_id
             })
+
+            await mm.addControl({
+                      "leftX":              280,
+                      "topY":               100,
+                      text:                 "Debug",
+                      "name":               "debug_ctrl",
+                      "base_component_id":  "button_control",
+                      click_event:          "debugger"
+            })
         }`,
 
 
     "form_activate": `
-        //alert(2)
+    //debugger
+    alert(mm.zoo)
+        alert(JSON.stringify(mm.model.forms.Form_1,null,2))
     `,
 
 
