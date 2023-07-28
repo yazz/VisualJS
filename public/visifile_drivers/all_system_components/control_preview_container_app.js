@@ -26,6 +26,9 @@ formEditor({
   ],
   "forms": {
     "Form_1": {
+      "form_load": `
+console.log("UI Control Preview loaded")
+`,
       "name": "Form_1",
       "width": 400,
       "height": 400,
