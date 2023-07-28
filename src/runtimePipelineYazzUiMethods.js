@@ -607,9 +607,9 @@
                 let newControl = await mm.addComponentV2( 10,
                     10,
                     {
-                        base_component_id: controlDetails.base_component_id
-                        ,
-                        control: controlDetails
+                        base_component_id:  controlDetails.base_component_id,
+                        control:            controlDetails,
+                        code_id:            controlDetails.code_id
                     },
                     controlDetails.parent_base_component_id,
                     controlDetails.parent_name,

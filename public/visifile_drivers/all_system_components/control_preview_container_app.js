@@ -41,7 +41,7 @@ if (mm.args && mm.args.control_type) {
     if (mm.args.control_code_id) {
         compArgs.code_id = mm.args.control_code_id
     }
-
+debugger
     await mm.addComponentV2(
         200,
         200,
