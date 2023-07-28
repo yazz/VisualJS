@@ -2983,7 +2983,7 @@ ${origCode}
 
                 // disallow processing this event if we are in design mode
                 // in most cases
-//debugger
+
                 if ( (!mm.design_mode) && (mm.model) )                              { shallIProcessThisEvent = true }
                 if ( (!mm.design_mode) && (mm.model) )                              { shallIProcessThisEvent = true }
                 if ( design_time_only_events && (mm.design_mode) && (mm.model) )    { shallIProcessThisEvent = true }
@@ -3053,91 +3053,93 @@ ${origCode}
                             argsToUserCode[comp.name] = mm.runtimeFormsInfo[this.active_form].component_lookup_by_name[comp.name];
                         }
 
+                        let thisControl
+                        if (type == "subcomponent_event") {
+                            thisControl = mm.runtimeFormsInfo[this.active_form].component_lookup_by_name[control_name]
+                            if (isValidObject(thisControl)) {
 
-                        let thisControl = mm.runtimeFormsInfo[   this.active_form   ].component_lookup_by_name[   control_name   ]
-                        if (isValidObject(thisControl)) {
-
-                            if (isValidObject(thisControl.parent)) {
-                                argsToUserCodeString += parent + ","
-                                argsToUserCode["parent"] = mm.runtimeFormsInfo[  this.active_form  ].component_lookup_by_name[  thisControl.parent  ];
-                            }
-
-
-`
-                            argsToUserCodeString += "app ,"
-                            argsToUserCode["app"] = mm.model;
-
-                            argsToUserCodeString += "myForm ,"
-                            argsToUserCode["myForm"] = mm.model.forms[this.active_form];
-
-
-                            let listOfArgs = []
-                            if (isValidObject(args)) {
-                                listOfArgs = Object.keys(args)
-                                for (let rtt=0;rtt<listOfArgs.length;rtt++) {
-                                    argsToUserCodeString += listOfArgs[rtt] + " ,"
-                                    argsToUserCode[listOfArgs[rtt]] = JSON.stringify(args[listOfArgs[rtt]])
+                                if (isValidObject(thisControl.parent)) {
+                                    argsToUserCodeString += parent + ","
+                                    argsToUserCode["parent"] = mm.runtimeFormsInfo[this.active_form].component_lookup_by_name[thisControl.parent];
                                 }
                             }
+                        }
+
 
 `
-                            argsToUserCodeString += "me }"
-                            if (type == "subcomponent_event") {
-                                argsToUserCode["me"] = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[thisControl.name];
-                            } else if (type == "form_event") {
-                                argsToUserCode["me"] = mm.model.forms[mm.active_form]
+                        argsToUserCodeString += "app ,"
+                        argsToUserCode["app"] = mm.model;
+
+                        argsToUserCodeString += "myForm ,"
+                        argsToUserCode["myForm"] = mm.model.forms[this.active_form];
+
+
+                        let listOfArgs = []
+                        if (isValidObject(args)) {
+                            listOfArgs = Object.keys(args)
+                            for (let rtt=0;rtt<listOfArgs.length;rtt++) {
+                                argsToUserCodeString += listOfArgs[rtt] + " ,"
+                                argsToUserCode[listOfArgs[rtt]] = JSON.stringify(args[listOfArgs[rtt]])
                             }
+                        }
+
+`
+                        argsToUserCodeString += "me }"
+                        if (type == "subcomponent_event") {
+                            argsToUserCode["me"] = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[thisControl.name];
+                        } else if (type == "form_event") {
+                            argsToUserCode["me"] = mm.model.forms[mm.active_form]
+                        }
 
 
 
 
-                            let fcc =
+                        let fcc =
 `(async function(${argsToUserCodeString}){
 ${code}
 })`
-                            let blockName = ""
-                            if (type == "subcomponent_event") {
-                                blockName = mm.active_form + "_" + control_name + "_" + sub_type
-                            } else if (type == "form_event") {
-                                blackName = this.active_form
+                        let blockName = ""
+                        if (type == "subcomponent_event") {
+                            blockName = mm.active_form + "_" + control_name + "_" + sub_type
+                        } else if (type == "form_event") {
+                            blackName = this.active_form
+                        }
+
+
+                        let debugFcc = getDebugCode(
+                                            blockName,
+                                            fcc,
+                                            {
+                                                skipFirstAndLastLine: true
+                                            })
+
+
+
+                        // try to execute the code. Ideally, we should have all the
+                        // code sitting in "debugFcc" ready to be executed. This
+                        // should make things easier to debug
+
+                        let efcc = eval(debugFcc)
+
+
+                        try {
+                            await efcc(argsToUserCode)
+                        } catch(  err  ) {
+
+                            let errValue = ""
+                            if (err.message) {
+                                errValue = err.message
+                            } else {
+                                errValue = err
                             }
+                            if (type == "subcomponent_event") {
 
+                                alert("Error in " + form_name + ":" + control_name + ":" + sub_type + ":" + "\n" +
+                                    "    " + JSON.stringify(errValue, null, 2))
 
-                            let debugFcc = getDebugCode(
-                                                blockName,
-                                                fcc,
-                                                {
-                                                    skipFirstAndLastLine: true
-                                                })
-
-
-
-                            // try to execute the code. Ideally, we should have all the
-                            // code sitting in "debugFcc" ready to be executed. This
-                            // should make things easier to debug
-
-                            let efcc = eval(debugFcc)
-
-
-                            try {
-                                await efcc(argsToUserCode)
-                            } catch(  err  ) {
-
-                                let errValue = ""
-                                if (err.message) {
-                                    errValue = err.message
-                                } else {
-                                    errValue = err
-                                }
-                                if (type == "subcomponent_event") {
-
-                                    alert("Error in " + form_name + ":" + control_name + ":" + sub_type + ":" + "\n" +
-                                        "    " + JSON.stringify(errValue, null, 2))
-
-                                } else if (type == "form_event") {
-                                    alert("Error in " + form_name + ":" + sub_type + "\n" +
-                                        "    Error: " + JSON.stringify(errValue, null, 2))
-                                }
+                            } else if (type == "form_event") {
+                                alert("Error in " + form_name + ":" + sub_type + "\n" +
+                                    "    Error: " + JSON.stringify(errValue, null, 2))
                             }
                         }
                     }
