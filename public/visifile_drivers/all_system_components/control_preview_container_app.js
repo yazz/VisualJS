@@ -27,19 +27,26 @@ formEditor({
   ],
   "forms": {
     "Form_1": {
+
       "form_load": `
-if ( mm.args ) {
+        //alert(1)
+        if ( mm.args ) {
 
-    mm.addControl({
-              "leftX":              100,
-              "topY":               100,
-              "name":               "aaa",
-              "base_component_id":  mm.args.control_type,
-              code_id:              mm.args.control_code_id
-    })
+            await mm.addControl({
+                      "leftX":              100,
+                      "topY":               100,
+                      "name":               "aaa",
+                      "base_component_id":  mm.args.control_type,
+                      code_id:              mm.args.control_code_id
+            })
+        }`,
 
-}
-`,
+
+    "form_activate": `
+        //alert(2)
+    `,
+
+
       "name": "Form_1",
       "width": 400,
       "height": 400,
