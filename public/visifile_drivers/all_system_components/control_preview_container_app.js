@@ -54,7 +54,7 @@ formEditor({
 
 
     "form_activate": `
-    //debugger
+    debugger
     alert(mm.zoo)
         alert(JSON.stringify(mm.model.forms.Form_1,null,2))
     `,

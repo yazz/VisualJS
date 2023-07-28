@@ -405,6 +405,10 @@
 
 
 
+                    if (newItem.name == "aaa") {
+                        debugger
+                    }
+
 
 
                     /*
@@ -488,8 +492,7 @@
                     mm.model.forms[mm.active_form].components.push(newItem)
                     mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
-//debugger
-                    //qqqDONE
+
                     let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id})
                     let childrenCode  = yz.helpers.getValueOfCodeString(compCode, "children",")//children")
                     if (isValidObject(childrenCode)) {
@@ -497,54 +500,54 @@
                             let childBaseId = childrenCode[ee].base_component_id
                             let childDefProps = childrenCode[ee].properties
                             debugger
-                            await mm.addComponentV2(    0 ,
-                                0 ,
-                                {base_component_id: childBaseId} ,
-                                newItem.base_component_id ,
-                                newItem.name ,
-                                childDefProps )
+                            await mm.addComponentV2(
+                                0,
+                                0,
+                                {
+                                    base_component_id: childBaseId
+                                },
+                                newItem.base_component_id,
+                                newItem.name,
+                                childDefProps)
                         }
                     }
 
 
 
 
-                        mm.updateAllFormCaches()
-                        let selectParent = false
-                        let parentItemIndex = null
-                        if (isValidObject(newItem.parent)) {
-                            let parentItem = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[newItem.parent]
+                    mm.updateAllFormCaches()
+                    let selectParent = false
+                    let parentItemIndex = null
+                    if (isValidObject(newItem.parent)) {
+                        let parentItem = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[newItem.parent]
 
-                            if (isValidObject(parentItem.select_parent_when_child_added) &&
-                                (parentItem.select_parent_when_child_added == true)) {
+                        if (isValidObject(parentItem.select_parent_when_child_added) &&
+                            (parentItem.select_parent_when_child_added == true)) {
 
-                                selectParent = true
-                                let ccc = mm.model.forms[mm.active_form].components
-                                for (let ytr = 0;ytr < ccc.length;ytr++) {
-                                    if (parentItem.name == ccc[ytr].name) {
-                                        parentItemIndex = ytr
-                                        break
-                                    }
+                            selectParent = true
+                            let ccc = mm.model.forms[mm.active_form].components
+                            for (let ytr = 0;ytr < ccc.length;ytr++) {
+                                if (parentItem.name == ccc[ytr].name) {
+                                    parentItemIndex = ytr
+                                    break
                                 }
                             }
                         }
+                    }
 
 
 
-                        if (selectParent) {
-                            mm.selectComponent(parentItemIndex, true)
-                        } else {
-                            mm.selectComponent(mm.active_component_index, true)
-                        }
-                        mm.refresh ++
+                    if (selectParent) {
+                        mm.selectComponent(parentItemIndex, true)
+                    } else {
+                        mm.selectComponent(mm.active_component_index, true)
+                    }
+                    mm.refresh ++
 
 
-                        let newComponent = mm.lookupComponentOnForm({componentName: newItem.name})
-                        mm.addCodeChange("Add component: " + newItem.name + "(" + newItem.base_component_id + ")")
-                        returnfn(newComponent)
-                        //returnfn(null)
-
-
+                    let newComponent = mm.lookupComponentOnForm({componentName: newItem.name})
+                    mm.addCodeChange("Add component: " + newItem.name + "(" + newItem.base_component_id + ")")
+                    returnfn(newComponent)
                 })
                 let ret = await promise
                 return ret
