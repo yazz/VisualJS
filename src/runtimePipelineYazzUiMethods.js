@@ -568,31 +568,24 @@
                 return null
             },
             addControl:                             async function  (  controlDetails  ) {
-                /*
-                ________________________________________
-                |              addControl              |
-                |______________________________________|
-                Adds a control to the page. eg:
 
-                await mm.addControl(
-                {
-                    "leftX": 310,
-                    "topY": 10,
-                    "name": "mycontrol",
-                    "base_component_id": "button_control"
-                })
+                // Adds a control to the page. eg:
+                //
+                // await mm.addControl(
+                // {
+                //    "leftX":              310,
+                //    "topY":               10,
+                //    "name":               "mycontrol",
+                //    "base_component_id":  "button_control"
+                //    "code_id":            0xff33...7b5
+                // })
+                //
+                // This function really seems to be a helper function for the more complex
+                // "addComponentV2" function
 
-                This function really seems to be a helper function for the more complex
-                "addComponentV2" function
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     controlDetails:
-                |________________________________________________________________________ */
                 let mm = this
-                let newControl = await mm.addComponentV2( 10,
+                let newControl = await mm.addComponentV2(
+                    10,
                     10,
                     {
                         base_component_id:  controlDetails.base_component_id,
