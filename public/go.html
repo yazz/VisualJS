@@ -1336,6 +1336,9 @@
                         let runtimePipeline = yz.helpers.getValueOfCodeString(trcode2, "runtime_pipeline")
                         if (runtimePipeline){
                             for (let pipelineItem of runtimePipeline) {
+
+                                // If the component is a standard Yazz App
+
                                 if (pipelineItem == "APP") {
                                     trcode2 = await enhanceCodeWithPipeline(
                                         {
@@ -1432,6 +1435,7 @@
                                     }
 
 
+                                // If the component is an EDITOR PLUG IN then
 
                                 } else if (pipelineItem == "EDITOR_PLUG_IN") {
                                     trcode2 = await enhanceCodeWithPipeline(

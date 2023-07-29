@@ -12,7 +12,7 @@ load_once_from_file(true)
 
 
 
-    /*
+/*
 ________________________________________
 |                                      |
 |             app_editor_3             |
@@ -20,6 +20,7 @@ ________________________________________
 |            Vue component             |
 |______________________________________|
 This is the main UI Component for the Yazz Editor. It contains:
+
 - Text, UI, and projectional editors
 - Debugger
 - App/Component Preview
