@@ -30,7 +30,7 @@ formEditor({
 
       "form_load": `
         //alert(1)
-        debugger
+        //debugger
         mm.zoo="bear"
         if ( mm.args ) {
 
@@ -54,8 +54,8 @@ formEditor({
 
 
     "form_activate": `
-    debugger
-    alert(mm.zoo)
+        //debugger
+        //alert(mm.zoo)
         alert(JSON.stringify(mm.model.forms.Form_1,null,2))
     `,
 

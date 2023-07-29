@@ -406,7 +406,7 @@
 
 
                     if (newItem.name == "aaa") {
-                        debugger
+                        //debugger
                     }
 
 
@@ -5978,11 +5978,11 @@ return {}
                             }
                         } else if (text.type == "select_design_time_component") {
                             if (mm.design_mode != false) {
-                                mm.selectComponent(text.component_index, true);
+                                await mm.selectComponent(text.component_index, true);
                             }
                         } else if (text.type == "load_controls") {
                             if (mm.design_mode != false) {
-                                mm.loadControlPalette();
+                                await mm.loadControlPalette();
                             }
                         }
                     })
