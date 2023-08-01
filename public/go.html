@@ -1952,7 +1952,7 @@
             }
 
             // blockchain helpers
-            function        filterBlockchainParams              (   blockchainDetails   ) {
+            async function  filterBlockchainParams              (   blockchainDetails   ) {
                 return {
                     chainId: blockchainDetails.chainId,
                     chainName: blockchainDetails.chainName,
@@ -1990,7 +1990,7 @@
                         await provider.request({
                             method: 'wallet_addEthereumChain',
                             params: [
-                                filterBlockchainParams(window.blockchainIds[blockchainId])
+                                (await filterBlockchainParams(window.blockchainIds[blockchainId]))
                             ]
                         });
                     } catch (addError) {
