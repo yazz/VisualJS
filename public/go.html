@@ -2765,7 +2765,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 
                 },100)
             };
-            function        populateCache                       (   ) {
+            async function  populateStaticCodeCache             (   ) {
                 //***ADD_STATIC_CODE
             }
             function        sendToServerViaWebSocket            (   msg   ) {
@@ -4077,50 +4077,50 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 
             */
 
-
-            populateCache()
-
-
-            console.log("Start debugger")
-            fullCode = async function(cc) {
-                eval(cc)
-            }
-            //runn() // only used for debugging
-            //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
-            //console.log(JSON.stringify(rt,null,2))
+            (async function() {
+                await populateStaticCodeCache()
 
 
-            /*
-             Here are what is used to execute code:
-                queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
-                queuedResponses[seqNum]         = callbackFn; // called when the websocket fn returns
-                componentCallsListArgsSent[seqNum]    = args..  // arguents send to the server
-                queuedResponses                 = new Object()
-                queuedBrowserResponseSeqNum     = 0
-                componentCallsListArgsSent            = new Object()
+                console.log("Start debugger")
+                fullCode = async function(cc) {
+                    eval(cc)
+                }
+                //runn() // only used for debugging
+                //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
+                //console.log(JSON.stringify(rt,null,2))
 
 
-
-
-             Here are what the main component loading functions and vars do:
+                /*
+                 Here are what is used to execute code:
+                    queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
+                    queuedResponses[seqNum]         = callbackFn; // called when the websocket fn returns
+                    componentCallsListArgsSent[seqNum]    = args..  // arguents send to the server
+                    queuedResponses                 = new Object()
+                    queuedBrowserResponseSeqNum     = 0
+                    componentCallsListArgsSent            = new Object()
 
 
 
 
-                METHODS
-                -------
+                 Here are what the main component loading functions and vars do:
 
 
-                  -------------
-                - callComponent
-                  -------------
-                    This actually can call server side code and return a result. We can pass either the base component ID
-                    or the commit ID for the code to run
 
 
-             */
+                    METHODS
+                    -------
 
 
+                      -------------
+                    - callComponent
+                      -------------
+                        This actually can call server side code and return a result. We can pass either the base component ID
+                        or the commit ID for the code to run
+
+
+                 */
+
+            })()
 
         </script> <!-- main code and functions -->
 
