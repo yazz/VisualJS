@@ -27,7 +27,6 @@ formEditor({
   ],
   "forms": {
     "Form_1": {
-
       "on_form_load": `
             console.log("Called on_form_load..."  + me.name)
             console.log("... Called on_form_load finished: " + me.name)
@@ -92,7 +91,7 @@ formEditor({
 
       "name": "Form_1",
       "width": 400,
-      "height": 400,
+      "height": 1000,
       "add_block": "alert('Add block called')",
       "components": [
       ]
