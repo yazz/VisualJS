@@ -29,18 +29,21 @@ formEditor({
     "Form_1": {
 
       "form_load": `
+        console.log("Called form_load")
         //alert(1)
-        //debugger
         mm.zoo="bear"
         if ( mm.args ) {
 
-            await mm.addControl({
+            let newa = await mm.addControl({
                       "leftX":              100,
                       "topY":               100,
                       "name":               "aaa",
                       "base_component_id":  mm.args.control_type,
                       code_id:              mm.args.control_code_id
             })
+                    //debugger
+
+            newa.text = "who"
 
             await mm.addControl({
                       "leftX":              280,
@@ -54,6 +57,7 @@ formEditor({
 
 
     "form_activate": `
+        console.log("Called form_activate")
         //debugger
         //alert(mm.zoo)
         //alert(JSON.stringify(mm.model.forms.Form_1,null,2))
