@@ -49,30 +49,36 @@ formEditor({
 
             alert(JSON.stringify(propertyDefnsOfComponent,null,2))
             newa.text = "who"
+            let lastY = newa.height + 50 + newa.topY
+            let controlIndex = 1
+            for (let propertyDefn  of  propertyDefnsOfComponent) {
+                mm.addControl({
+                    base_component_id: "label_control",
+                    name: "aaa" + controlIndex,
+                    leftX:50,
+                    text: "text"
+                    topY: lastY
+                })
+                mm.addControl({
+                    base_component_id: "input_control",
+                    name: "bbb" + controlIndex,
+                    leftX: 150,
+                    value: newa.text,
+                    topY: lastY
+                })
+                mm.addControl({
+                    base_component_id: "button_control",
+                    name: "ccc" + controlIndex,
+                    leftX:300,
+                    value: newa.text,
+                    topY: lastY,
+                    click_event: "aaa.text = aaa3.value"
+                })
+                controlIndex++
+                lastY += 100
+            }
 
 
-            mm.addControl({
-                base_component_id: "label_control",
-                name: "aaa2",
-                leftX:50,
-                text: "text"
-                topY: newa.height + 50 + newa.topY
-            })
-            mm.addControl({
-                base_component_id: "input_control",
-                name: "aaa3",
-                leftX: 150,
-                value: newa.text,
-                topY: newa.height + 50 + newa.topY
-            })
-            mm.addControl({
-                base_component_id: "button_control",
-                name: "aaa4",
-                leftX:300,
-                value: newa.text,
-                topY: newa.height + 50 + newa.topY,
-                click_event: "aaa.text = aaa3.value"
-            })
         }
 
         console.log("... Called on_form_show finished: " + me.name)
