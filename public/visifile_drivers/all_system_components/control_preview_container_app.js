@@ -38,8 +38,8 @@ formEditor({
         console.log("Called on_form_show..."  + me.name)
         if ( mm.args ) {
             let newa = await mm.addControl({
-                          "leftX":              100,
-                          "topY":               100,
+                          "leftX":              10,
+                          "topY":               10,
                           "name":               "aaa",
                           "base_component_id":  mm.args.control_type,
                           code_id:              mm.args.control_code_id
@@ -48,34 +48,39 @@ formEditor({
             let propertyDefnsOfComponent =   GLOBALS.getControlPropertyDefns({baseComponentId: mm.args.control_type})
 
             alert(JSON.stringify(propertyDefnsOfComponent,null,2))
-            newa.text = "who"
-            let lastY = newa.height + 50 + newa.topY
+            let lastY = newa.height + 20 + newa.topY
             let controlIndex = 1
             for (let propertyDefn  of  propertyDefnsOfComponent) {
-                mm.addControl({
-                    base_component_id: "label_control",
-                    name: "aaa" + controlIndex,
-                    leftX:50,
-                    text: "text"
-                    topY: lastY
-                })
-                mm.addControl({
-                    base_component_id: "input_control",
-                    name: "bbb" + controlIndex,
-                    leftX: 150,
-                    value: newa.text,
-                    topY: lastY
-                })
-                mm.addControl({
-                    base_component_id: "button_control",
-                    name: "ccc" + controlIndex,
-                    leftX:300,
-                    value: newa.text,
-                    topY: lastY,
-                    click_event: "aaa.text = aaa3.value"
-                })
-                controlIndex++
-                lastY += 100
+
+                if (propertyDefn.type == "String") {
+                    mm.addControl({
+                        base_component_id: "label_control",
+                        name: "aaa" + controlIndex,
+                        leftX:50,
+                        width: 350,
+                        text: "(" + controlIndex + ") " + propertyDefn.id + "(String)"
+                        topY: lastY
+                    })
+
+                    mm.addControl({
+                        base_component_id: "input_control",
+                        name: "bbb" + controlIndex,
+                        leftX: 50,
+                        value: newa.text,
+                        topY: lastY + 30
+                    })
+
+                    mm.addControl({
+                        base_component_id: "button_control",
+                        name: "ccc" + controlIndex,
+                        leftX:200,
+                        value: newa.text,
+                        topY: lastY + 30,
+                        click_event: "aaa.text = bbb" + controlIndex + ".value"
+                    })
+                    controlIndex++
+                    lastY += 100
+                }
             }
 
 
