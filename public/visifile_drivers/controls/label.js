@@ -164,8 +164,8 @@ logo_url("/driver_icons/text_control.png")
               }          // you can do anything here with the new value or old/previous value
           }
         },
-        mounted: function() {
-            registerComponent(this)
+        mounted: async function() {
+            await registerComponent(this)
 
             if (isValidObject(this.args.text)) {
                 this.text = this.args.text

@@ -144,7 +144,7 @@ logo_url("/driver_icons/import_access.png")
           }
         },
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
             if (this.design_mode) {
             } else {

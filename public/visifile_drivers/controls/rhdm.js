@@ -240,7 +240,7 @@ logo_url("/driver_icons/rhdm.png")
         ,
 
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
             if (!this.design_mode) {
 

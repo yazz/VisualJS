@@ -90,7 +90,7 @@ logo_url("/driver_icons/folder_list.png")
       }
       ,
       mounted: async function() {
-        registerComponent(this)
+        await registerComponent(this)
 
           this.load()
 

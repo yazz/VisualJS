@@ -319,9 +319,9 @@ logo_url("/driver_icons/threedee_item.png")
 
 
 
-        mounted: function() {
+        mounted: async function() {
             let mm = this
-            registerComponent(this)
+            await registerComponent(this)
 
             if (!this.design_mode) {
                 //let scene = document.querySelector('a-scene');

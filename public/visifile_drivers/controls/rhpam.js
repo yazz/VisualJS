@@ -110,7 +110,7 @@ logo_url("/driver_icons/rhpam.png")
         ,
 
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
             if (!this.design_mode) {
                 var x = await this.readFromDocker()

@@ -92,7 +92,7 @@ logo_url("/driver_icons/terminal.png")
         ,
 
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
         }
         ,

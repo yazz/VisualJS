@@ -288,7 +288,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
           }
         },
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
             await useWeb3()
             this.lastSelectedBlockchain = this.properties.blockchainId
             this.faucet = window.blockchainIds[this.properties.blockchainId].faucet
