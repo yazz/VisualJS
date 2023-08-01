@@ -2768,7 +2768,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
             async function  populateStaticCodeCache             (   ) {
                 //***ADD_STATIC_CODE
             }
-            function        sendToServerViaWebSocket            (   msg   ) {
+            async function  sendToServerViaWebSocket            (   msg   ) {
                 if (yz.mainVars.online) {
                     msg.cookie = getYazzCookie()
                     socket.send(JSON.stringify(msg));
@@ -2792,8 +2792,8 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                         //
 
 
-                        setInterval(function() {
-                            sendToServerViaWebSocket({
+                        setInterval(async function() {
+                            await sendToServerViaWebSocket({
                                 message_type: "ws_browser_asks_server_for_data"
                             });
                         }, 5000)
@@ -2980,12 +2980,12 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                 |                   can go here
                 |
                 |________________________________________________________________________ */
-                var promise = new Promise(returnfn => {
+                var promise = new Promise(async function(returnfn) {
                     let seqNum                          = queuedBrowserResponseSeqNum ++;
                     queuedResponses[seqNum]             = function(result) {returnfn(result)};
                     componentCallsListArgsSent[seqNum]  = fnCallArgs
 
-                    sendToServerViaWebSocket({
+                    await sendToServerViaWebSocket({
                         message_type:   "ws_browser_calls_component_via_web_socket",
                         find_component: componentSearchDetails,
                         args:           fnCallArgs,
