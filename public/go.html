@@ -2068,14 +2068,6 @@
                 |                           from it's mount: method
                 |________________________________________________________________________ */
 
-                /*
-                ____________________________________________________________
-                |    registerComponent
-                |_________________________
-                                         | part
-                                         |
-                                         | longer description
-                                         |__________________________________ */
                 if (vueComponentObject) {
                     let args        = vueComponentObject.args
                     let argsPrefix  = "args"
@@ -2184,7 +2176,7 @@
                     }
                 }
             }
-            function        unregisterComponent                 (   componentName   ) {
+            async function  unregisterComponent                 (   componentName   ) {
                 yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
                 yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
             }
