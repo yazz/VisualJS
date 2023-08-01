@@ -29,20 +29,21 @@ formEditor({
     "Form_1": {
 
       "on_form_load": `
-        console.log("Called on_form_load..."  + me.name)
-        //alert(1)
-        mm.zoo="bear"
+            console.log("Called on_form_load..."  + me.name)
+            console.log("... Called on_form_load finished: " + me.name)
+    `,
+
+
+    "on_form_show": `
+        console.log("Called on_form_show..."  + me.name)
         if ( mm.args ) {
-
             let newa = await mm.addControl({
-                      "leftX":              100,
-                      "topY":               100,
-                      "name":               "aaa",
-                      "base_component_id":  mm.args.control_type,
-                      code_id:              mm.args.control_code_id
+                          "leftX":              100,
+                          "topY":               100,
+                          "name":               "aaa",
+                          "base_component_id":  mm.args.control_type,
+                          code_id:              mm.args.control_code_id
             })
-                    //debugger
-
             newa.text = "who"
 
             await mm.addControl({
@@ -53,16 +54,8 @@ formEditor({
                       "base_component_id":  "button_control",
                       click_event:          "debugger"
             })
-            console.log("... Called on_form_load finished: " + me.name)
+        }
 
-        }`,
-
-
-    "on_form_show": `
-        console.log("Called on_form_show..."  + me.name)
-        //debugger
-        //alert(mm.zoo)
-        //alert(JSON.stringify(mm.model.forms.Form_1,null,2))
         console.log("... Called on_form_show finished: " + me.name)
     `,
 
