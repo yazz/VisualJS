@@ -79,7 +79,42 @@ formEditor({
                     })
                     controlIndex++
                     lastY += 100
+
+
+
+
+
+                } else if (propertyDefn.type == "Number") {
+                    mm.addControl({
+                        base_component_id: "label_control",
+                        name: "aaa" + controlIndex,
+                        leftX:50,
+                        width: 350,
+                        text: "(" + controlIndex + ") " + propertyDefn.id + "(String)"
+                        topY: lastY
+                    })
+
+                    mm.addControl({
+                        base_component_id: "input_control",
+                        name: "bbb" + controlIndex,
+                        leftX: 50,
+                        value: newa[propertyDefn.id],
+                        topY: lastY + 30
+                    })
+
+                    mm.addControl({
+                        base_component_id: "button_control",
+                        name: "ccc" + controlIndex,
+                        leftX:200,
+                        height: 40,
+                        value: "Apply",
+                        topY: lastY + 30,
+                        click_event: "aaa." + propertyDefn.id + " = bbb" + controlIndex + ".value"
+                    })
+                    controlIndex++
+                    lastY += 100
                 }
+
             }
 
 
