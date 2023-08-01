@@ -578,7 +578,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
 
 
 
-        <div v-bind:style="'overflow:auto;margin-left:10px;margin-top:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: rgb(242,242,242);height: 80vh; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
+        <div v-bind:style="'margin-left:10px;margin-top:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: rgb(242,242,242);height: 80vh; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
 
 
 
@@ -715,7 +715,7 @@ End of app preview menu
                   <component  id="control_preview_component"
                               ref="control_preview_component"
                               v-if='app_loaded  &&  (preview_type=="control")'
-                              style='background-color: white;'
+                              style='background-color: white;height:92%;'
                               v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["control_preview_container_app"]'
                               v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
                               >
@@ -736,7 +736,7 @@ End of app preview menu
                 <component  id="app_preview_component"
                             ref="app_preview_component"
                             v-if='app_loaded  &&  (preview_type=="app")'
-                            style='background-color: white;'
+                            style='background-color: white; height: 92%;'
                             v-bind:is="code_id"
                 >
                 </component>
