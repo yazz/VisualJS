@@ -44,15 +44,33 @@ formEditor({
                           "base_component_id":  mm.args.control_type,
                           code_id:              mm.args.control_code_id
             })
+
+            let propertiesOfComponent = Object.keys(newa)
+            alert(JSON.stringify(propertiesOfComponent,null,2))
             newa.text = "who"
 
-            await mm.addControl({
-                      "leftX":              280,
-                      "topY":               100,
-                      text:                 "Debug",
-                      "name":               "debug_ctrl",
-                      "base_component_id":  "button_control",
-                      click_event:          "debugger"
+
+            mm.addControl({
+                base_component_id: "label_control",
+                name: "aaa2",
+                leftX:50,
+                text: "text"
+                topY: newa.height + 50 + newa.topY
+            })
+            mm.addControl({
+                base_component_id: "input_control",
+                name: "aaa3",
+                leftX: 150,
+                value: newa.text,
+                topY: newa.height + 50 + newa.topY
+            })
+            mm.addControl({
+                base_component_id: "button_control",
+                name: "aaa4",
+                leftX:300,
+                value: newa.text,
+                topY: newa.height + 50 + newa.topY,
+                click_event: "aaa.text = aaa3.value"
             })
         }
 
