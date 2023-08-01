@@ -72,7 +72,6 @@ formEditor({
                         base_component_id: "button_control",
                         name: "ccc" + controlIndex,
                         leftX:200,
-                        height: 40,
                         value: "Apply",
                         topY: lastY + 30,
                         click_event: "aaa." + propertyDefn.id + " = bbb" + controlIndex + ".value"
@@ -106,10 +105,9 @@ formEditor({
                         base_component_id: "button_control",
                         name: "ccc" + controlIndex,
                         leftX:200,
-                        height: 40,
                         value: "Apply",
                         topY: lastY + 30,
-                        click_event: "aaa." + propertyDefn.id + " = bbb" + controlIndex + ".value"
+                        click_event: "aaa." + propertyDefn.id + " = JSON.parse(bbb" + controlIndex + ".value)"
                     })
                     controlIndex++
                     lastY += 100
