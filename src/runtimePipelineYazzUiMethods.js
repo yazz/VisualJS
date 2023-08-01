@@ -3956,21 +3956,6 @@ ${code}
                 // and it uses the currently selected object to figure out what
                 // to display
                 // -------------------------------------------------------------------
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
 
                 let mm = this
 
@@ -4009,10 +3994,10 @@ ${code}
                     if (mm.edited_app_component_id) {
                         sdata.push(
                             {
-                                value: "" + indexProp,
-                                app: mm.edited_app_component_id,
-                                form: null,
-                                component: null
+                                value:      "" + indexProp,
+                                app:        mm.edited_app_component_id,
+                                form:       null,
+                                component:  null
                             })
                     }
 
@@ -4103,21 +4088,6 @@ ${code}
 
             },
             existsProp:                             function        (  compEvaled  ,  propName  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 for (let eee = 0 ;eee < compEvaled.length; eee++) {
                     if (compEvaled[eee].id == propName) {
                         return true
@@ -4126,21 +4096,6 @@ ${code}
                 return false
             },
             getControlProperties:                   function        (  base_component_id  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let properties = []
                 let compEvaled = this.getComponentProperties(base_component_id)
 
