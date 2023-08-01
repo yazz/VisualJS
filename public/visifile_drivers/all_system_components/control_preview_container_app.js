@@ -47,7 +47,6 @@ formEditor({
 
             let propertyDefnsOfComponent =   GLOBALS.getControlPropertyDefns({baseComponentId: mm.args.control_type})
 
-            alert(JSON.stringify(propertyDefnsOfComponent,null,2))
             let lastY = newa.height + 20 + newa.topY
             let controlIndex = 1
             for (let propertyDefn  of  propertyDefnsOfComponent) {
@@ -66,7 +65,7 @@ formEditor({
                         base_component_id: "input_control",
                         name: "bbb" + controlIndex,
                         leftX: 50,
-                        value: newa.text,
+                        value: newa[propertyDefn.id],
                         topY: lastY + 30
                     })
 
@@ -74,9 +73,10 @@ formEditor({
                         base_component_id: "button_control",
                         name: "ccc" + controlIndex,
                         leftX:200,
-                        value: newa.text,
+                        height: 40,
+                        value: "Apply",
                         topY: lastY + 30,
-                        click_event: "aaa.text = bbb" + controlIndex + ".value"
+                        click_event: "aaa." + propertyDefn.id + " = bbb" + controlIndex + ".value"
                     })
                     controlIndex++
                     lastY += 100
