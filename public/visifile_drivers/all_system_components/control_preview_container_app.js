@@ -45,8 +45,9 @@ formEditor({
                           code_id:              mm.args.control_code_id
             })
 
-            let propertiesOfComponent = Object.keys(newa)
-            alert(JSON.stringify(propertiesOfComponent,null,2))
+            let propertyDefnsOfComponent =   GLOBALS.getControlPropertyDefns({baseComponentId: mm.args.control_type})
+
+            alert(JSON.stringify(propertyDefnsOfComponent,null,2))
             newa.text = "who"
 
 
