@@ -29,7 +29,7 @@ formEditor({
     "Form_1": {
 
       "on_form_load": `
-        console.log("Called on_form_load")
+        console.log("Called on_form_load..."  + me.name)
         //alert(1)
         mm.zoo="bear"
         if ( mm.args ) {
@@ -53,14 +53,17 @@ formEditor({
                       "base_component_id":  "button_control",
                       click_event:          "debugger"
             })
+            console.log("... Called on_form_load finished: " + me.name)
+
         }`,
 
 
     "on_form_show": `
-        console.log("Called on_form_show")
+        console.log("Called on_form_show..."  + me.name)
         //debugger
         //alert(mm.zoo)
         //alert(JSON.stringify(mm.model.forms.Form_1,null,2))
+        console.log("... Called on_form_show finished: " + me.name)
     `,
 
 
