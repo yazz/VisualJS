@@ -2808,12 +2808,12 @@ ${origCode}
                                 app:                null,
                                 form:               mm.active_form,
                                 component:          ccc.name,
-                                action_id:          "form_activate",
+                                action_id:          "on_form_show",
                                 action_name:        "Activate Event",
                                 action_type:        "Event",
                                 action_index:       null
                             })
-                        if ( property_id == "form_activate" ) {
+                        if ( property_id == "on_form_show" ) {
                             selectedCodeAction = indexActionSelector
                         }
                         indexActionSelector++
@@ -2828,12 +2828,12 @@ ${origCode}
                                 app:                null,
                                 form:               mm.active_form,
                                 component:          ccc.name,
-                                action_id:          "form_load",
+                                action_id:          "on_form_load",
                                 action_name:        "Form Load Event",
                                 action_type:        "Event",
                                 action_index:       null
                             })
-                        if ( property_id == "form_load" ) {
+                        if ( property_id == "on_form_load" ) {
                             selectedCodeAction = indexActionSelector
                         }
                         indexActionSelector++
@@ -2893,7 +2893,7 @@ ${origCode}
                                 app_selected:           false,
                                 active_form:            dd.form,
                                 active_component_index: null,
-                                property_id:            "form_activate"
+                                property_id:            "on_form_show"
                             })
                         } else if (dd.app) {
                             mm.select_app()
@@ -3178,8 +3178,8 @@ ${code}
                 props.push({   id: "name",          name: "Name",           type:   "String"    })
                 props.push({   id: "width",         name: "Width",          type:   "Number"    })
                 props.push({   id: "height",        name: "Height",         type:   "Number"    })
-                props.push({   id: "form_activate", name: "Activate Event", type:   "Event"    })
-                props.push({   id: "form_load",     name: "Load Event",     type:   "Event"    })
+                props.push({   id: "on_form_show",  name: "Form Show Event",type:   "Event"    })
+                props.push({   id: "on_form_load",  name: "Form Load Event",type:   "Event"    })
 
                 props.push({    id:         "add_control",
                                 name:       "Add Control()",
@@ -3245,7 +3245,7 @@ ${code}
                 mm.active_form              = formId
                 mm.refresh ++
 
-                if (  mm.model.forms[  formId  ].form_activate && (!mm.design_mode)) {
+                if (  mm.model.forms[  formId  ].on_form_show && (!mm.design_mode)) {
 
                     if (!isValidObject(this.args)) {
                         //TODO
@@ -3253,7 +3253,7 @@ ${code}
                         mm.args = mm.model
                     }
 
-                    let formActivateCode = mm.model.forms[formId].form_activate
+                    let formActivateCode = mm.model.forms[formId].on_form_show
 
                     let formEvent = {
                         type:               "form_event",
@@ -5947,8 +5947,8 @@ return {}
                     setTimeout(async function () {
                         for (let formName of mm.getFormNames()) {
                             let thisForm = mm.model.forms[formName]
-                            if (  thisForm.form_load && (!mm.design_mode)) {
-                                let formLoadCode = thisForm.form_load
+                            if (  thisForm.on_form_load && (!mm.design_mode)) {
+                                let formLoadCode = thisForm.on_form_load
 
                                 let formEvent = {
                                     type:               "form_event",

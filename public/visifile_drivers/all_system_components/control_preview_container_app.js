@@ -28,8 +28,8 @@ formEditor({
   "forms": {
     "Form_1": {
 
-      "form_load": `
-        console.log("Called form_load")
+      "on_form_load": `
+        console.log("Called on_form_load")
         //alert(1)
         mm.zoo="bear"
         if ( mm.args ) {
@@ -56,8 +56,8 @@ formEditor({
         }`,
 
 
-    "form_activate": `
-        console.log("Called form_activate")
+    "on_form_show": `
+        console.log("Called on_form_show")
         //debugger
         //alert(mm.zoo)
         //alert(JSON.stringify(mm.model.forms.Form_1,null,2))
