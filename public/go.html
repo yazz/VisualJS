@@ -2557,13 +2557,13 @@
 
                         <button style="margin: 20px;"
                               class='btn btn-lg btn-danger'
-                              v-on:click='debugView="vue"'>
+                              v-on:click='debugView="debug_view_vue"'>
                               Show Loaded Vue objects
                         </button>
 
                         <button style="margin: 20px;"
                               class='btn btn-lg btn-danger'
-                              v-on:click='debugView = "ui_control_uuids"'>
+                              v-on:click='debugView = "debug_view_ui_control_uuids"'>
                                   Runtime UI control UUIDs
                         </button>
 
@@ -2571,12 +2571,12 @@
 
                         <button style="margin: 20px;"
                               class='btn btn-lg info'
-                              v-on:click='debugView="metamask"'>
+                              v-on:click='debugView="debug_view_metamask"'>
                               Metamask
                         </button>
 
 
-                        <div v-if="debugView=='vue'">
+                        <div v-if="debugView=='debug_view_vue'">
                             <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
                           <pre style="color: white; overflow: scroll; height: 50%;">
 
@@ -2586,7 +2586,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                           </pre>
                         </div>
 
-                        <div v-if="debugView=='metamask'">
+                        <div v-if="debugView=='debug_view_metamask'">
 
                                     <div v-if='!accountNumber'>
                                         You are not signed into Metamask. Please login first
@@ -2611,7 +2611,7 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                                     </div>
                                 </div>
 
-                        <div v-if='debugView=="ui_control_uuids"' style="color: white;">
+                        <div v-if='debugView=="debug_view_ui_control_uuids"' style="color: white;">
     <div style="font-size:60px;font-weight: bold;color: white;">UI Control UUIDs</div>
                           <pre style="color: white;">
 (runtimeComponentsInfo)
