@@ -894,10 +894,10 @@ module.exports = {
                                         await universalSaveStaticUIControl
                                         (   
                                             { 
-                                                sha1sum:            null, 
-                                                unescapedCode:      null, 
-                                                baseComponentId:    null, 
-                                                loadMethod:         null
+                                                sha1sum:            "${results[i].sha1}", 
+                                                unescapedCode:      unescape(\`${newcodeEs}\`), 
+                                                baseComponentId:    "${results[i].child_base_component_id}", 
+                                                loadMethod:         "STATIC"
                                             }
                                         )
                                         `
