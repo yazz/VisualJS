@@ -635,6 +635,7 @@ module.exports = {
         let codeChangesStr                          = null
         let numCodeChanges                          = null
         let sha1sum                                 = await OnlyIpfsHash.of(code)
+        console.log("            In save, actual code ID: " + sha1sum)
         let userId                                  = null
         let propertiesAsJsonString                  = null
         let existingCodeAlreadyInSystemCodeTable
