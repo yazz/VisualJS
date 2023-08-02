@@ -1588,6 +1588,7 @@ End of app preview menu
                                 codeId      = results[0].id
                                 mm.code_id  = codeId
                                 GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
                                 GLOBALS.pointBaseComponentIdAtCode(
                                     {
                                         baseComponentId:    mm.base_component_id,
@@ -1611,6 +1612,7 @@ End of app preview menu
                         let bci = yz.helpers.getValueOfCodeString(code.toString(),"base_component_id")
 
                         GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                        yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
                         GLOBALS.pointBaseComponentIdAtCode(
                             {
                                 baseComponentId:    bci,
@@ -1665,6 +1667,7 @@ End of app preview menu
                                 mm.code_id                  = codeId
                                 this.component_display_name = yz.helpers.getValueOfCodeString(code.toString(),"display_name")
                                 GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
                                 GLOBALS.pointBaseComponentIdAtCode(
                                     {
                                         baseComponentId:    baseComponentId,
@@ -1827,6 +1830,7 @@ End of app preview menu
 
                     mm.code_id  = await getIpfsHash(mm.editor_text)
                     GLOBALS.cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
+                    yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
                     GLOBALS.pointBaseComponentIdAtCode(
                         {
                             baseComponentId:    baseCompIdFromSrcCode,

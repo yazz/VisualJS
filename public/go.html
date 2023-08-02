@@ -1241,6 +1241,7 @@
                                         }
 
                                         mm.cacheThisComponentCode(  {codeId: codeId,    code: sdf[i].code}  )
+                                        yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
                                         mm.pointBaseComponentIdAtCode(
                                             {
                                                 baseComponentId:    sdf[i].base_component_id,
