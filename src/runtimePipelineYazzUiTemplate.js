@@ -630,7 +630,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                              <div
                                 v-if='selectedWatchComponentUuid'
                              >
-                                {{runtimeComponentsInfo.componentModelDefnByUuid[selectedWatchComponentUuid].name}}
+                                {{runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[selectedWatchComponentUuid].name}}
                              </div>
 
 
@@ -1032,7 +1032,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
                               <div
                                  v-if='selectedWatchComponentUuid'
                               >
-                                 {{runtimeComponentsInfo.componentModelDefnByUuid[selectedWatchComponentUuid].name}}
+                                 {{runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[selectedWatchComponentUuid].name}}
                               </div>
 
 

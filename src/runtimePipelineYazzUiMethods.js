@@ -106,7 +106,7 @@
 
 
                 this.runtimeComponentsInfo                               = new Object()
-                this.runtimeComponentsInfo.componentModelDefnByUuid      = {}
+                this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel      = {}
                 this.runtimeComponentsInfo.componentIncomingCountByUUID  = {}
                 this.runtimeComponentsInfo.componentOutgoingCountByUUID  = {}
 
@@ -138,7 +138,7 @@
                         cc.uuid = uuidv4()
                         mm.refresh ++
                     }
-                    mm.runtimeComponentsInfo.componentModelDefnByUuid[cc.uuid] = cc
+                    mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[cc.uuid] = cc
 
 
                     if (!mm.watchList) {
@@ -4778,8 +4778,8 @@ return {}
                 |     NONE
                 |________________________________________________________________________ */
                 let ret
-                if (this.runtimeComponentsInfo.componentModelDefnByUuid[currentWatch.from_component_uuid]) {
-                    ret = this.runtimeComponentsInfo.componentModelDefnByUuid[currentWatch.from_component_uuid].name
+                if (this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[currentWatch.from_component_uuid]) {
+                    ret = this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[currentWatch.from_component_uuid].name
                         +
                         "."
                         +
@@ -4859,8 +4859,8 @@ return {}
                 |     NONE
                 |________________________________________________________________________ */
                 let ret
-                if (this.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.from_component_uuid]) {
-                    ret = this.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.from_component_uuid].name
+                if (this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[currentPush.from_component_uuid]) {
+                    ret = this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[currentPush.from_component_uuid].name
                         +
                         "."
                         +
@@ -4888,8 +4888,8 @@ return {}
                 |     NONE
                 |________________________________________________________________________ */
                 let ret
-                if (this.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.to_component_uuid]) {
-                    ret = this.runtimeComponentsInfo.componentModelDefnByUuid[currentPush.to_component_uuid].name
+                if (this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[currentPush.to_component_uuid]) {
+                    ret = this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[currentPush.to_component_uuid].name
                         +
                         "."
                         +
@@ -5130,7 +5130,7 @@ return {}
                 let mm      = this
 
                 mm.selectedWatchFromProperties  = []
-                let ccomp                       =  mm.runtimeComponentsInfo.componentModelDefnByUuid[controlUuid]
+                let ccomp                       =  mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[controlUuid]
                 let ccomkeys                    = Object.keys(ccomp)
                 for (  let compKey   of   ccomkeys  ) {
                     mm.selectedWatchFromProperties.push(compKey)
@@ -5168,7 +5168,7 @@ return {}
                 }
                 this.selectedWatchComponentUuid = event.target.value
                 this.selectedWatchFromProperties = []
-                let ccomp =  mm.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedWatchComponentUuid]
+                let ccomp =  mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[this.selectedWatchComponentUuid]
                 let Acttyoe = mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id
                 let ccomkeys = Object.keys(yz.componentsImplementation.treeOfPossibleControlPropertyLinks[Acttyoe].incoming.them[ccomp.base_component_id])
                 for (let aaa =0; aaa<ccomkeys.length;aaa++) {
@@ -5305,7 +5305,7 @@ return {}
                         if (  yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ]  ) {
                             if (  yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ].incoming  ) {
                                 if (  yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ].incoming.them  ) {
-                                    let them =  mm.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedWatchComponentUuid]
+                                    let them =  mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[this.selectedWatchComponentUuid]
                                     if (  yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ].incoming.them[  them.base_component_id  ]  ) {
                                         let ccomkeys2 = Object.keys(yz.componentsImplementation.treeOfPossibleControlPropertyLinks[  activeComponenttype  ].incoming.them[  them.base_component_id  ][mm.selectedWatchFromProperty] )
 
@@ -5436,7 +5436,7 @@ return {}
 
 
                 this.selectedPushComponentUuid = event.target.value
-                let ccomp =  mm.runtimeComponentsInfo.componentModelDefnByUuid[this.selectedPushComponentUuid]
+                let ccomp =  mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[this.selectedPushComponentUuid]
                 let activecomp = mm.model.forms[mm.active_form].components[mm.active_component_index]
                 this.selectedPushToProperties = []
                 mm.linkSideSelected = "to"
@@ -5956,12 +5956,12 @@ return {}
                                         //debugger
                                         //console.log(ww)
 
-                                        let fromc = mm.runtimeComponentsInfo.componentModelDefnByUuid[uuid]
+                                        let fromc = mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[uuid]
                                         //console.log("fromc: " + JSON.stringify(fromc,null,2))
 
 
                                         let touuid = ww.to_component_uuid
-                                        let toc = mm.runtimeComponentsInfo.componentModelDefnByUuid[touuid]
+                                        let toc = mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[touuid]
                                         //console.log("toc: " + JSON.stringify(toc,null,2))
 
 
@@ -6218,12 +6218,12 @@ return {}
                                                         //debugger
                                                         //console.log(ww)
 
-                                                        let fromc = mm.runtimeComponentsInfo.componentModelDefnByUuid[uuid]
+                                                        let fromc = mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[uuid]
                                                         //console.log("fromc: " + JSON.stringify(fromc,null,2))
 
 
                                                         let touuid = ww.to_component_uuid
-                                                        let toc = mm.runtimeComponentsInfo.componentModelDefnByUuid[touuid]
+                                                        let toc = mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[touuid]
                                                         //console.log("toc: " + JSON.stringify(toc,null,2))
 
 
