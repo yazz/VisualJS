@@ -5432,6 +5432,9 @@ async function  startServices                           (  ) {
 
 async function  universalSaveStaticUIControl            (  { sha1sum , unescapedCode , baseComponentId , loadMethod }  ) {
     console.log("Called universalSaveStaticUIControl: " + sha1sum)
+    if (sha1sum == "QmX8ELNKaQcKLDfqtWVCUFnzBtBu5T9RnANm7yjmmKgfr4") {
+        debugger
+    }
     await yz.saveCodeV3(
         dbsearch,
         unescapedCode,
