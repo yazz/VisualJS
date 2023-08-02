@@ -443,7 +443,7 @@ var result = await callComponent(
         // ----------------------------------------------------------------
 
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
             if (this.args.callApiOnStartup == 'True') {
                 this.callDefaultRestApi()
             }

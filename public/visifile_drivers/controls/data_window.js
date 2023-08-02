@@ -664,7 +664,7 @@ logo_url("/driver_icons/data_window.png")
 
 
      mounted: async function() {
-         registerComponent(this)
+         await registerComponent(this)
 
          if (isValidObject(this.args)) {
          }

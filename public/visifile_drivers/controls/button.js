@@ -107,8 +107,8 @@ logo_url("/driver_icons/button_control.png")
                         {{properties.text}}
                     
                     </button>`,
-        mounted:    function( ) {
-            registerComponent(this)
+        mounted:    async function( ) {
+            await registerComponent(this)
         },
         data:       function( ) {
                                     return {

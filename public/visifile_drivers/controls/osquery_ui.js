@@ -86,7 +86,7 @@ logo_url("/driver_icons/osquery.png")
         ,
 
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
         }
         ,

@@ -224,7 +224,7 @@ logo_url("/driver_icons/kafka.png")
 
         mounted: async function() {
             let mm = this
-            registerComponent(this)
+            await registerComponent(this)
 
 
             if (mm.design_mode) {

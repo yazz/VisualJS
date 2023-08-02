@@ -246,9 +246,9 @@ logo_url("/driver_icons/threedee_control.png")
                   </a-entity>`
             ,
 
-            mounted: function() {
+            mounted: async function() {
                 let mm = this
-                registerComponent(this)
+                await registerComponent(this)
                 let dd = document.getElementById(this.name)
                 dd.addEventListener('click', function() {
                     mm.event_callback()

@@ -768,7 +768,7 @@ logo_url("/driver_icons/data_control.png")
      },
      mounted: async function() {
          console.log("mounted: async function() {")
-         registerComponent(this)
+         await registerComponent(this)
          let mm = this
 
          let listLL = await findComponentsImplementing(["runQuery","connect"])

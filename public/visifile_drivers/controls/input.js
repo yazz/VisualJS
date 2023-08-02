@@ -152,8 +152,8 @@ logo_url("/driver_icons/input_box.png")
                             v-model='args.valueMultiline'>  </textarea>
                  </div>`
       ,
-      mounted: function() {
-        registerComponent(this)
+      mounted: async function() {
+        await registerComponent(this)
       }
       ,
 

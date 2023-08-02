@@ -74,8 +74,8 @@ logo_url("/driver_icons/timer.png")
          }
      }
      ,
-    mounted: function() {
-        registerComponent(this)
+    mounted: async function() {
+        await registerComponent(this)
         var mm = this
         if (!mm.design_mode) {
             var interval = parseInt(mm.args.timer_interval)

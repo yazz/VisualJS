@@ -242,7 +242,7 @@ logo_url("/driver_icons/rh3scale.png")
         ,
 
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
             var x = await this.check3ScaleAvailable()
             this.args.is3ScaleAvailable = x?"True":"False"

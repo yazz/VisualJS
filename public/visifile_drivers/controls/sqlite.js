@@ -142,7 +142,7 @@ logo_url("/driver_icons/sqlite.jpg")
           }
         },
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
             if (this.design_mode) {
             } else {

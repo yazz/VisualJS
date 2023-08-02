@@ -118,7 +118,7 @@ logo_url("/driver_icons/mysql.png")
           }
         },
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
             if (this.design_mode) {
             } else {

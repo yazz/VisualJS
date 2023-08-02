@@ -349,7 +349,7 @@ logo_url("/driver_icons/excel.png")
           }
         },
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
               await this.connect()
               await this.getWorkbook()

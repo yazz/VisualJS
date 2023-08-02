@@ -1952,7 +1952,7 @@
             }
 
             // blockchain helpers
-            function        filterBlockchainParams              (   blockchainDetails   ) {
+            async function  filterBlockchainParams              (   blockchainDetails   ) {
                 return {
                     chainId: blockchainDetails.chainId,
                     chainName: blockchainDetails.chainName,
@@ -1990,7 +1990,7 @@
                         await provider.request({
                             method: 'wallet_addEthereumChain',
                             params: [
-                                filterBlockchainParams(window.blockchainIds[blockchainId])
+                                (await filterBlockchainParams(window.blockchainIds[blockchainId]))
                             ]
                         });
                     } catch (addError) {
@@ -2052,7 +2052,7 @@
                     return resulthash.ipfsHash
                 }
             }
-            function        registerComponent                   (   vueComponentObject   ) {
+            async function  registerComponent                   (   vueComponentObject   ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -2068,14 +2068,6 @@
                 |                           from it's mount: method
                 |________________________________________________________________________ */
 
-                /*
-                ____________________________________________________________
-                |    registerComponent
-                |_________________________
-                                         | part
-                                         |
-                                         | longer description
-                                         |__________________________________ */
                 if (vueComponentObject) {
                     let args        = vueComponentObject.args
                     let argsPrefix  = "args"
@@ -2184,7 +2176,7 @@
                     }
                 }
             }
-            function        unregisterComponent                 (   componentName   ) {
+            async function  unregisterComponent                 (   componentName   ) {
                 yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
                 yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
             }
@@ -2773,10 +2765,10 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 
                 },100)
             };
-            function        populateCache                       (   ) {
+            async function  populateStaticCodeCache             (   ) {
                 //***ADD_STATIC_CODE
             }
-            function        sendToServerViaWebSocket            (   msg   ) {
+            async function  sendToServerViaWebSocket            (   msg   ) {
                 if (yz.mainVars.online) {
                     msg.cookie = getYazzCookie()
                     socket.send(JSON.stringify(msg));
@@ -2800,8 +2792,8 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                         //
 
 
-                        setInterval(function() {
-                            sendToServerViaWebSocket({
+                        setInterval(async function() {
+                            await sendToServerViaWebSocket({
                                 message_type: "ws_browser_asks_server_for_data"
                             });
                         }, 5000)
@@ -2988,12 +2980,12 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
                 |                   can go here
                 |
                 |________________________________________________________________________ */
-                var promise = new Promise(returnfn => {
+                var promise = new Promise(async function(returnfn) {
                     let seqNum                          = queuedBrowserResponseSeqNum ++;
                     queuedResponses[seqNum]             = function(result) {returnfn(result)};
                     componentCallsListArgsSent[seqNum]  = fnCallArgs
 
-                    sendToServerViaWebSocket({
+                    await sendToServerViaWebSocket({
                         message_type:   "ws_browser_calls_component_via_web_socket",
                         find_component: componentSearchDetails,
                         args:           fnCallArgs,
@@ -4085,50 +4077,50 @@ Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 
             */
 
-
-            populateCache()
-
-
-            console.log("Start debugger")
-            fullCode = async function(cc) {
-                eval(cc)
-            }
-            //runn() // only used for debugging
-            //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
-            //console.log(JSON.stringify(rt,null,2))
+            (async function() {
+                await populateStaticCodeCache()
 
 
-            /*
-             Here are what is used to execute code:
-                queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
-                queuedResponses[seqNum]         = callbackFn; // called when the websocket fn returns
-                componentCallsListArgsSent[seqNum]    = args..  // arguents send to the server
-                queuedResponses                 = new Object()
-                queuedBrowserResponseSeqNum     = 0
-                componentCallsListArgsSent            = new Object()
+                console.log("Start debugger")
+                fullCode = async function(cc) {
+                    eval(cc)
+                }
+                //runn() // only used for debugging
+                //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
+                //console.log(JSON.stringify(rt,null,2))
 
 
-
-
-             Here are what the main component loading functions and vars do:
+                /*
+                 Here are what is used to execute code:
+                    queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
+                    queuedResponses[seqNum]         = callbackFn; // called when the websocket fn returns
+                    componentCallsListArgsSent[seqNum]    = args..  // arguents send to the server
+                    queuedResponses                 = new Object()
+                    queuedBrowserResponseSeqNum     = 0
+                    componentCallsListArgsSent            = new Object()
 
 
 
 
-                METHODS
-                -------
+                 Here are what the main component loading functions and vars do:
 
 
-                  -------------
-                - callComponent
-                  -------------
-                    This actually can call server side code and return a result. We can pass either the base component ID
-                    or the commit ID for the code to run
 
 
-             */
+                    METHODS
+                    -------
 
 
+                      -------------
+                    - callComponent
+                      -------------
+                        This actually can call server side code and return a result. We can pass either the base component ID
+                        or the commit ID for the code to run
+
+
+                 */
+
+            })()
 
         </script> <!-- main code and functions -->
 

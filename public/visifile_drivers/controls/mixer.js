@@ -796,7 +796,7 @@ logo_url("/driver_icons/mixer.png")
 
 
      mounted: async function() {
-         registerComponent(this)
+         await registerComponent(this)
          let mm = this
 
          let listLL = await findComponentsImplementing(["getSchema"])

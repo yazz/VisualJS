@@ -210,8 +210,8 @@ logo_url("/driver_icons/ace_editor.jpeg")
         }
       }
       ,
-      mounted: function() {
-        registerComponent(this)
+      mounted: async function() {
+        await registerComponent(this)
         var mm = this
         if (mm.name) {
             //debugger

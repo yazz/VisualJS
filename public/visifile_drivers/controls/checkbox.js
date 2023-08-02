@@ -73,8 +73,8 @@ logo_url("/driver_icons/checkbox_control.png")
           }
       }
       ,
-      mounted: function() {
-        registerComponent(this)
+      mounted: async function() {
+        await registerComponent(this)
       }
       ,
       methods: {

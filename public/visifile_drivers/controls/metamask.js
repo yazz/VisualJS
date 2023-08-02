@@ -90,7 +90,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHCBQSEhgSEhU
           }
         },
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
             let mm = this
 
 

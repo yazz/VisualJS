@@ -126,7 +126,7 @@ logo_url("/driver_icons/rhamq.png")
         ,
 
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
             if (!this.design_mode) {
 

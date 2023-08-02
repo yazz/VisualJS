@@ -223,7 +223,7 @@ logo_url("/driver_icons/kubernetes.png")
         ,
 
         mounted: async function() {
-            registerComponent(this)
+            await registerComponent(this)
 
             var x = await this.checkKubernetesAvailable()
             this.args.isKubernetesAvailable = x?"True":"False"
