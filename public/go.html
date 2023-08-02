@@ -1144,8 +1144,10 @@
                     for ( let componentItem  of  argComponentsToLoad ) {
                         if (typeof componentItem == 'string') {
                             whichComponentsToLoadAsTuples.push({baseComponentId: componentItem})
+                        } else if (componentItem.codeId) {
+                            whichComponentsToLoadAsTuples.push({codeId: componentItem.codeId})
                         } else {
-                            whichComponentsToLoadAsTuples.push(componentItem)
+                            whichComponentsToLoadAsTuples.push({baseComponentId: componentItem.baseComponentId})
                         }
                     }
 
