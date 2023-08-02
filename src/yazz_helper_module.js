@@ -877,7 +877,6 @@ module.exports = {
                                     let newcodeEs   = escape("(" + results[i].code.toString() + ")")
                                     let newCode2    =
                                         `
-                                        
                                         await universalSaveStaticUIControl
                                         (   
                                             { 

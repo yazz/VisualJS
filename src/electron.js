@@ -2377,7 +2377,9 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                 if ((componentsStart != -1) && (componentsEnd != -1)) {
                     componentsData = readIn.substring( componentsStart + 20,
                         componentsEnd)
-                    eval("(async function() { " + componentsData + "})")
+                    let asyncCodeToExecute = "((async function() { " + componentsData + "})())"
+                     asyncCodeToExecute = "(async () => {" + componentsData + "})()"
+                    eval(asyncCodeToExecute)
                 }
 
                 indexStart = readIn.indexOf("/*APP_START*/")
@@ -5429,12 +5431,13 @@ async function  startServices                           (  ) {
 }
 
 async function  universalSaveStaticUIControl            (  { sha1sum , unescapedCode , baseComponentId , loadMethod }  ) {
+    console.log("Called universalSaveStaticUIControl: " + sha1sum)
     await yz.saveCodeV3(
         dbsearch,
-        "",
+        unescapedCode,
         {
-            make_public: true,
-            save_html:   true
+            make_public: false,
+            save_html:   false
         })
 }
 
