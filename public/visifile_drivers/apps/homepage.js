@@ -54,16 +54,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                 v-on:click='homepageDebugViewName = "homepage_vars"'>
                                   Show homepage vars
                         </button>
-                        <button style="margin: 20px;"
-                              class='btn btn-lg btn-danger'
-                              v-on:click='homepageDebugViewName = "loaded_vue_objects"'>
-                                  Show Loaded Vue objects
-                        </button>
-                        <button style="margin: 20px;"
-                              class='btn btn-lg btn-danger'
-                              v-on:click='homepageDebugViewName = "ui_control_uuids"'>
-                                  Runtime UI control UUIDs
-                        </button>
 
 
 
@@ -98,7 +88,7 @@ showFilePicker:                         {{ showFilePicker }}
 open_file_path:                         {{ open_file_path }}
 open_file_list:                         {{ open_file_list }}
 open_file_name:                         {{ open_file_name }}
-disableHighlightEditableApp:                    {{ disableHighlightEditableApp }}
+disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                       </pre>
                     </div>
@@ -107,41 +97,6 @@ disableHighlightEditableApp:                    {{ disableHighlightEditableApp }
 
 
 
-                      <!  --------------------------------------  loaded vue objects   ------------------------------------>
-                      <!--                                                                                               -->
-                      
-                        <div v-if='homepageDebugViewName=="loaded_vue_objects"'>
-                  <pre>
-    <div style="font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
-    
-Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
-{{ yz.componentsAPI.vue.getVueInfoForAllLoadedComponents() }}
-    
-                  </pre>
-                </div>
-
-
-
-
-
-                      <!  --------------------------------------  Runtime UI control UUIDs   ------------------------------------>
-                      <!--                                                                                               -->
-                      
-                        <div v-if='homepageDebugViewName=="ui_control_uuids"' style="">
-                          <pre>
-    <div style="font-size:60px;font-weight: bold;">UI Control UUIDs</div>
-
-(runtimeComponentsInfo)
-{{ runtimeComponentsInfo }}
-
-
-                            
-                  </pre>
-
-                        </div>
-  
-  
-  
   
   
   

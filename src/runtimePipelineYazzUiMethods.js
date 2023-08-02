@@ -105,10 +105,10 @@
                 this.watchList = []
 
 
-                this.runtimeComponentsInfo                               = new Object()
-                this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel      = {}
-                this.runtimeComponentsInfo.componentIncomingCountByUUID  = {}
-                this.runtimeComponentsInfo.componentOutgoingCountByUUID  = {}
+                this.runtimeComponentsInfo                                      = new Object()
+                this.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel   = {}
+                this.runtimeComponentsInfo.componentIncomingCountByUUID         = {}
+                this.runtimeComponentsInfo.componentOutgoingCountByUUID         = {}
 
                 let llf = Object.keys(this.model.forms)
                 for (let ii = 0; ii < llf.length ; ii ++) {
@@ -5137,21 +5137,7 @@ return {}
                 }
             },
             setIncomingFormWatchComponent:          function        (  event  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm      = this
                 let val     = null
                 let type    = null
