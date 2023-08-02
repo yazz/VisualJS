@@ -814,6 +814,8 @@ module.exports = {
                                     codeId:             "${sha1sum}",
                                     code:               /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/
                                 })
+                                yz.componentsAPI.vue.setComponentLoadedMethod({codeId: "${sha1sum}", loadedMethod: "STATIC"})
+
                                 
                                 GLOBALS.pointBaseComponentIdAtCode(
                                 {   
@@ -872,9 +874,11 @@ module.exports = {
                                     `
                                     GLOBALS.cacheThisComponentCode(
                                     {   
-                                    codeId:             "${results[i].sha1}",
-                                    code:                unescape(\`${newcodeEs}\`)
+                                        codeId:             "${results[i].sha1}",
+                                        code:                unescape(\`${newcodeEs}\`)
                                     })
+                                    yz.componentsAPI.vue.setComponentLoadedMethod({codeId: "${results[i].sha1}", loadedMethod: "STATIC"})
+                                    
                                     
                                     GLOBALS.pointBaseComponentIdAtCode(
                                     {   
