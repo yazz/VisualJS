@@ -2277,6 +2277,16 @@ async function  file_uploadSingleFn                     (  req  ,  res  ) {
             outputDebug("SENDING FROM UPLOAD___=+++****")
             let bci = yz.helpers.getValueOfCodeString(ytr, "base_component_id")
 
+            let componentsStart = readIn.indexOf("/*COMPONENTS_START*/")
+            let componentsEnd = readIn.indexOf("/*COMPONENTS_END*/")
+            let componentsData = null
+            if ((componentsStart != -1) && (componentsEnd != -1)) {
+                componentsData = readIn.substring( componentsStart + 20,
+                    componentsEnd)
+            }
+
+
+
             let indexStart = readIn.indexOf("/*APP_START*/")
             let indexEnd = readIn.indexOf("/*APP_END*/")
 
@@ -2356,6 +2366,14 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                 let ytr = unescape(tts)
                 outputDebug("SENDING FROM UPLOAD___=+++****")
                 let bci = yz.helpers.getValueOfCodeString(ytr, "base_component_id")
+
+                let componentsStart = readIn.indexOf("/*COMPONENTS_START*/")
+                let componentsEnd = readIn.indexOf("/*COMPONENTS_END*/")
+                let componentsData = null
+                if ((componentsStart != -1) && (componentsEnd != -1)) {
+                    componentsData = readIn.substring( componentsStart + 20,
+                        componentsEnd)
+                }
 
                 indexStart = readIn.indexOf("/*APP_START*/")
                 indexEnd = readIn.indexOf("/*APP_END*/")

@@ -831,6 +831,10 @@ module.exports = {
                             if (baseComponentId == "homepage") {
                                 //debugger
                             }
+
+                            newCode += "/*COMPONENTS_START*/"
+
+
                             let results = await mm.getSubComponents(code)
                             for (let i = 0  ;   i < results.length;    i ++ ) {
                                 if (!results[i].child_code_id) {
@@ -889,6 +893,7 @@ module.exports = {
                                     newCode += newCode2
                                 }
                             }
+                            newCode += "/*COMPONENTS_END*/"
 
                             newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
                             newStaticFileContent = yz.helpers.replaceBetween(newStaticFileContent, "/*static_hostname_start*/","/*static_hostname_end*/","'"+mm.userData+"'")

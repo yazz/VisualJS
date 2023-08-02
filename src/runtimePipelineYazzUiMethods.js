@@ -5843,6 +5843,7 @@ return {}
                         // Load the component definitions for all components on
                         // this form
                         for (let newItem of mm.model.forms[formName].components) {
+                            debugger
                             await GLOBALS.makeSureUiComponentLoadedV6(
                                 {
                                     baseComponentId:    newItem.base_component_id,
