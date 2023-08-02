@@ -2367,12 +2367,17 @@ async function  file_uploadFn                           (  req  ,  res  ,  next 
                 outputDebug("SENDING FROM UPLOAD___=+++****")
                 let bci = yz.helpers.getValueOfCodeString(ytr, "base_component_id")
 
+                // read in the
+                // static
+                // UI controls (needed when loading HTML file into editor)
+
                 let componentsStart = readIn.indexOf("/*COMPONENTS_START*/")
                 let componentsEnd = readIn.indexOf("/*COMPONENTS_END*/")
                 let componentsData = null
                 if ((componentsStart != -1) && (componentsEnd != -1)) {
                     componentsData = readIn.substring( componentsStart + 20,
                         componentsEnd)
+                    eval("(async function() { " + componentsData + "})")
                 }
 
                 indexStart = readIn.indexOf("/*APP_START*/")
@@ -5421,6 +5426,16 @@ async function  startServices                           (  ) {
     yz.userData = userData
     findSystemDataDirectoryAndStart()
     finishInit()
+}
+
+async function  universalSaveStaticUIControl            (  { sha1sum , unescapedCode , baseComponentId , loadMethod }  ) {
+    await yz.saveCodeV3(
+        dbsearch,
+        "",
+        {
+            make_public: true,
+            save_html:   true
+        })
 }
 
 
