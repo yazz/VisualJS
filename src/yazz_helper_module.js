@@ -867,25 +867,27 @@ module.exports = {
                                     ,
                                     [  results[i].child_code_id  ])
 
-                                results[i].code = sqlr2.code
+                                if (sqlr2 != null) {
+                                    results[i].code = sqlr2.code
 
-                                let newcodeEs   = escape("(" + results[i].code.toString() + ")")
-                                let newCode2    =
-                                    `
-                                    GLOBALS.cacheThisComponentCode(
-                                    {   
-                                        codeId:             "${results[i].sha1}",
-                                        code:                unescape(\`${newcodeEs}\`)
-                                    })
-                                    yz.componentsAPI.vue.setComponentLoadedMethod({codeId: "${results[i].sha1}", loadMethod: "STATIC"})
-                                    
-                                    
-                                    GLOBALS.pointBaseComponentIdAtCode(
-                                    {   
-                                    baseComponentId:    "${results[i].child_base_component_id}",
-                                    codeId:             "${results[i].sha1}"
-                                    })`
-                                newCode += newCode2
+                                    let newcodeEs   = escape("(" + results[i].code.toString() + ")")
+                                    let newCode2    =
+                                        `
+                                        GLOBALS.cacheThisComponentCode(
+                                        {   
+                                            codeId:             "${results[i].sha1}",
+                                            code:                unescape(\`${newcodeEs}\`)
+                                        })
+                                        yz.componentsAPI.vue.setComponentLoadedMethod({codeId: "${results[i].sha1}", loadMethod: "STATIC"})
+                                        
+                                        
+                                        GLOBALS.pointBaseComponentIdAtCode(
+                                        {   
+                                        baseComponentId:    "${results[i].child_base_component_id}",
+                                        codeId:             "${results[i].sha1}"
+                                        })`
+                                    newCode += newCode2
+                                }
                             }
 
                             newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
