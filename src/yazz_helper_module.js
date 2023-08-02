@@ -889,7 +889,18 @@ module.exports = {
                                         {   
                                         baseComponentId:    "${results[i].child_base_component_id}",
                                         codeId:             "${results[i].sha1}"
-                                        })`
+                                        })
+                                        
+                                        await universalSaveStaticUIControl
+                                        (   
+                                            { 
+                                                sha1sum:            null, 
+                                                unescapedCode:      null, 
+                                                baseComponentId:    null, 
+                                                loadMethod:         null
+                                            }
+                                        )
+                                        `
                                     newCode += newCode2
                                 }
                             }

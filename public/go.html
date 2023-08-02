@@ -3078,12 +3078,13 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
                 return trcode2;
             }
-            async function  universalSaveStaticUIControl        (   { sha1sum , escapedCode , baseComponentId , loadMethod }   ) {
+            async function  universalSaveStaticUIControl        (   { sha1sum , unescapedCode , baseComponentId , loadMethod }   ) {
                 debugger
+                return
                 GLOBALS.cacheThisComponentCode(
                     {
                         codeId:             sha1sum,
-                        code:               unescape(escapedCode)
+                        code:               unescapedCode
                     })
                 yz.componentsAPI.vue.setComponentLoadedMethod({codeId: sha1sum, loadMethod: loadMethod})
 
