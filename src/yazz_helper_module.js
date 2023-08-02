@@ -877,19 +877,6 @@ module.exports = {
                                     let newcodeEs   = escape("(" + results[i].code.toString() + ")")
                                     let newCode2    =
                                         `
-                                        GLOBALS.cacheThisComponentCode(
-                                        {   
-                                            codeId:             "${results[i].sha1}",
-                                            code:                unescape(\`${newcodeEs}\`)
-                                        })
-                                        yz.componentsAPI.vue.setComponentLoadedMethod({codeId: "${results[i].sha1}", loadMethod: "STATIC"})
-                                        
-                                        
-                                        GLOBALS.pointBaseComponentIdAtCode(
-                                        {   
-                                        baseComponentId:    "${results[i].child_base_component_id}",
-                                        codeId:             "${results[i].sha1}"
-                                        })
                                         
                                         await universalSaveStaticUIControl
                                         (   
