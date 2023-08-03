@@ -1825,6 +1825,7 @@ function        findSystemDataDirectoryAndStart         (  ) {
         mkdirp.sync(path.join(userData,  ipfsFolder));
     }
     fullIpfsFolderPath = path.join(userData,  ipfsFolder)
+    yz.fullIpfsFolderPath   = fullIpfsFolderPath
 
     outputDebug('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
     outputDebug("Local home data path: " + LOCAL_HOME)
@@ -5425,7 +5426,8 @@ async function  startServices                           (  ) {
         outputDebug("Running as Linux/Mac")
         userData =  path.join(LOCAL_HOME, 'Yazz')
     }
-    yz.userData = userData
+    yz.userData             = userData
+
     findSystemDataDirectoryAndStart()
     finishInit()
 }

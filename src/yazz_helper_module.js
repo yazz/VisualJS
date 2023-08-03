@@ -291,6 +291,7 @@ module.exports = {
         return null
     },
     saveItemToIpfsCache:            async function  (  srcCode  ) {
+        let mm = this
         //outputDebug("*** saveItemToIpfs: *** : " )
         let promise = new Promise(async function(returnfn) {
             let justHash = null
@@ -298,7 +299,7 @@ module.exports = {
                 //console.log("Starting...")
 
                 justHash = await OnlyIpfsHash.of(srcCode)
-                let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
+                let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath,  justHash)
                 fs.writeFileSync(fullIpfsFilePath, srcCode);
                 await insertIpfsHashRecord(justHash,null,null,null)
                 await sendIpfsHashToCentralServer(justHash, srcCode)
