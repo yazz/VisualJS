@@ -2533,7 +2533,7 @@ async function  findLocalIpfsContent                    (  ) {
 
 }
 async function  registerIPFS                            (  ipfs_hash  ) {
-    await insertIpfsHashRecord(ipfs_hash,null,null,null)
+    await yz.insertIpfsHashRecord(dbsearch,ipfs_hash,null,null,null)
 }
 async function  loadComponentFromIpfs                   (  ipfsHash  ) {
     outputDebug("*** loadComponentFromIpfs: *** : " )
@@ -2632,8 +2632,8 @@ async function  saveItemToIpfs                          (  srcCode  ) {
             justHash = await OnlyIpfsHash.of(srcCode)
             let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
             fs.writeFileSync(fullIpfsFilePath, srcCode);
-            await insertIpfsHashRecord(justHash,null,null,null)
-            await sendIpfsHashToCentralServer(justHash, srcCode)
+            await yz.insertIpfsHashRecord(dbsearch,justHash,null,null,null)
+            await yz.sendIpfsHashToCentralServer(justHash, srcCode)
 
 
             if (isIPFSConnected) {
@@ -2668,71 +2668,8 @@ async function  saveItemToIpfs                          (  srcCode  ) {
     let ipfsHash = await promise
     return ipfsHash
 }
-async function  sendIpfsHashToCentralServer             (  ipfs_hash  ,  ipfsContent  ) {
-    let centralHost = program.centralhost
-    let centralPort = program.centralhostport
-    let promise = new Promise(async function(returnfn) {
-        try {
-            const dataString = JSON.stringify(
-                {
-                    ipfs_hash: ipfs_hash,
-                    ipfs_content: ipfsContent
-                })
 
-            let options = {
-                host: centralHost,
-                port: centralPort,
-                path: '/http_post_register_ipfs_content_for_client',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': dataString.length
-                }
-            };
-//https
-            let theHttpsConn = http
-            if (useHttps) {
-                theHttpsConn = https
-            }
-            let req = theHttpsConn.request(options, function(res) {
-                //console.log('STATUS: ' + res.statusCode);
-                //console.log('HEADERS: ' + JSON.stringify(res.headers));
-                res.setEncoding('utf8');
-                res.on('data', function (chunk) {
-                    //console.log('BODY: ' + chunk);
-                });
-                res.on('end', function () {
-                    //console.log('end: ' );
-                });
-            });
-            req.write(dataString)
-            req.end()
-            returnfn()
-        } catch(er) {
-            console.log(er)
-            returnfn()
-        }
-    })
-    await promise
-    return
-}
-async function  insertIpfsHashRecord                    (  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
-    let promise = new Promise(async function(returnfn) {
-        try {
-            dbsearch.serialize(function() {
-                dbsearch.run("begin exclusive transaction");
-                stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
-                dbsearch.run("commit")
-                returnfn()
-            })
-        } catch(er) {
-            console.log(er)
-            returnfn()
-        }
-    })
-    let ipfsHash = await promise
-    return ipfsHash
-}
+
 
 // Yazz OS helper methods
 function        function_call_requestPart2              (  msg  ) {
