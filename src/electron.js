@@ -1,15 +1,10 @@
 #!/usr/bin/env node
 
-const ipfsAPI = require('ipfs-api');
-const OnlyIpfsHash = require('ipfs-only-hash')
 const useragent = require('express-useragent');
 let cookieParser = require('cookie-parser')
 let Web3 = require('web3')
 let web3 = new Web3()
 let isIPFSConnected = false
-const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-console.log("Starting...")
-console.log("Testing IPFS...")
 let yz                                  = require('./yazz_helper_module')
 
 let showProgress                        = false
@@ -223,6 +218,12 @@ const yazzProcessMainMemoryUsageMetric  = new Prometheus.Gauge({
 // This checks whether we can successfully connect to
 // IPFS by sending a test string and seeing if
 // it writes successfully
+const ipfsAPI = require('ipfs-api');
+const OnlyIpfsHash = require('ipfs-only-hash')
+
+const ipfs = ipfsAPI('ipfs.infura.io2', '5001', {protocol: 'https'})
+console.log("Starting...")
+console.log("Testing IPFS...")
 
 let testBuffer = new Buffer("Test IPFS Connection String");
 yz.isIPFSConnected = isIPFSConnected
