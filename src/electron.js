@@ -10,6 +10,8 @@ let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 console.log("Starting...")
 console.log("Testing IPFS...")
+let yz                                  = require('./yazz_helper_module')
+
 let showProgress                        = false
 let showDebug                           = false
 let childProcessNameInScheduler
@@ -128,7 +130,6 @@ let program                             = require2('commander');
 let bodyParser                          = require2('body-parser');
 let multer                              = require2('multer');
 let cors                                = require2('cors')
-let yz                                  = require('./yazz_helper_module')
 let sqlNodePath                         = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
 let sqlite3                             = null
@@ -218,29 +219,44 @@ const yazzProcessMainMemoryUsageMetric  = new Prometheus.Gauge({
   help: 'Memory Usage for Yazz NodeJS process "main"'
 });
 
+
+// This checks whether we can successfully connect to
+// IPFS by sending a test string and seeing if
+// it writes successfully
+
 let testBuffer = new Buffer("Test IPFS Connection String");
 yz.isIPFSConnected = isIPFSConnected
 ipfs.files.add(testBuffer, function (err, file) {
+
+    // we couldn't connect to IPFS
+
     if (err) {
-        console.log("....................................Err: " + err);
+        isIPFSConnected = false
+        yz.isIPFSConnected = isIPFSConnected
+
+
+
+    // we made a successful conection to IPFS
+
     } else {
         isIPFSConnected = true
         yz.isIPFSConnected = isIPFSConnected
 
 
-    }
-    //console.log("....................................file: " + JSON.stringify(file,null,2))
-    let thehash = file[0].hash
-    //const validCID = "QmRntL1Gam7vDMNSsHbcUrWjueMJdJsBgF1wn1bx5pYcfo"
-    const validCID = thehash
+        console.log("....................................Err: " + err);
+        //console.log("....................................file: " + JSON.stringify(file,null,2))
+        let thehash = file[0].hash
+        //const validCID = "QmRntL1Gam7vDMNSsHbcUrWjueMJdJsBgF1wn1bx5pYcfo"
+        const validCID = thehash
 
-    ipfs.files.get(validCID, function (err, files) {
-        files.forEach((file) => {
-            console.log("....................................file.path: " + file.path)
-            //console.log(file.content.toString('utf8'))
-            console.log("....................................file.path: " + file.path)
+        ipfs.files.get(validCID, function (err, files) {
+            files.forEach((file) => {
+                console.log("....................................file.path: " + file.path)
+                //console.log(file.content.toString('utf8'))
+                console.log("....................................file.path: " + file.path)
+            })
         })
-    })
+    }
 })
 
 
@@ -397,6 +413,7 @@ if (program.https == "none") {
     program.https = "false"
 }
 useHttps = (program.https == 'true');
+yz.useHttps = useHttps
 envVars.USEHTTPS = useHttps
 console.log("$USEHTTPS = " + envVars.USEHTTPS)
 // --------------------------------------
@@ -518,6 +535,7 @@ if (useSelfSignedHttps) {
                       cert:pem_cert
                   }
     useHttps = true
+    yz.useHttps = useHttps
     envVars.USEHTTPS = useHttps
 }
 if (useHttps) {

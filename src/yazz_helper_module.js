@@ -2,6 +2,8 @@ const OnlyIpfsHash                              = require("ipfs-only-hash");
 const path                                      = require("path");
 let sqlite3                                     = require('sqlite3');
 let uuidv1                                      = require('uuid/v1');
+let http                                        = require('http')
+let https                                       = require('https');
 let stmtDeleteTypesForComponentProperty
 let stmtDeleteAcceptTypesForComponentProperty
 let fs                                          = require('fs');
@@ -321,7 +323,7 @@ module.exports = {
                 };
 //https
                 let theHttpsConn = http
-                if (useHttps) {
+                if (mm.useHttps) {
                     theHttpsConn = https
                 }
                 let req = theHttpsConn.request(options, function(res) {
