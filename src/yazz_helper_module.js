@@ -875,7 +875,7 @@ module.exports = {
                                 if (sqlr2 != null) {
                                     results[i].code = sqlr2.code
 
-                                    let newcodeEs   = escape("(" + results[i].code.toString() + ")")
+                                    let newcodeEs   = escape(results[i].code.toString())
                                     let newCode2    =
                                         `
                                         await universalSaveStaticUIControl
