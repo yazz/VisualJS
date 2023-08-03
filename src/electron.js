@@ -8,29 +8,8 @@ let Web3 = require('web3')
 let web3 = new Web3()
 let isIPFSConnected = false
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-let testBuffer = new Buffer("");
 console.log("Starting...")
 console.log("Testing IPFS...")
-ipfs.files.add(testBuffer, function (err, file) {
-    if (err) {
-      console.log("....................................Err: " + err);
-    } else {
-        isIPFSConnected = true
-
-    }
-    //console.log("....................................file: " + JSON.stringify(file,null,2))
-    let thehash = file[0].hash
-    //const validCID = "QmRntL1Gam7vDMNSsHbcUrWjueMJdJsBgF1wn1bx5pYcfo"
-    const validCID = thehash
-
-    ipfs.files.get(validCID, function (err, files) {
-        files.forEach((file) => {
-            console.log("....................................file.path: " + file.path)
-            //console.log(file.content.toString('utf8'))
-            console.log("....................................file.path: " + file.path)
-        })
-    })
-  })
 let showProgress                        = false
 let showDebug                           = false
 let childProcessNameInScheduler
@@ -238,6 +217,34 @@ const yazzProcessMainMemoryUsageMetric  = new Prometheus.Gauge({
   name: 'yazz_node_process_main_memory_bytes',
   help: 'Memory Usage for Yazz NodeJS process "main"'
 });
+
+let testBuffer = new Buffer("Test IPFS Connection String");
+yz.isIPFSConnected = isIPFSConnected
+ipfs.files.add(testBuffer, function (err, file) {
+    if (err) {
+        console.log("....................................Err: " + err);
+    } else {
+        isIPFSConnected = true
+        yz.isIPFSConnected = isIPFSConnected
+
+
+    }
+    //console.log("....................................file: " + JSON.stringify(file,null,2))
+    let thehash = file[0].hash
+    //const validCID = "QmRntL1Gam7vDMNSsHbcUrWjueMJdJsBgF1wn1bx5pYcfo"
+    const validCID = thehash
+
+    ipfs.files.get(validCID, function (err, files) {
+        files.forEach((file) => {
+            console.log("....................................file.path: " + file.path)
+            //console.log(file.content.toString('utf8'))
+            console.log("....................................file.path: " + file.path)
+        })
+    })
+})
+
+
+
 let stdin                               = process.openStdin();
 let inputStdin                          = "";
 stdin.on('data', function(chunk) {
@@ -291,7 +298,9 @@ if (process.argv.length > 1) {
     program.host = ''
     program.hostport = -1
     program.centralhost = -1
+    yz.centralhost = program.centralhost
     program.centralhostport = ''
+    yz.centralhostport = program.centralhostport
     program.locked = 'true'
     program.debug = 'false'
     program.deleteonexit = 'true'
@@ -395,11 +404,13 @@ console.log("$USEHTTPS = " + envVars.USEHTTPS)
 // --------------------------------------
 if (program.centralhost == "") {
     program.centralhost = ip.address()
+    yz.centralhost = program.centralhost
 }
 envVars.CENTRALHOST = program.centralhost
 console.log("$CENTRALHOST = " + envVars.CENTRALHOST)
 if (program.centralhostport == -1) {
     program.centralhostport = 80
+    yz.centralhostport = program.centralhostport
 }
 envVars.CENTRALHOSTPORT = program.centralhostport
 console.log("$CENTRALHOSTPORT = " + envVars.CENTRALHOSTPORT)

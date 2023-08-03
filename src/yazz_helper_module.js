@@ -298,8 +298,9 @@ module.exports = {
         return null
     },
     sendIpfsHashToCentralServer:    async function  (  ipfs_hash  ,  ipfsContent  ) {
-        let centralHost = program.centralhost
-        let centralPort = program.centralhostport
+        let mm = this
+        let centralHost = mm.centralhost
+        let centralPort = mm.centralhostport
         let promise = new Promise(async function(returnfn) {
             try {
                 const dataString = JSON.stringify(
@@ -343,7 +344,6 @@ module.exports = {
             }
         })
         await promise
-        return
     },
     insertIpfsHashRecord:           async function  (  thisDb  ,  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
         let promise = new Promise(async function(returnfn) {
@@ -377,7 +377,7 @@ module.exports = {
                 await mm.sendIpfsHashToCentralServer(justHash, srcCode)
 
 
-                if (isIPFSConnected) {
+                if (mm.isIPFSConnected) {
                     let testBuffer = new Buffer(srcCode);
                     ipfs.files.add(testBuffer, function (err, file) {
                         if (err) {
