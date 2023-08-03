@@ -221,7 +221,7 @@ const yazzProcessMainMemoryUsageMetric  = new Prometheus.Gauge({
 const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
 
-const ipfs = ipfsAPI('ipfs.infura.io2', '5001', {protocol: 'https'})
+const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 console.log("Starting...")
 console.log("Testing IPFS...")
 
