@@ -11,6 +11,11 @@ let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
 let stmtInsertIpfsHash;
+const ipfsAPI = require('ipfs-api');
+
+//const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
+const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
+
 
 
 
