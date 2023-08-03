@@ -8,6 +8,9 @@ let fs                                          = require('fs');
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
+let stmtInsertIpfsHash;
+
+
 
 module.exports = {
     helpers: {
@@ -117,6 +120,10 @@ module.exports = {
             select ?,  latest_revision from app_db_latest_ddl_revisions
              where base_component_id=?`
         );
+        stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
+            "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
+            " values " +
+            "    ( ?, ?, ?, ? );");
 },
 
     //text retrieval and replacement
@@ -341,10 +348,10 @@ module.exports = {
     insertIpfsHashRecord:           async function  (  thisDb  ,  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
         let promise = new Promise(async function(returnfn) {
             try {
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
+                thisDb.serialize(function() {
+                    thisDb.run("begin exclusive transaction");
                     stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
-                    dbsearch.run("commit")
+                    thisDb.run("commit")
                     returnfn()
                 })
             } catch(er) {

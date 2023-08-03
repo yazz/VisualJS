@@ -72,7 +72,6 @@ let certOptions                         = null
 let crypto                              = require('crypto');
 let callbackIndex                       = 0;
 let callbackList                        = new Object()
-let stmtInsertIpfsHash;
 let stmtInsertSession;
 let stmtInsertSessionWithNewUserId;
 let stmtInsertMetaMaskLogin;
@@ -1748,11 +1747,6 @@ function        setUpSql                                (  ) {
 
     stmtInsertSessionWithNewUserId = dbsearch.prepare(" update sessions " +
         "    set fk_user_id = ? where id = ? ");
-
-    stmtInsertIpfsHash = dbsearch.prepare(" insert or replace into ipfs_hashes " +
-        "    (ipfs_hash, content_type, ping_count, last_pinged ) " +
-        " values " +
-        "    ( ?, ?, ?, ? );");
 
 
     stmtInsertReleasedComponentListItem = dbsearch.prepare(`insert or ignore
