@@ -1766,7 +1766,7 @@
                     };
                 }
             }
-            async function  useIpfsServer                       (   ) {
+            async function  useIpfsServerInBrowser                       (   ) {
                 if (!yz.mainVars.ipfsServerloaded) {
                     let promise = new Promise(async function(returnfn) {
                         //debugger
@@ -2884,12 +2884,12 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                     if (($USEHTTPS == "true") || (location.hostname == "localhost")) {
                         //debugger
-                        await useIpfsServer()
+                        await useIpfsServerInBrowser()
                         try {
                             yz.mainVars.ipfs = await Ipfs.create({offline: true, start: false})
                             console.log('IPFS server loaded:')
                         } catch (ipfsError) {
-                            console.log('IPFS server erroe: ' + ipfsError)
+                            console.log('IPFS server error: ' + ipfsError)
                         }
                     }
 
