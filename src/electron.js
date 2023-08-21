@@ -229,7 +229,7 @@ const OnlyIpfsHash = require('ipfs-only-hash')
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 //const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
-const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'https'})
+const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'})
 
 console.log("Starting...")
 console.log("Testing IPFS...")
@@ -241,7 +241,7 @@ ipfs.files.add(testBuffer, function (err, file) {
     // we couldn't connect to IPFS
 
     if (err) {
-        console.log(" ERROR!! ***** IPFS did not connect *******")
+        console.log(" ERROR!! ***** IPFS did not connect *******: " + err)
         isIPFSConnected = false
         yz.isIPFSConnected = isIPFSConnected
 
