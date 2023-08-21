@@ -228,7 +228,8 @@ const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
+//const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
+const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'https'})
 
 console.log("Starting...")
 console.log("Testing IPFS...")
