@@ -240,6 +240,7 @@ ipfs.files.add(testBuffer, function (err, file) {
     // we couldn't connect to IPFS
 
     if (err) {
+        console.log(" ERROR!! ***** IPFS did not connect *******")
         isIPFSConnected = false
         yz.isIPFSConnected = isIPFSConnected
 
@@ -248,6 +249,7 @@ ipfs.files.add(testBuffer, function (err, file) {
     // we made a successful conection to IPFS
 
     } else {
+        console.log(" Success, IPFS connected :)  *******")
         isIPFSConnected = true
         yz.isIPFSConnected = isIPFSConnected
 
