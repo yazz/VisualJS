@@ -14,7 +14,6 @@ var currentArgs                     = null
 let electronApp                     = false
 let nodeModulesPath                 = process.cwd()
 var os                              = require('os')
-var perf                            = require('./perf')
 import {db_helper} from "./db_helper.js"
 var https                           = require('https');
 var http                            = require('http');
