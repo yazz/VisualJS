@@ -895,8 +895,13 @@ function        setupForkedProcess                      (  processName  ,  fileN
         forkedProcessPath = path.join(__dirname, '../src/' + fileName)
     }
     console.log("forkedProcessPath: " + forkedProcessPath)
-    forkedProcesses[  processName  ] = fork.fork(forkedProcessPath, [], {execArgv: debugArgs,
-    env: {}});
+    forkedProcesses[  processName  ] = fork.fork(
+                                            forkedProcessPath,
+                                            [],
+                                            {
+                                                execArgv:   debugArgs,
+                                                env:        {}
+                                            });
 
 
 
