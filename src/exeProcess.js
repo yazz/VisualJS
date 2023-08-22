@@ -62,12 +62,7 @@ if (process.execPath) {
 
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
-var sqlite3                     = null
-if (electronApp){
-    sqlite3                     = require("sqlite3");
-} else {
-    sqlite3                     = require(sqlNodePath);
-}
+var sqlite3                     = require("sqlite3");
 
 //username = os.userInfo().username.toLowerCase();
 username = "node"
