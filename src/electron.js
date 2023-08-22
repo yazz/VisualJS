@@ -877,7 +877,7 @@ function        setupForkedProcess                      (  processName  ,  fileN
 //
 //
 //------------------------------------------------------------------------------
-    console.log("electon.js trying to setup forked process: " + processName)
+    //console.log("electon.js trying to setup forked process: " + processName)
     let debugArgs = [];
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
@@ -918,7 +918,7 @@ function        setupForkedProcess                      (  processName  ,  fileN
         for (let i=0;i<executionProcessCount; i++ ) {
             let exeProcName = "forkedExeProcess" + i
             if (processName == exeProcName) {
-                console.log("electron.js calling 'init' on: " + exeProcName)
+                //console.log("electron.js calling 'init' on: " + exeProcName)
 
                 forkedProcesses[exeProcName].send({  message_type:          "init" ,
                                                      user_data_path:        userData,
@@ -3736,7 +3736,7 @@ async function  copyAppshareApp                         (  args  ) {
     |     args
     |     ----
     |________________________________________________________________________ */
-    console.log("Called async function copyAppshareApp(args) {")
+    //console.log("Called async function copyAppshareApp(args) {")
     let userId = args.user_id
 
     async function saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName) {
@@ -3747,11 +3747,11 @@ async function  copyAppshareApp                         (  args  ) {
         let codeIdRet               = null
         let saveret
 
-        console.log("    async function saveCopyOfAppWithDependencies( " + argsBaseComponentId)
-        console.log("              newBaseid:           " + newBaseid)
-        console.log("              parentHashId:        " + parentHashId)
-        console.log("              argsBaseComponentId: " + argsBaseComponentId)
-        console.log("              userId:              " + userId)
+        //console.log("    async function saveCopyOfAppWithDependencies( " + argsBaseComponentId)
+        //console.log("              newBaseid:           " + newBaseid)
+        //console.log("              parentHashId:        " + parentHashId)
+        //console.log("              argsBaseComponentId: " + argsBaseComponentId)
+        //console.log("              userId:              " + userId)
 
         if (altDbUsed) {
             dbToCopyFrom = altDbUsed
@@ -3769,11 +3769,11 @@ async function  copyAppshareApp                         (  args  ) {
         if (saveret) {
             codeIdRet =  saveret.code_id
         }
-        console.log("                    after save()")
-        console.log("                                    saveret.code_id:      " + saveret.code_id)
-        console.log("                                    newDisplayName:       " + newDisplayName)
-        console.log("                                    newBaseid:            " + newBaseid)
-        console.log("                                    codeIdRet:            " + codeIdRet)
+        //console.log("                    after save()")
+        //console.log("                                    saveret.code_id:      " + saveret.code_id)
+        //console.log("                                    newDisplayName:       " + newDisplayName)
+        //console.log("                                    newBaseid:            " + newBaseid)
+        //console.log("                                    codeIdRet:            " + codeIdRet)
 
         returnfn({
             new_display_name:   newDisplayName,

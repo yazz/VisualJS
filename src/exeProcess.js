@@ -91,7 +91,7 @@ function processMessagesFromMainProcess() {
 
 
     if  (msg.message_type == 'init') {
-        console.log('exeProcess.js init called on process: ' + msg.child_process_name);
+        //console.log('exeProcess.js init called on process: ' + msg.child_process_name);
         userData            = msg.user_data_path
         yz.userData = userData
 
@@ -124,7 +124,7 @@ function processMessagesFromMainProcess() {
         //console.log("  DB path: " + dbPath)
         dbsearch = new sqlite3.Database(dbPath);
         dbsearch.run("PRAGMA journal_mode=WAL;")
-        console.log('exeProcess.js process: ' + msg.child_process_name + " calls 'database_setup_in_child'");
+        //console.log('exeProcess.js process: ' + msg.child_process_name + " calls 'database_setup_in_child'");
 
         process.send({  message_type:       "database_setup_in_child" ,
                         child_process_name:  childProcessName
