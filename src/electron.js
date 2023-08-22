@@ -905,35 +905,39 @@ function        setupForkedProcess                      (  processName  ,  fileN
                                             });
 
 
+    // hack city!!!
+    // we have to use a timeout here as when we switch to using NodeJs imports
+    // in ESM6 then child processes did not work properly at first
+    setTimeout(async function() {
 
-
-    setUpChildListeners(processName, fileName, debugPort);
-
-
-
-
-    for (let i=0;i<executionProcessCount; i++ ) {
-        let exeProcName = "forkedExeProcess" + i
-        if (processName == exeProcName) {
-            console.log("electron.js calling 'init' on: " + exeProcName)
-
-            forkedProcesses[exeProcName].send({  message_type:          "init" ,
-                                                 user_data_path:        userData,
-                                                 child_process_name:    exeProcName,
-                                                 show_debug:            showDebug,
-                                                 show_progress:         showProgress,
-                                                 yazz_instance_id:      yazzInstanceId,
-                                                 jaeger_collector:      jaegercollector,
-                                                 env_vars:              envVars
-                                              });
-
-      }
-
-    }
+        setUpChildListeners(processName, fileName, debugPort);
 
 
 
-    outputDebug("Started subprocess '" + processName + "' ")
+
+        for (let i=0;i<executionProcessCount; i++ ) {
+            let exeProcName = "forkedExeProcess" + i
+            if (processName == exeProcName) {
+                console.log("electron.js calling 'init' on: " + exeProcName)
+
+                forkedProcesses[exeProcName].send({  message_type:          "init" ,
+                                                     user_data_path:        userData,
+                                                     child_process_name:    exeProcName,
+                                                     show_debug:            showDebug,
+                                                     show_progress:         showProgress,
+                                                     yazz_instance_id:      yazzInstanceId,
+                                                     jaeger_collector:      jaegercollector,
+                                                     env_vars:              envVars
+                                                  });
+
+          }
+
+        }
+
+
+
+        outputDebug("Started subprocess '" + processName + "' ")
+    },200)
 
 }
 
