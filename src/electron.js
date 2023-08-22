@@ -877,6 +877,7 @@ function        setupForkedProcess                      (  processName  ,  fileN
 //
 //
 //------------------------------------------------------------------------------
+    console.log("electon.js trying to setup forked process: " + processName)
     let debugArgs = [];
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
@@ -894,7 +895,7 @@ function        setupForkedProcess                      (  processName  ,  fileN
     } else {
         forkedProcessPath = path.join(__dirname, '../src/' + fileName)
     }
-    console.log("forkedProcessPath: " + forkedProcessPath)
+    //console.log("forkedProcessPath: " + forkedProcessPath)
     forkedProcesses[  processName  ] = fork.fork(
                                             forkedProcessPath,
                                             [],
@@ -914,6 +915,7 @@ function        setupForkedProcess                      (  processName  ,  fileN
     for (let i=0;i<executionProcessCount; i++ ) {
         let exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
+            console.log("electron.js calling 'init' on: " + exeProcName)
 
             forkedProcesses[exeProcName].send({  message_type:          "init" ,
                                                  user_data_path:        userData,

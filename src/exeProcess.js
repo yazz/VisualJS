@@ -91,7 +91,7 @@ function processMessagesFromMainProcess() {
 
 
     if  (msg.message_type == 'init') {
-        //console.log('-- Init v3');
+        console.log('exeProcess.js init called on process: ' + msg.child_process_name);
         userData            = msg.user_data_path
         yz.userData = userData
 
