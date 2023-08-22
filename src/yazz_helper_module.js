@@ -14,6 +14,10 @@ let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
 let stmtInsertIpfsHash;
 const ipfsAPI = require('ipfs-api');
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})

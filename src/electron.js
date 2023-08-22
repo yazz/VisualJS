@@ -55,6 +55,8 @@ let stmtInsertSessionWithNewUserId;
 let stmtInsertMetaMaskLogin;
 let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
+let stmtInsertComment
+let stmtInsertCookie
 let stmtInsertReleasedComponentListItem;
 let setProcessToRunning;
 let setProcessToIdle;
@@ -3693,6 +3695,7 @@ async function  createLogoUrlData                       (  logo  ) {
     let dataString          = null
     let fullPath
     let imageExtension
+    let logoFileIn
 
     if (logo) {
         if (logo.startsWith("data:")) {
