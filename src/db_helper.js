@@ -1,3 +1,5 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 var async           = require('async');
 var path                        = require('path');
 
@@ -18,8 +20,7 @@ let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 var sqlite3                  = require(sqlNodePath);
 
 
-
-module.exports = {
+export const db_helper = {
     createTables: function(dbsearch, callbackFn) {
     //console.log("--------------- createTables: function(dbsearch, callbackFn) {");
     async.map([

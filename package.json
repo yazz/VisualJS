@@ -9,6 +9,7 @@
     "version": "echo $npm_package_version"
   },
   "main": "src/electron.js",
+  "type": "module",
   "bin": {},
   "dependencies": {
     "@yazz/noaccess": "^2.0.0",

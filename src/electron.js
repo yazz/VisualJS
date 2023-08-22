@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const useragent = require('express-useragent');
 let cookieParser = require('cookie-parser')
 let Web3 = require('web3')
 let web3 = new Web3()
 let isIPFSConnected = false
-let yz                                  = require('./yazz_helper_module')
+import {yz} from './yazz_helper_module.js'
 
 let showProgress                        = false
 let showDebug                           = false
@@ -33,7 +35,7 @@ let isDocker                            = require2('is-docker');
 let ls                                  = require2('ls-sync');
 let rimraf                              = require2("rimraf");
 let forge                               = require2('node-forge');
-let db_helper                           = require("./db_helper")
+import {db_helper} from "./db_helper.js"
 let pidusage                            = require2("pidusage");
 let mkdirp                              = require2('mkdirp')
 let uuidv1                              = require2('uuid/v1');
@@ -59,6 +61,10 @@ let setProcessToIdle;
 let setProcessRunningDurationMs;
 let insertIntoProcessTable              = null;
 let updateProcessTable                  = null;
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)

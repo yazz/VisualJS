@@ -1,3 +1,5 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const OnlyIpfsHash                              = require("ipfs-only-hash");
 const path                                      = require("path");
 let sqlite3                                     = require('sqlite3');
@@ -19,7 +21,7 @@ const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
 
 
 
-module.exports = {
+export const yz = {
     helpers: {
         insertCodeString:               function        (  code  ,  st  ,  vall  ,  optionalEnd  ) {
             let endIndicator = ")"

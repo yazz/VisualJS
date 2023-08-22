@@ -1,3 +1,5 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 var fs                              = require('fs');
 var path                            = require('path');
 var mkdirp                          = require('mkdirp')
@@ -13,7 +15,7 @@ let electronApp                     = false
 let nodeModulesPath                 = process.cwd()
 var os                              = require('os')
 var perf                            = require('./perf')
-var db_helper                       = require("./db_helper")
+import {db_helper} from "./db_helper.js"
 var https                           = require('https');
 var http                            = require('http');
 var request                         = require('request');
@@ -38,7 +40,7 @@ var stmtInsertProcessError;
 var inUse                           = false
 var callbackIndex                   = 0
 var currentCallbackIndex            = -1
-var yz                              = require('./yazz_helper_module')
+import {yz} from './yazz_helper_module.js'
 var callbackList                    = new Object()
 
 
