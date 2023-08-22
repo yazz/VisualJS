@@ -20,7 +20,7 @@ let processesRetryingCount              = 0
 let localappdata
 let visifile                            = null
 const path                              = require("path");
-let fork                                = require2('child_process');
+import fork from 'child_process';
 let fs                                  = require2('fs');
 let ip                                  = require2('ip');
 let isWin                               = /^win/.test(process.platform);
