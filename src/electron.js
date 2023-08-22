@@ -910,14 +910,14 @@ function        setupForkedProcess                      (  processName  ,  fileN
         let exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
 
-            forkedProcesses[exeProcName].send({  message_type: "init" ,
-                                                 user_data_path: userData,
-                                                 child_process_name: exeProcName,
-                                                 show_debug: showDebug,
-                                                 show_progress: showProgress,
-                                                 yazz_instance_id: yazzInstanceId,
-                                                 jaeger_collector: jaegercollector,
-                                                 env_vars: envVars
+            forkedProcesses[exeProcName].send({  message_type:          "init" ,
+                                                 user_data_path:        userData,
+                                                 child_process_name:    exeProcName,
+                                                 show_debug:            showDebug,
+                                                 show_progress:         showProgress,
+                                                 yazz_instance_id:      yazzInstanceId,
+                                                 jaeger_collector:      jaegercollector,
+                                                 env_vars:              envVars
                                               });
 
       }
