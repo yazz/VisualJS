@@ -721,7 +721,7 @@ export const yz = {
         let codeChangesStr                          = null
         let numCodeChanges                          = null
         let sha1sum                                 = await OnlyIpfsHash.of(code)
-        console.log("            In save, actual code ID: " + sha1sum + " for " + baseComponentId)
+        //console.log("            In save, actual code ID: " + sha1sum + " for " + baseComponentId)
         let userId                                  = null
         let propertiesAsJsonString                  = null
         let existingCodeAlreadyInSystemCodeTable
