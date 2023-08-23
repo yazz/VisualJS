@@ -263,12 +263,9 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
             }
         }
     })
-    //--json API.HTTPHeaders.Access-Control-Allow-Origin '["http://127.0.0.1:5002", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'
-    //--json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
-    let x  = await ipfs2.log.
-    console.log();
 
     const cid = await ipfs2.add('Hello worldm zubair yazz zubair')
+    //QmZZHoTQSUw7dDCVPZypoxXtS4N7c27L5uNisqHcxY2tAd
     console.info("CID = " + cid.path)
 
     const stream = ipfs2.cat(cid.path)
@@ -288,7 +285,7 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
     const cid2 = await ipfs2.add('Hello world')
     console.info("CID2 = " + cid2.path)
 
-}))
+}));
 
 
     //
@@ -301,7 +298,8 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
     const s = strings(helia)
 
 
-    const myImmutableAddress = await s.add('hello world')
+    const myImmutableAddress = await s.add('Hello worldm zubair yazz zubair')
+    //QmZZHoTQSUw7dDCVPZypoxXtS4N7c27L5uNisqHcxY2tAd
     myImmutableAddress.toString()
     setInterval(() => {
         let peers = ''
