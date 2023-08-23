@@ -239,10 +239,15 @@ const OnlyIpfsHash = require('ipfs-only-hash')
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 //const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
-const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'})
-const ipfs2 = await IPFS.create()
-const { cid } = await ipfs2.add('Hello world')
-console.info(cid)
+const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
+
+((async function() {
+    const ipfs2 = await IPFS.create()
+    const { cid } = await ipfs2.add('Hello worldm zubair yazz zubair')
+    console.info("CID = " + cid)
+    const { cid2 } = await ipfs2.add('Hello world')
+    console.info("CID2 = " + cid2)
+})())
 
 
 console.log("Starting...")
