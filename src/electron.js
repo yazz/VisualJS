@@ -302,8 +302,23 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
 
 
     const myImmutableAddress = await s.add('hello world')
+    myImmutableAddress.toString()
+    setInterval(() => {
+        let peers = ''
 
-    console.log(await s.get(myImmutableAddress))
+        for (const connection of helia.libp2p.getConnections()) {
+            peers += `${connection.remotePeer.toString()}\n`
+        }
+
+        if (peers === '') {
+            peers = 'Not connected to any peers'
+        }
+        console.log("peers: " + peers.length)
+    },5000)
+
+
+    console.log("" + await s.get(myImmutableAddress))
+    console.log(myImmutableAddress.toString())
 
 })())
 
