@@ -78,6 +78,25 @@ Yazz is perfect for prototyping apps. Some demo apps can be found at https://yaz
 ## Quick Install Guide
 
 
+### NodeJS on Mac
+Assuming that you have NodeJS, NPM, and Git installed, enter the following commands at the command line:
+<pre style="display:inline;">&gt; git clone https://github.com/yazz/yazz.git
+
+&gt; cd yazz
+
+&gt; npm install
+
+&gt; xcode-select --install
+
+&gt; npm install sqlite3 --build-from-source --target_arch=arm64 --fallback-to-build
+
+&gt; npm start</pre>
+
+Browse to http://0.0.0.0:80 to open Yazz
+<br/><br/>
+
+
+
 ### NodeJS
 Assuming that you have NodeJS, NPM, and Git installed, enter the following commands at the command line:
 <pre style="display:inline;">&gt; git clone https://github.com/yazz/yazz.git
