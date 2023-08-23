@@ -32,6 +32,7 @@
     "http": "^0.0.0",
     "ip": "^1.1.5",
     "ipfs-api": "^26.1.2",
+    "ipfs-core": "^0.18.1",
     "ipfs-only-hash": "^4.0.0",
     "is-docker": "^2.2.1",
     "jaeger-client": "^3.19.0",

@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import { createRequire } from 'module';
+import * as IPFS from 'ipfs-core'
+
 const require = createRequire(import.meta.url);
 const useragent = require('express-useragent');
 let cookieParser = require('cookie-parser')
@@ -238,6 +240,10 @@ const OnlyIpfsHash = require('ipfs-only-hash')
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 //const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
 const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'})
+const ipfs2 = await IPFS.create()
+const { cid } = await ipfs2.add('Hello world')
+console.info(cid)
+
 
 console.log("Starting...")
 console.log("Testing IPFS...")
