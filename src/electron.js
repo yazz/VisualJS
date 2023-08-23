@@ -242,30 +242,18 @@ const OnlyIpfsHash = require('ipfs-only-hash')
 const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
 
 ((async function() {
-        const config = {
-            config:{
-                "API": {
-                    "HTTPHeaders": {
-                        "Access-Control-Allow-Origin":
-                            [
-                                "http://127.0.0.1:5002",
-                                "http://localhost:3000",
-                                "http://127.0.0.1:5001",
-                                "https://webui.ipfs.io"
-                            ]
-                        ,
-                        "Access-Control-Allow-Methods":
-                            [
-                                "PUT",
-                                "POST"
-                            ]
-                    }
-                }
-            }}
 
-    const ipfs2 = await IPFS.create(config)
-    //await ipfs2.start()
-    ipfs2.stats
+    const ipfs2 = await IPFS.create({
+        config: {
+            API: {
+                HTTPHeaders: {
+                    "Access-Control-Allow-Origin":                  ["http://127.0.0.1:5002", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]
+                    ,
+                    "Access-Control-Allow-Methods": ["PUT", "POST"]
+                }
+            }
+        }
+    })
     //--json API.HTTPHeaders.Access-Control-Allow-Origin '["http://127.0.0.1:5002", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'
     //--json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
 
@@ -281,6 +269,8 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
         // chunks of data are returned as a Uint8Array, convert it back to a string
         data += decoder.decode(chunk, { stream: true })
     }
+    ipfs2.stats
+    //await ipfs2.stop()
 
     console.log(data)
 
