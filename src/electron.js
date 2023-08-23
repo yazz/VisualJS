@@ -3355,11 +3355,8 @@ async function  evalLocalSystemDriver                   (  location , options  )
     outputDebug("*** Loading driver from: *** : " + location)
     let ret
     try {
-        console.log(1)
         let evalDriver = fs.readFileSync(location);
-        console.log(2)
     	ret = await addOrUpdateDriver(evalDriver,options)
-        console.log(3)
     } catch (error) {
         console.log("Location: " + location)
         outputDebug(error)
@@ -3376,8 +3373,9 @@ async function  addOrUpdateDriver                       (  codeString  ,  option
 //------------------------------------------------------------------------------
 
     try {
-
+console.log(4)
         let saveRet = await yz.saveCodeV3(dbsearch,    codeString  ,options);
+console.log(5)
         let codeId = null
         if (saveRet) {
             codeId = saveRet.code_id
