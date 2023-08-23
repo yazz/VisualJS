@@ -210,17 +210,17 @@ let inmemcalc                           = false
 let totalMem                            = 0
 let returnedmemCount                    = 0
 let allForked                           = []
-const apiMetrics                        = require2('prometheus-api-metrics');
-app.use(apiMetrics())
-const Prometheus                        = require2('prom-client');
-const yazzMemoryUsageMetric             = new Prometheus.Gauge({
-  name: 'yazz_total_memory_bytes',
-  help: 'Total Memory Usage'
-});
-const yazzProcessMainMemoryUsageMetric  = new Prometheus.Gauge({
-  name: 'yazz_node_process_main_memory_bytes',
-  help: 'Memory Usage for Yazz NodeJS process "main"'
-});
+//const apiMetrics                        = require2('prometheus-api-metrics');
+//app.use(apiMetrics())
+//const Prometheus                        = require2('prom-client');
+//const yazzMemoryUsageMetric             = new Prometheus.Gauge({
+//  name: 'yazz_total_memory_bytes',
+//  help: 'Total Memory Usage'
+//});
+//const yazzProcessMainMemoryUsageMetric  = new Prometheus.Gauge({
+//  name: 'yazz_node_process_main_memory_bytes',
+//  help: 'Memory Usage for Yazz NodeJS process "main"'
+//});
 
 
 
@@ -1042,7 +1042,7 @@ function        usePid                                  (  childProcessName  ,  
                 outputDebug("------------------------------------")
             }
             inmemcalc = false
-            yazzMemoryUsageMetric.set(totalMem)
+            //yazzMemoryUsageMetric.set(totalMem)
 
         }
     });
@@ -1736,7 +1736,7 @@ function        finishInit                              (  ) {
                 totalMem = 0
                 const used = process.memoryUsage().heapUsed ;
                 totalMem += used
-                yazzProcessMainMemoryUsageMetric.set(used)
+                //yazzProcessMainMemoryUsageMetric.set(used)
                 if (showStats) {
                     outputDebug(`Main: ${Math.round( bytesToMb(used) * 100) / 100} MB`);
                 }
