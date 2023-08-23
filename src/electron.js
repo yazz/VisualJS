@@ -247,16 +247,23 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
         config: {
             API: {
                 HTTPHeaders: {
-                    "Access-Control-Allow-Origin":                  ["http://127.0.0.1:5002", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]
+                    "Access-Control-Allow-Origin":      [
+                                                            "http://127.0.0.1:5002",
+                                                            "http://192.168.5.66:5002",
+                                                            "http://localhost:3000",
+                                                            "http://127.0.0.1:5001",
+                                                            "https://webui.ipfs.io"
+                                                        ]
                     ,
-                    "Access-Control-Allow-Methods": ["PUT", "POST"]
+                    "Access-Control-Allow-Methods":     ["PUT", "POST"]
                 }
             }
         }
     })
     //--json API.HTTPHeaders.Access-Control-Allow-Origin '["http://127.0.0.1:5002", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'
     //--json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
-
+    let x  = await ipfs2.log.
+    console.log();
 
     const cid = await ipfs2.add('Hello worldm zubair yazz zubair')
     console.info("CID = " + cid.path)
