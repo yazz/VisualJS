@@ -3358,6 +3358,7 @@ async function  evalLocalSystemDriver                   (  location , options  )
         let evalDriver = fs.readFileSync(location);
     	ret = await addOrUpdateDriver(evalDriver,options)
     } catch (error) {
+        console.log("Location: " + location)
         outputDebug(error)
     }
     return ret
