@@ -242,15 +242,47 @@ const OnlyIpfsHash = require('ipfs-only-hash')
 const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
 
 ((async function() {
-    const ipfs2 = await IPFS.create()
-    ipfs2.config.set("API.HTTPHeaders.Access-Control-Allow-Origin",     [  "http://127.0.0.1:5002"  ,  "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"])
-    ipfs2.config.set("API.HTTPHeaders.Access-Control-Allow-Methods",    [  "PUT"  ,  "POST"  ])
+        const config = {
+            config:{
+                "API": {
+                    "HTTPHeaders": {
+                        "Access-Control-Allow-Origin":
+                            [
+                                "http://127.0.0.1:5002",
+                                "http://localhost:3000",
+                                "http://127.0.0.1:5001",
+                                "https://webui.ipfs.io"
+                            ]
+                        ,
+                        "Access-Control-Allow-Methods":
+                            [
+                                "PUT",
+                                "POST"
+                            ]
+                    }
+                }
+            }}
+
+    const ipfs2 = await IPFS.create(config)
+    //await ipfs2.start()
+    ipfs2.stats
     //--json API.HTTPHeaders.Access-Control-Allow-Origin '["http://127.0.0.1:5002", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'
     //--json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
 
 
     const cid = await ipfs2.add('Hello worldm zubair yazz zubair')
     console.info("CID = " + cid.path)
+
+    const stream = ipfs2.cat(cid.path)
+    const decoder = new TextDecoder()
+    let data = ''
+
+    for await (const chunk of stream) {
+        // chunks of data are returned as a Uint8Array, convert it back to a string
+        data += decoder.decode(chunk, { stream: true })
+    }
+
+    console.log(data)
 
 
     const cid2 = await ipfs2.add('Hello world')
@@ -3373,9 +3405,7 @@ async function  addOrUpdateDriver                       (  codeString  ,  option
 //------------------------------------------------------------------------------
 
     try {
-console.log(4)
         let saveRet = await yz.saveCodeV3(dbsearch,    codeString  ,options);
-console.log(5)
         let codeId = null
         if (saveRet) {
             codeId = saveRet.code_id
