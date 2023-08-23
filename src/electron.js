@@ -243,10 +243,19 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
 
 ((async function() {
     const ipfs2 = await IPFS.create()
-    const { cid } = await ipfs2.add('Hello worldm zubair yazz zubair')
-    console.info("CID = " + cid)
-    const { cid2 } = await ipfs2.add('Hello world')
-    console.info("CID2 = " + cid2)
+    ipfs2.config.set("API.HTTPHeaders.Access-Control-Allow-Origin",     [  "http://127.0.0.1:5002"  ,  "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"])
+    ipfs2.config.set("API.HTTPHeaders.Access-Control-Allow-Methods",    [  "PUT"  ,  "POST"  ])
+    //--json API.HTTPHeaders.Access-Control-Allow-Origin '["http://127.0.0.1:5002", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'
+    //--json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
+
+
+    const cid = await ipfs2.add('Hello worldm zubair yazz zubair')
+    console.info("CID = " + cid.path)
+
+
+    const cid2 = await ipfs2.add('Hello world')
+    console.info("CID2 = " + cid2.path)
+
 })())
 
 
