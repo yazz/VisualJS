@@ -2,6 +2,9 @@
 
 import { createRequire } from 'module';
 import * as IPFS from 'ipfs-core'
+import { createHelia } from 'helia'
+import { strings } from '@helia/strings'
+
 
 const require = createRequire(import.meta.url);
 const useragent = require('express-useragent');
@@ -285,8 +288,24 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
     const cid2 = await ipfs2.add('Hello world')
     console.info("CID2 = " + cid2.path)
 
-})())
+}))
 
+
+    //
+    //helia
+    //
+
+((async function() {
+    const helia = await createHelia()
+
+    const s = strings(helia)
+
+
+    const myImmutableAddress = await s.add('hello world')
+
+    console.log(await s.get(myImmutableAddress))
+
+})())
 
 console.log("Starting...")
 console.log("Testing IPFS...")

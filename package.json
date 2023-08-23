@@ -12,6 +12,7 @@
   "type": "module",
   "bin": {},
   "dependencies": {
+    "@helia/strings": "^1.0.0",
     "@yazz/noaccess": "^2.0.0",
     "async": "^3.2.3",
     "body-parser": "^1.19.2",
@@ -29,6 +30,7 @@
     "express-useragent": "^1.0.15",
     "express-ws": "^4.0.0",
     "fd-diskspace": "^1.0.0",
+    "helia": "^2.0.1",
     "http": "^0.0.0",
     "ip": "^1.1.5",
     "ipfs-api": "^26.1.2",
