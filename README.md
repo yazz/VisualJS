@@ -88,6 +88,8 @@ Assuming that you have NodeJS, NPM, and Git installed, enter the following comma
 
 &gt; xcode-select --install
 
+&gt; npm uninstall sqlite3
+
 &gt; npm install sqlite3 --build-from-source --target_arch=arm64 --fallback-to-build
 
 &gt; npm start</pre>
