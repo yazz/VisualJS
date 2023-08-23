@@ -61,7 +61,7 @@
     "simple-solc": "^1.0.1",
     "socket.io": "^4.4.1",
     "solc": "^0.8.13",
-    "sqlite3": "4.1.1",
+    "sqlite3": "^4.1.1",
     "stomp-client": "^0.9.0",
     "stompit": "^1.0.0",
     "tar-stream": "^2.2.0",
