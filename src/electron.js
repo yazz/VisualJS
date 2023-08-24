@@ -292,11 +292,21 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
     //helia
     //
 
+import {sha256} from "multiformats/hashes/sha2"
+import {CID}    from "multiformats/cid"
+import * as raw from "multiformats/codecs/raw"
+
 ((async function() {
     const helia = await createHelia()
 
     const s = strings(helia)
+    let textInput = new TextEncoder().encode("Hello worldm zubair yazz zubair")
+    let digest = await sha256.digest(textInput)
+    let cid = CID.createV1(raw.code, digest)
 
+    await helia.blockstore.put(cid,textInput)
+    let block = await helia.blockstore.get(cid)
+    console.log(new TextDecoder().decode(block))
 
     const myImmutableAddress = await s.add('Hello worldm zubair yazz zubair')
     //QmZZHoTQSUw7dDCVPZypoxXtS4N7c27L5uNisqHcxY2tAd
