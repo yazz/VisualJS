@@ -236,12 +236,12 @@ let allForked                           = []
 // it writes successfully
 // ------------------------------------------------------------
 
-const ipfsAPI = require('ipfs-api');
+//const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 //const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
-const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
+//const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
 
 
 
@@ -312,6 +312,8 @@ console.log("Testing IPFS...")
 
 let testBuffer = new Buffer("Test IPFS Connection String");
 yz.isIPFSConnected = isIPFSConnected
+if (1==2) {
+
 ipfs.files.add(testBuffer, function (err, file) {
 
     // we couldn't connect to IPFS
@@ -346,6 +348,7 @@ ipfs.files.add(testBuffer, function (err, file) {
         })
     }
 })
+}
 
 
 
