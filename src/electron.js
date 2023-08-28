@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import { createRequire } from 'module';
-import * as IPFS from 'ipfs-core'
 import { createHelia } from 'helia'
 import { strings } from '@helia/strings'
 
@@ -244,12 +243,9 @@ const OnlyIpfsHash = require('ipfs-only-hash')
 //const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
 const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
 
-((async function() {
 
-    const ipfs2 = await IPFS.create({
-        config: {
-            API: {
-                HTTPHeaders: {
+
+/*                HTTPHeaders: {
                     "Access-Control-Allow-Origin":      [
                                                             "http://127.0.0.1:5002",
                                                             "http://192.168.5.66:5002",
@@ -259,34 +255,7 @@ const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
                                                         ]
                     ,
                     "Access-Control-Allow-Methods":     ["PUT", "POST"]
-                }
-            }
-        }
-    })
-
-    const cid = await ipfs2.add('Hello worldm zubair yazz zubair')
-    //QmZZHoTQSUw7dDCVPZypoxXtS4N7c27L5uNisqHcxY2tAd
-    console.info("CID = " + cid.path)
-
-    const stream = ipfs2.cat(cid.path)
-    const decoder = new TextDecoder()
-    let data = ''
-
-    for await (const chunk of stream) {
-        // chunks of data are returned as a Uint8Array, convert it back to a string
-        data += decoder.decode(chunk, { stream: true })
-    }
-    ipfs2.stats
-    //await ipfs2.stop()
-
-    console.log(data)
-
-
-    const cid2 = await ipfs2.add('Hello world')
-    console.info("CID2 = " + cid2.path)
-
-}));
-
+*/
 
     //
     //helia
