@@ -238,6 +238,7 @@ let allForked                           = []
 
 //const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
+import { createLibp2p } from 'libp2p'
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 //const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
@@ -264,9 +265,41 @@ const OnlyIpfsHash = require('ipfs-only-hash')
 import {sha256} from "multiformats/hashes/sha2"
 import {CID}    from "multiformats/cid"
 import * as raw from "multiformats/codecs/raw"
+import { MemoryBlockstore } from 'blockstore-core'
+import { identifyService } from 'libp2p/identify'
+import { noise } from '@chainsafe/libp2p-noise'
+import { yamux } from '@chainsafe/libp2p-yamux'
+import { bootstrap } from '@libp2p/bootstrap'
+import { webSockets } from '@libp2p/websockets'
 
 ((async function() {
-    const helia = await createHelia()
+    const blockstore = new MemoryBlockstore()
+    const libp2p = await createLibp2p({
+        datastore,
+        transports: [
+            webSockets()
+        ],
+        connectionEncryption: [
+            noise()
+        ],
+        streamMuxers: [
+            yamux()
+        ],
+        peerDiscovery: [
+            bootstrap({
+                list: [
+                    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+                    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
+                    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
+                    "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt"
+                ]
+            })
+        ],
+        services: {
+            identify: identifyService()
+        }
+    })
+    const helia = await createHelia(blockstore)
 
     const s = strings(helia)
     let textInput = new TextEncoder().encode("Hello worldm zubair yazz zubair")
