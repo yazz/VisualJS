@@ -307,8 +307,12 @@ import * as raw from "multiformats/codecs/raw"
 
     await helia.blockstore.put(cid,textInput)
     await helia.blockstore.put(cid0,textInput)
+    let block0 = await helia.blockstore.get(cid0)
+    helia.pins.add(cid0)
+    helia.pins.add(cid)
     let block = await helia.blockstore.get(cid)
-    console.log(new TextDecoder().decode(block))
+    console.log("block0: " + new TextDecoder().decode(block0))
+    console.log("block1: " + new TextDecoder().decode(block))
     console.log("cid v0: " + cid0)
     console.log("cid v1: " + cid)
 
