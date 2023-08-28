@@ -302,11 +302,15 @@ import * as raw from "multiformats/codecs/raw"
     const s = strings(helia)
     let textInput = new TextEncoder().encode("Hello worldm zubair yazz zubair")
     let digest = await sha256.digest(textInput)
+    let cid0 = CID.createV0(digest)
     let cid = CID.createV1(raw.code, digest)
 
     await helia.blockstore.put(cid,textInput)
+    await helia.blockstore.put(cid0,textInput)
     let block = await helia.blockstore.get(cid)
     console.log(new TextDecoder().decode(block))
+    console.log("cid v0: " + cid0)
+    console.log("cid v1: " + cid)
 
     const myImmutableAddress = await s.add('Hello worldm zubair yazz zubair')
     //QmZZHoTQSUw7dDCVPZypoxXtS4N7c27L5uNisqHcxY2tAd
