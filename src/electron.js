@@ -279,6 +279,8 @@ import { webSockets } from '@libp2p/websockets'
     let digest = await sha256.digest(textInput)
     let cid0 = CID.createV0(digest)
     let cid = CID.createV1(raw.code, digest)
+    console.log("cid v0: " + cid0)
+    console.log("cid v1: " + cid)
 
 
 })())
