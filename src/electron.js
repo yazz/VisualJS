@@ -274,52 +274,12 @@ import { bootstrap } from '@libp2p/bootstrap'
 import { webSockets } from '@libp2p/websockets'
 
 ((async function() {
-    const blockstore = new MemoryBlockstore()
-    const datastore = new MemoryDatastore();
 
-    const helia = await createHelia(
-        {
-            datastore,
-            blockstore
-        }
-    )
-
-    const s = strings(helia)
     let textInput = new TextEncoder().encode("Hello worldm zubair yazz zubair")
     let digest = await sha256.digest(textInput)
     let cid0 = CID.createV0(digest)
     let cid = CID.createV1(raw.code, digest)
 
-    await helia.blockstore.put(cid,textInput)
-    await helia.blockstore.put(cid0,textInput)
-    let block0 = await helia.blockstore.get(cid0)
-    helia.pins.add(cid0)
-    helia.pins.add(cid)
-    let block = await helia.blockstore.get(cid)
-    console.log("block0: " + new TextDecoder().decode(block0))
-    console.log("block1: " + new TextDecoder().decode(block))
-    console.log("cid v0: " + cid0)
-    console.log("cid v1: " + cid)
-
-    const myImmutableAddress = await s.add('Hello worldm zubair yazz zubair')
-    //QmZZHoTQSUw7dDCVPZypoxXtS4N7c27L5uNisqHcxY2tAd
-    myImmutableAddress.toString()
-    setInterval(() => {
-        let peers = ''
-
-        for (const connection of helia.libp2p.getConnections()) {
-            peers += `${connection.remotePeer.toString()}\n`
-        }
-
-        if (peers === '') {
-            peers = 'Not connected to any peers'
-        }
-        console.log("peers: " + peers.length)
-    },5000)
-
-
-    console.log("" + await s.get(myImmutableAddress))
-    console.log(myImmutableAddress.toString())
 
 })())
 
