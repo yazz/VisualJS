@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
 import { createRequire } from 'module';
-import { createHelia } from 'helia'
-import { strings } from '@helia/strings'
-
 
 const require = createRequire(import.meta.url);
 const useragent = require('express-useragent');
@@ -238,7 +235,6 @@ let allForked                           = []
 
 //const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
-import { createLibp2p } from 'libp2p'
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 //const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
@@ -265,13 +261,6 @@ import { createLibp2p } from 'libp2p'
 import {sha256} from "multiformats/hashes/sha2"
 import {CID}    from "multiformats/cid"
 import * as raw from "multiformats/codecs/raw"
-import { MemoryBlockstore } from 'blockstore-core'
-import { MemoryDatastore } from 'datastore-core'
-import { identifyService } from 'libp2p/identify'
-import { noise } from '@chainsafe/libp2p-noise'
-import { yamux } from '@chainsafe/libp2p-yamux'
-import { bootstrap } from '@libp2p/bootstrap'
-import { webSockets } from '@libp2p/websockets'
 
 ((async function() {
 
