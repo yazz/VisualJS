@@ -48,7 +48,6 @@ let startupType                         = null
 let startupDelay                        = 0
 let yazzInstanceId                      = uuidv1()
 let certOptions                         = null
-let crypto                              = require('crypto');
 let callbackIndex                       = 0;
 let callbackList                        = new Object()
 let stmtInsertSession;

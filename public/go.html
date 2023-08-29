@@ -12,7 +12,7 @@
         <scriptold  src="/js_libs/socketio4.4.1.js"                                                 crossorigin="anonymous">                                                                                            </scriptold>
         <script     src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js">                                                                                                                                 </script>
         <scriptold  src="/js_libs/vue2.6.11.js">                                                                                                                                                                        </scriptold>
-
+        <script     src="https://unpkg.com/multiformats/dist/index.min.js"></script>
         <style>
         #visualization {
         width: 100%;
@@ -2054,7 +2054,6 @@
             async function  getIpfsHash                         (   sometext   ) {
                 //debugger
                 if (yz.mainVars.ipfs) {
-                    debugger
                     let ret = await yz.mainVars.ipfs.add(sometext)
 
                     return ret.path
@@ -2063,6 +2062,12 @@
                         "/http_post_extract_commit_hash_id_from_code",
                         {text: sometext}
                     )
+
+                    debugger
+                    let textInput = new TextEncoder().encode(sometext)
+                    //let digest = await Multiformats/sha256.digest(textInput)
+
+
                     return resulthash.ipfsHash
                 }
             }
