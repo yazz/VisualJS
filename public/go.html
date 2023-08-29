@@ -13,6 +13,7 @@
         <script     src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js">                                                                                                                                 </script>
         <scriptold  src="/js_libs/vue2.6.11.js">                                                                                                                                                                        </scriptold>
         <script     src="https://unpkg.com/multiformats/dist/index.min.js"></script>
+        <script     src="https://cdn.jsdelivr.net/npm/ipfs-only-hash@4.0.0/index.min.js"></script>
         <style>
         #visualization {
         width: 100%;
@@ -2054,7 +2055,8 @@
             async function  getIpfsHash                         (   sometext   ) {
                 //debugger
                 if (yz.mainVars.ipfs) {
-                    let ret = await yz.mainVars.ipfs.add(sometext)
+                    debugger
+                    let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
 
                     return ret.path
                 } else {
@@ -2063,8 +2065,8 @@
                         {text: sometext}
                     )
 
-                    debugger
-                    let textInput = new TextEncoder().encode(sometext)
+                    //debugger
+                    //let textInput = new TextEncoder().encode(sometext)
                     //let digest = await Multiformats/sha256.digest(textInput)
 
 
