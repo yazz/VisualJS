@@ -2054,6 +2054,7 @@
             async function  getIpfsHash                         (   sometext   ) {
                 //debugger
                 if (yz.mainVars.ipfs) {
+                    debugger
                     let ret = await yz.mainVars.ipfs.add(sometext)
 
                     return ret.path
