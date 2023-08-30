@@ -2046,14 +2046,11 @@
                 }
             }
             async function  addToIpfs                           (   sometext   ) {
-                //debugger
                 let ret = await yz.mainVars.ipfs.add(sometext)
                 return ret
             }
             async function  getIpfsHash                         (   sometext   ) {
-                //debugger
                 if (yz.mainVars.ipfs) {
-                    debugger
                     let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
 
                     return ret.path
@@ -2062,11 +2059,6 @@
                         "/http_post_extract_commit_hash_id_from_code",
                         {text: sometext}
                     )
-
-                    //debugger
-                    //let textInput = new TextEncoder().encode(sometext)
-                    //let digest = await Multiformats/sha256.digest(textInput)
-
 
                     return resulthash.ipfsHash
                 }
