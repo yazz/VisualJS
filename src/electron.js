@@ -232,11 +232,11 @@ let allForked                           = []
 // it writes successfully
 // ------------------------------------------------------------
 
-//const ipfsAPI = require('ipfs-api');
+const ipfsAPI = require('ipfs-api');
 const OnlyIpfsHash = require('ipfs-only-hash')
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-//const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
+const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
 //const ipfs = ipfsAPI('ipfs.io', '5001', {protocol: 'https'});
 
 
@@ -257,28 +257,12 @@ const OnlyIpfsHash = require('ipfs-only-hash')
     //helia
     //
 
-import {sha256} from "multiformats/hashes/sha2"
-import {CID}    from "multiformats/cid"
-import * as raw from "multiformats/codecs/raw"
-
-((async function() {
-
-    let textInput = new TextEncoder().encode("Hello worldm zubair yazz zubair")
-    let digest = await sha256.digest(textInput)
-    let cid0 = CID.createV0(digest)
-    let cid = CID.createV1(raw.code, digest)
-    console.log("cid v0: " + cid0)
-    console.log("cid v1: " + cid)
-
-
-})())
 
 console.log("Starting...")
 console.log("Testing IPFS...")
 
 let testBuffer = new Buffer("Test IPFS Connection String");
 yz.isIPFSConnected = isIPFSConnected
-if (1==2) {
 
 ipfs.files.add(testBuffer, function (err, file) {
 
@@ -314,7 +298,6 @@ ipfs.files.add(testBuffer, function (err, file) {
         })
     }
 })
-}
 
 
 
