@@ -396,7 +396,7 @@ export const yz = {
                         if (err) {
                             console.log("....................................Err: " + err);
                         }
-                        console.log("....................................file: " + JSON.stringify(file, null, 2))
+                        //console.log("....................................file: " + JSON.stringify(file, null, 2))
                         let thehash = file[0].hash
                         //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
                         const validCID = thehash
@@ -404,8 +404,8 @@ export const yz = {
                         ipfs.files.get(validCID, function (err, files) {
                             files.forEach((file) => {
                                 console.log("....................................file.path: " + file.path)
-                                console.log(file.content.toString('utf8'))
-                                console.log("....................................file.path: " + file.path)
+                                //console.log(file.content.toString('utf8'))
+                                //console.log("....................................file.path: " + file.path)
                                 returnfn(thehash)
                             })
                         })
