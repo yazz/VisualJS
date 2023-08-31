@@ -375,7 +375,7 @@ export const yz = {
         let ipfsHash = await promise
         return ipfsHash
     },
-    saveItemToIpfsCache:            async function  (  thisDb  ,  srcCode  ) {
+    saveItemToCache:            async function  (  thisDb  ,  srcCode  ) {
         let mm = this
         //outputDebug("*** saveItemToIpfs: *** : " )
         let promise = new Promise(async function(returnfn) {
@@ -836,7 +836,7 @@ export const yz = {
                         thisDb.run("commit", async function() {
 
                         });
-                        let checkIpfsHash = await mm.saveItemToIpfsCache(thisDb, code)
+                        let checkIpfsHash = await mm.saveItemToCache(thisDb, code)
                         if (checkIpfsHash != sha1sum) {
                             console.log("In savev2: checkIpfsHash != sha1sum")
                         }
