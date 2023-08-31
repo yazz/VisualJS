@@ -377,12 +377,9 @@ export const yz = {
     },
     saveItemToCache:            async function  (  thisDb  ,  srcCode  ) {
         let mm = this
-        //outputDebug("*** saveItemToIpfs: *** : " )
         let promise = new Promise(async function(returnfn) {
             let justHash = null
             try {
-                //console.log("Starting...")
-
                 justHash = await OnlyIpfsHash.of(srcCode)
                 let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath,  justHash)
                 fs.writeFileSync(fullIpfsFilePath, srcCode);
@@ -403,7 +400,7 @@ export const yz = {
 
                         ipfs.files.get(validCID, function (err, files) {
                             files.forEach((file) => {
-                                console.log("....................................file.path: " + file.path)
+                                //console.log("....................................file.path: " + file.path)
                                 //console.log(file.content.toString('utf8'))
                                 //console.log("....................................file.path: " + file.path)
                                 returnfn(thehash)
