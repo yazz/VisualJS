@@ -291,9 +291,9 @@ ipfs.files.add(testBuffer, function (err, file) {
 
         ipfs.files.get(validCID, function (err, files) {
             files.forEach((file) => {
-                console.log("....................................file.path: " + file.path)
+                //console.log("....................................file.path: " + file.path)
                 //console.log(file.content.toString('utf8'))
-                console.log("....................................file.path: " + file.path)
+                //console.log("....................................file.path: " + file.path)
             })
         })
     }
@@ -2723,9 +2723,9 @@ async function  saveItemToIpfs                          (  srcCode  ) {
 
                     ipfs.files.get(validCID, function (err, files) {
                         files.forEach((file) => {
-                            console.log("....................................file.path: " + file.path)
-                            console.log(file.content.toString('utf8'))
-                            console.log("....................................file.path: " + file.path)
+                            //console.log("....................................file.path: " + file.path)
+                            //console.log(file.content.toString('utf8'))
+                            //console.log("....................................file.path: " + file.path)
                             returnfn(thehash)
                         })
                     })
