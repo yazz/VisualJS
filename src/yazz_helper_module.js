@@ -789,7 +789,7 @@ export const yz = {
                         thisDb.run("commit", async function() {
 
                         });
-                        let checkIpfsHash = await mm.setDistributedContent(thisDb, code)
+                        let checkIpfsHash = (await mm.setDistributedContent(thisDb, code)).value
                         if (checkIpfsHash != sha1sum) {
                             console.log("In savev2: checkIpfsHash != sha1sum")
                         }
@@ -1305,17 +1305,17 @@ export const yz = {
                                 //console.log("....................................file.path: " + file.path)
                                 //console.log(file.content.toString('utf8'))
                                 //console.log("....................................file.path: " + file.path)
-                                returnfn(thehash)
+                                returnfn(  {value: thehash, error: null}  )
                             })
                         })
                     })
                 } else {
-                    returnfn(justHash)
+                    returnfn(  {value: justHash, error: null}  )
                 }
 
             } catch (error) {
                 //outputDebug(error)
-                returnfn(justHash)
+                returnfn(  {value: justHash, error: error}  )
             }
         })
         let ipfsHash = await promise

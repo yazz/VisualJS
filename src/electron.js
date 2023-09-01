@@ -1921,7 +1921,7 @@ async function  getDistributedContent                   (  ipfsHash  ) {
 }
 async function  setDistributedContent                   (  content  ) {
     let ret = await yz.setDistributedContent(dbsearch,content)
-    return ret
+    return ret.value
 }
 
 
