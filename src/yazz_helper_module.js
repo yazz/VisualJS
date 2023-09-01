@@ -1146,7 +1146,7 @@ export const yz = {
     },
 
     // CODE_TAGS
-    setTipsForCommit:                   async function  (  thisDb  ,  savedCode  ,  codeId  ,  userId  ) {
+    setTipsForCommit:               async function  (  thisDb  ,  savedCode  ,  codeId  ,  userId  ) {
         /*
         ________________________________________
         |                                      |
@@ -1317,5 +1317,11 @@ export const yz = {
                 [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     userId   ,   sha1sum     ,      userId    ]
             )
         }
+    },
+
+    // distributed content helpers for stuff stored in IPFS
+    getDistributedContent:          async function  (  thisDb  ,  ipfsHash  ) {},
+    setDistributedContent:          async function  (  thisDb  ,  content  ) {
+
     }
 }

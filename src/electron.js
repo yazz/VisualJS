@@ -1915,8 +1915,14 @@ function        findSystemDataDirectoryAndStart         (  ) {
 }
 
 // distributed content helpers for stuff stored in IPFS
-async function  getDistributedContent                   (  ipfsHash  ) {}
-async function  setDistributedContent                   (  content  ) {}
+async function  getDistributedContent                   (  ipfsHash  ) {
+    let ret = await yz.getDistributedContent(dbsearch, ipfsHash)
+    return ret
+}
+async function  setDistributedContent                   (  content  ) {
+    let ret = await yz.setDistributedContent(dbsearch,content)
+    return ret
+}
 
 
 // HTTP helper functions
