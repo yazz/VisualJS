@@ -4118,7 +4118,7 @@ async function  startServices                           (  ) {
         ));
 
         setTimeout(async function() {
-            let ipfsHash = await yz.setDistributedJsonContent(
+            let ipfsHash = await yz.setDistributedContent(
                 {
                     type:                       "COMPONENT_COMMENT",
                     format:                     "JSON'",
