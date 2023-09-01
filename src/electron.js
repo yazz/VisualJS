@@ -4314,7 +4314,7 @@ async function  startServices                           (  ) {
         let newDateAndTime = new Date().getTime()
 
 
-        await insertCommentIntoDb(
+        await yz.insertCommentIntoDb(
             dbsearch
             ,
             {

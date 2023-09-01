@@ -1260,30 +1260,27 @@ export const yz = {
 
     // app store
     insertCommentIntoDb:            async function  (  thisDb, args  ) {
-        let promise = new Promise(async function(returnfn) {
-
-            let promise2 = new Promise(async function(returnfn2) {
-                try {
-                    thisDb.serialize(function() {
-                        thisDb.run("begin exclusive transaction");
-                        stmtInsertComment.run(
-                            uuidv1() ,
-                            args.baseComponentId ,
-                            args.baseComponentIdVersion,
-                            args.newComment,
-                            args.newRating,
-                            args.dateAndTime
-                        )
-                        thisDb.run("commit")
-                        returnfn2()
-                    })
-                } catch(er) {
-                    console.log(er)
+        let promise2 = new Promise(async function(returnfn2) {
+            try {
+                thisDb.serialize(function() {
+                    thisDb.run("begin exclusive transaction");
+                    stmtInsertComment.run(
+                        uuidv1() ,
+                        args.baseComponentId ,
+                        args.baseComponentIdVersion,
+                        args.newComment,
+                        args.newRating,
+                        args.dateAndTime
+                    )
+                    thisDb.run("commit")
                     returnfn2()
-                }
-            })
-            await promise2
+                })
+            } catch(er) {
+                console.log(er)
+                returnfn2()
+            }
         })
+        await promise2
     },
 
     // distributed content helpers for stuff stored in IPFS
