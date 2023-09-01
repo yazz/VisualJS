@@ -2553,92 +2553,6 @@ async function  save_code_from_upload                   (  msg  ) {
 }
 
 // IPFS helpers
-async function  tryToLoadComponentFromCache             (  ipfsHash  ) {
-    return {value: null}
-}
-async function  getItemFromCache                        (  ipfsHash  ) {
-    outputDebug("*** getItemFromCache: *** : " )
-
-    let promise = new Promise(async function(returnfn) {
-        try
-        {
-            let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
-            let srcCode = fs.readFileSync(fullIpfsFilePath);
-            let baseComponentId = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
-
-
-
-            /* let properties = yz.helpers.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-             srcCode = yz.helpers.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
-             for (let irte = 0 ; irte < properties.length ; irte++ ) {
-                 let brje = properties[irte]
-                 if (brje.id == "ipfs_hash_id") {
-                     brje.default = ipfsHash
-                 }
-             }
-
-             srcCode = yz.helpers.insertCodeString(  srcCode,
-                 "properties",
-                 properties,
-                 ")//prope" + "rties")*/
-
-            await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
-
-            console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
-            returnfn("Done")
-
-        } catch (error) {
-            try
-            {
-
-                ipfs.files.get(ipfsHash, function (err, files) {
-                    files.forEach(async function(file) {
-                        console.log("....................................Loading component from IPFS: " + file.path)
-                        //console.log(file.content.toString('utf8'))
-                        srcCode = file.content.toString('utf8')
-
-
-
-                        let baseComponentId = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
-
-
-
-                        let properties = yz.helpers.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-                        srcCode = yz.helpers.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
-                        for (let irte = 0 ; irte < properties.length ; irte++ ) {
-                            let brje = properties[irte]
-                            if (brje.id == "ipfs_hash_id") {
-                                brje.default = ipfsHash
-                            }
-                        }
-
-                        srcCode = yz.helpers.insertCodeString(  srcCode,
-                            "properties",
-                            properties,
-                            ")//prope" + "rties")
-
-
-
-                        let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
-                        fs.writeFileSync(fullIpfsFilePath, srcCode);
-
-                        await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
-
-                        console.log("....................................Loading component fro IPFS: " + file.path)
-                    })
-                    returnfn("Done")
-                })
-            } catch (error) {
-                outputDebug(error)
-            }
-        }
-
-
-
-    })
-    let ret = await promise
-    return ret
-}
 async function  loadComponentFromIpfs                   (  ipfsHash  ) {
     outputDebug("*** loadComponentFromIpfs: *** : " )
 
@@ -4854,7 +4768,7 @@ async function  startServices                           (  ) {
                 // if the component has not been loaded then try to load it from the cache
                 //----------------------------------------------------------------------------
                 if (!resultsRow) {
-                    let componentInCacheLoadResult = await tryToLoadComponentFromCache( componentItem.codeId )
+                    let componentInCacheLoadResult = await yz.tryToLoadComponentFromCache( componentItem.codeId )
                     if ( componentInCacheLoadResult.value ) {
                         resultsRow = await yz.getQuickSqlOneRow(
                             dbsearch
