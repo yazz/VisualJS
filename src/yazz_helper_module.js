@@ -1283,7 +1283,7 @@ export const yz = {
         await promise2
     },
 
-    // distributed content helpers for stuff stored in IPFS
+    // distributed content public API
     getDistributedContent:          async function  (  thisDb  ,  ipfsHash  ) {
         //---------------------------------------------------------------------------
         //                           getDistributedContent
@@ -1424,142 +1424,18 @@ export const yz = {
         let ipfsHash = await promise
         return ipfsHash
     },
-    sendIpfsHashToCentralServer:    async function  (  ipfs_hash  ,  ipfsContent  ) {
+    setDistributedJsonContent:      async function  (  jsonItem  ) {
         //---------------------------------------------------------------------------
-        //                           sendIpfsHashToCentralServer
+        //                           setDistributedJsonContent
         //
         //---------------------------------------------------------------------------
-        let mm = this
-        let centralHost = mm.centralhost
-        let centralPort = mm.centralhostport
-        let promise = new Promise(async function(returnfn) {
-            try {
-                const dataString = JSON.stringify(
-                    {
-                        ipfs_hash: ipfs_hash,
-                        ipfs_content: ipfsContent
-                    })
+        let mm          = this
+        let jsonString  = JSON.stringify(jsonItem,null,2)
 
-                let options = {
-                    host: centralHost,
-                    port: centralPort,
-                    path: '/http_post_register_ipfs_content_for_client',
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Content-Length': dataString.length
-                    }
-                };
-
-                let theHttpsConn = http
-                if (mm.useHttps) {
-                    theHttpsConn = https
-                }
-                let req = theHttpsConn.request(options, function(res) {
-                    //console.log('STATUS: ' + res.statusCode);
-                    //console.log('HEADERS: ' + JSON.stringify(res.headers));
-                    res.setEncoding('utf8');
-                    res.on('data', function (chunk) {
-                        //console.log('BODY: ' + chunk);
-                    });
-                    res.on('end', function () {
-                        //console.log('end: ' );
-                    });
-                });
-                req.write(dataString)
-                req.end()
-                returnfn()
-            } catch(er) {
-                console.log(er)
-                returnfn()
-            }
-        })
-        await promise
+        await  mm.saveItemToIpfs(jsonString)
     },
-    insertIpfsHashRecord:           async function  (  thisDb  ,  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
-        //---------------------------------------------------------------------------
-        //                           insertIpfsHashRecord
-        //
-        //---------------------------------------------------------------------------
-        let promise = new Promise(async function(returnfn) {
-            try {
-                thisDb.serialize(function() {
-                    thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
-                    thisDb.run("commit")
-                    returnfn()
-                })
-            } catch(er) {
-                console.log(er)
-                returnfn()
-            }
-        })
-        let ipfsHash = await promise
-        return ipfsHash
-    },
-    findLocalIpfsContent:           async function  (  thisDb  ) {
-        //---------------------------------------------------------------------------
-        //                           findLocalIpfsContent
-        //
-        //---------------------------------------------------------------------------
-        let mm = this
-        fs.readdir(mm.fullIpfsFolderPath, async function (err, files) {
-            if (err) {
-                return console.error(err);
-            }
 
-            for (let fileindex=0;fileindex<files.length;fileindex++){
-                let ipfsHashFileName = files[fileindex]
-                if (ipfsHashFileName.length > 10) {
-                    try
-                    {
-                        //console.log("ipfsHashFileName: " + ipfsHashFileName);
-
-                        let fullFileName = path.join(mm.fullIpfsFolderPath, ipfsHashFileName)
-                        let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
-
-                        let itemType = yz.helpers.getValueOfCodeString(ipfsContent,"component_type")
-                        if (itemType == "COMPONENT_COMMENT") {
-                            let formatType = yz.helpers.getValueOfCodeString(ipfsContent,"format")
-                            if (formatType == "JSON") {
-                                let jsonComment = JSON.parse(ipfsContent)
-                                await mm.insertCommentIntoDb(
-                                    thisDb
-                                    ,
-                                    {
-                                        baseComponentId:        jsonComment.base_component_id,
-                                        baseComponentIdVersion: jsonComment.base_component_id_version,
-                                        newComment:             jsonComment.comment,
-                                        newRating:              jsonComment.rating,
-                                        dateAndTime:            jsonComment.date_and_time
-                                    }
-                                )
-                            }
-                        } else if (itemType == "APP") {
-                            let parsedCode = await mm.parseCode(ipfsContent)
-                            parsedCode.ipfsHash = ipfsHashFileName
-                            await mm.registerIPFS(thisDb, ipfsHashFileName);
-                        }
-                        //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
-                    }
-                    catch(exp)
-                    {
-                        console.log("ipfsHashFileName : " + ipfsHashFileName + " ERROR!" + exp);
-                    }
-
-                }
-            }
-        })
-
-    },
-    registerIPFS:                   async function  (  thisDb  ,  ipfs_hash  ) {
-        //---------------------------------------------------------------------------
-        //                           registerIPFS
-        //
-        //---------------------------------------------------------------------------
-        let mm = this
-        await mm.insertIpfsHashRecord(thisDb,ipfs_hash,null,null,null)
-    },
+    // distributed content helpers for stuff stored in IPFS
     tryToLoadComponentFromCache:    async function  (  ipfsHash  ) {
         //---------------------------------------------------------------------------
         //                           tryToLoadComponentFromCache
@@ -1647,15 +1523,144 @@ export const yz = {
         let ret = await promise
         return {value: ret}
     },
-    saveJsonItemToIpfs:             async function  (  jsonItem  ) {
+    sendIpfsHashToCentralServer:    async function  (  ipfs_hash  ,  ipfsContent  ) {
         //---------------------------------------------------------------------------
-        //                           saveJsonItemToIpfs
+        //                           sendIpfsHashToCentralServer
         //
         //---------------------------------------------------------------------------
-        let mm          = this
-        let jsonString  = JSON.stringify(jsonItem,null,2)
+        let mm = this
+        let centralHost = mm.centralhost
+        let centralPort = mm.centralhostport
+        let promise = new Promise(async function(returnfn) {
+            try {
+                const dataString = JSON.stringify(
+                    {
+                        ipfs_hash: ipfs_hash,
+                        ipfs_content: ipfsContent
+                    })
 
-        await  mm.saveItemToIpfs(jsonString)
+                let options = {
+                    host: centralHost,
+                    port: centralPort,
+                    path: '/http_post_register_ipfs_content_for_client',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Content-Length': dataString.length
+                    }
+                };
+
+                let theHttpsConn = http
+                if (mm.useHttps) {
+                    theHttpsConn = https
+                }
+                let req = theHttpsConn.request(options, function(res) {
+                    //console.log('STATUS: ' + res.statusCode);
+                    //console.log('HEADERS: ' + JSON.stringify(res.headers));
+                    res.setEncoding('utf8');
+                    res.on('data', function (chunk) {
+                        //console.log('BODY: ' + chunk);
+                    });
+                    res.on('end', function () {
+                        //console.log('end: ' );
+                    });
+                });
+                req.write(dataString)
+                req.end()
+                returnfn()
+            } catch(er) {
+                console.log(er)
+                returnfn()
+            }
+        })
+        await promise
+    },
+    insertIpfsHashRecord:           async function  (  thisDb  ,  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
+        //---------------------------------------------------------------------------
+        //                           insertIpfsHashRecord
+        //
+        //---------------------------------------------------------------------------
+        let promise = new Promise(async function(returnfn) {
+            try {
+                thisDb.serialize(function() {
+                    thisDb.run("begin exclusive transaction");
+                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
+                    thisDb.run("commit")
+                    returnfn()
+                })
+            } catch(er) {
+                console.log(er)
+                returnfn()
+            }
+        })
+        let ipfsHash = await promise
+        return ipfsHash
+    },
+    findLocallyCachedIpfsContent:   async function  (  thisDb  ) {
+        //---------------------------------------------------------------------------
+        //                           findLocallyCachedIpfsContent
+        //
+        //---------------------------------------------------------------------------
+        let mm = this
+        fs.readdir(
+            mm.fullIpfsFolderPath
+            ,
+            async function (err, files) {
+                if (err) {
+                    return console.error(err);
+                }
+
+                for (let fileindex=0;fileindex<files.length;fileindex++) {
+                    let ipfsHashFileName = files[fileindex]
+                    if (ipfsHashFileName.length > 10) {
+                        try
+                        {
+                            //console.log("ipfsHashFileName: " + ipfsHashFileName);
+
+                            let fullFileName = path.join(mm.fullIpfsFolderPath, ipfsHashFileName)
+                            let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
+
+                            let itemType = yz.helpers.getValueOfCodeString(ipfsContent,"component_type")
+                            if (itemType == "COMPONENT_COMMENT") {
+                                let formatType = yz.helpers.getValueOfCodeString(ipfsContent,"format")
+                                if (formatType == "JSON") {
+                                    let jsonComment = JSON.parse(ipfsContent)
+                                    await mm.insertCommentIntoDb(
+                                        thisDb
+                                        ,
+                                        {
+                                            baseComponentId:        jsonComment.base_component_id,
+                                            baseComponentIdVersion: jsonComment.base_component_id_version,
+                                            newComment:             jsonComment.comment,
+                                            newRating:              jsonComment.rating,
+                                            dateAndTime:            jsonComment.date_and_time
+                                        }
+                                    )
+                                }
+                            } else if (itemType == "APP") {
+                                let parsedCode = await mm.parseCode(ipfsContent)
+                                parsedCode.ipfsHash = ipfsHashFileName
+                                await mm.registerIPFS(thisDb, ipfsHashFileName);
+                            }
+                            //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
+                        }
+                        catch(exp)
+                        {
+                            console.log("ipfsHashFileName : " + ipfsHashFileName + " ERROR!" + exp);
+                        }
+
+                    }
+                }
+            })
+
+    },
+    registerIPFS:                   async function  (  thisDb  ,  ipfs_hash  ) {
+        //---------------------------------------------------------------------------
+        //                           registerIPFS
+        //
+        //---------------------------------------------------------------------------
+        let mm = this
+        await mm.insertIpfsHashRecord(  thisDb  ,  ipfs_hash  ,  null  ,  null  ,  null  )
     },
     saveItemToIpfs:                 async function  (  srcCode  ) {
         //---------------------------------------------------------------------------
@@ -1667,16 +1672,16 @@ export const yz = {
         let promise = new Promise(async function(returnfn) {
             let justHash = null
             try {
-                justHash = await OnlyIpfsHash.of(srcCode)
-                let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
-                fs.writeFileSync(fullIpfsFilePath, srcCode);
-                await yz.insertIpfsHashRecord(dbsearch,justHash,null,null,null)
-                await yz.sendIpfsHashToCentralServer(justHash, srcCode)
+                justHash                = await OnlyIpfsHash.of(  srcCode  )
+                let fullIpfsFilePath    = path.join(  fullIpfsFolderPath  ,  justHash  )
 
+                fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
+                await yz.insertIpfsHashRecord(  dbsearch  ,  justHash  ,  null  ,  null  ,  null  )
+                await yz.sendIpfsHashToCentralServer(  justHash  ,  srcCode  )
 
-                if (isIPFSConnected) {
-                    let testBuffer = new Buffer(srcCode);
-                    ipfs.files.add(testBuffer, function (err, file) {
+                if (  isIPFSConnected  ) {
+                    let testBuffer = new Buffer(  srcCode  );
+                    ipfs.files.add(  testBuffer  ,  function (  err  ,  file  ) {
                         if (err) {
                             console.log("....................................Err: " + err);
                         }

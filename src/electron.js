@@ -4118,7 +4118,7 @@ async function  startServices                           (  ) {
         ));
 
         setTimeout(async function() {
-            let ipfsHash = await yz.saveJsonItemToIpfs(
+            let ipfsHash = await yz.setDistributedJsonContent(
                 {
                     type:                       "COMPONENT_COMMENT",
                     format:                     "JSON'",
@@ -5160,7 +5160,7 @@ async function  startServices                           (  ) {
         // Check if any JS is loaded
         //--------------------------------------------------------
         await checkForJSLoaded();
-        await yz.findLocalIpfsContent(dbsearch);
+        await yz.findLocallyCachedIpfsContent(dbsearch);
 
         setUpSql()
         setUpPredefinedComponents({message_type:       'setUpPredefinedComponents'});
