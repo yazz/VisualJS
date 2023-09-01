@@ -8,6 +8,7 @@ let http                                        = require('http')
 let https                                       = require('https');
 let stmtDeleteTypesForComponentProperty
 let stmtDeleteAcceptTypesForComponentProperty
+let stmtInsertComment
 let fs                                          = require('fs');
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
@@ -113,6 +114,13 @@ export const yz = {
     },
     //setup this module
     setup:                          async function  (  thisDb  ) {
+
+        stmtInsertComment = thisDb.prepare(" insert or replace into comments_and_ratings " +
+            "    (id, base_component_id, version , comment, rating, date_and_time) " +
+            " values " +
+            "    (?,?,?,?,?,?);");
+
+
         stmtDeleteTypesForComponentProperty = thisDb.prepare(
             " delete from  component_property_types   where   base_component_id = ?");
         stmtDeleteAcceptTypesForComponentProperty = thisDb.prepare(
@@ -1250,6 +1258,34 @@ export const yz = {
         }
     },
 
+    // app store
+    insertCommentIntoDb:            async function  (  thisDb, args  ) {
+        let promise = new Promise(async function(returnfn) {
+
+            let promise2 = new Promise(async function(returnfn2) {
+                try {
+                    thisDb.serialize(function() {
+                        thisDb.run("begin exclusive transaction");
+                        stmtInsertComment.run(
+                            uuidv1() ,
+                            args.baseComponentId ,
+                            args.baseComponentIdVersion,
+                            args.newComment,
+                            args.newRating,
+                            args.dateAndTime
+                        )
+                        thisDb.run("commit")
+                        returnfn2()
+                    })
+                } catch(er) {
+                    console.log(er)
+                    returnfn2()
+                }
+            })
+            await promise2
+        })
+    },
+
     // distributed content helpers for stuff stored in IPFS
     getDistributedContent:          async function  (  thisDb  ,  ipfsHash  ) {},
     setDistributedContent:          async function  (  thisDb  ,  content  ) {
@@ -1383,7 +1419,9 @@ export const yz = {
                             let formatType = yz.helpers.getValueOfCodeString(ipfsContent,"format")
                             if (formatType == "JSON") {
                                 let jsonComment = JSON.parse(ipfsContent)
-                                await insertCommentIntoDb(
+                                await mm.insertCommentIntoDb(
+                                    thisDb
+                                    ,
                                     {
                                         baseComponentId:        jsonComment.base_component_id,
                                         baseComponentIdVersion: jsonComment.base_component_id_version,

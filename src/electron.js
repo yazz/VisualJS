@@ -55,7 +55,6 @@ let stmtInsertSessionWithNewUserId;
 let stmtInsertMetaMaskLogin;
 let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
-let stmtInsertComment
 let stmtInsertCookie
 let stmtInsertReleasedComponentListItem;
 let setProcessToRunning;
@@ -1792,12 +1791,6 @@ function        setUpSql                                (  ) {
 
 
 
-    stmtInsertComment = dbsearch.prepare(" insert or replace into comments_and_ratings " +
-        "    (id, base_component_id, version , comment, rating, date_and_time) " +
-        " values " +
-        "    (?,?,?,?,?,?);");
-
-
     stmtInsertCookie = dbsearch.prepare(" insert or replace into cookies " +
         "    (id,  created_timestamp, cookie_name, cookie_value, fk_session_id, host_cookie_sent_to, from_device_type ) " +
         " values " +
@@ -3465,34 +3458,7 @@ async function  getCommentsForComponent                 (  baseComponentId  ) {
     let ret = await promise
     return ret
 }
-async function  insertCommentIntoDb                     (  args  ) {
-    let promise = new Promise(async function(returnfn) {
 
-        let promise2 = new Promise(async function(returnfn2) {
-            try {
-                dbsearch.serialize(function() {
-                    dbsearch.run("begin exclusive transaction");
-                    stmtInsertComment.run(
-                        uuidv1() ,
-                        args.baseComponentId ,
-                        args.baseComponentIdVersion,
-                        args.newComment,
-                        args.newRating,
-                        args.dateAndTime
-                        )
-                    dbsearch.run("commit")
-                    returnfn2()
-                })
-            } catch(er) {
-                console.log(er)
-                returnfn2()
-            }
-        })
-        await promise2
-
-
-    })
-}
 
 // code commit helpers
 async function  getRowForCommit                         (  commitId  ) {
@@ -4349,6 +4315,8 @@ async function  startServices                           (  ) {
 
 
         await insertCommentIntoDb(
+            dbsearch
+            ,
             {
                 baseComponentId:        baseComponentId,
                 baseComponentIdVersion: baseComponentIdVersion,
