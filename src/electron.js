@@ -1914,6 +1914,11 @@ function        findSystemDataDirectoryAndStart         (  ) {
 
 }
 
+// distributed content helpers for stuff stored in IPFS
+async function  getDistributedContent                   (  ipfsHash  ) {}
+async function  setDistributedContent                   (  content  ) {}
+
+
 // HTTP helper functions
 function        getRoot                                 (  req  ,  res  ,  next  ) {
 	hostcount++;
