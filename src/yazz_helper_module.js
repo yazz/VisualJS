@@ -375,50 +375,6 @@ export const yz = {
         let ipfsHash = await promise
         return ipfsHash
     },
-    saveItemToCache:            async function  (  thisDb  ,  srcCode  ) {
-        let mm = this
-        let promise = new Promise(async function(returnfn) {
-            let justHash = null
-            try {
-                justHash = await OnlyIpfsHash.of(srcCode)
-                let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath,  justHash)
-                fs.writeFileSync(fullIpfsFilePath, srcCode);
-                await mm.insertIpfsHashRecord(thisDb,justHash,null,null,null)
-                await mm.sendIpfsHashToCentralServer(justHash, srcCode)
-
-
-                if (mm.isIPFSConnected) {
-                    let testBuffer = new Buffer(srcCode);
-                    ipfs.files.add(testBuffer, function (err, file) {
-                        if (err) {
-                            console.log("....................................Err: " + err);
-                        }
-                        //console.log("....................................file: " + JSON.stringify(file, null, 2))
-                        let thehash = file[0].hash
-                        //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
-                        const validCID = thehash
-
-                        ipfs.files.get(validCID, function (err, files) {
-                            files.forEach((file) => {
-                                //console.log("....................................file.path: " + file.path)
-                                //console.log(file.content.toString('utf8'))
-                                //console.log("....................................file.path: " + file.path)
-                                returnfn(thehash)
-                            })
-                        })
-                    })
-                } else {
-                    returnfn(justHash)
-                }
-
-            } catch (error) {
-                //outputDebug(error)
-                returnfn(justHash)
-            }
-        })
-        let ipfsHash = await promise
-        return ipfsHash
-    },
     updateRevisions:                function        (  thisDb  ,  sqlite  ,  baseComponentId  ) {
         //------------------------------------------------------------------------------
         //
@@ -833,7 +789,7 @@ export const yz = {
                         thisDb.run("commit", async function() {
 
                         });
-                        let checkIpfsHash = await mm.saveItemToCache(thisDb, code)
+                        let checkIpfsHash = await mm.setDistributedContent(thisDb, code)
                         if (checkIpfsHash != sha1sum) {
                             console.log("In savev2: checkIpfsHash != sha1sum")
                         }
@@ -1322,6 +1278,47 @@ export const yz = {
     // distributed content helpers for stuff stored in IPFS
     getDistributedContent:          async function  (  thisDb  ,  ipfsHash  ) {},
     setDistributedContent:          async function  (  thisDb  ,  content  ) {
+        let mm = this
+        let promise = new Promise(async function(returnfn) {
+            let justHash = null
+            try {
+                justHash = await OnlyIpfsHash.of(content)
+                let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath,  justHash)
+                fs.writeFileSync(fullIpfsFilePath, content);
+                await mm.insertIpfsHashRecord(thisDb,justHash,null,null,null)
+                await mm.sendIpfsHashToCentralServer(justHash, content)
 
+
+                if (mm.isIPFSConnected) {
+                    let testBuffer = new Buffer(content);
+                    ipfs.files.add(testBuffer, function (err, file) {
+                        if (err) {
+                            console.log("....................................Err: " + err);
+                        }
+                        //console.log("....................................file: " + JSON.stringify(file, null, 2))
+                        let thehash = file[0].hash
+                        //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
+                        const validCID = thehash
+
+                        ipfs.files.get(validCID, function (err, files) {
+                            files.forEach((file) => {
+                                //console.log("....................................file.path: " + file.path)
+                                //console.log(file.content.toString('utf8'))
+                                //console.log("....................................file.path: " + file.path)
+                                returnfn(thehash)
+                            })
+                        })
+                    })
+                } else {
+                    returnfn(justHash)
+                }
+
+            } catch (error) {
+                //outputDebug(error)
+                returnfn(justHash)
+            }
+        })
+        let ipfsHash = await promise
+        return ipfsHash
     }
 }
