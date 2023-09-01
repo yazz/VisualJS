@@ -2560,57 +2560,6 @@ async function  save_code_from_upload                   (  msg  ) {
 }
 
 // IPFS helpers
-async function  findLocalIpfsContent                    (  ) {
-    fs.readdir(fullIpfsFolderPath, async function (err, files) {
-        if (err) {
-            return console.error(err);
-        }
-
-        for (let fileindex=0;fileindex<files.length;fileindex++){
-            let ipfsHashFileName = files[fileindex]
-            if (ipfsHashFileName.length > 10) {
-                try
-                {
-                    //console.log("ipfsHashFileName: " + ipfsHashFileName);
-
-                    let fullFileName = path.join(fullIpfsFolderPath, ipfsHashFileName)
-                    let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
-
-                    let itemType = yz.helpers.getValueOfCodeString(ipfsContent,"component_type")
-                    if (itemType == "COMPONENT_COMMENT") {
-                        let formatType = yz.helpers.getValueOfCodeString(ipfsContent,"format")
-                        if (formatType == "JSON") {
-                            let jsonComment = JSON.parse(ipfsContent)
-                            await insertCommentIntoDb(
-                                {
-                                    baseComponentId:        jsonComment.base_component_id,
-                                    baseComponentIdVersion: jsonComment.base_component_id_version,
-                                    newComment:             jsonComment.comment,
-                                    newRating:              jsonComment.rating,
-                                    dateAndTime:            jsonComment.date_and_time
-                                }
-                            )
-                        }
-                    } else if (itemType == "APP") {
-                        let parsedCode = await parseCode(ipfsContent)
-                        parsedCode.ipfsHash = ipfsHashFileName
-                        await registerIPFS(ipfsHashFileName);
-                    }
-                    //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
-                }
-                catch(exp)
-                {
-                    console.log("ipfsHashFileName : " + ipfsHashFileName + " ERROR!" + exp);
-                }
-
-            }
-        }
-    })
-
-}
-async function  registerIPFS                            (  ipfs_hash  ) {
-    await yz.insertIpfsHashRecord(dbsearch,ipfs_hash,null,null,null)
-}
 async function  tryToLoadComponentFromCache             (  ipfsHash  ) {
     return {value: null}
 }
@@ -2934,46 +2883,7 @@ function        function_call_response                  (  msg  ) {
         result:              msg.result
     });
 }
-async function  parseCode                               (  code  ) {
 
-    let baseComponentIdOfItem = yz.helpers.getValueOfCodeString(code,"base_component_id")
-
-    let itemName = yz.helpers.getValueOfCodeString(code,"display_name")
-
-    let iconUrl = yz.helpers.getValueOfCodeString(code,"logo_url")
-
-    let ipfsHashId = await OnlyIpfsHash.of(code)
-
-    let readWriteStatus = ""
-    let rws = yz.helpers.getValueOfCodeString(code,"read_only")
-    if (rws) {
-        if (rws == true) {
-            readWriteStatus = "read"
-        }
-    }
-
-    let componentType = ""
-    if (yz.helpers.getValueOfCodeString(code,"component_type") == "SYSTEM") {
-        componentType = "system"
-    } else if (yz.helpers.getValueOfCodeString(code,"component_type") == "APP") {
-        componentType = "app"
-    } else if (yz.helpers.getValueOfCodeString(code,"component_type") == "VB") {
-        componentType = "component"
-    }
-    return {
-        ipfsHashId: ipfsHashId
-        ,
-        name: itemName
-        ,
-        type: componentType
-        ,
-        logo: iconUrl
-        ,
-        baseComponentId: baseComponentIdOfItem
-        ,
-        readWriteStatus: readWriteStatus
-    }
-}
 function        callDriverMethod                        (  msg  ) {
 
     callDriverMethodPart2( msg.find_component, msg.args, function(result) {
@@ -3750,7 +3660,7 @@ async function  releaseCode                             (  commitId  ) {
 
     let codeRecord          = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString          = codeRecord.code
-    let parsedCode          = await parseCode(codeString)
+    let parsedCode          = await yz.parseCode(codeString)
     let dataString          = null
     let id                  = uuidv1()
     let base_component_id   = parsedCode.baseComponentId
@@ -4912,7 +4822,6 @@ async function  startServices                           (  ) {
         await yz.tagVersion(dbsearch, ipfsHash, code)
 
 
-        //let parsedCode = await parseCode(code)
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
             ipfsHash:   ipfsHash,
@@ -4932,7 +4841,6 @@ async function  startServices                           (  ) {
         await releaseCode(ipfsHash, code)
 
 
-        //let parsedCode = await parseCode(code)
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
             ipfsHash:   ipfsHash,
@@ -5107,8 +5015,8 @@ async function  startServices                           (  ) {
 
         let ipfsHash = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
-        let parsedCode = await parseCode(ipfsContent)
-        await registerIPFS(ipfsHash);
+        let parsedCode = await yz.parseCode(ipfsContent)
+        await yz.registerIPFS(dbsearch,ipfsHash);
         res.status(200).send('IPFS content registered');
     })
     app.post(   "/http_post_save_code_v3" ,                                 async function (req, res) {
@@ -5508,7 +5416,7 @@ async function  startServices                           (  ) {
         // Check if any JS is loaded
         //--------------------------------------------------------
         await checkForJSLoaded();
-        await findLocalIpfsContent();
+        await yz.findLocalIpfsContent(dbsearch);
 
         setUpSql()
         setUpPredefinedComponents({message_type:       'setUpPredefinedComponents'});

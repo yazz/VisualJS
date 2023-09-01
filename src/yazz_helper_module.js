@@ -516,6 +516,46 @@ export const yz = {
             params
         )
     },
+    parseCode:                      async function  (  code  ) {
+
+        let baseComponentIdOfItem = yz.helpers.getValueOfCodeString(code,"base_component_id")
+
+        let itemName = yz.helpers.getValueOfCodeString(code,"display_name")
+
+        let iconUrl = yz.helpers.getValueOfCodeString(code,"logo_url")
+
+        let ipfsHashId = await OnlyIpfsHash.of(code)
+
+        let readWriteStatus = ""
+        let rws = yz.helpers.getValueOfCodeString(code,"read_only")
+        if (rws) {
+            if (rws == true) {
+                readWriteStatus = "read"
+            }
+        }
+
+        let componentType = ""
+        if (yz.helpers.getValueOfCodeString(code,"component_type") == "SYSTEM") {
+            componentType = "system"
+        } else if (yz.helpers.getValueOfCodeString(code,"component_type") == "APP") {
+            componentType = "app"
+        } else if (yz.helpers.getValueOfCodeString(code,"component_type") == "VB") {
+            componentType = "component"
+        }
+        return {
+            ipfsHashId: ipfsHashId
+            ,
+            name: itemName
+            ,
+            type: componentType
+            ,
+            logo: iconUrl
+            ,
+            baseComponentId: baseComponentIdOfItem
+            ,
+            readWriteStatus: readWriteStatus
+        }
+    },
 
     //code save helpers
     copyFile:                       function        (  source  ,  target  ,  cb  ) {
@@ -1320,5 +1360,60 @@ export const yz = {
         })
         let ipfsHash = await promise
         return ipfsHash
+    },
+    findLocalIpfsContent:           async function  (  thisDb  ) {
+        let mm = this
+        fs.readdir(mm.fullIpfsFolderPath, async function (err, files) {
+            if (err) {
+                return console.error(err);
+            }
+
+            for (let fileindex=0;fileindex<files.length;fileindex++){
+                let ipfsHashFileName = files[fileindex]
+                if (ipfsHashFileName.length > 10) {
+                    try
+                    {
+                        //console.log("ipfsHashFileName: " + ipfsHashFileName);
+
+                        let fullFileName = path.join(mm.fullIpfsFolderPath, ipfsHashFileName)
+                        let ipfsContent = fs.readFileSync(fullFileName, 'utf8')
+
+                        let itemType = yz.helpers.getValueOfCodeString(ipfsContent,"component_type")
+                        if (itemType == "COMPONENT_COMMENT") {
+                            let formatType = yz.helpers.getValueOfCodeString(ipfsContent,"format")
+                            if (formatType == "JSON") {
+                                let jsonComment = JSON.parse(ipfsContent)
+                                await insertCommentIntoDb(
+                                    {
+                                        baseComponentId:        jsonComment.base_component_id,
+                                        baseComponentIdVersion: jsonComment.base_component_id_version,
+                                        newComment:             jsonComment.comment,
+                                        newRating:              jsonComment.rating,
+                                        dateAndTime:            jsonComment.date_and_time
+                                    }
+                                )
+                            }
+                        } else if (itemType == "APP") {
+                            let parsedCode = await mm.parseCode(ipfsContent)
+                            parsedCode.ipfsHash = ipfsHashFileName
+                            await mm.registerIPFS(thisDb, ipfsHashFileName);
+                        }
+                        //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
+                    }
+                    catch(exp)
+                    {
+                        console.log("ipfsHashFileName : " + ipfsHashFileName + " ERROR!" + exp);
+                    }
+
+                }
+            }
+        })
+
+    },
+    registerIPFS:                   async function  (  thisDb  ,  ipfs_hash  ) {
+        let mm = this
+        await mm.insertIpfsHashRecord(thisDb,ipfs_hash,null,null,null)
     }
+
+
 }
