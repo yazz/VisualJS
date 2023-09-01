@@ -1293,9 +1293,9 @@ export const yz = {
 
         let promise = new Promise(async function (returnfn) {
             try {
-                let fullIpfsFilePath = path.join(fullIpfsFolderPath, ipfsHash)
-                let srcCode = fs.readFileSync(fullIpfsFilePath);
-                let baseComponentId = yz.helpers.getValueOfCodeString(srcCode, "base_component_id")
+                let fullIpfsFilePath    = path.join(fullIpfsFolderPath, ipfsHash)
+                let srcCode             = fs.readFileSync(fullIpfsFilePath);
+                let baseComponentId     = yz.helpers.getValueOfCodeString(srcCode, "base_component_id")
 
 
                 /* let properties = yz.helpers.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
@@ -1565,21 +1565,14 @@ export const yz = {
         //                           tryToLoadComponentFromCache
         //
         //---------------------------------------------------------------------------
-        return {value: null}
-    },
-    loadComponentFromIpfs:          async function  (  ipfsHash  ) {
-        //---------------------------------------------------------------------------
-        //                           loadComponentFromIpfs
-        //
-        //---------------------------------------------------------------------------
-        outputDebug("*** loadComponentFromIpfs: *** : " )
+        let mm = this
 
         let promise = new Promise(async function(returnfn) {
             try
             {
-                let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
-                let srcCode = fs.readFileSync(fullIpfsFilePath);
-                let baseComponentId = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
+                let fullIpfsFilePath    = path.join(fullIpfsFolderPath,  ipfsHash)
+                let srcCode             = fs.readFileSync(fullIpfsFilePath);
+                let baseComponentId     = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
 
 
 
@@ -1652,7 +1645,7 @@ export const yz = {
 
         })
         let ret = await promise
-        return ret
+        return {value: ret}
     },
     saveJsonItemToIpfs:             async function  (  jsonItem  ) {
         //---------------------------------------------------------------------------

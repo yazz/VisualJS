@@ -4611,7 +4611,7 @@ async function  startServices                           (  ) {
             if (componentItem.codeId) {
                 componentItem.ipfsHashId = componentItem.codeId
                 if (componentItem.codeId == "QmXXXk8UPNZFDobkyHUYPKzDvfdRp6BJb6ho5fih4f97JW") {
-                    debugger
+                    //debugger
                 }
 
                 resultsRow = await yz.getQuickSqlOneRow(
@@ -4626,7 +4626,6 @@ async function  startServices                           (  ) {
                     ,
                     componentItem.codeId)
 
-                //let ret = await loadComponentFromIpfs(  componentItem.ipfsHashId  )
                 //----------------------------------------------------------------------------
                 // if the component has not been loaded then try to load it from the cache
                 //----------------------------------------------------------------------------
