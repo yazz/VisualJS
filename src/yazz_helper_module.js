@@ -1652,8 +1652,10 @@ export const yz = {
         //                           saveJsonItemToIpfs
         //
         //---------------------------------------------------------------------------
-        let jsonString = JSON.stringify(jsonItem,null,2)
-        await  saveItemToIpfs(jsonString)
+        let mm          = this
+        let jsonString  = JSON.stringify(jsonItem,null,2)
+
+        await  mm.saveItemToIpfs(jsonString)
     },
     saveItemToIpfs:                 async function  (  srcCode  ) {
         //---------------------------------------------------------------------------
@@ -1662,12 +1664,9 @@ export const yz = {
         //
         //
         //---------------------------------------------------------------------------
-        outputDebug("*** saveItemToIpfs: *** : " )
         let promise = new Promise(async function(returnfn) {
             let justHash = null
             try {
-                //console.log("Starting...")
-
                 justHash = await OnlyIpfsHash.of(srcCode)
                 let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
                 fs.writeFileSync(fullIpfsFilePath, srcCode);
