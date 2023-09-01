@@ -310,71 +310,6 @@ export const yz = {
 
         return null
     },
-    sendIpfsHashToCentralServer:    async function  (  ipfs_hash  ,  ipfsContent  ) {
-        let mm = this
-        let centralHost = mm.centralhost
-        let centralPort = mm.centralhostport
-        let promise = new Promise(async function(returnfn) {
-            try {
-                const dataString = JSON.stringify(
-                    {
-                        ipfs_hash: ipfs_hash,
-                        ipfs_content: ipfsContent
-                    })
-
-                let options = {
-                    host: centralHost,
-                    port: centralPort,
-                    path: '/http_post_register_ipfs_content_for_client',
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Content-Length': dataString.length
-                    }
-                };
-//https
-                let theHttpsConn = http
-                if (mm.useHttps) {
-                    theHttpsConn = https
-                }
-                let req = theHttpsConn.request(options, function(res) {
-                    //console.log('STATUS: ' + res.statusCode);
-                    //console.log('HEADERS: ' + JSON.stringify(res.headers));
-                    res.setEncoding('utf8');
-                    res.on('data', function (chunk) {
-                        //console.log('BODY: ' + chunk);
-                    });
-                    res.on('end', function () {
-                        //console.log('end: ' );
-                    });
-                });
-                req.write(dataString)
-                req.end()
-                returnfn()
-            } catch(er) {
-                console.log(er)
-                returnfn()
-            }
-        })
-        await promise
-    },
-    insertIpfsHashRecord:           async function  (  thisDb  ,  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
-        let promise = new Promise(async function(returnfn) {
-            try {
-                thisDb.serialize(function() {
-                    thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
-                    thisDb.run("commit")
-                    returnfn()
-                })
-            } catch(er) {
-                console.log(er)
-                returnfn()
-            }
-        })
-        let ipfsHash = await promise
-        return ipfsHash
-    },
     updateRevisions:                function        (  thisDb  ,  sqlite  ,  baseComponentId  ) {
         //------------------------------------------------------------------------------
         //
@@ -1316,6 +1251,71 @@ export const yz = {
             } catch (error) {
                 //outputDebug(error)
                 returnfn(  {value: justHash, error: error}  )
+            }
+        })
+        let ipfsHash = await promise
+        return ipfsHash
+    },
+    sendIpfsHashToCentralServer:    async function  (  ipfs_hash  ,  ipfsContent  ) {
+        let mm = this
+        let centralHost = mm.centralhost
+        let centralPort = mm.centralhostport
+        let promise = new Promise(async function(returnfn) {
+            try {
+                const dataString = JSON.stringify(
+                    {
+                        ipfs_hash: ipfs_hash,
+                        ipfs_content: ipfsContent
+                    })
+
+                let options = {
+                    host: centralHost,
+                    port: centralPort,
+                    path: '/http_post_register_ipfs_content_for_client',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Content-Length': dataString.length
+                    }
+                };
+//https
+                let theHttpsConn = http
+                if (mm.useHttps) {
+                    theHttpsConn = https
+                }
+                let req = theHttpsConn.request(options, function(res) {
+                    //console.log('STATUS: ' + res.statusCode);
+                    //console.log('HEADERS: ' + JSON.stringify(res.headers));
+                    res.setEncoding('utf8');
+                    res.on('data', function (chunk) {
+                        //console.log('BODY: ' + chunk);
+                    });
+                    res.on('end', function () {
+                        //console.log('end: ' );
+                    });
+                });
+                req.write(dataString)
+                req.end()
+                returnfn()
+            } catch(er) {
+                console.log(er)
+                returnfn()
+            }
+        })
+        await promise
+    },
+    insertIpfsHashRecord:           async function  (  thisDb  ,  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
+        let promise = new Promise(async function(returnfn) {
+            try {
+                thisDb.serialize(function() {
+                    thisDb.run("begin exclusive transaction");
+                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
+                    thisDb.run("commit")
+                    returnfn()
+                })
+            } catch(er) {
+                console.log(er)
+                returnfn()
             }
         })
         let ipfsHash = await promise
