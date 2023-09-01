@@ -1285,6 +1285,10 @@ export const yz = {
 
     // distributed content helpers for stuff stored in IPFS
     getDistributedContent:          async function  (  thisDb  ,  ipfsHash  ) {
+        //---------------------------------------------------------------------------
+        //                           getDistributedContent
+        //
+        //---------------------------------------------------------------------------
         outputDebug("*** getItemFromCache: *** : ")
 
         let promise = new Promise(async function (returnfn) {
@@ -1373,6 +1377,10 @@ export const yz = {
         return ret
     },
     setDistributedContent:          async function  (  thisDb  ,  content  ) {
+        //---------------------------------------------------------------------------
+        //                           setDistributedContent
+        //
+        //---------------------------------------------------------------------------
         let mm = this
         let promise = new Promise(async function(returnfn) {
             let justHash = null
@@ -1417,6 +1425,10 @@ export const yz = {
         return ipfsHash
     },
     sendIpfsHashToCentralServer:    async function  (  ipfs_hash  ,  ipfsContent  ) {
+        //---------------------------------------------------------------------------
+        //                           sendIpfsHashToCentralServer
+        //
+        //---------------------------------------------------------------------------
         let mm = this
         let centralHost = mm.centralhost
         let centralPort = mm.centralhostport
@@ -1438,7 +1450,7 @@ export const yz = {
                         'Content-Length': dataString.length
                     }
                 };
-//https
+
                 let theHttpsConn = http
                 if (mm.useHttps) {
                     theHttpsConn = https
@@ -1465,6 +1477,10 @@ export const yz = {
         await promise
     },
     insertIpfsHashRecord:           async function  (  thisDb  ,  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
+        //---------------------------------------------------------------------------
+        //                           insertIpfsHashRecord
+        //
+        //---------------------------------------------------------------------------
         let promise = new Promise(async function(returnfn) {
             try {
                 thisDb.serialize(function() {
@@ -1482,6 +1498,10 @@ export const yz = {
         return ipfsHash
     },
     findLocalIpfsContent:           async function  (  thisDb  ) {
+        //---------------------------------------------------------------------------
+        //                           findLocalIpfsContent
+        //
+        //---------------------------------------------------------------------------
         let mm = this
         fs.readdir(mm.fullIpfsFolderPath, async function (err, files) {
             if (err) {
@@ -1533,13 +1553,25 @@ export const yz = {
 
     },
     registerIPFS:                   async function  (  thisDb  ,  ipfs_hash  ) {
+        //---------------------------------------------------------------------------
+        //                           registerIPFS
+        //
+        //---------------------------------------------------------------------------
         let mm = this
         await mm.insertIpfsHashRecord(thisDb,ipfs_hash,null,null,null)
     },
     tryToLoadComponentFromCache:    async function  (  ipfsHash  ) {
+        //---------------------------------------------------------------------------
+        //                           tryToLoadComponentFromCache
+        //
+        //---------------------------------------------------------------------------
         return {value: null}
     },
     loadComponentFromIpfs:          async function  (  ipfsHash  ) {
+        //---------------------------------------------------------------------------
+        //                           loadComponentFromIpfs
+        //
+        //---------------------------------------------------------------------------
         outputDebug("*** loadComponentFromIpfs: *** : " )
 
         let promise = new Promise(async function(returnfn) {
@@ -1623,10 +1655,20 @@ export const yz = {
         return ret
     },
     saveJsonItemToIpfs:             async function  (  jsonItem  ) {
+        //---------------------------------------------------------------------------
+        //                           saveJsonItemToIpfs
+        //
+        //---------------------------------------------------------------------------
         let jsonString = JSON.stringify(jsonItem,null,2)
         await  saveItemToIpfs(jsonString)
     },
     saveItemToIpfs:                 async function  (  srcCode  ) {
+        //---------------------------------------------------------------------------
+        //                           saveItemToIpfs
+        //
+        //
+        //
+        //---------------------------------------------------------------------------
         outputDebug("*** saveItemToIpfs: *** : " )
         let promise = new Promise(async function(returnfn) {
             let justHash = null
