@@ -1534,9 +1534,138 @@ export const yz = {
     },
     tryToLoadComponentFromCache:    async function  (  ipfsHash  ) {
         return {value: null}
+    },
+    loadComponentFromIpfs:          async function  (  ipfsHash  ) {
+        outputDebug("*** loadComponentFromIpfs: *** : " )
+
+        let promise = new Promise(async function(returnfn) {
+            try
+            {
+                let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
+                let srcCode = fs.readFileSync(fullIpfsFilePath);
+                let baseComponentId = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
+
+
+
+                /* let properties = yz.helpers.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                 srcCode = yz.helpers.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+                 for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                     let brje = properties[irte]
+                     if (brje.id == "ipfs_hash_id") {
+                         brje.default = ipfsHash
+                     }
+                 }
+
+                 srcCode = yz.helpers.insertCodeString(  srcCode,
+                     "properties",
+                     properties,
+                     ")//prope" + "rties")*/
+
+                await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
+
+                console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
+                returnfn("Done")
+
+            } catch (error) {
+                try
+                {
+
+                    ipfs.files.get(ipfsHash, function (err, files) {
+                        files.forEach(async function(file) {
+                            console.log("....................................Loading component from IPFS: " + file.path)
+                            //console.log(file.content.toString('utf8'))
+                            srcCode = file.content.toString('utf8')
+
+
+
+                            let baseComponentId = yz.helpers.getValueOfCodeString(srcCode,"base_component_id")
+
+
+
+                            let properties = yz.helpers.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
+                            srcCode = yz.helpers.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
+                            for (let irte = 0 ; irte < properties.length ; irte++ ) {
+                                let brje = properties[irte]
+                                if (brje.id == "ipfs_hash_id") {
+                                    brje.default = ipfsHash
+                                }
+                            }
+
+                            srcCode = yz.helpers.insertCodeString(  srcCode,
+                                "properties",
+                                properties,
+                                ")//prope" + "rties")
+
+
+
+                            let fullIpfsFilePath = path.join(fullIpfsFolderPath,  ipfsHash)
+                            fs.writeFileSync(fullIpfsFilePath, srcCode);
+
+                            await addOrUpdateDriver(srcCode ,  {username: "default", reponame: baseComponentId, version: "latest", ipfsHashId: ipfsHash, allowChanges: false})
+
+                            console.log("....................................Loading component fro IPFS: " + file.path)
+                        })
+                        returnfn("Done")
+                    })
+                } catch (error) {
+                    outputDebug(error)
+                }
+            }
+
+
+
+        })
+        let ret = await promise
+        return ret
+    },
+    saveJsonItemToIpfs:             async function  (  jsonItem  ) {
+        let jsonString = JSON.stringify(jsonItem,null,2)
+        await  saveItemToIpfs(jsonString)
+    },
+    saveItemToIpfs:                 async function  (  srcCode  ) {
+        outputDebug("*** saveItemToIpfs: *** : " )
+        let promise = new Promise(async function(returnfn) {
+            let justHash = null
+            try {
+                //console.log("Starting...")
+
+                justHash = await OnlyIpfsHash.of(srcCode)
+                let fullIpfsFilePath = path.join(fullIpfsFolderPath,  justHash)
+                fs.writeFileSync(fullIpfsFilePath, srcCode);
+                await yz.insertIpfsHashRecord(dbsearch,justHash,null,null,null)
+                await yz.sendIpfsHashToCentralServer(justHash, srcCode)
+
+
+                if (isIPFSConnected) {
+                    let testBuffer = new Buffer(srcCode);
+                    ipfs.files.add(testBuffer, function (err, file) {
+                        if (err) {
+                            console.log("....................................Err: " + err);
+                        }
+                        console.log("....................................file: " + JSON.stringify(file, null, 2))
+                        let thehash = file[0].hash
+                        //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
+                        const validCID = thehash
+
+                        ipfs.files.get(validCID, function (err, files) {
+                            files.forEach((file) => {
+                                //console.log("....................................file.path: " + file.path)
+                                //console.log(file.content.toString('utf8'))
+                                //console.log("....................................file.path: " + file.path)
+                                returnfn(thehash)
+                            })
+                        })
+                    })
+                } else {
+                    returnfn(justHash)
+                }
+
+            } catch (error) {
+                outputDebug(error)
+                returnfn(justHash)
+            }
+        })
+        let ipfsHash = await promise
+        return ipfsHash
     }
-
-
-
-
 }
