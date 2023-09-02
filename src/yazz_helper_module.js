@@ -1288,12 +1288,24 @@ export const yz = {
         let ipfsHash = await OnlyIpfsHash.of(  content  )
         return ipfsHash
     },
-    getDistributedContent:          async function  (  thisDb  ,  ipfsHash  ) {
+    getDistributedContent:          async function  (  {  thisDb  ,  ipfsHash  }  ) {
         //---------------------------------------------------------------------------
         //                           getDistributedContent
         //
+        // This gets content from the netowrk. The content could be metadata which
+        // is in JSON format, or Yazz source code which is in plain text. The content
+        // is retreived in the following order:
+        //
+        // 1) content exists locally by checking the database. If it does then get
+        // the content locally
+        //
+        // 2) If we have access to an IPFS server then try to get the content from
+        // there. This step may be skipped for some enterprise environments which
+        // do not allow content to be stored on the public IPFS network
+        //
+        // 3) Get the content from a Yazz peer, which is usually the central server.
+        //
         //---------------------------------------------------------------------------
-        outputDebug("*** getItemFromCache: *** : ")
 
         let promise = new Promise(async function (returnfn) {
             try {
@@ -1384,6 +1396,16 @@ export const yz = {
         //---------------------------------------------------------------------------
         //                           setDistributedContent
         //
+        // Whenever we want to set content so that it is stored in the network
+        // we call this. When this is called we don't really know where the content
+        // has been stored, as the internet may be down, or the peer server may be
+        // down, but at least we can store the situation within the IPFS record that
+        // we store in the database:
+        //
+        // ipfs_hash    TEXT
+        // content_type TEXT
+        // ping_count   INTEGER
+        // last_pinged  INTEGER
         //---------------------------------------------------------------------------
         if (typeof content === 'string') {
             let mm = this
