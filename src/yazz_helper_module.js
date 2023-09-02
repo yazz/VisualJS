@@ -1393,7 +1393,7 @@ export const yz = {
                     justHash = await OnlyIpfsHash.of(content)
                     let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath, justHash)
                     fs.writeFileSync(fullIpfsFilePath, content);
-                    await mm.insertIpfsHashRecord(thisDb, justHash, null, null, null)
+                    await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  }  )
                     await mm.distributeContentToPeer(justHash, content)
 
 
@@ -1579,16 +1579,19 @@ export const yz = {
         })
         await promise
     },
-    insertIpfsHashRecord:           async function  (  thisDb  ,  ipfs_hash  ,  content_type  ,  ping_count  ,  last_pinged  ) {
+    insertIpfsHashRecord:           async function  (  {  thisDb  ,  ipfsHash  ,  content_type  ,  ping_count  ,  last_pinged  }  ) {
         //---------------------------------------------------------------------------
         //                           insertIpfsHashRecord
         //
+        // This inserts ONLY the IPFS content KEY in the internal database. This
+        // database lets us keep track of which IPFS hashes have been cached on
+        // the local machine on the filesystem
         //---------------------------------------------------------------------------
         let promise = new Promise(async function(returnfn) {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  ping_count,  last_pinged  )
+                    stmtInsertIpfsHash.run(  ipfsHash,  content_type,  ping_count,  last_pinged  )
                     thisDb.run("commit")
                     returnfn()
                 })
@@ -1597,8 +1600,8 @@ export const yz = {
                 returnfn()
             }
         })
-        let ipfsHash = await promise
-        return ipfsHash
+        let ret = await promise
+        return ret
     },
     findLocallyCachedIpfsContent:   async function  (  thisDb  ) {
         //---------------------------------------------------------------------------
@@ -1664,7 +1667,7 @@ export const yz = {
         //
         //---------------------------------------------------------------------------
         let mm = this
-        await mm.insertIpfsHashRecord(  thisDb  ,  ipfs_hash  ,  null  ,  null  ,  null  )
+        await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: ipfs_hash  }  )
     },
     saveItemToIpfs:                 async function  (  srcCode  ) {
         //---------------------------------------------------------------------------
@@ -1680,7 +1683,7 @@ export const yz = {
                 let fullIpfsFilePath    = path.join(  fullIpfsFolderPath  ,  justHash  )
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
-                await yz.insertIpfsHashRecord(  dbsearch  ,  justHash  ,  null  ,  null  ,  null  )
+                await yz.insertIpfsHashRecord(  { thisDb: dbsearch  ,  ipfsHash: justHash  }  )
                 await yz.distributeContentToPeer(  justHash  ,  srcCode  )
 
                 if (  isIPFSConnected  ) {
