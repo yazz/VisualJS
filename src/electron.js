@@ -4766,7 +4766,6 @@ async function  startServices                           (  ) {
 
         let ipfsHash    = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
-        await yz.getSrcCodePropertiesAsJson(  {  code: ipfsContent  }  )
         await yz.registerIPFS(dbsearch,ipfsHash);
         res.status(200).send('IPFS content registered');
     })

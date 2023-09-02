@@ -1680,8 +1680,6 @@ export const yz = {
                                     )
                                 }
                             } else if (itemType == "APP") {
-                                let parsedCode = await mm.getSrcCodePropertiesAsJson(  {  code: ipfsContent  }  )
-                                parsedCode.ipfsHash = ipfsHashFileName
                                 await mm.registerIPFS(thisDb, ipfsHashFileName);
                             }
                             //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
