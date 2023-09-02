@@ -3402,7 +3402,7 @@ async function  releaseCode                             (  commitId  ) {
 
     let codeRecord          = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString          = codeRecord.code
-    let parsedCode          = await yz.getSrcCodePropertiesAsJson(codeString)
+    let parsedCode          = await yz.getSrcCodePropertiesAsJson(  {  code: codeString  }  )
     let dataString          = null
     let id                  = uuidv1()
     let base_component_id   = parsedCode.baseComponentId
@@ -4766,7 +4766,7 @@ async function  startServices                           (  ) {
 
         let ipfsHash    = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
-        await yz.getSrcCodePropertiesAsJson(ipfsContent)
+        await yz.getSrcCodePropertiesAsJson(  {  code: ipfsContent  }  )
         await yz.registerIPFS(dbsearch,ipfsHash);
         res.status(200).send('IPFS content registered');
     })

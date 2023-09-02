@@ -524,7 +524,7 @@ export const yz = {
             params
         )
     },
-    getSrcCodePropertiesAsJson:     async function  (  code  ) {
+    getSrcCodePropertiesAsJson:     async function  (  {  code  }  ) {
         //---------------------------------------------------------------------------
         //
         //                          getSrcCodePropertiesAsJson( ... )
@@ -1680,7 +1680,7 @@ export const yz = {
                                     )
                                 }
                             } else if (itemType == "APP") {
-                                let parsedCode = await mm.getSrcCodePropertiesAsJson(ipfsContent)
+                                let parsedCode = await mm.getSrcCodePropertiesAsJson(  {  code: ipfsContent  }  )
                                 parsedCode.ipfsHash = ipfsHashFileName
                                 await mm.registerIPFS(thisDb, ipfsHashFileName);
                             }
