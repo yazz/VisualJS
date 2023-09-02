@@ -1563,10 +1563,13 @@ export const yz = {
     },
     distributeContentToPeer:        async function  (  ipfs_hash  ,  ipfsContent  ) {
         //---------------------------------------------------------------------------
-        //                           distributeContentToPeer
+        //
+        //                           distributeContentToPeer(  )
+        //                           ---------------------------
         //
         // What this function does is that it sends a piece of content to a "peer",
         // which is by default the central Yazz server
+        //
         //---------------------------------------------------------------------------
         let mm          = this
 
@@ -1616,11 +1619,14 @@ export const yz = {
     },
     insertIpfsHashRecord:           async function  (  {  thisDb  ,  ipfsHash  ,  content_type  ,  ping_count  ,  last_pinged  }  ) {
         //---------------------------------------------------------------------------
-        //                           insertIpfsHashRecord
+        //
+        //                           insertIpfsHashRecord( )
+        //                           -----------------------
         //
         // This inserts ONLY the IPFS content KEY in the internal database. This
         // database lets us keep track of which IPFS hashes have been cached on
         // the local machine on the filesystem
+        //
         //---------------------------------------------------------------------------
         let promise = new Promise(async function(returnfn) {
             try {
@@ -1640,7 +1646,14 @@ export const yz = {
     },
     findLocallyCachedIpfsContent:   async function  (  thisDb  ) {
         //---------------------------------------------------------------------------
-        //                           findLocallyCachedIpfsContent
+        //
+        //                           findLocallyCachedIpfsContent(  )
+        //                           --------------------------------
+        //
+        // This is called when we start up the system, and it checks the IPFS cache
+        // directory which has been populated previously by Yazz. This directory uses
+        // the IPFS key as the filename and the files contents is the IPFS content
+        // that has been hashed
         //
         //---------------------------------------------------------------------------
         let mm = this
@@ -1696,9 +1709,12 @@ export const yz = {
     },
     saveItemToIpfs:                 async function  (  srcCode  ) {
         //---------------------------------------------------------------------------
-        //                           saveItemToIpfs
         //
+        //                           saveItemToIpfs( .. )
+        //                           --------------------
         //
+        // This is only called from the fn "setDistributedContent( )" if we choose
+        // to store data in IPFS
         //
         //---------------------------------------------------------------------------
         let promise = new Promise(async function(returnfn) {
