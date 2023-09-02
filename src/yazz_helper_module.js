@@ -524,17 +524,29 @@ export const yz = {
             params
         )
     },
-    parseCode:                      async function  (  code  ) {
-
+    getSrcCodePropertiesAsJson:     async function  (  code  ) {
+        //---------------------------------------------------------------------------
+        //
+        //                          getSrcCodePropertiesAsJson( ... )
+        //                         -----------------
+        //
+        // This is called on a peer (from a client) and given some Yazz source code
+        // it parses the code a returns a simple JSON structure with the main details
+        // of the code in it
+        //
+        // Notes:
+        // - what happens if we register a false or bad IPFS address? All code sent
+        //   here should be validated
+        //---------------------------------------------------------------------------
         let baseComponentIdOfItem   = yz.helpers.getValueOfCodeString(code,"base_component_id")
         let itemName                = yz.helpers.getValueOfCodeString(code,"display_name")
         let iconUrl                 = yz.helpers.getValueOfCodeString(code,"logo_url")
         let ipfsHashId              = await OnlyIpfsHash.of(code)
         let readWriteStatus         = ""
-        let rws                     = yz.helpers.getValueOfCodeString(code,"read_only")
+        let readOnly                = yz.helpers.getValueOfCodeString(code,"read_only")
 
-        if (rws) {
-            if (rws == true) {
+        if (readOnly) {
+            if (readOnly == true) {
                 readWriteStatus = "read"
             }
         }
@@ -1668,7 +1680,7 @@ export const yz = {
                                     )
                                 }
                             } else if (itemType == "APP") {
-                                let parsedCode = await mm.parseCode(ipfsContent)
+                                let parsedCode = await mm.getSrcCodePropertiesAsJson(ipfsContent)
                                 parsedCode.ipfsHash = ipfsHashFileName
                                 await mm.registerIPFS(thisDb, ipfsHashFileName);
                             }

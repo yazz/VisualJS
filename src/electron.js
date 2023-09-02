@@ -3402,7 +3402,7 @@ async function  releaseCode                             (  commitId  ) {
 
     let codeRecord          = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
     let codeString          = codeRecord.code
-    let parsedCode          = await yz.parseCode(codeString)
+    let parsedCode          = await yz.getSrcCodePropertiesAsJson(codeString)
     let dataString          = null
     let id                  = uuidv1()
     let base_component_id   = parsedCode.baseComponentId
@@ -4760,13 +4760,13 @@ async function  startServices                           (  ) {
         // network content
         //
         // Notes:
-        // - what happens if we register a false or bad IPFS address? All code sent here
-        //   should be validated
+        // - what happens if we register a false or bad IPFS address? All code sent
+        //   here should be validated
         //---------------------------------------------------------------------------
 
         let ipfsHash    = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
-        await yz.parseCode(ipfsContent)
+        await yz.getSrcCodePropertiesAsJson(ipfsContent)
         await yz.registerIPFS(dbsearch,ipfsHash);
         res.status(200).send('IPFS content registered');
     })
