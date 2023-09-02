@@ -1284,6 +1284,10 @@ export const yz = {
     },
 
     // distributed content public API
+    getDistributedKey:              async function  (  content  ) {
+        let ipfsHash = await OnlyIpfsHash.of(  content  )
+        return ipfsHash
+    },
     getDistributedContent:          async function  (  thisDb  ,  ipfsHash  ) {
         //---------------------------------------------------------------------------
         //                           getDistributedContent

@@ -232,7 +232,6 @@ let allForked                           = []
 // ------------------------------------------------------------
 
 const ipfsAPI = require('ipfs-api');
-const OnlyIpfsHash = require('ipfs-only-hash')
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
@@ -4610,7 +4609,7 @@ async function  startServices                           (  ) {
             //----------------------------------------------------------------------------
             if (componentItem.codeId) {
                 componentItem.ipfsHashId = componentItem.codeId
-                if (componentItem.codeId == "QmXXXk8UPNZFDobkyHUYPKzDvfdRp6BJb6ho5fih4f97JW") {
+                if (componentItem.codeId == "QmZ8GbRXTqQyESgVSEm5U6jMGzLMcb2ip8a5fMQUNqYjAP") {
                     //debugger
                 }
 
@@ -4725,7 +4724,7 @@ async function  startServices                           (  ) {
         //
         let code = req.body.text;
 
-        let ipfsHash = await OnlyIpfsHash.of(code)
+        let ipfsHash = await yz.getDistributedKey(code)
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
             ipfsHash: ipfsHash,
