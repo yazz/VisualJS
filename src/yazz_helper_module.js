@@ -1394,7 +1394,7 @@ export const yz = {
                     let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath, justHash)
                     fs.writeFileSync(fullIpfsFilePath, content);
                     await mm.insertIpfsHashRecord(thisDb, justHash, null, null, null)
-                    await mm.sendIpfsHashToCentralServer(justHash, content)
+                    await mm.distributeContentToPeer(justHash, content)
 
 
                     if (mm.isIPFSConnected) {
@@ -1526,31 +1526,32 @@ export const yz = {
         let ret = await promise
         return {value: ret}
     },
-    sendIpfsHashToCentralServer:    async function  (  ipfs_hash  ,  ipfsContent  ) {
+    distributeContentToPeer:        async function  (  ipfs_hash  ,  ipfsContent  ) {
         //---------------------------------------------------------------------------
-        //                           sendIpfsHashToCentralServer
+        //                           distributeContentToPeer
         //
+        // What this function does is that it sends a piece of content to a "peer",
+        // which is by default the central Yazz server
         //---------------------------------------------------------------------------
-        let mm = this
-        let centralHost = mm.centralhost
-        let centralPort = mm.centralhostport
-        let promise = new Promise(async function(returnfn) {
+        let mm          = this
+
+        let promise     = new Promise(async function(returnfn) {
             try {
                 const dataString = JSON.stringify(
                     {
-                        ipfs_hash: ipfs_hash,
-                        ipfs_content: ipfsContent
+                        ipfs_hash:      ipfs_hash,
+                        ipfs_content:   ipfsContent
                     })
 
                 let options = {
-                    host: centralHost,
-                    port: centralPort,
-                    path: '/http_post_register_ipfs_content_for_client',
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Content-Length': dataString.length
-                    }
+                    host:       mm.centralhost,
+                    port:       mm.centralhostport,
+                    path:       '/http_post_register_ipfs_content_for_client',
+                    method:     'POST',
+                    headers:    {
+                                    'Content-Type': 'application/json',
+                                    'Content-Length': dataString.length
+                                }
                 };
 
                 let theHttpsConn = http
@@ -1680,7 +1681,7 @@ export const yz = {
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
                 await yz.insertIpfsHashRecord(  dbsearch  ,  justHash  ,  null  ,  null  ,  null  )
-                await yz.sendIpfsHashToCentralServer(  justHash  ,  srcCode  )
+                await yz.distributeContentToPeer(  justHash  ,  srcCode  )
 
                 if (  isIPFSConnected  ) {
                     let testBuffer = new Buffer(  srcCode  );
