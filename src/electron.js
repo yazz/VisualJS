@@ -4752,13 +4752,21 @@ async function  startServices                           (  ) {
         console.log("/http_post_add_or_update_app:addOrUpdateDriver completed")
         res.status(200).send('Code registered');
     })
-    app.post(   '/http_post_register_ipfs_content_for_client',              async function (req, res) {
-        /* what happens if we register a false or bad IPFS address? All code sent here
-         *  should be validated */
+    app.post(   '/http_post_copy_distributed_content_sent_from_client',              async function (req, res) {
+        //---------------------------------------------------------------------------
+        //            POST  /http_post_copy_distributed_content_sent_from_client
+        //
+        // This is called on a peer (from a client) and tries to make a copy of some
+        // network content
+        //
+        // Notes:
+        // - what happens if we register a false or bad IPFS address? All code sent here
+        //   should be validated
+        //---------------------------------------------------------------------------
 
-        let ipfsHash = req.body.ipfs_hash
+        let ipfsHash    = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
-        let parsedCode = await yz.parseCode(ipfsContent)
+        await yz.parseCode(ipfsContent)
         await yz.registerIPFS(dbsearch,ipfsHash);
         res.status(200).send('IPFS content registered');
     })

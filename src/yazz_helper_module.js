@@ -526,16 +526,13 @@ export const yz = {
     },
     parseCode:                      async function  (  code  ) {
 
-        let baseComponentIdOfItem = yz.helpers.getValueOfCodeString(code,"base_component_id")
+        let baseComponentIdOfItem   = yz.helpers.getValueOfCodeString(code,"base_component_id")
+        let itemName                = yz.helpers.getValueOfCodeString(code,"display_name")
+        let iconUrl                 = yz.helpers.getValueOfCodeString(code,"logo_url")
+        let ipfsHashId              = await OnlyIpfsHash.of(code)
+        let readWriteStatus         = ""
+        let rws                     = yz.helpers.getValueOfCodeString(code,"read_only")
 
-        let itemName = yz.helpers.getValueOfCodeString(code,"display_name")
-
-        let iconUrl = yz.helpers.getValueOfCodeString(code,"logo_url")
-
-        let ipfsHashId = await OnlyIpfsHash.of(code)
-
-        let readWriteStatus = ""
-        let rws = yz.helpers.getValueOfCodeString(code,"read_only")
         if (rws) {
             if (rws == true) {
                 readWriteStatus = "read"
@@ -551,17 +548,12 @@ export const yz = {
             componentType = "component"
         }
         return {
-            ipfsHashId: ipfsHashId
-            ,
-            name: itemName
-            ,
-            type: componentType
-            ,
-            logo: iconUrl
-            ,
-            baseComponentId: baseComponentIdOfItem
-            ,
-            readWriteStatus: readWriteStatus
+            ipfsHashId:         ipfsHashId,
+            name:               itemName,
+            type:               componentType,
+            logo:               iconUrl,
+            baseComponentId:    baseComponentIdOfItem,
+            readWriteStatus:    readWriteStatus
         }
     },
 
@@ -1285,6 +1277,15 @@ export const yz = {
 
     // distributed content public API
     getDistributedKey:              async function  (  content  ) {
+        //---------------------------------------------------------------------------
+        //                           getDistributedKey
+        //
+        // Given a piece of content, get the distributed key. This key will be
+        // IPFS Multiformats compliant, so it should start with QM.... or Baf... or
+        // something like that. This is actually needed because in the front end of
+        // Yazz we often need the IPFS hash of some content (via the getIpfsHash( ) fn)
+        // just in case the front end IPFS server is not available
+        //---------------------------------------------------------------------------
         let ipfsHash = await OnlyIpfsHash.of(  content  )
         return ipfsHash
     },
@@ -1292,9 +1293,9 @@ export const yz = {
         //---------------------------------------------------------------------------
         //                           getDistributedContent
         //
-        // This gets content from the netowrk. The content could be metadata which
+        // This gets content from the network. The content could be metadata which
         // is in JSON format, or Yazz source code which is in plain text. The content
-        // is retreived in the following order:
+        // is retrieved in the following order:
         //
         // 1) content exists locally by checking the database. If it does then get
         // the content locally
@@ -1568,7 +1569,7 @@ export const yz = {
                 let options = {
                     host:       mm.centralhost,
                     port:       mm.centralhostport,
-                    path:       '/http_post_register_ipfs_content_for_client',
+                    path:       '/http_post_copy_distributed_content_sent_from_client',
                     method:     'POST',
                     headers:    {
                                     'Content-Type': 'application/json',
