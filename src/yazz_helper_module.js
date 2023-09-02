@@ -1680,7 +1680,7 @@ export const yz = {
                                     )
                                 }
                             } else if (itemType == "APP") {
-                                await mm.registerIPFS(thisDb, ipfsHashFileName);
+                                await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
                             }
                             //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
                         }
@@ -1693,14 +1693,6 @@ export const yz = {
                 }
             })
 
-    },
-    registerIPFS:                   async function  (  thisDb  ,  ipfs_hash  ) {
-        //---------------------------------------------------------------------------
-        //                           registerIPFS
-        //
-        //---------------------------------------------------------------------------
-        let mm = this
-        await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: ipfs_hash  }  )
     },
     saveItemToIpfs:                 async function  (  srcCode  ) {
         //---------------------------------------------------------------------------

@@ -4766,7 +4766,7 @@ async function  startServices                           (  ) {
 
         let ipfsHash    = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
-        await yz.registerIPFS(dbsearch,ipfsHash);
+        await yz.setDistributedContent(  {  thisDb: dbsearch  ,  ipfsHash: ipfsContent  }  )
         res.status(200).send('IPFS content registered');
     })
     app.post(   "/http_post_save_code_v3" ,                                 async function (req, res) {
