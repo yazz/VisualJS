@@ -4609,8 +4609,8 @@ async function  startServices                           (  ) {
             //----------------------------------------------------------------------------
             if (componentItem.codeId) {
                 componentItem.ipfsHashId = componentItem.codeId
-                if (componentItem.codeId == "QmZ8GbRXTqQyESgVSEm5U6jMGzLMcb2ip8a5fMQUNqYjAP") {
-                    //debugger
+                if (componentItem.codeId == "QmSpbSy1xiaMCoyD2SPpiFA4rrLbifi8Jc9dbDFgNyXoCR") {
+                    debugger
                 }
 
                 resultsRow = await yz.getQuickSqlOneRow(
@@ -5213,10 +5213,6 @@ async function  startServices                           (  ) {
 }
 
 async function  universalSaveStaticUIControl            (  { sha1sum , unescapedCode , baseComponentId , loadMethod }  ) {
-    console.log("Called universalSaveStaticUIControl: " + sha1sum + " for " + baseComponentId)
-    if (sha1sum == "QmX8ELNKaQcKLDfqtWVCUFnzBtBu5T9RnANm7yjmmKgfr4") {
-        debugger
-    }
     await yz.saveCodeV3(
         dbsearch,
         unescapedCode,
