@@ -4602,20 +4602,18 @@ async function  startServices                           (  ) {
                 // if the component has not been loaded then try to load it from the cache
                 //----------------------------------------------------------------------------
                 if (!resultsRow) {
-                    let componentInCacheLoadResult = await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
-                    if ( componentInCacheLoadResult.value ) {
-                        resultsRow = await yz.getQuickSqlOneRow(
-                            dbsearch
-                            ,
-                            `SELECT  
-                            system_code.*  
-                        FROM
-                            system_code  
-                        WHERE  
-                            id  = ?`
-                            ,
-                            componentItem.codeId)
-                    }
+                    await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
+                    resultsRow = await yz.getQuickSqlOneRow(
+                        dbsearch
+                        ,
+                        `SELECT  
+                        system_code.*  
+                    FROM
+                        system_code  
+                    WHERE  
+                        id  = ?`
+                        ,
+                        componentItem.codeId)
                 }
 
 
