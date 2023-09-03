@@ -1061,6 +1061,33 @@ export const yz = {
         let ret = await promise;
         return ret
     },
+    addOrUpdateDriver:              async function  (  thisDb  ,  codeString  ,  options ) {
+        //------------------------------------------------------------------------------
+        //
+        //
+        //
+        //
+        //
+        //------------------------------------------------------------------------------
+        let mm = this
+
+        try {
+            let saveRet = await mm.saveCodeV3(thisDb,    codeString  ,options);
+            let codeId = null
+            if (saveRet) {
+                codeId = saveRet.code_id
+            }
+            return {codeId: codeId}
+
+
+
+        } catch(err) {
+            console.log(err);
+            let stack = new Error().stack
+            console.log( stack )
+            return {error: err}
+        }
+    },
 
     // code execution helpers
     getPipelineCode:                async function  (  args  ) {
@@ -1319,10 +1346,11 @@ export const yz = {
         // 3) Get the content from a Yazz peer, which is usually the central server.
         //
         //---------------------------------------------------------------------------
+        let mm = this
 
         let promise = new Promise(async function (returnfn) {
             try {
-                let fullIpfsFilePath    = path.join(fullIpfsFolderPath, ipfsHash)
+                let fullIpfsFilePath    = path.join(mm.fullIpfsFolderPath, ipfsHash)
                 let srcCode             = fs.readFileSync(fullIpfsFilePath);
                 let baseComponentId     = yz.helpers.getValueOfCodeString(srcCode, "base_component_id")
 
@@ -1341,13 +1369,18 @@ export const yz = {
                      properties,
                      ")//prope" + "rties")*/
 
-                await addOrUpdateDriver(srcCode, {
-                    username: "default",
-                    reponame: baseComponentId,
-                    version: "latest",
-                    ipfsHashId: ipfsHash,
-                    allowChanges: false
-                })
+                await mm.addOrUpdateDriver(
+                    thisDb
+                    ,
+                    srcCode
+                    ,
+                    {
+                        username:       "default",
+                        reponame:       baseComponentId,
+                        version:        "latest",
+                        ipfsHashId:     ipfsHash,
+                        allowChanges:   false
+                    })
 
                 console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
                 returnfn("Done")

@@ -3123,39 +3123,12 @@ async function  evalLocalSystemDriver                   (  location , options  )
     let ret
     try {
         let evalDriver = fs.readFileSync(location);
-    	ret = await addOrUpdateDriver(evalDriver,options)
+    	ret = await yz.addOrUpdateDriver(dbsearch,evalDriver,options)
     } catch (error) {
         console.log("Location: " + location)
         outputDebug(error)
     }
     return ret
-}
-async function  addOrUpdateDriver                       (  codeString  ,  options ) {
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
-
-    try {
-        let saveRet = await yz.saveCodeV3(dbsearch,    codeString  ,options);
-        let codeId = null
-        if (saveRet) {
-            codeId = saveRet.code_id
-        }
-        return {codeId: codeId}
-
-
-
-      } catch(err) {
-          console.log(err);
-          let stack = new Error().stack
-          console.log( stack )
-          return {error: err}
-
-      }
 }
 function        localComponentPath                      (  localPath  ) {
  return path.join(__dirname, '../public/visifile_drivers' + localPath)
@@ -4742,7 +4715,11 @@ async function  startServices                           (  ) {
         let ipfsHash = req.body.ipfs_hash
         console.log("/http_post_add_or_update_app:ipfsHash := " + ipfsHash)
 
-        await addOrUpdateDriver(srcCode ,
+        await yz.addOrUpdateDriver(
+            dbsearch
+            ,
+            srcCode
+            ,
             {
                 save_html: true,
                 username: "default",
@@ -5001,7 +4978,7 @@ async function  startServices                           (  ) {
         //
         // save the new smart contract component
         //
-        let codeRet = await addOrUpdateDriver(srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
+        let codeRet = await yz.addOrUpdateDriver(dbsearch,srcText ,  {username: "default", reponame: copy_base_component_id, version: "latest"})
         let codeId = codeRet.codeId
 
 
