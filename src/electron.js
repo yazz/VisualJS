@@ -954,10 +954,7 @@ function        setupForkedProcess                      (  processName  ,  fileN
                                                   });
 
           }
-
         }
-
-
 
         outputDebug("Started subprocess '" + processName + "' ")
     },200)
@@ -5205,3 +5202,7 @@ async function  universalSaveStaticUIControl            (  { sha1sum , unescaped
 
 //setInterval(updateRunningTimeForprocess,1000)
 //setInterval(findLongRunningProcesses,1000)
+
+setInterval(async function() {
+    await yz.synchonizeContentAmongPeers( dbsearch )
+},1000)

@@ -1558,14 +1558,14 @@ module.exports = {
                     theHttpsConn = https
                 }
                 let req = theHttpsConn.request(options, function(res) {
-                    //console.log('STATUS: ' + res.statusCode);
-                    //console.log('HEADERS: ' + JSON.stringify(res.headers));
+                    console.log('STATUS: ' + res.statusCode);
+                    console.log('HEADERS: ' + JSON.stringify(res.headers));
                     res.setEncoding('utf8');
                     res.on('data', function (chunk) {
-                        //console.log('BODY: ' + chunk);
+                        console.log('BODY: ' + chunk);
                     });
                     res.on('end', function () {
-                        //console.log('end: ' );
+                        console.log('end: ' );
                     });
                 });
                 req.write(dataString)
@@ -1720,5 +1720,8 @@ module.exports = {
         })
         let ipfsHash = await promise
         return ipfsHash
+    },
+    synchonizeContentAmongPeers:    async function  (  thisDb  ) {
+        console.log("Sync")
     }
 }
