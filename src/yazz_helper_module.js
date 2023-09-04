@@ -1,4 +1,4 @@
-import { createRequire } from 'module';
+import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const OnlyIpfsHash                              = require("ipfs-only-hash");
 const path                                      = require("path");
@@ -15,7 +15,7 @@ let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
 let stmtInsertIpfsHash;
 const ipfsAPI = require('ipfs-api');
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);

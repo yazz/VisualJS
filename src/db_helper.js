@@ -1,4 +1,4 @@
-import { createRequire } from 'module';
+import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 var async           = require('async');
 var path                        = require('path');

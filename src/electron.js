@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { createRequire } from 'module';
+import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const useragent = require('express-useragent');
@@ -21,7 +21,7 @@ let processesRetryingCount              = 0
 let localappdata
 let visifile                            = null
 const path                              = require("path");
-import fork from 'child_process';
+import fork from 'node:child_process';
 let fs                                  = require2('fs');
 let ip                                  = require2('ip');
 let isWin                               = /^win/.test(process.platform);
@@ -62,7 +62,7 @@ let setProcessToIdle;
 let setProcessRunningDurationMs;
 let insertIntoProcessTable              = null;
 let updateProcessTable                  = null;
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
