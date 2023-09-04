@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 
-import { createRequire } from 'node:module';
+let sqlite3 =  require("sqlite3");
 
-const require = createRequire(import.meta.url);
 const useragent = require('express-useragent');
 let cookieParser = require('cookie-parser')
 let Web3 = require('web3')
 let web3 = new Web3()
 let isIPFSConnected = false
-import {yz} from './yazz_helper_module.js'
+let yz = require('./yazz_helper_module.js')
 
 let showProgress                        = false
 let showDebug                           = false
@@ -21,7 +20,7 @@ let processesRetryingCount              = 0
 let localappdata
 let visifile                            = null
 const path                              = require("path");
-import fork from 'node:child_process';
+let fork = require('node:child_process');
 let fs                                  = require2('fs');
 let ip                                  = require2('ip');
 let isWin                               = /^win/.test(process.platform);
@@ -36,7 +35,7 @@ let isDocker                            = require2('is-docker');
 let ls                                  = require2('ls-sync');
 let rimraf                              = require2("rimraf");
 let forge                               = require2('node-forge');
-import {db_helper} from "./db_helper.js"
+let db_helper=require("./db_helper.js")
 let pidusage                            = require2("pidusage");
 let mkdirp                              = require2('mkdirp')
 let uuidv1                              = require2('uuid/v1');
@@ -62,10 +61,7 @@ let setProcessToIdle;
 let setProcessRunningDurationMs;
 let insertIntoProcessTable              = null;
 let updateProcessTable                  = null;
-import { fileURLToPath } from 'node:url';
-const __filename = fileURLToPath(import.meta.url);
-
-const __dirname = path.dirname(__filename);
+let fileURLToPath =require('node:url').fileURLToPath;
 
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
@@ -132,10 +128,7 @@ let program                             = require2('commander');
 let bodyParser                          = require2('body-parser');
 let multer                              = require2('multer');
 let cors                                = require2('cors')
-let sqlNodePath                         = path.join(nodeModulesPath,'node_modules/sqlite3')
-//console.log("sqlNodePath: " + sqlNodePath)
-let sqlite3                             = null
-sqlite3                                 = require(sqlNodePath);
+
 let Keycloak                            = require2('keycloak-connect');
 let session                             = require2('express-session');
 let memoryStore                         = new session.MemoryStore();

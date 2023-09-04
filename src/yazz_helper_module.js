@@ -1,8 +1,7 @@
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
 const OnlyIpfsHash                              = require("ipfs-only-hash");
 const path                                      = require("path");
-let sqlite3                                     = require('sqlite3');
+//let sqlite3                                     = require('bun:sqlite');
+let sqlite3 =require("sqlite3");
 let uuidv1                                      = require('uuid/v1');
 let http                                        = require('http')
 let https                                       = require('https');
@@ -15,10 +14,7 @@ let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
 let stmtInsertIpfsHash;
 const ipfsAPI = require('ipfs-api');
-import { fileURLToPath } from 'node:url';
-const __filename = fileURLToPath(import.meta.url);
-
-const __dirname = path.dirname(__filename);
+let fileURLToPath =require( 'node:url').fileURLToPath;
 
 //const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
 const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
@@ -26,7 +22,7 @@ const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
 
 
 
-export const yz = {
+module.exports = {
     helpers: {
         insertCodeString:               function        (  code  ,  st  ,  vall  ,  optionalEnd  ) {
             let endIndicator = ")"
@@ -538,6 +534,7 @@ export const yz = {
         // - what happens if we register a false or bad IPFS address? All code sent
         //   here should be validated
         //---------------------------------------------------------------------------
+        let yz=this
         let baseComponentIdOfItem   = yz.helpers.getValueOfCodeString(code,"base_component_id")
         let itemName                = yz.helpers.getValueOfCodeString(code,"display_name")
         let iconUrl                 = yz.helpers.getValueOfCodeString(code,"logo_url")

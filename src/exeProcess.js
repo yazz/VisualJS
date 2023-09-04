@@ -1,5 +1,3 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
 var fs                              = require('fs');
 var path                            = require('path');
 var mkdirp                          = require('mkdirp')
@@ -14,7 +12,7 @@ var currentArgs                     = null
 let electronApp                     = false
 let nodeModulesPath                 = process.cwd()
 var os                              = require('os')
-import {db_helper} from "./db_helper.js"
+let db_helper = require("./db_helper.js")
 var https                           = require('https');
 var http                            = require('http');
 var request                         = require('request');
@@ -39,7 +37,7 @@ var stmtInsertProcessError;
 var inUse                           = false
 var callbackIndex                   = 0
 var currentCallbackIndex            = -1
-import {yz} from './yazz_helper_module.js'
+let yz = require('./yazz_helper_module.js')
 var callbackList                    = new Object()
 
 
@@ -62,7 +60,8 @@ if (process.execPath) {
 
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
-var sqlite3                     = require("sqlite3");
+//var sqlite3                     = require("bun:sqlite");
+let sqlite3 = require("sqlite3");
 
 //username = os.userInfo().username.toLowerCase();
 username = "node"
