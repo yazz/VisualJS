@@ -1384,7 +1384,7 @@ module.exports = {
                         allowChanges:   false
                     })
 
-                console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
+                //console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
                 returnfn("Done")
 
             } catch (error) {
