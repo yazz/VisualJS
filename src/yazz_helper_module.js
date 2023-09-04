@@ -1,7 +1,11 @@
 const OnlyIpfsHash                              = require("ipfs-only-hash");
 const path                                      = require("path");
-//let sqlite3                                     = require('bun:sqlite');
-let sqlite3 =require("sqlite3");
+let sqlite3
+if (process.versions.bun) {
+    sqlite3 =  require("bun:sqlite");
+} else {
+    sqlite3 =  require("sqlite3");
+}
 let uuidv1                                      = require('uuid/v1');
 let http                                        = require('http')
 let https                                       = require('https');

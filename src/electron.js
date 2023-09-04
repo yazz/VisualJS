@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-let sqlite3 =  require("sqlite3");
+let sqlite3
+if (process.versions.bun) {
+    sqlite3 =  require("bun:sqlite");
+} else {
+    sqlite3 =  require("sqlite3");
+}
 
 const useragent = require('express-useragent');
 let cookieParser = require('cookie-parser')

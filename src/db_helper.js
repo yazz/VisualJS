@@ -15,7 +15,12 @@ if (process.execPath) {
 
 let sqlNodePath = path.join(nodeModulesPath,'node_modules/sqlite3')
 //console.log("sqlNodePath: " + sqlNodePath)
-var sqlite3                  = require(sqlNodePath);
+let sqlite3
+if (process.versions.bun) {
+    sqlite3 =  require("bun:sqlite");
+} else {
+    sqlite3 =  require("sqlite3");
+}
 
 
 module.exports = {
