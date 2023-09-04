@@ -1344,6 +1344,7 @@ module.exports = {
         //
         //---------------------------------------------------------------------------
         let mm = this
+        let yz = this
 
         let promise = new Promise(async function (returnfn) {
             try {
@@ -1600,6 +1601,7 @@ module.exports = {
         //
         //---------------------------------------------------------------------------
         let mm = this
+        let yz = this
         fs.readdir(
             mm.fullIpfsFolderPath
             ,
