@@ -455,16 +455,18 @@ console.log("$USEHTTPS = " + envVars.USEHTTPS)
 // --------------------------------------
 // sort out the central host IP settings
 // --------------------------------------
-if (program.centralhost == "") {
+if (program.centralhost != "") {
     program.centralhost = ip.address()
     yz.centralhost = program.centralhost
 }
 envVars.CENTRALHOST = program.centralhost
 console.log("$CENTRALHOST = " + envVars.CENTRALHOST)
-if (program.centralhostport == -1) {
+if (program.centralhostport != -1) {
     program.centralhostport = 80
     yz.centralhostport = program.centralhostport
 }
+yz.centralhosthttps = program.centralhostporthttps
+
 envVars.CENTRALHOSTPORT = program.centralhostport
 console.log("$CENTRALHOSTPORT = " + envVars.CENTRALHOSTPORT)
 let centralHostHttps = true
@@ -3121,7 +3123,8 @@ async function  evalLocalSystemDriver                   (  location , options  )
     let ret
     try {
         let evalDriver = fs.readFileSync(location);
-    	ret = await yz.addOrUpdateDriver(dbsearch,evalDriver,options)
+
+        ret = await yz.addOrUpdateDriver(dbsearch,evalDriver,options)
     } catch (error) {
         console.log("Location: " + location)
         outputDebug(error)

@@ -1455,8 +1455,8 @@ module.exports = {
         // ping_count   INTEGER
         // last_pinged  INTEGER
         //---------------------------------------------------------------------------
+        let mm = this
         if (typeof content === 'string') {
-            let mm = this
             let promise = new Promise(async function (returnfn) {
                 let justHash = null
                 try {
@@ -1501,7 +1501,6 @@ module.exports = {
 
         // otherwise assume that the content is JSON
         } else {
-            let mm          = this
             let jsonString  = JSON.stringify(jsonItem,null,2)
 
             await  mm.saveItemToIpfs(jsonString)
@@ -1519,7 +1518,10 @@ module.exports = {
         // which is by default the central Yazz server
         //
         //---------------------------------------------------------------------------
-        let mm          = this
+        let mm = this
+        if ((!mm.centralhost) || (!mm.centralhostport) || (!mm.centralhosthttps)) {
+            return
+        }
 
         let promise     = new Promise(async function(returnfn) {
             try {
@@ -1541,7 +1543,7 @@ module.exports = {
                 };
 
                 let theHttpsConn = http
-                if (mm.useHttps) {
+                if (mm.centralhosthttps) {
                     theHttpsConn = https
                 }
                 let req = theHttpsConn.request(options, function(res) {
