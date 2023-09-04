@@ -777,7 +777,7 @@ module.exports = {
                         thisDb.run("commit", async function() {
 
                         });
-                        let checkIpfsHash = (await mm.setDistributedContent(thisDb, code)).value
+                        let checkIpfsHash = (await mm.setDistributedContent(thisDb, code, options)).value
                         if (checkIpfsHash != sha1sum) {
                             console.log("In savev2: checkIpfsHash != sha1sum")
                         }
@@ -1377,11 +1377,12 @@ module.exports = {
                     srcCode
                     ,
                     {
-                        username:       "default",
-                        reponame:       baseComponentId,
-                        version:        "latest",
-                        ipfsHashId:     ipfsHash,
-                        allowChanges:   false
+                        username:           "default",
+                        reponame:           baseComponentId,
+                        version:            "latest",
+                        ipfsHashId:         ipfsHash,
+                        allowChanges:       false,
+                        distributeToPeer:   false
                     })
 
                 //console.log("....................................Loading component from local IPFS cache: " + fullIpfsFilePath)
@@ -1440,7 +1441,7 @@ module.exports = {
         let ret = await promise
         return ret
     },
-    setDistributedContent:          async function  (  thisDb  ,  content  ) {
+    setDistributedContent:          async function  (  thisDb  ,  content  , options) {
         //---------------------------------------------------------------------------
         //                           setDistributedContent
         //
@@ -1464,7 +1465,17 @@ module.exports = {
                     let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath, justHash)
                     fs.writeFileSync(fullIpfsFilePath, content);
                     await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  }  )
-                    await mm.distributeContentToPeer(justHash, content)
+
+                    let distributeContent = true;
+                    if (options != null) {
+                        if (typeof options.distributeToPeer !== 'undefined') {
+                            distributeContent = options.distributeToPeer
+                        }
+                    }
+                    if (distributeContent) {
+                        await mm.distributeContentToPeer(justHash, content)
+                    }
+
 
 
                     if (mm.isIPFSConnected) {
@@ -1519,7 +1530,7 @@ module.exports = {
         //
         //---------------------------------------------------------------------------
         let mm = this
-        if ((!mm.centralhost) || (!mm.centralhostport) || (!mm.centralhosthttps)) {
+        if ((!mm.centralhost) || (!mm.centralhostport)) {
             return
         }
 

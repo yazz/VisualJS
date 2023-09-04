@@ -465,16 +465,18 @@ if (program.centralhostport != -1) {
     program.centralhostport = 80
     yz.centralhostport = program.centralhostport
 }
-yz.centralhosthttps = program.centralhostporthttps
 
 envVars.CENTRALHOSTPORT = program.centralhostport
 console.log("$CENTRALHOSTPORT = " + envVars.CENTRALHOSTPORT)
 let centralHostHttps = true
+yz.centralhosthttps = true
 if (program.centralhosthttps == 'none') {
     program.centralhosthttps = 'false'
+    yz.centralhosthttps = false
 }
 if (program.centralhosthttps == 'false') {
     centralHostHttps = false;
+    yz.centralhosthttps = false
 }
 outputDebug("       centralHostHttps: " + centralHostHttps );
 envVars.CENTRALHOSTHTTPS = centralHostHttps
@@ -1318,13 +1320,12 @@ async function  checkForJSLoaded                        (  ) {
                 }
                 let jsCode = data
                 outputDebug("*********** Trying to load loadjsurl code *************")
-                 (async function() {await yz.saveCodeV3(
-                                                     dbsearch,
-                                                    data,
-                                                    {
-                                                        make_public: true,
-                                                        save_html:   true
-                                                    })} ) ()
+                 (async function() {await yz.saveCodeV3(dbsearch,
+                                                        data,
+                                                        {
+                                                            make_public: true,
+                                                            save_html:   true
+                                                        })} ) ()
 
                 runapp = baseComponentIdForUrl
                 startupType = "RUN_SERVER_CODE"
@@ -3112,13 +3113,13 @@ async function  executeSqliteForApp                     (  args  ) {
     return res
 }
 async function  evalLocalSystemDriver                   (  location , options  ) {
-//------------------------------------------------------------------------------
-//
-//
-//
-//
-//
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    //
+    //
+    //
+    //
+    //
+    //------------------------------------------------------------------------------
     outputDebug("*** Loading driver from: *** : " + location)
     let ret
     try {
@@ -3135,18 +3136,18 @@ function        localComponentPath                      (  localPath  ) {
  return path.join(__dirname, '../public/visifile_drivers' + localPath)
 }
 async function  evalHtmlComponentFromPath               (  srcPath  ){
-    let ret = await evalLocalSystemDriver(     localComponentPath(srcPath),{save_html: true, username: "default", version: "latest"})
+    let ret = await evalLocalSystemDriver(     localComponentPath(srcPath),{save_html: true, username: "default", version: "latest", distributeToPeer: false})
     return ret
 }
 async function  evalComponentFromPath                   (  srcPath  ){
-    let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
+    let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest", distributeToPeer: false})
     return ret
 }
 
 // component release helpers
 async function  releaseComponentFromPath                (  srcPath  ){
     try {
-        let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest"})
+        let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest", distributeToPeer: false})
         await releaseCode(ret.codeId)
 
         return ret
