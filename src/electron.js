@@ -455,29 +455,32 @@ console.log("$USEHTTPS = " + envVars.USEHTTPS)
 // --------------------------------------
 // sort out the central host IP settings
 // --------------------------------------
+let centralHost
+let centralHostPort = 80
+if (program.centralhost == "") {
+    centralHost     = ip.address()
+    yz.centralhost  = ip.address()
+}
 if (program.centralhost != "") {
-    program.centralhost = ip.address()
-    yz.centralhost = program.centralhost
+    centralHost     = program.centralhost
+    yz.centralhost  = program.centralhost
 }
 envVars.CENTRALHOST = program.centralhost
 console.log("$CENTRALHOST = " + envVars.CENTRALHOST)
 if (program.centralhostport != -1) {
-    program.centralhostport = 80
-    yz.centralhostport = program.centralhostport
+    centralHostPort     = program.centralhostport
+    yz.centralhostport  = program.centralhostport
 }
 
 envVars.CENTRALHOSTPORT = program.centralhostport
 console.log("$CENTRALHOSTPORT = " + envVars.CENTRALHOSTPORT)
 let centralHostHttps = true
 yz.centralhosthttps = true
-if (program.centralhosthttps == 'none') {
-    program.centralhosthttps = 'false'
+if ((program.centralhosthttps == 'none') || (program.centralhosthttps == 'false')) {
+    centralhosthttps = false
     yz.centralhosthttps = false
 }
-if (program.centralhosthttps == 'false') {
-    centralHostHttps = false;
-    yz.centralhosthttps = false
-}
+
 outputDebug("       centralHostHttps: " + centralHostHttps );
 envVars.CENTRALHOSTHTTPS = centralHostHttps
 console.log("$CENTRALHOSTHTTPS = " + envVars.CENTRALHOSTHTTPS)
