@@ -142,7 +142,7 @@ module.exports = {
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
-            "    (ipfs_hash, stored_as_local_file, content_type, ping_count, last_pinged , temp_debug_content , stored_in_ipfs , stored_in_peer ) " +
+            "    (ipfs_hash, stored_as_local_file, content_type, ping_count, last_pinged , temp_debug_content , stored_in_ipfs , sent_to_peer ) " +
             " values " +
             "    ( ?, ?, ?, ? , ? , ? , ? , ? );");
 },
