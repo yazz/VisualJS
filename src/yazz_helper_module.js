@@ -1726,5 +1726,10 @@ module.exports = {
     },
     synchonizeContentAmongPeers:    async function  (  thisDb  ) {
         console.log("Sync")
+        let contentNotSentToPeer = await this.getQuickSql(thisDb,"select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1",params)
+        if (rows.length == 0) {
+            return null
+        }
+
     }
 }
