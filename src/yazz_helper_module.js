@@ -142,9 +142,9 @@ module.exports = {
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
-            "    (ipfs_hash, stored_as_local_file, content_type, ping_count, last_pinged ) " +
+            "    (ipfs_hash, stored_as_local_file, content_type, ping_count, last_pinged , temp_debug_content) " +
             " values " +
-            "    ( ?, ?, ?, ? , ?);");
+            "    ( ?, ?, ?, ? , ? , ? );");
 },
 
     //text retrieval and replacement
@@ -1466,7 +1466,7 @@ module.exports = {
                     justHash = await OnlyIpfsHash.of(content)
                     let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath, justHash)
                     fs.writeFileSync(fullIpfsFilePath, content);
-                    await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "STRING"}  )
+                    await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "STRING"  ,  temp_debug_content: content  }  )
 
                     let distributeContent = true;
                     if (options != null) {
@@ -1517,7 +1517,7 @@ module.exports = {
             let jsonString  = JSON.stringify(content,null,2)
 
             fs.writeFileSync(fullIpfsFilePath, jsonString);
-            await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "JSON"}  )
+            await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "JSON"  ,  temp_debug_content: jsonString}  )
         }
     },
 
@@ -1645,7 +1645,7 @@ module.exports = {
         })
         await promise
     },
-    insertIpfsHashRecord:           async function  (  {  thisDb  ,  ipfsHash  ,  contentType  ,  ping_count  ,  last_pinged  }  ) {
+    insertIpfsHashRecord:           async function  (  {  thisDb  ,  ipfsHash  ,  contentType  ,  ping_count  ,  last_pinged  ,  temp_debug_content  }  ) {
         //---------------------------------------------------------------------------
         //
         //                           insertIpfsHashRecord( )
@@ -1660,7 +1660,7 @@ module.exports = {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfsHash,  "TRUE", contentType,  ping_count,  last_pinged  )
+                    stmtInsertIpfsHash.run(  ipfsHash,  "TRUE", contentType,  ping_count,  last_pinged , temp_debug_content )
                     thisDb.run("commit")
                     returnfn()
                 })
@@ -1689,7 +1689,7 @@ module.exports = {
                 let fullIpfsFilePath    = path.join(  fullIpfsFolderPath  ,  justHash  )
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
-                await yz.insertIpfsHashRecord(  { thisDb: dbsearch  ,  ipfsHash: justHash  }  )
+                await yz.insertIpfsHashRecord(  { thisDb: dbsearch  ,  ipfsHash: justHash  ,  temp_debug_content: srcCode  }  )
                 await yz.distributeContentToPeer(  justHash  ,  srcCode  )
 
                 if (  isIPFSConnected  ) {
