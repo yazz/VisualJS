@@ -5203,6 +5203,13 @@ async function  universalSaveStaticUIControl            (  { sha1sum , unescaped
 //setInterval(updateRunningTimeForprocess,1000)
 //setInterval(findLongRunningProcesses,1000)
 
+yz.peerAvailable = false
+setInterval(async function() {
+    await yz.checkIfPeerAvailable( )
+},5000)
+
 setInterval(async function() {
     await yz.synchonizeContentAmongPeers( dbsearch )
 },5000)
+
+

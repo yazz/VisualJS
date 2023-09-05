@@ -1724,6 +1724,40 @@ module.exports = {
         let ipfsHash = await promise
         return ipfsHash
     },
+    checkIfPeerAvailable:           async function  (  ) {
+        let mm = this
+
+        mm.peerAvailable = false
+        if ((!mm.centralhost) || (!mm.centralhostport)) {
+            return
+        }
+
+        let promise     = new Promise(async function(returnfn) {
+            try {
+                let options = {
+                    host:       mm.centralhost,
+                    port:       mm.centralhostport,
+                    path:       '/http_get_peer_alive_check',
+                    method:     'GET'
+                };
+
+                let theHttpsConn = http
+                if (mm.centralhosthttps) {
+                    theHttpsConn = https
+                }
+                let req = theHttpsConn.request(options, function(res) {
+                    console.log('STATUS: ' + res.statusCode);
+                    console.log('HEADERS: ' + JSON.stringify(res.headers));
+                    peerAvailable = true
+                });
+                returnfn()
+            } catch(er) {
+                console.log(er)
+                returnfn()
+            }
+        })
+        await promise
+    },
     synchonizeContentAmongPeers:    async function  (  thisDb  ) {
         console.log("Sync")
         let contentNotSentToPeer = await this.getQuickSql(thisDb,"select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1",params)
