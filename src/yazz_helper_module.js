@@ -1728,10 +1728,10 @@ module.exports = {
         let mm = this
 
         mm.peerAvailable = false
-        console.log("peer NOT available")
         if ((!mm.centralhost) || (!mm.centralhostport)) {
             return
         }
+        console.log("peer NOT available")
 
         let promise     = new Promise(async function(returnfn) {
             try {

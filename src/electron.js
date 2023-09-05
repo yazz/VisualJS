@@ -334,7 +334,7 @@ if (process.argv.length > 1) {
       .option('-r,          --https                     [https]',                   'Run using a HTTPS (default is none)                                                [https]',                   'none')
       .option('-s,          --hostport                  [hostport]',                'Server port of the host (default -1)                                               [hostport]',                -1)
       .option('-cp,         --centralhostport           [centralhostport]',         'Server port of the central host (default -1)                                       [centralhostport]',         -1)
-      .option('-cs,         --centralhosthttps          [centralhosthttps]',        'Central host uses HTTPS? (default none)                                            [centralhosthttps]',        'none')
+      .option('-cs,         --centralhosthttps          [centralhosthttps]',        'Central host uses HTTPS? (default none)                                            [centralhosthttps]',        'true')
       .option('-ocp,        --ocentralhostport          [ocentralhostport]',        'Dummy - do not use - Server port of the central host (default -1)                  [ocentralhostport]',        -1)
       .option('-ocs,        --ocentralhosthttps         [ocentralhosthttps]',       'Dummy - do not use - Central host uses HTTPS? (default none)                       [ocentralhosthttps]',       'none')
       .option('-t,          --usehost                   [usehost]',                 'Use host name                                                                      [usehost]',                 null)
@@ -362,7 +362,7 @@ if (process.argv.length > 1) {
     program.loadjsfile = null
     program.runhtml = null
     program.https = 'none'
-    program.centralhosthttps = 'none'
+    program.centralhosthttps = 'true'
     program.usehost = null
     program.hideimportbuttons = true
 }
@@ -455,21 +455,20 @@ console.log("$USEHTTPS = " + envVars.USEHTTPS)
 // --------------------------------------
 // sort out the central host IP settings
 // --------------------------------------
-let centralHost
+let centralHost = "yazz.com"
 let centralHostPort = 80
 if (program.centralhost == "") {
-    centralHost     = ip.address()
-    yz.centralhost  = ip.address()
-}
-if (program.centralhost != "") {
-    centralHost     = program.centralhost
-    yz.centralhost  = program.centralhost
+    centralHost     = "yazz.com"
+    yz.centralhost  = "yazz.com"
 }
 envVars.CENTRALHOST = program.centralhost
 console.log("$CENTRALHOST = " + envVars.CENTRALHOST)
 if (program.centralhostport != -1) {
     centralHostPort     = program.centralhostport
     yz.centralhostport  = program.centralhostport
+} else {
+    centralHostPort     = 443
+    yz.centralhostport  = 443
 }
 
 envVars.CENTRALHOSTPORT = program.centralhostport
