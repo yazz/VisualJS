@@ -142,9 +142,9 @@ module.exports = {
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
-            "    (ipfs_hash, stored_as_local_file, content_type, ping_count, last_pinged , temp_debug_content) " +
+            "    (ipfs_hash, stored_as_local_file, content_type, ping_count, last_pinged , temp_debug_content , stored_in_ipfs , stored_in_peer ) " +
             " values " +
-            "    ( ?, ?, ?, ? , ? , ? );");
+            "    ( ?, ?, ?, ? , ? , ? , ? , ? );");
 },
 
     //text retrieval and replacement
@@ -1660,7 +1660,7 @@ module.exports = {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfsHash,  "TRUE", contentType,  ping_count,  last_pinged , temp_debug_content )
+                    stmtInsertIpfsHash.run(  ipfsHash,  "TRUE", contentType,  ping_count,  last_pinged , temp_debug_content , 0  ,  0)
                     thisDb.run("commit")
                     returnfn()
                 })
