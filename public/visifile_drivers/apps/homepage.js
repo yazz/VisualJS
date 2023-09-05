@@ -1197,7 +1197,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     |________________________________________________________________________ */
                     let mm = this
 
-                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_load_topapps"
+                    let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_topapps"
                     fetch(openfileurl,
                         {
                             method: 'post',

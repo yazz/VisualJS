@@ -359,7 +359,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
               let mm = this
 
-              let openfileurl = "http" + (($CENTRALHOSTPORT == 443)?"s":"") + "://" + $CENTRALHOST + "/http_post_load_topapps"
+              let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_topapps"
               callAjax( openfileurl,
                   function(res) {
                       //debugger
