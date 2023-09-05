@@ -4128,6 +4128,14 @@ async function  startServices                           (  ) {
         ));
 
     });
+    app.get(    '/http_get_peer_alive_check',                               async function (req, res) {
+        console.log("app.post('/http_get_peer_alive_check'): ")
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {alive: true}
+        ));
+
+    });
     app.get(    '/http_get_login_with_metamask',                            async function (req, res) {
         console.log("app.post('/http_get_login_with_metamask'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
