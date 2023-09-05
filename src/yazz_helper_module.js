@@ -1746,7 +1746,7 @@ module.exports = {
                 if (mm.centralhosthttps) {
                     theHttpsConn = https
                 }
-                console.log("Send alive check")
+                console.log("Send alive check to " + mm.centralhost + ":" + mm.centralhostport)
                 let req = theHttpsConn.request(options, function(res) {
                     console.log('STATUS: ' + res.statusCode);
                     console.log('HEADERS: ' + JSON.stringify(res.headers));
