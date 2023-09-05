@@ -1735,28 +1735,26 @@ module.exports = {
 
         let promise     = new Promise(async function(returnfn) {
             try {
-                let options = {
-                    host:       mm.centralhost,
-                    port:       mm.centralhostport,
-                    path:       '/http_get_peer_alive_check',
-                    method:     'GET'
-                };
+                let aliveCheckUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost  + ":" + mm.centralhostport + "/http_get_peer_alive_check"
 
                 let theHttpsConn = http
                 if (mm.centralhosthttps) {
                     theHttpsConn = https
                 }
                 console.log("Send alive check to " + mm.centralhost + ":" + mm.centralhostport)
-                let req = theHttpsConn.request(options, function(res) {
-                    console.log('STATUS: ' + res.statusCode);
-                    console.log('HEADERS: ' + JSON.stringify(res.headers));
-                    if (res.statusCode == 200 ) {
-                        console.log("peer available")
-                        peerAvailable = true
-                    } else {
-                        console.log("peer NOT available. HTTP return code: " +  res.statusCode )
-                        peerAvailable = false
-                    }
+                let req = theHttpsConn.get(
+                    aliveCheckUrl
+                    ,
+                    async function(res) {
+                        console.log('STATUS: ' + res.statusCode);
+                        console.log('HEADERS: ' + JSON.stringify(res.headers));
+                        if (res.statusCode == 200 ) {
+                            console.log("peer available")
+                            peerAvailable = true
+                        } else {
+                            console.log("peer NOT available. HTTP return code: " +  res.statusCode )
+                            peerAvailable = false
+                        }
                 });
                 returnfn()
             } catch(er) {
