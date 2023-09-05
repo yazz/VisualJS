@@ -1457,6 +1457,8 @@ module.exports = {
         // last_pinged  INTEGER
         //---------------------------------------------------------------------------
         let mm = this
+
+        // if this is code, or a string
         if (typeof content === 'string') {
             let promise = new Promise(async function (returnfn) {
                 let justHash = null
@@ -1464,7 +1466,7 @@ module.exports = {
                     justHash = await OnlyIpfsHash.of(content)
                     let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath, justHash)
                     fs.writeFileSync(fullIpfsFilePath, content);
-                    await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  }  )
+                    await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "STRING"}  )
 
                     let distributeContent = true;
                     if (options != null) {
@@ -1512,99 +1514,14 @@ module.exports = {
 
         // otherwise assume that the content is JSON
         } else {
-            let jsonString  = JSON.stringify(jsonItem,null,2)
+            let jsonString  = JSON.stringify(content,null,2)
 
-            await  mm.saveItemToIpfs(jsonString)
+            fs.writeFileSync(fullIpfsFilePath, jsonString);
+            await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "JSON"}  )
         }
     },
 
     // distributed content helpers for stuff stored in IPFS
-    distributeContentToPeer:        async function  (  ipfs_hash  ,  ipfsContent  ) {
-        //---------------------------------------------------------------------------
-        //
-        //                           distributeContentToPeer(  )
-        //                           ---------------------------
-        //
-        // What this function does is that it sends a piece of content to a "peer",
-        // which is by default the central Yazz server
-        //
-        //---------------------------------------------------------------------------
-        let mm = this
-        if ((!mm.centralhost) || (!mm.centralhostport)) {
-            return
-        }
-
-        let promise     = new Promise(async function(returnfn) {
-            try {
-                const dataString = JSON.stringify(
-                    {
-                        ipfs_hash:      ipfs_hash,
-                        ipfs_content:   ipfsContent
-                    })
-
-                let options = {
-                    host:       mm.centralhost,
-                    port:       mm.centralhostport,
-                    path:       '/http_post_copy_distributed_content_sent_from_client',
-                    method:     'POST',
-                    headers:    {
-                                    'Content-Type': 'application/json',
-                                    'Content-Length': dataString.length
-                                }
-                };
-
-                let theHttpsConn = http
-                if (mm.centralhosthttps) {
-                    theHttpsConn = https
-                }
-                let req = theHttpsConn.request(options, function(res) {
-                    console.log('STATUS: ' + res.statusCode);
-                    console.log('HEADERS: ' + JSON.stringify(res.headers));
-                    res.setEncoding('utf8');
-                    res.on('data', function (chunk) {
-                        console.log('BODY: ' + chunk);
-                    });
-                    res.on('end', function () {
-                        console.log('end: ' );
-                    });
-                });
-                req.write(dataString)
-                req.end()
-                returnfn()
-            } catch(er) {
-                console.log(er)
-                returnfn()
-            }
-        })
-        await promise
-    },
-    insertIpfsHashRecord:           async function  (  {  thisDb  ,  ipfsHash  ,  content_type  ,  ping_count  ,  last_pinged  }  ) {
-        //---------------------------------------------------------------------------
-        //
-        //                           insertIpfsHashRecord( )
-        //                           -----------------------
-        //
-        // This inserts ONLY the IPFS content KEY in the internal database. This
-        // database lets us keep track of which IPFS hashes have been cached on
-        // the local machine on the filesystem
-        //
-        //---------------------------------------------------------------------------
-        let promise = new Promise(async function(returnfn) {
-            try {
-                thisDb.serialize(function() {
-                    thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfsHash,  "TRUE", content_type,  ping_count,  last_pinged  )
-                    thisDb.run("commit")
-                    returnfn()
-                })
-            } catch(er) {
-                console.log(er)
-                returnfn()
-            }
-        })
-        let ret = await promise
-        return ret
-    },
     findLocallyCachedIpfsContent:   async function  (  thisDb  ) {
         //---------------------------------------------------------------------------
         //
@@ -1668,6 +1585,92 @@ module.exports = {
                 }
             })
 
+    },
+    distributeContentToPeer:        async function  (  ipfs_hash  ,  ipfsContent  ) {
+        //---------------------------------------------------------------------------
+        //
+        //                           distributeContentToPeer(  )
+        //                           ---------------------------
+        //
+        // What this function does is that it sends a piece of content to a "peer",
+        // which is by default the central Yazz server
+        //
+        //---------------------------------------------------------------------------
+        let mm = this
+        if ((!mm.centralhost) || (!mm.centralhostport)) {
+            return
+        }
+
+        let promise     = new Promise(async function(returnfn) {
+            try {
+                const dataString = JSON.stringify(
+                    {
+                        ipfs_hash:      ipfs_hash,
+                        ipfs_content:   ipfsContent
+                    })
+
+                let options = {
+                    host:       mm.centralhost,
+                    port:       mm.centralhostport,
+                    path:       '/http_post_copy_distributed_content_sent_from_client',
+                    method:     'POST',
+                    headers:    {
+                                    'Content-Type': 'application/json',
+                                    'Content-Length': dataString.length
+                                }
+                };
+
+                let theHttpsConn = http
+                if (mm.centralhosthttps) {
+                    theHttpsConn = https
+                }
+                let req = theHttpsConn.request(options, function(res) {
+                    console.log('STATUS: ' + res.statusCode);
+                    console.log('HEADERS: ' + JSON.stringify(res.headers));
+                    res.setEncoding('utf8');
+                    res.on('data', function (chunk) {
+                        console.log('BODY: ' + chunk);
+                    });
+                    res.on('end', function () {
+                        console.log('end: ' );
+                    });
+                });
+                req.write(dataString)
+                req.end()
+                returnfn()
+            } catch(er) {
+                console.log(er)
+                returnfn()
+            }
+        })
+        await promise
+    },
+    insertIpfsHashRecord:           async function  (  {  thisDb  ,  ipfsHash  ,  contentType  ,  ping_count  ,  last_pinged  }  ) {
+        //---------------------------------------------------------------------------
+        //
+        //                           insertIpfsHashRecord( )
+        //                           -----------------------
+        //
+        // This inserts ONLY the IPFS content KEY in the internal database. This
+        // database lets us keep track of which IPFS hashes have been cached on
+        // the local machine on the filesystem
+        //
+        //---------------------------------------------------------------------------
+        let promise = new Promise(async function(returnfn) {
+            try {
+                thisDb.serialize(function() {
+                    thisDb.run("begin exclusive transaction");
+                    stmtInsertIpfsHash.run(  ipfsHash,  "TRUE", contentType,  ping_count,  last_pinged  )
+                    thisDb.run("commit")
+                    returnfn()
+                })
+            } catch(er) {
+                console.log(er)
+                returnfn()
+            }
+        })
+        let ret = await promise
+        return ret
     },
     saveItemToIpfs:                 async function  (  srcCode  ) {
         //---------------------------------------------------------------------------
