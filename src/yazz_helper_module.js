@@ -1728,6 +1728,7 @@ module.exports = {
         let mm = this
 
         mm.peerAvailable = false
+        console.log("peer NOT available")
         if ((!mm.centralhost) || (!mm.centralhostport)) {
             return
         }
@@ -1745,10 +1746,17 @@ module.exports = {
                 if (mm.centralhosthttps) {
                     theHttpsConn = https
                 }
+                console.log("Send alive check")
                 let req = theHttpsConn.request(options, function(res) {
                     console.log('STATUS: ' + res.statusCode);
                     console.log('HEADERS: ' + JSON.stringify(res.headers));
-                    peerAvailable = true
+                    if (res.statusCode == 200 ) {
+                        console.log("peer available")
+                        peerAvailable = true
+                    } else {
+                        console.log("peer NOT available. HTTP return code: " +  res.statusCode )
+                        peerAvailable = false
+                    }
                 });
                 returnfn()
             } catch(er) {
