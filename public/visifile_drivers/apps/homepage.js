@@ -1543,13 +1543,13 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                              | get the editable apps
                                              |__________________________________ */
                     let mm = this
-                    let openfileurl = "http" + (($CENTRALHOSTPORT == 443) ? "s" : "") + "://" + $CENTRALHOST +
-                        "/http_post_load_editable_apps"
+                    let openfileurl =   "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST +
+                                        "/http_post_load_editable_apps"
 
                     fetch(openfileurl,
                         {
-                            method: 'post',
-                            credentials: "include"
+                            method:         'post',
+                            credentials:    "include"
                         })
                         .then((response) => response.json())
                         .then(async function (responseJson) {
