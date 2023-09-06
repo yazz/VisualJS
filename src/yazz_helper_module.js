@@ -1409,6 +1409,12 @@ module.exports = {
                         last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
                     })
                 returnValue = contentOnDisk
+
+
+
+            // otherwise get the content from IPFS or a peer
+            } else {
+
             }
 
         } catch( err) {
