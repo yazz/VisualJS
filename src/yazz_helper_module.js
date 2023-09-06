@@ -1726,11 +1726,12 @@ module.exports = {
         // the local machine on the filesystem
         //
         //---------------------------------------------------------------------------
+
         let promise = new Promise(async function(returnfn) {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfsHash,  contentType,  scope,  last_ipfs_ping_millis , temp_debug_content , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 )
+                    stmtInsertIpfsHash.run(  ipfsHash,  contentType,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis )
                     thisDb.run("commit")
                     returnfn()
                 })
