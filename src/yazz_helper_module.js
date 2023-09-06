@@ -1453,14 +1453,20 @@ module.exports = {
         // options: {
         //               distributeToPeer: true
         //          }
+        //
         //---------------------------------------------------------------------------
 
         // figure out the content options and scope
-        let mm                  = this
-        let contentValueToStore = content
-        let contentType         = "STRING"
-        let scope               = "GLOBAL";
-        let justHash            = null
+        let mm                          = this
+        let contentValueToStore         = content
+        let contentType                 = "STRING"
+        let scope                       = "GLOBAL";
+        let justHash                    = null
+        let fullIpfsFilePath            = null
+        let fullIpfsMetaDataFilePath    = null
+        let contentExistsOnLocalDisk    = null
+        let metadataExistsOnLocalDisk   = null
+        let contentStoredInSqlite       = null
 
         if (typeof content !== 'string') {
             contentValueToStore = JSON.stringify(content,null,2)
@@ -1479,11 +1485,25 @@ module.exports = {
 
         justHash = await OnlyIpfsHash.of(contentValueToStore)
 
+        fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, justHash)
+        fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
 
         //
         let promise = new Promise(async function (returnfn) {
             try {
-                let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath, justHash)
+                contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  ipfs_hash = ?", [  justHash  ])
+                contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
+                metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
+                if (contentStoredInSqlite && contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
+                } else if (contentStoredInSqlite) {
+                    if ( !fileOnDiskContent ) {
+
+                    }
+
+                    returnfn(  {  value: justHash  ,  error: null  }  )
+                }
+
+
                 fs.writeFileSync(fullIpfsFilePath, content);
                 await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "STRING"  ,  temp_debug_content: content  }  )
 
