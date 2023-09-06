@@ -1467,6 +1467,7 @@ module.exports = {
         let contentExistsOnLocalDisk    = null
         let metadataExistsOnLocalDisk   = null
         let contentStoredInSqlite       = null
+        let metadata                    = null
 
         if (typeof content !== 'string') {
             contentValueToStore = JSON.stringify(content,null,2)
@@ -1489,33 +1490,84 @@ module.exports = {
         fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
 
         //
-        let promise = new Promise(async function (returnfn) {
-            try {
-                contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  ipfs_hash = ?", [  justHash  ])
-                contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
-                metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
-                if (contentStoredInSqlite && contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
-                } else if (contentStoredInSqlite) {
-                    if ( !fileOnDiskContent ) {
+        try {
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  ipfs_hashes  where  ipfs_hash = ?", [  justHash  ])
+            contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
+            metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
 
-                    }
+            // if the content is stored in Sqlite and on disk then do nothing
+            if (contentStoredInSqlite && contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
+                // do nothing!!!
 
-                    returnfn(  {  value: justHash  ,  error: null  }  )
+
+
+            // otherwise if the content is only stored in sqlite then
+            // store the content from sqlite to disk as well
+            } else if (contentStoredInSqlite) {
+                metadata = {
+                    ipfs_hash:              contentStoredInSqlite.ipfs_hash,
+                    content_type:           contentStoredInSqlite.content_type,
+                    scope:                  contentStoredInSqlite.scope,
+                    stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
+                    read_from_local_file:   contentStoredInSqlite.read_from_local_file,
+                    stored_in_ipfs:         contentStoredInSqlite.stored_in_ipfs,
+                    sent_to_peer:           contentStoredInSqlite.sent_to_peer,
+                    read_from_local_ipfs:   contentStoredInSqlite.read_from_local_ipfs,
+                    read_from_peer_ipfs:    contentStoredInSqlite.read_from_peer_ipfs,
+                    read_from_peer_file:    contentStoredInSqlite.read_from_peer_file,
+                    last_ipfs_ping:         contentStoredInSqlite.last_ipfs_ping
                 }
+                fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
+                fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadata,null,2));
+
+                return(  {  value: justHash  ,  error: null  }  )
 
 
-                fs.writeFileSync(fullIpfsFilePath, content);
-                await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "STRING"  ,  temp_debug_content: content  }  )
 
-                returnfn({value: justHash, error: null})
+            // otherwise if the content exists on disk but not in Sqlite
+            } else if (contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
 
-            } catch (error) {
-                //outputDebug(error)
-                returnfn({value: justHash, error: error})
+                await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: contentType  ,  temp_debug_content: contentValueToStore  }  )
+
+
+
+            // otherwise generate the content on disk and in sqlite
+            } else {
+                await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: contentType  ,  temp_debug_content: content , scope: scope }  )
+                metadata = {
+                    ipfs_hash:              justHash,
+                    content_type:           contentType,
+                    scope:                  scope,
+                    stored_in_local_file:   1,
+                    read_from_local_file:   0,
+                    stored_in_ipfs:         0,
+                    sent_to_peer:           0,
+                    read_from_local_ipfs:   0,
+                    read_from_peer_ipfs:    0,
+                    read_from_peer_file:    0,
+                    last_pinged:            -1
+                }
+                fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
+                fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadata,null,2));
+
             }
-        })
-        let ipfsHash = await promise
-        return ipfsHash
+
+
+
+            return {value: justHash, error: null}
+
+
+
+        // flag if there was an error
+        } catch (error) {
+            //outputDebug(error)
+            return {value: justHash, error: error}
+        }
+
+
+
+        // return the IPFS hash of the content
+        return {value: justHash, error: null}
 },
 
     // distributed content helpers for stuff stored in IPFS
