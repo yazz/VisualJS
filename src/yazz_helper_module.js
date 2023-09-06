@@ -1805,6 +1805,13 @@ module.exports = {
         return ipfsHash
     },
     checkIfPeerAvailable:           async function  (  ) {
+        //---------------------------------------------------------------------------
+        //
+        //                           checkIfPeerAvailable( .. )
+        //                           --------------------------
+        //
+        //
+        //---------------------------------------------------------------------------
         let mm = this
 
         mm.peerAvailable = false
@@ -1845,6 +1852,19 @@ module.exports = {
         await promise
     },
     synchonizeContentAmongPeers:    async function  (  thisDb  ) {
+        //---------------------------------------------------------------------------
+        //
+        //                           synchonizeContentAmongPeers( .. )
+        //                           ---------------------------------
+        //
+        // In this method we try to make sure that all the content is synchronized
+        // locally, to peer Yazz servers, and to IPFS
+        //
+        //---------------------------------------------------------------------------
+        console.log("Sync called")
+
+    },
+    oldsynchonizeContentAmongPeers:    async function  (  thisDb  ) {
         console.log("Sync")
         let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
         if (rows.length == 0) {
