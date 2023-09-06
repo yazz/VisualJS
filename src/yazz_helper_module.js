@@ -1795,8 +1795,8 @@ module.exports = {
                     aliveCheckUrl
                     ,
                     async function(res) {
-                        console.log('STATUS: ' + res.statusCode);
-                        console.log('HEADERS: ' + JSON.stringify(res.headers));
+                        //console.log('STATUS: ' + res.statusCode);
+                        //console.log('HEADERS: ' + JSON.stringify(res.headers));
                         if (res.statusCode == 200 ) {
                             console.log("peer available")
                             peerAvailable = true
