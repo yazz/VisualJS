@@ -1318,7 +1318,9 @@ module.exports = {
     // distributed content public API
     getDistributedKey:              async function  (  content  ) {
         //---------------------------------------------------------------------------
-        //                           getDistributedKey
+        //
+        //                           getDistributedKey( )
+        //                           --------------------
         //
         // Given a piece of content, get the distributed key. This key will be
         // IPFS Multiformats compliant, so it should start with QM.... or Baf... or
@@ -1331,7 +1333,9 @@ module.exports = {
     },
     getDistributedContent:          async function  (  {  thisDb  ,  ipfsHash  }  ) {
         //---------------------------------------------------------------------------
-        //                           getDistributedContent
+        //
+        //                           getDistributedContent( )
+        //                           ------------------------
         //
         // This gets content from the network. The content could be metadata which
         // is in JSON format, or Yazz source code which is in plain text. The content
@@ -1347,8 +1351,69 @@ module.exports = {
         // 3) Get the content from a Yazz peer, which is usually the central server.
         //
         //---------------------------------------------------------------------------
-        let mm = this
-        let yz = this
+        let mm                          = this
+        let yz                          = this
+        let fullIpfsFilePath            = null
+        let fullIpfsMetaDataFilePath    = null
+        let contentExistsOnLocalDisk    = null
+        let metadataExistsOnLocalDisk   = null
+        let metadataJson                = null
+        let contentStoredInSqlite       = null
+        let metadataContent             = null
+        let metadataAsJson              = null
+        let returnValue                 = null
+        let contentOnDisk               = null
+
+
+        try {
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
+            contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
+            metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
+
+            // if the content is stored in Sqlite and on disk then get the content from the
+            // filesystem
+            if (contentStoredInSqlite && contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
+                contentOnDisk = fs.readFileSync(fullIpfsFilePath)
+                returnValue = contentOnDisk
+
+
+
+            // otherwise if the content is only stored in sqlite do nothing
+            // as the content is already loaded, but mark the file on disk as
+            // needing updating
+            } else if (contentStoredInSqlite) {
+                await mm.executeQuickSql(thisDb, "update  ipfs_hashes  set  stored_in_local_file = 0  where  ipfs_hash = ?", [ ipfsHash ])
+
+
+            // otherwise if the content exists on disk but not in Sqlite then
+            // take the content and metadata from the file and store it in SQlite
+            } else if (contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
+                contentOnDisk   = fs.readFileSync(fullIpfsFilePath)
+                metadataContent = fs.readFileSync(fullIpfsMetaDataFilePath)
+                metadataJson    = JSON.parse(metadataContent)
+
+                await mm.insertContentStorageRecord(
+                    {
+                        thisDb:                 thisDb,
+                        ipfsHash:               ipfsHash,
+                        contentType:            metadataJson.contentType,
+                        temp_debug_content:     contentOnDisk,
+                        scope:                  metadataJson.scope,
+                        stored_in_local_file:   metadataJson.stored_in_local_file,
+                        read_from_local_file:   parseInt(metadataJson.read_from_local_file) + 1,
+                        stored_in_ipfs:         metadataJson.stored_in_ipfs,
+                        sent_to_peer:           metadataJson.sent_to_peer,
+                        read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
+                        read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
+                        read_from_peer_file:    metadataJson.read_from_peer_file,
+                        last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
+                    })
+                returnValue = contentOnDisk
+            }
+
+        } catch( err) {
+            debugger
+        }
 
         let promise = new Promise(async function (returnfn) {
             try {
@@ -1357,19 +1422,6 @@ module.exports = {
                 let baseComponentId     = yz.helpers.getValueOfCodeString(srcCode, "base_component_id")
 
 
-                /* let properties = yz.helpers.getValueOfCodeString(srcCode,"properties", ")//prope" + "rties")
-                 srcCode = yz.helpers.deleteCodeString(  srcCode, "properties", ")//prope" + "rties")
-                 for (let irte = 0 ; irte < properties.length ; irte++ ) {
-                     let brje = properties[irte]
-                     if (brje.id == "ipfs_hash_id") {
-                         brje.default = ipfsHash
-                     }
-                 }
-
-                 srcCode = yz.helpers.insertCodeString(  srcCode,
-                     "properties",
-                     properties,
-                     ")//prope" + "rties")*/
 
                 await mm.addOrUpdateDriver(
                     thisDb
@@ -1547,7 +1599,6 @@ module.exports = {
                         read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
                         read_from_peer_file:    metadataJson.read_from_peer_file,
                         last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
-
                     })
 
 
