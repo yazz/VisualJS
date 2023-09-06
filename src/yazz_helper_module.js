@@ -142,10 +142,10 @@ module.exports = {
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
-            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content , stored_in_ipfs , sent_to_peer , stored_in_local_file) " +
+            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis ) " +
             " values " +
-            "    ( ?, ?, ?, ?, ? , 0 , 0 , 1 );");
-},
+            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? );");
+    },
 
     //text retrieval and replacement
     getBetween:                     function        (  target  ,  start  ,  end  ) {
@@ -1730,7 +1730,7 @@ module.exports = {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfsHash,  contentType,  scope,  last_ipfs_ping_millis , temp_debug_content)
+                    stmtInsertIpfsHash.run(  ipfsHash,  contentType,  scope,  last_ipfs_ping_millis , temp_debug_content , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 )
                     thisDb.run("commit")
                     returnfn()
                 })
