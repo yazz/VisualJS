@@ -1441,85 +1441,62 @@ module.exports = {
         let ret = await promise
         return ret
     },
-    setDistributedContent:          async function  (  thisDb  ,  content  , options) {
+    setDistributedContent:          async function  (  thisDb  ,  content  , options  ) {
         //---------------------------------------------------------------------------
         //                           setDistributedContent
         //
-        // Whenever we want to set content so that it is stored in the network
-        // we call this. When this is called we don't really know where the content
-        // has been stored, as the internet may be down, or the peer server may be
-        // down, but at least we can store the situation within the IPFS record that
-        // we store in the database:
+        // Whenever we want to set content so that it is stored in the locally or
+        // on the network we call this. When this is called we don't really know
+        // where the content will be stored, as the internet may be down, or
+        // the peer server may be down, but we can give some hints such as:
         //
-        // ipfs_hash    TEXT
-        // content_type TEXT
-        // ping_count   INTEGER
-        // last_pinged  INTEGER
+        // options: {
+        //               distributeToPeer: true
+        //          }
         //---------------------------------------------------------------------------
-        let mm = this
 
-        // if this is code, or a string
-        if (typeof content === 'string') {
-            let promise = new Promise(async function (returnfn) {
-                let justHash = null
-                try {
-                    justHash = await OnlyIpfsHash.of(content)
-                    let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath, justHash)
-                    fs.writeFileSync(fullIpfsFilePath, content);
-                    await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "STRING"  ,  temp_debug_content: content  }  )
+        // figure out the content options and scope
+        let mm                  = this
+        let contentValueToStore = content
+        let contentType         = "STRING"
+        let scope               = "GLOBAL";
+        let justHash            = null
 
-                    let distributeContent = true;
-                    if (options != null) {
-                        if (typeof options.distributeToPeer !== 'undefined') {
-                            distributeContent = options.distributeToPeer
-                        }
-                    }
-                    if (distributeContent) {
-                        await mm.distributeContentToPeer(justHash, content)
-                    }
-
-
-
-                    if (mm.isIPFSConnected) {
-                        let testBuffer = new Buffer(content);
-                        ipfs.files.add(testBuffer, function (err, file) {
-                            if (err) {
-                                console.log("....................................Err: " + err);
-                            }
-                            //console.log("....................................file: " + JSON.stringify(file, null, 2))
-                            let thehash = file[0].hash
-                            //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
-                            const validCID = thehash
-
-                            ipfs.files.get(validCID, function (err, files) {
-                                files.forEach((file) => {
-                                    //console.log("....................................file.path: " + file.path)
-                                    //console.log(file.content.toString('utf8'))
-                                    //console.log("....................................file.path: " + file.path)
-                                    returnfn({value: thehash, error: null})
-                                })
-                            })
-                        })
-                    } else {
-                        returnfn({value: justHash, error: null})
-                    }
-
-                } catch (error) {
-                    //outputDebug(error)
-                    returnfn({value: justHash, error: error})
-                }
-            })
-            let ipfsHash = await promise
-            return ipfsHash
-
-        // otherwise assume that the content is JSON
-        } else {
-            let jsonString  = JSON.stringify(content,null,2)
-
-            fs.writeFileSync(fullIpfsFilePath, jsonString);
-            await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "JSON"  ,  temp_debug_content: jsonString}  )
+        if (typeof content !== 'string') {
+            contentValueToStore = JSON.stringify(content,null,2)
+            contentType         = "JSON"
         }
-    },
+
+        if (options != null) {
+            if (typeof options.distributeToPeer !== 'undefined') {
+                if (options.distributeToPeer) {
+                    scope = "GLOBAL";
+                } else {
+                    scope = "LOCAL";
+                }
+            }
+        }
+
+        justHash = await OnlyIpfsHash.of(contentValueToStore)
+
+
+        //
+        let promise = new Promise(async function (returnfn) {
+            try {
+                let fullIpfsFilePath = path.join(mm.fullIpfsFolderPath, justHash)
+                fs.writeFileSync(fullIpfsFilePath, content);
+                await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: "STRING"  ,  temp_debug_content: content  }  )
+
+                returnfn({value: justHash, error: null})
+
+            } catch (error) {
+                //outputDebug(error)
+                returnfn({value: justHash, error: error})
+            }
+        })
+        let ipfsHash = await promise
+        return ipfsHash
+},
 
     // distributed content helpers for stuff stored in IPFS
     findLocallyCachedIpfsContent:   async function  (  thisDb  ) {
@@ -1766,10 +1743,33 @@ module.exports = {
     },
     synchonizeContentAmongPeers:    async function  (  thisDb  ) {
         console.log("Sync")
-        let contentNotSentToPeer = await this.getQuickSql(thisDb,"select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1",params)
+        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
         if (rows.length == 0) {
             return null
         }
+        await mm.distributeContentToPeer(justHash, content)
 
+        if (mm.isIPFSConnected) {
+            let testBuffer = new Buffer(content);
+            ipfs.files.add(testBuffer, function (err, file) {
+                if (err) {
+                    console.log("....................................Err: " + err);
+                }
+                //console.log("....................................file: " + JSON.stringify(file, null, 2))
+                let thehash = file[0].hash
+                //const validCID = "QmdQASbsK8bF5DWUxUJ5tBpJbnUVtKWTsYiK4vzXg5AXPf"
+                const validCID = thehash
+
+                ipfs.files.get(validCID, function (err, files) {
+                    files.forEach((file) => {
+                        //console.log("....................................file.path: " + file.path)
+                        //console.log(file.content.toString('utf8'))
+                        //console.log("....................................file.path: " + file.path)
+                        returnfn({value: thehash, error: null})
+                    })
+                })
+            })
+        }
     }
+
 }
