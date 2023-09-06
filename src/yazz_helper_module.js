@@ -1466,8 +1466,10 @@ module.exports = {
         let fullIpfsMetaDataFilePath    = null
         let contentExistsOnLocalDisk    = null
         let metadataExistsOnLocalDisk   = null
+        let metadataJson                = null
         let contentStoredInSqlite       = null
-        let metadata                    = null
+        let metadataContent             = null
+        let metadataAsJson              = null
 
         if (typeof content !== 'string') {
             contentValueToStore = JSON.stringify(content,null,2)
@@ -1504,36 +1506,55 @@ module.exports = {
             // otherwise if the content is only stored in sqlite then
             // store the content from sqlite to disk as well
             } else if (contentStoredInSqlite) {
-                metadata = {
-                    ipfs_hash:              contentStoredInSqlite.ipfs_hash,
-                    content_type:           contentStoredInSqlite.content_type,
-                    scope:                  contentStoredInSqlite.scope,
-                    stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
-                    read_from_local_file:   contentStoredInSqlite.read_from_local_file,
-                    stored_in_ipfs:         contentStoredInSqlite.stored_in_ipfs,
-                    sent_to_peer:           contentStoredInSqlite.sent_to_peer,
-                    read_from_local_ipfs:   contentStoredInSqlite.read_from_local_ipfs,
-                    read_from_peer_ipfs:    contentStoredInSqlite.read_from_peer_ipfs,
-                    read_from_peer_file:    contentStoredInSqlite.read_from_peer_file,
-                    last_ipfs_ping:         contentStoredInSqlite.last_ipfs_ping_millis
+                metadataAsJson = {
+                                    ipfs_hash:              contentStoredInSqlite.ipfs_hash,
+                                    content_type:           contentStoredInSqlite.content_type,
+                                    scope:                  contentStoredInSqlite.scope,
+                                    stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
+                                    read_from_local_file:   contentStoredInSqlite.read_from_local_file,
+                                    stored_in_ipfs:         contentStoredInSqlite.stored_in_ipfs,
+                                    sent_to_peer:           contentStoredInSqlite.sent_to_peer,
+                                    read_from_local_ipfs:   contentStoredInSqlite.read_from_local_ipfs,
+                                    read_from_peer_ipfs:    contentStoredInSqlite.read_from_peer_ipfs,
+                                    read_from_peer_file:    contentStoredInSqlite.read_from_peer_file,
+                                    last_ipfs_ping:         contentStoredInSqlite.last_ipfs_ping_millis
                 }
                 fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
-                fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadata,null,2));
+                fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadataAsJson,null,2));
 
                 return(  {  value: justHash  ,  error: null  }  )
 
 
 
-            // otherwise if the content exists on disk but not in Sqlite
+            // otherwise if the content exists on disk but not in Sqlite then
+            // take the metadata from the file and store it in SQlite
             } else if (contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
+                metadataContent = fs.readFileSync(fullIpfsMetaDataFilePath)
+                metadataJson    = JSON.parse(metadataContent)
 
-                await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: contentType  ,  temp_debug_content: contentValueToStore  , scope: scope}  )
+                await mm.insertContentStorageRecord(
+                    {
+                        thisDb:                 thisDb,
+                        ipfsHash:               justHash,
+                        contentType:            contentType,
+                        temp_debug_content:     contentValueToStore,
+                        scope:                  scope,
+                        stored_in_local_file:   metadataJson.stored_in_local_file,
+                        read_from_local_file:   metadataJson.read_from_local_file,
+                        stored_in_ipfs:         metadataJson.stored_in_ipfs,
+                        sent_to_peer:           metadataJson.sent_to_peer,
+                        read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
+                        read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
+                        read_from_peer_file:    metadataJson.read_from_peer_file,
+                        last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
+
+                    })
 
 
 
             // otherwise generate the content on disk and in sqlite
             } else {
-                await mm.insertIpfsHashRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: contentType  ,  temp_debug_content: content , scope: scope }  )
+                await mm.insertContentStorageRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: contentType  ,  temp_debug_content: content , scope: scope }  )
                 metadata = {
                     ipfs_hash:              justHash,
                     content_type:           contentType,
@@ -1694,10 +1715,10 @@ module.exports = {
         })
         await promise
     },
-    insertIpfsHashRecord:           async function  (  {  thisDb  ,  ipfsHash  ,  contentType  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  }  ) {
+    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfsHash  ,  contentType  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping     }  ) {
         //---------------------------------------------------------------------------
         //
-        //                           insertIpfsHashRecord( )
+        //                           insertContentStorageRecord( )
         //                           -----------------------
         //
         // This inserts ONLY the IPFS content KEY in the internal database. This
@@ -1738,7 +1759,7 @@ module.exports = {
                 let fullIpfsFilePath    = path.join(  fullIpfsFolderPath  ,  justHash  )
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
-                await yz.insertIpfsHashRecord(  { thisDb: dbsearch  ,  ipfsHash: justHash  ,  temp_debug_content: srcCode  , scope: "LOCAL"}  )
+                await yz.insertContentStorageRecord(  { thisDb: dbsearch  ,  ipfsHash: justHash  ,  temp_debug_content: srcCode  , scope: "LOCAL"}  )
                 await yz.distributeContentToPeer(  justHash  ,  srcCode  )
 
                 if (  isIPFSConnected  ) {
