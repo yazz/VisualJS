@@ -1828,8 +1828,6 @@ module.exports = {
         if ((!mm.centralhost) || (!mm.centralhostport)) {
             return
         }
-        console.log("peer NOT available")
-
         let promise     = new Promise(async function(returnfn) {
             try {
                 let aliveCheckUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost  + ":" + mm.centralhostport + "/http_get_peer_alive_check"
