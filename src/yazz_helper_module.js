@@ -1410,9 +1410,7 @@ module.exports = {
                                                 last_ipfs_ping_millis:  metadataJson.last_ipfs_ping_millis
                                             }
                 await mm.insertContentStorageRecord(updatedMetadataJson)
-                delete updatedMetadataJson["temp_debug_content"];
-                delete updatedMetadataJson["thisDb"];
-                fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(updatedMetadataJson,null,2));
+                mm.updateLocalDiskMetaDataForContent( thisDb, ipfsHash)
                 returnValue = contentOnDisk
 
 
@@ -1720,7 +1718,8 @@ module.exports = {
                     });
                     res.on('end', function () {
                         console.log('end: ' );
-                        mm.executeQuickSql( thisDb, "update  ipfs_hashes  set stored_in_ipfs = stored_in_ipfs + 1 where ipfs_hash = ?", [ipfs_hash] )
+                        mm.executeQuickSql( thisDb, "update  ipfs_hashes  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
+                        mm.updateLocalDiskMetaDataForContent(thisDb, ipfs_hash)
                     });
                 });
                 req.write(dataString)
@@ -1893,6 +1892,27 @@ module.exports = {
             }
         }
         mm.synchonizeContentAmongPeersLock = false
+
+    },
+    updateLocalDiskMetaDataForContent:    async function  (  thisDb  ,  ipfsHash  ) {
+        let mm = this
+        let contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
+        let fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
+        let fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
+        let updatedMetadataJson     =   {
+                                            ipfs_hash:              ipfsHash,
+                                            content_type:           contentStoredInSqlite.content_type,
+                                            scope:                  contentStoredInSqlite.scope,
+                                            stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
+                                            read_from_local_file:   contentStoredInSqlite.read_from_local_file,
+                                            stored_in_ipfs:         contentStoredInSqlite.stored_in_ipfs,
+                                            sent_to_peer:           contentStoredInSqlite.sent_to_peer,
+                                            read_from_local_ipfs:   contentStoredInSqlite.read_from_local_ipfs,
+                                            read_from_peer_ipfs:    contentStoredInSqlite.read_from_peer_ipfs,
+                                            read_from_peer_file:    contentStoredInSqlite.read_from_peer_file,
+                                            last_ipfs_ping_millis:  contentStoredInSqlite.last_ipfs_ping_millis
+                                        }
+        fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(updatedMetadataJson,null,2));
 
     },
     oldsynchonizeContentAmongPeers:    async function  (  thisDb  ) {
