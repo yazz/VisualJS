@@ -1448,10 +1448,10 @@ module.exports = {
 
 
 
-
         } catch( err) {
             debugger
         }
+        return {value: returnValue, error: null}
 
     },
     setDistributedContent:          async function  (  thisDb  ,  content  , options  ) {
@@ -1869,8 +1869,8 @@ module.exports = {
         if (mm.peerAvailable) {
             let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' order by sent_to_peer asc LIMIT 1")
             if (nextUnsentRecord) {
-                //let content = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash})
-                //await mm.distributeContentToPeer(nextUnsentRecord.ipfs_hash, content.value)
+                let content = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash})
+                await mm.distributeContentToPeer(nextUnsentRecord.ipfs_hash, content.value)
             }
         }
 
