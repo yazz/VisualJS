@@ -1667,7 +1667,8 @@ module.exports = {
             })
 
     },
-    distributeContentToPeer:        async function  (  ipfs_hash  ,  ipfsContent  ) {
+    distributeContentToPeer:        async function  (  thisDb, ipfs_hash  ,  ipfsContent  ) {
+
         //---------------------------------------------------------------------------
         //
         //                           distributeContentToPeer(  )
@@ -1681,6 +1682,11 @@ module.exports = {
         if ((!mm.centralhost) || (!mm.centralhostport)) {
             return
         }
+
+        if (mm.inDistributeContentToPeer) {
+            return
+        }
+        mm.inDistributeContentToPeer = true
 
         let promise     = new Promise(async function(returnfn) {
             try {
@@ -1714,6 +1720,7 @@ module.exports = {
                     });
                     res.on('end', function () {
                         console.log('end: ' );
+                        mm.executeQuickSql( thisDb, "update  ipfs_hashes  set stored_in_ipfs = stored_in_ipfs + 1 where ipfs_hash = ?", [ipfs_hash] )
                     });
                 });
                 req.write(dataString)
@@ -1725,6 +1732,7 @@ module.exports = {
             }
         })
         await promise
+        mm.inDistributeContentToPeer = false
     },
     insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping     }  ) {
         //---------------------------------------------------------------------------
@@ -1772,7 +1780,7 @@ module.exports = {
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
                 await yz.insertContentStorageRecord(  { thisDb: dbsearch  ,  ipfs_hash: justHash  ,  temp_debug_content: srcCode  , scope: "LOCAL"}  )
-                await yz.distributeContentToPeer(  justHash  ,  srcCode  )
+                await yz.distributeContentToPeer(  thisDb, justHash  ,  srcCode  )
 
                 if (  isIPFSConnected  ) {
                     let testBuffer = new Buffer(  srcCode  );
@@ -1869,8 +1877,14 @@ module.exports = {
         if (mm.peerAvailable) {
             let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' order by sent_to_peer asc LIMIT 1")
             if (nextUnsentRecord) {
-                let content = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash})
-                await mm.distributeContentToPeer(nextUnsentRecord.ipfs_hash, content.value)
+                if (nextUnsentRecord.ipfs_hash != null) {
+                    let nextContent = await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash })
+                    if ( await mm.getIpfsHash( nextContent.value ) == nextUnsentRecord.ipfs_hash) {
+                        let content = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash})
+                        await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value)
+                    }
+
+                }
             }
         }
 
@@ -1881,7 +1895,7 @@ module.exports = {
         if (rows.length == 0) {
             return null
         }
-        await mm.distributeContentToPeer(justHash, content)
+        await mm.distributeContentToPeer(thisDb, justHash, content)
 
         if (mm.isIPFSConnected) {
             let testBuffer = new Buffer(content);
