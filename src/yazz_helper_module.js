@@ -1396,8 +1396,8 @@ module.exports = {
                 metadataJson            = JSON.parse(metadataContent)
                 updatedMetadataJson     =   {
                                                 thisDb:                 thisDb,
-                                                ipfsHash:               ipfsHash,
-                                                contentType:            metadataJson.content_type,
+                                                ipfs_hash:              ipfsHash,
+                                                content_type:           metadataJson.content_type,
                                                 temp_debug_content:     contentOnDisk,
                                                 scope:                  metadataJson.scope,
                                                 stored_in_local_file:   metadataJson.stored_in_local_file,
@@ -1410,6 +1410,12 @@ module.exports = {
                                                 last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
                                             }
                 await mm.insertContentStorageRecord(updatedMetadataJson)
+                delete updatedMetadataJson["temp_debug_content"];
+                delete updatedMetadataJson["thisDb"];
+if (updatedMetadataJson.content_type==null)
+{
+    debugger
+}
                 fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(updatedMetadataJson,null,2));
                 returnValue = contentOnDisk
 
@@ -1531,6 +1537,10 @@ module.exports = {
                                     last_ipfs_ping:         contentStoredInSqlite.last_ipfs_ping_millis
                 }
                 fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
+if (metadataAsJson.content_type==null)
+{
+debugger
+}
                 fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadataAsJson,null,2));
 
                 return(  {  value: justHash  ,  error: null  }  )
@@ -1546,8 +1556,8 @@ module.exports = {
                 await mm.insertContentStorageRecord(
                     {
                         thisDb:                 thisDb,
-                        ipfsHash:               justHash,
-                        contentType:            contentType,
+                        ipfs_hash:              justHash,
+                        content_type:           contentType,
                         temp_debug_content:     contentValueToStore,
                         scope:                  scope,
                         stored_in_local_file:   metadataJson.stored_in_local_file,
@@ -1564,9 +1574,6 @@ module.exports = {
 
             // otherwise generate the content on disk and in sqlite
             } else {
-                if (contentType == null) {
-                    contentType
-                }
                 await mm.insertContentStorageRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: contentType  ,  temp_debug_content: content , scope: scope }  )
                 metadata = {
                     ipfs_hash:              justHash,
@@ -1582,6 +1589,10 @@ module.exports = {
                     last_ipfs_ping_millis:  -1
                 }
                 fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
+if (metadata.content_type==null)
+{
+    debugger
+}
                 fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadata,null,2));
 
             }
@@ -1728,7 +1739,7 @@ module.exports = {
         })
         await promise
     },
-    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfsHash  ,  contentType  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping     }  ) {
+    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping     }  ) {
         //---------------------------------------------------------------------------
         //
         //                           insertContentStorageRecord( )
@@ -1744,7 +1755,7 @@ module.exports = {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfsHash,  contentType,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis )
+                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis )
                     thisDb.run("commit")
                     returnfn()
                 })
@@ -1773,7 +1784,7 @@ module.exports = {
                 let fullIpfsFilePath    = path.join(  fullIpfsFolderPath  ,  justHash  )
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
-                await yz.insertContentStorageRecord(  { thisDb: dbsearch  ,  ipfsHash: justHash  ,  temp_debug_content: srcCode  , scope: "LOCAL"}  )
+                await yz.insertContentStorageRecord(  { thisDb: dbsearch  ,  ipfs_hash: justHash  ,  temp_debug_content: srcCode  , scope: "LOCAL"}  )
                 await yz.distributeContentToPeer(  justHash  ,  srcCode  )
 
                 if (  isIPFSConnected  ) {
