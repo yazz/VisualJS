@@ -1410,7 +1410,7 @@ module.exports = {
                                                 last_ipfs_ping_millis:  metadataJson.last_ipfs_ping_millis
                                             }
                 await mm.insertContentStorageRecord(updatedMetadataJson)
-                mm.updateLocalDiskMetaDataForContent( thisDb, ipfsHash)
+                await mm.updateLocalDiskMetaDataForContent( thisDb, ipfsHash)
                 returnValue = contentOnDisk
 
 
@@ -1581,7 +1581,7 @@ module.exports = {
                         last_ipfs_ping_millis:  -1
                     }  )
                 fs.writeFileSync(  fullIpfsFilePath  ,  contentValueToStore  );
-                mm.updateLocalDiskMetaDataForContent(  thisDb  ,  ipfsHash  )
+                await mm.updateLocalDiskMetaDataForContent(  thisDb  ,  justHash  )
             }
 
 
@@ -1718,10 +1718,10 @@ module.exports = {
                     res.on('data', function (chunk) {
                         console.log('BODY: ' + chunk);
                     });
-                    res.on('end', function () {
+                    res.on('end', async function () {
                         console.log('end: ' );
-                        mm.executeQuickSql( thisDb, "update  ipfs_hashes  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
-                        mm.updateLocalDiskMetaDataForContent(thisDb, ipfs_hash)
+                        await mm.executeQuickSql( thisDb, "update  ipfs_hashes  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
+                        await mm.updateLocalDiskMetaDataForContent(thisDb, ipfs_hash)
                     });
                 });
                 req.write(dataString)
