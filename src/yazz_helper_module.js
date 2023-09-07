@@ -1816,7 +1816,6 @@ module.exports = {
         //---------------------------------------------------------------------------
         let mm = this
 
-        mm.peerAvailable = false
         if ((!mm.centralhost) || (!mm.centralhostport)) {
             return
         }
@@ -1839,15 +1838,17 @@ module.exports = {
                         //console.log('HEADERS: ' + JSON.stringify(res.headers));
                         if (res.statusCode == 200 ) {
                             console.log("peer available")
-                            peerAvailable = true
+                            mm.peerAvailable = true
                         } else {
                             console.log("peer NOT available. HTTP return code: " +  res.statusCode )
-                            peerAvailable = false
+                            mm.peerAvailable = false
                         }
                 });
                 returnfn()
             } catch(er) {
                 console.log(er)
+                console.log("peer NOT available. ")
+                mm.peerAvailable = false
                 returnfn()
             }
         })
@@ -1863,9 +1864,14 @@ module.exports = {
         // locally, to peer Yazz servers, and to IPFS
         //
         //---------------------------------------------------------------------------
+        let mm = this
         console.log("Sync called")
         if (mm.peerAvailable) {
-
+            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' order by sent_to_peer asc LIMIT 1")
+            if (nextUnsentRecord) {
+                //let content = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash})
+                //await mm.distributeContentToPeer(nextUnsentRecord.ipfs_hash, content.value)
+            }
         }
 
     },

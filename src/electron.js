@@ -349,7 +349,7 @@ if (process.argv.length > 1) {
 } else {
     program.host = ''
     program.hostport = -1
-    program.centralhost = -1
+    program.centralhost = "yazz.com"
     yz.centralhost = program.centralhost
     program.centralhostport = ''
     yz.centralhostport = program.centralhostport
@@ -460,6 +460,9 @@ let centralHostPort = 80
 if (program.centralhost == "") {
     centralHost     = "yazz.com"
     yz.centralhost  = "yazz.com"
+} else {
+    centralHost     = program.centralhost
+    yz.centralhost  = program.centralhost
 }
 envVars.CENTRALHOST = program.centralhost
 console.log("$CENTRALHOST = " + envVars.CENTRALHOST)
