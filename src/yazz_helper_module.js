@@ -1407,7 +1407,7 @@ module.exports = {
                                                 read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
                                                 read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
                                                 read_from_peer_file:    metadataJson.read_from_peer_file,
-                                                last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
+                                                last_ipfs_ping_millis:  metadataJson.last_ipfs_ping_millis
                                             }
                 await mm.insertContentStorageRecord(updatedMetadataJson)
                 delete updatedMetadataJson["temp_debug_content"];
@@ -1530,7 +1530,7 @@ module.exports = {
                                     read_from_local_ipfs:   contentStoredInSqlite.read_from_local_ipfs,
                                     read_from_peer_ipfs:    contentStoredInSqlite.read_from_peer_ipfs,
                                     read_from_peer_file:    contentStoredInSqlite.read_from_peer_file,
-                                    last_ipfs_ping:         contentStoredInSqlite.last_ipfs_ping_millis
+                                    last_ipfs_ping_millis:  contentStoredInSqlite.last_ipfs_ping_millis
                 }
                 fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
                 fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadataAsJson,null,2));
@@ -1559,7 +1559,7 @@ module.exports = {
                         read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
                         read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
                         read_from_peer_file:    metadataJson.read_from_peer_file,
-                        last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
+                        last_ipfs_ping_millis:  metadataJson.last_ipfs_ping_millis
                     })
 
 
@@ -1734,7 +1734,7 @@ module.exports = {
         await promise
         mm.inDistributeContentToPeer = false
     },
-    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping     }  ) {
+    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file   }  ) {
         //---------------------------------------------------------------------------
         //
         //                           insertContentStorageRecord( )
