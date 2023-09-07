@@ -1412,10 +1412,6 @@ module.exports = {
                 await mm.insertContentStorageRecord(updatedMetadataJson)
                 delete updatedMetadataJson["temp_debug_content"];
                 delete updatedMetadataJson["thisDb"];
-if (updatedMetadataJson.content_type==null)
-{
-    debugger
-}
                 fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(updatedMetadataJson,null,2));
                 returnValue = contentOnDisk
 
@@ -1537,10 +1533,6 @@ if (updatedMetadataJson.content_type==null)
                                     last_ipfs_ping:         contentStoredInSqlite.last_ipfs_ping_millis
                 }
                 fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
-if (metadataAsJson.content_type==null)
-{
-debugger
-}
                 fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadataAsJson,null,2));
 
                 return(  {  value: justHash  ,  error: null  }  )
@@ -1589,12 +1581,7 @@ debugger
                     last_ipfs_ping_millis:  -1
                 }
                 fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
-if (metadata.content_type==null)
-{
-    debugger
-}
                 fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadata,null,2));
-
             }
 
 
