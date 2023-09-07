@@ -1873,6 +1873,11 @@ module.exports = {
         //
         //---------------------------------------------------------------------------
         let mm = this
+        if (mm.synchonizeContentAmongPeersLock) {
+            return
+        }
+        mm.synchonizeContentAmongPeersLock = true
+
         console.log("Sync called")
         if (mm.peerAvailable) {
             let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' order by sent_to_peer asc LIMIT 1")
@@ -1887,6 +1892,7 @@ module.exports = {
                 }
             }
         }
+        mm.synchonizeContentAmongPeersLock = false
 
     },
     oldsynchonizeContentAmongPeers:    async function  (  thisDb  ) {
