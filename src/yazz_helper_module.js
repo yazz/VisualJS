@@ -1564,22 +1564,24 @@ module.exports = {
 
             // otherwise generate the content on disk and in sqlite
             } else {
-                await mm.insertContentStorageRecord(  {  thisDb: thisDb  ,  ipfs_hash: justHash  ,  contentType: contentType  ,  temp_debug_content: content , scope: scope }  )
-                metadata = {
-                    ipfs_hash:              justHash,
-                    content_type:           contentType,
-                    scope:                  scope,
-                    stored_in_local_file:   1,
-                    read_from_local_file:   0,
-                    stored_in_ipfs:         0,
-                    sent_to_peer:           0,
-                    read_from_local_ipfs:   0,
-                    read_from_peer_ipfs:    0,
-                    read_from_peer_file:    0,
-                    last_ipfs_ping_millis:  -1
-                }
-                fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
-                fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadata,null,2));
+                await mm.insertContentStorageRecord(
+                    {
+                        thisDb:                 thisDb,
+                        ipfs_hash:              justHash,
+                        temp_debug_content:     content,
+                        content_type:           contentType,
+                        scope:                  scope,
+                        stored_in_local_file:   1,
+                        read_from_local_file:   0,
+                        stored_in_ipfs:         0,
+                        sent_to_peer:           0,
+                        read_from_local_ipfs:   0,
+                        read_from_peer_ipfs:    0,
+                        read_from_peer_file:    0,
+                        last_ipfs_ping_millis:  -1
+                    }  )
+                fs.writeFileSync(  fullIpfsFilePath  ,  contentValueToStore  );
+                mm.updateLocalDiskMetaDataForContent(  thisDb  ,  ipfsHash  )
             }
 
 
