@@ -1358,6 +1358,7 @@ module.exports = {
         let contentExistsOnLocalDisk    = null
         let metadataExistsOnLocalDisk   = null
         let metadataJson                = null
+        let updatedMetadataJson         = null
         let contentStoredInSqlite       = null
         let metadataContent             = null
         let metadataAsJson              = null
@@ -1390,25 +1391,26 @@ module.exports = {
             // otherwise if the content exists on disk but not in Sqlite then
             // take the content and metadata from the file and store it in SQlite
             } else if (contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
-                contentOnDisk   = fs.readFileSync(fullIpfsFilePath).toString("utf8")
-                metadataContent = fs.readFileSync(fullIpfsMetaDataFilePath)
-                metadataJson    = JSON.parse(metadataContent)
-                await mm.insertContentStorageRecord(
-                    {
-                        thisDb:                 thisDb,
-                        ipfsHash:               ipfsHash,
-                        contentType:            metadataJson.content_type,
-                        temp_debug_content:     contentOnDisk,
-                        scope:                  metadataJson.scope,
-                        stored_in_local_file:   metadataJson.stored_in_local_file,
-                        read_from_local_file:   parseInt(metadataJson.read_from_local_file) + 1,
-                        stored_in_ipfs:         metadataJson.stored_in_ipfs,
-                        sent_to_peer:           metadataJson.sent_to_peer,
-                        read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
-                        read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
-                        read_from_peer_file:    metadataJson.read_from_peer_file,
-                        last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
-                    })
+                contentOnDisk           = fs.readFileSync(fullIpfsFilePath).toString("utf8")
+                metadataContent         = fs.readFileSync(fullIpfsMetaDataFilePath)
+                metadataJson            = JSON.parse(metadataContent)
+                updatedMetadataJson     =   {
+                                                thisDb:                 thisDb,
+                                                ipfsHash:               ipfsHash,
+                                                contentType:            metadataJson.content_type,
+                                                temp_debug_content:     contentOnDisk,
+                                                scope:                  metadataJson.scope,
+                                                stored_in_local_file:   metadataJson.stored_in_local_file,
+                                                read_from_local_file:   parseInt(metadataJson.read_from_local_file) + 1,
+                                                stored_in_ipfs:         metadataJson.stored_in_ipfs,
+                                                sent_to_peer:           metadataJson.sent_to_peer,
+                                                read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
+                                                read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
+                                                read_from_peer_file:    metadataJson.read_from_peer_file,
+                                                last_ipfs_ping:         metadataJson.last_ipfs_ping_millis
+                                            }
+                await mm.insertContentStorageRecord(updatedMetadataJson)
+                fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(updatedMetadataJson,null,2));
                 returnValue = contentOnDisk
 
 
