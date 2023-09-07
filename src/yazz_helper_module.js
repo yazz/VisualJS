@@ -1566,7 +1566,7 @@ module.exports = {
 
             // otherwise generate the content on disk and in sqlite
             } else {
-                await mm.insertContentStorageRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: contentType  ,  temp_debug_content: content , scope: scope }  )
+                await mm.insertContentStorageRecord(  {  thisDb: thisDb  ,  ipfs_hash: justHash  ,  contentType: contentType  ,  temp_debug_content: content , scope: scope }  )
                 metadata = {
                     ipfs_hash:              justHash,
                     content_type:           contentType,
