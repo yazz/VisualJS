@@ -1390,15 +1390,14 @@ module.exports = {
             // otherwise if the content exists on disk but not in Sqlite then
             // take the content and metadata from the file and store it in SQlite
             } else if (contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
-                contentOnDisk   = fs.readFileSync(fullIpfsFilePath)
+                contentOnDisk   = fs.readFileSync(fullIpfsFilePath).toString("utf8")
                 metadataContent = fs.readFileSync(fullIpfsMetaDataFilePath)
                 metadataJson    = JSON.parse(metadataContent)
-
                 await mm.insertContentStorageRecord(
                     {
                         thisDb:                 thisDb,
                         ipfsHash:               ipfsHash,
-                        contentType:            metadataJson.contentType,
+                        contentType:            metadataJson.content_type,
                         temp_debug_content:     contentOnDisk,
                         scope:                  metadataJson.scope,
                         stored_in_local_file:   metadataJson.stored_in_local_file,
@@ -1563,6 +1562,9 @@ module.exports = {
 
             // otherwise generate the content on disk and in sqlite
             } else {
+                if (contentType == null) {
+                    contentType
+                }
                 await mm.insertContentStorageRecord(  {  thisDb: thisDb  ,  ipfsHash: justHash  ,  contentType: contentType  ,  temp_debug_content: content , scope: scope }  )
                 metadata = {
                     ipfs_hash:              justHash,
@@ -1862,6 +1864,9 @@ module.exports = {
         //
         //---------------------------------------------------------------------------
         console.log("Sync called")
+        if (mm.peerAvailable) {
+
+        }
 
     },
     oldsynchonizeContentAmongPeers:    async function  (  thisDb  ) {
