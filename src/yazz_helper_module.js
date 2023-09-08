@@ -1937,7 +1937,7 @@ module.exports = {
         }
         mm.synchonizeContentAmongPeersLock = true
 
-        console.log("Sync called")
+        //console.log("Sync called")
         if (mm.peerAvailable) {
             let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' order by sent_to_peer asc LIMIT 1")
             if (nextUnsentRecord) {
@@ -1987,7 +1987,7 @@ module.exports = {
 
     },
     oldsynchonizeContentAmongPeers: async function  (  thisDb  ) {
-        console.log("Sync")
+        //console.log("Sync")
         let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
         if (rows.length == 0) {
             return null
