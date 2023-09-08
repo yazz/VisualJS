@@ -1445,6 +1445,8 @@ module.exports = {
                                                 read_from_local_file:   parseInt(metadataJson.read_from_local_file) + 1,
                                                 stored_in_ipfs:         metadataJson.stored_in_ipfs,
                                                 sent_to_peer:           metadataJson.sent_to_peer,
+                                                received_from_peer:     parseInt(metadataJson.received_from_peer)>=0?metadataJson.received_from_peer:0,
+                                                pulled_from_peer:       parseInt(metadataJson.pulled_from_peer)>=0?metadataJson.pulled_from_peer:0,
                                                 read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
                                                 read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
                                                 read_from_peer_file:    metadataJson.read_from_peer_file,
