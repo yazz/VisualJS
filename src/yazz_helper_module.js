@@ -1522,6 +1522,7 @@ module.exports = {
         let contentStoredInSqlite       = null
         let metadataContent             = null
         let metadataAsJson              = null
+        let createdTimeMillis           = null
 
         if (typeof content !== 'string') {
             contentValueToStore = JSON.stringify(content,null,2)
@@ -1536,6 +1537,13 @@ module.exports = {
                     scope = "LOCAL";
                 }
             }
+        }
+
+        createdTimeMillis = mm.helpers.getValueOfCodeString(contentValueToStore,"created_timestamp")
+        if (createdTimeMillis == null) {
+            createdTimeMillis = new Date().getTime()
+        } else {
+            createdTimeMillis = parseInt(createdTimeMillis)
         }
 
         justHash = await OnlyIpfsHash.of(contentValueToStore)
@@ -1560,6 +1568,7 @@ module.exports = {
             } else if (contentStoredInSqlite) {
                 metadataAsJson = {
                                     ipfs_hash:              contentStoredInSqlite.ipfs_hash,
+                                    created_time_millis:    contentStoredInSqlite.created_time_millis,
                                     content_type:           contentStoredInSqlite.content_type,
                                     scope:                  contentStoredInSqlite.scope,
                                     stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
@@ -1588,7 +1597,7 @@ module.exports = {
                     {
                         thisDb:                 thisDb,
                         ipfs_hash:              justHash,
-                        created_time_millis:    metadataJson.created_time_millis?metadataJson.created_time_millis:new Date().getTime(),
+                        created_time_millis:    createdTimeMillis,
                         content_type:           contentType,
                         temp_debug_content:     contentValueToStore,
                         scope:                  scope,
@@ -1610,7 +1619,7 @@ module.exports = {
                     {
                         thisDb:                 thisDb,
                         ipfs_hash:              justHash,
-                        created_time_millis:    metadataJson.created_time_millis?metadataJson.created_time_millis:new Date().getTime(),
+                        created_time_millis:    createdTimeMillis,
                         temp_debug_content:     content,
                         content_type:           contentType,
                         scope:                  scope,
