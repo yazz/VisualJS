@@ -142,9 +142,9 @@ module.exports = {
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
-            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis ) " +
+            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created ) " +
             " values " +
-            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? );");
+            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? );");
     },
 
     //text retrieval and replacement
@@ -242,6 +242,46 @@ module.exports = {
         }
         return false
     },
+    msToTime:                       function        (   duration   ,   options  ) {
+        if (!duration) {
+            return ""
+        }
+        let ret = new Date(duration).toUTCString()
+
+        let ret2 = ""
+
+        let currentTime = new Date().getTime()
+
+        let timeDiffSecs = (currentTime - duration) / 1000
+        let timeDiffMins = timeDiffSecs / 60
+        let timeDiffHours = timeDiffMins / 60
+        let timeDiffDays = timeDiffHours / 24
+        if (timeDiffSecs < 60) {
+            ret2 = ret2 + "a few seconds ago"
+        } else if (timeDiffMins < 10) {
+            ret2 = ret2 + "a few minutes ago"
+        } else if (timeDiffMins < 30) {
+            ret2 = ret2 + "less than half an hour ago"
+        } else if (timeDiffMins < 60) {
+            ret2 = ret2 + "under an hour ago"
+        } else if (timeDiffHours < 10) {
+            ret2 = ret2 + "a few hours ago"
+        } else if (timeDiffDays < 2) {
+            ret2 = ret2 + "yesterday"
+        } else if (timeDiffDays < 10) {
+            ret2 = ret2 + "a few days ago"
+        }
+
+        if (options && options.timeOnly) {
+        } else if (options && options.shortOnly) {
+            ret = ret2
+        } else {
+            ret =  ret2 +  " (" + ret + ")"
+        }
+
+        return ret
+    },
+
 
     //Internal SQLite DB helpers
     getQuickSqlOneRow:              async function  (  thisDb  ,  sql  ,  params  ) {
@@ -1398,6 +1438,7 @@ module.exports = {
                                                 thisDb:                 thisDb,
                                                 ipfs_hash:              ipfsHash,
                                                 content_type:           metadataJson.content_type,
+                                                created_time_millis:    metadataJson.created_time_millis?metadataJson.created_time_millis:new Date().getTime(),
                                                 temp_debug_content:     contentOnDisk,
                                                 scope:                  metadataJson.scope,
                                                 stored_in_local_file:   metadataJson.stored_in_local_file,
@@ -1409,8 +1450,8 @@ module.exports = {
                                                 read_from_peer_file:    metadataJson.read_from_peer_file,
                                                 last_ipfs_ping_millis:  metadataJson.last_ipfs_ping_millis
                                             }
-                await mm.insertContentStorageRecord(updatedMetadataJson)
-                await mm.updateLocalDiskMetaDataForContent( thisDb, ipfsHash)
+                await mm.insertContentStorageRecord(  updatedMetadataJson  )
+                await mm.updateLocalDiskMetaDataForContent(  thisDb  ,  ipfsHash  )
                 returnValue = contentOnDisk
 
 
@@ -1547,6 +1588,7 @@ module.exports = {
                     {
                         thisDb:                 thisDb,
                         ipfs_hash:              justHash,
+                        created_time_millis:    metadataJson.created_time_millis?metadataJson.created_time_millis:new Date().getTime(),
                         content_type:           contentType,
                         temp_debug_content:     contentValueToStore,
                         scope:                  scope,
@@ -1568,6 +1610,7 @@ module.exports = {
                     {
                         thisDb:                 thisDb,
                         ipfs_hash:              justHash,
+                        created_time_millis:    metadataJson.created_time_millis?metadataJson.created_time_millis:new Date().getTime(),
                         temp_debug_content:     content,
                         content_type:           contentType,
                         scope:                  scope,
@@ -1740,7 +1783,7 @@ module.exports = {
         await promise
         mm.inDistributeContentToPeer = false
     },
-    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file   }  ) {
+    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  created_time_millis  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file   }  ) {
         //---------------------------------------------------------------------------
         //
         //                           insertContentStorageRecord( )
@@ -1751,12 +1794,13 @@ module.exports = {
         // the local machine on the filesystem
         //
         //---------------------------------------------------------------------------
-
+        let mm = this
         let promise = new Promise(async function(returnfn) {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis )
+                    let debugCreated = mm.msToTime(  created_time_millis  )
+                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis ,  created_time_millis  , debugCreated)
                     thisDb.run("commit")
                     returnfn()
                 })
@@ -1906,6 +1950,7 @@ module.exports = {
         let fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
         let updatedMetadataJson     =   {
                                             ipfs_hash:              ipfsHash,
+                                            created_time_millis:    contentStoredInSqlite.created_time_millis?contentStoredInSqlite.created_time_millis:new Date().getTime(),
                                             content_type:           contentStoredInSqlite.content_type,
                                             scope:                  contentStoredInSqlite.scope,
                                             stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
