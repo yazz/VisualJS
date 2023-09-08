@@ -1775,10 +1775,10 @@ module.exports = {
                     //console.log('HEADERS: ' + JSON.stringify(res.headers));
                     res.setEncoding('utf8');
                     res.on('data', function (chunk) {
-                        console.log('BODY: ' + chunk);
+                        //console.log('BODY: ' + chunk);
                     });
                     res.on('end', async function () {
-                        console.log('end: ' );
+                        //console.log('end: ' );
                         await mm.executeQuickSql( thisDb, "update  ipfs_hashes  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
                         await mm.updateContentMetadataFile(thisDb, ipfs_hash)
                     });
