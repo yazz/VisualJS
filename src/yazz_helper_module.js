@@ -1654,6 +1654,11 @@ module.exports = {
                                 }
                             } else if (itemType == "APP") {
                                 await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
+                            } else {
+                                //debugger
+                                // Why don't we load all the controls as well? Well, if we do then we would end up loading
+                                // thousands of records and creating a huge amount of Vue objects which will consume alot of
+                                // memory. This is something that we will have to think about more deeply
                             }
                             //console.log("ipfsHashFileName : " + ipfsHashFileName + " read");
                         }
