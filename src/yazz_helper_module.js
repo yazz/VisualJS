@@ -1451,7 +1451,7 @@ module.exports = {
                                                 last_ipfs_ping_millis:  metadataJson.last_ipfs_ping_millis
                                             }
                 await mm.insertContentStorageRecord(  updatedMetadataJson  )
-                await mm.updateLocalDiskMetaDataForContent(  thisDb  ,  ipfsHash  )
+                await mm.updateContentMetadataFile(  thisDb  ,  ipfsHash  )
                 returnValue = contentOnDisk
 
 
@@ -1633,7 +1633,7 @@ module.exports = {
                         last_ipfs_ping_millis:  -1
                     }  )
                 fs.writeFileSync(  fullIpfsFilePath  ,  contentValueToStore  );
-                await mm.updateLocalDiskMetaDataForContent(  thisDb  ,  justHash  )
+                await mm.updateContentMetadataFile(  thisDb  ,  justHash  )
             }
 
 
@@ -1745,6 +1745,8 @@ module.exports = {
         }
         mm.inDistributeContentToPeer = true
 
+        let contentDesc = mm.getContentDescription(ipfsContent)
+        console.log("Sending content to peer: " + contentDesc)
         let promise     = new Promise(async function(returnfn) {
             try {
                 const dataString = JSON.stringify(
@@ -1769,8 +1771,8 @@ module.exports = {
                     theHttpsConn = https
                 }
                 let req = theHttpsConn.request(options, function(res) {
-                    console.log('STATUS: ' + res.statusCode);
-                    console.log('HEADERS: ' + JSON.stringify(res.headers));
+                    //console.log('STATUS: ' + res.statusCode);
+                    //console.log('HEADERS: ' + JSON.stringify(res.headers));
                     res.setEncoding('utf8');
                     res.on('data', function (chunk) {
                         console.log('BODY: ' + chunk);
@@ -1778,7 +1780,7 @@ module.exports = {
                     res.on('end', async function () {
                         console.log('end: ' );
                         await mm.executeQuickSql( thisDb, "update  ipfs_hashes  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
-                        await mm.updateLocalDiskMetaDataForContent(thisDb, ipfs_hash)
+                        await mm.updateContentMetadataFile(thisDb, ipfs_hash)
                     });
                 });
                 req.write(dataString)
@@ -1952,7 +1954,17 @@ module.exports = {
         mm.synchonizeContentAmongPeersLock = false
 
     },
-    updateLocalDiskMetaDataForContent:    async function  (  thisDb  ,  ipfsHash  ) {
+    getContentDescription:          function  (  ipfsContent  ) {
+        let mm = this
+        if (ipfsContent == null) {
+            return ""
+        } else {
+            let bci = mm.helpers.getValueOfCodeString(ipfsContent, "base_component_id")
+            let ct  = mm.helpers.getValueOfCodeString(ipfsContent, "component_type")
+            return "BCI: " + bci + ", component_type: " + ct
+        }
+    },
+    updateContentMetadataFile:      async function  (  thisDb  ,  ipfsHash  ) {
         let mm = this
         let contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
         let fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
@@ -1974,7 +1986,7 @@ module.exports = {
         fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(updatedMetadataJson,null,2));
 
     },
-    oldsynchonizeContentAmongPeers:    async function  (  thisDb  ) {
+    oldsynchonizeContentAmongPeers: async function  (  thisDb  ) {
         console.log("Sync")
         let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
         if (rows.length == 0) {
