@@ -1715,7 +1715,7 @@ module.exports = {
             })
 
     },
-    distributeContentToPeer:        async function  (  thisDb, ipfs_hash  ,  ipfsContent  ,  createTimeMillis) {
+    distributeContentToPeer:        async function  (  thisDb, ipfs_hash  ,  ipfsContent  ) {
 
         //---------------------------------------------------------------------------
         //
@@ -1740,9 +1740,8 @@ module.exports = {
             try {
                 const dataString = JSON.stringify(
                     {
-                        ipfs_hash:              ipfs_hash,
-                        ipfs_content:           ipfsContent,
-                        create_time_millis:     createTimeMillis
+                        ipfs_hash:      ipfs_hash,
+                        ipfs_content:   ipfsContent
                     })
 
                 let options = {
@@ -1929,14 +1928,15 @@ module.exports = {
 
         console.log("Sync called")
         if (mm.peerAvailable) {
-            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  ,  created_time_millis  from  ipfs_hashes  where scope='GLOBAL' order by sent_to_peer asc LIMIT 1")
+            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' order by sent_to_peer asc LIMIT 1")
             if (nextUnsentRecord) {
                 if (nextUnsentRecord.ipfs_hash != null) {
                     let nextContent = await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash })
                     if ( await mm.getIpfsHash( nextContent.value ) == nextUnsentRecord.ipfs_hash) {
                         let content = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash})
-                        await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value,  nextUnsentRecord.created_time_millis)
+                        await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value)
                     }
+
                 }
             }
         }
@@ -1967,11 +1967,11 @@ module.exports = {
     },
     oldsynchonizeContentAmongPeers:    async function  (  thisDb  ) {
         console.log("Sync")
-        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash , created_time_millis  from  ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
+        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
         if (rows.length == 0) {
             return null
         }
-        await mm.distributeContentToPeer(thisDb, justHash, content,  contentNotSentToPeer.created_time_millis)
+        await mm.distributeContentToPeer(thisDb, justHash, content)
 
         if (mm.isIPFSConnected) {
             let testBuffer = new Buffer(content);
