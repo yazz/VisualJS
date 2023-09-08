@@ -142,9 +142,9 @@ module.exports = {
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
-            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created ) " +
+            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created , received_from_peer  ,pulled_from_peer  ) " +
             " values " +
-            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? );");
+            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? );");
     },
 
     //text retrieval and replacement
@@ -1605,6 +1605,8 @@ module.exports = {
                         read_from_local_file:   metadataJson.read_from_local_file,
                         stored_in_ipfs:         metadataJson.stored_in_ipfs,
                         sent_to_peer:           metadataJson.sent_to_peer,
+                        received_from_peer:     parseInt(metadataJson.received_from_peer)>=0?metadataJson.received_from_peer:0,
+                        pulled_from_peer:       parseInt(metadataJson.pulled_from_peer)>=0?metadataJson.pulled_from_peer:0,
                         read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
                         read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
                         read_from_peer_file:    metadataJson.read_from_peer_file,
@@ -1627,6 +1629,8 @@ module.exports = {
                         read_from_local_file:   0,
                         stored_in_ipfs:         0,
                         sent_to_peer:           0,
+                        received_from_peer:     0,
+                        pulled_from_peer:       0,
                         read_from_local_ipfs:   0,
                         read_from_peer_ipfs:    0,
                         read_from_peer_file:    0,
@@ -1794,7 +1798,7 @@ module.exports = {
         await promise
         mm.inDistributeContentToPeer = false
     },
-    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  created_time_millis  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file   }  ) {
+    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  created_time_millis  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file   ,  received_from_peer  ,  pulled_from_peer }  ) {
         //---------------------------------------------------------------------------
         //
         //                           insertContentStorageRecord( )
@@ -1811,7 +1815,7 @@ module.exports = {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
                     let debugCreated = mm.msToTime(  created_time_millis  )
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis ,  created_time_millis  , debugCreated)
+                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis ,  created_time_millis  , debugCreated , received_from_peer , pulled_from_peer)
                     thisDb.run("commit")
                     returnfn()
                 })
@@ -1978,6 +1982,8 @@ module.exports = {
                                             read_from_local_file:   contentStoredInSqlite.read_from_local_file,
                                             stored_in_ipfs:         contentStoredInSqlite.stored_in_ipfs,
                                             sent_to_peer:           contentStoredInSqlite.sent_to_peer,
+                                            received_from_peer:     parseInt(contentStoredInSqlite.received_from_peer)>=0?contentStoredInSqlite.received_from_peer:0,
+                                            pulled_from_peer:       parseInt(contentStoredInSqlite.pulled_from_peer)>=0?contentStoredInSqlite.pulled_from_peer:0,
                                             read_from_local_ipfs:   contentStoredInSqlite.read_from_local_ipfs,
                                             read_from_peer_ipfs:    contentStoredInSqlite.read_from_peer_ipfs,
                                             read_from_peer_file:    contentStoredInSqlite.read_from_peer_file,

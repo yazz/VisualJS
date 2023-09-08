@@ -4757,6 +4757,7 @@ async function  startServices                           (  ) {
         let contentDesc = yz.getContentDescription(ipfsContent)
         console.log("Received content from peer: " + contentDesc)
         await yz.setDistributedContent( dbsearch  ,  ipfsContent  )
+        await yz.executeQuickSql("update  ipfs_hashes  set  received_from_peer = received_from_peer + 1  where ipfs_hash = ?", [ipfsHash])
     })
     app.post(   "/http_post_save_code_v3" ,                                 async function (req, res) {
         let userid

@@ -41,7 +41,7 @@ module.exports = {
                     "CREATE TABLE IF NOT EXISTS users                           (id TEXT, user_type TEXT);",
                     "CREATE TABLE IF NOT EXISTS metamask_logins                 (id TEXT, account_id TEXT, random_seed TEXT, created_timestamp INTEGER, confirmed_login TEXT, fk_session_id TEXT);",
                     "CREATE TABLE IF NOT EXISTS code_tags_table                 (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
-                    "CREATE TABLE IF NOT EXISTS ipfs_hashes                     (ipfs_hash TEXT, created_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_local_file INTEGER, read_from_local_file INTEGER, stored_in_ipfs INTEGER, sent_to_peer INTEGER, read_from_local_ipfs INTEGER, read_from_peer_ipfs INTEGER, read_from_peer_file INTEGER , error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS ipfs_hashes                     (ipfs_hash TEXT, created_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_local_file INTEGER, read_from_local_file INTEGER, stored_in_ipfs INTEGER, sent_to_peer INTEGER, received_from_peer INTEGER, pulled_from_peer INTEGER, read_from_local_ipfs INTEGER, read_from_peer_ipfs INTEGER, read_from_peer_file INTEGER , error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
 
 
                     "CREATE INDEX IF NOT EXISTS system_code_base_component_id_idx   ON system_code (base_component_id);",
