@@ -4754,6 +4754,8 @@ async function  startServices                           (  ) {
         let ipfsHash    = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
         res.status(200).send('IPFS content registered');
+        let contentDesc = mm.getContentDescription(ipfsContent)
+        console.log("Received content from peer: " + contentDesc)
         await yz.setDistributedContent( dbsearch  ,  ipfsContent  )
     })
     app.post(   "/http_post_save_code_v3" ,                                 async function (req, res) {
