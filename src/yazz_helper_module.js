@@ -1939,7 +1939,7 @@ module.exports = {
 
         //console.log("Sync called")
         if (mm.peerAvailable) {
-            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' order by sent_to_peer asc LIMIT 1")
+            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' and sent_to_peer < 4 order by sent_to_peer asc LIMIT 1")
             if (nextUnsentRecord) {
                 if (nextUnsentRecord.ipfs_hash != null) {
                     let nextContent = await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash })
