@@ -1627,7 +1627,7 @@ module.exports = {
 
                 for (let fileindex=0;fileindex<files.length;fileindex++) {
                     let ipfsHashFileName = files[fileindex]
-                    if (ipfsHashFileName.length > 10) {
+                    if ((!ipfsHashFileName.endsWith("_metadata") && ipfsHashFileName.length > 10)) {
                         try
                         {
                             //console.log("ipfsHashFileName: " + ipfsHashFileName);
