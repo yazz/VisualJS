@@ -113,7 +113,7 @@ module.exports = {
         }
     },
     centralServer: {
-        sendQuickJsonRequest: async function (url) {
+        sendQuickJsonGetRequest: async function (url) {
             let promise = new Promise(async function (returnfn) {
                 try {
                     let centralServerUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost + ":" + mm.centralhostport +
@@ -1985,7 +1985,7 @@ module.exports = {
             }
 
             //zzz
-            //mm.get
+            let outstandingRequests = await mm.centralServer.sendQuickJsonGetRequest("http_get_outstanding_ipfs_content_hashes")
 
         }
         mm.synchonizeContentAmongPeersLock = false

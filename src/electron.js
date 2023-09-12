@@ -4780,6 +4780,15 @@ async function  startServices                           (  ) {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify(saveResult))
     });
+    app.get(    '/http_get_outstanding_ipfs_content_hashes',                async function (req, res, next) {
+        let baseComponentId     = req.query.base_component_id
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {value: [1,2,3]}
+        ));
+    })
     app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
         let userId              = await getUserId(req)
         let baseComponentId     = req.query.base_component_id
@@ -4799,7 +4808,6 @@ async function  startServices                           (  ) {
         res.end(JSON.stringify(
             response
         ));
-
     })
     app.post(   "/http_post_generate_component" ,                           async function (req, res) {
         //
