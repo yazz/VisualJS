@@ -1997,6 +1997,8 @@ module.exports = {
 
         //console.log("Sync called")
         if (mm.peerAvailable) {
+            // send any new items created to the master
+            //
             let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' and sent_to_peer < 4 order by sent_to_peer asc LIMIT 1")
             if (nextUnsentRecord) {
                 if (nextUnsentRecord.ipfs_hash != null) {
@@ -2009,10 +2011,28 @@ module.exports = {
                 }
             }
 
+
+
+
+
             //zzz
-            let outstandingRequests = await mm.sendQuickJsonGetRequest("http_get_outstanding_ipfs_content_hashes",{a: 1})
-            if (outstandingRequests) {
-console.log("Outstanding: " + JSON.stringify(outstandingRequests,null, 2))
+            // get content from master server
+            //
+            let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from ipfs_hashes_queue_to_download where STATUS = 'QUEUED'")
+            if (ipfsDownloadQueueSize.queue_count == 0) {
+                let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  ipfs_hashes")
+                if (maxMasterTimeMillis.max_master_time_millis == null) {
+                    let outstandingRequests = await mm.sendQuickJsonGetRequest(
+                        "http_get_outstanding_ipfs_content_hashes"
+                        ,
+                        {
+                            max_master_millis: maxMasterTimeMillis.max_master_time_millis
+                        })
+                    if (outstandingRequests) {
+                        console.log("Outstanding: " + JSON.stringify(outstandingRequests,null, 2))
+                        //
+                    }
+                }
             }
         }
         mm.synchonizeContentAmongPeersLock = false

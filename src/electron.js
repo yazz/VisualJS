@@ -4781,12 +4781,12 @@ async function  startServices                           (  ) {
         res.end(JSON.stringify(saveResult))
     });
     app.get(    '/http_get_outstanding_ipfs_content_hashes',                async function (req, res, next) {
-        let baseComponentId     = req.query.base_component_id
+        let maxMasterMillis     = req.query.max_master_millis
 
 
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
-            {value: [1,2,3]}
+            {value: [1,2,3,maxMasterMillis ]}
         ));
     })
     app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
