@@ -2039,11 +2039,12 @@ module.exports = {
 
     },
     getHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ) {
-        if ( timestampMillis == null ) {
-            let listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  asc  limit 10" , [ timestampMillis ])
+        let mm = this
+        if ( ( timestampMillis == 'undefined') || (timestampMillis == null ) ) {
+            let listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  asc  limit 10" , [ timestampMillis ])
             return listOfHashes
         } else {
-            let listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  local_time_millis > ?  limit 10" , [ timestampMillis ])
+            let listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  local_time_millis > ?  limit 10" , [ timestampMillis ])
             return listOfHashes
         }
     },
