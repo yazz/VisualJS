@@ -4783,10 +4783,10 @@ async function  startServices                           (  ) {
     app.get(    '/http_get_outstanding_ipfs_content_hashes',                async function (req, res, next) {
         let maxMasterMillis     = req.query.max_master_millis
 
-
+        let listOfHashes = await mm.getHashesAfterTimestamp( dbsearch  ,  maxMasterMillis )
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
-            {value: [1,2,3,maxMasterMillis ]}
+            {value: listOfHashes}
         ));
     })
     app.get(    '/http_get_copy_component',                                 async function (req, res, next) {

@@ -2038,6 +2038,15 @@ module.exports = {
         mm.synchonizeContentAmongPeersLock = false
 
     },
+    getHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ) {
+        if ( timestampMillis == null ) {
+            let listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  asc  limit 10" , [ timestampMillis ])
+            return listOfHashes
+        } else {
+            let listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  local_time_millis > ?  limit 10" , [ timestampMillis ])
+            return listOfHashes
+        }
+    },
     getContentDescription:          function  (  ipfsContent  ) {
         let mm = this
         if (ipfsContent == null) {
