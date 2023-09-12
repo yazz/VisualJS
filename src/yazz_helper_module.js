@@ -1565,6 +1565,7 @@ module.exports = {
         let metadataContent             = null
         let metadataAsJson              = null
         let createdTimeMillis           = null
+        let localTimeMillis             = null
 
         if (typeof content !== 'string') {
             contentValueToStore = JSON.stringify(content,null,2)
@@ -1587,6 +1588,8 @@ module.exports = {
         } else {
             createdTimeMillis = parseInt(createdTimeMillis)
         }
+
+        localTimeMillis = mm.helpers.getValueOfCodeString(contentValueToStore,"created_timestamp")
 
         justHash = await OnlyIpfsHash.of(contentValueToStore)
 
@@ -1612,7 +1615,7 @@ module.exports = {
                                     ipfs_hash:              contentStoredInSqlite.ipfs_hash,
                                     created_time_millis:    contentStoredInSqlite.created_time_millis,
                                     master_time_millis:     contentStoredInSqlite.master_time_millis,
-                                    local_time_millis:      contentStoredInSqlite.local_time_millis,
+                                    local_time_millis:      parseInt(contentStoredInSqlite.local_time_millis)>=0?contentStoredInSqlite.local_time_millis:localTimeMillis,
                                     content_type:           contentStoredInSqlite.content_type,
                                     scope:                  contentStoredInSqlite.scope,
                                     stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
@@ -1643,7 +1646,7 @@ module.exports = {
                         ipfs_hash:              justHash,
                         created_time_millis:    createdTimeMillis,
                         master_time_millis:     metadataJson.master_time_millis,
-                        local_time_millis:      metadataJson.local_time_millis,
+                        local_time_millis:      parseInt(metadataJson.local_time_millis)>=0?metadataJson.local_time_millis:localTimeMillis,
                         content_type:           contentType,
                         temp_debug_content:     contentValueToStore,
                         scope:                  scope,
@@ -1669,7 +1672,7 @@ module.exports = {
                         ipfs_hash:              justHash,
                         created_time_millis:    createdTimeMillis,
                         master_time_millis:     null,
-                        local_time_millis:      createdTimeMillis,
+                        local_time_millis:      localTimeMillis,
                         temp_debug_content:     content,
                         content_type:           contentType,
                         scope:                  scope,
