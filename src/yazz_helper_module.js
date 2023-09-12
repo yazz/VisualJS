@@ -1136,37 +1136,23 @@ module.exports = {
         let centralServerUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost + ":" + mm.centralhostport +
             "/" + url
 
-        let theHttpsConn = http
-        if (mm.centralhosthttps) {
-            theHttpsConn = https
-        }
-
         let promise = new Promise(async function (returnfn) {
-            try {
-                let req = await theHttpsConn.get(
-                    centralServerUrl
-                    ,
-                    async function (res) {
-                        let data = [];
-                        res.on('data', chunk => {
-                            data.push(chunk);
-                        });
-
-                        res.on('end', () => {
-                            console.log('Response ended: ');
-                            let retJson = JSON.parse(data)
-                            let rr = {value: retJson, statusCode: res.statusCode, error: null}
-                            returnfn(rr)
-                        });
-                    }
-                );
-            } catch (er) {
-                console.log(er)
-                returnfn({value: 1, statusCode: statusCode, error: er})
-            }
-            let ret = await promise
-            return ret
+            fetch(centralServerUrl, {
+                method: 'get',
+                credentials: "include"
+            })
+                .then((response) => response.json())
+                .then(async function (responseJson) {
+                    returnfn(responseJson)
+                })
+                .catch(err => {
+                    //error block
+                    returnfn()
+                })
         })
+
+        let ret = await promise
+        return ret
 
     },
 
@@ -2000,7 +1986,7 @@ module.exports = {
             //zzz
             let outstandingRequests = await mm.sendQuickJsonGetRequest("http_get_outstanding_ipfs_content_hashes")
             if (outstandingRequests) {
-console.log("Outstanding: " + JSON.stringify((outstandingRequests,null, 2)))
+console.log("Outstanding: " + JSON.stringify(outstandingRequests,null, 2))
             }
         }
         mm.synchonizeContentAmongPeersLock = false
