@@ -1443,6 +1443,8 @@ module.exports = {
         let returnValue                 = null
         let contentOnDisk               = null
         let baseComponentId             = null
+        let localTimeMillis             = null
+
 
         try {
             fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
@@ -1450,6 +1452,7 @@ module.exports = {
             contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
             contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
             metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
+            localTimeMillis             = new Date().getTime()
 
             // if the content is stored in Sqlite and on disk then get the content from the
             // filesystem
@@ -1478,7 +1481,7 @@ module.exports = {
                                                 content_type:           metadataJson.content_type,
                                                 created_time_millis:    metadataJson.created_time_millis?metadataJson.created_time_millis:new Date().getTime(),
                                                 master_time_millis:     metadataJson.master_time_millis,
-                                                local_time_millis:      metadataJson.local_time_millis,
+                                                local_time_millis:      parseInt(metadataJson.local_time_millis)>=0?metadataJson.local_time_millis:localTimeMillis,
                                                 temp_debug_content:     contentOnDisk,
                                                 scope:                  metadataJson.scope,
                                                 stored_in_local_file:   metadataJson.stored_in_local_file,
@@ -1589,7 +1592,7 @@ module.exports = {
             createdTimeMillis = parseInt(createdTimeMillis)
         }
 
-        localTimeMillis = mm.helpers.getValueOfCodeString(contentValueToStore,"created_timestamp")
+        localTimeMillis = new Date().getTime()
 
         justHash = await OnlyIpfsHash.of(contentValueToStore)
 
