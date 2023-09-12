@@ -294,7 +294,7 @@ module.exports = {
     getQuickSql:                    async function  (  thisDb  ,  sql  ,  params  ) {
         let promise = new Promise(async function(returnfn) {
             thisDb.serialize(
-                function() {
+                async function() {
                     thisDb.all(
                         sql
                         ,
@@ -1131,17 +1131,18 @@ module.exports = {
     },
 
     // request helpers
-    sendQuickJsonGetRequest: async function (url) {
+    sendQuickJsonGetRequest:        async function  (  url  ) {
         let mm = this
+        let centralServerUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost + ":" + mm.centralhostport +
+            "/" + url
+
+        let theHttpsConn = http
+        if (mm.centralhosthttps) {
+            theHttpsConn = https
+        }
+
         let promise = new Promise(async function (returnfn) {
             try {
-                let centralServerUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost + ":" + mm.centralhostport +
-                    "/" + url
-
-                let theHttpsConn = http
-                if (mm.centralhosthttps) {
-                    theHttpsConn = https
-                }
                 let req = await theHttpsConn.get(
                     centralServerUrl
                     ,
