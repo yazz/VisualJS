@@ -142,9 +142,9 @@ module.exports = {
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
-            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created , received_from_peer  ,pulled_from_peer  ) " +
+            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created , received_from_peer  ,pulled_from_peer  , master_time_millis  , local_time_millis  ) " +
             " values " +
-            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? );");
+            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?, ? );");
     },
 
     //text retrieval and replacement
@@ -1838,7 +1838,7 @@ module.exports = {
         await promise
         mm.inDistributeContentToPeer = false
     },
-    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  created_time_millis  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file   ,  received_from_peer  ,  pulled_from_peer }  ) {
+    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  created_time_millis  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file   ,  received_from_peer  ,  pulled_from_peer  ,  master_time_millis, local_time_millis  }  ) {
         //---------------------------------------------------------------------------
         //
         //                           insertContentStorageRecord( )
@@ -1855,7 +1855,7 @@ module.exports = {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
                     let debugCreated = mm.msToTime(  created_time_millis  )
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis ,  created_time_millis  , debugCreated , received_from_peer , pulled_from_peer)
+                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file , read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis ,  created_time_millis  , debugCreated , received_from_peer , pulled_from_peer , master_time_millis , local_time_millis )
                     thisDb.run("commit")
                     returnfn()
                 })
@@ -2022,6 +2022,8 @@ console.log("Outstanding: " + JSON.stringify(outstandingRequests,null, 2))
         let updatedMetadataJson     =   {
                                             ipfs_hash:              ipfsHash,
                                             created_time_millis:    contentStoredInSqlite.created_time_millis?contentStoredInSqlite.created_time_millis:new Date().getTime(),
+                                            master_time_millis:     contentStoredInSqlite.master_time_millis?contentStoredInSqlite.master_time_millis:new Date().getTime(),
+                                            local_time_millis:      contentStoredInSqlite.local_time_millis?contentStoredInSqlite.local_time_millis:new Date().getTime(),
                                             content_type:           contentStoredInSqlite.content_type,
                                             scope:                  contentStoredInSqlite.scope,
                                             stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
