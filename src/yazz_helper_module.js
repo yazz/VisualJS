@@ -112,33 +112,6 @@ module.exports = {
             return newString
         }
     },
-    centralServer: {
-        sendQuickJsonGetRequest: async function (url) {
-            let promise = new Promise(async function (returnfn) {
-                try {
-                    let centralServerUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost + ":" + mm.centralhostport +
-                        "/" + url
-
-                    let theHttpsConn = http
-                    if (mm.centralhosthttps) {
-                        theHttpsConn = https
-                    }
-                    let req = theHttpsConn.get(
-                        centralServerUrl
-                        ,
-                        async function (res) {
-                            returnfn({value: 1, statusCode: statusCode, error: null})
-                        }
-                    );
-                    returnfn({value: 1, statusCode: null, error: null})
-                } catch (er) {
-                    console.log(er)
-                    returnfn({value: 1, statusCode: statusCode, error: er})
-                }
-            })
-
-        },
-    },
     //setup this module
     setup:                          async function  (  thisDb  ) {
 
@@ -1157,6 +1130,45 @@ module.exports = {
         }
     },
 
+    // request helpers
+    sendQuickJsonGetRequest: async function (url) {
+        let mm = this
+        let promise = new Promise(async function (returnfn) {
+            try {
+                let centralServerUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost + ":" + mm.centralhostport +
+                    "/" + url
+
+                let theHttpsConn = http
+                if (mm.centralhosthttps) {
+                    theHttpsConn = https
+                }
+                let req = await theHttpsConn.get(
+                    centralServerUrl
+                    ,
+                    async function (res) {
+                        let data = [];
+                        res.on('data', chunk => {
+                            data.push(chunk);
+                        });
+
+                        res.on('end', () => {
+                            console.log('Response ended: ');
+                            let retJson = JSON.parse(data)
+                            let rr = {value: retJson, statusCode: res.statusCode, error: null}
+                            returnfn(rr)
+                        });
+                    }
+                );
+            } catch (er) {
+                console.log(er)
+                returnfn({value: 1, statusCode: statusCode, error: er})
+            }
+            let ret = await promise
+            return ret
+        })
+
+    },
+
     // code execution helpers
     getPipelineCode:                async function  (  args  ) {
         /*
@@ -1985,8 +1997,10 @@ module.exports = {
             }
 
             //zzz
-            let outstandingRequests = await mm.centralServer.sendQuickJsonGetRequest("http_get_outstanding_ipfs_content_hashes")
-
+            let outstandingRequests = await mm.sendQuickJsonGetRequest("http_get_outstanding_ipfs_content_hashes")
+            if (outstandingRequests) {
+console.log("Outstanding: " + JSON.stringify((outstandingRequests,null, 2)))
+            }
         }
         mm.synchonizeContentAmongPeersLock = false
 
