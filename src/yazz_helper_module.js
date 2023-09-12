@@ -1130,11 +1130,23 @@ module.exports = {
         }
     },
 
+
+
+
+
+
     // request helpers
-    sendQuickJsonGetRequest:        async function  (  url  ) {
+    sendQuickJsonGetRequest:        async function  (  url  ,  urlParams  ) {
         let mm = this
+        let urlParamsWithoutNulls = {}
+        for (let paramItemKey of Object.keys(urlParams)) {
+            if (isValidObject(urlParams[paramItemKey])) {
+                urlParamsWithoutNulls[  paramItemKey  ] = urlParams[paramItemKey]
+            }
+        }
         let centralServerUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost + ":" + mm.centralhostport +
-            "/" + url
+            "/" + url  + "?" +
+            new URLSearchParams(urlParamsWithoutNulls)
 
         let promise = new Promise(async function (returnfn) {
             fetch(centralServerUrl, {
@@ -1984,7 +1996,7 @@ module.exports = {
             }
 
             //zzz
-            let outstandingRequests = await mm.sendQuickJsonGetRequest("http_get_outstanding_ipfs_content_hashes")
+            let outstandingRequests = await mm.sendQuickJsonGetRequest("http_get_outstanding_ipfs_content_hashes",{})
             if (outstandingRequests) {
 console.log("Outstanding: " + JSON.stringify(outstandingRequests,null, 2))
             }
