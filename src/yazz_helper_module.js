@@ -112,6 +112,33 @@ module.exports = {
             return newString
         }
     },
+    centralServer: {
+        sendQuickJsonRequest: async function (url) {
+            let promise = new Promise(async function (returnfn) {
+                try {
+                    let centralServerUrl = "http" + (mm.centralhosthttps ? "s" : "") + "://" + mm.centralhost + ":" + mm.centralhostport +
+                        "/" + url
+
+                    let theHttpsConn = http
+                    if (mm.centralhosthttps) {
+                        theHttpsConn = https
+                    }
+                    let req = theHttpsConn.get(
+                        centralServerUrl
+                        ,
+                        async function (res) {
+                            returnfn({value: 1, statusCode: statusCode, error: null})
+                        }
+                    );
+                    returnfn({value: 1, statusCode: null, error: null})
+                } catch (er) {
+                    console.log(er)
+                    returnfn({value: 1, statusCode: statusCode, error: er})
+                }
+            })
+
+        },
+    },
     //setup this module
     setup:                          async function  (  thisDb  ) {
 
@@ -1959,6 +1986,7 @@ module.exports = {
 
             //zzz
             //mm.get
+
         }
         mm.synchonizeContentAmongPeersLock = false
 
