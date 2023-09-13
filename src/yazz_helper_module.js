@@ -2029,8 +2029,14 @@ module.exports = {
                             max_master_millis: maxMasterTimeMillis.max_master_time_millis
                         })
                     if (outstandingRequests) {
-                        console.log("Outstanding: " + JSON.stringify(outstandingRequests,null, 2))
-                        //
+                        for ( hashRecord of outstandingRequests.value.hashes ) {
+                            console.log("hash record: " + JSON.stringify(hashRecord,null, 2))
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  ) values ( ? , ? )",
+                                [  hashRecord.ipfs_hash   ,   hashRecord.local_time_millis  ]
+                                )
+                        }
                     }
                 }
             }
