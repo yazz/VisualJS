@@ -2040,13 +2040,44 @@ module.exports = {
     },
     getHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ) {
         let mm = this
+        let listOfHashes = null
+
+        // get the initial list of hashes
         if ( ( timestampMillis == 'undefined') || (timestampMillis == null ) ) {
-            let listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  asc  limit 10" , [ timestampMillis ])
-            return listOfHashes
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  order by local_time_millis asc  limit 10" , [ timestampMillis ])
         } else {
-            let listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  local_time_millis > ?  limit 10" , [ timestampMillis ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  local_time_millis > ?  limit 10" , [ timestampMillis ])
+        }
+
+
+        // if there are no hashes then return
+        if (listOfHashes.length == 0) {
             return listOfHashes
         }
+
+
+        // if the hash with the highest timestamp has more hashes at the same timestamp then add those too
+        let lastHashTimestampRecord = listOfHashes[ listOfHashes.length - 1 ]
+        let lastHashTimestamp = lastHashTimestampRecord.local_time_millis
+
+        let countReturnedHashesWithTimestamp = 0
+        for ( recordHash of listOfHashes ) {
+            if (recordHash.local_time_millis == lastHashTimestamp) {
+                countReturnedHashesWithTimestamp ++
+            }
+        }
+
+        let countOfTotalHashesWithSameTimestampRec = await mm.getQuickSqlOneRow(
+                                                            thisDb,
+                                                            "select  count(ipfs_hash) as tot_c from ipfs_hashes  where local_time_millis = ?",
+                                                            [  lastHashTimestamp  ])
+        let countOfTotalHashesWithSameTimestamp = countOfTotalHashesWithSameTimestampRec.tot_c
+
+        if (countOfTotalHashesWithSameTimestamp > countReturnedHashesWithTimestamp) {
+            let extraRecs = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  local_time_millis = ?  " , [ lastHashTimestamp ])
+            listOfHashes = listOfHashes.concat(extraRecs)
+        }
+        return { count_hashes: listOfHashes.length , hashes: listOfHashes}
     },
     getContentDescription:          function  (  ipfsContent  ) {
         let mm = this
