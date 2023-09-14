@@ -4783,10 +4783,17 @@ async function  startServices                           (  ) {
     app.get(    '/http_get_ipfs_content',                                   async function (req, res, next) {
         let ipfsHash     = req.query.ipfs_hash
 
-        let content = await yz.getQuickSqlOneRow(dbsearch, "select code from system_code where id = ?", [ ipfsHash ])
+        let contentRecord = await yz.getQuickSqlOneRow(dbsearch, "select code from system_code where id = ?", [ ipfsHash ])
+        let content = null
+        let error = null
+        if (contentRecord) {
+            content = contentRecord.code
+        } else {
+            error = "Record not found"
+        }
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
-            {ipfs_has: ipfsHash, content: content}
+            {ipfs_has: ipfsHash, content: content, error: error}
         ));
     });
     app.get(    '/http_get_outstanding_ipfs_content_hashes',                async function (req, res, next) {
