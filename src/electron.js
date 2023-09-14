@@ -4780,6 +4780,15 @@ async function  startServices                           (  ) {
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify(saveResult))
     });
+    app.get(    '/http_get_ipfs_content',                                   async function (req, res, next) {
+        let ipfsHash     = req.query.ipfs_hash
+
+        let content = await yz.getQuickSqlOneRow(dbsearch, "select code from system_code where id = ?", [ ipfsHash ])
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {ipfs_has: ipfsHash, content: content}
+        ));
+    });
     app.get(    '/http_get_outstanding_ipfs_content_hashes',                async function (req, res, next) {
         let maxMasterMillis     = req.query.max_master_millis
 

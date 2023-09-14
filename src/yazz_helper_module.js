@@ -1538,6 +1538,11 @@ module.exports = {
         return {value: returnValue, error: null}
 
     },
+    getContentFromMaster:           async function  (  thisDb  ,  ipfsHash  ,  options  ) {
+        let mm = this
+        let ret = await mm.sendQuickJsonGetRequest(  "http_get_ipfs_content"  ,  {  ipfs_hash:  ipfsHash  }  )
+        return { value: ret , error: null }
+    },
     setDistributedContent:          async function  (  thisDb  ,  content  , options  ) {
         //---------------------------------------------------------------------------
         //                           setDistributedContent
