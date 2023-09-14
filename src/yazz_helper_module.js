@@ -2057,7 +2057,7 @@ module.exports = {
                                                         "select ipfs_hash, master_time_millis from ipfs_hashes_queue_to_download where status = ? order by master_time_millis asc limit 1",
                                                         ["QUEUED"] )
                 if (nextIpfsQueueRecord) {
-                    await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
+                    let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
                     await mm.executeQuickSql(
                         thisDb,
                         "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
