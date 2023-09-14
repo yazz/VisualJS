@@ -4793,7 +4793,7 @@ async function  startServices                           (  ) {
         }
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
-            {ipfs_has: ipfsHash, content: content, error: error}
+            {ipfs_hash: ipfsHash, content: content, error: error}
         ));
     });
     app.get(    '/http_get_outstanding_ipfs_content_hashes',                async function (req, res, next) {
