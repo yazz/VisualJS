@@ -3532,10 +3532,10 @@ async function  copyAppshareApp                         (  args  ) {
         var argsCodeId          = args.code_id==""?null:args.code_id
         let timeNow             = new Date().getTime()
 
-        console.log("    argsBaseComponentId: " + argsBaseComponentId)
-        console.log("    argsCodeId: "          + argsCodeId)
-        console.log("    argsNewAppId:        " + argsNewAppId)
-        console.log("    userId:              " + userId)
+        //console.log("    argsBaseComponentId: " + argsBaseComponentId)
+        //console.log("    argsCodeId: "          + argsCodeId)
+        //console.log("    argsNewAppId:        " + argsNewAppId)
+        //console.log("    userId:              " + userId)
 
         let results = []
         if (argsCodeId) {
@@ -3580,7 +3580,7 @@ async function  copyAppshareApp                         (  args  ) {
             } else {
                 newBaseid = "COMP_" + uuidv1().replace(/\-/g, '');
             }
-            console.log("    newBaseid:           " + newBaseid)
+            //console.log("    newBaseid:           " + newBaseid)
 
 
 
@@ -3588,7 +3588,7 @@ async function  copyAppshareApp                         (  args  ) {
             var oldDisplayName = results[0].display_name
             var parentHashId = results[0].id
             var newDisplayName = "Copy of " + oldDisplayName
-            console.log("    parentHashId:        " + parentHashId)
+            //console.log("    parentHashId:        " + parentHashId)
             code = yz.helpers.deleteCodeString(code, "load_once_from_file")
             code = yz.helpers.deleteCodeString(code, "read_only")
             code = yz.helpers.deleteCodeString(code, "visibility")
@@ -3625,14 +3625,14 @@ async function  copyAppshareApp                         (  args  ) {
             // this code goes after the "base_component_id" code, otherwise the
             // "parent_base_component_id" get deleted in a rare bug
             //
-            console.log("    previousBaseComponentId:  "          + previousBaseComponentId)
-            console.log("    parent_base_component_id: "          + newBaseid)
+            //console.log("    previousBaseComponentId:  "          + previousBaseComponentId)
+            //console.log("    parent_base_component_id: "          + newBaseid)
             if (yz.helpers.getValueOfCodeString(code, "base_component_id_derived_from")) {
                 code = yz.helpers.deleteCodeString(code, "base_component_id_derived_from")
             }
             if (previousBaseComponentId != newBaseid) {
                 code = yz.helpers.insertCodeString(code, "base_component_id_derived_from", previousBaseComponentId)
-                console.log(" INSERTED *     parent_base_component_id: "          + previousBaseComponentId)
+                //console.log(" INSERTED *     parent_base_component_id: "          + previousBaseComponentId)
             }
 
 
@@ -3653,7 +3653,7 @@ async function  copyAppshareApp                         (  args  ) {
                 }
             }
 
-            console.log("    newDisplayName:      " + newDisplayName)
+            //console.log("    newDisplayName:      " + newDisplayName)
 
             await saveCopyOfAppWithDependencies(argsBaseComponentId, newBaseid, parentHashId, code, returnfn, newDisplayName)
         }

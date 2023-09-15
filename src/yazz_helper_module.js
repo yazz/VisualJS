@@ -1959,7 +1959,7 @@ module.exports = {
                 if (mm.centralhosthttps) {
                     theHttpsConn = https
                 }
-                console.log("Send alive check to " + mm.centralhost + ":" + mm.centralhostport)
+                //console.log("Send alive check to " + mm.centralhost + ":" + mm.centralhostport)
                 let req = theHttpsConn.get(
                     aliveCheckUrl
                     ,
@@ -1967,7 +1967,7 @@ module.exports = {
                         //console.log('STATUS: ' + res.statusCode);
                         //console.log('HEADERS: ' + JSON.stringify(res.headers));
                         if (res.statusCode == 200 ) {
-                            console.log("peer available")
+                            //console.log("peer available")
                             mm.peerAvailable = true
                         } else {
                             console.log("peer NOT available. HTTP return code: " +  res.statusCode )
@@ -2000,8 +2000,11 @@ module.exports = {
         }
         mm.synchonizeContentAmongPeersLock = true
 
-        //console.log("Sync called")
+        // If the master server (to this client) is available then ...
         if (mm.peerAvailable) {
+
+
+            //
             // send any new items created to the master
             //
             let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' and sent_to_peer < 4 order by sent_to_peer asc LIMIT 1")
@@ -2034,7 +2037,7 @@ module.exports = {
                     })
                 if (outstandingRequests) {
                     for ( hashRecord of outstandingRequests.value.hashes ) {
-                        console.log("hash record: " + JSON.stringify(hashRecord,null, 2))
+                        //console.log("hash record: " + JSON.stringify(hashRecord,null, 2))
                         await mm.executeQuickSql(
                             thisDb,
                             "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ) values ( ? , ? , ? )",
