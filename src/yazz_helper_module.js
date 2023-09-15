@@ -1791,8 +1791,8 @@ module.exports = {
 
         //---------------------------------------------------------------------------
         //
-        //                           distributeContentToPeer(  )
-        //                           ---------------------------
+        //                           distribute Content To Peer (  )
+        //                           -------------------------------
         //
         // What this function does is that it sends a piece of content to a "peer",
         // which is by default the central Yazz server
@@ -1904,7 +1904,7 @@ module.exports = {
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
                 await yz.insertContentStorageRecord(  { thisDb: dbsearch  ,  ipfs_hash: justHash  ,  temp_debug_content: srcCode  , scope: "LOCAL"}  )
-                await yz.distributeContentToPeer(  thisDb, justHash  ,  srcCode  )
+                //await yz.distributeC ontentToPeer(  thisDb, justHash  ,  srcCode  )
 
                 if (  isIPFSConnected  ) {
                     let testBuffer = new Buffer(  srcCode  );
@@ -2007,7 +2007,7 @@ module.exports = {
             //
             // send any new items created to the master
             //
-            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where scope='GLOBAL' and sent_to_peer < 4 order by sent_to_peer asc LIMIT 1")
+            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  scope='GLOBAL' and sent_to_peer < 4  order by  sent_to_peer asc  LIMIT 1")
             if (nextUnsentRecord) {
                 if (nextUnsentRecord.ipfs_hash != null) {
                     let nextContent = await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash })
@@ -2181,7 +2181,7 @@ module.exports = {
         if (rows.length == 0) {
             return null
         }
-        await mm.distributeContentToPeer(thisDb, justHash, content)
+        //await mm.distribu teContentToPeer(thisDb, justHash, content)
 
         if (mm.isIPFSConnected) {
             let testBuffer = new Buffer(content);
