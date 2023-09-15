@@ -2101,9 +2101,9 @@ module.exports = {
 
         // get the initial list of hashes
         if ( ( timestampMillis == 'undefined') || (timestampMillis == null ) ) {
-            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  order by local_time_millis asc  limit 10" , [ timestampMillis ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes where scope='GLOBAL' order by local_time_millis asc  limit 10" , [ timestampMillis ])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  local_time_millis > ?  limit 10" , [ timestampMillis ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  scope='GLOBAL' local_time_millis > ?  limit 10" , [ timestampMillis ])
         }
 
 
