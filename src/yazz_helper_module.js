@@ -776,6 +776,11 @@ module.exports = {
                         throw "Code SHA do not match - code has been changed while saving"
                     }
 
+                    let masterTimeMillis = null
+                    if (options && options.master_time_millis) {
+                        masterTimeMillis = options.master_time_millis
+                    }
+
                     await mm.insertNewCode(
                         thisDb
                         ,
@@ -2020,7 +2025,7 @@ module.exports = {
 
 
 
-            //zzz
+            //
             // get content from master server
             //
             let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from ipfs_hashes_queue_to_download where STATUS = 'QUEUED'")
@@ -2058,11 +2063,30 @@ module.exports = {
                                                         ["QUEUED"] )
                 if (nextIpfsQueueRecord) {
                     let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
-                    await mm.executeQuickSql(
-                        thisDb,
-                        "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
-                        ["DONE"  ,   nextIpfsQueueRecord.ipfs_hash]
+                    //zzz
+
+                    if (ipfsContent && ipfsContent.value && ipfsContent.value.content ) {
+                        await mm.saveCodeV3(
+                            thisDb,
+                            ipfsContent.value.content,
+                            {
+                                make_public:            false,
+                                save_html:              false,
+                                master_time_millis:     nextIpfsQueueRecord.master_time_millis
+                            })
+
+                        await mm.executeQuickSql(
+                            thisDb,
+                            "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
+                            ["DONE"  ,   nextIpfsQueueRecord.ipfs_hash]
                         )
+                    } else {
+                        await mm.executeQuickSql(
+                            thisDb,
+                            "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
+                            ["ERROR"  ,   nextIpfsQueueRecord.ipfs_hash]
+                        )
+                    }
                 }
             }
 
