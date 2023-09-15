@@ -776,11 +776,6 @@ module.exports = {
                         throw "Code SHA do not match - code has been changed while saving"
                     }
 
-                    let masterTimeMillis = null
-                    if (options && options.master_time_millis) {
-                        masterTimeMillis = options.master_time_millis
-                    }
-
                     await mm.insertNewCode(
                         thisDb
                         ,
@@ -2074,6 +2069,11 @@ module.exports = {
                                 save_html:              false,
                                 master_time_millis:     nextIpfsQueueRecord.master_time_millis
                             })
+
+                        await mm.executeQuickSql(
+                            thisDb,
+                            "update  ipfs_hashes  set  master_time_millis = ?  where  ipfs_hash = ?",
+                            [ nextIpfsQueueRecord.master_time_millis  ,  nextIpfsQueueRecord.ipfs_hash ])
 
                         await mm.executeQuickSql(
                             thisDb,
