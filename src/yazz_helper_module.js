@@ -1809,7 +1809,7 @@ module.exports = {
         mm.inDistributeContentToPeer = true
 
         let contentDesc = mm.getContentDescription(ipfsContent)
-        console.log("Sending content to peer: " + contentDesc)
+        console.log("Sending content to peer: " + contentDesc + ", IPFS: " + ipfs_hash)
         let promise     = new Promise(async function(returnfn) {
             try {
                 const dataString = JSON.stringify(
