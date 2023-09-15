@@ -2026,22 +2026,20 @@ module.exports = {
             let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from ipfs_hashes_queue_to_download where STATUS = 'QUEUED'")
             if (ipfsDownloadQueueSize.queue_count == 0) {
                 let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  ipfs_hashes")
-                if (maxMasterTimeMillis.max_master_time_millis == null) {
-                    let outstandingRequests = await mm.sendQuickJsonGetRequest(
-                        "http_get_outstanding_ipfs_content_hashes"
-                        ,
-                        {
-                            max_master_millis: maxMasterTimeMillis.max_master_time_millis
-                        })
-                    if (outstandingRequests) {
-                        for ( hashRecord of outstandingRequests.value.hashes ) {
-                            console.log("hash record: " + JSON.stringify(hashRecord,null, 2))
-                            await mm.executeQuickSql(
-                                thisDb,
-                                "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ) values ( ? , ? , ? )",
-                                [  hashRecord.ipfs_hash   ,   hashRecord.local_time_millis  , "QUEUED"]
-                                )
-                        }
+                let outstandingRequests = await mm.sendQuickJsonGetRequest(
+                    "http_get_outstanding_ipfs_content_hashes"
+                    ,
+                    {
+                        max_master_millis: maxMasterTimeMillis.max_master_time_millis
+                    })
+                if (outstandingRequests) {
+                    for ( hashRecord of outstandingRequests.value.hashes ) {
+                        console.log("hash record: " + JSON.stringify(hashRecord,null, 2))
+                        await mm.executeQuickSql(
+                            thisDb,
+                            "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ) values ( ? , ? , ? )",
+                            [  hashRecord.ipfs_hash   ,   hashRecord.local_time_millis  , "QUEUED"]
+                            )
                     }
                 }
             }
