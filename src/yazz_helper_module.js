@@ -2000,100 +2000,101 @@ module.exports = {
         }
         mm.synchonizeContentAmongPeersLock = true
 
-        // If the master server (to this client) is available then ...
-        if (mm.peerAvailable) {
+        try {
+            // If the master server (to this client) is available then ...
+            if (mm.peerAvailable) {
 
 
-            //
-            // send any new items created to the master
-            //
-            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  scope='GLOBAL' and sent_to_peer < 4  order by  sent_to_peer asc  LIMIT 1")
-            if (nextUnsentRecord) {
-                if (nextUnsentRecord.ipfs_hash != null) {
-                    let nextContent = await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash })
-                    if ( await mm.getIpfsHash( nextContent.value ) == nextUnsentRecord.ipfs_hash) {
-                        let content = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: nextUnsentRecord.ipfs_hash})
-                        await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value)
-                    }
-
-                }
-            }
-
-
-
-
-
-            //
-            // get content from master server
-            //
-            let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from ipfs_hashes_queue_to_download where STATUS = 'QUEUED'")
-            if (ipfsDownloadQueueSize.queue_count == 0) {
-                let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  ipfs_hashes")
-                let outstandingRequests = await mm.sendQuickJsonGetRequest(
-                    "http_get_outstanding_ipfs_content_hashes"
-                    ,
-                    {
-                        max_master_millis: maxMasterTimeMillis.max_master_time_millis
-                    })
-                if (outstandingRequests) {
-                    for ( hashRecord of outstandingRequests.value.hashes ) {
-                        //console.log("hash record: " + JSON.stringify(hashRecord,null, 2))
-                        await mm.executeQuickSql(
-                            thisDb,
-                            "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ) values ( ? , ? , ? )",
-                            [  hashRecord.ipfs_hash   ,   hashRecord.local_time_millis  , "QUEUED"]
-                            )
-                    }
-                }
-            }
-
-
-
-
-            // for outstanding queue items read them from the server
-            //
-            if (ipfsDownloadQueueSize.queue_count != 0) {
-                let nextIpfsQueueRecord = await mm.getQuickSqlOneRow(
-                                                        thisDb,
-                                                        "select ipfs_hash, master_time_millis from ipfs_hashes_queue_to_download where status = ? order by master_time_millis asc limit 1",
-                                                        ["QUEUED"] )
-                if (nextIpfsQueueRecord) {
-                    let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
-                    //zzz
-
-                    if (ipfsContent && ipfsContent.value && ipfsContent.value.content ) {
-                        await mm.saveCodeV3(
-                            thisDb,
-                            ipfsContent.value.content,
-                            {
-                                make_public:            false,
-                                save_html:              false,
-                                master_time_millis:     nextIpfsQueueRecord.master_time_millis
+                //
+                // send any new items created to the master
+                //
+                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  scope='GLOBAL' and sent_to_peer < 4  order by  sent_to_peer asc  LIMIT 1")
+                if (nextUnsentRecord) {
+                    if (nextUnsentRecord.ipfs_hash != null) {
+                        let nextContent = await mm.getDistributedContent({
+                            thisDb: thisDb,
+                            ipfsHash: nextUnsentRecord.ipfs_hash
+                        })
+                        if (await mm.getIpfsHash(nextContent.value) == nextUnsentRecord.ipfs_hash) {
+                            let content = await mm.getDistributedContent({
+                                thisDb: thisDb,
+                                ipfsHash: nextUnsentRecord.ipfs_hash
                             })
+                            await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value)
+                        }
 
-                        await mm.executeQuickSql(
-                            thisDb,
-                            "update  ipfs_hashes  set  master_time_millis = ?  where  ipfs_hash = ?",
-                            [ nextIpfsQueueRecord.master_time_millis  ,  nextIpfsQueueRecord.ipfs_hash ])
+                    }
+                }
 
-                        await mm.executeQuickSql(
-                            thisDb,
-                            "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
-                            ["DONE"  ,   nextIpfsQueueRecord.ipfs_hash]
-                        )
-                    } else {
-                        await mm.executeQuickSql(
-                            thisDb,
-                            "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
-                            ["ERROR"  ,   nextIpfsQueueRecord.ipfs_hash]
-                        )
+
+                //
+                // get content from master server
+                //
+                let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from ipfs_hashes_queue_to_download where STATUS = 'QUEUED'")
+                if (ipfsDownloadQueueSize.queue_count == 0) {
+                    let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  ipfs_hashes")
+                    let outstandingRequests = await mm.sendQuickJsonGetRequest(
+                        "http_get_outstanding_ipfs_content_hashes"
+                        ,
+                        {
+                            max_master_millis: maxMasterTimeMillis.max_master_time_millis
+                        })
+                    if (outstandingRequests) {
+                        for (hashRecord of outstandingRequests.value.hashes) {
+                            //console.log("hash record: " + JSON.stringify(hashRecord,null, 2))
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ) values ( ? , ? , ? )",
+                                [hashRecord.ipfs_hash, hashRecord.local_time_millis, "QUEUED"]
+                            )
+                        }
+                    }
+                }
+
+
+                // for outstanding queue items read them from the server
+                //
+                if (ipfsDownloadQueueSize.queue_count != 0) {
+                    let nextIpfsQueueRecord = await mm.getQuickSqlOneRow(
+                        thisDb,
+                        "select ipfs_hash, master_time_millis from ipfs_hashes_queue_to_download where status = ? order by master_time_millis asc limit 1",
+                        ["QUEUED"])
+                    if (nextIpfsQueueRecord) {
+                        let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
+                        //zzz
+
+                        if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
+                            await mm.saveCodeV3(
+                                thisDb,
+                                ipfsContent.value.content,
+                                {
+                                    make_public: false,
+                                    save_html: false,
+                                    master_time_millis: nextIpfsQueueRecord.master_time_millis
+                                })
+
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "update  ipfs_hashes  set  master_time_millis = ?  where  ipfs_hash = ?",
+                                [nextIpfsQueueRecord.master_time_millis, nextIpfsQueueRecord.ipfs_hash])
+
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
+                                ["DONE", nextIpfsQueueRecord.ipfs_hash]
+                            )
+                        } else {
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
+                                ["ERROR", nextIpfsQueueRecord.ipfs_hash]
+                            )
+                        }
                     }
                 }
             }
-
-
-
-
+        } catch (error) {
+            mm.synchonizeContentAmongPeersLock = false
         }
         mm.synchonizeContentAmongPeersLock = false
 
