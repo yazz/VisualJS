@@ -1713,6 +1713,7 @@
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
 
+
             if (window.SQL) {
                 yz.mainVars.localSqliteDb = new window.SQL.Database()
             }
@@ -1767,7 +1768,7 @@
                     };
                 }
             }
-            async function  useIpfsServerInBrowser                       (   ) {
+            async function  useIpfsServerInBrowser              (   ) {
                 if (!yz.mainVars.ipfsServerloaded) {
                     let promise = new Promise(async function(returnfn) {
                         //debugger
@@ -2195,6 +2196,11 @@
             }
             async function  initFn                              (   ) {
                 setTimeout(async function(){
+
+
+                    //zzz
+                    await setupAlaSqlDatabase()
+
 
                     Vue.component('card_component', {
                         props: [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ]
@@ -3094,6 +3100,21 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     codeId:             sha1sum
                 })
             }
+            async function  setupAlaSqlDatabase                 (  ) {
+                //zzz
+                debugger
+                await createAlaSqlTable()
+
+            }
+            async function  createAlaSqlTable                   (  ) {
+                //zzz
+                debugger
+            }
+            async function  executeAlaSql                       (  ) {
+                //zzz
+                debugger
+            }
+
 
             // app helpers
             function        appSetInterval                      (   fnn   ,   interval   ) {
