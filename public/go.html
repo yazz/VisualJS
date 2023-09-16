@@ -3102,12 +3102,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             async function  setupAlaSqlDatabase                 (  ) {
                 //zzz
-                debugger
                 await createAlaSqlTable()
 
             }
             async function  createAlaSqlTable                   (  ) {
                 //zzz
+                alasql("CREATE TABLE example1 (a INT, b INT)");
+                alasql("INSERT INTO example1 VALUES (1,5)");
+                let res = alasql("SELECT * FROM example1 ORDER BY b DESC");
                 debugger
             }
             async function  executeAlaSql                       (  ) {
