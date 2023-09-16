@@ -3922,7 +3922,7 @@ async function  startServices                           (  ) {
         let tn = req.body.table_name;
         let f = req.body.fields;
 
-        let createTableSql =             "CREATE TABLE IF NOT EXISTS zz_" + tn +
+        let createTableSql =             "CREATE TABLE IF NOT EXISTS " + tn +
                 " ("
         for (let fieldNameIndex =0; fieldNameIndex < f.length - 1;  fieldNameIndex++) {
             let field = f[fieldNameIndex]

@@ -3103,25 +3103,21 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             async function  setupAlaSqlDatabase                 (  ) {
                 //zzz
-                await createAlaSqlTable()
 
             }
             async function  setupAlaSqlSync                     (  ) {
-                debugger
+                await createAlaSqlTable({tableName: "zz_components", fields: [{name: "ID"}]})
+
+            }
+            async function  createAlaSqlTable                   (  {tableName , fields}  ) {
+                //zzz
+                alasql("CREATE TABLE example1 (a INT, b INT)");
                 let resultsCode = await postToYazzReturnJson(
                     "/http_post_create_broswer_table",
                     {
-                        table_name: "fileName",
-                        fields:    [{name: "fileText"}]
+                        table_name: tableName,
+                        fields:     fields
                     })
-                debugger
-
-            }
-            async function  createAlaSqlTable                   (  ) {
-                //zzz
-                alasql("CREATE TABLE example1 (a INT, b INT)");
-                alasql("INSERT INTO example1 VALUES (1,5)");
-                let res = alasql("SELECT * FROM example1 ORDER BY b DESC");
             }
             async function  executeAlaSql                       (  ) {
                 //zzz
