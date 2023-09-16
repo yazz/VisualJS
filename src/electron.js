@@ -3913,12 +3913,28 @@ async function  startServices                           (  ) {
         return getRoot(req, res, next);
     })
 
-
+    function getAddField(field) {
+        return field.name + " TEXT"
+    }
     app.post(   '/http_post_create_broswer_table',                       async function (req, res) {
         let userId          = await getUserId(req)
 
         let tn = req.body.table_name;
         let f = req.body.fields;
+
+        let createTableSql =             "CREATE TABLE IF NOT EXISTS zz_ " + tn +
+                " ("
+        for (let fieldNameIndex =0; fieldNameIndex < f.length - 1;  fieldNameIndex++) {
+            let field = f[fieldNameIndex]
+            createTableSql += getAddField(field)
+        }
+        createTableSql += getAddField(f[f.length - 1])
+        createTableSql += ")"
+
+        await yz.executeQuickSql(
+            dbsearch,
+            createTableSql
+        )
 
         res.writeHead(200, {'Content-Type': 'application/json'});
 //zzz
