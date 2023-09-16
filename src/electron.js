@@ -3913,6 +3913,22 @@ async function  startServices                           (  ) {
         return getRoot(req, res, next);
     })
 
+
+    app.post(   '/http_post_create_broswer_table',                       async function (req, res) {
+        let userId          = await getUserId(req)
+
+        let tn = req.body.table_name;
+        let f = req.body.fields;
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+//zzz
+        res.end(JSON.stringify(
+            {userId: userId, tableName2: tn, fields2: f}
+        ));
+
+    });
+
+
     //  Get a list of all apps that can be edited
     app.post(   '/http_post_load_editable_apps',                            async function (req, res) {
         let editableApps    = []

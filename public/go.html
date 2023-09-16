@@ -2197,9 +2197,9 @@
             async function  initFn                              (   ) {
                 setTimeout(async function(){
 
-
                     //zzz
                     await setupAlaSqlDatabase()
+
 
 
                     Vue.component('card_component', {
@@ -2789,6 +2789,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     });
 
 
+
                 },100)
             };
             async function  populateStaticCodeCache             (   ) {
@@ -3105,12 +3106,22 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 await createAlaSqlTable()
 
             }
+            async function  setupAlaSqlSync                     (  ) {
+                debugger
+                let resultsCode = await postToYazzReturnJson(
+                    "/http_post_create_broswer_table",
+                    {
+                        table_name: "fileName",
+                        fields:     "fileText"
+                    })
+                debugger
+
+            }
             async function  createAlaSqlTable                   (  ) {
                 //zzz
                 alasql("CREATE TABLE example1 (a INT, b INT)");
                 alasql("INSERT INTO example1 VALUES (1,5)");
                 let res = alasql("SELECT * FROM example1 ORDER BY b DESC");
-                debugger
             }
             async function  executeAlaSql                       (  ) {
                 //zzz
@@ -4142,6 +4153,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 fullCode = async function(cc) {
                     eval(cc)
                 }
+                setTimeout(
+                    setupAlaSqlSync, 1000 )
+
                 //runn() // only used for debugging
                 //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
                 //console.log(JSON.stringify(rt,null,2))
@@ -4176,6 +4190,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
                  */
+
 
             })()
 
