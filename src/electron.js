@@ -315,6 +315,7 @@ if (process.argv.length > 1) {
       .option('-de,         --deleteonexit              [deleteonexit]',            'Delete database files on exit (default true)                                       [deleteonexit]',            'false')
       .option('-hib,        --hideimportbuttons         [hideimportbuttons]',       'Allow to hide the buttons to load files (default true)                             [hideimportbuttons]',       'true')
       .option('-e,          --debug                     [debug]',                   'Allow to run NodeJS in debug mode (default false)                                  [debug]',                   'false')
+      .option('-dui,        --debugui                   [debugui]',                 'Allows the UI Alasql DB to be replicated to server side Sqlite DB (default false)  [debugui]',                 'false')
       .option('-f,          --cacert1                   [cacert1]',                 'Public HTTPS CA certificate 1                                                      [cacert1]',                 null)
       .option('-ipfs_folder,--ipfs_folder               [ipfs_folder]',             'Public folder to use as IPFS Cache                                                 [ipfs_folder]',             null)
       .option('-g,          --cacert2                   [cacert2]',                 'Public HTTPS CA certificate 2                                                      [cacert2]',                 null)
@@ -347,24 +348,25 @@ if (process.argv.length > 1) {
       .option('-jc,         --jaegercollector           [jaegercollector]',         'jaeger collector endpoint (default not set) eg: http://localhost:14268/api/traces  [jaegercollector]',         null)
       .parse(process.argv);
 } else {
-    program.host = ''
-    program.hostport = -1
-    program.centralhost = "yazz.com"
-    yz.centralhost = program.centralhost
-    program.centralhostport = ''
-    yz.centralhostport = program.centralhostport
-    program.locked = 'true'
-    program.debug = 'false'
-    program.deleteonexit = 'true'
-    program.deleteonstartup = 'false'
-    program.runapp = null
-    program.loadjsurl = null
-    program.loadjsfile = null
-    program.runhtml = null
-    program.https = 'none'
-    program.centralhosthttps = 'true'
-    program.usehost = null
-    program.hideimportbuttons = true
+    program.host                = ''
+    program.hostport            = -1
+    program.centralhost         = "yazz.com"
+    yz.centralhost              = program.centralhost
+    program.centralhostport     = ''
+    yz.centralhostport          = program.centralhostport
+    program.locked              = 'true'
+    program.debug               = 'false'
+    program.debugui             = 'false'
+    program.deleteonexit        = 'true'
+    program.deleteonstartup     = 'false'
+    program.runapp              = null
+    program.loadjsurl           = null
+    program.loadjsfile          = null
+    program.runhtml             = null
+    program.https               = 'none'
+    program.centralhosthttps    = 'true'
+    program.usehost             = null
+    program.hideimportbuttons   = true
 }
 let semver                              = require2('semver')
 const initJaegerTracer                  = require2("jaeger-client").initTracer;
@@ -515,18 +517,22 @@ function isValidObject(variable){
 }
 outputDebug('Starting services');
 let debug = false;
+let debugUi = false;
 outputDebug("NodeJS version: " + process.versions.node);
 if (semver.gt(process.versions.node, '6.9.0')) {
     outputDebug("NodeJS version > 6.9 " );
 }
 if (program.debug == 'true') {
     debug = true;
-
     outputDebug("       debug: true" );
-
 } else {
     outputDebug("       debug: false" );
-
+};
+if (program.debugui == 'true') {
+    debugUi = true;
+    console.log("       debug ui: true" );
+} else {
+    console.log("       debug ui: false" );
 };
 let deleteOnExit = (program.deleteonexit == 'true');
 outputDebug("deleteOnExit: " + deleteOnExit)
