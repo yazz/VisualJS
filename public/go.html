@@ -3121,14 +3121,24 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     })
             }
             async function  createAlaSqlTable                   (  {tableName , fields}  ) {
-                //zzz
-                let alaSqlCreateString = "insert into zz_tables (table_name) values (?)"
-                alasql(alaSqlCreateString, tableName);
+                let alaSqlCreateString = "create table " + tableName + "("
+
+                let alaSqlInsertString = "insert into zz_tables (table_name) values (?)"
+                alasql(alaSqlInsertString, tableName);
                 for (let fieldIndex = 0;  fieldIndex < fields.length ; fieldIndex++) {
                     let field = fields[fieldIndex]
                     let alaSqlCreateFieldsString = "insert into zz_fields (table_name, field_name, field_type) values (?,?,?)"
                     alasql(alaSqlCreateFieldsString, [tableName, field.name, field.fieldType]);
+
+                    alaSqlCreateString = alaSqlCreateString + field.name + " " + field.fieldType
+                    if (fieldIndex < ( fields.length - 1)) {
+                        alaSqlCreateString = alaSqlCreateString + ","
+                    }
                 }
+                alaSqlCreateString = alaSqlCreateString + ")"
+                debugger
+                alasql(alaSqlCreateString);
+
             }
             async function  executeAlaSql                       (  ) {
                 //zzz
