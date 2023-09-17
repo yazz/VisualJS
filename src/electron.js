@@ -3920,6 +3920,42 @@ async function  startServices                           (  ) {
         }
         return field.name + " " + fieldType
     }
+
+    app.post(   '/http_post_debug_insert_browser_row',                       async function (req, res) {
+        let userId  = await getUserId(req)
+        let tn      = req.body.table_name;
+        let rec     = req.body.record;
+
+        let insertRecordSql = "insert  into  " + tn + " ("
+        let fieldNames = Object.keys(rec)
+        for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length - 1; fieldNameIndex++) {
+            let fieldName = fieldNames[fieldNameIndex]
+            insertRecordSql += fieldName
+            insertRecordSql += ","
+        }
+        insertRecordSql += fieldNames[fieldNames.length - 1]
+        insertRecordSql += ") values ( "
+        for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length - 1; fieldNameIndex++) {
+            let fieldName = fieldNames[fieldNameIndex]
+            let fieldValue = rec[fieldName]
+            insertRecordSql += fieldValue
+            insertRecordSql += ","
+
+        }
+        insertRecordSql += ")  "
+
+
+        await yz.executeQuickSql(
+            dbsearch,
+            insertRecordSql
+        )
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {}
+        ));
+
+    })
     app.post(   '/http_post_create_browser_table',                       async function (req, res) {
         let userId          = await getUserId(req)
 
