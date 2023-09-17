@@ -3103,21 +3103,32 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             async function  setupAlaSqlDatabase                 (  ) {
                 //zzz
-
+                alasql("CREATE TABLE zz_tables (table_name STRING)");
+                alasql("CREATE TABLE zz_fields (table_name STRING, field_name STRING, field_type STRING)");
+                await createAlaSqlTable({
+                    tableName: "zz_components",
+                    fields: [
+                        {name: "ID",        fieldType: "INT"},
+                        {name: "comp_name", fieldType: "STRING"}
+                    ]})
             }
             async function  setupAlaSqlSync                     (  ) {
-                await createAlaSqlTable({tableName: "zz_components", fields: [{name: "ID"}]})
-
-            }
-            async function  createAlaSqlTable                   (  {tableName , fields}  ) {
-                //zzz
-                alasql("CREATE TABLE example1 (a INT, b INT)");
                 let resultsCode = await postToYazzReturnJson(
                     "/http_post_create_broswer_table",
                     {
-                        table_name: tableName,
-                        fields:     fields
+                        table_name: "tableName",
+                        fields:     "fields"
                     })
+            }
+            async function  createAlaSqlTable                   (  {tableName , fields}  ) {
+                //zzz
+                let alaSqlCreateString = "insert into zz_tables (table_name) values (?)"
+                alasql(alaSqlCreateString, tableName);
+                for (let fieldIndex = 0;  fieldIndex < fields.length ; fieldIndex++) {
+                    let field = fields[fieldIndex]
+                    let alaSqlCreateFieldsString = "insert into zz_fields (table_name, field_name, field_type) values (?,?,?)"
+                    alasql(alaSqlCreateFieldsString, [tableName, field.name, field.fieldType]);
+                }
             }
             async function  executeAlaSql                       (  ) {
                 //zzz
