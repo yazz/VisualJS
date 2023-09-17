@@ -3138,6 +3138,17 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             table_name: table.table_name,
                             fields:     fieldList
                         })
+
+                    alasql.fn["after_insert_on_" + table.table_name] = function(r) {
+                            alert("insert: " + JSON.stringify(r,null,2))
+                    };
+                    alasql("CREATE TRIGGER mytrigger AFTER INSERT ON " + table.table_name + " after_insert_on_" + table.table_name);
+
+
+                    alasql.fn["after_update_on_" + table.table_name] = function(r) {
+                        alert("update: " + JSON.stringify(r,null,2))
+                    };
+                    alasql("CREATE TRIGGER mytrigger AFTER UPDATE ON " + table.table_name + " after_update_on_" + table.table_name);
                 }
 
             }
@@ -3159,10 +3170,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 alaSqlCreateString = alaSqlCreateString + ")"
                 alasql(alaSqlCreateString);
 
-            }
-            async function  executeAlaSql                       (  ) {
-                //zzz
-                debugger
             }
 
 
