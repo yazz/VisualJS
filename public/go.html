@@ -3108,14 +3108,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 await createAlaSqlTable({
                     tableName: "zz_components",
                     fields: [
-                        {name: "ID",        fieldType: "INT"},
+                        {name: "id",        fieldType: "INT"},
                         {name: "comp_name", fieldType: "STRING"}
                     ]})
 
                 await createAlaSqlTable({
                     tableName: "zz_test",
                     fields: [
-                        {name: "ID",        fieldType: "INT"},
+                        {name: "id",        fieldType: "INT"},
                         {name: "comp_name", fieldType: "STRING"},
                         {name: "another",   fieldType: "STRING"}
                     ]})
@@ -3125,13 +3125,18 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             async function  setupAlaSqlSync                     (  ) {
                 let tables = alasql("select * from zz_tables")
                 for (table of tables) {
+                    let fields = alasql("select * from zz_fields where table_name = ?", table.table_name)
+                    let fieldList  = []
+                    for (field of fields) {
+                        fieldList.push({name: field.field_name, type: field.field_type})
+                    }
 
 
                     let resultsCode = await postToYazzReturnJson(
                         "/http_post_create_browser_table",
                         {
                             table_name: table.table_name,
-                            fields:     "fields"
+                            fields:     fieldList
                         })
                 }
 

@@ -3914,7 +3914,11 @@ async function  startServices                           (  ) {
     })
 
     function getAddField(field) {
-        return field.name + " TEXT"
+        let fieldType = "INTEGER"
+        if (field.type == "STRING") {
+            fieldType = "TEXT"
+        }
+        return field.name + " " + fieldType
     }
     app.post(   '/http_post_create_browser_table',                       async function (req, res) {
         let userId          = await getUserId(req)
@@ -3927,6 +3931,7 @@ async function  startServices                           (  ) {
         for (let fieldNameIndex =0; fieldNameIndex < f.length - 1;  fieldNameIndex++) {
             let field = f[fieldNameIndex]
             createTableSql += getAddField(field)
+            createTableSql += ","
         }
         createTableSql += getAddField(f[f.length - 1])
         createTableSql += ")"
