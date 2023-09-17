@@ -3928,19 +3928,21 @@ async function  startServices                           (  ) {
 
         let insertRecordSql = "insert  into  " + tn + " ("
         let fieldNames = Object.keys(rec)
-        for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length - 1; fieldNameIndex++) {
+        for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length; fieldNameIndex++) {
             let fieldName = fieldNames[fieldNameIndex]
             insertRecordSql += fieldName
-            insertRecordSql += ","
+            if (fieldNameIndex < (fieldNames.length-1)) {
+                insertRecordSql += ","
+            }
         }
-        insertRecordSql += fieldNames[fieldNames.length - 1]
         insertRecordSql += ") values ( "
-        for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length - 1; fieldNameIndex++) {
+        for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length; fieldNameIndex++) {
             let fieldName = fieldNames[fieldNameIndex]
             let fieldValue = rec[fieldName]
             insertRecordSql += fieldValue
-            insertRecordSql += ","
-
+            if (fieldNameIndex < (fieldNames.length-1)) {
+                insertRecordSql += ","
+            }
         }
         insertRecordSql += ")  "
 
