@@ -3916,7 +3916,7 @@ async function  startServices                           (  ) {
     function getAddField(field) {
         return field.name + " TEXT"
     }
-    app.post(   '/http_post_create_broswer_table',                       async function (req, res) {
+    app.post(   '/http_post_create_browser_table',                       async function (req, res) {
         let userId          = await getUserId(req)
 
         let tn = req.body.table_name;

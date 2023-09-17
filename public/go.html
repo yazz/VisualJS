@@ -3111,14 +3111,30 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         {name: "ID",        fieldType: "INT"},
                         {name: "comp_name", fieldType: "STRING"}
                     ]})
+
+                await createAlaSqlTable({
+                    tableName: "zz_test",
+                    fields: [
+                        {name: "ID",        fieldType: "INT"},
+                        {name: "comp_name", fieldType: "STRING"},
+                        {name: "another",   fieldType: "STRING"}
+                    ]})
+
+
             }
             async function  setupAlaSqlSync                     (  ) {
-                let resultsCode = await postToYazzReturnJson(
-                    "/http_post_create_broswer_table",
-                    {
-                        table_name: "tableName",
-                        fields:     "fields"
-                    })
+                let tables = alasql("select * from zz_tables")
+                for (table of tables) {
+
+
+                    let resultsCode = await postToYazzReturnJson(
+                        "/http_post_create_browser_table",
+                        {
+                            table_name: table.table_name,
+                            fields:     "fields"
+                        })
+                }
+
             }
             async function  createAlaSqlTable                   (  {tableName , fields}  ) {
                 let alaSqlCreateString = "create table " + tableName + "("
@@ -3136,7 +3152,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 }
                 alaSqlCreateString = alaSqlCreateString + ")"
-                debugger
                 alasql(alaSqlCreateString);
 
             }
