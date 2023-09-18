@@ -3920,7 +3920,12 @@ async function  startServices                           (  ) {
         }
         return field.name + " " + fieldType
     }
-
+    function getFieldValueAsString(value) {
+        if (typeof value === 'string' || value instanceof String) {
+            return "\"" + value + "\""
+        }
+        return value
+    }
     app.post(   '/http_post_debug_insert_browser_row',                       async function (req, res) {
         let userId  = await getUserId(req)
         let tn      = req.body.table_name;
@@ -3939,7 +3944,7 @@ async function  startServices                           (  ) {
         for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length; fieldNameIndex++) {
             let fieldName = fieldNames[fieldNameIndex]
             let fieldValue = rec[fieldName]
-            insertRecordSql += fieldValue
+            insertRecordSql += getFieldValueAsString(fieldValue)
             if (fieldNameIndex < (fieldNames.length-1)) {
                 insertRecordSql += ","
             }
