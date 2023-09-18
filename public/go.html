@@ -3101,8 +3101,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     codeId:             sha1sum
                 })
             }
-            function        asql( sql ) {
-                alasql(sql)
+            function        asql                                (  sql  ) {
+                let ret = alasql(sql)
                 let startOfSql = sql.toLowerCase()
                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete") ) {
                     ((async function() {
@@ -3115,11 +3115,13 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                     })())
                 }
+                return ret
             }
             async function  setupAlaSqlDatabase                 (  ) {
                 //zzz
                 alasql("CREATE TABLE zz_tables (table_name STRING)");
                 alasql("CREATE TABLE zz_fields (table_name STRING, field_name STRING, field_type STRING)");
+                asql("select * from zz_tables")
                 await createAlaSqlTable({
                     tableName: "zz_components",
                     fields: [
@@ -3170,9 +3172,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
                     alasql.fn["after_update_on_" + table.table_name] = function(r) {
-                        alert("update: " + JSON.stringify(r,null,2))
+                        //alert("update: " + JSON.stringify(r,null,2))
                     };
                     alasql("CREATE TRIGGER mytrigger AFTER UPDATE ON " + table.table_name + " after_update_on_" + table.table_name);
+
                 }
 
             }
