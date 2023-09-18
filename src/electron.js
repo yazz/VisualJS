@@ -3969,7 +3969,7 @@ async function  startServices                           (  ) {
 
         await yz.executeQuickSql(
             dbsearch,
-            browser_write_sql
+            updateSql
         )
 
         res.writeHead(200, {'Content-Type': 'application/json'});

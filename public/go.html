@@ -3103,11 +3103,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             function        asql( sql ) {
                 alasql(sql)
-                if (sql.toLower().startsWith("insert") || sql.toLower().startsWith("update") || sql.toLower().startsWith("delete") ) {
-                    debugger
-                    let oursql = sql
+                let startOfSql = sql.toLowerCase()
+                if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete") ) {
                     ((async function() {
-                        debugger
+                        let oursql = sql
                         let resultsCode = await postToYazzReturnJson(
                             "/http_post_browser_sql_write_operation",
                             {
