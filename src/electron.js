@@ -534,6 +534,7 @@ if (program.debugui == 'true') {
 } else {
     console.log("       debug ui: false" );
 };
+envVars.DEBUGUI = debugUi
 let deleteOnExit = (program.deleteonexit == 'true');
 outputDebug("deleteOnExit: " + deleteOnExit)
 let deleteOnStartup = (program.deleteonstartup == 'true');
