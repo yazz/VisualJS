@@ -3964,12 +3964,14 @@ async function  startServices                           (  ) {
 
     })
     app.post(   '/http_post_browser_sql_write_operation',                       async function (req, res) {
-        let userId      = await getUserId(req)
-        let updateSql   = req.body.browser_write_sql
+        let userId          = await getUserId(req)
+        let updateSql       = req.body.browser_write_sql
+        let updateParams    = req.body.sql_params
 
         await yz.executeQuickSql(
             dbsearch,
-            updateSql
+            updateSql,
+            updateParams
         )
 
         res.writeHead(200, {'Content-Type': 'application/json'});
