@@ -1117,6 +1117,7 @@ module.exports = {
             let codeId = null
             if (saveRet) {
                 codeId = saveRet.code_id
+
             }
             return {codeId: codeId}
 
@@ -1515,7 +1516,13 @@ module.exports = {
             if (returnValue) {
                 returnValue = returnValue.toString('utf8')
                 let baseComponentId = yz.helpers.getValueOfCodeString(returnValue, "base_component_id")
-
+                let componentType = yz.helpers.getValueOfCodeString(returnValue, "component_type")
+                let makePublic  = false
+                let saveHtml    = false
+                if ( componentType == "APP") {
+                    makePublic  = true
+                    saveHtml    = true
+                }
                 await mm.addOrUpdateDriver(
                     thisDb
                     ,
@@ -1526,7 +1533,9 @@ module.exports = {
                         reponame:       baseComponentId,
                         version:        "latest",
                         ipfsHashId:     ipfsHash,
-                        allowChanges:   false
+                        allowChanges:   false,
+                        make_public:    makePublic,
+                        save_html:      saveHtml
                     })
             }
 
