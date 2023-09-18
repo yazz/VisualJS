@@ -3101,6 +3101,22 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     codeId:             sha1sum
                 })
             }
+            function        asql( sql ) {
+                alasql(sql)
+                if (sql.toLower().startsWith("insert") || sql.toLower().startsWith("update") || sql.toLower().startsWith("delete") ) {
+                    debugger
+                    let oursql = sql
+                    ((async function() {
+                        debugger
+                        let resultsCode = await postToYazzReturnJson(
+                            "/http_post_browser_sql_write_operation",
+                            {
+                                browser_write_sql: oursql
+                            })
+
+                    })())
+                }
+            }
             async function  setupAlaSqlDatabase                 (  ) {
                 //zzz
                 alasql("CREATE TABLE zz_tables (table_name STRING)");
@@ -3141,6 +3157,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                     let tableName = table.table_name
                     alasql.fn["after_insert_on_" + tableName] = async function(r) {
+                        return
                             //alert("insert: " + JSON.stringify(r,null,2))
                             let resultsCode = await postToYazzReturnJson(
                                 "/http_post_debug_insert_browser_row",

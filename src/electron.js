@@ -3963,6 +3963,21 @@ async function  startServices                           (  ) {
         ));
 
     })
+    app.post(   '/http_post_browser_sql_write_operation',                       async function (req, res) {
+        let userId      = await getUserId(req)
+        let updateSql   = req.body.browser_write_sql
+
+        await yz.executeQuickSql(
+            dbsearch,
+            browser_write_sql
+        )
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {}
+        ));
+
+    })
     app.post(   '/http_post_create_browser_table',                       async function (req, res) {
         let userId          = await getUserId(req)
 
