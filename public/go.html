@@ -3157,27 +3157,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             table_name: table.table_name,
                             fields:     fieldList
                         })
-
-                    let tableName = table.table_name
-                    alasql.fn["after_insert_on_" + tableName] = async function(r) {
-                        return
-                            //alert("insert: " + JSON.stringify(r,null,2))
-                            let resultsCode = await postToYazzReturnJson(
-                                "/http_post_debug_insert_browser_row",
-                                {
-                                    table_name: tableName,
-                                    record:     r
-                                })
-
-                    };
-                    alasql("CREATE TRIGGER mytrigger AFTER INSERT ON " + table.table_name + " after_insert_on_" + table.table_name);
-
-
-                    alasql.fn["after_update_on_" + table.table_name] = function(r) {
-                        //alert("update: " + JSON.stringify(r,null,2))
-                    };
-                    alasql("CREATE TRIGGER mytrigger AFTER UPDATE ON " + table.table_name + " after_update_on_" + table.table_name);
-
                 }
 
             }
