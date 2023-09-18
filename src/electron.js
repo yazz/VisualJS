@@ -3921,49 +3921,6 @@ async function  startServices                           (  ) {
         }
         return field.name + " " + fieldType
     }
-    function getFieldValueAsString(value) {
-        if (typeof value === 'string' || value instanceof String) {
-            return "\"" + value + "\""
-        }
-        return value
-    }
-    app.post(   '/http_post_debug_insert_browser_row',                       async function (req, res) {
-        let userId  = await getUserId(req)
-        let tn      = req.body.table_name;
-        let rec     = req.body.record;
-
-        let insertRecordSql = "insert  into  " + tn + " ("
-        let fieldNames = Object.keys(rec)
-        for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length; fieldNameIndex++) {
-            let fieldName = fieldNames[fieldNameIndex]
-            insertRecordSql += fieldName
-            if (fieldNameIndex < (fieldNames.length-1)) {
-                insertRecordSql += ","
-            }
-        }
-        insertRecordSql += ") values ( "
-        for (let fieldNameIndex = 0; fieldNameIndex < fieldNames.length; fieldNameIndex++) {
-            let fieldName = fieldNames[fieldNameIndex]
-            let fieldValue = rec[fieldName]
-            insertRecordSql += getFieldValueAsString(fieldValue)
-            if (fieldNameIndex < (fieldNames.length-1)) {
-                insertRecordSql += ","
-            }
-        }
-        insertRecordSql += ")  "
-
-
-        await yz.executeQuickSql(
-            dbsearch,
-            insertRecordSql
-        )
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            {}
-        ));
-
-    })
     app.post(   '/http_post_browser_sql_write_operation',                       async function (req, res) {
         let userId          = await getUserId(req)
         let updateSql       = req.body.browser_write_sql
