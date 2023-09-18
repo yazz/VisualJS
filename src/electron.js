@@ -4156,6 +4156,8 @@ async function  startServices                           (  ) {
 
         setTimeout(async function() {
             let ipfsHash = await yz.setDistributedContent(
+                dbsearch
+                ,
                 {
                     type:                       "COMPONENT_COMMENT",
                     format:                     "JSON'",
