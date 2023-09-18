@@ -1690,7 +1690,7 @@ module.exports = {
                         created_time_millis:    createdTimeMillis,
                         master_time_millis:     null,
                         local_time_millis:      localTimeMillis,
-                        temp_debug_content:     content,
+                        temp_debug_content:     contentValueToStore,
                         content_type:           contentType,
                         scope:                  scope,
                         stored_in_local_file:   1,
