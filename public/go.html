@@ -3103,19 +3103,21 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             function        asql                                (  sql  ,  params  ) {
                 let ret = alasql(sql  ,  params)
-                let startOfSql = sql.toLowerCase()
-                if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete") ) {
-                    ((async function() {
-                        let oursql = sql
-                        let ourparams = params
-                        let resultsCode = await postToYazzReturnJson(
-                            "/http_post_browser_sql_write_operation",
-                            {
-                                browser_write_sql:  oursql,
-                                sql_params:         ourparams
-                            })
+                if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                    let startOfSql = sql.toLowerCase()
+                    if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
+                        ((async function () {
+                            let oursql = sql
+                            let ourparams = params
+                            let resultsCode = await postToYazzReturnJson(
+                                "/http_post_browser_sql_write_operation",
+                                {
+                                    browser_write_sql: oursql,
+                                    sql_params: ourparams
+                                })
 
-                    })())
+                        })())
+                    }
                 }
                 return ret
             }
@@ -3142,23 +3144,24 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             }
             async function  setupAlaSqlSync                     (  ) {
-                let tables = alasql("select * from zz_tables")
-                for (table of tables) {
-                    let fields = alasql("select * from zz_fields where table_name = ?", table.table_name)
-                    let fieldList  = []
-                    for (field of fields) {
-                        fieldList.push({name: field.field_name, type: field.field_type})
+                if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                    let tables = alasql("select * from zz_tables")
+                    for (table of tables) {
+                        let fields = alasql("select * from zz_fields where table_name = ?", table.table_name)
+                        let fieldList  = []
+                        for (field of fields) {
+                            fieldList.push({name: field.field_name, type: field.field_type})
+                        }
+
+
+                        let resultsCode = await postToYazzReturnJson(
+                            "/http_post_create_browser_table",
+                            {
+                                table_name: table.table_name,
+                                fields:     fieldList
+                            })
                     }
-
-
-                    let resultsCode = await postToYazzReturnJson(
-                        "/http_post_create_browser_table",
-                        {
-                            table_name: table.table_name,
-                            fields:     fieldList
-                        })
                 }
-
             }
             async function  createAlaSqlTable                   (  {tableName , fields}  ) {
                 let alaSqlCreateString = "create table " + tableName + "("
