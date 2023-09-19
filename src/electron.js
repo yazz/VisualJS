@@ -4120,13 +4120,12 @@ async function  startServices                           (  ) {
         console.log("app.post('/http_post_submit_comment'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
 
-        let topApps = []
-        let baseComponentId = req.body.value.base_component_id
-        let baseComponentIdVersion = req.body.value.base_component_id_version
-        let newComment = req.body.value.comment
-        let newRating = req.body.value.rating
-        let newDateAndTime = new Date().getTime()
-
+        let topApps                 = []
+        let baseComponentId         = req.body.value.base_component_id
+        let baseComponentIdVersion  = req.body.value.base_component_id_version
+        let newComment              = req.body.value.comment
+        let newRating               = req.body.value.rating
+        let newDateAndTime          = new Date().getTime()
 
         await yz.insertCommentIntoDb(
             dbsearch
@@ -4145,7 +4144,6 @@ async function  startServices                           (  ) {
             {
                 status: "ok"
                 ,
-
                 comments_and_ratings: commentsAndRatings
             }
 
@@ -4155,7 +4153,7 @@ async function  startServices                           (  ) {
         ));
 
         setTimeout(async function() {
-            let ipfsHash = await yz.setDistributedContent(
+            await yz.setDistributedContent(
                 dbsearch
                 ,
                 {
@@ -4171,7 +4169,6 @@ async function  startServices                           (  ) {
                 }
 
             )
-            let afdsfds=ipfsHash
         },500)
 
     });
