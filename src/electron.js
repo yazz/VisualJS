@@ -3368,7 +3368,7 @@ async function  getFutureCommitsFor                     (  args  ) {
 
     return []
 }
-async function  releaseCode                             (  commitId  ) {
+async function  releaseCode                             (  commitId  ,  options  ) {
     /*
     ________________________________________
     |                                      |
@@ -3429,6 +3429,29 @@ async function  releaseCode                             (  commitId  ) {
         })
     })
     let ret2 = await promise
+    //zzz
+
+    if (options && options.save_to_network) {
+        setTimeout(async function() {
+            let newDateAndTime          = new Date().getTime()
+            await yz.setDistributedContent(
+                dbsearch
+                ,
+                {
+                    type:                       "COMPONENT_RELEASE",
+                    format:                     "JSON'",
+                    type_:                      "component_type('COMPONENT_RELEASE')",
+                    format_:                    "format('JSON')",
+                    date_and_time:              newDateAndTime,
+                    base_component_id:          base_component_id
+                    //base_component_id_version:  baseComponentIdVersion,
+                    //comment:                    newComment,
+                    //rating:                     newRating
+                }
+            )
+        },500)
+
+    }
     return ret2
 
 }
@@ -4166,7 +4189,6 @@ async function  startServices                           (  ) {
                     comment:                    newComment,
                     rating:                     newRating
                 }
-
             )
         },500)
 
@@ -4626,7 +4648,7 @@ async function  startServices                           (  ) {
 
         let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
         await yz.tagVersion(dbsearch, ipfsHash, code)
-        await releaseCode(ipfsHash, code)
+        await releaseCode(ipfsHash, {save_to_network: true})
 
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});

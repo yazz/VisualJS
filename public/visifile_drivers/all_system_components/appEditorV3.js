@@ -425,7 +425,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-on:click='setTimeout(async function(){appClearIntervals();await releaseCode()},100)'
+                       v-on:click='setTimeout(async function(){appClearIntervals();await releaseCodePressed()},100)'
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Publish this app to the central server")'
                        v-on:mouseleave='setInfo(null)'
@@ -1449,9 +1449,9 @@ End of app preview menu
                     //this.checkSavedFile()
                 }
             },
-            releaseCode:                    async function  (  ) {
+            releaseCodePressed:                    async function  (  ) {
                 // ---------------------------------------------------------------
-                //                          releaseCode
+                //                          releaseCodePressed
                 //
                 // This tries to release the current commit as the release version
                 // of the app
