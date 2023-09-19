@@ -1794,6 +1794,7 @@ module.exports = {
                                         thisDb
                                         ,
                                         {
+                                            //component_ipfs_hash:        null,
                                             baseComponentId:        jsonComment.base_component_id,
                                             baseComponentIdVersion: jsonComment.base_component_id_version,
                                             newComment:             jsonComment.comment,

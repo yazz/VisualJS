@@ -3438,6 +3438,7 @@ async function  releaseCode                             (  commitId  ,  options 
                 dbsearch
                 ,
                 {
+                    component_ipfs_hash:        commitId,
                     type:                       "COMPONENT_RELEASE",
                     format:                     "JSON'",
                     type_:                      "component_type('COMPONENT_RELEASE')",
@@ -4179,6 +4180,7 @@ async function  startServices                           (  ) {
                 dbsearch
                 ,
                 {
+                    //component_ipfs_hash:        null,
                     type:                       "COMPONENT_COMMENT",
                     format:                     "JSON'",
                     type_:                      "component_type('COMPONENT_COMMENT')",
