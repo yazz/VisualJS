@@ -904,7 +904,7 @@ module.exports = {
                             newCode += "/*COMPONENTS_START*/"
 
                             if (sha1sum == "QmNPuLm2Bk4fAbYUieRJyMvWzcNNGgQrSqx24EYNJLvj9T") {
-                                debugger
+                                //debugger
                             }
 
                             let results = await mm.getSubComponents(code)
