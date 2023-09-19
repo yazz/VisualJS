@@ -282,7 +282,6 @@ module.exports = {
         return ret
     },
 
-
     //Internal SQLite DB helpers
     getQuickSqlOneRow:              async function  (  thisDb  ,  sql  ,  params  ) {
         let rows = await this.getQuickSql(thisDb,sql,params)
@@ -702,8 +701,6 @@ module.exports = {
         let codeChangesStr                          = null
         let numCodeChanges                          = null
         let sha1sum                                 = await OnlyIpfsHash.of(code)
-        //zzz
-        //console.log("            In save, actual code ID: " + sha1sum + " for " + baseComponentId)
         let userId                                  = null
         let propertiesAsJsonString                  = null
         let existingCodeAlreadyInSystemCodeTable
@@ -1140,11 +1137,6 @@ module.exports = {
         }
     },
 
-
-
-
-
-
     // request helpers
     sendQuickJsonGetRequest:        async function  (  url  ,  urlParams  ) {
         let mm = this
@@ -1536,8 +1528,6 @@ module.exports = {
                 if (componentType == "COMPONENT_COMMENT") {
                     let formatType = yz.helpers.getValueOfCodeString(returnValue,"format")
                     if (formatType == "JSON") {
-                        //zzz
-                        // where is the code to load JSON??
                         let jsonComment = JSON.parse(returnValue)
                         await mm.insertCommentIntoDb(
                             thisDb
@@ -2180,7 +2170,7 @@ module.exports = {
         }
         return { count_hashes: listOfHashes.length , hashes: listOfHashes}
     },
-    getContentDescription:          function  (  ipfsContent  ) {
+    getContentDescription:          function        (  ipfsContent  ) {
         let mm = this
         if (ipfsContent == null) {
             return ""
@@ -2331,5 +2321,4 @@ module.exports = {
         return ret
 
     }
-
 }
