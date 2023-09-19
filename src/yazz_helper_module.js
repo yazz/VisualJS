@@ -1795,6 +1795,7 @@ module.exports = {
                                 let formatType = yz.helpers.getValueOfCodeString(ipfsContent,"format")
                                 if (formatType == "JSON") {
                                     let jsonComment = JSON.parse(ipfsContent)
+                                    await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
                                     await mm.insertCommentIntoDb(
                                         thisDb
                                         ,
