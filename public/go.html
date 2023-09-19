@@ -2197,7 +2197,6 @@
             async function  initFn                              (   ) {
                 setTimeout(async function(){
 
-                    //zzz
                     await setupAlaSqlDatabase()
 
 
@@ -3122,7 +3121,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 return ret
             }
             async function  setupAlaSqlDatabase                 (  ) {
-                //zzz
                 alasql("CREATE TABLE zz_tables (table_name STRING)");
                 alasql("CREATE TABLE zz_fields (table_name STRING, field_name STRING, field_type STRING)");
                 asql("select * from zz_tables")

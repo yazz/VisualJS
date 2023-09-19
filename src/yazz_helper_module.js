@@ -1524,10 +1524,24 @@ module.exports = {
                     makePublic  = true
                     saveHtml    = true
                 }
-                //zzz
                 if (componentType == "COMPONENT_COMMENT") {
                     let formatType = yz.helpers.getValueOfCodeString(returnValue,"format")
                     if (formatType == "JSON") {
+                        //zzz
+                        // where is the code to load JSON??
+                        let jsonComment = JSON.parse(returnValue)
+                        await mm.insertCommentIntoDb(
+                            thisDb
+                            ,
+                            {
+                                baseComponentId:        jsonComment.base_component_id,
+                                baseComponentIdVersion: jsonComment.base_component_id_version,
+                                newComment:             jsonComment.comment,
+                                newRating:              jsonComment.rating,
+                                dateAndTime:            jsonComment.date_and_time
+                            }
+                        )
+
                     }
                 } else {
                     await mm.addOrUpdateDriver(

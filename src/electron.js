@@ -3960,7 +3960,6 @@ async function  startServices                           (  ) {
         )
 
         res.writeHead(200, {'Content-Type': 'application/json'});
-//zzz
         res.end(JSON.stringify(
             {userId: userId, tableName2: tn, fields2: f}
         ));

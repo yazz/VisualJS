@@ -1300,7 +1300,7 @@ End of app preview menu
 
                 await mm.loadComponentIntoEditor({newApp: true, codeId:  this.code_id } )
 
-//zzz
+
                 mm.$root.$emit('message', {
                     type:               "update_editable_components_on_homepage",
                     base_component_id:   mm.base_component_id,
