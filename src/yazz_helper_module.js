@@ -1517,26 +1517,34 @@ module.exports = {
                 returnValue = returnValue.toString('utf8')
                 let baseComponentId = yz.helpers.getValueOfCodeString(returnValue, "base_component_id")
                 let componentType = yz.helpers.getValueOfCodeString(returnValue, "component_type")
-                let makePublic  = false
+
+                        let makePublic  = false
                 let saveHtml    = false
                 if ( componentType == "APP") {
                     makePublic  = true
                     saveHtml    = true
                 }
-                await mm.addOrUpdateDriver(
-                    thisDb
-                    ,
-                    returnValue
-                    ,
-                    {
-                        username:       "default",
-                        reponame:       baseComponentId,
-                        version:        "latest",
-                        ipfsHashId:     ipfsHash,
-                        allowChanges:   false,
-                        make_public:    makePublic,
-                        save_html:      saveHtml
-                    })
+                //zzz
+                if (componentType == "COMPONENT_COMMENT") {
+                    let formatType = yz.helpers.getValueOfCodeString(returnValue,"format")
+                    if (formatType == "JSON") {
+                    }
+                } else {
+                    await mm.addOrUpdateDriver(
+                        thisDb
+                        ,
+                        returnValue
+                        ,
+                        {
+                            username:       "default",
+                            reponame:       baseComponentId,
+                            version:        "latest",
+                            ipfsHashId:     ipfsHash,
+                            allowChanges:   false,
+                            make_public:    makePublic,
+                            save_html:      saveHtml
+                        })
+                }
             }
 
 
@@ -2070,7 +2078,6 @@ module.exports = {
                         ["QUEUED"])
                     if (nextIpfsQueueRecord) {
                         let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
-                        //zzz
 
                         if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
                             await mm.saveCodeV3(
