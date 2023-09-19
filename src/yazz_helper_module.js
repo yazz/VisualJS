@@ -702,6 +702,7 @@ module.exports = {
         let codeChangesStr                          = null
         let numCodeChanges                          = null
         let sha1sum                                 = await OnlyIpfsHash.of(code)
+        //zzz
         //console.log("            In save, actual code ID: " + sha1sum + " for " + baseComponentId)
         let userId                                  = null
         let propertiesAsJsonString                  = null
@@ -902,6 +903,9 @@ module.exports = {
 
                             newCode += "/*COMPONENTS_START*/"
 
+                            if (sha1sum == "QmNPuLm2Bk4fAbYUieRJyMvWzcNNGgQrSqx24EYNJLvj9T") {
+                                debugger
+                            }
 
                             let results = await mm.getSubComponents(code)
                             for (let i = 0  ;   i < results.length;    i ++ ) {
@@ -923,9 +927,10 @@ module.exports = {
                                             ,
                                             [  results[i].child_base_component_id  ])
                                     }
-
-                                    results[i].sha1             = sqlR.id
-                                    results[i].child_code_id    = results[i].sha1
+                                    if (sqlR) {
+                                        results[i].sha1             = sqlR.id
+                                        results[i].child_code_id    = results[i].sha1
+                                    }
 
 
                                 } else {
@@ -1067,6 +1072,10 @@ module.exports = {
 
                 } catch(err) {
                     console.log(err)
+                    returnFn( {
+                        code_id:            sha1sum,
+                        base_component_id:  baseComponentId
+                    })
                 }
 
                 //
