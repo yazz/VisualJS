@@ -1526,22 +1526,26 @@ module.exports = {
                     saveHtml    = true
                 }
                 if (componentType == "COMPONENT_COMMENT") {
-                    let formatType = yz.helpers.getValueOfCodeString(returnValue,"format")
+                    let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
                     if (formatType == "JSON") {
                         let jsonComment = JSON.parse(returnValue)
                         await mm.insertCommentIntoDb(
                             thisDb
                             ,
                             {
-                                baseComponentId:        jsonComment.base_component_id,
+                                baseComponentId: jsonComment.base_component_id,
                                 baseComponentIdVersion: jsonComment.base_component_id_version,
-                                newComment:             jsonComment.comment,
-                                newRating:              jsonComment.rating,
-                                dateAndTime:            jsonComment.date_and_time
+                                newComment: jsonComment.comment,
+                                newRating: jsonComment.rating,
+                                dateAndTime: jsonComment.date_and_time
                             }
                         )
 
                     }
+                } else if (componentType == "COMPONENT_RELEASE") {
+
+
+
                 } else {
                     await mm.addOrUpdateDriver(
                         thisDb
