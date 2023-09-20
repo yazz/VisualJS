@@ -1946,19 +1946,23 @@ module.exports = {
                                 let formatType = yz.helpers.getValueOfCodeString(ipfsContent,"format")
                                 if (formatType == "JSON") {
                                     let jsonComment = JSON.parse(ipfsContent)
-                                    await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
-                                    await mm.insertCommentIntoDb(
-                                        thisDb
-                                        ,
-                                        {
-                                            component_ipfs_hash:    ipfsHashFileName,
-                                            baseComponentId:        jsonComment.base_component_id,
-                                            baseComponentIdVersion: jsonComment.base_component_id_version,
-                                            newComment:             jsonComment.comment,
-                                            newRating:              jsonComment.rating,
-                                            dateAndTime:            jsonComment.date_and_time
-                                        }
-                                    )
+                                    if (jsonComment.type == "COMPONENT_RELEASE") {
+                                        debugger
+                                    } else if (jsonComment.type == "COMPONENT_COMMENT") {
+                                            await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
+                                            await mm.insertCommentIntoDb(
+                                                thisDb
+                                                ,
+                                                {
+                                                    component_ipfs_hash:    ipfsHashFileName,
+                                                    baseComponentId:        jsonComment.base_component_id,
+                                                    baseComponentIdVersion: jsonComment.base_component_id_version,
+                                                    newComment:             jsonComment.comment,
+                                                    newRating:              jsonComment.rating,
+                                                    dateAndTime:            jsonComment.date_and_time
+                                                }
+                                            )
+                                    }
                                 }
                             } else if (itemType == "APP") {
                                 await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
