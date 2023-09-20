@@ -116,9 +116,9 @@ module.exports = {
     setup:                          async function  (  thisDb  ) {
 
         stmtInsertComment = thisDb.prepare(" insert or replace into comments_and_ratings " +
-            "    (id, base_component_id, version , comment, rating, date_and_time) " +
+            "    (id, base_component_id, version , comment, rating, date_and_time, ipfs_hash) " +
             " values " +
-            "    (?,?,?,?,?,?);");
+            "    (?,?,?,?,?,?,?);");
 
 
         stmtDeleteTypesForComponentProperty = thisDb.prepare(
@@ -1382,7 +1382,8 @@ module.exports = {
                         args.baseComponentIdVersion,
                         args.newComment,
                         args.newRating,
-                        args.dateAndTime
+                        args.dateAndTime,
+                        args.codeId
                     )
                     thisDb.run("commit")
                     returnfn2()

@@ -4145,6 +4145,7 @@ async function  startServices                           (  ) {
 
         let topApps                 = []
         let baseComponentId         = req.body.value.base_component_id
+        let codeId                  = req.body.value.code_id
         let baseComponentIdVersion  = req.body.value.base_component_id_version
         let newComment              = req.body.value.comment
         let newRating               = req.body.value.rating
@@ -4154,6 +4155,7 @@ async function  startServices                           (  ) {
             dbsearch
             ,
             {
+                codeId:                 codeId,
                 baseComponentId:        baseComponentId,
                 baseComponentIdVersion: baseComponentIdVersion,
                 newComment:             newComment,
