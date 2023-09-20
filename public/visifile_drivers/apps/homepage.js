@@ -525,7 +525,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         <span style="font-size: 60px; color: white;">All Apps</span>
                         <div  v-bind:refresh='refresh'
                               class='force_scrollbars'
-                              style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
+                              style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;margin-bottom:80px;'>
                             <div    v-for="(item, index) in appstore_apps"
                                     v-bind:refresh='refresh'
                                     v-on:mouseenter=" currentlyHighlightedAppstoreBCI = item.base_component_id;"
