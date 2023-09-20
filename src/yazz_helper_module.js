@@ -17,6 +17,12 @@ let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
 let stmtInsertIpfsHash;
+let stmtInsertReleasedComponentListItem;
+
+
+
+
+
 const ipfsAPI = require('ipfs-api');
 let fileURLToPath =require( 'node:url').fileURLToPath;
 
@@ -145,6 +151,15 @@ module.exports = {
             "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created , received_from_peer  ,pulled_from_peer  , master_time_millis  , local_time_millis  ) " +
             " values " +
             "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?, ? );");
+
+        stmtInsertReleasedComponentListItem = thisDb.prepare(`insert or ignore
+                                                    into
+                                               yz_cache_released_components
+                                                    (   id  ,  base_component_id  ,  component_name  ,  component_type, 
+                                                        component_description  ,  
+                                                        ipfs_hash , version,read_write_status, code, logo_url )
+                                               values (?,?,?,?,?,?,?,?,?,?)`)
+
     },
 
     //text retrieval and replacement
@@ -1369,6 +1384,131 @@ module.exports = {
             )
         }
     },
+    createLogoUrlData:              async function  (  logo  ) {
+        /*
+        ________________________________________
+        |                                      |
+        |           createLogoUrlData          |
+        |                                      |
+        |______________________________________|
+        Used to add an image to the image registry
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     imageUrl
+        |     --------      Data URI or file path
+        |________________________________________________________________________ */
+
+        let dataString          = null
+        let fullPath
+        let imageExtension
+        let logoFileIn
+
+        if (logo) {
+            if (logo.startsWith("data:")) {
+                dataString = logo
+            } else if (logo.startsWith("http")) {
+            } else {
+                fullPath        = path.join(__dirname, "../public" + logo)
+                logoFileIn      = fs.readFileSync(fullPath);
+                dataString      = new Buffer(logoFileIn).toString('base64');
+                imageExtension  = logo.substring(logo.lastIndexOf(".") + 1)
+                dataString      = "data:image/" + imageExtension + ";base64," + dataString
+            }
+        }
+        return dataString
+    },
+    releaseCode:                    async function  (  thisDb  ,  commitId  ,  options  ) {
+        /*
+        ________________________________________
+        |                                      |
+        |            releaseCode               |
+        |                                      |
+        |______________________________________|
+        Used to release code. This will try to make the current commit ID the live version of
+        the code.
+        __________
+        | PARAMS |______________________________________________________________
+        |
+        |     commitId
+        |     --------
+        |________________________________________________________________________ */
+        let mm                  = this
+        let codeRecord          = await mm.getQuickSqlOneRow(  thisDb,  "select  code  from   system_code  where   id = ? ", [  commitId  ]  )
+        let codeString          = codeRecord.code
+        let parsedCode          = await mm.getSrcCodePropertiesAsJson(  {  code: codeString  }  )
+        let dataString          = null
+        let id                  = uuidv1()
+        let base_component_id   = parsedCode.baseComponentId
+        let app_name            = parsedCode.name
+        let app_description     = parsedCode.description
+        let logo                = parsedCode.logo
+        let ipfs_hash           = parsedCode.ipfsHashId
+        let readWriteStatus     = parsedCode.readWriteStatus
+        let component_type      = parsedCode.type
+        let logoUrl             = await mm.createLogoUrlData(logo)
+
+        let promise = new Promise(async function(returnfn) {
+
+            let componentListRecord = await mm.getQuickSqlOneRow(
+                thisDb,
+                "select * from yz_cache_released_components where base_component_id = ?",
+                [base_component_id])
+
+            if (componentListRecord) {
+                await mm.executeQuickSql(
+                    thisDb,
+                    `delete from
+                    yz_cache_released_components 
+                where
+                   base_component_id  = ?`,
+                    [   base_component_id   ])
+            }
+
+            thisDb.serialize(function () {
+                thisDb.run("begin exclusive transaction");
+                thisDb.run("commit", function () {
+                    thisDb.serialize(function () {
+                        thisDb.run("begin exclusive transaction");
+                        stmtInsertReleasedComponentListItem.run(
+                            id, base_component_id, app_name, component_type,
+                            app_description, ipfs_hash, '',
+                            readWriteStatus, codeString, logoUrl)
+                        thisDb.run("commit")
+                        returnfn()
+                    })
+                })
+
+            })
+        })
+        let ret2 = await promise
+        //zzz
+
+        if (options && options.save_to_network) {
+            setTimeout(async function() {
+                let newDateAndTime          = new Date().getTime()
+                await mm.setDistributedContent(
+                    thisDb
+                    ,
+                    {
+                        component_ipfs_hash:        commitId,
+                        type:                       "COMPONENT_RELEASE",
+                        format:                     "JSON'",
+                        type_:                      "component_type('COMPONENT_RELEASE')",
+                        format_:                    "format('JSON')",
+                        date_and_time:              newDateAndTime,
+                        base_component_id:          base_component_id
+                        //base_component_id_version:  baseComponentIdVersion,
+                        //comment:                    newComment,
+                        //rating:                     newRating
+                    }
+                )
+            },500)
+
+        }
+        return ret2
+    },
+
 
     // app store
     insertCommentIntoDb:            async function  (  thisDb, args  ) {
@@ -1544,7 +1684,21 @@ module.exports = {
                         )
 
                     }
+
+
+
+
+
                 } else if (componentType == "COMPONENT_RELEASE") {
+                    //zzz
+                    let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
+                    if (formatType == "JSON") {
+                        let jsonRelease = JSON.parse(returnValue)
+
+                    }
+
+
+
 
 
 

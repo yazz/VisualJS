@@ -60,7 +60,6 @@ let stmtInsertMetaMaskLogin;
 let stmtSetMetaMaskLoginSuccedded;
 let stmtInsertUser;
 let stmtInsertCookie
-let stmtInsertReleasedComponentListItem;
 let setProcessToRunning;
 let setProcessToIdle;
 let setProcessRunningDurationMs;
@@ -1660,8 +1659,8 @@ async function  setUpComponentsLocally                  (  ) {
 
     let todoRet = await evalHtmlComponentFromPath( '/apps/todo.js')
     let demoTimerRet = await evalHtmlComponentFromPath( '/apps/demo_timer.js')
-    await releaseCode(todoRet.codeId)
-    await releaseCode(demoTimerRet.codeId)
+    await yz.releaseCode( dbsearch, todoRet.codeId )
+    await yz.releaseCode( dbsearch,  demoTimerRet.codeId )
 
 
 
@@ -1829,17 +1828,6 @@ function        setUpSql                                (  ) {
 
     stmtInsertSessionWithNewUserId = dbsearch.prepare(" update sessions " +
         "    set fk_user_id = ? where id = ? ");
-
-
-    stmtInsertReleasedComponentListItem = dbsearch.prepare(`insert or ignore
-                                                    into
-                                               yz_cache_released_components
-                                                    (   id  ,  base_component_id  ,  component_name  ,  component_type, 
-                                                        component_description  ,  
-                                                        ipfs_hash , version,read_write_status, code, logo_url )
-                                               values (?,?,?,?,?,?,?,?,?,?)`)
-
-
 
 
 
@@ -3157,7 +3145,7 @@ async function  evalComponentFromPath                   (  srcPath  ){
 async function  releaseComponentFromPath                (  srcPath  ){
     try {
         let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest", distributeToPeer: false})
-        await releaseCode(ret.codeId)
+        await yz.releaseCode( dbsearch, ret.codeId )
 
         return ret
     } catch (err) {
@@ -3367,128 +3355,6 @@ async function  getFutureCommitsFor                     (  args  ) {
     }
 
     return []
-}
-async function  releaseCode                             (  commitId  ,  options  ) {
-    /*
-    ________________________________________
-    |                                      |
-    |            releaseCode               |
-    |                                      |
-    |______________________________________|
-    Used to release code. This will try to make the current commit ID the live version of
-    the code.
-    __________
-    | PARAMS |______________________________________________________________
-    |
-    |     commitId
-    |     --------
-    |________________________________________________________________________ */
-
-    let codeRecord          = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
-    let codeString          = codeRecord.code
-    let parsedCode          = await yz.getSrcCodePropertiesAsJson(  {  code: codeString  }  )
-    let dataString          = null
-    let id                  = uuidv1()
-    let base_component_id   = parsedCode.baseComponentId
-    let app_name            = parsedCode.name
-    let app_description     = parsedCode.description
-    let logo                = parsedCode.logo
-    let ipfs_hash           = parsedCode.ipfsHashId
-    let readWriteStatus     = parsedCode.readWriteStatus
-    let component_type      = parsedCode.type
-    let logoUrl             = await createLogoUrlData(logo)
-
-    let promise = new Promise(async function(returnfn) {
-
-        let componentListRecord = await yz.getQuickSqlOneRow(dbsearch, "select * from yz_cache_released_components where base_component_id = ?", [base_component_id])
-
-        if (componentListRecord) {
-            await yz.executeQuickSql(
-                dbsearch,
-                `delete from
-                    yz_cache_released_components 
-                where
-                   base_component_id  = ?`,
-                [   base_component_id   ])
-        }
-
-        dbsearch.serialize(function () {
-            dbsearch.run("begin exclusive transaction");
-            dbsearch.run("commit", function () {
-                dbsearch.serialize(function () {
-                    dbsearch.run("begin exclusive transaction");
-                    stmtInsertReleasedComponentListItem.run(
-                        id, base_component_id, app_name, component_type,
-                        app_description, ipfs_hash, '',
-                        readWriteStatus, codeString, logoUrl)
-                    dbsearch.run("commit")
-                    returnfn()
-                })
-            })
-
-        })
-    })
-    let ret2 = await promise
-    //zzz
-
-    if (options && options.save_to_network) {
-        setTimeout(async function() {
-            let newDateAndTime          = new Date().getTime()
-            await yz.setDistributedContent(
-                dbsearch
-                ,
-                {
-                    component_ipfs_hash:        commitId,
-                    type:                       "COMPONENT_RELEASE",
-                    format:                     "JSON'",
-                    type_:                      "component_type('COMPONENT_RELEASE')",
-                    format_:                    "format('JSON')",
-                    date_and_time:              newDateAndTime,
-                    base_component_id:          base_component_id
-                    //base_component_id_version:  baseComponentIdVersion,
-                    //comment:                    newComment,
-                    //rating:                     newRating
-                }
-            )
-        },500)
-
-    }
-    return ret2
-
-}
-async function  createLogoUrlData                       (  logo  ) {
-    /*
-    ________________________________________
-    |                                      |
-    |           createLogoUrlData          |
-    |                                      |
-    |______________________________________|
-    Used to add an image to the image registry
-    __________
-    | PARAMS |______________________________________________________________
-    |
-    |     imageUrl
-    |     --------      Data URI or file path
-    |________________________________________________________________________ */
-
-    let dataString          = null
-    let fullPath
-    let imageExtension
-    let logoFileIn
-
-    if (logo) {
-        if (logo.startsWith("data:")) {
-            dataString = logo
-        } else if (logo.startsWith("http")) {
-        } else {
-            fullPath        = path.join(__dirname, "../public" + logo)
-            logoFileIn      = fs.readFileSync(fullPath);
-            dataString      = new Buffer(logoFileIn).toString('base64');
-            imageExtension  = logo.substring(logo.lastIndexOf(".") + 1)
-            dataString      = "data:image/" + imageExtension + ";base64," + dataString
-        }
-    }
-    return dataString
 }
 async function  copyAppshareApp                         (  args  ) {
     /*
@@ -4653,7 +4519,7 @@ async function  startServices                           (  ) {
 
         let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
         await yz.tagVersion(dbsearch, ipfsHash, code)
-        await releaseCode(ipfsHash, {save_to_network: true})
+        await yz.releaseCode( dbsearch, ipfsHash, {save_to_network: true})
 
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
