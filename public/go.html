@@ -1561,7 +1561,8 @@
             }
             var networkIntranetIpAddress        = null
             var file_upload_uuid                = null
-            var base_component_id_of_loaded_app               = null
+            var base_component_id_of_loaded_app = null
+            var code_id_of_loaded_app           = null
             var queuedResponses                 = new Object()
             var queuedBrowserResponseSeqNum     = 0
             var componentCallsListArgsSent      = new Object()
@@ -3282,7 +3283,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             // Load app into UI fns
             async function  prepareApp                          (   id   ,  bbase_component_id   ,  args  ) {
-                base_component_id_of_loaded_app                                   = bbase_component_id
+                base_component_id_of_loaded_app = bbase_component_id
 
                 let rootElement = "app_" + id
                 if ((yz.mainVars.mainVueApp.cards[id - 1].card.base_component_id != base_component_id_of_loaded_app) ||
@@ -3304,6 +3305,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
 
                     let codeIdOfComponent = GLOBALS.baseComponentIdReturnsCommitId[base_component_id_of_loaded_app]
+                    code_id_of_loaded_app = codeIdOfComponent
 
                     new Vue(
                         {
