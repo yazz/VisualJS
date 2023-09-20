@@ -4183,7 +4183,7 @@ async function  startServices                           (  ) {
                 ,
                 {
                     //zzz
-                    component_ipfs_hash:        null,
+                    component_ipfs_hash:        codeId,
                     type:                       "COMPONENT_COMMENT",
                     format:                     "JSON'",
                     type_:                      "component_type('COMPONENT_COMMENT')",

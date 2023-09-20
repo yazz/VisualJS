@@ -1534,6 +1534,7 @@ module.exports = {
                             thisDb
                             ,
                             {
+                                codeId: jsonComment.component_ipfs_hash,
                                 baseComponentId: jsonComment.base_component_id,
                                 baseComponentIdVersion: jsonComment.base_component_id_version,
                                 newComment: jsonComment.comment,
@@ -1795,7 +1796,7 @@ module.exports = {
                                         thisDb
                                         ,
                                         {
-                                            //component_ipfs_hash:        null,
+                                            component_ipfs_hash:    ipfsHashFileName,
                                             baseComponentId:        jsonComment.base_component_id,
                                             baseComponentIdVersion: jsonComment.base_component_id_version,
                                             newComment:             jsonComment.comment,
