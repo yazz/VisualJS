@@ -4735,18 +4735,17 @@ async function  startServices                           (  ) {
         let ipfsHash     = req.query.ipfs_hash
         console.log("/http_get_ipfs_content")
 
-        let contentRecord = await yz.getQuickSqlOneRow(dbsearch, "select code from system_code where id = ?", [ ipfsHash ])
+        //zzz
+        let nextContent = await yz.getDistributedContent(  {  thisDb: dbsearch  ,  ipfsHash:  ipfsHash }  )
         console.log("               ipfsHash: " + ipfsHash)
         let content = null
         let error = null
-        if (contentRecord) {
-            content = contentRecord.code
-            if (content) {
-                console.log("               content length: " + content.length)
-            }
+        if (nextContent && nextContent.value) {
+            content = nextContent.value
+            console.log("               content length: " + content.length)
         } else {
             error = "Record not found"
-            console.log("               error: Record not found" )
+            console.log("               error: Content not found" )
         }
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(

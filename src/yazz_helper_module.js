@@ -1689,7 +1689,6 @@ module.exports = {
 
 
                 } else if (componentType == "COMPONENT_RELEASE") {
-                    //zzz
                     let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
                     if (formatType == "JSON") {
                         let jsonRelease = JSON.parse(returnValue)
