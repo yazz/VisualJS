@@ -1482,7 +1482,6 @@ module.exports = {
             })
         })
         let ret2 = await promise
-        //zzz
 
         if (options && options.save_to_network) {
             setTimeout(async function() {
@@ -1694,7 +1693,9 @@ module.exports = {
                     let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
                     if (formatType == "JSON") {
                         let jsonRelease = JSON.parse(returnValue)
-
+                        if (jsonRelease.component_ipfs_hash) {
+                            mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
+                        }
                     }
 
 

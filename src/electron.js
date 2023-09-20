@@ -4048,7 +4048,6 @@ async function  startServices                           (  ) {
                 dbsearch
                 ,
                 {
-                    //zzz
                     component_ipfs_hash:        codeId,
                     type:                       "COMPONENT_COMMENT",
                     format:                     "JSON'",
