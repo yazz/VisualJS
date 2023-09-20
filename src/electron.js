@@ -4180,7 +4180,8 @@ async function  startServices                           (  ) {
                 dbsearch
                 ,
                 {
-                    //component_ipfs_hash:        null,
+                    //zzz
+                    component_ipfs_hash:        null,
                     type:                       "COMPONENT_COMMENT",
                     format:                     "JSON'",
                     type_:                      "component_type('COMPONENT_COMMENT')",
