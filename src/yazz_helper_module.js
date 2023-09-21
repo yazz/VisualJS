@@ -1673,12 +1673,12 @@ module.exports = {
                             thisDb
                             ,
                             {
-                                codeId: jsonComment.component_ipfs_hash,
-                                baseComponentId: jsonComment.base_component_id,
+                                codeId:                 jsonComment.component_ipfs_hash,
+                                baseComponentId:        jsonComment.base_component_id,
                                 baseComponentIdVersion: jsonComment.base_component_id_version,
-                                newComment: jsonComment.comment,
-                                newRating: jsonComment.rating,
-                                dateAndTime: jsonComment.date_and_time
+                                newComment:             jsonComment.comment,
+                                newRating:              jsonComment.rating,
+                                dateAndTime:            jsonComment.date_and_time
                             }
                         )
 
@@ -1725,7 +1725,7 @@ module.exports = {
         } catch( err) {
             debugger
         }
-        return {value: returnValue, error: null}
+        return {  value: returnValue  ,  error: null  }
 
     },
     getContentFromMaster:           async function  (  thisDb  ,  ipfsHash  ,  options  ) {
