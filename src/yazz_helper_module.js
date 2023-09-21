@@ -2279,7 +2279,7 @@ module.exports = {
                 //
                 // send any new items created to the master
                 //
-                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  scope='GLOBAL' and sent_to_peer < 4  order by  sent_to_peer asc  LIMIT 1")
+                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  scope='GLOBAL' and sent_to_peer < 4  and master_time_millis is null  order by  sent_to_peer asc  LIMIT 1")
                 if (nextUnsentRecord) {
                     if (nextUnsentRecord.ipfs_hash != null) {
                         let nextContent = await mm.getDistributedContent({
