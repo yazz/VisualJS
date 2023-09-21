@@ -2370,7 +2370,7 @@ module.exports = {
         if (  (typeof timestampMillis == 'undefined')  ||  (timestampMillis == null)  ) {
             listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes where scope='GLOBAL' order by local_time_millis asc  limit 10" , [ ])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  scope='GLOBAL' and local_time_millis > ? asc limit 10" , [ timestampMillis ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  scope='GLOBAL' and local_time_millis > ?  order by local_time_millis asc limit 10" , [ timestampMillis ])
         }
 
 
