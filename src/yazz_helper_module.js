@@ -2190,6 +2190,72 @@ module.exports = {
         })
         await promise
     },
+    saveContentToDatabase:          async function(  {  db  ,  content  ,  master_time_millis  }  ) {
+        let mm = this
+        let componentType = mm.helpers.getValueOfCodeString(content, "component_type")
+
+
+
+        //
+        // COMMENTS
+        //
+        if (componentType == "COMPONENT_COMMENT") {
+            let formatType = mm.helpers.getValueOfCodeString(content, "format")
+
+            if (formatType == "JSON") {
+                let jsonComment = JSON.parse(content)
+                await mm.insertCommentIntoDb(
+                    db
+                    ,
+                    {
+                        codeId:                 jsonComment.component_ipfs_hash,
+                        baseComponentId:        jsonComment.base_component_id,
+                        baseComponentIdVersion: jsonComment.base_component_id_version,
+                        newComment:             jsonComment.comment,
+                        newRating:              jsonComment.rating,
+                        dateAndTime:            jsonComment.date_and_time
+                    }
+                )
+            }
+
+
+
+        //
+        // RELEASE
+        //
+        //zzz
+        } else if (componentType == "COMPONENT_RELEASE") {
+            let formatType = yz.helpers.getValueOfCodeString(content, "format")
+            if (formatType == "JSON") {
+                let jsonRelease = JSON.parse(content)
+                if (jsonRelease.component_ipfs_hash) {
+                    mm.releaseCode(db, jsonRelease.component_ipfs_hash)
+                }
+            }
+
+
+
+
+
+        //
+        // UI COMPONENTS
+        //
+        } else {
+            await mm.saveCodeV3(
+                db,
+                content,
+                {
+                    make_public:        false,
+                    save_html:          false,
+                    master_time_millis: masterTimeMillis
+                })
+        }
+    },
+
+
+
+
+
     synchonizeContentAmongPeers:    async function  (  thisDb  ) {
         //---------------------------------------------------------------------------
         //
@@ -2269,14 +2335,7 @@ module.exports = {
                         let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
 
                         if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
-                            await mm.saveCodeV3(
-                                thisDb,
-                                ipfsContent.value.content,
-                                {
-                                    make_public: false,
-                                    save_html: false,
-                                    master_time_millis: nextIpfsQueueRecord.master_time_millis
-                                })
+                            await mm.saveContentToDatabase( {db: thisDb , content: ipfsContent.value.content ,    masterTimeMillis:  nextIpfsQueueRecord.master_time_millis  })
 
                             await mm.executeQuickSql(
                                 thisDb,
