@@ -2190,7 +2190,7 @@ module.exports = {
         })
         await promise
     },
-    saveContentToDatabase:          async function(  {  db  ,  content  ,  master_time_millis  }  ) {
+    saveContentToDatabase:          async function(  {  db  ,  content  ,  masterTimeMillis  }  ) {
         let mm = this
         let componentType = mm.helpers.getValueOfCodeString(content, "component_type")
 
@@ -2223,9 +2223,8 @@ module.exports = {
         //
         // RELEASE
         //
-        //zzz
         } else if (componentType == "COMPONENT_RELEASE") {
-            let formatType = yz.helpers.getValueOfCodeString(content, "format")
+            let formatType = mm.helpers.getValueOfCodeString(content, "format")
             if (formatType == "JSON") {
                 let jsonRelease = JSON.parse(content)
                 if (jsonRelease.component_ipfs_hash) {
