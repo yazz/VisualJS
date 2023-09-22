@@ -2313,11 +2313,17 @@ module.exports = {
                     if (outstandingRequests) {
                         for (hashRecord of outstandingRequests.value.hashes) {
                             console.log("hash record to add to queue: " + JSON.stringify(hashRecord,null, 2))
-                            await mm.executeQuickSql(
+                            let recordAlreadyInQueue = await mm.getQuickSqlOneRow(
                                 thisDb,
-                                "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
-                                [hashRecord.ipfs_hash, hashRecord.local_time_millis, "QUEUED", mm.msToTime(hashRecord.local_time_millis)]
-                            )
+                                "select  ipfs_hash  from  ipfs_hashes_queue_to_download  where  ipfs_hash = ?",
+                                [hashRecord.ipfs_hash])
+                            if (recordAlreadyInQueue == null) {
+                                await mm.executeQuickSql(
+                                    thisDb,
+                                    "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
+                                    [hashRecord.ipfs_hash, hashRecord.local_time_millis, "QUEUED", mm.msToTime(hashRecord.local_time_millis)]
+                                )
+                            }
                         }
                     }
                 }
