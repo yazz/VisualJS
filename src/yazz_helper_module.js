@@ -2342,13 +2342,43 @@ module.exports = {
                         let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
 
                         if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
+                            let createdTimeMillis = mm.helpers.getValueOfCodeString(ipfsContent.value.content,"created_timestamp")
+                            if (createdTimeMillis == null) {
+                                createdTimeMillis = new Date().getTime()
+                            } else {
+                                createdTimeMillis = parseInt(createdTimeMillis)
+                            }
+
+                            let formatType = mm.helpers.getValueOfCodeString(ipfsContent.value.content, "format")
+
+                            await mm.insertContentStorageRecord(
+                                {
+                                    thisDb:                 thisDb,
+                                    ipfs_hash:              nextIpfsQueueRecord.ipfs_hash,
+                                    created_time_millis:    createdTimeMillis,
+                                    master_time_millis:     nextIpfsQueueRecord.master_time_millis,
+                                    local_time_millis:      createdTimeMillis,
+                                    temp_debug_content:     ipfsContent.value.content,
+                                    content_type:           formatType,
+                                    scope:                  "GLOBAL",
+                                    stored_in_local_file:   1,
+                                    read_from_local_file:   0,
+                                    stored_in_ipfs:         0,
+                                    sent_to_peer:           0,
+                                    received_from_peer:     0,
+                                    pulled_from_peer:       0,
+                                    read_from_local_ipfs:   0,
+                                    read_from_peer_ipfs:    0,
+                                    read_from_peer_file:    0,
+                                    last_ipfs_ping_millis:  -1
+                                }  )
+
                             await mm.saveContentToDatabase( {db: thisDb , content: ipfsContent.value.content ,    masterTimeMillis:  nextIpfsQueueRecord.master_time_millis  })
 
                             await mm.executeQuickSql(
                                 thisDb,
                                 "update  ipfs_hashes  set  master_time_millis = ?  where  ipfs_hash = ?",
                                 [nextIpfsQueueRecord.master_time_millis, nextIpfsQueueRecord.ipfs_hash])
-
                             await mm.executeQuickSql(
                                 thisDb,
                                 "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
