@@ -2323,6 +2323,8 @@ module.exports = {
                                     "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
                                     [hashRecord.ipfs_hash, hashRecord.local_time_millis, "QUEUED", mm.msToTime(hashRecord.local_time_millis)]
                                 )
+                            } else {
+                                //debugger
                             }
                         }
                     }
