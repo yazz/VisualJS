@@ -594,7 +594,7 @@ module.exports = {
 
         }
 
-        async.map([
+        await async.map([
                 "CREATE TABLE IF NOT EXISTS table_versions                  (table_name TEXT, version_number INTEGER , PRIMARY KEY (table_name));",
 
                 "CREATE TABLE IF NOT EXISTS system_process_info             (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , component_type TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
