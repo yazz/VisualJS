@@ -1367,7 +1367,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         `select  
                             base_component_id  
                         from  
-                            system_code  
+                            level_2_system_code  
                         where 
                             id = '${ipfsHash}'`))[0]
 
@@ -1481,7 +1481,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         base_component_id,  
                         display_name   
                     from  
-                        system_code  
+                        level_2_system_code  
                     where 
                         id = '${ipfsHash}'`))[0]
 

@@ -148,7 +148,7 @@ module.exports = {
             select ?,  latest_revision from app_db_latest_ddl_revisions
              where base_component_id=?`
         );
-        stmtInsertIpfsHash = thisDb.prepare(" insert or replace into level_0_ipfs_hashes " +
+        stmtInsertIpfsHash = thisDb.prepare(" insert or replace into level_1_ipfs_hash_metadata " +
             "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created , received_from_peer  ,pulled_from_peer  , master_time_millis  , local_time_millis  ) " +
             " values " +
             "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?, ? );");
@@ -366,7 +366,7 @@ module.exports = {
             [ uuidv1()  ,  baseComponentId  , "PROD" , dateTime,  ipfs_hash])
     },
     getCodeForCommit:               async function  (  thisDb  ,  commitId  ) {
-        let thisCommit = await this.getQuickSqlOneRow(thisDb,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
+        let thisCommit = await this.getQuickSqlOneRow(thisDb,  "select  *  from   level_2_system_code  where   id = ? ", [  commitId  ])
         if (thisCommit) {
             return thisCommit.code
         }
@@ -567,7 +567,7 @@ module.exports = {
             thisDb
             ,
             `insert into
-                 system_code  
+                 level_2_system_code  
                      (id, parent_id, code, base_component_id, 
                       display_name, creation_timestamp, 
                       logo_url, visibility,use_db, editors, read_write_status,properties, 
@@ -594,13 +594,38 @@ module.exports = {
             sqlTorun = sqlTorun.concat([
                     "CREATE TABLE IF NOT EXISTS table_versions                  (table_name TEXT, version_number INTEGER , PRIMARY KEY (table_name));",
 
+                    //   LEVEL 0
+                    //  This content may be moved into another Sqlite database eventually
+                    //
+                    "CREATE TABLE IF NOT EXISTS level_0_ipfs_content            (ipfs_hash TEXT, ipfs_content TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_0_ipfs_content',1);",
+                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                 ON level_0_ipfs_content (ipfs_hash);",
 
-                    "CREATE TABLE IF NOT EXISTS level_0_ipfs_hashes             (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_local_file INTEGER, read_from_local_file INTEGER, stored_in_ipfs INTEGER, sent_to_peer INTEGER, received_from_peer INTEGER, pulled_from_peer INTEGER, read_from_local_ipfs INTEGER, read_from_peer_ipfs INTEGER, read_from_peer_file INTEGER , error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_0_ipfs_hashes',1);",
-                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                 ON level_0_ipfs_hashes (ipfs_hash);",
+
+                    //   LEVEL 1
+                    //  This could be store in another Sqlite database, but it could also be derived from that data
+                    //
+                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata      (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_local_file INTEGER, read_from_local_file INTEGER, stored_in_ipfs INTEGER, sent_to_peer INTEGER, received_from_peer INTEGER, pulled_from_peer INTEGER, read_from_local_ipfs INTEGER, read_from_peer_ipfs INTEGER, read_from_peer_file INTEGER , error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
+                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                 ON level_1_ipfs_hash_metadata (ipfs_hash);",
 
 
-                    "CREATE TABLE IF NOT EXISTS component_property_types        (base_component_id TEXT, property_name TEXT,  outputs_type TEXT );",
+                    "CREATE TABLE IF NOT EXISTS level_1_download_content_queue   (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                   (table_name  ,  version_number) VALUES ('level_1_download_content_queue',1);",
+
+
+                    //   LEVEL 2
+                    //  This can all be derived from the IPFS content data. It is useful to keep around, but can be deleted
+                    //
+                    "CREATE TABLE IF NOT EXISTS level_2_system_code                     (id TEXT, base_component_id TEXT, display_name TEXT, component_type TEXT, creation_timestamp INTEGER, parent_id TEXT, fk_user_id TEXT,code TEXT,  logo_url TEXT, visibility TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, edit_file_path TEXT,  num_changes INTEGER, code_changes TEXT, last_read_from_ipfs INTEGER, score INTEGER, score_reason TEXT, score_total INTEGER);",
+                    "CREATE INDEX IF NOT EXISTS system_code_base_component_id_idx   ON level_2_system_code (base_component_id);",
+                    "CREATE INDEX IF NOT EXISTS system_code_id_idx                  ON level_2_system_code (id);",
+                    "CREATE INDEX IF NOT EXISTS system_code_logo_url_idx            ON level_2_system_code (logo_url);",
+                    "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON level_2_system_code (component_type);",
+                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
+
+
+                "CREATE TABLE IF NOT EXISTS component_property_types        (base_component_id TEXT, property_name TEXT,  outputs_type TEXT );",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('component_property_types',1);",
 
                     "CREATE TABLE IF NOT EXISTS component_property_accept_types (base_component_id TEXT, property_name TEXT,  accept_type TEXT );",
@@ -612,8 +637,6 @@ module.exports = {
                     "CREATE TABLE IF NOT EXISTS app_db_latest_ddl_revisions     (base_component_id TEXT , latest_revision TEXT);",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('app_db_latest_ddl_revisions',1);",
 
-                    "CREATE TABLE IF NOT EXISTS system_code                     (id TEXT, base_component_id TEXT, display_name TEXT, component_type TEXT, creation_timestamp INTEGER, parent_id TEXT, fk_user_id TEXT,code TEXT,  logo_url TEXT, visibility TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, edit_file_path TEXT,  num_changes INTEGER, code_changes TEXT, last_read_from_ipfs INTEGER, score INTEGER, score_reason TEXT, score_total INTEGER);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('system_code',1);",
 
                     "CREATE TABLE IF NOT EXISTS yz_cache_released_components    (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, code TEXT);",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('yz_cache_released_components',1);",
@@ -636,16 +659,9 @@ module.exports = {
                     "CREATE TABLE IF NOT EXISTS code_tags_table                 (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('code_tags_table',1);",
 
-                    "CREATE TABLE IF NOT EXISTS ipfs_hashes_queue_to_download   (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('ipfs_hashes_queue_to_download',1);",
 
 
 
-
-                    "CREATE INDEX IF NOT EXISTS system_code_base_component_id_idx   ON system_code (base_component_id);",
-                    "CREATE INDEX IF NOT EXISTS system_code_id_idx                  ON system_code (id);",
-                    "CREATE INDEX IF NOT EXISTS system_code_logo_url_idx            ON system_code (logo_url);",
-                    "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON system_code (component_type);",
                     "CREATE INDEX IF NOT EXISTS released_components_idx             ON yz_cache_released_components (id);",
                     "CREATE INDEX IF NOT EXISTS comments_and_ratings_idx            ON comments_and_ratings (id);",
                     "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx            ON cookies (cookie_value);",
@@ -878,7 +894,7 @@ module.exports = {
             `select  
                      id 
                  from 
-                     system_code 
+                     level_2_system_code 
                  where
                      id = ?;`
                 ,
@@ -1047,7 +1063,7 @@ module.exports = {
                                         sqlR = await mm.getQuickSqlOneRow(
                                             thisDb
                                             ,
-                                            "select    id,  code  from  system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
+                                            "select    id,  code  from  level_2_system_code  where  base_component_id = ?   order by   creation_timestamp desc   limit 1  "
                                             ,
                                             [  results[i].child_base_component_id  ])
                                     }
@@ -1064,7 +1080,7 @@ module.exports = {
                                 let sqlr2 = await mm.getQuickSqlOneRow(
                                     thisDb
                                     ,
-                                    "select  code  from   system_code where id = ? "
+                                    "select  code  from   level_2_system_code where id = ? "
                                     ,
                                     [  results[i].child_code_id  ])
 
@@ -1389,7 +1405,7 @@ module.exports = {
             `select 
                 count(*) as descendant_count
             from  
-                system_code  
+                level_2_system_code  
             where 
                 parent_id = ? `
             ,
@@ -1546,7 +1562,7 @@ module.exports = {
         |     --------
         |________________________________________________________________________ */
         let mm                  = this
-        let codeRecord          = await mm.getQuickSqlOneRow(  thisDb,  "select  code  from   system_code  where   id = ? ", [  commitId  ]  )
+        let codeRecord          = await mm.getQuickSqlOneRow(  thisDb,  "select  code  from   level_2_system_code  where   id = ? ", [  commitId  ]  )
         let codeString          = codeRecord.code
         let parsedCode          = await mm.getSrcCodePropertiesAsJson(  {  code: codeString  }  )
         let dataString          = null
@@ -1703,7 +1719,7 @@ module.exports = {
         try {
             fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
             fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
             contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
             metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
             localTimeMillis             = new Date().getTime()
@@ -1720,7 +1736,7 @@ module.exports = {
             // as the content is already loaded, but mark the file on disk as
             // needing updating
             } else if (contentStoredInSqlite) {
-                await mm.executeQuickSql(thisDb, "update  level_0_ipfs_hashes  set  stored_in_local_file = 0  where  ipfs_hash = ?", [ ipfsHash ])
+                await mm.executeQuickSql(thisDb, "update  level_1_ipfs_hash_metadata  set  stored_in_local_file = 0  where  ipfs_hash = ?", [ ipfsHash ])
 
 
             // otherwise if the content exists on disk but not in Sqlite then
@@ -1908,7 +1924,7 @@ module.exports = {
 
         //
         try {
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_hashes  where  ipfs_hash = ?", [  justHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  justHash  ])
             contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
             metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
 
@@ -2160,7 +2176,7 @@ module.exports = {
                     });
                     res.on('end', async function () {
                         //console.log('end: ' );
-                        await mm.executeQuickSql( thisDb, "update  level_0_ipfs_hashes  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
+                        await mm.executeQuickSql( thisDb, "update  level_1_ipfs_hash_metadata  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
                         await mm.updateContentMetadataFile(thisDb, ipfs_hash)
                     });
                 });
@@ -2391,7 +2407,7 @@ module.exports = {
                 //
                 // send any new items created to the master
                 //
-                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  level_0_ipfs_hashes  where  scope='GLOBAL' and sent_to_peer < 4  and master_time_millis is null  order by  sent_to_peer asc  LIMIT 1")
+                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  scope='GLOBAL' and sent_to_peer < 4  and master_time_millis is null  order by  sent_to_peer asc  LIMIT 1")
                 if (nextUnsentRecord) {
                     if (nextUnsentRecord.ipfs_hash != null) {
                         let nextContent = await mm.getDistributedContent({
@@ -2413,9 +2429,9 @@ module.exports = {
                 //
                 // get content from master server
                 //
-                let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from ipfs_hashes_queue_to_download where STATUS = 'QUEUED'")
+                let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from level_1_download_content_queue where STATUS = 'QUEUED'")
                 if (ipfsDownloadQueueSize.queue_count == 0) {
-                    let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  level_0_ipfs_hashes")
+                    let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  level_1_ipfs_hash_metadata")
                     let outstandingRequests = await mm.sendQuickJsonGetRequest(
                         "http_get_outstanding_ipfs_content_hashes"
                         ,
@@ -2427,12 +2443,12 @@ module.exports = {
                             console.log("hash record to add to queue: " + JSON.stringify(hashRecord,null, 2))
                             let recordAlreadyInQueue = await mm.getQuickSqlOneRow(
                                 thisDb,
-                                "select  ipfs_hash  from  ipfs_hashes_queue_to_download  where  ipfs_hash = ?",
+                                "select  ipfs_hash  from  level_1_download_content_queue  where  ipfs_hash = ?",
                                 [hashRecord.ipfs_hash])
                             if (recordAlreadyInQueue == null) {
                                 await mm.executeQuickSql(
                                     thisDb,
-                                    "insert into ipfs_hashes_queue_to_download  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
+                                    "insert into level_1_download_content_queue  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
                                     [hashRecord.ipfs_hash, hashRecord.local_time_millis, "QUEUED", mm.msToTime(hashRecord.local_time_millis)]
                                 )
                             } else {
@@ -2448,7 +2464,7 @@ module.exports = {
                 if (ipfsDownloadQueueSize.queue_count != 0) {
                     let nextIpfsQueueRecord = await mm.getQuickSqlOneRow(
                         thisDb,
-                        "select ipfs_hash, master_time_millis from ipfs_hashes_queue_to_download where status = ? order by master_time_millis asc limit 1",
+                        "select ipfs_hash, master_time_millis from level_1_download_content_queue where status = ? order by master_time_millis asc limit 1",
                         ["QUEUED"])
                     if (nextIpfsQueueRecord) {
                         let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
@@ -2489,17 +2505,17 @@ module.exports = {
 
                             await mm.executeQuickSql(
                                 thisDb,
-                                "update  level_0_ipfs_hashes  set  master_time_millis = ?  where  ipfs_hash = ?",
+                                "update  level_1_ipfs_hash_metadata  set  master_time_millis = ?  where  ipfs_hash = ?",
                                 [nextIpfsQueueRecord.master_time_millis, nextIpfsQueueRecord.ipfs_hash])
                             await mm.executeQuickSql(
                                 thisDb,
-                                "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
+                                "update  level_1_download_content_queue  set status = ? where ipfs_hash = ?",
                                 ["DONE", nextIpfsQueueRecord.ipfs_hash]
                             )
                         } else {
                             await mm.executeQuickSql(
                                 thisDb,
-                                "update  ipfs_hashes_queue_to_download  set status = ? where ipfs_hash = ?",
+                                "update  level_1_download_content_queue  set status = ? where ipfs_hash = ?",
                                 ["ERROR", nextIpfsQueueRecord.ipfs_hash]
                             )
                         }
@@ -2518,9 +2534,9 @@ module.exports = {
 
         // get the initial list of hashes
         if (  (typeof timestampMillis == 'undefined')  ||  (timestampMillis == null)  ) {
-            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_0_ipfs_hashes where scope='GLOBAL' order by local_time_millis asc  limit 10" , [ ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_1_ipfs_hash_metadata where scope='GLOBAL' order by local_time_millis asc  limit 10" , [ ])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_0_ipfs_hashes  where  scope='GLOBAL' and local_time_millis > ?  order by local_time_millis asc limit 10" , [ timestampMillis ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_1_ipfs_hash_metadata  where  scope='GLOBAL' and local_time_millis > ?  order by local_time_millis asc limit 10" , [ timestampMillis ])
         }
 
 
@@ -2543,12 +2559,12 @@ module.exports = {
 
         let countOfTotalHashesWithSameTimestampRec = await mm.getQuickSqlOneRow(
                                                             thisDb,
-                                                            "select  count(ipfs_hash) as tot_c from level_0_ipfs_hashes  where local_time_millis = ?",
+                                                            "select  count(ipfs_hash) as tot_c from level_1_ipfs_hash_metadata  where local_time_millis = ?",
                                                             [  lastHashTimestamp  ])
         let countOfTotalHashesWithSameTimestamp = countOfTotalHashesWithSameTimestampRec.tot_c
 
         if (countOfTotalHashesWithSameTimestamp > countReturnedHashesWithTimestamp) {
-            let extraRecs = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_0_ipfs_hashes  where  local_time_millis = ?  " , [ lastHashTimestamp ])
+            let extraRecs = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_1_ipfs_hash_metadata  where  local_time_millis = ?  " , [ lastHashTimestamp ])
             listOfHashes = listOfHashes.concat(extraRecs)
         }
         return { count_hashes: listOfHashes.length , hashes: listOfHashes}
@@ -2565,7 +2581,7 @@ module.exports = {
     },
     updateContentMetadataFile:      async function  (  thisDb  ,  ipfsHash  ) {
         let mm = this
-        let contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
+        let contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
         let fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
         let fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
         let updatedMetadataJson     =   {
@@ -2591,7 +2607,7 @@ module.exports = {
     },
     oldsynchonizeContentAmongPeers: async function  (  thisDb  ) {
         //console.log("Sync")
-        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  level_0_ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
+        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  sent_to_peer = 0 limit 1", params)
         if (rows.length == 0) {
             return null
         }

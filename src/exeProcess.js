@@ -280,7 +280,7 @@ function executeCode(  callId  ,  codeId  , args  ,  base_component_id  ) {
     dbsearch.serialize(
         function() {
             dbsearch.all(
-                "SELECT base_component_id,code,properties FROM system_code where id  = ?; ",
+                "SELECT base_component_id,code,properties FROM level_2_system_code where id  = ?; ",
                 codeId,
 
                 function(err, results)

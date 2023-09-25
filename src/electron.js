@@ -2971,7 +2971,7 @@ function        sendJobToProcessName                    (  id  ,  args  ,  proce
     dbsearch.serialize(
         function() {
             let stmt = dbsearch.all(
-                "SELECT base_component_id FROM system_code where id = ? LIMIT 1",
+                "SELECT base_component_id FROM level_2_system_code where id = ? LIMIT 1",
                 id,
 
                 function(err, results)
@@ -3224,8 +3224,8 @@ async function  getRowForCommit                         (  commitId  ) {
     |________________________________________________________________________ */
 
     let commitStructure         = null
-    let thisCommit              = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   system_code  where   id = ? ", [  commitId  ])
-    let getFutureCommitsSql     = "select  id  from   system_code  where  parent_id = ? "
+    let thisCommit              = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   level_2_system_code  where   id = ? ", [  commitId  ])
+    let getFutureCommitsSql     = "select  id  from   level_2_system_code  where  parent_id = ? "
     let parentCommits           = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
     let getCodeTagsSql          = "select  code_tag, main_score  from  code_tags_table  where fk_system_code_id = ?  "
     let codeTags                = await yz.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
@@ -3334,7 +3334,7 @@ async function  getFutureCommitsFor                     (  args  ) {
         returnRows = args.returnRows
     }
 
-    let childCommits = await yz.getQuickSql(dbsearch,"select  *  from   system_code  where   parent_id = ? ", [  commitId  ])
+    let childCommits = await yz.getQuickSql(dbsearch,"select  *  from   level_2_system_code  where   parent_id = ? ", [  commitId  ])
 
     if (childCommits.length == 0 ) {
         return returnRows
@@ -3439,7 +3439,7 @@ async function  copyAppshareApp                         (  args  ) {
             results = await yz.getQuickSql(
                 dbsearch
                 ,
-                "SELECT    id, code, display_name as display_name    FROM    system_code   where    " +
+                "SELECT    id, code, display_name as display_name    FROM    level_2_system_code   where    " +
                 " id = ? ;  "
                 ,
                 [argsCodeId])
@@ -3456,7 +3456,7 @@ async function  copyAppshareApp                         (  args  ) {
                 results = await yz.getQuickSql(
                     dbsearch
                     ,
-                    "SELECT    id, code, display_name    FROM    system_code   where    " +
+                    "SELECT    id, code, display_name    FROM    level_2_system_code   where    " +
                     " base_component_id = ? order by   creation_timestamp desc   limit 1 ;  "
                     ,
                     [argsBaseComponentId])
@@ -3865,17 +3865,17 @@ async function  startServices                           (  ) {
             dbsearch.serialize(
                 function() {
                     dbsearch.all( `SELECT
-                                        system_code.id,
-                                        system_code.base_component_id,
-                                        system_code.read_write_status,
-                                        system_code.display_name,
-                                        system_code.logo_url
+                                        level_2_system_code.id,
+                                        level_2_system_code.base_component_id,
+                                        level_2_system_code.read_write_status,
+                                        level_2_system_code.display_name,
+                                        level_2_system_code.logo_url
                                    FROM
-                                        code_tags_table, system_code
+                                        code_tags_table, level_2_system_code
                                     WHERE
                                         code_tags_table.fk_user_id = ?
                                             AND
-                                        code_tags_table.fk_system_code_id = system_code.id
+                                        code_tags_table.fk_system_code_id = level_2_system_code.id
                                             AND
                                         code_tags_table.code_tag = "EDIT"`
                         ,
@@ -4280,7 +4280,7 @@ async function  startServices                           (  ) {
         let commitId = req.query.commit_id;
 
 
-        let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   system_code  where   id = ? ", [  commitId  ])
+        let codeRecord = await yz.getQuickSqlOneRow(dbsearch,  "select  code  from   level_2_system_code  where   id = ? ", [  commitId  ])
         let codeString = codeRecord.code
 
         console.log("app.get('/'): ")
@@ -4355,9 +4355,9 @@ async function  startServices                           (  ) {
                 dbsearch,
                 `with RECURSIVE
                 parents_of(id2, parent_id2) as (
-                    select id, parent_id from system_code where id = ?
+                    select id, parent_id from level_2_system_code where id = ?
                         union all
-                    select id, parent_id from system_code,parents_of  where id = parent_id2
+                    select id, parent_id from level_2_system_code,parents_of  where id = parent_id2
                         limit 10
                 )
             select count(*) as num_commits from parents_of`
@@ -4371,7 +4371,7 @@ async function  startServices                           (  ) {
                 dbsearch,
 
                 `update 
-                    system_code  
+                    level_2_system_code  
                 set  
                     score = ?  
                 where  
@@ -4552,9 +4552,9 @@ async function  startServices                           (  ) {
                     dbsearch
                     ,
                     `SELECT  
-                        system_code.*  
+                        level_2_system_code.*  
                     FROM
-                        system_code  
+                        level_2_system_code  
                     WHERE  
                         id  = ?`
                     ,
@@ -4569,9 +4569,9 @@ async function  startServices                           (  ) {
                         dbsearch
                         ,
                         `SELECT  
-                        system_code.*  
+                        level_2_system_code.*  
                     FROM
-                        system_code  
+                        level_2_system_code  
                     WHERE  
                         id  = ?`
                         ,
@@ -4588,14 +4588,14 @@ async function  startServices                           (  ) {
                     dbsearch
                     ,
                     `SELECT  
-                        system_code.*  
+                        level_2_system_code.*  
                     FROM   
-                        system_code, 
+                        level_2_system_code, 
                         yz_cache_released_components   
                     WHERE  
                         yz_cache_released_components.base_component_id = ?
                             and   
-                        yz_cache_released_components.ipfs_hash = system_code.id 
+                        yz_cache_released_components.ipfs_hash = level_2_system_code.id 
                     `
                     ,
                     componentItem.baseComponentId)
@@ -4605,9 +4605,9 @@ async function  startServices                           (  ) {
                         dbsearch
                         ,
                         `SELECT  
-                            system_code.*  
+                            level_2_system_code.*  
                         FROM
-                            system_code  
+                            level_2_system_code  
                         WHERE  
                             base_component_id  = ?
                         order by 
@@ -4707,7 +4707,7 @@ async function  startServices                           (  ) {
         let contentDesc = yz.getContentDescription(ipfsContent)
         console.log("Received content from peer: " + contentDesc)
         await yz.setDistributedContent( dbsearch  ,  ipfsContent  )
-        await yz.executeQuickSql( dbsearch, "update  level_0_ipfs_hashes  set  received_from_peer = received_from_peer + 1  where ipfs_hash = ?", [ipfsHash])
+        await yz.executeQuickSql( dbsearch, "update  level_1_ipfs_hash_metadata  set  received_from_peer = received_from_peer + 1  where ipfs_hash = ?", [ipfsHash])
     })
     app.post(   "/http_post_save_code_v3" ,                                 async function (req, res) {
         let userid
