@@ -583,10 +583,16 @@ module.exports = {
         //console.log("--------------- createTables: function(dbsearch, callbackFn) {");
         let mm = this
 
-        let tableExists = await mm.getQuickSqlOneRow(
+        let tablesAlreadyExist = await mm.getQuickSqlOneRow(
             dbsearch,
             "SELECT name FROM sqlite_master WHERE type='table' AND name=?;",
             ["table_versions"])
+
+        if (tablesAlreadyExist) {
+
+        } else {
+
+        }
 
         async.map([
                 "CREATE TABLE IF NOT EXISTS table_versions                  (table_name TEXT, version_number INTEGER , PRIMARY KEY (table_name));",
