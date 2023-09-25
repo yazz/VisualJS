@@ -212,7 +212,7 @@ function processMessagesFromMainProcess() {
 function setUpSql() {
 
     stmtInsertProcessError = dbsearch.prepare(  ` insert into
-                                                      system_process_errors
+                                                      level_8_system_process_errors
                                                   (   id,
                                                       timestamp,
                                                       process,

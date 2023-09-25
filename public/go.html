@@ -3123,18 +3123,18 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 return ret
             }
             async function  setupAlaSqlDatabase                 (  ) {
-                alasql("CREATE TABLE zz_tables (table_name STRING)");
-                alasql("CREATE TABLE zz_fields (table_name STRING, field_name STRING, field_type STRING)");
-                asql("select * from zz_tables")
+                alasql("CREATE TABLE level_9_tables (table_name STRING)");
+                alasql("CREATE TABLE level_9_fields (table_name STRING, field_name STRING, field_type STRING)");
+                asql("select * from level_9_tables")
                 await createAlaSqlTable({
-                    tableName: "zz_components",
+                    tableName: "level_9_components",
                     fields: [
                         {name: "id",        fieldType: "INT"},
                         {name: "comp_name", fieldType: "STRING"}
                     ]})
 
                 await createAlaSqlTable({
-                    tableName: "zz_test",
+                    tableName: "level_9_test",
                     fields: [
                         {name: "id",        fieldType: "INT"},
                         {name: "comp_name", fieldType: "STRING"},
@@ -3145,9 +3145,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             async function  setupAlaSqlSync                     (  ) {
                 if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
-                    let tables = alasql("select * from zz_tables")
+                    let tables = alasql("select * from level_9_tables")
                     for (table of tables) {
-                        let fields = alasql("select * from zz_fields where table_name = ?", table.table_name)
+                        let fields = alasql("select * from level_9_fields where table_name = ?", table.table_name)
                         let fieldList  = []
                         for (field of fields) {
                             fieldList.push({name: field.field_name, type: field.field_type})
@@ -3166,11 +3166,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             async function  createAlaSqlTable                   (  {tableName , fields}  ) {
                 let alaSqlCreateString = "create table " + tableName + "("
 
-                let alaSqlInsertString = "insert into zz_tables (table_name) values (?)"
+                let alaSqlInsertString = "insert into level_9_tables (table_name) values (?)"
                 alasql(alaSqlInsertString, tableName);
                 for (let fieldIndex = 0;  fieldIndex < fields.length ; fieldIndex++) {
                     let field = fields[fieldIndex]
-                    let alaSqlCreateFieldsString = "insert into zz_fields (table_name, field_name, field_type) values (?,?,?)"
+                    let alaSqlCreateFieldsString = "insert into level_9_fields (table_name, field_name, field_type) values (?,?,?)"
                     alasql(alaSqlCreateFieldsString, [tableName, field.name, field.fieldType]);
 
                     alaSqlCreateString = alaSqlCreateString + field.name + " " + field.fieldType

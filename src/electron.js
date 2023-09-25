@@ -632,7 +632,7 @@ function        setUpChildListeners                     (  processName  , fileNa
 
 
             let stmtInsertProcessError = dbsearch.prepare(  ` insert into
-                                                                  system_process_errors
+                                                                  level_8_system_process_errors
                                                               (   id,
                                                                   timestamp,
                                                                   process,
@@ -1830,19 +1830,19 @@ function        setUpSql                                (  ) {
 
 
 
-    setProcessToRunning = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', component_type = ?,  running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ? AND yazz_instance_id = ?");
+    setProcessToRunning = dbsearch.prepare("UPDATE level_8_system_process_info SET status = 'RUNNING', component_type = ?,  running_start_time_ms = ?, event_duration_ms = 0, system_code_id = ?, callback_index = ? WHERE process = ? AND yazz_instance_id = ?");
 
-    setProcessToIdle = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ? AND yazz_instance_id = ?");
-    setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  system_process_info  SET event_duration_ms = ?  WHERE  process = ? AND yazz_instance_id = ?");
+    setProcessToIdle = dbsearch.prepare("UPDATE level_8_system_process_info SET status = 'IDLE' WHERE process = ? AND yazz_instance_id = ?");
+    setProcessRunningDurationMs  = dbsearch.prepare("UPDATE  level_8_system_process_info  SET event_duration_ms = ?  WHERE  process = ? AND yazz_instance_id = ?");
 
     insertIntoProcessTable = dbsearch.prepare(
         " insert into "+
-        "     system_process_info (yazz_instance_id, process, process_id, running_since, status, job_priority) " +
+        "     level_8_system_process_info (yazz_instance_id, process, process_id, running_since, status, job_priority) " +
         " values " +
         "     (?,?,?,?,?,?)")
 
     updateProcessTable = dbsearch.prepare(
-        "UPDATE  system_process_info " +
+        "UPDATE  level_8_system_process_info " +
         "      SET process_id = ?, running_since = ?, status = ?, job_priority = ? " +
         "WHERE " +
         "     yazz_instance_id = ? AND process = ? ")
@@ -2772,7 +2772,7 @@ function        updateRunningTimeForprocess             (  ) {
     dbsearch.serialize(
         function() {
             let stmt = dbsearch.all(
-                "SELECT * FROM system_process_info where  status = 'RUNNING'  AND  yazz_instance_id = ?; "
+                "SELECT * FROM level_8_system_process_info where  status = 'RUNNING'  AND  yazz_instance_id = ?; "
                 ,
                 [  yazzInstanceId  ]
                 ,
@@ -2801,7 +2801,7 @@ function        findLongRunningProcesses                (  ) {
     dbsearch.serialize(
         function() {
             let stmt = dbsearch.all(
-                "SELECT * FROM system_process_info where  status = 'RUNNING' and event_duration_ms > ?  and  yazz_instance_id = ?; "
+                "SELECT * FROM level_8_system_process_info where  status = 'RUNNING' and event_duration_ms > ?  and  yazz_instance_id = ?; "
                 ,
                 [  maxJobProcessDurationMs  ,  yazzInstanceId  ]
                 ,
@@ -2857,7 +2857,7 @@ function        scheduleJobWithCodeId                   (  codeId  ,  args  ,  p
         let actualProcessName   = processNames[ processNameIndex ]
         let isInUse             = processesInUse[ actualProcessName ]
 
-        //console.log(" select * from system_process_info    ")
+        //console.log(" select * from level_8_system_process_info    ")
         //console.log("    " + JSON.stringify(results,null,2))
 
         if ( !isInUse ) {
@@ -3014,7 +3014,7 @@ function        startNode                               (  msg  ) {
     dbsearch.serialize(
         function() {
             let stmt = dbsearch.all(
-                "SELECT * FROM system_process_info where  yazz_instance_id = ?  AND  process = ?; "
+                "SELECT * FROM level_8_system_process_info where  yazz_instance_id = ?  AND  process = ?; "
                 ,
                 [  yazzInstanceId  ,  msg.node_id  ]
                 ,

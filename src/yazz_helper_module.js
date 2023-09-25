@@ -631,6 +631,7 @@ module.exports = {
 
 
                     "CREATE TABLE IF NOT EXISTS level_2_comments_and_ratings        (id TEXT, base_component_id TEXT, comment TEXT, rating TEXT, version TEXT, ipfs_hash TEXT, date_and_time INTEGER);",
+                    "CREATE INDEX IF NOT EXISTS comments_and_ratings_idx            ON level_2_comments_and_ratings (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_comments_and_ratings',1);",
 
 
@@ -668,7 +669,6 @@ module.exports = {
 
 
 
-                    "CREATE INDEX IF NOT EXISTS comments_and_ratings_idx            ON level_2_comments_and_ratings (id);",
                     "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx            ON cookies (cookie_value);",
                     "CREATE INDEX IF NOT EXISTS sessions_id_idx                     ON sessions (id);",
                     "CREATE INDEX IF NOT EXISTS users_id_idx                        ON users (id);",
@@ -681,13 +681,13 @@ module.exports = {
         // add the temp table for each server run
         //
         sqlTorun = sqlTorun.concat([
-            "DELETE TABLE               system_process_info;",
-            "CREATE TABLE IF NOT EXISTS system_process_info             (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , component_type TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
-            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('system_process_info',1);",
+            "DELETE TABLE               level_8_system_process_info;",
+            "CREATE TABLE IF NOT EXISTS level_8_system_process_info   (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , component_type TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
+            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_system_process_info',1);",
 
-            "DELETE TABLE               system_process_errors;",
-            "CREATE TABLE IF NOT EXISTS system_process_errors           (yazz_instance_id	TEXT, id TEXT, timestamp INTEGER, process	TEXT, status TEXT , base_component_id TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
-            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('system_process_errors',1);"
+            "DELETE TABLE               level_8_system_process_errors;",
+            "CREATE TABLE IF NOT EXISTS level_8_system_process_errors (yazz_instance_id	TEXT, id TEXT, timestamp INTEGER, process	TEXT, status TEXT , base_component_id TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
+            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_system_process_errors',1);"
         ])
         await async.map(
             sqlTorun
