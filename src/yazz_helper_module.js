@@ -682,11 +682,11 @@ module.exports = {
         // add the temp table for each server run
         //
         sqlTorun = sqlTorun.concat([
-            "DELETE TABLE               level_8_system_process_info;",
+            "DROP TABLE                 level_8_system_process_info;",
             "CREATE TABLE IF NOT EXISTS level_8_system_process_info     (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , component_type TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_system_process_info',1);",
 
-            "DELETE TABLE               level_8_system_process_errors;",
+            "DROP TABLE                 level_8_system_process_errors;",
             "CREATE TABLE IF NOT EXISTS level_8_system_process_errors   (yazz_instance_id	TEXT, id TEXT, timestamp INTEGER, process	TEXT, status TEXT , base_component_id TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_system_process_errors',1);"
         ])
