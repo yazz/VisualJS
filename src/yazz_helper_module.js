@@ -588,10 +588,10 @@ module.exports = {
             "SELECT name FROM sqlite_master WHERE type='table' AND name=?;",
             ["table_versions"])
 
+        let sqlTorun = []
         if (tablesAlreadyExist) {
-            callbackFn.call(this);
         } else {
-            await async.map([
+            sqlTorun = sqlTorun.concat([
                     "CREATE TABLE IF NOT EXISTS table_versions                  (table_name TEXT, version_number INTEGER , PRIMARY KEY (table_name));",
 
 
@@ -659,26 +659,28 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS users_id_idx                        ON users (id);",
                     "CREATE INDEX IF NOT EXISTS metamask_logins_id_idx              ON metamask_logins (id);",
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON code_tags_table (id);"
-                ],
-
-                function(a,b){
-                    try {
-                        dbsearch.serialize(function()
-                        {
-                            //console.log(a);
-                            dbsearch.run(a);
-                        });
-                        return b(null,a);
-                    } catch(err) {
-                        console.log(err);
-                        return b(null,a);
-                    }
-                },
-
-                function(err, results){
-                    callbackFn.call(this);
-                });
+                ])
         }
+        await async.map(
+            sqlTorun
+            ,
+            function(a,b){
+                try {
+                    dbsearch.serialize(function()
+                    {
+                        //console.log(a);
+                        dbsearch.run(a);
+                    });
+                    return b(null,a);
+                } catch(err) {
+                    console.log(err);
+                    return b(null,a);
+                }
+            },
+
+            function(err, results){
+                callbackFn.call(this);
+            });
 
     },
     getSrcCodePropertiesAsJson:     async function  (  {  code  }  ) {
