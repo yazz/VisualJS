@@ -115,7 +115,7 @@ mounted: async function() {
     this.items = sql("select id,name from items")
     //alert(JSON.stringify(this.items,null,2))
     let mm= this
-    sql("insert into sessions (session_id) values (?)",[this.session_id])
+    sql("insert into level_4_sessions (session_id) values (?)",[this.session_id])
     appSetInterval(async function(){
         console.log(1)
         let ret1 = sql("select max(id) as max from events")
@@ -124,11 +124,11 @@ mounted: async function() {
             mm.items = sql("select id,name from items")
         }
         mm.changedName()
-        mm.players = sql("select * from sessions where last_updated_utc_ms > ? and session_id != ?",
+        mm.players = sql("select * from level_4_sessions where last_updated_utc_ms > ? and session_id != ?",
                         [Date.now() - 10000, mm.session_id])
-        sql("update sessions set status = 'ACTIVE' where last_updated_utc_ms > ?",
+        sql("update level_4_sessions set status = 'ACTIVE' where last_updated_utc_ms > ?",
                         [Date.now() - 10000])
-        sql("update sessions set status = null where last_updated_utc_ms <= ?",
+        sql("update level_4_sessions set status = null where last_updated_utc_ms <= ?",
                         [Date.now() - 10000])
 
 
@@ -151,7 +151,7 @@ methods: {
          var pos = document.querySelector('#camera').getAttribute('position');
          var rotation = document.querySelector('#camera').getAttribute('rotation');
 
-        sql("update sessions set user_name = ?, x_pos=?, y_pos=?, z_pos=?, x_rotation=?, y_rotation=?, z_rotation=?, last_updated_utc_ms=? where session_id = ?",
+        sql("update level_4_sessions set user_name = ?, x_pos=?, y_pos=?, z_pos=?, x_rotation=?, y_rotation=?, z_rotation=?, last_updated_utc_ms=? where session_id = ?",
             [   this.your_name,
                 pos.x,
                 pos.y,
@@ -195,7 +195,7 @@ migrations:
   {
     name: "Add a session table"
     ,
-    up: ["CREATE TABLE sessions (session_id TEXT, user_name	TEXT, " +
+    up: ["CREATE TABLE level_4_sessions (session_id TEXT, user_name	TEXT, " +
             " x_pos INTEGER, y_pos INTEGER,z_pos INTEGER," +
             " x_rotation INTEGER, y_rotation INTEGER,z_rotation INTEGER, " +
             " last_updated_utc_ms INTEGER, status TEXT" +

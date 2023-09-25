@@ -1803,29 +1803,29 @@ function        setUpSql                                (  ) {
         " values " +
         "    (?, ?, ?, ?, ? , ? , ?);");
 
-    stmtInsertUser = dbsearch.prepare(" insert or replace into users " +
+    stmtInsertUser = dbsearch.prepare(" insert or replace into level_4_users " +
         "    (id, user_type) " +
         " values " +
         "    (?, ?);");
 
-    stmtInsertMetaMaskLogin =  dbsearch.prepare(" insert or replace into metamask_logins " +
+    stmtInsertMetaMaskLogin =  dbsearch.prepare(" insert or replace into level_4_metamask_logins " +
         "    (id , account_id , random_seed , created_timestamp ) " +
         " values " +
         "    (?, ?, ?, ?);");
 
 
-    stmtSetMetaMaskLoginSuccedded =  dbsearch.prepare(" update metamask_logins " +
+    stmtSetMetaMaskLoginSuccedded =  dbsearch.prepare(" update level_4_metamask_logins " +
         "   set  confirmed_login  = 'TRUE' , fk_session_id = ? " +
         " where " +
         "    random_seed =?;");
     //
 
-    stmtInsertSession = dbsearch.prepare(" insert or replace into sessions " +
+    stmtInsertSession = dbsearch.prepare(" insert or replace into level_4_sessions " +
         "    (id,  created_timestamp, last_accessed , access_count ,  fk_user_id ) " +
         " values " +
         "    (?, ?, ?, ?, ?);");
 
-    stmtInsertSessionWithNewUserId = dbsearch.prepare(" update sessions " +
+    stmtInsertSessionWithNewUserId = dbsearch.prepare(" update level_4_sessions " +
         "    set fk_user_id = ? where id = ? ");
 
 
@@ -2091,7 +2091,7 @@ async function  getUserIdFromYazzCookie                 (  yazzCookie  ) {
                     `select 
                             fk_user_id
                       FROM 
-                            sessions
+                            level_4_sessions
                       where 
                             id  = ? `
                     ,
@@ -2123,7 +2123,7 @@ async function  getUserId                               (  req  ) {
                     `select 
                             fk_user_id
                       FROM 
-                            sessions
+                            level_4_sessions
                       where 
                             id  = ? `
                     ,
@@ -2150,11 +2150,11 @@ async function  getSessionId                            (  req  ) {
             function() {
                 let stmt = dbsearch.all(
                     `select 
-                            sessions.id 
+                            level_4_sessions.id 
                       FROM 
-                            sessions,level_4_cookies
+                            level_4_sessions,level_4_cookies
                       where 
-                            sessions.id = level_4_cookies.fk_session_id
+                            level_4_sessions.id = level_4_cookies.fk_session_id
                             and
                             cookie_value = ? `
                     ,
@@ -2181,11 +2181,11 @@ async function  getSessionIdFromYazzCookie              (  yazzCookie  ) {
             function() {
                 let stmt = dbsearch.all(
                     `select 
-                            sessions.id 
+                            level_4_sessions.id 
                       FROM 
-                            sessions,level_4_cookies
+                            level_4_sessions,level_4_cookies
                       where 
-                            sessions.id = level_4_cookies.fk_session_id
+                            level_4_sessions.id = level_4_cookies.fk_session_id
                             and
                             cookie_value = ? `
                     ,
@@ -3227,7 +3227,7 @@ async function  getRowForCommit                         (  commitId  ) {
     let thisCommit              = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   level_2_system_code  where   id = ? ", [  commitId  ])
     let getFutureCommitsSql     = "select  id  from   level_2_system_code  where  parent_id = ? "
     let parentCommits           = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
-    let getCodeTagsSql          = "select  code_tag, main_score  from  code_tags_table  where fk_system_code_id = ?  "
+    let getCodeTagsSql          = "select  code_tag, main_score  from  level_4_code_tags_table  where fk_system_code_id = ?  "
     let codeTags                = await yz.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
 
     if (thisCommit) {
@@ -3871,13 +3871,13 @@ async function  startServices                           (  ) {
                                         level_2_system_code.display_name,
                                         level_2_system_code.logo_url
                                    FROM
-                                        code_tags_table, level_2_system_code
+                                        level_4_code_tags_table, level_2_system_code
                                     WHERE
-                                        code_tags_table.fk_user_id = ?
+                                        level_4_code_tags_table.fk_user_id = ?
                                             AND
-                                        code_tags_table.fk_system_code_id = level_2_system_code.id
+                                        level_4_code_tags_table.fk_system_code_id = level_2_system_code.id
                                             AND
-                                        code_tags_table.code_tag = "EDIT"`
+                                        level_4_code_tags_table.code_tag = "EDIT"`
                         ,
                         [userId]
                         ,
@@ -4138,7 +4138,7 @@ async function  startServices                           (  ) {
                             " select " +
                             "     *  " +
                             " from    " +
-                            "     metamask_logins " +
+                            "     level_4_metamask_logins " +
                             " where     " +
                             "     random_seed = ? " +
                             " order by " +
@@ -4340,7 +4340,7 @@ async function  startServices                           (  ) {
             `select  
                 fk_system_code_id  
             from  
-                code_tags_table  
+                level_4_code_tags_table  
             where  
                 base_component_id = ? 
                     and 
@@ -4383,7 +4383,7 @@ async function  startServices                           (  ) {
                 dbsearch,
 
                 `update 
-                    code_tags_table  
+                    level_4_code_tags_table  
                 set  
                     main_score = ?  
                 where  
@@ -4408,7 +4408,7 @@ async function  startServices                           (  ) {
             `select  
                 fk_system_code_id  , main_score
             from  
-                code_tags_table  
+                level_4_code_tags_table  
             where  
                 base_component_id = ? 
                     and 

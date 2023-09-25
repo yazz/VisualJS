@@ -357,7 +357,7 @@ module.exports = {
         let dateTime = new Date().getTime()
         await this.executeQuickSql(thisDb,
             `insert into 
-                code_tags_table 
+                level_4_code_tags_table 
             (id , base_component_id , code_tag , code_tag_value, fk_system_code_id)
                 values
             (?,?,?,?,?) 
@@ -659,21 +659,21 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx            ON level_4_cookies (cookie_value);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_cookies',1);",
 
-                    "CREATE TABLE IF NOT EXISTS sessions                        (id TEXT, created_timestamp INTEGER, last_accessed INTEGER, access_count INTEGER, fk_user_id TEXT);",
-                    "CREATE INDEX IF NOT EXISTS sessions_id_idx                     ON sessions (id);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('sessions',1);",
+                    "CREATE TABLE IF NOT EXISTS level_4_sessions                    (id TEXT, created_timestamp INTEGER, last_accessed INTEGER, access_count INTEGER, fk_user_id TEXT);",
+                    "CREATE INDEX IF NOT EXISTS sessions_id_idx                     ON level_4_sessions (id);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_sessions',1);",
 
-                    "CREATE TABLE IF NOT EXISTS metamask_logins                 (id TEXT, account_id TEXT, random_seed TEXT, created_timestamp INTEGER, confirmed_login TEXT, fk_session_id TEXT);",
-                    "CREATE INDEX IF NOT EXISTS metamask_logins_id_idx              ON metamask_logins (id);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('metamask_logins',1);",
+                    "CREATE TABLE IF NOT EXISTS level_4_metamask_logins             (id TEXT, account_id TEXT, random_seed TEXT, created_timestamp INTEGER, confirmed_login TEXT, fk_session_id TEXT);",
+                    "CREATE INDEX IF NOT EXISTS metamask_logins_id_idx              ON level_4_metamask_logins (id);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_metamask_logins',1);",
 
-                    "CREATE TABLE IF NOT EXISTS users                           (id TEXT, user_type TEXT);",
-                    "CREATE INDEX IF NOT EXISTS users_id_idx                        ON users (id);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('users',1);",
+                    "CREATE TABLE IF NOT EXISTS level_4_users                       (id TEXT, user_type TEXT);",
+                    "CREATE INDEX IF NOT EXISTS users_id_idx                        ON level_4_users (id);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_users',1);",
 
-                    "CREATE TABLE IF NOT EXISTS code_tags_table                 (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
-                    "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON code_tags_table (id);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('code_tags_table',1);"
+                    "CREATE TABLE IF NOT EXISTS level_4_code_tags_table             (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
+                    "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_code_tags_table (id);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);"
 
                 ])
         }
@@ -683,11 +683,11 @@ module.exports = {
         //
         sqlTorun = sqlTorun.concat([
             "DELETE TABLE               level_8_system_process_info;",
-            "CREATE TABLE IF NOT EXISTS level_8_system_process_info   (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , component_type TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
+            "CREATE TABLE IF NOT EXISTS level_8_system_process_info     (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , component_type TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_system_process_info',1);",
 
             "DELETE TABLE               level_8_system_process_errors;",
-            "CREATE TABLE IF NOT EXISTS level_8_system_process_errors (yazz_instance_id	TEXT, id TEXT, timestamp INTEGER, process	TEXT, status TEXT , base_component_id TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
+            "CREATE TABLE IF NOT EXISTS level_8_system_process_errors   (yazz_instance_id	TEXT, id TEXT, timestamp INTEGER, process	TEXT, status TEXT , base_component_id TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_system_process_errors',1);"
         ])
         await async.map(
@@ -1380,7 +1380,7 @@ module.exports = {
             `select 
                 id 
             from  
-                code_tags_table  
+                level_4_code_tags_table  
             where 
                 fk_system_code_id = ? 
                     and 
@@ -1393,7 +1393,7 @@ module.exports = {
                 thisDb
                 ,
                 `delete from 
-                    code_tags_table  
+                    level_4_code_tags_table  
                 where 
                     fk_system_code_id = ? 
                         and 
@@ -1422,7 +1422,7 @@ module.exports = {
                 thisDb
                 ,
                 `delete from 
-                    code_tags_table  
+                    level_4_code_tags_table  
                 where 
                     fk_system_code_id = ? 
                         and 
@@ -1435,7 +1435,7 @@ module.exports = {
                 thisDb
                 ,
                 `insert into 
-                    code_tags_table 
+                    level_4_code_tags_table 
                     (   id   ,    base_component_id   ,   code_tag   ,   code_tag_value   ,   fk_system_code_id   ,   fk_user_id   ) 
                  values  
                      (?,?,?,?,?,?)
@@ -1477,7 +1477,7 @@ module.exports = {
             `select
                 * 
             from 
-                code_tags_table 
+                level_4_code_tags_table 
             where 
                 base_component_id = ? 
                     and 
@@ -1492,7 +1492,7 @@ module.exports = {
                 thisDb,
                 `
                 update
-                   code_tags_table
+                   level_4_code_tags_table
                 set  
                     fk_system_code_id = ?
                 where
@@ -1510,7 +1510,7 @@ module.exports = {
                 `
                 insert or ignore
                     into
-                code_tags_table
+                level_4_code_tags_table
                     (   id   ,   base_component_id   ,   code_tag   ,   code_tag_value   ,   fk_system_code_id   ,   fk_user_id   ) 
                 values ( ?, ?, ?, ?, ? , ?)`
                 ,
