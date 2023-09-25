@@ -129,23 +129,23 @@ module.exports = {
 
 
         stmtDeleteTypesForComponentProperty = thisDb.prepare(
-            " delete from  component_property_types   where   base_component_id = ?");
+            " delete from  level_3_component_property_types   where   base_component_id = ?");
         stmtDeleteAcceptTypesForComponentProperty = thisDb.prepare(
-            " delete from  component_property_accept_types   where   base_component_id = ?");
+            " delete from  level_3_property_accept_types   where   base_component_id = ?");
         stmtInsertAppDDLRevision = thisDb.prepare(
-            " insert into app_db_latest_ddl_revisions " +
+            " insert into level_4_app_db_latest_ddl_revisions " +
             "      ( base_component_id,  latest_revision  ) " +
             " values " +
             "      ( ?,  ? );");
         stmtUpdateLatestAppDDLRevision = thisDb.prepare(
-            " update  app_db_latest_ddl_revisions  " +
+            " update  level_4_app_db_latest_ddl_revisions  " +
             "     set  latest_revision = ? " +
             " where " +
             "     base_component_id =  ? ;");
         copyMigration = thisDb.prepare(
-            `insert into  app_db_latest_ddl_revisions
+            `insert into  level_4_app_db_latest_ddl_revisions
                (base_component_id,latest_revision)
-            select ?,  latest_revision from app_db_latest_ddl_revisions
+            select ?,  latest_revision from level_4_app_db_latest_ddl_revisions
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into level_1_ipfs_hash_metadata " +
@@ -388,7 +388,7 @@ module.exports = {
             thisDb.serialize(
                 function() {
                     thisDb.all(
-                        "SELECT  *  from  app_db_latest_ddl_revisions  where  base_component_id = ? ; "
+                        "SELECT  *  from  level_4_app_db_latest_ddl_revisions  where  base_component_id = ? ; "
                         ,
                         baseComponentId
                         ,
@@ -474,7 +474,7 @@ module.exports = {
             thisDb.serialize(
                 function() {
                     thisDb.all(
-                        "SELECT  *  from  app_db_latest_ddl_revisions  where  base_component_id = ? ; "
+                        "SELECT  *  from  level_4_app_db_latest_ddl_revisions  where  base_component_id = ? ; "
                         ,
                         baseComponentId
                         ,
@@ -524,8 +524,8 @@ module.exports = {
     },
     clearLinkedTypesInDB:           async function  (  thisDb  ,  baseComponentId  ,  properties  ) {
         let mm = this
-        await mm.executeQuickSql(thisDb," delete from  component_property_types   where   base_component_id = ?",[baseComponentId]);
-        await mm.executeQuickSql(thisDb," delete from  component_property_accept_types   where   base_component_id = ?", [baseComponentId]);
+        await mm.executeQuickSql(thisDb," delete from  level_3_component_property_types   where   base_component_id = ?",[baseComponentId]);
+        await mm.executeQuickSql(thisDb," delete from  level_3_property_accept_types   where   base_component_id = ?", [baseComponentId]);
 
         if (properties) {
             for (let rttte = 0; rttte < properties.length ; rttte++ ) {
@@ -536,7 +536,7 @@ module.exports = {
                     for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                         await mm.executeQuickSql(thisDb,`insert or ignore
                                                     into
-                                               component_property_types
+                                               level_3_component_property_types
                                                     (base_component_id, property_name , outputs_type )
                                                values ( ?,?,? )`,
                             [   baseComponentId, prop.id, labelKeys[rttte2]   ])
@@ -548,7 +548,7 @@ module.exports = {
                     for (let rttte2 = 0; rttte2 < labelKeys.length ; rttte2++ ) {
                         await mm.executeQuickSql(thisDb,`insert or ignore
                                                     into
-                                               component_property_accept_types
+                                               level_3_property_accept_types
                                                     (  base_component_id, property_name , accept_type  )
                                                values ( ?,?,? )`,
                             [   baseComponentId,
@@ -609,7 +609,6 @@ module.exports = {
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
                     "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_1_ipfs_hash_metadata (ipfs_hash);",
 
-
                     "CREATE TABLE IF NOT EXISTS level_1_download_content_queue      (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_download_content_queue',1);",
 
@@ -624,11 +623,9 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON level_2_system_code (component_type);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
 
-
                     "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, code TEXT);",
                     "CREATE INDEX IF NOT EXISTS released_components_idx             ON level_2_released_components (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_released_components',1);",
-
 
                     "CREATE TABLE IF NOT EXISTS level_2_comments_and_ratings        (id TEXT, base_component_id TEXT, comment TEXT, rating TEXT, version TEXT, ipfs_hash TEXT, date_and_time INTEGER);",
                     "CREATE INDEX IF NOT EXISTS comments_and_ratings_idx            ON level_2_comments_and_ratings (id);",
@@ -637,43 +634,47 @@ module.exports = {
 
 
 
+                    //   LEVEL 3
+                    //  This can all helper data about apps and components and is derived from the components
+                    //
+                    "CREATE TABLE IF NOT EXISTS level_3_component_property_types    (base_component_id TEXT, property_name TEXT,  outputs_type TEXT );",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_3_component_property_types',1);",
 
-                    "CREATE TABLE IF NOT EXISTS component_property_types        (base_component_id TEXT, property_name TEXT,  outputs_type TEXT );",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('component_property_types',1);",
-
-                    "CREATE TABLE IF NOT EXISTS component_property_accept_types (base_component_id TEXT, property_name TEXT,  accept_type TEXT );",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('component_property_accept_types',1);",
-
-                    "CREATE TABLE IF NOT EXISTS app_allow_co_access             (id TEXT, code_id TEXT, give_access_to_code_id TEXT , access_type TEXT);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('app_allow_co_access',1);",
-
-                    "CREATE TABLE IF NOT EXISTS app_db_latest_ddl_revisions     (base_component_id TEXT , latest_revision TEXT);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('app_db_latest_ddl_revisions',1);",
+                    "CREATE TABLE IF NOT EXISTS level_3_property_accept_types       (base_component_id TEXT, property_name TEXT,  accept_type TEXT );",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_3_property_accept_types',1);",
 
 
-                    "CREATE TABLE IF NOT EXISTS cookies                         (id TEXT, created_timestamp INTEGER, cookie_name TEXT, cookie_value TEXT, fk_session_id TEXT, host_cookie_sent_to TEXT, from_device_type TEXT);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('cookies',1);",
+
+
+                    //   LEVEL 4
+                    //  This is information that is used at runtime, but needs to survive a server restart if possible
+                    //
+                    "CREATE TABLE IF NOT EXISTS level_4_app_allow_co_access         (id TEXT, code_id TEXT, give_access_to_code_id TEXT , access_type TEXT);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_app_allow_co_access',1);",
+
+                    "CREATE TABLE IF NOT EXISTS level_4_app_db_latest_ddl_revisions (base_component_id TEXT , latest_revision TEXT);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_app_db_latest_ddl_revisions',1);",
+
+                    "CREATE TABLE IF NOT EXISTS level_4_cookies                     (id TEXT, created_timestamp INTEGER, cookie_name TEXT, cookie_value TEXT, fk_session_id TEXT, host_cookie_sent_to TEXT, from_device_type TEXT);",
+                    "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx            ON level_4_cookies (cookie_value);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_cookies',1);",
 
                     "CREATE TABLE IF NOT EXISTS sessions                        (id TEXT, created_timestamp INTEGER, last_accessed INTEGER, access_count INTEGER, fk_user_id TEXT);",
+                    "CREATE INDEX IF NOT EXISTS sessions_id_idx                     ON sessions (id);",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('sessions',1);",
 
-                    "CREATE TABLE IF NOT EXISTS users                           (id TEXT, user_type TEXT);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('users',1);",
-
                     "CREATE TABLE IF NOT EXISTS metamask_logins                 (id TEXT, account_id TEXT, random_seed TEXT, created_timestamp INTEGER, confirmed_login TEXT, fk_session_id TEXT);",
+                    "CREATE INDEX IF NOT EXISTS metamask_logins_id_idx              ON metamask_logins (id);",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('metamask_logins',1);",
 
-                    "CREATE TABLE IF NOT EXISTS code_tags_table                 (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('code_tags_table',1);",
-
-
-
-
-                    "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx            ON cookies (cookie_value);",
-                    "CREATE INDEX IF NOT EXISTS sessions_id_idx                     ON sessions (id);",
+                    "CREATE TABLE IF NOT EXISTS users                           (id TEXT, user_type TEXT);",
                     "CREATE INDEX IF NOT EXISTS users_id_idx                        ON users (id);",
-                    "CREATE INDEX IF NOT EXISTS metamask_logins_id_idx              ON metamask_logins (id);",
-                    "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON code_tags_table (id);"
+                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('users',1);",
+
+                    "CREATE TABLE IF NOT EXISTS code_tags_table                 (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
+                    "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON code_tags_table (id);",
+                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('code_tags_table',1);"
+
                 ])
         }
 

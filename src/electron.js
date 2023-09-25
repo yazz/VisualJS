@@ -1798,7 +1798,7 @@ function        setUpSql                                (  ) {
 
 
 
-    stmtInsertCookie = dbsearch.prepare(" insert or replace into cookies " +
+    stmtInsertCookie = dbsearch.prepare(" insert or replace into level_4_cookies " +
         "    (id,  created_timestamp, cookie_name, cookie_value, fk_session_id, host_cookie_sent_to, from_device_type ) " +
         " values " +
         "    (?, ?, ?, ?, ? , ? , ?);");
@@ -2152,9 +2152,9 @@ async function  getSessionId                            (  req  ) {
                     `select 
                             sessions.id 
                       FROM 
-                            sessions,cookies
+                            sessions,level_4_cookies
                       where 
-                            sessions.id = cookies.fk_session_id
+                            sessions.id = level_4_cookies.fk_session_id
                             and
                             cookie_value = ? `
                     ,
@@ -2183,9 +2183,9 @@ async function  getSessionIdFromYazzCookie              (  yazzCookie  ) {
                     `select 
                             sessions.id 
                       FROM 
-                            sessions,cookies
+                            sessions,level_4_cookies
                       where 
-                            sessions.id = cookies.fk_session_id
+                            sessions.id = level_4_cookies.fk_session_id
                             and
                             cookie_value = ? `
                     ,
@@ -2214,7 +2214,7 @@ async function  getCookieRecord                         (  cookieValue  ) {
                     `select 
                             id,  created_timestamp, cookie_name, cookie_value, fk_session_id 
                       FROM 
-                            cookies
+                            level_4_cookies
                       where 
                             cookie_value = ? `
                     ,
