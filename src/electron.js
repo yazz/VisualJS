@@ -2049,7 +2049,7 @@ function        keycloakProtector                       (  params  ) {
         dbsearch.serialize(
             function() {
                 let stmt = dbsearch.all(
-                    "SELECT  code  FROM  yz_cache_released_components  WHERE  base_component_id = ? ; ",
+                    "SELECT  code  FROM  level_2_released_components  WHERE  base_component_id = ? ; ",
                     appName2,
 
                     function(err, results)
@@ -2571,7 +2571,7 @@ function        function_call_requestPart2              (  msg  ) {
         dbsearch.serialize(
             function() {
                 let stmt = dbsearch.all(
-                    "SELECT  ipfs_hash as id  FROM  yz_cache_released_components  where  base_component_id = ?; ",
+                    "SELECT  ipfs_hash as id  FROM  level_2_released_components  where  base_component_id = ?; ",
 
                     msg.find_component.base_component_id,
 
@@ -3160,7 +3160,7 @@ async function  getCommentsForComponent                 (  baseComponentId  ) {
                     " select  " +
                     "     comment, rating , date_and_time " +
                     " from " +
-                    "     comments_and_ratings " +
+                    "     level_2_comments_and_ratings " +
                     " where " +
                     "     base_component_id = ? " +
                     " order by " +
@@ -3448,7 +3448,7 @@ async function  copyAppshareApp                         (  args  ) {
             results = await yz.getQuickSql(
                 dbsearch
                 ,
-                "SELECT    ipfs_hash as id, code, component_name as display_name    FROM    yz_cache_released_components   where    " +
+                "SELECT    ipfs_hash as id, code, component_name as display_name    FROM    level_2_released_components   where    " +
                 " base_component_id = ? ;  "
                 ,
                 [argsBaseComponentId])
@@ -3944,9 +3944,9 @@ async function  startServices                           (  ) {
                 function() {
                     dbsearch.all(
                         " select  " +
-                        "     distinct(yz_cache_released_components.id), component_name, ipfs_hash, yz_cache_released_components.base_component_id, logo_url " +
+                        "     distinct(level_2_released_components.id), component_name, ipfs_hash, level_2_released_components.base_component_id, logo_url " +
                         " from " +
-                        "     yz_cache_released_components " +
+                        "     level_2_released_components " +
                         " where " +
                         "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
                         ,
@@ -4034,7 +4034,7 @@ async function  startServices                           (  ) {
             {
                 status: "ok"
                 ,
-                comments_and_ratings: commentsAndRatings
+                level_2_comments_and_ratings: commentsAndRatings
             }
 
         res.writeHead(200, {'Content-Type': 'application/json'});
@@ -4071,7 +4071,7 @@ async function  startServices                           (  ) {
                 status: "ok"
                 ,
 
-                comments_and_ratings: commentsAndRatings
+                level_2_comments_and_ratings: commentsAndRatings
             }
 
         res.writeHead(200, {'Content-Type': 'application/json'});
@@ -4591,11 +4591,11 @@ async function  startServices                           (  ) {
                         level_2_system_code.*  
                     FROM   
                         level_2_system_code, 
-                        yz_cache_released_components   
+                        level_2_released_components   
                     WHERE  
-                        yz_cache_released_components.base_component_id = ?
+                        level_2_released_components.base_component_id = ?
                             and   
-                        yz_cache_released_components.ipfs_hash = level_2_system_code.id 
+                        level_2_released_components.ipfs_hash = level_2_system_code.id 
                     `
                     ,
                     componentItem.baseComponentId)

@@ -105,7 +105,7 @@ extraFns += "}"
                             " select  " +
                             "     base_component_id, code, ipfs_hash as id " +
                             " from " +
-                            "     yz_cache_released_components " +
+                            "     level_2_released_components " +
                             " where " +
                             "     base_component_id = ?;"
                             ,

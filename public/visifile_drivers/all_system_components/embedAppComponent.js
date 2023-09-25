@@ -89,7 +89,7 @@ load_once_from_file(true)
 
 
          if (mm.baseComponentId) {
-             let sql =    "select  component_name as name from  yz_cache_released_components  where " +
+             let sql =    "select  component_name as name from  level_2_released_components  where " +
                  "        base_component_id = '" + mm.base_component_id + "'"
 
              //alert( sql )

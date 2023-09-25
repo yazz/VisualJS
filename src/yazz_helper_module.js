@@ -122,7 +122,7 @@ module.exports = {
     //setup this module
     setup:                          async function  (  thisDb  ) {
 
-        stmtInsertComment = thisDb.prepare(" insert or replace into comments_and_ratings " +
+        stmtInsertComment = thisDb.prepare(" insert or replace into level_2_comments_and_ratings " +
             "    (id, base_component_id, version , comment, rating, date_and_time, ipfs_hash) " +
             " values " +
             "    (?,?,?,?,?,?,?);");
@@ -155,7 +155,7 @@ module.exports = {
 
         stmtInsertReleasedComponentListItem = thisDb.prepare(`insert or ignore
                                                     into
-                                               yz_cache_released_components
+                                               level_2_released_components
                                                     (   id  ,  base_component_id  ,  component_name  ,  component_type, 
                                                         component_description  ,  
                                                         ipfs_hash , version,read_write_status, code, logo_url )
@@ -592,40 +592,52 @@ module.exports = {
         if (tablesAlreadyExist) {
         } else {
             sqlTorun = sqlTorun.concat([
-                    "CREATE TABLE IF NOT EXISTS table_versions                  (table_name TEXT, version_number INTEGER , PRIMARY KEY (table_name));",
+                    "CREATE TABLE IF NOT EXISTS table_versions                      (table_name TEXT, version_number INTEGER , PRIMARY KEY (table_name));",
 
                     //   LEVEL 0
                     //  This content may be moved into another Sqlite database eventually
                     //
-                    "CREATE TABLE IF NOT EXISTS level_0_ipfs_content            (ipfs_hash TEXT, ipfs_content TEXT,  UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_0_ipfs_content',1);",
-                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                 ON level_0_ipfs_content (ipfs_hash);",
+                    "CREATE TABLE IF NOT EXISTS level_0_ipfs_content                (ipfs_hash TEXT, ipfs_content TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_0_ipfs_content',1);",
+                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_0_ipfs_content (ipfs_hash);",
 
 
                     //   LEVEL 1
                     //  This could be store in another Sqlite database, but it could also be derived from that data
                     //
-                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata      (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_local_file INTEGER, read_from_local_file INTEGER, stored_in_ipfs INTEGER, sent_to_peer INTEGER, received_from_peer INTEGER, pulled_from_peer INTEGER, read_from_local_ipfs INTEGER, read_from_peer_ipfs INTEGER, read_from_peer_file INTEGER , error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
-                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                 ON level_1_ipfs_hash_metadata (ipfs_hash);",
+                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_local_file INTEGER, read_from_local_file INTEGER, stored_in_ipfs INTEGER, sent_to_peer INTEGER, received_from_peer INTEGER, pulled_from_peer INTEGER, read_from_local_ipfs INTEGER, read_from_peer_ipfs INTEGER, read_from_peer_file INTEGER , error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
+                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_1_ipfs_hash_metadata (ipfs_hash);",
 
 
-                    "CREATE TABLE IF NOT EXISTS level_1_download_content_queue   (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                   (table_name  ,  version_number) VALUES ('level_1_download_content_queue',1);",
+                    "CREATE TABLE IF NOT EXISTS level_1_download_content_queue      (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_download_content_queue',1);",
 
 
                     //   LEVEL 2
                     //  This can all be derived from the IPFS content data. It is useful to keep around, but can be deleted
                     //
-                    "CREATE TABLE IF NOT EXISTS level_2_system_code                     (id TEXT, base_component_id TEXT, display_name TEXT, component_type TEXT, creation_timestamp INTEGER, parent_id TEXT, fk_user_id TEXT,code TEXT,  logo_url TEXT, visibility TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, edit_file_path TEXT,  num_changes INTEGER, code_changes TEXT, last_read_from_ipfs INTEGER, score INTEGER, score_reason TEXT, score_total INTEGER);",
+                    "CREATE TABLE IF NOT EXISTS level_2_system_code                 (id TEXT, base_component_id TEXT, display_name TEXT, component_type TEXT, creation_timestamp INTEGER, parent_id TEXT, fk_user_id TEXT,code TEXT,  logo_url TEXT, visibility TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, edit_file_path TEXT,  num_changes INTEGER, code_changes TEXT, last_read_from_ipfs INTEGER, score INTEGER, score_reason TEXT, score_total INTEGER);",
                     "CREATE INDEX IF NOT EXISTS system_code_base_component_id_idx   ON level_2_system_code (base_component_id);",
                     "CREATE INDEX IF NOT EXISTS system_code_id_idx                  ON level_2_system_code (id);",
                     "CREATE INDEX IF NOT EXISTS system_code_logo_url_idx            ON level_2_system_code (logo_url);",
                     "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON level_2_system_code (component_type);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
 
 
-                "CREATE TABLE IF NOT EXISTS component_property_types        (base_component_id TEXT, property_name TEXT,  outputs_type TEXT );",
+                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, code TEXT);",
+                    "CREATE INDEX IF NOT EXISTS released_components_idx             ON level_2_released_components (id);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_released_components',1);",
+
+
+                    "CREATE TABLE IF NOT EXISTS level_2_comments_and_ratings        (id TEXT, base_component_id TEXT, comment TEXT, rating TEXT, version TEXT, ipfs_hash TEXT, date_and_time INTEGER);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_comments_and_ratings',1);",
+
+
+
+
+
+                    "CREATE TABLE IF NOT EXISTS component_property_types        (base_component_id TEXT, property_name TEXT,  outputs_type TEXT );",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('component_property_types',1);",
 
                     "CREATE TABLE IF NOT EXISTS component_property_accept_types (base_component_id TEXT, property_name TEXT,  accept_type TEXT );",
@@ -637,12 +649,6 @@ module.exports = {
                     "CREATE TABLE IF NOT EXISTS app_db_latest_ddl_revisions     (base_component_id TEXT , latest_revision TEXT);",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('app_db_latest_ddl_revisions',1);",
 
-
-                    "CREATE TABLE IF NOT EXISTS yz_cache_released_components    (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, code TEXT);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('yz_cache_released_components',1);",
-
-                    "CREATE TABLE IF NOT EXISTS comments_and_ratings            (id TEXT, base_component_id TEXT, comment TEXT, rating TEXT, version TEXT, ipfs_hash TEXT, date_and_time INTEGER);",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('comments_and_ratings',1);",
 
                     "CREATE TABLE IF NOT EXISTS cookies                         (id TEXT, created_timestamp INTEGER, cookie_name TEXT, cookie_value TEXT, fk_session_id TEXT, host_cookie_sent_to TEXT, from_device_type TEXT);",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('cookies',1);",
@@ -662,8 +668,7 @@ module.exports = {
 
 
 
-                    "CREATE INDEX IF NOT EXISTS released_components_idx             ON yz_cache_released_components (id);",
-                    "CREATE INDEX IF NOT EXISTS comments_and_ratings_idx            ON comments_and_ratings (id);",
+                    "CREATE INDEX IF NOT EXISTS comments_and_ratings_idx            ON level_2_comments_and_ratings (id);",
                     "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx            ON cookies (cookie_value);",
                     "CREATE INDEX IF NOT EXISTS sessions_id_idx                     ON sessions (id);",
                     "CREATE INDEX IF NOT EXISTS users_id_idx                        ON users (id);",
@@ -1054,7 +1059,7 @@ module.exports = {
                                     let sqlR = await mm.getQuickSqlOneRow(
                                         thisDb
                                         ,
-                                        "select   ipfs_hash as id,  code  from  yz_cache_released_components  where  base_component_id = ? "
+                                        "select   ipfs_hash as id,  code  from  level_2_released_components  where  base_component_id = ? "
                                         ,
                                         [  results[i].child_base_component_id  ])
 
@@ -1580,14 +1585,14 @@ module.exports = {
 
             let componentListRecord = await mm.getQuickSqlOneRow(
                 thisDb,
-                "select * from yz_cache_released_components where base_component_id = ?",
+                "select * from level_2_released_components where base_component_id = ?",
                 [base_component_id])
 
             if (componentListRecord) {
                 await mm.executeQuickSql(
                     thisDb,
                     `delete from
-                    yz_cache_released_components 
+                    level_2_released_components 
                 where
                    base_component_id  = ?`,
                     [   base_component_id   ])

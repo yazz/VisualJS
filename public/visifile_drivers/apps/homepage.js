@@ -1272,7 +1272,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             base_component_id,  
                             logo_url   
                         from  
-                            yz_cache_released_components  
+                            level_2_released_components  
                         where 
                             component_type = 'app'
                                 and 

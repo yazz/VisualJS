@@ -258,7 +258,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             //
             // search
             //
-            let sql2 =    "select  base_component_id,  logo_url, component_name as display_name   from  yz_cache_released_components  " +
+            let sql2 =    "select  base_component_id,  logo_url, component_name as display_name   from  level_2_released_components  " +
                 " where " +
                 "    component_type = 'app'"
 
@@ -431,7 +431,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
              //
              // search
              //
-              let sql2 =    "select  base_component_id,  logo_url   from  yz_cache_released_components  " +
+              let sql2 =    "select  base_component_id,  logo_url   from  level_2_released_components  " +
                   " where " +
                   "    component_type = 'app'" +
                   " and " +

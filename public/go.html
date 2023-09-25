@@ -2244,7 +2244,7 @@
                                         mm.new_rating   = 0
 
                                         if (resp.status == "ok")
-                                            mm.comments = resp.comments_and_ratings
+                                            mm.comments = resp.level_2_comments_and_ratings
                                     })
                             }
                             ,
@@ -2285,7 +2285,7 @@
 
                                         if (resp.status == "ok")
                                         {
-                                            mm.comments             = resp.comments_and_ratings
+                                            mm.comments             = resp.level_2_comments_and_ratings
                                             mm.submit_info_message  = "Comment submitted"
                                         }
                                     })

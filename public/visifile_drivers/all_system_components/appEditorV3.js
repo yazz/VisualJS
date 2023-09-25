@@ -1635,11 +1635,11 @@ End of app preview menu
                             `select
                                     level_2_system_code.id, cast(level_2_system_code.code as text)  as  code, level_2_system_code.editors
                                  from
-                                    level_2_system_code, yz_cache_released_components
+                                    level_2_system_code, level_2_released_components
                                  where
-                                        yz_cache_released_components.base_component_id = '${baseComponentId}'
+                                        level_2_released_components.base_component_id = '${baseComponentId}'
                                            and
-                                        level_2_system_code.id = yz_cache_released_components.ipfs_hash `)
+                                        level_2_system_code.id = level_2_released_components.ipfs_hash `)
                         if (!results || results.length == 0) {
                             results = await sqliteQuery(
                                 `select
