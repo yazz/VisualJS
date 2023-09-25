@@ -40,7 +40,6 @@ let isDocker                            = require2('is-docker');
 let ls                                  = require2('ls-sync');
 let rimraf                              = require2("rimraf");
 let forge                               = require2('node-forge');
-let db_helper=require("./db_helper.js")
 let pidusage                            = require2("pidusage");
 let mkdirp                              = require2('mkdirp')
 let uuidv1                              = require2('uuid/v1');
@@ -1707,7 +1706,7 @@ async function  drivers_loaded_by_child                 (  ) {
     await finalizeYazzLoading();
 }
 function        createTables                            (  ) {
-    db_helper.createTables(dbsearch,
+    yz.createTables(dbsearch,
         createdTablesInChild)
 
 }
