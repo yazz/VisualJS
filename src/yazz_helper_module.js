@@ -1894,6 +1894,7 @@ module.exports = {
         let metadataExistsOnLocalDisk   = null
         let metadataJson                = null
         let contentStoredInSqlite       = null
+        let metadataStoredInSqlite      = null
         let metadataContent             = null
         let metadataAsJson              = null
         let createdTimeMillis           = null
@@ -1930,74 +1931,22 @@ module.exports = {
 
         //
         try {
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  justHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_content  where  ipfs_hash = ?", [  justHash  ])
+            metadataStoredInSqlite      = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  justHash  ])
             contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
             metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
 
-            // if the content is stored in Sqlite and on disk then do nothing
-            if (contentStoredInSqlite && contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
+            // if the content is stored in Sqlite then do nothing
+            if (metadataStoredInSqlite && contentStoredInSqlite) {
                 // do nothing!!!
-
-
-
-            // otherwise if the content is only stored in sqlite then
-            // store the content from sqlite to disk as well
-            } else if (contentStoredInSqlite) {
-                metadataAsJson = {
-                                    ipfs_hash:              contentStoredInSqlite.ipfs_hash,
-                                    created_time_millis:    contentStoredInSqlite.created_time_millis,
-                                    master_time_millis:     contentStoredInSqlite.master_time_millis,
-                                    local_time_millis:      parseInt(contentStoredInSqlite.local_time_millis)>=0?contentStoredInSqlite.local_time_millis:localTimeMillis,
-                                    content_type:           contentStoredInSqlite.content_type,
-                                    scope:                  contentStoredInSqlite.scope,
-                                    stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
-                                    read_from_local_file:   contentStoredInSqlite.read_from_local_file,
-                                    stored_in_ipfs:         contentStoredInSqlite.stored_in_ipfs,
-                                    sent_to_peer:           contentStoredInSqlite.sent_to_peer,
-                                    read_from_local_ipfs:   contentStoredInSqlite.read_from_local_ipfs,
-                                    read_from_peer_ipfs:    contentStoredInSqlite.read_from_peer_ipfs,
-                                    read_from_peer_file:    contentStoredInSqlite.read_from_peer_file,
-                                    last_ipfs_ping_millis:  contentStoredInSqlite.last_ipfs_ping_millis
-                }
-                fs.writeFileSync(fullIpfsFilePath, contentValueToStore);
-                fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(metadataAsJson,null,2));
-
-                return(  {  value: justHash  ,  error: null  }  )
-
-
-
-            // otherwise if the content exists on disk but not in Sqlite then
-            // take the metadata from the file and store it in SQlite
-            } else if (contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
-                metadataContent = fs.readFileSync(fullIpfsMetaDataFilePath)
-                metadataJson    = JSON.parse(metadataContent)
-
-                await mm.insertContentStorageRecord(
-                    {
-                        thisDb:                 thisDb,
-                        ipfs_hash:              justHash,
-                        created_time_millis:    createdTimeMillis,
-                        master_time_millis:     metadataJson.master_time_millis,
-                        local_time_millis:      parseInt(metadataJson.local_time_millis)>=0?metadataJson.local_time_millis:localTimeMillis,
-                        content_type:           contentType,
-                        temp_debug_content:     contentValueToStore,
-                        scope:                  scope,
-                        stored_in_local_file:   metadataJson.stored_in_local_file,
-                        read_from_local_file:   metadataJson.read_from_local_file,
-                        stored_in_ipfs:         metadataJson.stored_in_ipfs,
-                        sent_to_peer:           metadataJson.sent_to_peer,
-                        received_from_peer:     parseInt(metadataJson.received_from_peer)>=0?metadataJson.received_from_peer:0,
-                        pulled_from_peer:       parseInt(metadataJson.pulled_from_peer)>=0?metadataJson.pulled_from_peer:0,
-                        read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
-                        read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
-                        read_from_peer_file:    metadataJson.read_from_peer_file,
-                        last_ipfs_ping_millis:  metadataJson.last_ipfs_ping_millis
-                    })
-
 
 
             // otherwise generate the content on disk and in sqlite
             } else {
+                await mm.executeQuickSql(
+                    thisDb,
+                    "insert  into  level_0_ipfs_content  (ipfs_hash,ipfs_content) values (?,?)",
+                    [justHash,contentValueToStore])
                 await mm.insertContentStorageRecord(
                     {
                         thisDb:                 thisDb,
@@ -2019,8 +1968,6 @@ module.exports = {
                         read_from_peer_file:    0,
                         last_ipfs_ping_millis:  -1
                     }  )
-                fs.writeFileSync(  fullIpfsFilePath  ,  contentValueToStore  );
-                await mm.updateContentMetadataFile(  thisDb  ,  justHash  )
             }
 
 
