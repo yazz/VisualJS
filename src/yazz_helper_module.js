@@ -148,7 +148,7 @@ module.exports = {
             select ?,  latest_revision from app_db_latest_ddl_revisions
              where base_component_id=?`
         );
-        stmtInsertIpfsHash = thisDb.prepare(" insert or replace into ipfs_hashes " +
+        stmtInsertIpfsHash = thisDb.prepare(" insert or replace into level_0_ipfs_hashes " +
             "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,  stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_peer  ,  read_from_local_ipfs  ,  read_from_peer_ipfs  ,  read_from_peer_file  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created , received_from_peer  ,pulled_from_peer  , master_time_millis  , local_time_millis  ) " +
             " values " +
             "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?, ? );");
@@ -594,6 +594,12 @@ module.exports = {
             await async.map([
                     "CREATE TABLE IF NOT EXISTS table_versions                  (table_name TEXT, version_number INTEGER , PRIMARY KEY (table_name));",
 
+
+                    "CREATE TABLE IF NOT EXISTS level_0_ipfs_hashes             (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_local_file INTEGER, read_from_local_file INTEGER, stored_in_ipfs INTEGER, sent_to_peer INTEGER, received_from_peer INTEGER, pulled_from_peer INTEGER, read_from_local_ipfs INTEGER, read_from_peer_ipfs INTEGER, read_from_peer_file INTEGER , error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_0_ipfs_hashes',1);",
+                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                 ON level_0_ipfs_hashes (ipfs_hash);",
+
+
                     "CREATE TABLE IF NOT EXISTS system_process_info             (yazz_instance_id	TEXT, process	TEXT, process_id	TEXT, callback_index INTEGER, running_since	TEXT, status TEXT , component_type TEXT, running_start_time_ms INTEGER, event_duration_ms INTEGER, job_priority INTEGER, system_code_id TEXT, PRIMARY KEY (yazz_instance_id, process));",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('system_process_info',1);",
 
@@ -639,8 +645,6 @@ module.exports = {
                     "CREATE TABLE IF NOT EXISTS ipfs_hashes_queue_to_download   (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('ipfs_hashes_queue_to_download',1);",
 
-                    "CREATE TABLE IF NOT EXISTS ipfs_hashes                     (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_local_file INTEGER, read_from_local_file INTEGER, stored_in_ipfs INTEGER, sent_to_peer INTEGER, received_from_peer INTEGER, pulled_from_peer INTEGER, read_from_local_ipfs INTEGER, read_from_peer_ipfs INTEGER, read_from_peer_file INTEGER , error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('ipfs_hashes',1);",
 
 
 
@@ -648,7 +652,6 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS system_code_id_idx                  ON system_code (id);",
                     "CREATE INDEX IF NOT EXISTS system_code_logo_url_idx            ON system_code (logo_url);",
                     "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON system_code (component_type);",
-                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON ipfs_hashes (ipfs_hash);",
                     "CREATE INDEX IF NOT EXISTS released_components_idx             ON yz_cache_released_components (id);",
                     "CREATE INDEX IF NOT EXISTS comments_and_ratings_idx            ON comments_and_ratings (id);",
                     "CREATE INDEX IF NOT EXISTS cookies_cookie_value_idx            ON cookies (cookie_value);",
@@ -1691,7 +1694,7 @@ module.exports = {
         try {
             fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
             fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
             contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
             metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
             localTimeMillis             = new Date().getTime()
@@ -1708,7 +1711,7 @@ module.exports = {
             // as the content is already loaded, but mark the file on disk as
             // needing updating
             } else if (contentStoredInSqlite) {
-                await mm.executeQuickSql(thisDb, "update  ipfs_hashes  set  stored_in_local_file = 0  where  ipfs_hash = ?", [ ipfsHash ])
+                await mm.executeQuickSql(thisDb, "update  level_0_ipfs_hashes  set  stored_in_local_file = 0  where  ipfs_hash = ?", [ ipfsHash ])
 
 
             // otherwise if the content exists on disk but not in Sqlite then
@@ -1896,7 +1899,7 @@ module.exports = {
 
         //
         try {
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  ipfs_hashes  where  ipfs_hash = ?", [  justHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_hashes  where  ipfs_hash = ?", [  justHash  ])
             contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
             metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
 
@@ -2148,7 +2151,7 @@ module.exports = {
                     });
                     res.on('end', async function () {
                         //console.log('end: ' );
-                        await mm.executeQuickSql( thisDb, "update  ipfs_hashes  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
+                        await mm.executeQuickSql( thisDb, "update  level_0_ipfs_hashes  set sent_to_peer = sent_to_peer + 1 where ipfs_hash = ?", [ipfs_hash] )
                         await mm.updateContentMetadataFile(thisDb, ipfs_hash)
                     });
                 });
@@ -2379,7 +2382,7 @@ module.exports = {
                 //
                 // send any new items created to the master
                 //
-                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  scope='GLOBAL' and sent_to_peer < 4  and master_time_millis is null  order by  sent_to_peer asc  LIMIT 1")
+                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  level_0_ipfs_hashes  where  scope='GLOBAL' and sent_to_peer < 4  and master_time_millis is null  order by  sent_to_peer asc  LIMIT 1")
                 if (nextUnsentRecord) {
                     if (nextUnsentRecord.ipfs_hash != null) {
                         let nextContent = await mm.getDistributedContent({
@@ -2403,7 +2406,7 @@ module.exports = {
                 //
                 let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from ipfs_hashes_queue_to_download where STATUS = 'QUEUED'")
                 if (ipfsDownloadQueueSize.queue_count == 0) {
-                    let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  ipfs_hashes")
+                    let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  level_0_ipfs_hashes")
                     let outstandingRequests = await mm.sendQuickJsonGetRequest(
                         "http_get_outstanding_ipfs_content_hashes"
                         ,
@@ -2477,7 +2480,7 @@ module.exports = {
 
                             await mm.executeQuickSql(
                                 thisDb,
-                                "update  ipfs_hashes  set  master_time_millis = ?  where  ipfs_hash = ?",
+                                "update  level_0_ipfs_hashes  set  master_time_millis = ?  where  ipfs_hash = ?",
                                 [nextIpfsQueueRecord.master_time_millis, nextIpfsQueueRecord.ipfs_hash])
                             await mm.executeQuickSql(
                                 thisDb,
@@ -2506,9 +2509,9 @@ module.exports = {
 
         // get the initial list of hashes
         if (  (typeof timestampMillis == 'undefined')  ||  (timestampMillis == null)  ) {
-            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes where scope='GLOBAL' order by local_time_millis asc  limit 10" , [ ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_0_ipfs_hashes where scope='GLOBAL' order by local_time_millis asc  limit 10" , [ ])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  scope='GLOBAL' and local_time_millis > ?  order by local_time_millis asc limit 10" , [ timestampMillis ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_0_ipfs_hashes  where  scope='GLOBAL' and local_time_millis > ?  order by local_time_millis asc limit 10" , [ timestampMillis ])
         }
 
 
@@ -2531,12 +2534,12 @@ module.exports = {
 
         let countOfTotalHashesWithSameTimestampRec = await mm.getQuickSqlOneRow(
                                                             thisDb,
-                                                            "select  count(ipfs_hash) as tot_c from ipfs_hashes  where local_time_millis = ?",
+                                                            "select  count(ipfs_hash) as tot_c from level_0_ipfs_hashes  where local_time_millis = ?",
                                                             [  lastHashTimestamp  ])
         let countOfTotalHashesWithSameTimestamp = countOfTotalHashesWithSameTimestampRec.tot_c
 
         if (countOfTotalHashesWithSameTimestamp > countReturnedHashesWithTimestamp) {
-            let extraRecs = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  ipfs_hashes  where  local_time_millis = ?  " , [ lastHashTimestamp ])
+            let extraRecs = await mm.getQuickSql(thisDb, "select  ipfs_hash, local_time_millis  from  level_0_ipfs_hashes  where  local_time_millis = ?  " , [ lastHashTimestamp ])
             listOfHashes = listOfHashes.concat(extraRecs)
         }
         return { count_hashes: listOfHashes.length , hashes: listOfHashes}
@@ -2553,7 +2556,7 @@ module.exports = {
     },
     updateContentMetadataFile:      async function  (  thisDb  ,  ipfsHash  ) {
         let mm = this
-        let contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
+        let contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_hashes  where  ipfs_hash = ?", [  ipfsHash  ])
         let fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
         let fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
         let updatedMetadataJson     =   {
@@ -2579,7 +2582,7 @@ module.exports = {
     },
     oldsynchonizeContentAmongPeers: async function  (  thisDb  ) {
         //console.log("Sync")
-        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
+        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  level_0_ipfs_hashes  where  sent_to_peer = 0 limit 1", params)
         if (rows.length == 0) {
             return null
         }
