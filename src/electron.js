@@ -1705,8 +1705,8 @@ async function  drivers_loaded_by_child                 (  ) {
     //------------------------------------------------------------------------------
     await finalizeYazzLoading();
 }
-function        createTables                            (  ) {
-    yz.createTables(dbsearch,
+async function        createTablesInMain                            (  ) {
+    await yz.createTables(dbsearch,
         createdTablesInChild)
 
 }
@@ -1729,7 +1729,7 @@ async function  createdTablesInChild                    (  ) {
         getPort()
     }
 }
-function        finishInit                              (  ) {
+async function        finishInit                              (  ) {
 
 
     process.on('exit', function() {
@@ -1743,7 +1743,7 @@ function        finishInit                              (  ) {
         process.exit()
     });
 
-    createTables()
+    await createTablesInMain()
 
 
 
@@ -5144,6 +5144,7 @@ async function  startServices                           (  ) {
 }
 
 // Startup yazz code
+(async function()
 {
     outputDebug('-------* Port: ' + port);
     outputDebug( ip.address() );
@@ -5177,8 +5178,8 @@ async function  startServices                           (  ) {
     yz.userData             = userData
 
     findSystemDataDirectoryAndStart()
-    finishInit()
-}
+    await finishInit()
+})()
 
 async function  universalSaveStaticUIControl            (  { sha1sum , unescapedCode , baseComponentId , loadMethod }  ) {
     await yz.saveCodeV3(
