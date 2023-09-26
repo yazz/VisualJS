@@ -5134,7 +5134,6 @@ async function  startServices                           (  ) {
         // Check if any JS is loaded
         //--------------------------------------------------------
         await checkForJSLoaded();
-        await yz.findLocallyCachedIpfsContent(dbsearch);
 
         setUpSql()
         setUpPredefinedComponents({message_type:       'setUpPredefinedComponents'});
