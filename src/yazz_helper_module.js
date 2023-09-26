@@ -673,7 +673,7 @@ module.exports = {
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);",
 
                     "DROP TABLE IF EXISTS       level_4_upload_content_queue;",
-                    "CREATE TABLE IF NOT EXISTS level_4_upload_content_queue    (ipfs_hash TEXT, ipfs_content TEXT, status TEXT, server TEXT, attempts INTEGER, UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_4_upload_content_queue    (ipfs_hash TEXT, status TEXT, server TEXT, attempts INTEGER, created_timestamp TEXT, last_attempted_send TEXT, UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_4_upload_content_queue',1);"
 
             ])
