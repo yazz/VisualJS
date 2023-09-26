@@ -670,9 +670,13 @@ module.exports = {
 
                     "CREATE TABLE IF NOT EXISTS level_4_code_tags_table             (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_code_tags_table (id);",
-                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);"
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);",
 
-                ])
+                    "DROP TABLE IF EXISTS       level_4_upload_content_queue;",
+                    "CREATE TABLE IF NOT EXISTS level_4_upload_content_queue    (ipfs_hash TEXT, ipfs_content TEXT, status TEXT, server TEXT, attempts INTEGER, UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_4_upload_content_queue',1);"
+
+            ])
         }
 
         //
@@ -689,12 +693,7 @@ module.exports = {
 
             "DROP TABLE IF EXISTS       level_8_download_content_queue;",
             "CREATE TABLE IF NOT EXISTS level_8_download_content_queue  (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
-            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_download_content_queue',1);",
-
-            "DROP TABLE IF EXISTS       level_8_upload_content_queue;",
-            "CREATE TABLE IF NOT EXISTS level_8_upload_content_queue    (ipfs_hash TEXT, ipfs_content TEXT, status TEXT, server TEXT, attempts INTEGER, UNIQUE(ipfs_hash));",
-            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_upload_content_queue',1);"
-//zzz
+            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_download_content_queue',1);"
         ])
         await async.map(
             sqlTorun
