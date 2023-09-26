@@ -688,9 +688,13 @@ module.exports = {
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_system_process_errors',1);",
 
             "DROP TABLE IF EXISTS       level_8_download_content_queue;",
-            "CREATE TABLE IF NOT EXISTS level_8_download_content_queue      (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
-            "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_8_download_content_queue',1);"
+            "CREATE TABLE IF NOT EXISTS level_8_download_content_queue  (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
+            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_download_content_queue',1);",
 
+            "DROP TABLE IF EXISTS       level_8_upload_content_queue;",
+            "CREATE TABLE IF NOT EXISTS level_8_upload_content_queue    (ipfs_hash TEXT, ipfs_content TEXT, status TEXT, server TEXT, attempts INTEGER, UNIQUE(ipfs_hash));",
+            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_upload_content_queue',1);"
+//zzz
         ])
         await async.map(
             sqlTorun
