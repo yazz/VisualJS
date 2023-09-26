@@ -65,7 +65,7 @@ let setProcessRunningDurationMs;
 let insertIntoProcessTable              = null;
 let updateProcessTable                  = null;
 let fileURLToPath =require('node:url').fileURLToPath;
-
+//backtick = `
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 let nodeModulesPath = process.cwd()

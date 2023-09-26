@@ -18,6 +18,7 @@ let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
 let stmtInsertIpfsHash;
 let stmtInsertReleasedComponentListItem;
+//backtick = `
 
 
 
@@ -605,7 +606,7 @@ module.exports = {
                     //   LEVEL 1
                     //  This could be store in another Sqlite database, but it could also be derived from that data
                     //
-                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_ipfs INTEGER, sent_to_master INTEGER, received_from_peer INTEGER, read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  level_2_status TEXT, UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_ipfs INTEGER, sent_to_master TEXT, received_from_peer INTEGER, read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  level_2_status TEXT, UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
                     "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_1_ipfs_hash_metadata (ipfs_hash);",
 
@@ -1920,22 +1921,43 @@ module.exports = {
                     thisDb,
                     "insert  into  level_0_ipfs_content  (ipfs_hash,ipfs_content) values (?,?)",
                     [justHash,contentValueToStore])
-                await mm.insertContentStorageRecord(
-                    {
-                        thisDb:                 thisDb,
-                        ipfs_hash:              justHash,
-                        created_time_millis:    createdTimeMillis,
-                        master_time_millis:     null,
-                        local_time_millis:      localTimeMillis,
-                        temp_debug_content:     contentValueToStore,
-                        content_type:           contentType,
-                        scope:                  scope,
-                        stored_in_ipfs:         0,
-                        sent_to_master:           0,
-                        received_from_peer:     0,
-                        read_from_local_ipfs:   0,
-                        last_ipfs_ping_millis:  -1
-                    }  )
+
+                let debugCreated = mm.msToTime(  createdTimeMillis  )
+                await mm.executeQuickSql(//zzz
+                    thisDb,
+                    `insert or replace into 
+                        level_1_ipfs_hash_metadata 
+                        (
+                            ipfs_hash, 
+                            content_type, 
+                            scope, 
+                            last_ipfs_ping_millis, 
+                            temp_debug_content,   
+                            stored_in_ipfs, 
+                            sent_to_master,  
+                            read_from_local_ipfs,  
+                            last_ipfs_ping_millis, 
+                            created_time_millis,  
+                            temp_debug_created, 
+                            received_from_peer                            
+                        ) 
+                        values
+                    (?,?,?,?,?,?,?,?,?,?,?,?)`
+                    ,
+                [
+                    justHash,
+                    contentType,
+                    scope,
+                    null,
+                    contentValueToStore,
+                    0,
+                    null,
+                    0,
+                    -1,
+                    createdTimeMillis,
+                    debugCreated,
+                    null
+                ])
             }
 
 
@@ -2097,7 +2119,7 @@ module.exports = {
                     });
                     res.on('end', async function () {
                         //console.log('end: ' );
-                        await mm.executeQuickSql( thisDb, "update  level_1_ipfs_hash_metadata  set sent_to_master = sent_to_master + 1 where ipfs_hash = ?", [ipfs_hash] )
+                        await mm.executeQuickSql( thisDb, "update  level_1_ipfs_hash_metadata  set sent_to_master = 'TRUE'  where ipfs_hash = ?", [ipfs_hash] )
                         await mm.updateContentMetadataFile(thisDb, ipfs_hash)
                     });
                 });
@@ -2329,7 +2351,7 @@ module.exports = {
                 // queue any new items created to the master
                 //
                 //zzz
-                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  scope='GLOBAL' and sent_to_master < 4  and master_time_millis is null  order by  sent_to_master asc  LIMIT 1")
+                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  scope='GLOBAL' and sent_to_master != 'TRUE'  and master_time_millis is null  order by  sent_to_master asc  LIMIT 1")
                 if (nextUnsentRecord) {
                     if (nextUnsentRecord.ipfs_hash != null) {
                         let nextContent = await mm.getDistributedContent({
@@ -2429,7 +2451,7 @@ module.exports = {
                                     content_type:           formatType,
                                     scope:                  "GLOBAL",
                                     stored_in_ipfs:         0,
-                                    sent_to_master:         0,
+                                    sent_to_master:         null,
                                     received_from_peer:     0,
                                     read_from_local_ipfs:   0,
                                     last_ipfs_ping_millis:  -1
@@ -2538,7 +2560,7 @@ module.exports = {
     },
     oldsynchonizeContentAmongPeers: async function  (  thisDb  ) {
         //console.log("Sync")
-        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  sent_to_master = 0 limit 1", params)
+        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  sent_to_master != 'TRUE' limit 1", params)
         if (rows.length == 0) {
             return null
         }
