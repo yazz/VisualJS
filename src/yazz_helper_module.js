@@ -150,9 +150,9 @@ module.exports = {
              where base_component_id=?`
         );
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into level_1_ipfs_hash_metadata " +
-            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,   stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis  ,  created_time_millis  ,  temp_debug_created , received_from_peer  , master_time_millis  , local_time_millis  ) " +
+            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,   stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis , received_from_peer  ) " +
             " values " +
-            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?  );");
+            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? ,?  );");
 
         stmtInsertReleasedComponentListItem = thisDb.prepare(`insert or ignore
                                                     into
@@ -606,7 +606,7 @@ module.exports = {
                     //   LEVEL 1
                     //  This could be store in another Sqlite database, but it could also be derived from that data
                     //
-                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT, created_time_millis INTEGER, master_time_millis INTEGER, local_time_millis INTEGER, content_type TEXT, scope TEXT, stored_in_ipfs INTEGER, sent_to_master TEXT, received_from_peer INTEGER, read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER, temp_debug_created TEXT, temp_debug_content TEXT,  level_2_status TEXT, UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT, content_type TEXT, scope TEXT, stored_in_ipfs INTEGER, sent_to_master TEXT, received_from_peer INTEGER, read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  level_2_status TEXT, UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
                     "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_1_ipfs_hash_metadata (ipfs_hash);",
 
@@ -1922,7 +1922,6 @@ module.exports = {
                     "insert  into  level_0_ipfs_content  (ipfs_hash,ipfs_content) values (?,?)",
                     [justHash,contentValueToStore])
 
-                let debugCreated = mm.msToTime(  createdTimeMillis  )
                 await mm.executeQuickSql(//zzz
                     thisDb,
                     `insert or replace into 
@@ -1937,12 +1936,10 @@ module.exports = {
                             sent_to_master,  
                             read_from_local_ipfs,  
                             last_ipfs_ping_millis, 
-                            created_time_millis,  
-                            temp_debug_created, 
                             received_from_peer                            
                         ) 
                         values
-                    (?,?,?,?,?,?,?,?,?,?,?,?)`
+                    (?,?,?,?,?,?,?,?,?,?)`
                     ,
                 [
                     justHash,
@@ -1954,8 +1951,6 @@ module.exports = {
                     null,
                     0,
                     -1,
-                    createdTimeMillis,
-                    debugCreated,
                     null
                 ])
             }
@@ -2134,7 +2129,7 @@ module.exports = {
         await promise
         mm.inDistributeContentToPeer = false
     },
-    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash  ,  created_time_millis  ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,  stored_in_local_file:   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs    ,  received_from_peer  ,  master_time_millis, local_time_millis  }  ) {
+    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash   ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs    ,  received_from_peer    }  ) {
         //---------------------------------------------------------------------------
         //
         //                           insertContentStorageRecord( )
@@ -2150,8 +2145,7 @@ module.exports = {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    let debugCreated = mm.msToTime(  created_time_millis  )
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file , read_from_local_file  ,  stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis ,  created_time_millis  , debugCreated , received_from_peer , master_time_millis , local_time_millis )
+                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file , read_from_local_file  ,  stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis   , received_from_peer  )
                     thisDb.run("commit")
                     returnfn()
                 })
