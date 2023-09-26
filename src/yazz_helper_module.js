@@ -673,7 +673,7 @@ module.exports = {
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);",
 
                     "DROP TABLE IF EXISTS       level_4_upload_content_queue;",
-                    "CREATE TABLE IF NOT EXISTS level_4_upload_content_queue    (ipfs_hash TEXT, status TEXT, server TEXT, attempts INTEGER, created_timestamp TEXT, last_attempted_send TEXT, UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_4_upload_content_queue    (ipfs_hash TEXT, send_status TEXT, server TEXT, attempts INTEGER, created_timestamp TEXT, last_attempted_send TEXT, UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_4_upload_content_queue',1);"
 
             ])
@@ -1261,6 +1261,11 @@ module.exports = {
 
         let ret = await promise;
         return ret
+    },
+    getDebugTimestampText:          function        () {
+        let dt = new Date().getTime()
+        let rt = this.msToTime(dt)
+        return rt
     },
     addOrUpdateDriver:              async function  (  thisDb  ,  codeString  ,  options ) {
         //------------------------------------------------------------------------------
@@ -2340,7 +2345,24 @@ module.exports = {
                                 thisDb: thisDb,
                                 ipfsHash: nextUnsentRecord.ipfs_hash
                             })
-                            await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value)
+                            let alreadyInSendQueue = mm.getQuickSqlOneRow(
+                                thisDb,
+                                "select  ipfs_hash  from  level_4_upload_content_queue  where  ipfs_hash = ?"
+                                [ nextUnsentRecord.ipfs_hash ])
+                            if (!alreadyInSendQueue) {
+
+                            } else {
+                                console.log("Error: IPFS Hash already in queue: " + alreadyInSendQueue)
+                            }
+                            //await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value)
+                            //zzz
+                            mm.executeQuickSql(
+                                thisDb,
+                                "insert  into  level_4_upload_content_queue  (ipfs_hash,send_status,attempts,created_timestamp) values (?,?,?,?)",
+                                [
+                                    nextUnsentRecord.ipfs_hash, "QUEUED", 0, mm.getDebugTimestampText()
+                                ]
+                            )
                         }
 
                     }
