@@ -1720,6 +1720,7 @@ module.exports = {
         let metadataJson                = null
         let updatedMetadataJson         = null
         let contentStoredInSqlite       = null
+        let metadataStoredInSqlite       = null
         let metadataContent             = null
         let metadataAsJson              = null
         let returnValue                 = null
@@ -1731,54 +1732,16 @@ module.exports = {
         try {
             fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
             fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_content  where  ipfs_hash = ?", [  ipfsHash  ])
+            metadataStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
             contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
             metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
             localTimeMillis             = new Date().getTime()
 
-            // if the content is stored in Sqlite and on disk then get the content from the
-            // filesystem
-            if (contentStoredInSqlite && contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
-                contentOnDisk = fs.readFileSync(fullIpfsFilePath)
-                returnValue = contentOnDisk
-
-
-
-            // otherwise if the content is only stored in sqlite do nothing
-            // as the content is already loaded, but mark the file on disk as
-            // needing updating
-            } else if (contentStoredInSqlite) {
-                await mm.executeQuickSql(thisDb, "update  level_1_ipfs_hash_metadata  set  stored_in_local_file = 0  where  ipfs_hash = ?", [ ipfsHash ])
-
-
-            // otherwise if the content exists on disk but not in Sqlite then
-            // take the content and metadata from the file and store it in SQlite
-            } else if (contentExistsOnLocalDisk && metadataExistsOnLocalDisk) {
-                contentOnDisk           = fs.readFileSync(fullIpfsFilePath).toString("utf8")
-                metadataContent         = fs.readFileSync(fullIpfsMetaDataFilePath)
-                metadataJson            = JSON.parse(metadataContent)
-                updatedMetadataJson     =   {
-                                                thisDb:                 thisDb,
-                                                ipfs_hash:              ipfsHash,
-                                                content_type:           metadataJson.content_type,
-                                                created_time_millis:    metadataJson.created_time_millis?metadataJson.created_time_millis:new Date().getTime(),
-                                                master_time_millis:     metadataJson.master_time_millis,
-                                                local_time_millis:      parseInt(metadataJson.local_time_millis)>=0?metadataJson.local_time_millis:localTimeMillis,
-                                                temp_debug_content:     contentOnDisk,
-                                                scope:                  metadataJson.scope,
-                                                stored_in_local_file:   metadataJson.stored_in_local_file,
-                                                read_from_local_file:   parseInt(metadataJson.read_from_local_file) + 1,
-                                                stored_in_ipfs:         metadataJson.stored_in_ipfs,
-                                                sent_to_peer:           metadataJson.sent_to_peer,
-                                                received_from_peer:     parseInt(metadataJson.received_from_peer)>=0?metadataJson.received_from_peer:0,
-                                                pulled_from_peer:       parseInt(metadataJson.pulled_from_peer)>=0?metadataJson.pulled_from_peer:0,
-                                                read_from_local_ipfs:   metadataJson.read_from_local_ipfs,
-                                                read_from_peer_ipfs:    metadataJson.read_from_peer_ipfs,
-                                                read_from_peer_file:    metadataJson.read_from_peer_file,
-                                                last_ipfs_ping_millis:  metadataJson.last_ipfs_ping_millis
-                                            }
-                await mm.insertContentStorageRecord(  updatedMetadataJson  )
-                await mm.updateContentMetadataFile(  thisDb  ,  ipfsHash  )
+            // if the content is stored in Sqlite then get the content from sqlite
+            if (metadataStoredInSqlite && contentStoredInSqlite) {
+                contentOnDisk           = contentStoredInSqlite.ipfs_content.toString("utf8")
+                //zzz
                 returnValue = contentOnDisk
 
 
