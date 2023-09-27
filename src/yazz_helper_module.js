@@ -2113,8 +2113,19 @@ module.exports = {
                     });
                     res.on('end', async function () {
                         //console.log('end: ' );
-                        await mm.executeQuickSql( thisDb, "update  level_1_ipfs_hash_metadata  set sent_to_master = 'TRUE'  where ipfs_hash = ?", [ipfs_hash] )
-                        await mm.updateContentMetadataFile(thisDb, ipfs_hash)
+                        await mm.executeQuickSql(thisDb,
+                            "update  level_1_ipfs_hash_metadata  set sent_to_master = 'TRUE'  where ipfs_hash = ?",
+                            [ipfs_hash] )
+                        await mm.executeQuickSql(thisDb,
+                            `update  
+                                    level_8_upload_content_queue 
+                                set  
+                                    server              = ?,
+                                    last_attempted_send = ?,
+                                    attempts            = attempts + 1
+                                 where
+                                    ipfs_hash = ?`,
+                            [ mm.centralhost, new Date().getTime() , ipfs_hash  ])
                     });
                 });
                 req.write(dataString)
