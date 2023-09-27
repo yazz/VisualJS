@@ -1679,9 +1679,9 @@ module.exports = {
 
         setTimeout(async function() {
             let newDateAndTime = new Date().getTime()
-            let optionsDist = {}
+            let optionsDist = {distributeToPeer: false}
             if (options && options.save_to_network) {
-                optionsDist.distributeToPeer
+                optionsDist.distributeToPeer = true
             }
             let retDist = await mm.setDistributedContent(
                 thisDb
@@ -1698,7 +1698,7 @@ module.exports = {
                     //comment:                    newComment,
                     //rating:                     newRating
                 },
-                options
+                optionsDist
             )
             let retHash = retDist.value
             await mm.executeQuickSql(
