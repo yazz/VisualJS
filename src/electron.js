@@ -1705,7 +1705,7 @@ async function  drivers_loaded_by_child                 (  ) {
     //------------------------------------------------------------------------------
     await finalizeYazzLoading();
 }
-async function        createTablesInMain                            (  ) {
+async function  createTablesInMain                      (  ) {
     await yz.createTables(dbsearch,
         createdTablesInChild)
 
@@ -1729,7 +1729,7 @@ async function  createdTablesInChild                    (  ) {
         getPort()
     }
 }
-async function        finishInit                              (  ) {
+async function  finishInit                              (  ) {
 
 
     process.on('exit', function() {
@@ -3810,7 +3810,7 @@ async function  startServices                           (  ) {
         }
         return field.name + " " + fieldType
     }
-    app.post(   '/http_post_browser_sql_write_operation',                       async function (req, res) {
+    app.post(   '/http_post_browser_sql_write_operation',                   async function (req, res) {
         let userId          = await getUserId(req)
         let updateSql       = req.body.browser_write_sql
         let updateParams    = req.body.sql_params
@@ -3827,7 +3827,7 @@ async function  startServices                           (  ) {
         ));
 
     })
-    app.post(   '/http_post_create_browser_table',                       async function (req, res) {
+    app.post(   '/http_post_create_browser_table',                          async function (req, res) {
         let userId          = await getUserId(req)
 
         let tn = req.body.table_name;
@@ -3943,15 +3943,25 @@ async function  startServices                           (  ) {
             dbsearch.serialize(
                 function() {
                     dbsearch.all(
-                        " select  " +
-                        "     distinct(level_2_released_components.id), component_name, ipfs_hash, level_2_released_components.base_component_id, logo_url " +
-                        " from " +
-                        "     level_2_released_components " +
-                        " where " +
-                        "    ( component_type = 'app' or base_component_id = 'button_control' or base_component_id = 'checkbox_control'  or base_component_id = 'input_control'   or base_component_id = 'label_control')"
-                        ,
-                        []
-                        ,
+                        `select  
+                             distinct(level_2_released_components.id), 
+                             component_name, 
+                             ipfs_hash, 
+                             level_2_released_components.base_component_id, 
+                             logo_url 
+                        from 
+                             level_2_released_components 
+                        where 
+                            (   
+                                component_type = 'app' or 
+                                base_component_id = 'button_control' or 
+                                base_component_id = 'checkbox_control'  or 
+                                base_component_id = 'input_control'   or 
+                                base_component_id = 'label_control' 
+                            )
+                        `,
+                        [],
+
                         async function(err, rows) {
                             let returnRows = []
                             if (!err) {
@@ -3961,20 +3971,14 @@ async function  startServices                           (  ) {
                                             let thisRow = rows[rowIndex]
                                             returnRows.push(
                                                 {
-                                                    id:                 thisRow.base_component_id
-                                                    ,
-                                                    base_component_id:  thisRow.base_component_id
-                                                    ,
-                                                    logo:               thisRow.logo_url
-                                                    ,
-                                                    ipfs_hash:          thisRow.ipfs_hash
-                                                    ,
+                                                    id:                 thisRow.base_component_id,
+                                                    base_component_id:  thisRow.base_component_id,
+                                                    logo:               thisRow.logo_url,
+                                                    ipfs_hash:          thisRow.ipfs_hash,
                                                     display_name:       thisRow.component_name
-
                                                 })
                                         }
                                     }
-
 
 
 
@@ -3998,11 +4002,9 @@ async function  startServices                           (  ) {
         topApps = ret
 
         res.writeHead(200, {'Content-Type': 'application/json'});
-
         res.end(JSON.stringify(
             topApps
         ));
-
     });
     app.post(   '/http_post_submit_comment',                                async function (req, res) {
         console.log("app.post('/http_post_submit_comment'): ")
@@ -4258,7 +4260,7 @@ async function  startServices                           (  ) {
 
 
     // source code helpers
-    app.get(    '/http_get_point_edit_marker_at_commit',                               async function (req, res, next) {
+    app.get(    '/http_get_point_edit_marker_at_commit',                    async function (req, res, next) {
         let userid          = await getUserId(req)
 
         await yz.pointEditMarkerAtCommit(
@@ -4318,7 +4320,7 @@ async function  startServices                           (  ) {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({value: fileOut}))
     })
-    app.post(   '/http_post_save_debug_text_as_file',                            async function (req, res) {
+    app.post(   '/http_post_save_debug_text_as_file',                       async function (req, res) {
         let debugFileName        = req.body.debugFileName
         let debugFileText        = req.body.debugFileText
 
@@ -4689,7 +4691,7 @@ async function  startServices                           (  ) {
         console.log("/http_post_add_or_update_app:addOrUpdateDriver completed")
         res.status(200).send('Code registered');
     })
-    app.post(   '/http_post_copy_distributed_content_sent_from_client',              async function (req, res) {
+    app.post(   '/http_post_copy_distributed_content_sent_from_client',     async function (req, res) {
         //---------------------------------------------------------------------------
         //            POST  /http_post_copy_distributed_content_sent_from_client
         //
