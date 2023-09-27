@@ -622,7 +622,7 @@ module.exports = {
             thisDb,
             `insert into
                  level_2_content_db_mapping  
-                     (ipfs_hash,table_type,table_key) 
+                     (ipfs_hash,db_table_type,table_key) 
               values 
                 (?,?,?)`
             ,
@@ -663,7 +663,7 @@ module.exports = {
                     //   LEVEL 2
                     //  This can all be derived from the IPFS content data. It is useful to keep around, but can be deleted
                     //
-                    "CREATE TABLE IF NOT EXISTS level_2_content_db_mapping          (ipfs_hash TEXT, table_type TEXT, table_key TEXT, UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_2_content_db_mapping          (ipfs_hash TEXT, db_table_type TEXT, table_key TEXT, UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_content_db_mapping',1);",
 
                     "CREATE TABLE IF NOT EXISTS level_2_system_code                 (id TEXT, base_component_id TEXT, display_name TEXT, component_type TEXT, creation_timestamp INTEGER, parent_id TEXT, fk_user_id TEXT,code TEXT,  logo_url TEXT, visibility TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, edit_file_path TEXT,  num_changes INTEGER, code_changes TEXT, last_read_from_ipfs INTEGER, score INTEGER, score_reason TEXT, score_total INTEGER);",
@@ -899,7 +899,8 @@ module.exports = {
         let editors2            = yz.helpers.getValueOfCodeString(code,"editors")
         let controlType         = yz.helpers.getValueOfCodeString(code,"component_type")
         let codeChanges         = yz.helpers.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
-
+if (controlType){}
+console.log("controltype: " + controlType)
 
         // set up local vars
         let editors                                 = null
@@ -1641,6 +1642,7 @@ module.exports = {
         let component_type      = parsedCode.type
         let logoUrl             = await mm.createLogoUrlData(logo)
 
+
         let promise = new Promise(async function(returnfn) {
 
             let componentListRecord = await mm.getQuickSqlOneRow(
@@ -1667,14 +1669,27 @@ module.exports = {
                             id, base_component_id, app_name, component_type,
                             app_description, ipfs_hash, '',
                             readWriteStatus, codeString, logoUrl)
-                        thisDb.run("commit")
-                        returnfn()
+                        thisDb.run("commit", async function() {
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "insert into " +
+                                "    level_2_content_db_mapping " +
+                                "    (  ipfs_hash  ,  db_table_type  ,  table_key  ) " +
+                                "values  " +
+                                "    ( ? , ? , ? ) "
+                                ,
+                                [  ipfs_hash  ,  "RELEASE"  ,  id  ]
+                            )
+                            returnfn()
+                        })
                     })
                 })
-
             })
         })
         let ret2 = await promise
+
+
+
 
         if (options && options.save_to_network) {
             setTimeout(async function() {
