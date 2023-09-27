@@ -562,11 +562,30 @@ module.exports = {
         }
 
     },
-    insertNewCode:                  async function  (  thisDb  ,  params  ) {
+    insertNewCode:                  async function  (   thisDb,
+                                                        {
+                                                            sha1sum,
+                                                            parentHash,
+                                                            code,
+                                                            baseComponentId,
+                                                            displayName,
+                                                            updatedTimestamp,
+                                                            logoUrl,
+                                                            visibility,
+                                                            useDb,
+                                                            editors,
+                                                            readWriteStatus,
+                                                            propertiesAsJsonString,
+                                                            controlType,
+                                                            save_code_to_file,
+                                                            codeChangesStr,
+                                                            numCodeChanges,
+                                                            userId
+                                                        }
+    ) {
         let mm = this
         mm.executeQuickSql(
-            thisDb
-            ,
+            thisDb,
             `insert into
                  level_2_system_code  
                      (id, parent_id, code, base_component_id, 
@@ -577,7 +596,37 @@ module.exports = {
               values 
                 (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
             ,
-            params
+            [
+                sha1sum,
+                parentHash,
+                code,
+                baseComponentId,
+                displayName,
+                updatedTimestamp,
+                logoUrl,
+                visibility,
+                useDb,
+                editors,
+                readWriteStatus,
+                propertiesAsJsonString,
+                controlType,
+                save_code_to_file,
+                codeChangesStr,
+                numCodeChanges,
+                userId,
+                1,
+                "1 point for being committed"
+            ]
+        )
+        mm.executeQuickSql(
+            thisDb,
+            `insert into
+                 level_2_content_db_mapping  
+                     (ipfs_hash,table_type,table_key) 
+              values 
+                (?,?,?)`
+            ,
+            [sha1sum,"CODE",sha1sum]
         )
     },
     createTables: async function(dbsearch, callbackFn) {
@@ -932,9 +981,8 @@ module.exports = {
                     }
 
                     await mm.insertNewCode(
-                        thisDb
-                        ,
-                        [
+                        thisDb,
+                        {
                             sha1sum,
                             parentHash,
                             code,
@@ -951,10 +999,8 @@ module.exports = {
                             save_code_to_file,
                             codeChangesStr,
                             numCodeChanges,
-                            userId,
-                            1,
-                            "1 point for being committed"
-                        ])
+                            userId
+                        })
 
                     await mm.pointEditMarkerAtCommit(
                         thisDb
