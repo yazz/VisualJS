@@ -899,8 +899,6 @@ module.exports = {
         let editors2            = yz.helpers.getValueOfCodeString(code,"editors")
         let controlType         = yz.helpers.getValueOfCodeString(code,"component_type")
         let codeChanges         = yz.helpers.getValueOfCodeString(code,"code_changes",")//code_" + "changes")
-if (controlType){}
-console.log("controltype: " + controlType)
 
         // set up local vars
         let editors                                 = null
