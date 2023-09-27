@@ -2336,16 +2336,27 @@ module.exports = {
         mm.synchonizeContentAmongPeersLock = true
 
         try {
-            // If the master server (to this client) is available then ...
-            if (mm.peerAvailable) {
+            // any items that are not sent to the master server need to be queued
+            try {//zzz
+                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb,
+                    `select  
+                        ipfs_hash  
+                    from  
+                        level_1_ipfs_hash_metadata  
+                    where  
+                        scope='GLOBAL' and sent_to_master is null   
+                    LIMIT 1`)
 
-
-                //
-                // queue any new items created to the master
-                //
-                //zzz
-                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  scope='GLOBAL' and sent_to_master != 'TRUE'  and master_time_millis is null  order by  sent_to_master asc  LIMIT 1")
                 if (nextUnsentRecord) {
+                    mm.executeQuickSql(thisDb,
+                        `update  
+                            level_1_ipfs_hash_metadata  
+                        set 
+                            sent_to_master = ? 
+                        where
+                            ipfs_hash = ?`,
+                        [  "QUEUED"  ,  nextUnsentRecord.ipfs_hash  ])
+
                     if (nextUnsentRecord.ipfs_hash != null) {
                         let nextContent = await mm.getDistributedContent({
                             thisDb: thisDb,
@@ -2359,7 +2370,7 @@ module.exports = {
                             let alreadyInSendQueue = mm.getQuickSqlOneRow(
                                 thisDb,
                                 "select  ipfs_hash  from  level_8_upload_content_queue  where  ipfs_hash = ?"
-                                [ nextUnsentRecord.ipfs_hash ])
+                                    [nextUnsentRecord.ipfs_hash])
                             if (!alreadyInSendQueue) {
 
                             } else {
@@ -2377,6 +2388,60 @@ module.exports = {
                         }
 
                     }
+                }
+            } catch(snedE) {
+                console.log("Err0r: " + snedE)
+            }
+
+
+
+
+
+            // If the master server (to this client) is available then ...
+            if (mm.peerAvailable) {
+
+
+                //
+                // queue any new items created to the master
+                //
+                //zzz
+                try {
+                    let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  scope='GLOBAL' and sent_to_master != 'TRUE'  and master_time_millis is null  order by  sent_to_master asc  LIMIT 1")
+                    if (nextUnsentRecord) {
+                        if (nextUnsentRecord.ipfs_hash != null) {
+                            let nextContent = await mm.getDistributedContent({
+                                thisDb: thisDb,
+                                ipfsHash: nextUnsentRecord.ipfs_hash
+                            })
+                            if (await mm.getIpfsHash(nextContent.value) == nextUnsentRecord.ipfs_hash) {
+                                let content = await mm.getDistributedContent({
+                                    thisDb: thisDb,
+                                    ipfsHash: nextUnsentRecord.ipfs_hash
+                                })
+                                let alreadyInSendQueue = mm.getQuickSqlOneRow(
+                                    thisDb,
+                                    "select  ipfs_hash  from  level_8_upload_content_queue  where  ipfs_hash = ?"
+                                        [nextUnsentRecord.ipfs_hash])
+                                if (!alreadyInSendQueue) {
+
+                                } else {
+                                    console.log("Error: IPFS Hash already in queue: " + alreadyInSendQueue)
+                                }
+                                //await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value)
+                                //zzz
+                                mm.executeQuickSql(
+                                    thisDb,
+                                    "insert  into  level_8_upload_content_queue  (ipfs_hash,send_status,attempts,created_timestamp) values (?,?,?,?)",
+                                    [
+                                        nextUnsentRecord.ipfs_hash, "QUEUED", 0, mm.getDebugTimestampText()
+                                    ]
+                                )
+                            }
+
+                        }
+                    }
+                } catch(snedE) {
+                    console.log("Err0r: " + snedE)
                 }
 
 
