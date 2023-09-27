@@ -1668,16 +1668,6 @@ module.exports = {
                             app_description, ipfs_hash, '',
                             readWriteStatus, codeString, logoUrl)
                         thisDb.run("commit", async function() {
-                            await mm.executeQuickSql(
-                                thisDb,
-                                "insert into " +
-                                "    level_2_content_db_mapping " +
-                                "    (  ipfs_hash  ,  db_table_type  ,  table_key  ) " +
-                                "values  " +
-                                "    ( ? , ? , ? ) "
-                                ,
-                                [  ipfs_hash  ,  "RELEASE"  ,  id  ]
-                            )
                             returnfn()
                         })
                     })
@@ -1688,29 +1678,42 @@ module.exports = {
 
 
 
+        setTimeout(async function() {
+            let newDateAndTime = new Date().getTime()
+            let optionsDist = {}
+            if (options && options.save_to_network) {
+                optionsDist.distributeToPeer
+            }
+            let retDist = await mm.setDistributedContent(
+                thisDb
+                ,
+                {
+                    component_ipfs_hash:        commitId,
+                    type:                       "COMPONENT_RELEASE",
+                    format:                     "JSON'",
+                    type_:                      "component_type('COMPONENT_RELEASE')",
+                    format_:                    "format('JSON')",
+                    date_and_time:              newDateAndTime,
+                    base_component_id:          base_component_id
+                    //base_component_id_version:  baseComponentIdVersion,
+                    //comment:                    newComment,
+                    //rating:                     newRating
+                },
+                options
+            )
+            let retHash = retDist.value
+            await mm.executeQuickSql(
+                thisDb,
+                "insert into " +
+                "    level_2_content_db_mapping " +
+                "    (  ipfs_hash  ,  db_table_type  ,  table_key  ) " +
+                "values  " +
+                "    ( ? , ? , ? ) "
+                ,
+                [  retHash  ,  "RELEASE"  ,  id  ]
+            )
+        },500)
 
-        if (options && options.save_to_network) {
-            setTimeout(async function() {
-                let newDateAndTime          = new Date().getTime()
-                await mm.setDistributedContent(
-                    thisDb
-                    ,
-                    {
-                        component_ipfs_hash:        commitId,
-                        type:                       "COMPONENT_RELEASE",
-                        format:                     "JSON'",
-                        type_:                      "component_type('COMPONENT_RELEASE')",
-                        format_:                    "format('JSON')",
-                        date_and_time:              newDateAndTime,
-                        base_component_id:          base_component_id
-                        //base_component_id_version:  baseComponentIdVersion,
-                        //comment:                    newComment,
-                        //rating:                     newRating
-                    }
-                )
-            },500)
-
-        }
         return ret2
     },
 
@@ -1807,7 +1810,6 @@ module.exports = {
             // if the content is stored in Sqlite then get the content from sqlite
             if (metadataStoredInSqlite && contentStoredInSqlite) {
                 contentOnDisk           = contentStoredInSqlite.ipfs_content.toString("utf8")
-                //zzz
                 returnValue = contentOnDisk
 
 
@@ -1983,7 +1985,7 @@ module.exports = {
                     "insert  into  level_0_ipfs_content  (ipfs_hash,ipfs_content) values (?,?)",
                     [justHash,contentValueToStore])
 
-                await mm.executeQuickSql(//zzz
+                await mm.executeQuickSql(
                     thisDb,
                     `insert or replace into 
                         level_1_ipfs_hash_metadata 
