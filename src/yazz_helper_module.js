@@ -2338,7 +2338,7 @@ module.exports = {
 
 
         // --------------------------------------------------------------------
-        // any items that are not sent to the master server need to be queued
+        // Queue content to be sent to the master server
         // --------------------------------------------------------------------
         try {
             let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb,
@@ -2386,41 +2386,49 @@ module.exports = {
 
 
 
+
+
+
+
+
         // --------------------------------------------------------------------
         // queue any new items created to the master
         // --------------------------------------------------------------------
         try {
             if (mm.peerAvailable) {
-                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  scope='GLOBAL' and sent_to_master != 'TRUE'  and master_time_millis is null  order by  sent_to_master asc  LIMIT 1")
-                if (nextUnsentRecord) {
-                    if (nextUnsentRecord.ipfs_hash != null) {
+                let nextItemToSendInQueue = await this.getQuickSqlOneRow(thisDb,
+                    `select  
+                        ipfs_hash  
+                    from  
+                        level_8_upload_content_queue 
+                    where  
+                        send_status='QUEUED'
+                     LIMIT 1`)
+                if (nextItemToSendInQueue) {
+                    if (nextItemToSendInQueue.ipfs_hash != null) {
                         let nextContent = await mm.getDistributedContent({
                             thisDb: thisDb,
-                            ipfsHash: nextUnsentRecord.ipfs_hash
+                            ipfsHash: nextItemToSendInQueue.ipfs_hash
                         })
-                        if (await mm.getIpfsHash(nextContent.value) == nextUnsentRecord.ipfs_hash) {
-                            let content = await mm.getDistributedContent({
-                                thisDb: thisDb,
-                                ipfsHash: nextUnsentRecord.ipfs_hash
-                            })
-                            let alreadyInSendQueue = mm.getQuickSqlOneRow(
-                                thisDb,
-                                "select  ipfs_hash  from  level_8_upload_content_queue  where  ipfs_hash = ?"
-                                    [nextUnsentRecord.ipfs_hash])
-                            if (!alreadyInSendQueue) {
+                        if (await mm.getIpfsHash(nextContent.value) == nextItemToSendInQueue.ipfs_hash) {
+                            await this.executeQuickSql(thisDb,
+                                `update  
+                                    level_8_upload_content_queue 
+                                set  
+                                    send_status='SENDING'
+                                 where
+                                    ipfs_hash =?`,
+                                [ nextItemToSendInQueue.ipfs_hash  ])
+                            await mm.distributeContentToPeer(thisDb, nextItemToSendInQueue.ipfs_hash, nextContent.value)
 
-                            } else {
-                                console.log("Error: IPFS Hash already in queue: " + alreadyInSendQueue)
-                            }
-                            //await mm.distributeContentToPeer(thisDb, nextUnsentRecord.ipfs_hash, content.value)
-                            //zzz
-                            mm.executeQuickSql(
-                                thisDb,
-                                "insert  into  level_8_upload_content_queue  (ipfs_hash,send_status,attempts,created_timestamp) values (?,?,?,?)",
-                                [
-                                    nextUnsentRecord.ipfs_hash, "QUEUED", 0, mm.getDebugTimestampText()
-                                ]
-                            )
+                            await this.executeQuickSql(thisDb,
+                                `update  
+                                    level_8_upload_content_queue 
+                                set  
+                                    send_status='SENT'
+                                 where
+                                    ipfs_hash = ?`,
+                                [ nextItemToSendInQueue.ipfs_hash  ])
                         }
 
                     }
@@ -2431,7 +2439,8 @@ module.exports = {
         }
 
 
-
+mm.synchonizeContentAmongPeersLock = false
+return
 
 
         // --------------------------------------------------------------------
