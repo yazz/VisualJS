@@ -671,12 +671,7 @@ module.exports = {
 
                     "CREATE TABLE IF NOT EXISTS level_4_code_tags_table             (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_code_tags_table (id);",
-                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);",
-
-                    "DROP TABLE IF EXISTS       level_4_upload_content_queue;",
-                    "CREATE TABLE IF NOT EXISTS level_4_upload_content_queue    (ipfs_hash TEXT, send_status TEXT, server TEXT, attempts INTEGER, created_timestamp TEXT, last_attempted_send TEXT, UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_4_upload_content_queue',1);"
-
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);"
             ])
         }
 
@@ -694,7 +689,11 @@ module.exports = {
 
             "DROP TABLE IF EXISTS       level_8_download_content_queue;",
             "CREATE TABLE IF NOT EXISTS level_8_download_content_queue  (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
-            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_download_content_queue',1);"
+            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_download_content_queue',1);",
+
+            "DROP TABLE IF EXISTS       level_8_upload_content_queue;",
+            "CREATE TABLE IF NOT EXISTS level_8_upload_content_queue    (ipfs_hash TEXT, send_status TEXT, server TEXT, attempts INTEGER, created_timestamp TEXT, last_attempted_send TEXT, UNIQUE(ipfs_hash));",
+            "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_upload_content_queue',1);"
         ])
         await async.map(
             sqlTorun
@@ -2359,7 +2358,7 @@ module.exports = {
                             })
                             let alreadyInSendQueue = mm.getQuickSqlOneRow(
                                 thisDb,
-                                "select  ipfs_hash  from  level_4_upload_content_queue  where  ipfs_hash = ?"
+                                "select  ipfs_hash  from  level_8_upload_content_queue  where  ipfs_hash = ?"
                                 [ nextUnsentRecord.ipfs_hash ])
                             if (!alreadyInSendQueue) {
 
@@ -2370,7 +2369,7 @@ module.exports = {
                             //zzz
                             mm.executeQuickSql(
                                 thisDb,
-                                "insert  into  level_4_upload_content_queue  (ipfs_hash,send_status,attempts,created_timestamp) values (?,?,?,?)",
+                                "insert  into  level_8_upload_content_queue  (ipfs_hash,send_status,attempts,created_timestamp) values (?,?,?,?)",
                                 [
                                     nextUnsentRecord.ipfs_hash, "QUEUED", 0, mm.getDebugTimestampText()
                                 ]
