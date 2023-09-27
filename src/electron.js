@@ -4043,26 +4043,6 @@ async function  startServices                           (  ) {
         res.end(JSON.stringify(
             topApps
         ));
-
-        setTimeout(async function() {
-            await yz.setDistributedContent(
-                dbsearch
-                ,
-                {
-                    component_ipfs_hash:        codeId,
-                    type:                       "COMPONENT_COMMENT",
-                    format:                     "JSON'",
-                    type_:                      "component_type('COMPONENT_COMMENT')",
-                    format_:                    "format('JSON')",
-                    date_and_time:              newDateAndTime,
-                    base_component_id:          baseComponentId,
-                    base_component_id_version:  baseComponentIdVersion,
-                    comment:                    newComment,
-                    rating:                     newRating
-                }
-            )
-        },500)
-
     });
     app.post(   '/http_post_load_comments_for_component',                   async function (req, res) {
         let baseComponentId = req.body.value.base_component_id

@@ -382,7 +382,6 @@ module.exports = {
         //
         //
         //------------------------------------------------------------------------------
-        //console.log("updateRevisions    ")
         let mm = this
         try {
 
@@ -1720,12 +1719,14 @@ module.exports = {
 
     // app store
     insertCommentIntoDb:            async function  (  thisDb, args  ) {
+        let mm = this
         let promise2 = new Promise(async function(returnfn2) {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
+                    let ukey = uuidv1()
                     stmtInsertComment.run(
-                        uuidv1() ,
+                        ukey,
                         args.baseComponentId ,
                         args.baseComponentIdVersion,
                         args.newComment,
@@ -1733,7 +1734,35 @@ module.exports = {
                         args.dateAndTime,
                         args.codeId
                     )
-                    thisDb.run("commit")
+                    thisDb.run("commit",async function() {
+                            let ret = await mm.setDistributedContent(
+                                thisDb
+                                ,
+                                {
+                                    component_ipfs_hash:        args.codeId,
+                                    type:                       "COMPONENT_COMMENT",
+                                    format:                     "JSON'",
+                                    type_:                      "component_type('COMPONENT_COMMENT')",
+                                    format_:                    "format('JSON')",
+                                    date_and_time:              args.dateAndTime,
+                                    base_component_id:          args.baseComponentId,
+                                    base_component_id_version:  args.baseComponentIdVersion,
+                                    comment:                    args.newComment,
+                                    rating:                     args.newRating
+                                }
+                            )
+                            let retHash = ret.value
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "insert into " +
+                                "    level_2_content_db_mapping " +
+                                "    (  ipfs_hash  ,  db_table_type  ,  table_key  ) " +
+                                "values  " +
+                                "    ( ? , ? , ? ) "
+                                ,
+                                [  retHash  ,  "COMMENT"  ,  ukey  ]
+                            )
+                    })
                     returnfn2()
                 })
             } catch(er) {
