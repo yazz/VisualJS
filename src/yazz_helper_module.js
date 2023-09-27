@@ -2391,6 +2391,8 @@ module.exports = {
                 }
             } catch(snedE) {
                 console.log("Err0r: " + snedE)
+                mm.synchonizeContentAmongPeersLock = false
+                return
             }
 
 
@@ -2442,6 +2444,8 @@ module.exports = {
                     }
                 } catch(snedE) {
                     console.log("Err0r: " + snedE)
+                    mm.synchonizeContentAmongPeersLock = false
+                    return
                 }
 
 
@@ -2538,6 +2542,7 @@ module.exports = {
             }
         } catch (error) {
             mm.synchonizeContentAmongPeersLock = false
+            return
         }
         mm.synchonizeContentAmongPeersLock = false
 
