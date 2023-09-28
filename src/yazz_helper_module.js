@@ -1829,16 +1829,10 @@ module.exports = {
         let fullIpfsFilePath            = null
         let fullIpfsMetaDataFilePath    = null
         let contentExistsOnLocalDisk    = null
-        let metadataExistsOnLocalDisk   = null
-        let metadataJson                = null
-        let updatedMetadataJson         = null
         let contentStoredInSqlite       = null
         let metadataStoredInSqlite       = null
-        let metadataContent             = null
-        let metadataAsJson              = null
         let returnValue                 = null
         let contentOnDisk               = null
-        let baseComponentId             = null
         let localTimeMillis             = null
 
 
@@ -1847,7 +1841,6 @@ module.exports = {
             fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
             contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_content  where  ipfs_hash = ?", [  ipfsHash  ])
             metadataStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
-            contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
             metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
             localTimeMillis             = new Date().getTime()
 
@@ -1971,13 +1964,8 @@ module.exports = {
         let justHash                    = null
         let fullIpfsFilePath            = null
         let fullIpfsMetaDataFilePath    = null
-        let contentExistsOnLocalDisk    = null
-        let metadataExistsOnLocalDisk   = null
-        let metadataJson                = null
         let contentStoredInSqlite       = null
         let metadataStoredInSqlite      = null
-        let metadataContent             = null
-        let metadataAsJson              = null
         let createdTimeMillis           = null
         let localTimeMillis             = null
 
@@ -2015,7 +2003,6 @@ module.exports = {
             contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_content  where  ipfs_hash = ?", [  justHash  ])
             metadataStoredInSqlite      = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  justHash  ])
             contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
-            metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
 
             // if the content is stored in Sqlite then do nothing
             if (metadataStoredInSqlite && contentStoredInSqlite) {
