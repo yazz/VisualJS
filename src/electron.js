@@ -4006,80 +4006,15 @@ async function  startServices                           (  ) {
             topApps
         ));
     });
-    app.get(   '/http_get_get_hashes_for_released_components',                                  async function (req, res) {
-        //console.log("app.post('/http_post_load_topapps'): ")
-        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
-        let topApps = []
-        let sessionId = await getSessionId(req)
+    app.get(    '/http_get_hashes_for_released_components',                async function (req, res, next) {
+        let maxMasterMillis     = req.query.max_master_millis
 
-        let promise = new Promise(async function(returnfn) {
-
-            dbsearch.serialize(
-                function() {
-                    dbsearch.all(
-                        `select  
-                             distinct(level_2_released_components.id), 
-                             component_name, 
-                             ipfs_hash, 
-                             level_2_released_components.base_component_id, 
-                             logo_url 
-                        from 
-                             level_2_released_components 
-                        where 
-                            (   
-                                component_type = 'app' or 
-                                base_component_id = 'button_control' or 
-                                base_component_id = 'checkbox_control'  or 
-                                base_component_id = 'input_control'   or 
-                                base_component_id = 'label_control' 
-                            )
-                        `,
-                        [],
-
-                        async function(err, rows) {
-                            let returnRows = []
-                            if (!err) {
-                                try {
-                                    if (rows.length > 0) {
-                                        for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
-                                            let thisRow = rows[rowIndex]
-                                            returnRows.push(
-                                                {
-                                                    id:                 thisRow.base_component_id,
-                                                    base_component_id:  thisRow.base_component_id,
-                                                    logo:               thisRow.logo_url,
-                                                    ipfs_hash:          thisRow.ipfs_hash,
-                                                    display_name:       thisRow.component_name
-                                                })
-                                        }
-                                    }
-
-
-
-                                } catch(err) {
-                                    console.log(err);
-                                    let stack = new Error().stack
-                                    console.log( stack )
-                                } finally {
-                                    returnfn(returnRows)
-                                }
-
-                            } else {
-                                console.log(err);
-                            }
-                        }
-                    );
-                }, sqlite3.OPEN_READONLY)
-        })
-        let ret = await promise
-
-        topApps = ret
-
+        let listOfHashes = await yz.getReleasedHashesAfterTimestamp( dbsearch  ,  maxMasterMillis )
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
-            topApps
+            {value: listOfHashes}
         ));
-    });
+    })
     app.post(   '/http_post_submit_comment',                                async function (req, res) {
         console.log("app.post('/http_post_submit_comment'): ")
         console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
@@ -4806,15 +4741,6 @@ async function  startServices                           (  ) {
             {ipfs_hash: ipfsHash, content: content, error: error}
         ));
     });
-    app.get(    '/http_get_outstanding_ipfs_content_hashes',                async function (req, res, next) {
-        let maxMasterMillis     = req.query.max_master_millis
-
-        let listOfHashes = await yz.getHashesAfterTimestamp( dbsearch  ,  maxMasterMillis )
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            {value: listOfHashes}
-        ));
-    })
     app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
         let userId              = await getUserId(req)
         let baseComponentId     = req.query.base_component_id
