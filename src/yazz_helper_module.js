@@ -2473,7 +2473,8 @@ module.exports = {
 
 
         // --------------------------------------------------------------------
-        // queue any new items created to the master
+        // queue any new items created, so that they can be sent to
+        // the master server
         // --------------------------------------------------------------------
         try {
             if (mm.peerAvailable) {
@@ -2520,8 +2521,6 @@ module.exports = {
         }
 
 
-mm.synchonizeContentAmongPeersLock = false
-return
 
 
         // --------------------------------------------------------------------
@@ -2531,16 +2530,29 @@ return
             if (mm.peerAvailable) {
                 let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from level_8_download_content_queue where STATUS = 'QUEUED'")
                 if (ipfsDownloadQueueSize.queue_count == 0) {
-                    let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_millis) as max_master_time_millis  from  level_1_ipfs_hash_metadata")
+                    let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_ms) as max_master_time_millis  from  level_2_released_components")
                     let outstandingRequests = await mm.sendQuickJsonGetRequest(
-                        "http_get_outstanding_ipfs_content_hashes"
+                        "http_get_hashes_for_released_components"
                         ,
                         {
                             max_master_millis: maxMasterTimeMillis.max_master_time_millis
                         })
                     if (outstandingRequests) {
-                        for (hashRecord of outstandingRequests.value.hashes) {
+                        for (hashRecord of outstandingRequests.value.release_info) {
                             console.log("hash record to add to queue: " + JSON.stringify(hashRecord, null, 2))
+                            let releaseRecordAlreadyInQueue = await mm.getQuickSqlOneRow(
+                                thisDb,
+                                "select  ipfs_hash  from  level_8_download_content_queue  where  ipfs_hash = ?",
+                                [hashRecord.json_ipfs_hash])
+                            if (releaseRecordAlreadyInQueue == null) {
+                                await mm.executeQuickSql(
+                                    thisDb,
+                                    "insert into level_8_download_content_queue  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
+                                    [hashRecord.json_ipfs_hash, hashRecord.local_time_ms, "QUEUED", mm.msToTime(hashRecord.local_time_ms)]
+                                )
+                            } else {
+                                //debugger
+                            }
                             let recordAlreadyInQueue = await mm.getQuickSqlOneRow(
                                 thisDb,
                                 "select  ipfs_hash  from  level_8_download_content_queue  where  ipfs_hash = ?",
@@ -2549,7 +2561,7 @@ return
                                 await mm.executeQuickSql(
                                     thisDb,
                                     "insert into level_8_download_content_queue  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
-                                    [hashRecord.ipfs_hash, hashRecord.local_time_millis, "QUEUED", mm.msToTime(hashRecord.local_time_millis)]
+                                    [hashRecord.ipfs_hash, hashRecord.local_time_ms, "QUEUED", mm.msToTime(hashRecord.local_time_ms)]
                                 )
                             } else {
                                 //debugger
@@ -2562,6 +2574,8 @@ return
             console.log(err)
         }
 
+mm.synchonizeContentAmongPeersLock = false
+return
 
 
         // --------------------------------------------------------------------
