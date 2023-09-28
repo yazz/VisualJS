@@ -1945,10 +1945,11 @@ module.exports = {
         //---------------------------------------------------------------------------
         //                           setDistributedContent
         //
-        // Whenever we want to set content so that it is stored in the locally or
-        // on the network we call this. When this is called we don't really know
-        // where the content will be stored, as the internet may be down, or
-        // the peer server may be down, but we can give some hints such as:
+        // Whenever we want to set content so that it is stored in the locally
+        // in Sqlite or on the network we call this. When this is called we
+        // don't really know where the content will be stored, as the internet
+        // may be down, or the peer server may be down, but we can give some
+        // hints such as:
         //
         // options: {
         //               distributeToPeer: true
@@ -1962,12 +1963,8 @@ module.exports = {
         let contentType                 = "STRING"
         let scope                       = "GLOBAL";
         let justHash                    = null
-        let fullIpfsFilePath            = null
-        let fullIpfsMetaDataFilePath    = null
         let contentStoredInSqlite       = null
         let metadataStoredInSqlite      = null
-        let createdTimeMillis           = null
-        let localTimeMillis             = null
 
         if (typeof content !== 'string') {
             contentValueToStore = JSON.stringify(content,null,2)
@@ -1984,25 +1981,12 @@ module.exports = {
             }
         }
 
-        createdTimeMillis = mm.helpers.getValueOfCodeString(contentValueToStore,"created_timestamp")
-        if (createdTimeMillis == null) {
-            createdTimeMillis = new Date().getTime()
-        } else {
-            createdTimeMillis = parseInt(createdTimeMillis)
-        }
-
-        localTimeMillis = new Date().getTime()
-
         justHash = await OnlyIpfsHash.of(contentValueToStore)
-
-        fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, justHash)
-        fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
 
         //
         try {
             contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_content  where  ipfs_hash = ?", [  justHash  ])
             metadataStoredInSqlite      = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  justHash  ])
-            contentExistsOnLocalDisk    = fs.existsSync(fullIpfsFilePath);
 
             // if the content is stored in Sqlite then do nothing
             if (metadataStoredInSqlite && contentStoredInSqlite) {
@@ -2048,8 +2032,6 @@ module.exports = {
                     null
                 ])
             }
-
-
 
             return {value: justHash, error: null}
 
