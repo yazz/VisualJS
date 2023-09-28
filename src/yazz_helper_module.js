@@ -1826,23 +1826,15 @@ module.exports = {
         //---------------------------------------------------------------------------
         let mm                          = this
         let yz                          = this
-        let fullIpfsFilePath            = null
-        let fullIpfsMetaDataFilePath    = null
-        let contentExistsOnLocalDisk    = null
         let contentStoredInSqlite       = null
-        let metadataStoredInSqlite       = null
+        let metadataStoredInSqlite      = null
         let returnValue                 = null
         let contentOnDisk               = null
-        let localTimeMillis             = null
 
 
         try {
-            fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
-            fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
             contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_content  where  ipfs_hash = ?", [  ipfsHash  ])
             metadataStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
-            metadataExistsOnLocalDisk   = fs.existsSync(fullIpfsMetaDataFilePath);
-            localTimeMillis             = new Date().getTime()
 
             // if the content is stored in Sqlite then get the content from sqlite
             if (metadataStoredInSqlite && contentStoredInSqlite) {
@@ -1904,11 +1896,6 @@ module.exports = {
                             mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
                         }
                     }
-
-
-
-
-
 
                 } else {
                     await mm.addOrUpdateDriver(
