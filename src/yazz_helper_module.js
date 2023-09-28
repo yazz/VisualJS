@@ -159,8 +159,8 @@ module.exports = {
                                                level_2_released_components
                                                     (   id  ,  base_component_id  ,  component_name  ,  component_type, 
                                                         component_description  ,  
-                                                        ipfs_hash , version,read_write_status, code, logo_url )
-                                               values (?,?,?,?,?,?,?,?,?,?)`)
+                                                        ipfs_hash , version,read_write_status, code, logo_url , local_time_ms, master_time_ms)
+                                               values (?,?,?,?,?,?,?,?,?,?,?,?)`)
 
     },
 
@@ -672,7 +672,7 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON level_2_system_code (component_type);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT);",
+                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT, local_time_ms INTEGTER, master_time_ms INTEGER);",
                     "CREATE INDEX IF NOT EXISTS released_components_idx             ON level_2_released_components (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_released_components',1);",
 
@@ -1637,7 +1637,13 @@ module.exports = {
         let ipfs_hash           = parsedCode.ipfsHashId
         let readWriteStatus     = parsedCode.readWriteStatus
         let component_type      = parsedCode.type
+        let createdTime         = new Date().getTime()
+        let masterTime          = null
         let logoUrl             = await mm.createLogoUrlData(logo)
+
+        if (options && options.masterTime) {
+            masterTime = options.masterTime
+        }
 
 
         let promise = new Promise(async function(returnfn) {
@@ -1665,7 +1671,7 @@ module.exports = {
                         stmtInsertReleasedComponentListItem.run(
                             id, base_component_id, app_name, component_type,
                             app_description, ipfs_hash, '',
-                            readWriteStatus, codeString, logoUrl)
+                            readWriteStatus, codeString, logoUrl, createdTime, masterTime)
                         thisDb.run("commit", async function() {
                             returnfn()
                         })
