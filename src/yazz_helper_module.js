@@ -2415,7 +2415,7 @@ module.exports = {
             return
         }
         mm.synchonizeContentAmongPeersLock = true
-
+        let ipfsDownloadQueueSize = null
 
 
         // --------------------------------------------------------------------
@@ -2528,7 +2528,7 @@ module.exports = {
         // --------------------------------------------------------------------
         try {
             if (mm.peerAvailable) {
-                let ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from level_8_download_content_queue where STATUS = 'QUEUED'")
+                ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from level_8_download_content_queue where STATUS = 'QUEUED'")
                 if (ipfsDownloadQueueSize.queue_count == 0) {
                     let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_ms) as max_master_time_millis  from  level_2_released_components")
                     let outstandingRequests = await mm.sendQuickJsonGetRequest(
@@ -2574,15 +2574,13 @@ module.exports = {
             console.log(err)
         }
 
-mm.synchonizeContentAmongPeersLock = false
-return
 
 
         // --------------------------------------------------------------------
         // for outstanding queue items read them from the server
         // --------------------------------------------------------------------
         try {
-            if (mm.peerAvailable && (ipfsDownloadQueueSize.queue_count != 0)) {
+            if (mm.peerAvailable && ipfsDownloadQueueSize && (ipfsDownloadQueueSize.queue_count != 0)) {
                 let nextIpfsQueueRecord = await mm.getQuickSqlOneRow(
                     thisDb,
                     "select ipfs_hash, master_time_millis from level_8_download_content_queue where status = ? order by master_time_millis asc limit 1",
