@@ -672,7 +672,7 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON level_2_system_code (component_type);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, code TEXT);",
+                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT);",
                     "CREATE INDEX IF NOT EXISTS released_components_idx             ON level_2_released_components (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_released_components',1);",
 
@@ -1703,14 +1703,29 @@ module.exports = {
             let retHash = retDist.value
             await mm.executeQuickSql(
                 thisDb,
-                "insert into " +
-                "    level_2_content_db_mapping " +
-                "    (  ipfs_hash  ,  db_table_type  ,  table_key  ) " +
-                "values  " +
-                "    ( ? , ? , ? ) "
+                `insert into 
+                    level_2_content_db_mapping 
+                    (  
+                        ipfs_hash  ,  db_table_type  ,  table_key  
+                    ) 
+                values  
+                    ( ? , ? , ? ) `
                 ,
                 [  retHash  ,  "RELEASE"  ,  id  ]
             )
+            await mm.executeQuickSql(
+                thisDb,
+                `update 
+                    level_2_released_components 
+                set 
+                    json_ipfs_hash = ? 
+                where
+                    id = ? 
+                `
+                ,
+                [  retHash  ,  id  ]
+            )
+            
         },500)
 
         return ret2
