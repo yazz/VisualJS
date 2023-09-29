@@ -613,6 +613,8 @@ module.exports = {
                 "1 point for being committed"
             ]
         )
+
+        
         mm.executeQuickSql(
             thisDb,
             `insert into
@@ -1012,6 +1014,9 @@ module.exports = {
                         thisDb.run("commit", async function() {
 
                         });
+
+                    //zzz
+                    options.processingStatus = "PROCESSED"
                         let checkIpfsHash = (await mm.setDistributedContent(thisDb, code, options)).value
                         if (checkIpfsHash != sha1sum) {
                             console.log("In savev2: checkIpfsHash != sha1sum")
@@ -1691,6 +1696,7 @@ module.exports = {
             if (options && options.save_to_network) {
                 optionsDist.distributeToPeer = true
             }
+            optionsDist.processingStatus = "PROCESSED"
             let retDist = await mm.setDistributedContent(
                 thisDb
                 ,
@@ -1961,6 +1967,7 @@ module.exports = {
         let contentStoredInSqlite       = null
         let metadataStoredInSqlite      = null
         let slaveInstanceId             = null
+        let processingStatus            = null
 
         if (typeof content !== 'string') {
             contentValueToStore = JSON.stringify(content,null,2)
@@ -1978,6 +1985,10 @@ module.exports = {
 
             if (options.slaveInstanceId) {
                 slaveInstanceId = options.slaveInstanceId
+            }
+
+            if (options.processingStatus) {
+                processingStatus = options.processingStatus
             }
         }
 
@@ -2015,10 +2026,11 @@ module.exports = {
                             read_from_local_ipfs,  
                             last_ipfs_ping_millis, 
                             received_from_peer,
-                            slave_instance_id                            
+                            slave_instance_id,
+                            status                            
                         ) 
                         values
-                    (?,?,?,?,?,?,?,?,?,?,?)`
+                    (?,?,?,?,?,?,?,?,?,?,?,?)`
                     ,
                 [
                     justHash,
@@ -2031,7 +2043,8 @@ module.exports = {
                     0,
                     -1,
                     null,
-                    slaveInstanceId
+                    slaveInstanceId,
+                    processingStatus
                 ])
             }
 
