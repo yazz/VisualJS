@@ -2654,9 +2654,9 @@ module.exports = {
 
         // get the initial list of hashes
         if (  (typeof timestampMillis == 'undefined')  ||  (timestampMillis == null)  ) {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   order by local_time_ms asc  limit 10" , [ ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  order by local_time_ms asc  limit 10" , [ "GLOBAL"])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  local_time_ms > ?  order by local_time_ms asc limit 10" , [ timestampMillis ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL",timestampMillis ])
         }
 
 
@@ -2679,12 +2679,14 @@ module.exports = {
 
         let countOfTotalHashesWithSameTimestampRec = await mm.getQuickSqlOneRow(
             thisDb,
-            "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where   local_time_ms = ?",
-            [  lastHashTimestamp  ])
+            "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where   component_scope = ? and local_time_ms = ?",
+            [  "GLOBAL", lastHashTimestamp  ])
         let countOfTotalHashesWithSameTimestamp = countOfTotalHashesWithSameTimestampRec.tot_c
 
         if (countOfTotalHashesWithSameTimestamp > countReturnedHashesWithTimestamp) {
-            let extraRecs = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  local_time_ms = ?  " , [ lastHashTimestamp ])
+            let extraRecs = await mm.getQuickSql(thisDb,
+                "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where component_scope=? and  local_time_ms = ?  " ,
+                [ "GLOBAL", lastHashTimestamp ])
             listOfHashes = listOfHashes.concat(extraRecs)
         }
         return { count_hashes: listOfHashes.length , release_info: listOfHashes}
