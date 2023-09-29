@@ -4007,6 +4007,7 @@ async function  startServices                           (  ) {
         ));
     });
     app.get(    '/http_get_hashes_for_released_components',                async function (req, res, next) {
+        //zzz
         let maxMasterMillis     = req.query.max_master_millis
 
         let listOfHashes = await yz.getReleasedHashesAfterTimestamp( dbsearch  ,  maxMasterMillis )
@@ -4694,6 +4695,8 @@ async function  startServices                           (  ) {
 
         let ipfsHash    = req.body.ipfs_hash
         let ipfsContent = req.body.ipfs_content
+        let slaveInstanceId = req.body.yazz_instance_id
+        //zzz
         res.status(200).send('IPFS content registered');
         let contentDesc = yz.getContentDescription(ipfsContent)
         console.log("Received content from peer: " + contentDesc)

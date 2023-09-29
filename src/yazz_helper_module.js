@@ -673,7 +673,7 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON level_2_system_code (component_type);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, component_scope TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT, local_time_ms INTEGTER, master_time_ms INTEGER);",
+                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, component_scope TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT, local_time_ms INTEGTER, master_time_ms INTEGER, recieved_from_server_id TEXT);",
                     "CREATE INDEX IF NOT EXISTS released_components_idx             ON level_2_released_components (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_released_components',1);",
 
@@ -2162,8 +2162,9 @@ module.exports = {
             try {
                 const dataString = JSON.stringify(
                     {
-                        ipfs_hash:      ipfs_hash,
-                        ipfs_content:   ipfsContent
+                        ipfs_hash:          ipfs_hash,
+                        ipfs_content:       ipfsContent,
+                        yazz_instance_id:   yazzInstanceId
                     })
 
                 let options = {
@@ -2631,6 +2632,7 @@ module.exports = {
         mm.synchonizeContentAmongPeersLock = false
     },
     getReleasedHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ) {
+        // this is always called from a a slave server
         let mm = this
         let listOfHashes = null
 
