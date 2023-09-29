@@ -2627,10 +2627,6 @@ module.exports = {
 
                         await mm.executeQuickSql(
                             thisDb,
-                            "update  level_1_ipfs_hash_metadata  set  master_time_millis = ?  where  ipfs_hash = ?",
-                            [nextIpfsQueueRecord.master_time_millis, nextIpfsQueueRecord.ipfs_hash])
-                        await mm.executeQuickSql(
-                            thisDb,
                             "update  level_8_download_content_queue  set status = ? where ipfs_hash = ?",
                             ["DONE", nextIpfsQueueRecord.ipfs_hash]
                         )
@@ -2662,7 +2658,7 @@ module.exports = {
 
         // if there are no hashes then return
         if (listOfHashes.length == 0) {
-            return listOfHashes
+            return { count_hashes: 0 , release_info: listOfHashes}
         }
 
 
