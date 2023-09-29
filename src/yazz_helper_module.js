@@ -152,7 +152,7 @@ module.exports = {
         stmtInsertIpfsHash = thisDb.prepare(" insert or replace into level_1_ipfs_hash_metadata " +
             "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,   stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis , received_from_peer  ) " +
             " values " +
-            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ? , ? ,?  );");
+            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ?  );");
 
         stmtInsertReleasedComponentListItem = thisDb.prepare(`insert or ignore
                                                     into
@@ -2238,7 +2238,7 @@ module.exports = {
             try {
                 thisDb.serialize(function() {
                     thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content , stored_in_local_file , read_from_local_file  ,  stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis   , received_from_peer  )
+                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content ,  stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis   , received_from_peer  )
                     thisDb.run("commit")
                     returnfn()
                 })
