@@ -16,7 +16,6 @@ let fs                                          = require('fs');
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
-let stmtInsertIpfsHash;
 let stmtInsertReleasedComponentListItem;
 //backtick = `
 
@@ -149,10 +148,6 @@ module.exports = {
             select ?,  latest_revision from level_4_app_db_latest_ddl_revisions
              where base_component_id=?`
         );
-        stmtInsertIpfsHash = thisDb.prepare(" insert or replace into level_1_ipfs_hash_metadata " +
-            "    (ipfs_hash, content_type, scope , last_ipfs_ping_millis , temp_debug_content ,   stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis , received_from_peer  ) " +
-            " values " +
-            "    ( ?, ?, ?, ?, ? , ? , ? , ? , ? , ?  );");
 
         stmtInsertReleasedComponentListItem = thisDb.prepare(`insert or ignore
                                                     into
@@ -2224,32 +2219,6 @@ module.exports = {
         await promise
         mm.inDistributeContentToPeer = false
     },
-    insertContentStorageRecord:     async function  (  {  thisDb  ,  ipfs_hash   ,  content_type  ,  scope , last_ipfs_ping_millis  ,  temp_debug_content  ,   stored_in_local_file,  read_from_local_file  ,  stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs    ,  received_from_peer    }  ) {
-        //---------------------------------------------------------------------------
-        //
-        //                           insertContentStorageRecord( )
-        //                           -----------------------
-        //
-        // This inserts ONLY the IPFS content KEY in the internal database
-        //
-        //---------------------------------------------------------------------------
-        let mm = this
-        let promise = new Promise(async function(returnfn) {
-            try {
-                thisDb.serialize(function() {
-                    thisDb.run("begin exclusive transaction");
-                    stmtInsertIpfsHash.run(  ipfs_hash,  content_type,  scope,  last_ipfs_ping_millis , temp_debug_content ,  stored_in_ipfs  ,  sent_to_master  ,  read_from_local_ipfs  ,  last_ipfs_ping_millis   , received_from_peer  )
-                    thisDb.run("commit")
-                    returnfn()
-                })
-            } catch(er) {
-                console.log(er)
-                returnfn()
-            }
-        })
-        let ret = await promise
-        return ret
-    },
     saveItemToIpfs:                 async function  (  srcCode  ) {
         //---------------------------------------------------------------------------
         //
@@ -2267,7 +2236,6 @@ module.exports = {
                 let fullIpfsFilePath    = path.join(  fullIpfsFolderPath  ,  justHash  )
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
-                await yz.insertContentStorageRecord(  { thisDb: dbsearch  ,  ipfs_hash: justHash  ,  temp_debug_content: srcCode  , scope: "LOCAL"}  )
                 //await yz.distributeC ontentToPeer(  thisDb, justHash  ,  srcCode  )
 
                 if (  isIPFSConnected  ) {
