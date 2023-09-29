@@ -1159,7 +1159,7 @@ function        deleteYazzDataV2                        (  dddd  ) {
 
     if ( fs.existsSync( dddd ) ) {
         outputDebug("----------------------------------")
-        outputDebug("Before delete :" + ls(dddd))
+        //outputDebug("Before delete :" + ls(dddd))
         outputDebug("----------------------------------")
 
         rimraf.sync(path.join(dddd,  'uploads/'));

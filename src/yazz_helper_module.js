@@ -2171,7 +2171,7 @@ module.exports = {
                     {
                         ipfs_hash:          ipfs_hash,
                         ipfs_content:       ipfsContent,
-                        yazz_instance_id:   yazzInstanceId
+                        yazz_instance_id:   mm.yazzInstanceId
                     })
 
                 let options = {
