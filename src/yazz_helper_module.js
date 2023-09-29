@@ -2393,7 +2393,45 @@ module.exports = {
 
 
 
+    processContentItems:            async function  (  thisDb  ) {
+        //---------------------------------------------------------------------------
+        //
+        //                           synchonizeContentAmongPeers( .. )
+        //                           ---------------------------------
+        //
+        // In this method we try to make sure that all the content is synchronized
+        // locally, to peer Yazz servers, and to IPFS
+        //
+        //---------------------------------------------------------------------------
+        let mm = this
+        if (mm.processContentItemsLock) {
+            return
+        }
+        mm.processContentItemsLock = true
 
+        try {
+            let nextUnprocessedCodeItem = await this.getQuickSqlOneRow(thisDb,
+                `select  
+                        ipfs_hash  
+                    from  
+                        level_1_ipfs_hash_metadata  
+                    where  
+                        scope='GLOBAL' 
+                            and 
+                        status is null
+                            and
+                        content_type='STRING'
+                    LIMIT 1`)
+            if (nextUnprocessedCodeItem) {
+                //zzz
+                debugger
+            }
+        } catch (snedE) {
+            console.log("Err0r: " + snedE)
+        }
+
+        mm.processContentItemsLock = false
+    },
     synchonizeContentAmongPeers:    async function  (  thisDb  ) {
         //---------------------------------------------------------------------------
         //

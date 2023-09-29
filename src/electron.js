@@ -5198,5 +5198,8 @@ if (syncToMaster) {
     },5000)
 }
 
+setInterval(async function() {
+    await yz.processContentItems( dbsearch )
+},5000)
 
 
