@@ -4011,6 +4011,8 @@ async function  startServices                           (  ) {
         //zzz
         let maxMasterMillis     = req.query.max_master_millis
         let slaveInstanceId     = req.query.slave_instance_id
+        console.log('/http_get_hashes_for_released_components')
+        console.log('    Slave Server ID: ' + slaveInstanceId)
 
         let listOfHashes = await yz.getReleasedHashesAfterTimestamp( dbsearch  ,  maxMasterMillis )
         res.writeHead(200, {'Content-Type': 'application/json'});
