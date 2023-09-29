@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+//backtick = `
+//--centralhost 192.168. --centralhostport 80 --centralhosthttps false
+
+
 let sqlite3
 if (process.versions.bun) {
     sqlite3 =  require("bun:sqlite");
@@ -66,7 +70,6 @@ let setProcessRunningDurationMs;
 let insertIntoProcessTable              = null;
 let updateProcessTable                  = null;
 let fileURLToPath =require('node:url').fileURLToPath;
-//backtick = `
 outputDebug("__filename: " + __filename)
 outputDebug("__dirname: " + __dirname)
 let nodeModulesPath = process.cwd()
