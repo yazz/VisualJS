@@ -2552,7 +2552,8 @@ module.exports = {
                         "http_get_hashes_for_released_components"
                         ,
                         {
-                            max_master_millis: maxMasterTimeMillis.max_master_time_millis
+                            max_master_millis:  maxMasterTimeMillis.max_master_time_millis,
+                            slave_instance_id:  mm.yazzInstanceId
                         })
                     if (outstandingRequests) {
                         for (hashRecord of outstandingRequests.value.release_info) {

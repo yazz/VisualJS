@@ -50,6 +50,7 @@ let app                                 = express()
 let startupType                         = null
 let startupDelay                        = 0
 let yazzInstanceId                      = uuidv1()
+yz.yazzInstanceId                       = yazzInstanceId
 let certOptions                         = null
 let callbackIndex                       = 0;
 let callbackList                        = new Object()
@@ -4009,6 +4010,7 @@ async function  startServices                           (  ) {
     app.get(    '/http_get_hashes_for_released_components',                async function (req, res, next) {
         //zzz
         let maxMasterMillis     = req.query.max_master_millis
+        let slaveInstanceId     = req.query.slave_instance_id
 
         let listOfHashes = await yz.getReleasedHashesAfterTimestamp( dbsearch  ,  maxMasterMillis )
         res.writeHead(200, {'Content-Type': 'application/json'});
