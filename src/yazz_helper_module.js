@@ -2424,7 +2424,7 @@ module.exports = {
                     LIMIT 1`)
             if (nextUnprocessedCodeItem) {
                 //zzz
-                debugger
+                //debugger
             }
         } catch (snedE) {
             console.log("Err0r: " + snedE)
