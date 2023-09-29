@@ -4700,8 +4700,7 @@ async function  startServices                           (  ) {
         res.status(200).send('IPFS content registered');
         let contentDesc = yz.getContentDescription(ipfsContent)
         console.log("Received content from peer: " + contentDesc)
-        await yz.setDistributedContent( dbsearch  ,  ipfsContent  )
-        await yz.executeQuickSql( dbsearch, "update  level_1_ipfs_hash_metadata  set  received_from_peer = received_from_peer + 1  where ipfs_hash = ?", [ipfsHash])
+        await yz.setDistributedContent( dbsearch  ,  ipfsContent  ,  {slaveInstanceId: slaveInstanceId})
     })
     app.post(   "/http_post_save_code_v3" ,                                 async function (req, res) {
         let userid
