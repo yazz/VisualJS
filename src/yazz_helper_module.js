@@ -655,7 +655,7 @@ module.exports = {
                     //   LEVEL 1
                     //  This could be store in another Sqlite database, but it could also be derived from that data
                     //
-                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT, content_type TEXT, scope TEXT, stored_in_ipfs INTEGER, sent_to_master TEXT, received_from_peer INTEGER, read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  level_2_status TEXT, slave_instance_id TEXT, UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT,status TEXT,  content_type TEXT, scope TEXT, stored_in_ipfs INTEGER, sent_to_master TEXT, received_from_peer INTEGER, read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  level_2_status TEXT, slave_instance_id TEXT, UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
                     "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_1_ipfs_hash_metadata (ipfs_hash);",
 
