@@ -2473,7 +2473,7 @@ module.exports = {
 
 
         // --------------------------------------------------------------------
-        // queue any new items created, so that they can be sent to
+        // send any queued content items (code, comments, releases) to
         // the master server
         // --------------------------------------------------------------------
         try {
@@ -2524,7 +2524,8 @@ module.exports = {
 
 
         // --------------------------------------------------------------------
-        // get content from master server
+        // See if there are any released components that need to be read
+        // from the master server
         // --------------------------------------------------------------------
         try {
             if (mm.peerAvailable) {
