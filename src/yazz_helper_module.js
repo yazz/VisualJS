@@ -2532,7 +2532,9 @@ module.exports = {
 
         // --------------------------------------------------------------------
         // See if there are any released components that need to be read
-        // from the master server
+        // from the master server then read them and request for the release
+        // records and code records to be downloaded (by putting them in the
+        // "level_8_download_content_queue" queue)
         // --------------------------------------------------------------------
         try {
             if (mm.peerAvailable) {
