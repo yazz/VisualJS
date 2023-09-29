@@ -740,7 +740,7 @@ module.exports = {
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_system_process_errors',1);",
 
             "DROP TABLE IF EXISTS       level_8_download_content_queue;",
-            "CREATE TABLE IF NOT EXISTS level_8_download_content_queue  (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  UNIQUE(ipfs_hash));",
+            "CREATE TABLE IF NOT EXISTS level_8_download_content_queue  (ipfs_hash TEXT, master_time_millis INTEGER, lcreated_time_millis INTEGER, status TEXT, server TEXT, read_from TEXT, time_read_millis INTEGER  ,  debug_master_time_millis TEXT,  debug_content TEXT, UNIQUE(ipfs_hash));",
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_download_content_queue',1);",
 
             "DROP TABLE IF EXISTS       level_8_upload_content_queue;",
@@ -2612,8 +2612,8 @@ module.exports = {
 
                         await mm.executeQuickSql(
                             thisDb,
-                            "update  level_8_download_content_queue  set status = ? where ipfs_hash = ?",
-                            ["DONE", nextIpfsQueueRecord.ipfs_hash]
+                            "update  level_8_download_content_queue  set status = ? , debug_content = ? where ipfs_hash = ?",
+                            ["DONE", ipfsContent.value.content, nextIpfsQueueRecord.ipfs_hash]
                         )
                     } else {
                         await mm.executeQuickSql(
