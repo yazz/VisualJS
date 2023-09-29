@@ -2222,9 +2222,7 @@ module.exports = {
         //                           insertContentStorageRecord( )
         //                           -----------------------
         //
-        // This inserts ONLY the IPFS content KEY in the internal database. This
-        // database lets us keep track of which IPFS hashes have been cached on
-        // the local machine on the filesystem
+        // This inserts ONLY the IPFS content KEY in the internal database
         //
         //---------------------------------------------------------------------------
         let mm = this
@@ -2608,22 +2606,7 @@ module.exports = {
 
                         let formatType = mm.helpers.getValueOfCodeString(ipfsContent.value.content, "format")
 
-                        await mm.insertContentStorageRecord(
-                            {
-                                thisDb:                 thisDb,
-                                ipfs_hash:              nextIpfsQueueRecord.ipfs_hash,
-                                created_time_millis:    createdTimeMillis,
-                                master_time_millis:     nextIpfsQueueRecord.master_time_millis,
-                                local_time_millis:      createdTimeMillis,
-                                temp_debug_content:     ipfsContent.value.content,
-                                content_type:           formatType,
-                                scope:                  "GLOBAL",
-                                stored_in_ipfs:         0,
-                                sent_to_master:         null,
-                                received_from_peer:     0,
-                                read_from_local_ipfs:   0,
-                                last_ipfs_ping_millis:  -1
-                            }  )
+                        mm.setDistributedContent(thisDb,ipfsContent.value.content)
 
                         await mm.saveContentToDatabase( {db: thisDb , content: ipfsContent.value.content ,    masterTimeMillis:  nextIpfsQueueRecord.master_time_millis  })
 
