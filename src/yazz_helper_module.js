@@ -2434,7 +2434,7 @@ module.exports = {
         // --------------------------------------------------------------------
         // Queue content to be sent to the master server
         // --------------------------------------------------------------------
-        if (mm.synctomaster) {
+        if (mm.syncToMaster) {
             try {
                 let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb,
                     `select  
