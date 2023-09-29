@@ -1658,8 +1658,8 @@ async function  setUpComponentsLocally                  (  ) {
 
     let todoRet = await evalHtmlComponentFromPath( '/apps/todo.js')
     let demoTimerRet = await evalHtmlComponentFromPath( '/apps/demo_timer.js')
-    await yz.releaseCode( dbsearch, todoRet.codeId )
-    await yz.releaseCode( dbsearch,  demoTimerRet.codeId )
+    await yz.releaseCode( dbsearch, todoRet.codeId , {localOnly: true})
+    await yz.releaseCode( dbsearch,  demoTimerRet.codeId , {localOnly: true})
 
 
 
@@ -3144,7 +3144,7 @@ async function  evalComponentFromPath                   (  srcPath  ){
 async function  releaseComponentFromPath                (  srcPath  ){
     try {
         let ret = await evalLocalSystemDriver( localComponentPath(srcPath),{username: "default", version: "latest", distributeToPeer: false})
-        await yz.releaseCode( dbsearch, ret.codeId )
+        await yz.releaseCode( dbsearch, ret.codeId, {localOnly: true})
 
         return ret
     } catch (err) {

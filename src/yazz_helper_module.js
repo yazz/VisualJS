@@ -1641,9 +1641,14 @@ module.exports = {
         let createdTime         = new Date().getTime()
         let masterTime          = null
         let logoUrl             = await mm.createLogoUrlData(logo)
+        let componentScope =    "GLOBAL"
 
         if (options && options.masterTime) {
             masterTime = options.masterTime
+        }
+
+        if (options && options.localOnly) {
+            componentScope = "LOCAL"
         }
 
 
@@ -1671,7 +1676,7 @@ module.exports = {
                         thisDb.run("begin exclusive transaction");
                         stmtInsertReleasedComponentListItem.run(
                             id, base_component_id, app_name, component_type,
-                            "GLOBAL",
+                            componentScope,
                             app_description, ipfs_hash, '',
                             readWriteStatus, codeString, logoUrl, createdTime, masterTime)
                         thisDb.run("commit", async function() {
