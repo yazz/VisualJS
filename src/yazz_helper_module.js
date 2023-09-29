@@ -2434,49 +2434,50 @@ module.exports = {
         // --------------------------------------------------------------------
         // Queue content to be sent to the master server
         // --------------------------------------------------------------------
-        try {
-            let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb,
-                `select  
-                    ipfs_hash  
-                from  
-                    level_1_ipfs_hash_metadata  
-                where  
-                    scope='GLOBAL' and sent_to_master is null   
-                LIMIT 1`)
-
-            if (nextUnsentRecord) {
-
-                await mm.executeQuickSql(thisDb,
-                    `update  
+        if (mm.synctomaster) {
+            try {
+                let nextUnsentRecord = await this.getQuickSqlOneRow(thisDb,
+                    `select  
+                        ipfs_hash  
+                    from  
                         level_1_ipfs_hash_metadata  
-                    set 
-                        sent_to_master = ? 
-                    where
-                        ipfs_hash = ?`,
-                    [  "QUEUED"  ,  nextUnsentRecord.ipfs_hash  ])
+                    where  
+                        scope='GLOBAL' and sent_to_master is null   
+                    LIMIT 1`)
 
-                let alreadyInSendQueue = await mm.getQuickSqlOneRow(
-                    thisDb,
-                    "select  ipfs_hash  from  level_8_upload_content_queue  where  ipfs_hash = ?",
-                    [nextUnsentRecord.ipfs_hash])
-                if (!alreadyInSendQueue) {
-                    let dtime = mm.getDebugTimestampText()
+                if (nextUnsentRecord) {
+
                     await mm.executeQuickSql(thisDb,
-                        `insert into  
-                            level_8_upload_content_queue  
-                        (  ipfs_hash  ,  send_status  ,  attempts  ,  created_timestamp  ) 
-                            values 
-                        ( ? , ? , ? , ? )`,
-                        [   nextUnsentRecord.ipfs_hash, "QUEUED", 0, dtime  ]
-                    )
-                } else {
-                    console.log("Error: IPFS Hash already in queue: " + alreadyInSendQueue)
-                }
-            }
-        } catch(snedE) {
-            console.log("Err0r: " + snedE)
-        }
+                        `update  
+                            level_1_ipfs_hash_metadata  
+                        set 
+                            sent_to_master = ? 
+                        where
+                            ipfs_hash = ?`,
+                        ["QUEUED", nextUnsentRecord.ipfs_hash])
 
+                    let alreadyInSendQueue = await mm.getQuickSqlOneRow(
+                        thisDb,
+                        "select  ipfs_hash  from  level_8_upload_content_queue  where  ipfs_hash = ?",
+                        [nextUnsentRecord.ipfs_hash])
+                    if (!alreadyInSendQueue) {
+                        let dtime = mm.getDebugTimestampText()
+                        await mm.executeQuickSql(thisDb,
+                            `insert into  
+                                level_8_upload_content_queue  
+                            (  ipfs_hash  ,  send_status  ,  attempts  ,  created_timestamp  ) 
+                                values 
+                            ( ? , ? , ? , ? )`,
+                            [nextUnsentRecord.ipfs_hash, "QUEUED", 0, dtime]
+                        )
+                    } else {
+                        console.log("Error: IPFS Hash already in queue: " + alreadyInSendQueue)
+                    }
+                }
+            } catch (snedE) {
+                console.log("Err0r: " + snedE)
+            }
+        }
 
 
 
@@ -2489,51 +2490,52 @@ module.exports = {
         // send any queued content items (code, comments, releases) to
         // the master server
         // --------------------------------------------------------------------
-        try {
-            if (mm.peerAvailable) {
-                let nextItemToSendInQueue = await this.getQuickSqlOneRow(thisDb,
-                    `select  
-                        ipfs_hash  
-                    from  
-                        level_8_upload_content_queue 
-                    where  
-                        send_status='QUEUED'
-                     LIMIT 1`)
-                if (nextItemToSendInQueue) {
-                    if (nextItemToSendInQueue.ipfs_hash != null) {
-                        let nextContent = await mm.getDistributedContent({
-                            thisDb: thisDb,
-                            ipfsHash: nextItemToSendInQueue.ipfs_hash
-                        })
-                        if (await mm.getIpfsHash(nextContent.value) == nextItemToSendInQueue.ipfs_hash) {
-                            await this.executeQuickSql(thisDb,
-                                `update  
-                                    level_8_upload_content_queue 
-                                set  
-                                    send_status='SENDING',
-                                    debug_content=?
-                                 where
-                                    ipfs_hash =?`,
-                                [ nextContent.value, nextItemToSendInQueue.ipfs_hash  ])
-                            await mm.distributeContentToPeer(thisDb, nextItemToSendInQueue.ipfs_hash, nextContent.value)
+        if (mm.syncToMaster) {
+            try {
+                if (mm.peerAvailable) {
+                    let nextItemToSendInQueue = await this.getQuickSqlOneRow(thisDb,
+                        `select  
+                            ipfs_hash  
+                        from  
+                            level_8_upload_content_queue 
+                        where  
+                            send_status='QUEUED'
+                         LIMIT 1`)
+                    if (nextItemToSendInQueue) {
+                        if (nextItemToSendInQueue.ipfs_hash != null) {
+                            let nextContent = await mm.getDistributedContent({
+                                thisDb: thisDb,
+                                ipfsHash: nextItemToSendInQueue.ipfs_hash
+                            })
+                            if (await mm.getIpfsHash(nextContent.value) == nextItemToSendInQueue.ipfs_hash) {
+                                await this.executeQuickSql(thisDb,
+                                    `update  
+                                        level_8_upload_content_queue 
+                                    set  
+                                        send_status='SENDING',
+                                        debug_content=?
+                                     where
+                                        ipfs_hash =?`,
+                                    [nextContent.value, nextItemToSendInQueue.ipfs_hash])
+                                await mm.distributeContentToPeer(thisDb, nextItemToSendInQueue.ipfs_hash, nextContent.value)
 
-                            await this.executeQuickSql(thisDb,
-                                `update  
-                                    level_8_upload_content_queue 
-                                set  
-                                    send_status='SENT'
-                                 where
-                                    ipfs_hash = ?`,
-                                [ nextItemToSendInQueue.ipfs_hash  ])
+                                await this.executeQuickSql(thisDb,
+                                    `update  
+                                        level_8_upload_content_queue 
+                                    set  
+                                        send_status='SENT'
+                                     where
+                                        ipfs_hash = ?`,
+                                    [nextItemToSendInQueue.ipfs_hash])
+                            }
+
                         }
-
                     }
                 }
+            } catch (snedE) {
+                console.log("Err0r: " + snedE)
             }
-        } catch(snedE) {
-            console.log("Err0r: " + snedE)
         }
-
 
 
 
@@ -2543,99 +2545,106 @@ module.exports = {
         // records and code records to be downloaded (by putting them in the
         // "level_8_download_content_queue" queue)
         // --------------------------------------------------------------------
-        try {
-            if (mm.peerAvailable) {
-                ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from level_8_download_content_queue where STATUS = 'QUEUED'")
-                if (ipfsDownloadQueueSize.queue_count == 0) {
-                    let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_ms) as max_master_time_millis  from  level_2_released_components")
-                    let outstandingRequests = await mm.sendQuickJsonGetRequest(
-                        "http_get_hashes_for_released_components"
-                        ,
-                        {
-                            max_master_millis:  maxMasterTimeMillis.max_master_time_millis,
-                            slave_instance_id:  mm.yazzInstanceId
-                        })
-                    if (outstandingRequests) {
-                        for (hashRecord of outstandingRequests.value.release_info) {
-                            console.log("hash record to add to queue: " + JSON.stringify(hashRecord, null, 2))
-                            let releaseRecordAlreadyInQueue = await mm.getQuickSqlOneRow(
-                                thisDb,
-                                "select  ipfs_hash  from  level_8_download_content_queue  where  ipfs_hash = ?",
-                                [hashRecord.json_ipfs_hash])
-                            if (releaseRecordAlreadyInQueue == null) {
-                                await mm.executeQuickSql(
+        if (mm.syncToMaster) {
+            try {
+                if (mm.peerAvailable) {
+                    ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from level_8_download_content_queue where STATUS = 'QUEUED'")
+                    if (ipfsDownloadQueueSize.queue_count == 0) {
+                        let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_ms) as max_master_time_millis  from  level_2_released_components")
+                        let outstandingRequests = await mm.sendQuickJsonGetRequest(
+                            "http_get_hashes_for_released_components"
+                            ,
+                            {
+                                max_master_millis: maxMasterTimeMillis.max_master_time_millis,
+                                slave_instance_id: mm.yazzInstanceId
+                            })
+                        if (outstandingRequests) {
+                            for (hashRecord of outstandingRequests.value.release_info) {
+                                console.log("hash record to add to queue: " + JSON.stringify(hashRecord, null, 2))
+                                let releaseRecordAlreadyInQueue = await mm.getQuickSqlOneRow(
                                     thisDb,
-                                    "insert into level_8_download_content_queue  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
-                                    [hashRecord.json_ipfs_hash, hashRecord.local_time_ms, "QUEUED", mm.msToTime(hashRecord.local_time_ms)]
-                                )
-                            } else {
-                                //debugger
-                            }
-                            let recordAlreadyInQueue = await mm.getQuickSqlOneRow(
-                                thisDb,
-                                "select  ipfs_hash  from  level_8_download_content_queue  where  ipfs_hash = ?",
-                                [hashRecord.ipfs_hash])
-                            if (recordAlreadyInQueue == null) {
-                                await mm.executeQuickSql(
+                                    "select  ipfs_hash  from  level_8_download_content_queue  where  ipfs_hash = ?",
+                                    [hashRecord.json_ipfs_hash])
+                                if (releaseRecordAlreadyInQueue == null) {
+                                    await mm.executeQuickSql(
+                                        thisDb,
+                                        "insert into level_8_download_content_queue  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
+                                        [hashRecord.json_ipfs_hash, hashRecord.local_time_ms, "QUEUED", mm.msToTime(hashRecord.local_time_ms)]
+                                    )
+                                } else {
+                                    //debugger
+                                }
+                                let recordAlreadyInQueue = await mm.getQuickSqlOneRow(
                                     thisDb,
-                                    "insert into level_8_download_content_queue  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
-                                    [hashRecord.ipfs_hash, hashRecord.local_time_ms, "QUEUED", mm.msToTime(hashRecord.local_time_ms)]
-                                )
-                            } else {
-                                //debugger
+                                    "select  ipfs_hash  from  level_8_download_content_queue  where  ipfs_hash = ?",
+                                    [hashRecord.ipfs_hash])
+                                if (recordAlreadyInQueue == null) {
+                                    await mm.executeQuickSql(
+                                        thisDb,
+                                        "insert into level_8_download_content_queue  (  ipfs_hash   ,   master_time_millis  , status  ,  debug_master_time_millis ) values ( ? , ? , ? , ?)",
+                                        [hashRecord.ipfs_hash, hashRecord.local_time_ms, "QUEUED", mm.msToTime(hashRecord.local_time_ms)]
+                                    )
+                                } else {
+                                    //debugger
+                                }
                             }
                         }
                     }
                 }
+            } catch (err) {
+                console.log(err)
             }
-        } catch (err) {
-            console.log(err)
         }
-
 
 
         // --------------------------------------------------------------------
         // for outstanding queue items read them from the server
         // --------------------------------------------------------------------
-        try {
-            if (mm.peerAvailable && ipfsDownloadQueueSize && (ipfsDownloadQueueSize.queue_count != 0)) {
-                let nextIpfsQueueRecord = await mm.getQuickSqlOneRow(
-                    thisDb,
-                    "select ipfs_hash, master_time_millis from level_8_download_content_queue where status = ? order by master_time_millis asc limit 1",
-                    ["QUEUED"])
-                if (nextIpfsQueueRecord) {
-                    let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
+        if (mm.syncToMaster) {
+            try {
+                if (mm.peerAvailable && ipfsDownloadQueueSize && (ipfsDownloadQueueSize.queue_count != 0)) {
+                    let nextIpfsQueueRecord = await mm.getQuickSqlOneRow(
+                        thisDb,
+                        "select ipfs_hash, master_time_millis from level_8_download_content_queue where status = ? order by master_time_millis asc limit 1",
+                        ["QUEUED"])
+                    if (nextIpfsQueueRecord) {
+                        let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
 
-                    if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
-                        let createdTimeMillis = mm.helpers.getValueOfCodeString(ipfsContent.value.content,"created_timestamp")
-                        if (createdTimeMillis == null) {
-                            createdTimeMillis = new Date().getTime()
+                        if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
+                            let createdTimeMillis = mm.helpers.getValueOfCodeString(ipfsContent.value.content, "created_timestamp")
+                            if (createdTimeMillis == null) {
+                                createdTimeMillis = new Date().getTime()
+                            } else {
+                                createdTimeMillis = parseInt(createdTimeMillis)
+                            }
+
+                            let formatType = mm.helpers.getValueOfCodeString(ipfsContent.value.content, "format")
+
+                            mm.setDistributedContent(thisDb, ipfsContent.value.content)
+
+                            await mm.saveContentToDatabase({
+                                db: thisDb,
+                                content: ipfsContent.value.content,
+                                masterTimeMillis: nextIpfsQueueRecord.master_time_millis
+                            })
+
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "update  level_8_download_content_queue  set status = ? , debug_content = ? where ipfs_hash = ?",
+                                ["DONE", ipfsContent.value.content, nextIpfsQueueRecord.ipfs_hash]
+                            )
                         } else {
-                            createdTimeMillis = parseInt(createdTimeMillis)
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "update  level_8_download_content_queue  set status = ? where ipfs_hash = ?",
+                                ["ERROR", nextIpfsQueueRecord.ipfs_hash]
+                            )
                         }
-
-                        let formatType = mm.helpers.getValueOfCodeString(ipfsContent.value.content, "format")
-
-                        mm.setDistributedContent(thisDb,ipfsContent.value.content)
-
-                        await mm.saveContentToDatabase( {db: thisDb , content: ipfsContent.value.content ,    masterTimeMillis:  nextIpfsQueueRecord.master_time_millis  })
-
-                        await mm.executeQuickSql(
-                            thisDb,
-                            "update  level_8_download_content_queue  set status = ? , debug_content = ? where ipfs_hash = ?",
-                            ["DONE", ipfsContent.value.content, nextIpfsQueueRecord.ipfs_hash]
-                        )
-                    } else {
-                        await mm.executeQuickSql(
-                            thisDb,
-                            "update  level_8_download_content_queue  set status = ? where ipfs_hash = ?",
-                            ["ERROR", nextIpfsQueueRecord.ipfs_hash]
-                        )
                     }
                 }
+            } catch (error) {
+                console.log(error)
             }
-        } catch (error) {
-            console.log(error)
         }
         mm.synchonizeContentAmongPeersLock = false
     },

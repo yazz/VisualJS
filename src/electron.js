@@ -333,6 +333,7 @@ if (process.argv.length > 1) {
       .option('-q,          --port                      [port]',                    'Which port should I listen on? (default 80)                                        [port]',                    parseInt)
       .option('-r,          --https                     [https]',                   'Run using a HTTPS (default is none)                                                [https]',                   'none')
       .option('-s,          --hostport                  [hostport]',                'Server port of the host (default -1)                                               [hostport]',                -1)
+      .option('-sm,         --synctomaster              [synctomaster]',            'Allow server to be synced to the master server (default true)                      [synctomaster]',            'true')
       .option('-cp,         --centralhostport           [centralhostport]',         'Server port of the central host (default -1)                                       [centralhostport]',         -1)
       .option('-cs,         --centralhosthttps          [centralhosthttps]',        'Central host uses HTTPS? (default none)                                            [centralhosthttps]',        'true')
       .option('-ocp,        --ocentralhostport          [ocentralhostport]',        'Dummy - do not use - Server port of the central host (default -1)                  [ocentralhostport]',        -1)
@@ -354,6 +355,7 @@ if (process.argv.length > 1) {
     program.centralhostport     = ''
     yz.centralhostport          = program.centralhostport
     program.locked              = 'true'
+    program.synctomaster        = 'true'
     program.debug               = 'false'
     program.debugui             = 'false'
     program.deleteonexit        = 'true'
@@ -539,6 +541,8 @@ outputDebug("deleteOnExit: " + deleteOnExit)
 let deleteOnStartup = (program.deleteonstartup == 'true');
 outputDebug("deleteOnStartup: " + deleteOnStartup)
 locked = (program.locked == 'true');
+let syncToMaster = (program.synctomaster == 'true')
+yz.syncToMaster = syncToMaster
 hideimportbuttons = (program.hideimportbuttons == 'true');
 envVars.HIDEIMPORTBUTTONS = hideimportbuttons
 if (useSelfSignedHttps) {
