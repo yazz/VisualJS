@@ -744,7 +744,7 @@ module.exports = {
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_download_content_queue',1);",
 
             "DROP TABLE IF EXISTS       level_8_upload_content_queue;",
-            "CREATE TABLE IF NOT EXISTS level_8_upload_content_queue    (ipfs_hash TEXT, send_status TEXT, server TEXT, attempts INTEGER, created_timestamp TEXT, last_attempted_send TEXT, UNIQUE(ipfs_hash));",
+            "CREATE TABLE IF NOT EXISTS level_8_upload_content_queue    (ipfs_hash TEXT, send_status TEXT, server TEXT, attempts INTEGER, created_timestamp TEXT, last_attempted_send TEXT, debug_content TEXT, UNIQUE(ipfs_hash));",
             "INSERT OR REPLACE INTO     table_versions                  (table_name  ,  version_number) VALUES ('level_8_upload_content_queue',1);"
         ])
         await async.map(
@@ -2502,10 +2502,11 @@ module.exports = {
                                 `update  
                                     level_8_upload_content_queue 
                                 set  
-                                    send_status='SENDING'
+                                    send_status='SENDING',
+                                    debug_content=?
                                  where
                                     ipfs_hash =?`,
-                                [ nextItemToSendInQueue.ipfs_hash  ])
+                                [ nextContent.value, nextItemToSendInQueue.ipfs_hash  ])
                             await mm.distributeContentToPeer(thisDb, nextItemToSendInQueue.ipfs_hash, nextContent.value)
 
                             await this.executeQuickSql(thisDb,
