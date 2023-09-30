@@ -4523,6 +4523,7 @@ async function  startServices                           (  ) {
         let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
         await yz.tagVersion(dbsearch, ipfsHash, code)
         let releaseId = await yz.releaseCode( dbsearch, ipfsHash, {save_to_network: true})
+        await yz.storeRecordAsIPFSContent({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "GLOBAL"})
 
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
