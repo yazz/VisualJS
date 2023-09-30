@@ -1600,7 +1600,75 @@ module.exports = {
         }
         return dataString
     },
-    processContent() {
+    processContent:                 async function  (  {  thisDb  ,  ipfsHash  ,  content  }  ) {
+        //
+        //
+        //
+        try {
+            let  returnValue = content
+            if (returnValue) {
+                returnValue = returnValue.toString('utf8')
+                let baseComponentId = yz.helpers.getValueOfCodeString(returnValue, "base_component_id")
+                let componentType = yz.helpers.getValueOfCodeString(returnValue, "component_type")
+
+                let makePublic  = false
+                let saveHtml    = false
+                if ( componentType == "APP") {
+                    makePublic  = true
+                    saveHtml    = true
+                }
+                if (componentType == "COMPONENT_COMMENT") {
+                    let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
+                    if (formatType == "JSON") {
+                        let jsonComment = JSON.parse(returnValue)
+                        await mm.insertCommentIntoDb(
+                            thisDb
+                            ,
+                            {
+                                codeId:                 jsonComment.component_ipfs_hash,
+                                baseComponentId:        jsonComment.base_component_id,
+                                baseComponentIdVersion: jsonComment.base_component_id_version,
+                                newComment:             jsonComment.comment,
+                                newRating:              jsonComment.rating,
+                                dateAndTime:            jsonComment.date_and_time
+                            }
+                        )
+                    }
+
+
+
+
+
+                } else if (componentType == "COMPONENT_RELEASE") {
+                    let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
+                    if (formatType == "JSON") {
+                        let jsonRelease = JSON.parse(returnValue)
+                        if (jsonRelease.component_ipfs_hash) {
+                            let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
+                        }
+                    }
+
+                } else {
+                    await mm.addOrUpdateDriver(
+                        thisDb
+                        ,
+                        returnValue
+                        ,
+                        {
+                            username:       "default",
+                            reponame:       baseComponentId,
+                            version:        "latest",
+                            ipfsHashId:     ipfsHash,
+                            allowChanges:   false,
+                            make_public:    makePublic,
+                            save_html:      saveHtml
+                        })
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }
+
     },
     storeRecordAsIPFSContent:       async function  (  {  db  ,  type ,  id  ,  releaseId  ,  scope  }  ) {
         let mm = this
@@ -1858,75 +1926,6 @@ module.exports = {
 
             }
 
-
-
-
-            //
-            //
-            //
-            if (returnValue) {
-                returnValue = returnValue.toString('utf8')
-                let baseComponentId = yz.helpers.getValueOfCodeString(returnValue, "base_component_id")
-                let componentType = yz.helpers.getValueOfCodeString(returnValue, "component_type")
-
-                let makePublic  = false
-                let saveHtml    = false
-                if ( componentType == "APP") {
-                    makePublic  = true
-                    saveHtml    = true
-                }
-                if (componentType == "COMPONENT_COMMENT") {
-                    let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
-                    if (formatType == "JSON") {
-                        let jsonComment = JSON.parse(returnValue)
-                        await mm.insertCommentIntoDb(
-                            thisDb
-                            ,
-                            {
-                                codeId:                 jsonComment.component_ipfs_hash,
-                                baseComponentId:        jsonComment.base_component_id,
-                                baseComponentIdVersion: jsonComment.base_component_id_version,
-                                newComment:             jsonComment.comment,
-                                newRating:              jsonComment.rating,
-                                dateAndTime:            jsonComment.date_and_time
-                            }
-                        )
-
-                    }
-
-
-
-
-
-                } else if (componentType == "COMPONENT_RELEASE") {
-                    let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
-                    if (formatType == "JSON") {
-                        let jsonRelease = JSON.parse(returnValue)
-                        if (jsonRelease.component_ipfs_hash) {
-                            let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
-                        }
-                    }
-
-                } else {
-                    await mm.addOrUpdateDriver(
-                        thisDb
-                        ,
-                        returnValue
-                        ,
-                        {
-                            username:       "default",
-                            reponame:       baseComponentId,
-                            version:        "latest",
-                            ipfsHashId:     ipfsHash,
-                            allowChanges:   false,
-                            make_public:    makePublic,
-                            save_html:      saveHtml
-                        })
-                }
-            }
-
-
-
         } catch( err) {
             debugger
         }
@@ -2096,7 +2095,8 @@ module.exports = {
                                 let formatType = yz.helpers.getValueOfCodeString(ipfsContent, "format")
                                 if (formatType == "JSON") {
                                     let jsonComment = JSON.parse(ipfsContent)
-                                    await mm.getDistributedContent({thisDb: thisDb, ipfsHash: ipfsHashFileName})
+                                    let gc = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: ipfsHashFileName})
+                                    await mm.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
                                     await mm.insertCommentIntoDb(
                                         thisDb
                                         ,
@@ -2118,14 +2118,15 @@ module.exports = {
                                 let formatType = yz.helpers.getValueOfCodeString(ipfsContent, "format")
                                 if (formatType == "JSON") {
                                     let jsonRelease = JSON.parse(ipfsContent)
-                                    await mm.getDistributedContent({thisDb: thisDb, ipfsHash: ipfsHashFileName})
-
+                                    let gc = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: ipfsHashFileName})
+                                    await mm.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
                                 }
 
 
 
                             } else if (itemType == "APP") {
-                                await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
+                                let gc = await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
+                                await mm.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
                             } else {
                                 //debugger
                                 // Why don't we load all the controls as well? Well, if we do then we would end up loading
@@ -2361,7 +2362,7 @@ module.exports = {
             if (formatType == "JSON") {
                 let jsonRelease = JSON.parse(content)
                 if (jsonRelease.component_ipfs_hash) {
-                    let releaseId =mm.releaseCode(db, jsonRelease.component_ipfs_hash)
+                    let releaseId = mm.releaseCode(db, jsonRelease.component_ipfs_hash)
                 }
             }
 
@@ -2525,6 +2526,8 @@ module.exports = {
                                 thisDb: thisDb,
                                 ipfsHash: nextItemToSendInQueue.ipfs_hash
                             })
+                            await mm.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: nextContent.value})
+
                             if (await mm.getIpfsHash(nextContent.value) == nextItemToSendInQueue.ipfs_hash) {
                                 await this.executeQuickSql(thisDb,
                                     `update  

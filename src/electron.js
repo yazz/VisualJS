@@ -4570,7 +4570,9 @@ async function  startServices                           (  ) {
                 // if the component has not been loaded then try to load it from the cache
                 //----------------------------------------------------------------------------
                 if (!resultsRow) {
-                    await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
+                    let gc = await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
+                    await yz.processContent( {thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
+
                     resultsRow = await yz.getQuickSqlOneRow(
                         dbsearch
                         ,
@@ -4741,6 +4743,8 @@ async function  startServices                           (  ) {
         console.log("/http_get_ipfs_content")
 
         let nextContent = await yz.getDistributedContent(  {  thisDb: dbsearch  ,  ipfsHash:  ipfsHash }  )
+        await yz.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: nextContent.value})
+
         console.log("               ipfsHash: " + ipfsHash)
         let content = null
         let error = null
