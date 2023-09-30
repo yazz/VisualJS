@@ -1601,58 +1601,58 @@ module.exports = {
         return dataString
     },
     processContent() {
-
-        setTimeout(async function() {
+    },
+    storeRecordAsIPFSContent:       async function  (  {  db  ,  type ,  id  ,  releaseId  ,  scope  }  ) {
+        let mm = this
+        if (type == "RELEASE") {
             let newDateAndTime = new Date().getTime()
-            let optionsDist = {distributeToPeer: false}
-            if (options && options.save_to_network) {
-                optionsDist.distributeToPeer = true
+            let optionsDist = {distributeToPeer: true}
+            if (scope == "LOCAL") {
+                optionsDist.distributeToPeer = false
             }
             optionsDist.processingStatus = "PROCESSED"
+            let releaseRecord = await mm.getQuickSqlOneRow(db,"select * from level_2_released_components where id = ?",
+                [id])
             let retDist = await mm.setDistributedContent(
-                thisDb
+                db
                 ,
                 {
-                    component_ipfs_hash:        commitId,
+                    component_ipfs_hash:        releaseRecord.ipfs_hash,
                     type:                       "COMPONENT_RELEASE",
                     format:                     "JSON'",
                     type_:                      "component_type('COMPONENT_RELEASE')",
                     format_:                    "format('JSON')",
                     date_and_time:              newDateAndTime,
-                    base_component_id:          base_component_id
-                    //base_component_id_version:  baseComponentIdVersion,
-                    //comment:                    newComment,
-                    //rating:                     newRating
+                    base_component_id:          releaseRecord.base_component_id
                 },
                 optionsDist
             )
             let retHash = retDist.value
             await mm.executeQuickSql(
-                thisDb,
+                db,
                 `insert into 
-                    level_2_content_db_mapping 
-                    (  
-                        ipfs_hash  ,  db_table_type  ,  table_key  
-                    ) 
-                values  
-                    ( ? , ? , ? ) `
+                level_2_content_db_mapping 
+                (  
+                    ipfs_hash  ,  db_table_type  ,  table_key  
+                ) 
+            values  
+                ( ? , ? , ? ) `
                 ,
                 [  retHash  ,  "RELEASE"  ,  id  ]
             )
             await mm.executeQuickSql(
-                thisDb,
+                db,
                 `update 
-                    level_2_released_components 
-                set 
-                    json_ipfs_hash = ? 
-                where
-                    id = ? 
-                `
+                level_2_released_components 
+            set 
+                json_ipfs_hash = ? 
+            where
+                id = ? 
+            `
                 ,
                 [  retHash  ,  id  ]
             )
-
-        },500)
+        }
     },
     releaseCode:                    async function  (  thisDb  ,  commitId  ,  options  ) {
         /*
