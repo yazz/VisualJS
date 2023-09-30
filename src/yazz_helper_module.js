@@ -2437,7 +2437,12 @@ module.exports = {
         //                           ---------------------------------
         //
         // In this method we try to make sure that all the content is synchronized
-        // locally, to peer Yazz servers, and to IPFS
+        // locally, to peer Yazz servers, and to IPFS. This has the following steps:
+        //
+        // - Queue content to be sent to the master server
+        // - Send queued content to the master server
+        // - See if there are any newly released components to be downloaded
+        // - Download the next item in the download queue
         //
         //---------------------------------------------------------------------------
         let mm = this
@@ -2504,7 +2509,7 @@ module.exports = {
 
 
         // --------------------------------------------------------------------
-        // send any queued content items (code, comments, releases) to
+        // Send any queued content items (code, comments, releases) to
         // the master server
         // --------------------------------------------------------------------
         if (mm.syncToMaster) {
@@ -2557,10 +2562,8 @@ module.exports = {
 
 
         // --------------------------------------------------------------------
-        // See if there are any released components that need to be read
-        // from the master server then read them and request for the release
-        // records and code records to be downloaded (by putting them in the
-        // "level_8_download_content_queue" queue)
+        // See if there are any newly released components to be downloaded,
+        // and if so add them to the download queue
         // --------------------------------------------------------------------
         if (mm.syncToMaster) {
             try {
@@ -2615,7 +2618,7 @@ module.exports = {
 
 
         // --------------------------------------------------------------------
-        // for outstanding queue items read them from the server
+        // Process the next item in the download queue
         // --------------------------------------------------------------------
         if (mm.syncToMaster) {
             try {
