@@ -2675,9 +2675,9 @@ module.exports = {
 
         // get the initial list of hashes
         if (  (typeof timestampMillis == 'undefined')  ||  (timestampMillis == null)  ) {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  and received_from_server_id != ? order by local_time_ms asc  limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  and (received_from_server_id != ? or received_from_server_id is null) order by local_time_ms asc  limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and received_from_server_id != ? and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ,  timestampMillis  ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and (received_from_server_id != ? or received_from_server_id is null) and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ,  timestampMillis  ])
         }
 
 
@@ -2689,24 +2689,24 @@ module.exports = {
 
         // if the hash with the highest timestamp has more hashes at the same timestamp then add those too
         let lastHashTimestampRecord = listOfHashes[ listOfHashes.length - 1 ]
-        let lastHashTimestamp = lastHashTimestampRecord.local_time_millis
+        let lastHashTimestamp = lastHashTimestampRecord.local_time_ms
 
         let countReturnedHashesWithTimestamp = 0
         for ( recordHash of listOfHashes ) {
-            if (recordHash.local_time_millis == lastHashTimestamp) {
+            if (recordHash.local_time_ms == lastHashTimestamp) {
                 countReturnedHashesWithTimestamp ++
             }
         }
 
         let countOfTotalHashesWithSameTimestampRec = await mm.getQuickSqlOneRow(
             thisDb,
-            "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where   received_from_server_id != ? and component_scope = ? and local_time_ms = ?",
+            "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where   (received_from_server_id != ? or received_from_server_id is null) and component_scope = ? and local_time_ms = ?",
             [  slaveInstanceId  ,  "GLOBAL"  ,  lastHashTimestamp  ])
         let countOfTotalHashesWithSameTimestamp = countOfTotalHashesWithSameTimestampRec.tot_c
 
         if (countOfTotalHashesWithSameTimestamp > countReturnedHashesWithTimestamp) {
             let extraRecs = await mm.getQuickSql(thisDb,
-                "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where received_from_server_id != ? and component_scope=? and  local_time_ms = ?  " ,
+                "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where (received_from_server_id != ? or received_from_server_id is null) and component_scope=? and  local_time_ms = ?  " ,
                 [  slaveInstanceId  ,  "GLOBAL"  ,  lastHashTimestamp  ])
             listOfHashes = listOfHashes.concat(extraRecs)
         }
