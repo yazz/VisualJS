@@ -670,7 +670,7 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON level_2_system_code (component_type);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, component_scope TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT, local_time_ms INTEGTER, master_time_ms INTEGER, recieved_from_server_id TEXT);",
+                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, component_scope TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT, local_time_ms INTEGTER, master_time_ms INTEGER, received_from_server_id TEXT);",
                     "CREATE INDEX IF NOT EXISTS released_components_idx             ON level_2_released_components (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_released_components',1);",
 
@@ -2668,16 +2668,16 @@ module.exports = {
         }
         mm.synchonizeContentAmongPeersLock = false
     },
-    getReleasedHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ,  slaveServerId) {
+    getReleasedHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ,  slaveInstanceId) {
         // this is always called from a a slave server
         let mm = this
         let listOfHashes = null
 
         // get the initial list of hashes
         if (  (typeof timestampMillis == 'undefined')  ||  (timestampMillis == null)  ) {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  and recieved_from_server_id != ? order by local_time_ms asc  limit 10" , [  "GLOBAL" , slaveServerId])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  and received_from_server_id != ? order by local_time_ms asc  limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and recieved_from_server_id != ? and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL",slaveServerId,timestampMillis ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and received_from_server_id != ? and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ,  timestampMillis  ])
         }
 
 
@@ -2700,14 +2700,14 @@ module.exports = {
 
         let countOfTotalHashesWithSameTimestampRec = await mm.getQuickSqlOneRow(
             thisDb,
-            "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where   recieved_from_server_id != ? and component_scope = ? and local_time_ms = ?",
-            [  slaveServerId, "GLOBAL", lastHashTimestamp  ])
+            "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where   received_from_server_id != ? and component_scope = ? and local_time_ms = ?",
+            [  slaveInstanceId  ,  "GLOBAL"  ,  lastHashTimestamp  ])
         let countOfTotalHashesWithSameTimestamp = countOfTotalHashesWithSameTimestampRec.tot_c
 
         if (countOfTotalHashesWithSameTimestamp > countReturnedHashesWithTimestamp) {
             let extraRecs = await mm.getQuickSql(thisDb,
-                "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where recieved_from_server_id != ? and component_scope=? and  local_time_ms = ?  " ,
-                [ slaveServerId, "GLOBAL", lastHashTimestamp ])
+                "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where received_from_server_id != ? and component_scope=? and  local_time_ms = ?  " ,
+                [  slaveInstanceId  ,  "GLOBAL"  ,  lastHashTimestamp  ])
             listOfHashes = listOfHashes.concat(extraRecs)
         }
         return { count_hashes: listOfHashes.length , release_info: listOfHashes}

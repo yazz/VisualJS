@@ -4020,7 +4020,7 @@ async function  startServices                           (  ) {
         console.log('/http_get_hashes_for_released_components')
         console.log('    Slave Server ID: ' + slaveInstanceId)
 
-        let listOfHashes = await yz.getReleasedHashesAfterTimestamp( dbsearch  ,  maxMasterMillis )
+        let listOfHashes = await yz.getReleasedHashesAfterTimestamp( dbsearch  ,  maxMasterMillis ,  slaveInstanceId)
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
             {value: listOfHashes}
