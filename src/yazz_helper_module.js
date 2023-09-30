@@ -1903,7 +1903,7 @@ module.exports = {
                     if (formatType == "JSON") {
                         let jsonRelease = JSON.parse(returnValue)
                         if (jsonRelease.component_ipfs_hash) {
-                            mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
+                            let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
                         }
                     }
 
@@ -2361,7 +2361,7 @@ module.exports = {
             if (formatType == "JSON") {
                 let jsonRelease = JSON.parse(content)
                 if (jsonRelease.component_ipfs_hash) {
-                    mm.releaseCode(db, jsonRelease.component_ipfs_hash)
+                    let releaseId =mm.releaseCode(db, jsonRelease.component_ipfs_hash)
                 }
             }
 
