@@ -1600,6 +1600,60 @@ module.exports = {
         }
         return dataString
     },
+    processContent() {
+
+        setTimeout(async function() {
+            let newDateAndTime = new Date().getTime()
+            let optionsDist = {distributeToPeer: false}
+            if (options && options.save_to_network) {
+                optionsDist.distributeToPeer = true
+            }
+            optionsDist.processingStatus = "PROCESSED"
+            let retDist = await mm.setDistributedContent(
+                thisDb
+                ,
+                {
+                    component_ipfs_hash:        commitId,
+                    type:                       "COMPONENT_RELEASE",
+                    format:                     "JSON'",
+                    type_:                      "component_type('COMPONENT_RELEASE')",
+                    format_:                    "format('JSON')",
+                    date_and_time:              newDateAndTime,
+                    base_component_id:          base_component_id
+                    //base_component_id_version:  baseComponentIdVersion,
+                    //comment:                    newComment,
+                    //rating:                     newRating
+                },
+                optionsDist
+            )
+            let retHash = retDist.value
+            await mm.executeQuickSql(
+                thisDb,
+                `insert into 
+                    level_2_content_db_mapping 
+                    (  
+                        ipfs_hash  ,  db_table_type  ,  table_key  
+                    ) 
+                values  
+                    ( ? , ? , ? ) `
+                ,
+                [  retHash  ,  "RELEASE"  ,  id  ]
+            )
+            await mm.executeQuickSql(
+                thisDb,
+                `update 
+                    level_2_released_components 
+                set 
+                    json_ipfs_hash = ? 
+                where
+                    id = ? 
+                `
+                ,
+                [  retHash  ,  id  ]
+            )
+
+        },500)
+    },
     releaseCode:                    async function  (  thisDb  ,  commitId  ,  options  ) {
         /*
         ________________________________________
@@ -1684,59 +1738,7 @@ module.exports = {
         )
 
 
-        setTimeout(async function() {
-            let newDateAndTime = new Date().getTime()
-            let optionsDist = {distributeToPeer: false}
-            if (options && options.save_to_network) {
-                optionsDist.distributeToPeer = true
-            }
-            optionsDist.processingStatus = "PROCESSED"
-            let retDist = await mm.setDistributedContent(
-                thisDb
-                ,
-                {
-                    component_ipfs_hash:        commitId,
-                    type:                       "COMPONENT_RELEASE",
-                    format:                     "JSON'",
-                    type_:                      "component_type('COMPONENT_RELEASE')",
-                    format_:                    "format('JSON')",
-                    date_and_time:              newDateAndTime,
-                    base_component_id:          base_component_id
-                    //base_component_id_version:  baseComponentIdVersion,
-                    //comment:                    newComment,
-                    //rating:                     newRating
-                },
-                optionsDist
-            )
-            let retHash = retDist.value
-            await mm.executeQuickSql(
-                thisDb,
-                `insert into 
-                    level_2_content_db_mapping 
-                    (  
-                        ipfs_hash  ,  db_table_type  ,  table_key  
-                    ) 
-                values  
-                    ( ? , ? , ? ) `
-                ,
-                [  retHash  ,  "RELEASE"  ,  id  ]
-            )
-            await mm.executeQuickSql(
-                thisDb,
-                `update 
-                    level_2_released_components 
-                set 
-                    json_ipfs_hash = ? 
-                where
-                    id = ? 
-                `
-                ,
-                [  retHash  ,  id  ]
-            )
-            
-        },500)
-
-        return {}
+        return {error: null, value: {id: id}}
     },
 
 
