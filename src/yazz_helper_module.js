@@ -16,7 +16,6 @@ let fs                                          = require('fs');
 let stmtInsertAppDDLRevision;
 let stmtUpdateLatestAppDDLRevision;
 let copyMigration;
-let stmtInsertReleasedComponentListItem;
 //backtick = `
 
 
@@ -148,15 +147,6 @@ module.exports = {
             select ?,  latest_revision from level_4_app_db_latest_ddl_revisions
              where base_component_id=?`
         );
-
-        stmtInsertReleasedComponentListItem = thisDb.prepare(`insert or ignore
-                                                    into
-                                               level_2_released_components
-                                                    (   id  ,  base_component_id  ,  component_name  ,  component_type, 
-                                                        component_scope,
-                                                        component_description  ,  
-                                                        ipfs_hash , version,read_write_status, code, logo_url , local_time_ms, master_time_ms)
-                                               values (?,?,?,?,?,?,?,?,?,?,?,?,?)`)
 
     },
 
@@ -1652,42 +1642,46 @@ module.exports = {
         }
 
 
-        let promise = new Promise(async function(returnfn) {
+        let componentListRecord = await mm.getQuickSqlOneRow(
+            thisDb,
+            "select * from level_2_released_components where base_component_id = ?",
+            [base_component_id])
 
-            let componentListRecord = await mm.getQuickSqlOneRow(
+        if (componentListRecord) {
+            await mm.executeQuickSql(
                 thisDb,
-                "select * from level_2_released_components where base_component_id = ?",
+                `delete from
+                level_2_released_components 
+            where
+               base_component_id  = ?`,
                 [base_component_id])
+        }
 
-            if (componentListRecord) {
-                await mm.executeQuickSql(
-                    thisDb,
-                    `delete from
-                    level_2_released_components 
-                where
-                   base_component_id  = ?`,
-                    [   base_component_id   ])
-            }
-
-            thisDb.serialize(function () {
-                thisDb.run("begin exclusive transaction");
-                thisDb.run("commit", function () {
-                    thisDb.serialize(function () {
-                        thisDb.run("begin exclusive transaction");
-                        stmtInsertReleasedComponentListItem.run(
-                            id, base_component_id, app_name, component_type,
-                            componentScope,
-                            app_description, ipfs_hash, '',
-                            readWriteStatus, codeString, logoUrl, createdTime, masterTime)
-                        thisDb.run("commit", async function() {
-                            returnfn()
-                        })
-                    })
-                })
-            })
-        })
-        let ret2 = await promise
-
+        await mm.executeQuickSql(thisDb,
+            `insert or ignore
+                into
+           level_2_released_components
+                (   id  ,  base_component_id  ,  component_name  ,  component_type, 
+                    component_scope,
+                    component_description  ,  
+                    ipfs_hash , version,read_write_status, code, logo_url , local_time_ms, master_time_ms)
+           values (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+            [
+                id,
+                base_component_id,
+                app_name,
+                component_type,
+                componentScope,
+                app_description,
+                ipfs_hash,
+                '',
+                readWriteStatus,
+                codeString,
+                logoUrl,
+                createdTime,
+                masterTime
+            ]
+        )
 
 
         setTimeout(async function() {
@@ -1742,7 +1736,7 @@ module.exports = {
             
         },500)
 
-        return ret2
+        return {}
     },
 
 
