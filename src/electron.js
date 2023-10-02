@@ -1666,9 +1666,10 @@ async function  setUpComponentsLocally                  (  ) {
 
     let todoRet = await evalHtmlComponentFromPath( '/apps/todo.js')
     let demoTimerRet = await evalHtmlComponentFromPath( '/apps/demo_timer.js')
+
     let releaseId = await yz.releaseCode( dbsearch, todoRet.codeId , {localOnly: true})
     await yz.storeRecordAsIPFSContent({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
-    //await yz.saveContentAsLevel2Data()
+
     releaseId = await yz.releaseCode( dbsearch,  demoTimerRet.codeId , {localOnly: true})
     await yz.storeRecordAsIPFSContent({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
 
