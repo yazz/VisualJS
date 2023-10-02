@@ -1736,7 +1736,7 @@ module.exports = {
                         if (formatType == "JSON") {
                             let jsonRelease = JSON.parse(returnValue)
                             if (jsonRelease.component_ipfs_hash) {
-                                let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
+                                let releaseId = await mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
                                 //zzz
                                 await mm.executeQuickSql(
                                     thisDb,
@@ -1748,7 +1748,7 @@ module.exports = {
                                 values  
                                     ( ? , ? , ? ) `
                                     ,
-                                    [  ipfsHash  ,  "RELEASE"  ,  releaseId  ]
+                                    [  ipfsHash  ,  "RELEASE"  ,  releaseId.value.id  ]
                                 )
                                 await mm.executeQuickSql(
                                     thisDb,
@@ -1760,7 +1760,7 @@ module.exports = {
                                     id = ? 
                                 `
                                     ,
-                                    [  ipfsHash  ,  releaseId  ]
+                                    [  ipfsHash  ,  releaseId.value.id  ]
                                 )
                             }
                         }
