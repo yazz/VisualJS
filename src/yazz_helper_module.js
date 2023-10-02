@@ -2327,6 +2327,7 @@ module.exports = {
                         thisDb,
                         "select  ipfs_hash  from  level_8_upload_content_queue  where  ipfs_hash = ?",
                         [nextUnsentRecord.ipfs_hash])
+
                     if (!alreadyInSendQueue) {
                         let dtime = mm.getDebugTimestampText()
                         await mm.executeQuickSql(thisDb,
@@ -2374,7 +2375,6 @@ module.exports = {
                                 thisDb: thisDb,
                                 ipfsHash: nextItemToSendInQueue.ipfs_hash
                             })
-                            await mm.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: nextContent.value})
 
                             if (await mm.getIpfsHash(nextContent.value) == nextItemToSendInQueue.ipfs_hash) {
                                 await this.executeQuickSql(thisDb,
