@@ -1737,7 +1737,7 @@ module.exports = {
                             let jsonRelease = JSON.parse(returnValue)
                             if (jsonRelease.component_ipfs_hash) {
                                 let releaseId = await mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
-                                //zzz
+
                                 await mm.executeQuickSql(
                                     thisDb,
                                     `insert into 
@@ -2519,41 +2519,38 @@ module.exports = {
                         "select ipfs_hash, master_time_millis from level_8_download_content_queue where status = ? order by master_time_millis asc limit 1",
                         ["QUEUED"])
                     if (nextIpfsQueueRecord) {
-                        let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
-
-                        if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
-                            let createdTimeMillis = mm.helpers.getValueOfCodeString(ipfsContent.value.content, "created_timestamp")
-                            if (createdTimeMillis == null) {
-                                createdTimeMillis = new Date().getTime()
-                            } else {
-                                createdTimeMillis = parseInt(createdTimeMillis)
-                            }
-
-                            let formatType = mm.helpers.getValueOfCodeString(ipfsContent.value.content, "format")
-
-                            mm.setDistributedContent(thisDb, ipfsContent.value.content)
-
-                            await mm.createLevel2RecordFromContent({
-                                thisDb:     thisDb,
-                                ipfsHash:   nextIpfsQueueRecord.ipfs_hash
-                            })
-
-                            await mm.executeQuickSql(
-                                thisDb,
-                                "update  level_8_download_content_queue  set status = ? , debug_content = ? where ipfs_hash = ?",
-                                ["DONE", ipfsContent.value.content, nextIpfsQueueRecord.ipfs_hash]
-                            )
+                        let contentAlreadyExists = mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[nextIpfsQueueRecord.ipfs_hash])
+                        let debugContent = null
+                        //zzz
+                        if (contentAlreadyExists) {
+                            debugContent = contentAlreadyExists.ipfs_content
                         } else {
-                            await mm.executeQuickSql(
-                                thisDb,
-                                "update  level_8_download_content_queue  set status = ? where ipfs_hash = ?",
-                                ["ERROR", nextIpfsQueueRecord.ipfs_hash]
-                            )
+                            let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
+
+                            if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
+                                mm.setDistributedContent(thisDb, ipfsContent.value.content)
+
+                                await mm.createLevel2RecordFromContent({
+                                    thisDb:     thisDb,
+                                    ipfsHash:   nextIpfsQueueRecord.ipfs_hash
+                                })
+                            }
+                            debugContent = ipfsContent.value.content
                         }
+                        await mm.executeQuickSql(
+                            thisDb,
+                            "update  level_8_download_content_queue  set status = ? , debug_content = ? where ipfs_hash = ?",
+                            ["DONE", debugContent , nextIpfsQueueRecord.ipfs_hash]
+                        )
                     }
                 }
             } catch (error) {
                 console.log(error)
+                await mm.executeQuickSql(
+                    thisDb,
+                    "update  level_8_download_content_queue  set status = ? where ipfs_hash = ?",
+                    ["ERROR", nextIpfsQueueRecord.ipfs_hash]
+                )
             }
         }
         mm.synchonizeContentAmongPeersLock = false
