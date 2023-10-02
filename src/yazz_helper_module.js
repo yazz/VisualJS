@@ -1599,139 +1599,6 @@ module.exports = {
         }
         return dataString
     },
-    saveContentAsLevel2Data:                 async function  (  {  thisDb  ,  ipfsHash  }  ) {
-        let mm = this
-        //
-        //
-        //
-        try {
-            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[ipfsHash])
-            if (contentRecord) {
-                let returnValue = contentRecord.ipfs_content
-                if (returnValue) {
-                    returnValue = returnValue.toString('utf8')
-                    let baseComponentId = mm.helpers.getValueOfCodeString(returnValue, "base_component_id")
-                    let componentType = mm.helpers.getValueOfCodeString(returnValue, "component_type")
-
-                    let makePublic = false
-                    let saveHtml = false
-                    if (componentType == "APP") {
-                        makePublic = true
-                        saveHtml = true
-                    }
-                    if (componentType == "COMPONENT_COMMENT") {
-                        let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
-                        if (formatType == "JSON") {
-                            let jsonComment = JSON.parse(returnValue)
-                            await mm.insertCommentIntoDb(
-                                thisDb
-                                ,
-                                {
-                                    codeId: jsonComment.component_ipfs_hash,
-                                    baseComponentId: jsonComment.base_component_id,
-                                    baseComponentIdVersion: jsonComment.base_component_id_version,
-                                    newComment: jsonComment.comment,
-                                    newRating: jsonComment.rating,
-                                    dateAndTime: jsonComment.date_and_time
-                                }
-                            )
-                        }
-
-
-                    } else if (componentType == "COMPONENT_RELEASE") {
-                        let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
-                        if (formatType == "JSON") {
-                            let jsonRelease = JSON.parse(returnValue)
-                            if (jsonRelease.component_ipfs_hash) {
-                                let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
-                            }
-                        }
-
-                    } else {
-                        await mm.addOrUpdateDriver(
-                            thisDb
-                            ,
-                            returnValue
-                            ,
-                            {
-                                username:       "default",
-                                reponame:       baseComponentId,
-                                version:        "latest",
-                                ipfsHashId:     ipfsHash,
-                                allowChanges:   false,
-                                make_public:    makePublic,
-                                save_html:      saveHtml
-                            })
-                    }
-                    await mm.executeQuickSql(thisDb,
-                        `update 
-                            level_1_ipfs_hash_metadata
-                        set 
-                            status = ?
-                        where
-                            ipfs_hash = ?
-                        `,
-                        [  "PROCESSED"  ,  ipfsHash  ]
-                        )
-                }
-            }
-        } catch (err) {
-            console.log(err)
-        }
-
-    },
-    storeRecordAsIPFSContent:       async function  (  {  db  ,  type ,  id  ,  releaseId  ,  scope  }  ) {
-        let mm = this
-        if (type == "RELEASE") {
-            let newDateAndTime = new Date().getTime()
-            let optionsDist = {distributeToPeer: true}
-            if (scope == "LOCAL") {
-                optionsDist.distributeToPeer = false
-            }
-            optionsDist.processingStatus = "PROCESSED"
-            let releaseRecord = await mm.getQuickSqlOneRow(db,"select * from level_2_released_components where id = ?",
-                [id])
-            let retDist = await mm.setDistributedContent(
-                db
-                ,
-                {
-                    component_ipfs_hash:        releaseRecord.ipfs_hash,
-                    type:                       "COMPONENT_RELEASE",
-                    format:                     "JSON'",
-                    type_:                      "component_type('COMPONENT_RELEASE')",
-                    format_:                    "format('JSON')",
-                    date_and_time:              newDateAndTime,
-                    base_component_id:          releaseRecord.base_component_id
-                },
-                optionsDist
-            )
-            let retHash = retDist.value
-            await mm.executeQuickSql(
-                db,
-                `insert into 
-                level_2_content_db_mapping 
-                (  
-                    ipfs_hash  ,  db_table_type  ,  table_key  
-                ) 
-            values  
-                ( ? , ? , ? ) `
-                ,
-                [  retHash  ,  "RELEASE"  ,  id  ]
-            )
-            await mm.executeQuickSql(
-                db,
-                `update 
-                level_2_released_components 
-            set 
-                json_ipfs_hash = ? 
-            where
-                id = ? 
-            `
-                ,
-                [  retHash  ,  id  ]
-            )
-        }
-    },
     releaseCode:                    async function  (  thisDb  ,  commitId  ,  options  ) {
         /*
         ________________________________________
@@ -1817,6 +1684,139 @@ module.exports = {
 
 
         return {error: null, value: {id: id}}
+    },
+    createContentFromLevel2Record:  async function  (  {  thisDb  ,  ipfsHash  }  ) {
+        let mm = this
+        //
+        //
+        //
+        try {
+            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[ipfsHash])
+            if (contentRecord) {
+                let returnValue = contentRecord.ipfs_content
+                if (returnValue) {
+                    returnValue = returnValue.toString('utf8')
+                    let baseComponentId = mm.helpers.getValueOfCodeString(returnValue, "base_component_id")
+                    let componentType = mm.helpers.getValueOfCodeString(returnValue, "component_type")
+
+                    let makePublic = false
+                    let saveHtml = false
+                    if (componentType == "APP") {
+                        makePublic = true
+                        saveHtml = true
+                    }
+                    if (componentType == "COMPONENT_COMMENT") {
+                        let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
+                        if (formatType == "JSON") {
+                            let jsonComment = JSON.parse(returnValue)
+                            await mm.insertCommentIntoDb(
+                                thisDb
+                                ,
+                                {
+                                    codeId: jsonComment.component_ipfs_hash,
+                                    baseComponentId: jsonComment.base_component_id,
+                                    baseComponentIdVersion: jsonComment.base_component_id_version,
+                                    newComment: jsonComment.comment,
+                                    newRating: jsonComment.rating,
+                                    dateAndTime: jsonComment.date_and_time
+                                }
+                            )
+                        }
+
+
+                    } else if (componentType == "COMPONENT_RELEASE") {
+                        let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
+                        if (formatType == "JSON") {
+                            let jsonRelease = JSON.parse(returnValue)
+                            if (jsonRelease.component_ipfs_hash) {
+                                let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
+                            }
+                        }
+
+                    } else {
+                        await mm.addOrUpdateDriver(
+                            thisDb
+                            ,
+                            returnValue
+                            ,
+                            {
+                                username:       "default",
+                                reponame:       baseComponentId,
+                                version:        "latest",
+                                ipfsHashId:     ipfsHash,
+                                allowChanges:   false,
+                                make_public:    makePublic,
+                                save_html:      saveHtml
+                            })
+                    }
+                    await mm.executeQuickSql(thisDb,
+                        `update 
+                            level_1_ipfs_hash_metadata
+                        set 
+                            status = ?
+                        where
+                            ipfs_hash = ?
+                        `,
+                        [  "PROCESSED"  ,  ipfsHash  ]
+                    )
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }
+
+    },
+    createLevel2RecordFromContent:  async function  (  {  db  ,  type ,  id  ,  releaseId  ,  scope  }  ) {
+        let mm = this
+        if (type == "RELEASE") {
+            let newDateAndTime = new Date().getTime()
+            let optionsDist = {distributeToPeer: true}
+            if (scope == "LOCAL") {
+                optionsDist.distributeToPeer = false
+            }
+            optionsDist.processingStatus = "PROCESSED"
+            let releaseRecord = await mm.getQuickSqlOneRow(db,"select * from level_2_released_components where id = ?",
+                [id])
+            let retDist = await mm.setDistributedContent(
+                db
+                ,
+                {
+                    component_ipfs_hash:        releaseRecord.ipfs_hash,
+                    type:                       "COMPONENT_RELEASE",
+                    format:                     "JSON'",
+                    type_:                      "component_type('COMPONENT_RELEASE')",
+                    format_:                    "format('JSON')",
+                    date_and_time:              newDateAndTime,
+                    base_component_id:          releaseRecord.base_component_id
+                },
+                optionsDist
+            )
+            let retHash = retDist.value
+            await mm.executeQuickSql(
+                db,
+                `insert into 
+                level_2_content_db_mapping 
+                (  
+                    ipfs_hash  ,  db_table_type  ,  table_key  
+                ) 
+            values  
+                ( ? , ? , ? ) `
+                ,
+                [  retHash  ,  "RELEASE"  ,  id  ]
+            )
+            await mm.executeQuickSql(
+                db,
+                `update 
+                level_2_released_components 
+            set 
+                json_ipfs_hash = ? 
+            where
+                id = ? 
+            `
+                ,
+                [  retHash  ,  id  ]
+            )
+        }
     },
 
 
@@ -2272,7 +2272,7 @@ module.exports = {
             if (nextUnprocessedCodeItem) {
 
                 //debugger
-                mm.saveContentAsLevel2Data({thisDb:thisDb,ipfsHash: nextUnprocessedCodeItem.ipfs_hash})
+                mm.createContentFromLevel2Record({thisDb:thisDb,ipfsHash: nextUnprocessedCodeItem.ipfs_hash})
             }
         } catch (snedE) {
             console.log("Err0r: " + snedE)
@@ -2493,7 +2493,7 @@ module.exports = {
 
                             mm.setDistributedContent(thisDb, ipfsContent.value.content)
 
-                            await mm.saveContentAsLevel2Data({
+                            await mm.createContentFromLevel2Record({
                                 thisDb:     thisDb,
                                 ipfsHash:   nextIpfsQueueRecord.ipfs_hash
                             })
@@ -2518,7 +2518,7 @@ module.exports = {
         }
         mm.synchonizeContentAmongPeersLock = false
     },
-    getReleasedHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ) {
+    getReleasedHashesAfterTimestamp:async function  (  thisDb  ,  timestampMillis  ) {
         // this is always called from a a slave server
         let mm = this
         let listOfHashes = null
