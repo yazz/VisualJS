@@ -1685,7 +1685,7 @@ module.exports = {
 
         return {error: null, value: {id: id}}
     },
-    createContentFromLevel2Record:  async function  (  {  thisDb  ,  ipfsHash  }  ) {
+    createLevel2RecordFromContent:  async function  (  {  thisDb  ,  ipfsHash  }  ) {
         let mm = this
         //
         //
@@ -1713,12 +1713,12 @@ module.exports = {
                                 thisDb
                                 ,
                                 {
-                                    codeId: jsonComment.component_ipfs_hash,
-                                    baseComponentId: jsonComment.base_component_id,
+                                    codeId:                 jsonComment.component_ipfs_hash,
+                                    baseComponentId:        jsonComment.base_component_id,
                                     baseComponentIdVersion: jsonComment.base_component_id_version,
-                                    newComment: jsonComment.comment,
-                                    newRating: jsonComment.rating,
-                                    dateAndTime: jsonComment.date_and_time
+                                    newComment:             jsonComment.comment,
+                                    newRating:              jsonComment.rating,
+                                    dateAndTime:            jsonComment.date_and_time
                                 }
                             )
                         }
@@ -1766,7 +1766,7 @@ module.exports = {
         }
 
     },
-    createLevel2RecordFromContent:  async function  (  {  db  ,  type ,  id  ,  releaseId  ,  scope  }  ) {
+    createContentFromLevel2Record:  async function  (  {  db  ,  type ,  id  ,  releaseId  ,  scope  }  ) {
         let mm = this
         if (type == "RELEASE") {
             let newDateAndTime = new Date().getTime()
@@ -2272,7 +2272,7 @@ module.exports = {
             if (nextUnprocessedCodeItem) {
 
                 //debugger
-                mm.createContentFromLevel2Record({thisDb:thisDb,ipfsHash: nextUnprocessedCodeItem.ipfs_hash})
+                mm.createLevel2RecordFromContent({thisDb:thisDb,ipfsHash: nextUnprocessedCodeItem.ipfs_hash})
             }
         } catch (snedE) {
             console.log("Err0r: " + snedE)
@@ -2493,7 +2493,7 @@ module.exports = {
 
                             mm.setDistributedContent(thisDb, ipfsContent.value.content)
 
-                            await mm.createContentFromLevel2Record({
+                            await mm.createLevel2RecordFromContent({
                                 thisDb:     thisDb,
                                 ipfsHash:   nextIpfsQueueRecord.ipfs_hash
                             })

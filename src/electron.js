@@ -1668,10 +1668,10 @@ async function  setUpComponentsLocally                  (  ) {
     let demoTimerRet = await evalHtmlComponentFromPath( '/apps/demo_timer.js')
 
     let releaseId = await yz.releaseCode( dbsearch, todoRet.codeId , {localOnly: true})
-    await yz.createLevel2RecordFromContent({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
+    await yz.createContentFromLevel2Record({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
 
     releaseId = await yz.releaseCode( dbsearch,  demoTimerRet.codeId , {localOnly: true})
-    await yz.createLevel2RecordFromContent({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
+    await yz.createContentFromLevel2Record({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
 
 
 
@@ -4521,7 +4521,7 @@ async function  startServices                           (  ) {
         let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
         await yz.tagVersion(dbsearch, ipfsHash, code)
         let releaseId = await yz.releaseCode( dbsearch, ipfsHash, {save_to_network: true})
-        await yz.createLevel2RecordFromContent({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "GLOBAL"})
+        await yz.createContentFromLevel2Record({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "GLOBAL"})
 
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
@@ -4569,7 +4569,7 @@ async function  startServices                           (  ) {
                 //----------------------------------------------------------------------------
                 if (!resultsRow) {
                     let gc = await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
-                    await yz.createContentFromLevel2Record( {thisDb: thisDb, ipfsHash: ipfsHashFileName})
+                    await yz.createLevel2RecordFromContent( {thisDb: thisDb, ipfsHash: ipfsHashFileName})
 
                     resultsRow = await yz.getQuickSqlOneRow(
                         dbsearch
