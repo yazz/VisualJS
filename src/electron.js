@@ -4737,13 +4737,11 @@ async function  startServices                           (  ) {
         res.end(JSON.stringify(saveResult))
     });
     app.get(    '/http_get_ipfs_content',                                   async function (req, res, next) {
+        // this is called from the salver server to this master server
         let ipfsHash     = req.query.ipfs_hash
-        console.log("/http_get_ipfs_content")
 
         let nextContent = await yz.getDistributedContent(  {  thisDb: dbsearch  ,  ipfsHash:  ipfsHash }  )
-        await yz.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName})
 
-        console.log("               ipfsHash: " + ipfsHash)
         let content = null
         let error = null
         if (nextContent && nextContent.value) {
