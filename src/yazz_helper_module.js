@@ -1600,17 +1600,18 @@ module.exports = {
         return dataString
     },
     saveContentAsLevel2Data:                 async function  (  {  thisDb  ,  ipfsHash  }  ) {
+        let mm = this
         //
         //
         //
         try {
-            let contentRecord = mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[ipfsHash])
+            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[ipfsHash])
             if (contentRecord) {
                 let returnValue = contentRecord.ipfs_content
                 if (returnValue) {
                     returnValue = returnValue.toString('utf8')
-                    let baseComponentId = yz.helpers.getValueOfCodeString(returnValue, "base_component_id")
-                    let componentType = yz.helpers.getValueOfCodeString(returnValue, "component_type")
+                    let baseComponentId = mm.helpers.getValueOfCodeString(returnValue, "base_component_id")
+                    let componentType = mm.helpers.getValueOfCodeString(returnValue, "component_type")
 
                     let makePublic = false
                     let saveHtml = false
@@ -1619,7 +1620,7 @@ module.exports = {
                         saveHtml = true
                     }
                     if (componentType == "COMPONENT_COMMENT") {
-                        let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
+                        let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
                         if (formatType == "JSON") {
                             let jsonComment = JSON.parse(returnValue)
                             await mm.insertCommentIntoDb(
@@ -1638,7 +1639,7 @@ module.exports = {
 
 
                     } else if (componentType == "COMPONENT_RELEASE") {
-                        let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
+                        let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
                         if (formatType == "JSON") {
                             let jsonRelease = JSON.parse(returnValue)
                             if (jsonRelease.component_ipfs_hash) {
@@ -1653,15 +1654,25 @@ module.exports = {
                             returnValue
                             ,
                             {
-                                username: "default",
-                                reponame: baseComponentId,
-                                version: "latest",
-                                ipfsHashId: ipfsHash,
-                                allowChanges: false,
-                                make_public: makePublic,
-                                save_html: saveHtml
+                                username:       "default",
+                                reponame:       baseComponentId,
+                                version:        "latest",
+                                ipfsHashId:     ipfsHash,
+                                allowChanges:   false,
+                                make_public:    makePublic,
+                                save_html:      saveHtml
                             })
                     }
+                    await mm.executeQuickSql(thisDb,
+                        `update 
+                            level_1_ipfs_hash_metadata
+                        set 
+                            status = ?
+                        where
+                            ipfs_hash = ?
+                        `,
+                        [  "PROCESSED"  ,  ipfsHash  ]
+                        )
                 }
             }
         } catch (err) {
@@ -2261,7 +2272,7 @@ module.exports = {
             if (nextUnprocessedCodeItem) {
 
                 //debugger
-                mm.saveContentAsLevel2Data({thisDb:thisDb,ipfshash: nextUnprocessedCodeItem.ipfsHash})
+                mm.saveContentAsLevel2Data({thisDb:thisDb,ipfsHash: nextUnprocessedCodeItem.ipfs_hash})
             }
         } catch (snedE) {
             console.log("Err0r: " + snedE)
