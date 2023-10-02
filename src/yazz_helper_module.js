@@ -1005,7 +1005,6 @@ module.exports = {
 
                         });
 
-                    //zzz
                     options.processingStatus = "PROCESSED"
                         let checkIpfsHash = (await mm.setDistributedContent(thisDb, code, options)).value
                         if (checkIpfsHash != sha1sum) {
@@ -2324,70 +2323,6 @@ module.exports = {
         })
         await promise
     },
-    saveContentToDatabase:          async function(  {  db  ,  content  ,  masterTimeMillis  }  ) {
-        let mm = this
-        let componentType = mm.helpers.getValueOfCodeString(content, "component_type")
-
-
-
-        //
-        // COMMENTS
-        //
-        if (componentType == "COMPONENT_COMMENT") {
-            let formatType = mm.helpers.getValueOfCodeString(content, "format")
-
-            if (formatType == "JSON") {
-                let jsonComment = JSON.parse(content)
-                await mm.insertCommentIntoDb(
-                    db
-                    ,
-                    {
-                        codeId:                 jsonComment.component_ipfs_hash,
-                        baseComponentId:        jsonComment.base_component_id,
-                        baseComponentIdVersion: jsonComment.base_component_id_version,
-                        newComment:             jsonComment.comment,
-                        newRating:              jsonComment.rating,
-                        dateAndTime:            jsonComment.date_and_time
-                    }
-                )
-            }
-
-
-
-        //
-        // RELEASE
-        //
-        } else if (componentType == "COMPONENT_RELEASE") {
-            let formatType = mm.helpers.getValueOfCodeString(content, "format")
-            if (formatType == "JSON") {
-                let jsonRelease = JSON.parse(content)
-                if (jsonRelease.component_ipfs_hash) {
-                    let releaseId = mm.releaseCode(db, jsonRelease.component_ipfs_hash)
-                }
-            }
-
-
-
-
-
-        //
-        // UI COMPONENTS
-        //
-        } else {
-            await mm.saveCodeV3(
-                db,
-                content,
-                {
-                    make_public:        false,
-                    save_html:          false,
-                    master_time_millis: masterTimeMillis
-                })
-        }
-    },
-
-
-
-
     processContentItems:            async function  (  thisDb  ) {
         //---------------------------------------------------------------------------
         //
@@ -2418,7 +2353,7 @@ module.exports = {
                         content_type='STRING'
                     LIMIT 1`)
             if (nextUnprocessedCodeItem) {
-                //zzz
+
                 //debugger
             }
         } catch (snedE) {
@@ -2641,10 +2576,10 @@ module.exports = {
 
                             mm.setDistributedContent(thisDb, ipfsContent.value.content)
 
-                            await mm.saveContentToDatabase({
-                                db: thisDb,
-                                content: ipfsContent.value.content,
-                                masterTimeMillis: nextIpfsQueueRecord.master_time_millis
+                            await mm.processContent({
+                                thisDb: thisDb,
+                                ipfsHash: nextIpfsQueueRecord.ipfs_hash,
+                                content: ipfsContent.value.content
                             })
 
                             await mm.executeQuickSql(
