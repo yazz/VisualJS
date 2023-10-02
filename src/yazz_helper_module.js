@@ -1737,33 +1737,33 @@ module.exports = {
                             let jsonRelease = JSON.parse(returnValue)
                             if (jsonRelease.component_ipfs_hash) {
                                 let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
-                            }
-                        }
-                        //zzz
-                        await mm.executeQuickSql(
-                            db,
-                            `insert into 
+                                //zzz
+                                await mm.executeQuickSql(
+                                    thisDb,
+                                    `insert into 
                                     level_2_content_db_mapping 
                                     (  
                                         ipfs_hash  ,  db_table_type  ,  table_key  
                                     ) 
                                 values  
                                     ( ? , ? , ? ) `
-                            ,
-                            [  ipfsHash  ,  "RELEASE"  ,  releaseId  ]
-                        )
-                        await mm.executeQuickSql(
-                            db,
-                            `update 
+                                    ,
+                                    [  ipfsHash  ,  "RELEASE"  ,  releaseId  ]
+                                )
+                                await mm.executeQuickSql(
+                                    thisDb,
+                                    `update 
                                     level_2_released_components 
                                 set 
                                     json_ipfs_hash = ? 
                                 where
                                     id = ? 
                                 `
-                            ,
-                            [  ipfsHash  ,  releaseId  ]
-                        )
+                                    ,
+                                    [  ipfsHash  ,  releaseId  ]
+                                )
+                            }
+                        }
 
 
 
