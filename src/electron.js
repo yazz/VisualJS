@@ -4571,7 +4571,7 @@ async function  startServices                           (  ) {
                 //----------------------------------------------------------------------------
                 if (!resultsRow) {
                     let gc = await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
-                    await yz.saveContentAsLevel2Data( {thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
+                    await yz.saveContentAsLevel2Data( {thisDb: thisDb, ipfsHash: ipfsHashFileName})
 
                     resultsRow = await yz.getQuickSqlOneRow(
                         dbsearch
@@ -4743,7 +4743,7 @@ async function  startServices                           (  ) {
         console.log("/http_get_ipfs_content")
 
         let nextContent = await yz.getDistributedContent(  {  thisDb: dbsearch  ,  ipfsHash:  ipfsHash }  )
-        await yz.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: nextContent.value})
+        await yz.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName})
 
         console.log("               ipfsHash: " + ipfsHash)
         let content = null

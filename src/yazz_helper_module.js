@@ -1599,69 +1599,69 @@ module.exports = {
         }
         return dataString
     },
-    saveContentAsLevel2Data:                 async function  (  {  thisDb  ,  ipfsHash  ,  content  }  ) {
+    saveContentAsLevel2Data:                 async function  (  {  thisDb  ,  ipfsHash  }  ) {
         //
         //
         //
         try {
-            let  returnValue = content
-            if (returnValue) {
-                returnValue = returnValue.toString('utf8')
-                let baseComponentId = yz.helpers.getValueOfCodeString(returnValue, "base_component_id")
-                let componentType = yz.helpers.getValueOfCodeString(returnValue, "component_type")
+            let contentRecord = mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[ipfsHash])
+            if (contentRecord) {
+                let returnValue = contentRecord.ipfs_content
+                if (returnValue) {
+                    returnValue = returnValue.toString('utf8')
+                    let baseComponentId = yz.helpers.getValueOfCodeString(returnValue, "base_component_id")
+                    let componentType = yz.helpers.getValueOfCodeString(returnValue, "component_type")
 
-                let makePublic  = false
-                let saveHtml    = false
-                if ( componentType == "APP") {
-                    makePublic  = true
-                    saveHtml    = true
-                }
-                if (componentType == "COMPONENT_COMMENT") {
-                    let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
-                    if (formatType == "JSON") {
-                        let jsonComment = JSON.parse(returnValue)
-                        await mm.insertCommentIntoDb(
+                    let makePublic = false
+                    let saveHtml = false
+                    if (componentType == "APP") {
+                        makePublic = true
+                        saveHtml = true
+                    }
+                    if (componentType == "COMPONENT_COMMENT") {
+                        let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
+                        if (formatType == "JSON") {
+                            let jsonComment = JSON.parse(returnValue)
+                            await mm.insertCommentIntoDb(
+                                thisDb
+                                ,
+                                {
+                                    codeId: jsonComment.component_ipfs_hash,
+                                    baseComponentId: jsonComment.base_component_id,
+                                    baseComponentIdVersion: jsonComment.base_component_id_version,
+                                    newComment: jsonComment.comment,
+                                    newRating: jsonComment.rating,
+                                    dateAndTime: jsonComment.date_and_time
+                                }
+                            )
+                        }
+
+
+                    } else if (componentType == "COMPONENT_RELEASE") {
+                        let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
+                        if (formatType == "JSON") {
+                            let jsonRelease = JSON.parse(returnValue)
+                            if (jsonRelease.component_ipfs_hash) {
+                                let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
+                            }
+                        }
+
+                    } else {
+                        await mm.addOrUpdateDriver(
                             thisDb
                             ,
+                            returnValue
+                            ,
                             {
-                                codeId:                 jsonComment.component_ipfs_hash,
-                                baseComponentId:        jsonComment.base_component_id,
-                                baseComponentIdVersion: jsonComment.base_component_id_version,
-                                newComment:             jsonComment.comment,
-                                newRating:              jsonComment.rating,
-                                dateAndTime:            jsonComment.date_and_time
-                            }
-                        )
+                                username: "default",
+                                reponame: baseComponentId,
+                                version: "latest",
+                                ipfsHashId: ipfsHash,
+                                allowChanges: false,
+                                make_public: makePublic,
+                                save_html: saveHtml
+                            })
                     }
-
-
-
-
-
-                } else if (componentType == "COMPONENT_RELEASE") {
-                    let formatType = yz.helpers.getValueOfCodeString(returnValue, "format")
-                    if (formatType == "JSON") {
-                        let jsonRelease = JSON.parse(returnValue)
-                        if (jsonRelease.component_ipfs_hash) {
-                            let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
-                        }
-                    }
-
-                } else {
-                    await mm.addOrUpdateDriver(
-                        thisDb
-                        ,
-                        returnValue
-                        ,
-                        {
-                            username:       "default",
-                            reponame:       baseComponentId,
-                            version:        "latest",
-                            ipfsHashId:     ipfsHash,
-                            allowChanges:   false,
-                            make_public:    makePublic,
-                            save_html:      saveHtml
-                        })
                 }
             }
         } catch (err) {
@@ -2261,6 +2261,7 @@ module.exports = {
             if (nextUnprocessedCodeItem) {
 
                 //debugger
+                mm.saveContentAsLevel2Data({thisDb:thisDb,ipfshash: nextUnprocessedCodeItem.ipfsHash})
             }
         } catch (snedE) {
             console.log("Err0r: " + snedE)
@@ -2484,8 +2485,7 @@ module.exports = {
 
                             await mm.saveContentAsLevel2Data({
                                 thisDb:     thisDb,
-                                ipfsHash:   nextIpfsQueueRecord.ipfs_hash,
-                                content:    ipfsContent.value.content
+                                ipfsHash:   nextIpfsQueueRecord.ipfs_hash
                             })
 
                             await mm.executeQuickSql(
