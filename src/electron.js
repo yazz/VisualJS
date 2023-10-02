@@ -1668,7 +1668,7 @@ async function  setUpComponentsLocally                  (  ) {
     let demoTimerRet = await evalHtmlComponentFromPath( '/apps/demo_timer.js')
     let releaseId = await yz.releaseCode( dbsearch, todoRet.codeId , {localOnly: true})
     await yz.storeRecordAsIPFSContent({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
-    //await yz.processContent()
+    //await yz.saveContentAsLevel2Data()
     releaseId = await yz.releaseCode( dbsearch,  demoTimerRet.codeId , {localOnly: true})
     await yz.storeRecordAsIPFSContent({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
 
@@ -4571,7 +4571,7 @@ async function  startServices                           (  ) {
                 //----------------------------------------------------------------------------
                 if (!resultsRow) {
                     let gc = await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
-                    await yz.processContent( {thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
+                    await yz.saveContentAsLevel2Data( {thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
 
                     resultsRow = await yz.getQuickSqlOneRow(
                         dbsearch
@@ -4743,7 +4743,7 @@ async function  startServices                           (  ) {
         console.log("/http_get_ipfs_content")
 
         let nextContent = await yz.getDistributedContent(  {  thisDb: dbsearch  ,  ipfsHash:  ipfsHash }  )
-        await yz.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: nextContent.value})
+        await yz.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: nextContent.value})
 
         console.log("               ipfsHash: " + ipfsHash)
         let content = null

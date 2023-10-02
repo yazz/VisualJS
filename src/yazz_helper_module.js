@@ -1599,7 +1599,7 @@ module.exports = {
         }
         return dataString
     },
-    processContent:                 async function  (  {  thisDb  ,  ipfsHash  ,  content  }  ) {
+    saveContentAsLevel2Data:                 async function  (  {  thisDb  ,  ipfsHash  ,  content  }  ) {
         //
         //
         //
@@ -2095,7 +2095,7 @@ module.exports = {
                                 if (formatType == "JSON") {
                                     let jsonComment = JSON.parse(ipfsContent)
                                     let gc = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: ipfsHashFileName})
-                                    await mm.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
+                                    await mm.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
                                     await mm.insertCommentIntoDb(
                                         thisDb
                                         ,
@@ -2118,14 +2118,14 @@ module.exports = {
                                 if (formatType == "JSON") {
                                     let jsonRelease = JSON.parse(ipfsContent)
                                     let gc = await mm.getDistributedContent({thisDb: thisDb, ipfsHash: ipfsHashFileName})
-                                    await mm.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
+                                    await mm.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
                                 }
 
 
 
                             } else if (itemType == "APP") {
                                 let gc = await mm.getDistributedContent({ thisDb: thisDb, ipfsHash: ipfsHashFileName })
-                                await mm.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
+                                await mm.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: gc.value})
                             } else {
                                 //debugger
                                 // Why don't we load all the controls as well? Well, if we do then we would end up loading
@@ -2461,7 +2461,7 @@ module.exports = {
                                 thisDb: thisDb,
                                 ipfsHash: nextItemToSendInQueue.ipfs_hash
                             })
-                            await mm.processContent({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: nextContent.value})
+                            await mm.saveContentAsLevel2Data({thisDb: thisDb, ipfsHash: ipfsHashFileName, content: nextContent.value})
 
                             if (await mm.getIpfsHash(nextContent.value) == nextItemToSendInQueue.ipfs_hash) {
                                 await this.executeQuickSql(thisDb,
@@ -2576,10 +2576,10 @@ module.exports = {
 
                             mm.setDistributedContent(thisDb, ipfsContent.value.content)
 
-                            await mm.processContent({
-                                thisDb: thisDb,
-                                ipfsHash: nextIpfsQueueRecord.ipfs_hash,
-                                content: ipfsContent.value.content
+                            await mm.saveContentAsLevel2Data({
+                                thisDb:     thisDb,
+                                ipfsHash:   nextIpfsQueueRecord.ipfs_hash,
+                                content:    ipfsContent.value.content
                             })
 
                             await mm.executeQuickSql(
