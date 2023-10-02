@@ -1705,6 +1705,10 @@ module.exports = {
                         makePublic = true
                         saveHtml = true
                     }
+
+                    //
+                    // COMMENT
+                    //
                     if (componentType == "COMPONENT_COMMENT") {
                         let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
                         if (formatType == "JSON") {
@@ -1724,6 +1728,9 @@ module.exports = {
                         }
 
 
+                    //
+                    // RELEASE
+                    //
                     } else if (componentType == "COMPONENT_RELEASE") {
                         let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
                         if (formatType == "JSON") {
@@ -1732,7 +1739,40 @@ module.exports = {
                                 let releaseId = mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
                             }
                         }
+                        //zzz
+                        await mm.executeQuickSql(
+                            db,
+                            `insert into 
+                                    level_2_content_db_mapping 
+                                    (  
+                                        ipfs_hash  ,  db_table_type  ,  table_key  
+                                    ) 
+                                values  
+                                    ( ? , ? , ? ) `
+                            ,
+                            [  ipfsHash  ,  "RELEASE"  ,  releaseId  ]
+                        )
+                        await mm.executeQuickSql(
+                            db,
+                            `update 
+                                    level_2_released_components 
+                                set 
+                                    json_ipfs_hash = ? 
+                                where
+                                    id = ? 
+                                `
+                            ,
+                            [  ipfsHash  ,  releaseId  ]
+                        )
 
+
+
+
+
+
+                    //
+                    // CODE
+                    //
                     } else {
                         await mm.addOrUpdateDriver(
                             thisDb
