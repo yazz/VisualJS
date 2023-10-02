@@ -2291,7 +2291,7 @@ module.exports = {
         //
         // - Queue content to be sent to the master server
         // - Send queued content to the master server
-        // - See if there are any newly released components to be downloaded
+        // - See if there is any newly released content on the master server to be downloaded
         // - Download the next item in the download queue
         //
         //---------------------------------------------------------------------------
@@ -2427,8 +2427,7 @@ module.exports = {
                             "http_get_hashes_for_released_components"
                             ,
                             {
-                                max_master_millis: maxMasterTimeMillis.max_master_time_millis,
-                                slave_instance_id: mm.yazzInstanceId
+                                max_master_millis: maxMasterTimeMillis.max_master_time_millis
                             })
                         if (outstandingRequests) {
                             for (hashRecord of outstandingRequests.value.release_info) {
@@ -2519,16 +2518,16 @@ module.exports = {
         }
         mm.synchonizeContentAmongPeersLock = false
     },
-    getReleasedHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ,  slaveInstanceId) {
+    getReleasedHashesAfterTimestamp:        async function  (  thisDb  ,  timestampMillis  ) {
         // this is always called from a a slave server
         let mm = this
         let listOfHashes = null
 
         // get the initial list of hashes
         if (  (typeof timestampMillis == 'undefined')  ||  (timestampMillis == null)  ) {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  and (received_from_server_id != ? or received_from_server_id is null) order by local_time_ms asc  limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  order by local_time_ms asc  limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and (received_from_server_id != ? or received_from_server_id is null) and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ,  timestampMillis  ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ,  timestampMillis  ])
         }
 
 
@@ -2551,13 +2550,13 @@ module.exports = {
 
         let countOfTotalHashesWithSameTimestampRec = await mm.getQuickSqlOneRow(
             thisDb,
-            "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where   (received_from_server_id != ? or received_from_server_id is null) and component_scope = ? and local_time_ms = ?",
+            "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where  component_scope = ? and local_time_ms = ?",
             [  slaveInstanceId  ,  "GLOBAL"  ,  lastHashTimestamp  ])
         let countOfTotalHashesWithSameTimestamp = countOfTotalHashesWithSameTimestampRec.tot_c
 
         if (countOfTotalHashesWithSameTimestamp > countReturnedHashesWithTimestamp) {
             let extraRecs = await mm.getQuickSql(thisDb,
-                "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where (received_from_server_id != ? or received_from_server_id is null) and component_scope=? and  local_time_ms = ?  " ,
+                "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where component_scope = ? and  local_time_ms = ?  " ,
                 [  slaveInstanceId  ,  "GLOBAL"  ,  lastHashTimestamp  ])
             listOfHashes = listOfHashes.concat(extraRecs)
         }
