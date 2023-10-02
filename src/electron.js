@@ -4699,23 +4699,23 @@ async function  startServices                           (  ) {
     })
     app.post(   '/http_post_copy_distributed_content_sent_from_client',     async function (req, res) {
         //---------------------------------------------------------------------------
-        //            POST  /http_post_copy_distributed_content_sent_from_client
         //
-        // This is called on a peer (from a client) and tries to make a copy of some
+        // This is called on the master (from a slave) and tries to make a copy of some
         // network content
         //
         // Notes:
         // - what happens if we register a false or bad IPFS address? All code sent
         //   here should be validated
+        //
         //---------------------------------------------------------------------------
 
-        let ipfsHash    = req.body.ipfs_hash
-        let ipfsContent = req.body.ipfs_content
-        let slaveInstanceId = req.body.yazz_instance_id
+        let ipfsHash        = req.body.ipfs_hash
+        let ipfsContent     = req.body.ipfs_content
         res.status(200).send('IPFS content registered');
         let contentDesc = yz.getContentDescription(ipfsContent)
         console.log("Received content from peer: " + contentDesc)
-        await yz.setDistributedContent( dbsearch  ,  ipfsContent  ,  {slaveInstanceId: slaveInstanceId})
+        await yz.setDistributedContent( dbsearch  ,  ipfsContent  )
+        //zzz
     })
     app.post(   "/http_post_save_code_v3" ,                                 async function (req, res) {
         let userid

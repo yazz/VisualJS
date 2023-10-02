@@ -1960,7 +1960,6 @@ module.exports = {
         let justHash                    = null
         let contentStoredInSqlite       = null
         let metadataStoredInSqlite      = null
-        let slaveInstanceId             = null
         let processingStatus            = null
 
         if (typeof content !== 'string') {
@@ -1975,10 +1974,6 @@ module.exports = {
                 } else {
                     scope = "LOCAL";
                 }
-            }
-
-            if (options.slaveInstanceId) {
-                slaveInstanceId = options.slaveInstanceId
             }
 
             if (options.processingStatus) {
@@ -2019,11 +2014,10 @@ module.exports = {
                             sent_to_master,  
                             read_from_local_ipfs,  
                             last_ipfs_ping_millis, 
-                            slave_instance_id,
                             status                            
                         ) 
                         values
-                    (?,?,?,?,?,?,?,?,?,?,?)`
+                    (?,?,?,?,?,?,?,?,?,?)`
                     ,
                 [
                     justHash,
@@ -2035,7 +2029,6 @@ module.exports = {
                     null,
                     0,
                     -1,
-                    slaveInstanceId,
                     processingStatus
                 ])
             }
