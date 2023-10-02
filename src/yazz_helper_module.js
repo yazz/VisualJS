@@ -642,7 +642,7 @@ module.exports = {
                     //   LEVEL 1
                     //  This could be store in another Sqlite database, but it could also be derived from that data
                     //
-                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT  ,  status TEXT  ,  content_type TEXT  ,  scope TEXT  ,  stored_in_ipfs INTEGER  ,  sent_to_master TEXT  ,  read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  slave_instance_id TEXT, UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT  ,  status TEXT  ,  content_type TEXT  ,  scope TEXT  ,  stored_in_ipfs INTEGER  ,  sent_to_master TEXT  ,  read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
                     "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_1_ipfs_hash_metadata (ipfs_hash);",
 
@@ -2525,9 +2525,9 @@ module.exports = {
 
         // get the initial list of hashes
         if (  (typeof timestampMillis == 'undefined')  ||  (timestampMillis == null)  ) {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  order by local_time_ms asc  limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components   where component_scope = ?  order by local_time_ms asc  limit 10" , [  "GLOBAL"   ])
         } else {
-            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL"  ,  slaveInstanceId  ,  timestampMillis  ])
+            listOfHashes = await mm.getQuickSql(thisDb, "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where  component_scope = ?  and local_time_ms > ?  order by local_time_ms asc limit 10" , [  "GLOBAL"  ,  timestampMillis  ])
         }
 
 
@@ -2551,13 +2551,13 @@ module.exports = {
         let countOfTotalHashesWithSameTimestampRec = await mm.getQuickSqlOneRow(
             thisDb,
             "select  count(ipfs_hash) as tot_c  from  level_2_released_components   where  component_scope = ? and local_time_ms = ?",
-            [  slaveInstanceId  ,  "GLOBAL"  ,  lastHashTimestamp  ])
+            [  "GLOBAL"  ,  lastHashTimestamp  ])
         let countOfTotalHashesWithSameTimestamp = countOfTotalHashesWithSameTimestampRec.tot_c
 
         if (countOfTotalHashesWithSameTimestamp > countReturnedHashesWithTimestamp) {
             let extraRecs = await mm.getQuickSql(thisDb,
                 "select   json_ipfs_hash, ipfs_hash, local_time_ms   from  level_2_released_components  where component_scope = ? and  local_time_ms = ?  " ,
-                [  slaveInstanceId  ,  "GLOBAL"  ,  lastHashTimestamp  ])
+                [  "GLOBAL"  ,  lastHashTimestamp  ])
             listOfHashes = listOfHashes.concat(extraRecs)
         }
         return { count_hashes: listOfHashes.length , release_info: listOfHashes}
