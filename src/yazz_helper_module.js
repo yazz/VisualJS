@@ -2616,8 +2616,8 @@ module.exports = {
                                     thisDb:     thisDb,
                                     ipfsHash:   nextIpfsQueueRecord.ipfs_hash
                                 })
+                                debugContent = ipfsContent.value.content
                             }
-                            debugContent = ipfsContent.value.content
                         }
                         await mm.executeQuickSql(
                             thisDb,
