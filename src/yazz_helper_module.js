@@ -2605,7 +2605,12 @@ module.exports = {
                             // then we can do it here, as even though we don't download the whole record
                             // we still need to make sure the latest timestamp is available - or should
                             // this be in a global properties table?? (mmm.. probably a better idea as
-                            // content is universal, not pecific to a particular table)
+                            // content is universal, not specific to a particular table)
+                            await mm.executeQuickSql(
+                                thisDb,
+                                "update  level_8_download_content_queue  set status = ? , debug_content = ? where ipfs_hash = ?",
+                                ["EXISTS", debugContent , nextIpfsQueueRecord.ipfs_hash]
+                            )
                         } else {
                             let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
 
@@ -2617,13 +2622,14 @@ module.exports = {
                                     ipfsHash:   nextIpfsQueueRecord.ipfs_hash
                                 })
                                 debugContent = ipfsContent.value.content
+
+                                await mm.executeQuickSql(
+                                    thisDb,
+                                    "update  level_8_download_content_queue  set status = ? , debug_content = ? where ipfs_hash = ?",
+                                    ["DONE", debugContent , nextIpfsQueueRecord.ipfs_hash]
+                                )
                             }
                         }
-                        await mm.executeQuickSql(
-                            thisDb,
-                            "update  level_8_download_content_queue  set status = ? , debug_content = ? where ipfs_hash = ?",
-                            ["DONE", debugContent , nextIpfsQueueRecord.ipfs_hash]
-                        )
                     }
                 }
             } catch (error) {
