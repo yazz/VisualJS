@@ -547,6 +547,65 @@ module.exports = {
         }
 
     },
+    isNumeric:                      function (str) {
+        if (typeof str != "string") return false // we only process strings!
+        return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+    },
+    setGlobalVar:                  async function  (  {  thisDb  ,  key  ,  value  }  ) {
+        let mm              = this
+        let valueToStore    = null
+        let typeToStore     = null
+        let keyToStore      = "" + key
+
+        if (mm.isNumeric(value)) {
+            valueToStore = "" + value
+            typeToStore = "INTEGER"
+        } else {
+            valueToStore = value
+            typeToStore = "STRING"
+        }
+        await mm.executeQuickSql(thisDb,
+            `INSERT OR UPDATE  
+                level_4_global_vars_table           
+                (
+                    global_key, 
+                    global_value_type,
+                    global_value
+                )
+            VALUES
+                (?,?,?)
+                `,
+            [keyToStore, typeToStore, valueToStore])
+    } ,
+    getGlobalVar:                  async function  (   {  thisDb  ,  key  }  ) {
+        let mm              = this
+        let keyToRead       = "" + key
+        let valueToReturn   = null
+
+        let globalRecord = await mm.getQuickSqlOneRow(thisDb,
+            `SELECT 
+                global_value_type,
+                global_value
+            FROM
+                level_4_global_vars_table
+            WHERE
+                global_key = ?         
+                `,
+            [keyToRead])
+
+        if (!globalRecord) {
+            return {value:null, error: "Doesn't exist"}
+        }
+        if (globalRecord.global_value_type == "STRING") {
+            valueToReturn = globalRecord.global_value
+        } else if (globalRecord.global_value_type == "INTEGER") {
+            valueToReturn = parseInt(globalRecord.global_value)
+        } else {
+            return {value:null, error: "Unknown type returned: " + globalRecord.global_value_type}
+        }
+        return {value: valueToReturn}
+    },
     insertNewCode:                  async function  (   thisDb,
                                                         {
                                                             sha1sum,
