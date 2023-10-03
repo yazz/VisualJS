@@ -775,7 +775,7 @@ module.exports = {
 
                     "CREATE TABLE IF NOT EXISTS level_4_global_vars_table           (global_key TEXT, global_value_type TEXT, global_value TEXT  ,  UNIQUE(global_key));",
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_global_vars_table (global_key);",
-                    "INSERT OR REPLACE INTO     table_versions                      (level_4_global_vars_table  ,  version_number) VALUES ('level_4_code_tags_table',1);"
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_global_vars_table',1);"
             ])
         }
 
