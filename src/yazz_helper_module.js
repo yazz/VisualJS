@@ -710,7 +710,11 @@ module.exports = {
 
                     "CREATE TABLE IF NOT EXISTS level_4_code_tags_table             (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_code_tags_table (id);",
-                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);"
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);",
+
+                    "CREATE TABLE IF NOT EXISTS level_4_global_vars_table           (global_key TEXT, global_value_type TEXT, global_value TEXT);",
+                    "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_global_vars_table (global_key);",
+                    "INSERT OR REPLACE INTO     table_versions                      (level_4_global_vars_table  ,  version_number) VALUES ('level_4_code_tags_table',1);"
             ])
         }
 
@@ -2509,7 +2513,7 @@ module.exports = {
 
 
         // --------------------------------------------------------------------
-        // Process the next item in the download queue
+        // Download and process the next item in the download queue
         // --------------------------------------------------------------------
         if (mm.syncToMaster) {
             try {
@@ -2524,6 +2528,12 @@ module.exports = {
                         //zzz
                         if (contentAlreadyExists) {
                             debugContent = contentAlreadyExists.ipfs_content
+                            //TODO
+                            // if the "level_2_released_components" needs the "master_ms" field filled in
+                            // then we can do it here, as even though we don't download the whole record
+                            // we still need to make sure the latest timestamp is available - or should
+                            // this be in a global properties table?? (mmm.. probably a better idea as
+                            // content is universal, not pecific to a particular table)
                         } else {
                             let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
 
