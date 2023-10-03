@@ -2615,7 +2615,7 @@ module.exports = {
                             let ipfsContent = await mm.getContentFromMaster(thisDb, nextIpfsQueueRecord.ipfs_hash)
 
                             if (ipfsContent && ipfsContent.value && ipfsContent.value.content) {
-                                mm.setDistributedContent(thisDb, ipfsContent.value.content)
+                                await mm.setDistributedContent(thisDb, ipfsContent.value.content)
 
                                 await mm.createLevel2RecordFromContent({
                                     thisDb:     thisDb,
