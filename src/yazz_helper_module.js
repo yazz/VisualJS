@@ -552,21 +552,23 @@ module.exports = {
         return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
             !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     },
-    setGlobalVar:                  async function  (  thisDb  ,  key  ,  value  ) {
+    setGlobalVar:                  async function  (  thisDb  ,  key  ,  type,  value  ) {
         let mm              = this
         let valueToStore    = null
         let typeToStore     = null
         let keyToStore      = "" + key
 
-        if (mm.isNumeric(value)) {
+        if (type=="INTEGER") {
             valueToStore = "" + value
             typeToStore = "INTEGER"
-        } else {
+        } else if (type=="STRING") {
             valueToStore = value
             typeToStore = "STRING"
+        } else {
+            console.log("Error in setGlobalVar")
         }
         await mm.executeQuickSql(thisDb,
-            `INSERT OR UPDATE  
+            `INSERT OR REPLACE INTO  
                 level_4_global_vars_table           
                 (
                     global_key, 
@@ -771,7 +773,7 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_code_tags_table (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_4_global_vars_table           (global_key TEXT, global_value_type TEXT, global_value TEXT);",
+                    "CREATE TABLE IF NOT EXISTS level_4_global_vars_table           (global_key TEXT, global_value_type TEXT, global_value TEXT  ,  UNIQUE(global_key));",
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_global_vars_table (global_key);",
                     "INSERT OR REPLACE INTO     table_versions                      (level_4_global_vars_table  ,  version_number) VALUES ('level_4_code_tags_table',1);"
             ])
@@ -1743,10 +1745,10 @@ module.exports = {
                 createdTime
             ]
         )
-        let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS")
-        if (previousMasterTime.value && (previousMasterTime.value > masterTime)) {
+        let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS").value
+        if (previousMasterTime && (previousMasterTime > masterTime)) {
         } else {
-            await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS",masterTime)
+            await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",masterTime)
         }
 
 
@@ -2529,12 +2531,12 @@ module.exports = {
                 if (mm.peerAvailable) {
                     ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from level_8_download_content_queue where STATUS = 'QUEUED'")
                     if (ipfsDownloadQueueSize.queue_count == 0) {
-                        let maxMasterTimeMillis = await mm.getGlobalVar(thisDb, "RELEASED_MAX_MASTER_TIME_MS")
+                        let maxMasterTimeMillis = await mm.getGlobalVar(thisDb, "RELEASED_MAX_MASTER_TIME_MS").value
                         let outstandingRequests = await mm.sendQuickJsonGetRequest(
                             "http_get_hashes_for_released_components"
                             ,
                             {
-                                max_master_millis: maxMasterTimeMillis.max_master_time_millis
+                                max_master_millis: maxMasterTimeMillis
                             })
                         if (outstandingRequests) {
                             for (hashRecord of outstandingRequests.value.release_info) {
