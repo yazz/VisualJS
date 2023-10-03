@@ -552,7 +552,7 @@ module.exports = {
         return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
             !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     },
-    setGlobalVar:                  async function  (  {  thisDb  ,  key  ,  value  }  ) {
+    setGlobalVar:                  async function  (  thisDb  ,  key  ,  value  ) {
         let mm              = this
         let valueToStore    = null
         let typeToStore     = null
@@ -578,7 +578,7 @@ module.exports = {
                 `,
             [keyToStore, typeToStore, valueToStore])
     } ,
-    getGlobalVar:                  async function  (   {  thisDb  ,  key  }  ) {
+    getGlobalVar:                  async function  (  thisDb  ,  key  ) {
         let mm              = this
         let keyToRead       = "" + key
         let valueToReturn   = null
@@ -719,7 +719,7 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS system_code_component_type_idx      ON level_2_system_code (component_type);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_system_code',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, component_scope TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT, local_time_ms INTEGTER, master_time_ms INTEGER);",
+                    "CREATE TABLE IF NOT EXISTS level_2_released_components         (id TEXT, base_component_id TEXT, component_name TEXT, component_scope TEXT, read_write_status TEXT, component_type TEXT, ipfs_hash TEXT,  version TEXT,  component_description TEXT, logo_url TEXT, avg_rating NUMBER, num_ratings NUMBER, json_ipfs_hash TEXT, code TEXT, local_time_ms INTEGTER);",
                     "CREATE INDEX IF NOT EXISTS released_components_idx             ON level_2_released_components (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_released_components',1);",
 
@@ -1726,8 +1726,8 @@ module.exports = {
                 (   id  ,  base_component_id  ,  component_name  ,  component_type, 
                     component_scope,
                     component_description  ,  
-                    ipfs_hash , version,read_write_status, code, logo_url , local_time_ms, master_time_ms)
-           values (?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+                    ipfs_hash , version,read_write_status, code, logo_url , local_time_ms)
+           values (?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
                 id,
                 base_component_id,
@@ -1740,10 +1740,14 @@ module.exports = {
                 readWriteStatus,
                 codeString,
                 logoUrl,
-                createdTime,
-                masterTime
+                createdTime
             ]
         )
+        let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS")
+        if (previousMasterTime.value && (previousMasterTime.value > masterTime)) {
+        } else {
+            await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS",masterTime)
+        }
 
 
         return {error: null, value: {id: id}}
@@ -2525,7 +2529,7 @@ module.exports = {
                 if (mm.peerAvailable) {
                     ipfsDownloadQueueSize = await mm.getQuickSqlOneRow(thisDb, "select count(ipfs_hash) as queue_count from level_8_download_content_queue where STATUS = 'QUEUED'")
                     if (ipfsDownloadQueueSize.queue_count == 0) {
-                        let maxMasterTimeMillis = await mm.getQuickSqlOneRow(thisDb, "select max(master_time_ms) as max_master_time_millis  from  level_2_released_components")
+                        let maxMasterTimeMillis = await mm.getGlobalVar(thisDb, "RELEASED_MAX_MASTER_TIME_MS")
                         let outstandingRequests = await mm.sendQuickJsonGetRequest(
                             "http_get_hashes_for_released_components"
                             ,
