@@ -2588,7 +2588,9 @@ module.exports = {
                         "select ipfs_hash, master_time_millis from level_8_download_content_queue where status = ? order by master_time_millis asc limit 1",
                         ["QUEUED"])
                     if (nextIpfsQueueRecord) {
-                        let contentAlreadyExists = mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[nextIpfsQueueRecord.ipfs_hash])
+                        let contentAlreadyExists = await mm.getQuickSqlOneRow(thisDb,
+                            "select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",
+                            [nextIpfsQueueRecord.ipfs_hash])
                         let debugContent = null
                         //zzz
                         let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS").value
