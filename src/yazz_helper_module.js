@@ -2591,6 +2591,11 @@ module.exports = {
                         let contentAlreadyExists = mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[nextIpfsQueueRecord.ipfs_hash])
                         let debugContent = null
                         //zzz
+                        let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS").value
+                        if (previousMasterTime && (previousMasterTime > nextIpfsQueueRecord.master_time_millis)) {
+                        } else {
+                            await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",nextIpfsQueueRecord.master_time_millis)
+                        }
                         if (contentAlreadyExists) {
                             debugContent = contentAlreadyExists.ipfs_content
                             //TODO
