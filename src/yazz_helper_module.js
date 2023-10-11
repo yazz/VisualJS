@@ -1681,78 +1681,90 @@ module.exports = {
         |________________________________________________________________________ */
         let mm                  = this
         let codeRecord          = await mm.getQuickSqlOneRow(  thisDb,  "select  code  from   level_2_system_code  where   id = ? ", [  commitId  ]  )
-        let codeString          = codeRecord.code
-        let parsedCode          = await mm.getSrcCodePropertiesAsJson(  {  code: codeString  }  )
-        let dataString          = null
-        let id                  = uuidv1()
-        let base_component_id   = parsedCode.baseComponentId
-        let app_name            = parsedCode.name
-        let app_description     = parsedCode.description
-        let logo                = parsedCode.logo
-        let ipfs_hash           = parsedCode.ipfsHashId
-        let readWriteStatus     = parsedCode.readWriteStatus
-        let component_type      = parsedCode.type
-        let createdTime         = new Date().getTime()
-        let masterTime          = null
-        let logoUrl             = await mm.createLogoUrlData(logo)
-        let componentScope =    "GLOBAL"
+        if (codeRecord) {
+            let codeString          = codeRecord.code
+            let parsedCode          = await mm.getSrcCodePropertiesAsJson(  {  code: codeString  }  )
+            let dataString          = null
+            let id                  = uuidv1()
+            let base_component_id   = parsedCode.baseComponentId
+            let app_name            = parsedCode.name
+            let app_description     = parsedCode.description
+            let logo                = parsedCode.logo
+            let ipfs_hash           = parsedCode.ipfsHashId
+            let readWriteStatus     = parsedCode.readWriteStatus
+            let component_type      = parsedCode.type
+            let createdTime         = new Date().getTime()
+            let masterTime          = null
+            let logoUrl             = await mm.createLogoUrlData(logo)
+            let componentScope =    "GLOBAL"
 
-        if (options && options.masterTime) {
-            masterTime = options.masterTime
-        }
+            if (options && options.masterTime) {
+                masterTime = options.masterTime
+            }
 
-        if (options && options.localOnly) {
-            componentScope = "LOCAL"
-        }
+            if (options && options.localOnly) {
+                componentScope = "LOCAL"
+            }
 
 
-        let componentListRecord = await mm.getQuickSqlOneRow(
-            thisDb,
-            "select * from level_2_released_components where base_component_id = ?",
-            [base_component_id])
-
-        if (componentListRecord) {
-            await mm.executeQuickSql(
+            let componentListRecord = await mm.getQuickSqlOneRow(
                 thisDb,
-                `delete from
-                level_2_released_components 
-            where
-               base_component_id  = ?`,
+                "select * from level_2_released_components where base_component_id = ?",
                 [base_component_id])
-        }
 
-        await mm.executeQuickSql(thisDb,
-            `insert or ignore
-                into
-           level_2_released_components
-                (   id  ,  base_component_id  ,  component_name  ,  component_type, 
-                    component_scope,
-                    component_description  ,  
-                    ipfs_hash , version,read_write_status, code, logo_url , local_time_ms)
-           values (?,?,?,?,?,?,?,?,?,?,?,?)`,
-            [
-                id,
-                base_component_id,
-                app_name,
-                component_type,
-                componentScope,
-                app_description,
-                ipfs_hash,
-                '',
-                readWriteStatus,
-                codeString,
-                logoUrl,
-                createdTime
-            ]
-        )
-        let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS").value
-        if (previousMasterTime && (previousMasterTime > masterTime)) {
+            if (componentListRecord) {
+                await mm.executeQuickSql(
+                    thisDb,
+                    `delete from
+                    level_2_released_components 
+                where
+                   base_component_id  = ?`,
+                    [base_component_id])
+            }
+
+            await mm.executeQuickSql(thisDb,
+                `insert or ignore
+                    into
+               level_2_released_components
+                    (   id  ,  base_component_id  ,  component_name  ,  component_type, 
+                        component_scope,
+                        component_description  ,  
+                        ipfs_hash , version,read_write_status, code, logo_url , local_time_ms)
+               values (?,?,?,?,?,?,?,?,?,?,?,?)`,
+                [
+                    id,
+                    base_component_id,
+                    app_name,
+                    component_type,
+                    componentScope,
+                    app_description,
+                    ipfs_hash,
+                    '',
+                    readWriteStatus,
+                    codeString,
+                    logoUrl,
+                    createdTime
+                ]
+            )
+            let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS").value
+            if (previousMasterTime && (previousMasterTime > masterTime)) {
+            } else {
+                await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",masterTime)
+            }
+
+
+            return {error: null, value: {id: id}}
+
+
+
+
+        //
+        // otherwise return that the release didn't work, usually because the release need the corresponding
+        // code record to exist as well
+        //
         } else {
-            await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",masterTime)
+            return {error: "Code record does not exist yet", value: null}
         }
-
-
-        return {error: null, value: {id: id}}
     },
     createLevel2RecordFromContent:  async function  (  {  thisDb  ,  ipfsHash  }  ) {
         let mm = this
@@ -1807,30 +1819,32 @@ module.exports = {
                             if (jsonRelease.component_ipfs_hash) {
                                 let releaseId = await mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
 
-                                await mm.executeQuickSql(
-                                    thisDb,
-                                    `insert into 
-                                    level_2_content_db_mapping 
-                                    (  
-                                        ipfs_hash  ,  db_table_type  ,  table_key  
-                                    ) 
-                                values  
-                                    ( ? , ? , ? ) `
-                                    ,
-                                    [  ipfsHash  ,  "RELEASE"  ,  releaseId.value.id  ]
-                                )
-                                await mm.executeQuickSql(
-                                    thisDb,
-                                    `update 
-                                    level_2_released_components 
-                                set 
-                                    json_ipfs_hash = ? 
-                                where
-                                    id = ? 
-                                `
-                                    ,
-                                    [  ipfsHash  ,  releaseId.value.id  ]
-                                )
+                                if (releaseId.value != null) {
+                                    await mm.executeQuickSql(
+                                        thisDb,
+                                        `insert into 
+                                        level_2_content_db_mapping 
+                                        (  
+                                            ipfs_hash  ,  db_table_type  ,  table_key  
+                                        ) 
+                                    values  
+                                        ( ? , ? , ? ) `
+                                        ,
+                                        [  ipfsHash  ,  "RELEASE"  ,  releaseId.value.id  ]
+                                    )
+                                    await mm.executeQuickSql(
+                                        thisDb,
+                                        `update 
+                                        level_2_released_components 
+                                    set 
+                                        json_ipfs_hash = ? 
+                                    where
+                                        id = ? 
+                                    `
+                                        ,
+                                        [  ipfsHash  ,  releaseId.value.id  ]
+                                    )
+                                }
                             }
                         }
 
