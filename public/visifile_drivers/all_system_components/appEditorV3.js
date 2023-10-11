@@ -436,7 +436,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                         style='height:35px; margin-right: 10px;'
                         class='img-fluid'>
                     </img>
-                    Go live
+                    Release
 
                   </a>
 
