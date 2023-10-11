@@ -2469,6 +2469,26 @@ module.exports = {
                     } else {
                         console.log("Error: IPFS Hash already in queue: " + alreadyInSendQueue)
                     }
+
+
+                    let alreadyDownloadedFromHost = await mm.getQuickSqlOneRow(
+                        thisDb,
+                        "select  ipfs_hash  from  level_8_download_content_queue  where  ipfs_hash = ?",
+                        [nextUnsentRecord.ipfs_hash])
+
+                    if (alreadyDownloadedFromHost) {
+                        await mm.executeQuickSql(thisDb,
+                            `update   
+                                level_8_upload_content_queue  
+                            set  send_status  = ? 
+                                where
+                            ipfs_hash = ? `,
+                            ["EXISTS" , nextUnsentRecord.ipfs_hash]
+                        )
+                    }
+
+
+
                 }
             } catch (snedE) {
                 console.log("Err0r: " + snedE)
