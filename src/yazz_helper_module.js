@@ -1872,6 +1872,17 @@ module.exports = {
                                     )
                                 } else {
                                     console.log("No corresponding code record available yet")
+                                    await mm.executeQuickSql(thisDb,
+                                        `update 
+                                            level_1_ipfs_hash_metadata
+                                        set 
+                                            process_attempts = process_attempts + 1 
+                                        where
+                                            ipfs_hash = ?
+                                        `
+                                        ,
+                                        [  ipfsHash  ]
+                                    )
                                 }
                             }
                         }
@@ -2515,9 +2526,11 @@ module.exports = {
                         await mm.executeQuickSql(thisDb,
                             `update   
                                 level_8_upload_content_queue  
-                            set  send_status  = ? 
-                                where
-                            ipfs_hash = ? `,
+                            set  
+                                send_status  = ? 
+                            where
+                                ipfs_hash = ? 
+                            `,
                             ["EXISTS" , nextUnsentRecord.ipfs_hash]
                         )
                     }
@@ -2734,6 +2747,8 @@ module.exports = {
                     level_1_ipfs_hash_metadata 
                 where 
                     status is null
+                order by
+                    process_attempts  asc
                 limit 1`
                 )
 
