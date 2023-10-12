@@ -2737,25 +2737,9 @@ module.exports = {
                     thisDb:     thisDb,
                     ipfsHash:   nextIpfsRecordToProcess.ipfs_hash
                 })
-
-                await mm.executeQuickSql(
-                    thisDb,
-                    `update
-                        level_1_ipfs_hash_metadata  
-                    set 
-                        status = ? 
-                    where 
-                        ipfs_hash = ?`,
-                    ["PROCESSED" , nextIpfsRecordToProcess.ipfs_hash]
-                )
             }
         } catch (error) {
             console.log(error)
-            await mm.executeQuickSql(
-                thisDb,
-                "update  level_8_download_content_queue  set status = ? where ipfs_hash = ?",
-                ["ERROR", nextIpfsQueueRecord.ipfs_hash]
-            )
         }
 
 
