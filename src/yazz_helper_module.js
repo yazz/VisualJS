@@ -703,7 +703,7 @@ module.exports = {
                     //   LEVEL 1
                     //  This could be store in another Sqlite database, but it could also be derived from that data
                     //
-                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT  ,  status TEXT  ,  content_type TEXT  ,  scope TEXT  ,  stored_in_ipfs INTEGER  ,  sent_to_master TEXT  ,  read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT  ,  status TEXT  ,  process_attempts INTEGER, content_type TEXT  ,  scope TEXT  ,  stored_in_ipfs INTEGER  ,  sent_to_master TEXT  ,  read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
                     "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_1_ipfs_hash_metadata (ipfs_hash);",
 
@@ -2177,10 +2177,11 @@ module.exports = {
                             sent_to_master,  
                             read_from_local_ipfs,  
                             last_ipfs_ping_millis, 
-                            status                            
+                            status,                            
+                            process_attempts
                         ) 
                         values
-                    (?,?,?,?,?,?,?,?,?,?)`
+                    (?,?,?,?,?,?,?,?,?,?,?)`
                     ,
                 [
                     justHash,
@@ -2192,7 +2193,8 @@ module.exports = {
                     null,
                     0,
                     -1,
-                    processingStatus
+                    processingStatus,
+                    0
                 ])
             }
 
@@ -2802,28 +2804,6 @@ module.exports = {
             let ct  = mm.helpers.getValueOfCodeString(ipfsContent, "component_type")
             return "BCI: " + bci + ", component_type: " + ct
         }
-    },
-    updateContentMetadataFile:      async function  (  thisDb  ,  ipfsHash  ) {
-        let mm = this
-        let contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
-        let fullIpfsFilePath            = path.join(mm.fullIpfsFolderPath, ipfsHash)
-        let fullIpfsMetaDataFilePath    = fullIpfsFilePath + "_metadata"
-        let updatedMetadataJson     =   {
-                                            ipfs_hash:              ipfsHash,
-                                            created_time_millis:    contentStoredInSqlite.created_time_millis?contentStoredInSqlite.created_time_millis:new Date().getTime(),
-                                            master_time_millis:     contentStoredInSqlite.master_time_millis,
-                                            local_time_millis:      contentStoredInSqlite.local_time_millis,
-                                            content_type:           contentStoredInSqlite.content_type,
-                                            scope:                  contentStoredInSqlite.scope,
-                                            stored_in_local_file:   contentStoredInSqlite.stored_in_local_file,
-                                            read_from_local_file:   contentStoredInSqlite.read_from_local_file,
-                                            stored_in_ipfs:         contentStoredInSqlite.stored_in_ipfs,
-                                            sent_to_master:         contentStoredInSqlite.sent_to_master,
-                                            read_from_local_ipfs:   contentStoredInSqlite.read_from_local_ipfs,
-                                            last_ipfs_ping_millis:  contentStoredInSqlite.last_ipfs_ping_millis
-                                        }
-        fs.writeFileSync(fullIpfsMetaDataFilePath, JSON.stringify(updatedMetadataJson,null,2));
-
     },
     oldsynchonizeContentAmongPeers: async function  (  thisDb  ) {
         //console.log("Sync")
