@@ -1806,6 +1806,18 @@ module.exports = {
                                     dateAndTime:            jsonComment.date_and_time
                                 }
                             )
+
+                            await mm.executeQuickSql(thisDb,
+                                `update 
+                                    level_1_ipfs_hash_metadata
+                                set 
+                                    status = ?
+                                where
+                                    ipfs_hash = ?
+                                        `
+                                ,
+                                [  "PROCESSED"  ,  jsonComment.component_ipfs_hash  ]
+                            )
                         }
 
 
@@ -1823,27 +1835,41 @@ module.exports = {
                                     await mm.executeQuickSql(
                                         thisDb,
                                         `insert into 
-                                        level_2_content_db_mapping 
-                                        (  
-                                            ipfs_hash  ,  db_table_type  ,  table_key  
-                                        ) 
-                                    values  
-                                        ( ? , ? , ? ) `
+                                            level_2_content_db_mapping 
+                                            (  
+                                                ipfs_hash  ,  db_table_type  ,  table_key  
+                                            ) 
+                                        values  
+                                            ( ? , ? , ? ) `
                                         ,
                                         [  ipfsHash  ,  "RELEASE"  ,  releaseId.value.id  ]
                                     )
                                     await mm.executeQuickSql(
                                         thisDb,
                                         `update 
-                                        level_2_released_components 
-                                    set 
-                                        json_ipfs_hash = ? 
-                                    where
-                                        id = ? 
-                                    `
+                                            level_2_released_components 
+                                        set 
+                                            json_ipfs_hash = ? 
+                                        where
+                                            id = ? 
+                                        `
                                         ,
                                         [  ipfsHash  ,  releaseId.value.id  ]
                                     )
+
+                                    await mm.executeQuickSql(thisDb,
+                                        `update 
+                                            level_1_ipfs_hash_metadata
+                                        set 
+                                            status = ?
+                                        where
+                                            ipfs_hash = ?
+                                        `
+                                        ,
+                                        [  "PROCESSED"  ,  ipfsHash  ]
+                                    )
+                                } else {
+                                    console.log("No corresponding code record available yet")
                                 }
                             }
                         }
@@ -1871,17 +1897,20 @@ module.exports = {
                                 make_public:    makePublic,
                                 save_html:      saveHtml
                             })
+
+                        await mm.executeQuickSql(thisDb,
+                            `update 
+                                level_1_ipfs_hash_metadata
+                            set 
+                                status = ?
+                            where
+                                ipfs_hash = ?
+                            `
+                            ,
+                            [  "PROCESSED"  ,  ipfsHash  ]
+                        )
                     }
-                    await mm.executeQuickSql(thisDb,
-                        `update 
-                            level_1_ipfs_hash_metadata
-                        set 
-                            status = ?
-                        where
-                            ipfs_hash = ?
-                        `,
-                        [  "PROCESSED"  ,  ipfsHash  ]
-                    )
+
                 }
             }
         } catch (err) {
@@ -2671,7 +2700,7 @@ module.exports = {
                                     where 
                                         ipfs_hash = ?`
                                     ,
-                                    ["DOWNLOADED", debugContent , nextIpfsQueueRecord.ipfs_hash]
+                                    ["DONE", debugContent , nextIpfsQueueRecord.ipfs_hash]
                                 )
                             }
                         }
@@ -2697,14 +2726,11 @@ module.exports = {
                 `select 
                     ipfs_hash
                  from 
-                    level_8_download_content_queue 
+                    level_1_ipfs_hash_metadata 
                 where 
-                    status = ? 
-                order by 
-                    master_time_millis  asc 
+                    status is null
                 limit 1`
-                ,
-                ["DOWNLOADED"])
+                )
 
             if (nextIpfsRecordToProcess) {
                 await mm.createLevel2RecordFromContent({
@@ -2715,12 +2741,12 @@ module.exports = {
                 await mm.executeQuickSql(
                     thisDb,
                     `update
-                        level_8_download_content_queue  
+                        level_1_ipfs_hash_metadata  
                     set 
                         status = ? 
                     where 
                         ipfs_hash = ?`,
-                    ["DONE" , nextIpfsRecordToProcess.ipfs_hash]
+                    ["PROCESSED" , nextIpfsRecordToProcess.ipfs_hash]
                 )
             }
         } catch (error) {
