@@ -1811,7 +1811,8 @@ module.exports = {
                                 `update 
                                     level_1_ipfs_hash_metadata
                                 set 
-                                    status = ?
+                                    status = ?,
+                                    process_attempts = process_attempts + 1 
                                 where
                                     ipfs_hash = ?
                                         `
@@ -1861,7 +1862,8 @@ module.exports = {
                                         `update 
                                             level_1_ipfs_hash_metadata
                                         set 
-                                            status = ?
+                                            status = ?,
+                                            process_attempts = process_attempts + 1 
                                         where
                                             ipfs_hash = ?
                                         `
@@ -1902,7 +1904,8 @@ module.exports = {
                             `update 
                                 level_1_ipfs_hash_metadata
                             set 
-                                status = ?
+                                status = ?,
+                                process_attempts = process_attempts + 1 
                             where
                                 ipfs_hash = ?
                             `
@@ -2194,7 +2197,7 @@ module.exports = {
                     0,
                     -1,
                     processingStatus,
-                    0
+                    processingStatus=="PROCESSED"?1:0
                 ])
             }
 
