@@ -436,6 +436,35 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                         style='height:35px; margin-right: 10px;'
                         class='img-fluid'>
                     </img>
+                    Rel V1
+
+                  </a>
+
+
+
+
+
+
+
+
+                  <!-- ----------------------------------------------
+                    
+                        GO LIVE BUTTON V2
+                    
+                      ---------------------------------------------- -->
+                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                       href="#"
+                       v-on:click='setTimeout(async function(){await switchEditor("release_viewer_component")},100)'
+                       v-if="show_download_save"
+                       v-on:mouseenter='setInfo("Publish this app to the central server")'
+                       v-on:mouseleave='setInfo(null)'
+                       type="button" class="btn btn-light ">
+
+                    <img
+                        src='/driver_icons/publish.png'
+                        style='height:35px; margin-right: 10px;'
+                        class='img-fluid'>
+                    </img>
                     Release
 
                   </a>
@@ -446,7 +475,9 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
 
 
 
-                    <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+
+
+                  <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){closeSubEditor()},100)'
                               v-if="editor_overloaded"
                               v-on:mouseenter='setInfo("Back to editor")'
