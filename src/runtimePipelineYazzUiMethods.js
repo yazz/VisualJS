@@ -2932,12 +2932,16 @@ ${origCode}
             },
             processControlEvent:                    async function  (  { design_time_only_events , type , code , control_name , args , sub_type , form_name }  ) {
 
+                //----------------------------------------------------------------------------------
+                //
                 //                    /-------------------------------------/
                 //                   /         processControlEvent         /
                 //                  /-------------------------------------/
                 //
+                //----------------------------------------------------------------------------
                 // This is used to run user written event code in the app, form, or control
                 // event handlers
+                //--------------------------------------------------------------------
                 let mm                      = this
                 let callableUiForms         = {}
                 let shallIProcessThisEvent  = false
@@ -2946,9 +2950,8 @@ ${origCode}
 
 
 
-                // disallow processing this event if we are in design mode
-                // in most cases
-
+                // If we are in design mode then do not allow this event to be processed.
+                // There are a few other cases as well that we have to be aware of
                 if ( (!mm.design_mode) && (mm.model) )                              { shallIProcessThisEvent = true }
                 if ( (!mm.design_mode) && (mm.model) )                              { shallIProcessThisEvent = true }
                 if ( design_time_only_events && (mm.design_mode) && (mm.model) )    { shallIProcessThisEvent = true }
@@ -2957,28 +2960,29 @@ ${origCode}
 
 
 
-                // if we are allowed to process this event
-
+                // If we are allowed to process this event then first make sure that all the
+                // form caches are up to date and then process the event
                 if (shallIProcessThisEvent) {
-
-                    // first make sure that all the form caches are up to date
                     mm.updateAllFormCaches()
 
 
-                    //             /----------------------------/
-                    //            /  UI control or form event  /
-                    //           /----------------------------/
+                    //             /----------------------------------------/
+                    //            /  If UI control or form event triggered /
+                    //           /----------------------------------------/
                     //
-                    //       eg: "code to run when button clicked"
-                    //       -------------------------------------
+                    //            eg: "code to run when a button is clicked"
+                    //                 ------------------------------------
                     //
-                    // if this is processing an event generated from a control
-                    // on a form, or for events which are generated from a
-                    // form, such as form load or activate
+                    // If this function was called in response to an event generated
+                    // from a control on a form, or in response to an event from a
+                    // form, such as form load or form activation then process the
+                    // event
 
                     if ((type == "subcomponent_event") || (type == "form_event")) {
 
-
+                        // To process an event then we need to make sure that a few items
+                        // are defined which may be references from the Javascript code:
+                        // - Forms, such as Form_1, Form_2
                         // set up form access vars to enable:
                         //
                         // Form_1.show()
