@@ -2529,7 +2529,7 @@ ${origCode}
                 /*
                 ________________________________________
                 |                                      |
-                |                   |
+                |                                      |
                 |                                      |
                 |______________________________________|
 
@@ -2936,7 +2936,7 @@ ${origCode}
                 //                   /         processControlEvent         /
                 //                  /-------------------------------------/
                 //
-                // This is used to run user written event code in app, form, or control
+                // This is used to run user written event code in the app, form, or control
                 // event handlers
                 let mm                      = this
                 let callableUiForms         = {}
@@ -2957,10 +2957,11 @@ ${origCode}
 
 
 
-                // if we are allowed to process this
+                // if we are allowed to process this event
 
                 if (shallIProcessThisEvent) {
 
+                    // first make sure that all the form caches are up to date
                     mm.updateAllFormCaches()
 
 

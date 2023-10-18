@@ -2622,7 +2622,7 @@ module.exports = {
                             })
                         if (outstandingRequests) {
                             for (hashRecord of outstandingRequests.value.release_info) {
-                                console.log("hash record to add to queue: " + JSON.stringify(hashRecord, null, 2))
+                                //console.log("hash record to add to queue: " + JSON.stringify(hashRecord, null, 2))
                                 let releaseRecordAlreadyInQueue = await mm.getQuickSqlOneRow(
                                     thisDb,
                                     "select  ipfs_hash  from  level_8_download_content_queue  where  ipfs_hash = ?",
