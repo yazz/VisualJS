@@ -2462,7 +2462,7 @@ ${origCode}
                                 //
 
                             } else if (isApp) {
-                                debugger
+                                //debugger
 
                                 let appProps = mm.getAllAppPropeties()
                                 for (let formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
@@ -2938,7 +2938,6 @@ ${origCode}
                 //
                 // This is used to run user written event code in app, form, or control
                 // event handlers
-
                 let mm                      = this
                 let callableUiForms         = {}
                 let shallIProcessThisEvent  = false
