@@ -3972,9 +3972,13 @@ ${code}
                 return template;
             },
             updatePropertySelector:                 function        (  ) {
-                // -------------------------------------------------------------------
-                //                          updatePropertySelector
+                //----------------------------------------------------------------------------------
                 //
+                //                    /-------------------------------------/
+                //                   /         updatePropertySelector      /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
                 // This updates the property selector on the right of the editor,
                 // and it uses the currently selected object to figure out what
                 // to display
@@ -3982,19 +3986,13 @@ ${code}
 
                 let mm = this
 
-                //
-                // if we are not in edit mode then do nothing
-                //
 
+
+                // if we are not in edit mode or the property selector is not available
+                // then do nothing
                 if (!designMode){
                     return
                 }
-
-
-                //
-                // If the property selector is not available then do nothing
-                //
-
                 if (!document.getElementById("property_selector_parent")) {
                     return
                 }
@@ -4002,10 +4000,8 @@ ${code}
 
 
 
-                //
                 // Set up the property selector
-                //
-
+                // -------------------------------------------------------------------
                 document.getElementById("property_selector_parent").innerHTML=' <select id=property_selector ></select>'
 
                 let sdata           = []
@@ -4047,6 +4043,16 @@ ${code}
                     }
 
                 } else if (isValidObject(mm.active_component_index)) {
+
+                    if (mm.edited_app_component_id) {
+                        sdata.push(
+                            {
+                                value:      "" + indexProp,
+                                app:        mm.edited_app_component_id,
+                                form:       null,
+                                component:  null
+                            })
+                    }
 
                     sdata.push(
                         {
