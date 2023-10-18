@@ -2980,14 +2980,22 @@ ${origCode}
 
                     if ((type == "subcomponent_event") || (type == "form_event")) {
 
+                        //-------------------------------------------------------------------
                         // To process an event then we need to make sure that a few items
                         // are defined which may be references from the Javascript code:
-                        // - Forms, such as Form_1, Form_2
-                        // set up form access vars to enable:
                         //
-                        // Form_1.show()
-                        // Form_1.button_1.setText("Hello Ducks")
+                        // - Forms and components on forms:     such as Form_1, Form_2, or Form_1.button_1
+                        // - Components on the current form:    such as button_1
+                        //-------------------------------------------------------------------
 
+
+
+
+                        // FORMS - We have things we want to do with forms:
+                        //-------------------------------------------------------------------
+                        // (1) Methods such as Form_1.show()
+                        // (2) Methods and properties on forms such as Form_1.width (NOT IMPLEMENTED YET)
+                        // (3) Manipulate components on forms such as Form_1.button_1.setText("Hello Ducks")
                         for (  let  aForm  of  this.getForms() ) {
                             callableUiForms[ aForm.name  ] = {
                                 init: function({formName}) {
@@ -2997,6 +3005,7 @@ ${origCode}
                                     mm.model.forms[this.name].show()
                                 }
                             }
+
                             for (let formControl  of  mm.model.forms[  aForm.name ].components) {
                                 if (formControl.name) {
                                     callableUiForms[ aForm.name  ][formControl.name] = mm.runtimeFormsInfo[ aForm.name ].component_lookup_by_name[formControl.name]
@@ -3011,12 +3020,12 @@ ${origCode}
 
 
 
-                        // set up property access for all controls on this form
-                        // like:
+                        // COMPONENTS:      Any components on the current form, like "button_1"
+                        //-------------------------------------------------------------------
+                        // set up property access for all controls on this form like:
                         //
-                        // button_1.setText("Hello Ducks")
-                        // button_1.text = "Hello Ducks"
-
+                        // - button_1.setText("Hello Ducks")
+                        // - button_1.text = "Hello Ducks"
                         let allC = this.model.forms[this.active_form].components
                         for ( let comp  of  allC ) {
                             argsToUserCodeString += comp.name + ","
@@ -3062,7 +3071,7 @@ ${origCode}
                         argsToUserCodeString += "me, "
 
 
-                        argsToUserCode["app"] = mm.model
+                        argsToUserCode["app"] = await mm.getRuntimeAppInfo()
                         argsToUserCodeString += "app }"
 
 debugger
@@ -3127,6 +3136,10 @@ ${code}
                     mm.refresh ++
                     mm.$forceUpdate();
                 }
+            },
+            getRuntimeAppInfo:                      async function  (  ) {
+                let mm = this
+                return mm.model
             },
             gotoDragDropEditor:                     function        (  ) {
 
