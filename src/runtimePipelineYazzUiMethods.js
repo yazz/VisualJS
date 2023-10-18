@@ -3049,13 +3049,19 @@ ${origCode}
                         }
 
 `
-                        argsToUserCodeString += "me }"
                         if (type == "subcomponent_event") {
                             argsToUserCode["me"] = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[thisControl.name];
                         } else if (type == "form_event") {
                             argsToUserCode["me"] = mm.model.forms[mm.active_form]
                         }
+                        argsToUserCodeString += "me, "
 
+
+                        argsToUserCode["app"] = mm.model
+                        argsToUserCodeString += "app }"
+
+debugger
+//zzz
 
 
 
