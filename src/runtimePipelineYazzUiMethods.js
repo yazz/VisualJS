@@ -3045,14 +3045,11 @@ ${origCode}
                         }
 
 
-`
-                        argsToUserCodeString += "app ,"
-                        argsToUserCode["app"] = mm.model;
-
                         argsToUserCodeString += "myForm ,"
                         argsToUserCode["myForm"] = mm.model.forms[this.active_form];
 
 
+                        `
                         let listOfArgs = []
                         if (isValidObject(args)) {
                             listOfArgs = Object.keys(args)
