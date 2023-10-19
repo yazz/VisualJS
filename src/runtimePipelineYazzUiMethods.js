@@ -3928,6 +3928,7 @@ ${code}
                 this.model.app_selected             = true
                 this.active_property_index          = null
                 this.active_form                    = null
+                this.app_selected                   = true
 
                 this.properties                     = mm.getAllAppPropeties()
 
