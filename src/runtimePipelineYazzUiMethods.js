@@ -3088,7 +3088,7 @@ ${origCode}
                         //       (2) Global user defined methods
                         //-------------------------------------------------------------------
                         //zzz
-                        argsToUserCode["app"] = await mm.getRuntimeAppInfo()
+                        argsToUserCode["app"] = await mm.getRuntimeAppProperties()
                         argsToUserCodeString += "app }"
 
 debugger
@@ -3154,7 +3154,7 @@ ${code}
                     mm.$forceUpdate();
                 }
             },
-            getRuntimeAppInfo:                      async function  (  ) {
+            getRuntimeAppProperties:                      async function  (  ) {
                 let mm = this
                 return mm.model
             },
