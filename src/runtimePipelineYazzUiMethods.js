@@ -3170,7 +3170,8 @@ ${code}
                 for (let appProperty of mm.model.app_properties) {
 
                     if (appProperty.type == "Action" ) {
-                        mm.model.testFn = (function() {alert(JSON.stringify(appProperty,null,2))})
+//                        mm.model[appProperty.id] = (function() {alert(appProperty.id)})
+                        //mm.model.testFn = (function() {alert(mm.model[appProperty.id])})
                     }
                 }
                 return mm.model
@@ -5921,6 +5922,7 @@ return {}
                         // ---------------------------------------------------------
                         // For each app property
                         // ---------------------------------------------------------
+                        debugger
                         let appProps = mm.getAllAppPropeties()
                         for (let propDetails of appProps) {
                             if (propDetails.type == "Action") {
