@@ -2,13 +2,6 @@ async function(args) {
     /*
 updated_timestamp(1677214094918)
 code_changes([])//code_changes
-properties([
-  {
-    "id": "test",
-    "name": "test",
-    "type": "String"
-  }
-])//properties
 formEditor({
   "next_id": 7,
   "max_form": 5,
@@ -23,6 +16,12 @@ formEditor({
       "name": "test",
       "type": "String"
     }
+      ,
+    {
+    "id": "test2",
+    "name": "test2",
+    "type": "String"
+  }
   ],
   "forms": {
     "Form_1": {
