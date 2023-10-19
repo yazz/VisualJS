@@ -2997,11 +2997,12 @@ ${origCode}
 
 
 
+                        //-------------------------------------------------------------------
                         // FORMS - We have things we want to do with forms:
                         //-------------------------------------------------------------------
-                        // (1) Methods such as Form_1.show()
-                        // (2) Methods and properties on forms such as Form_1.width (NOT IMPLEMENTED YET)
-                        // (3) Manipulate components on forms such as Form_1.button_1.setText("Hello Ducks")
+                        //         (1) Methods such as Form_1.show()
+                        //         (2) Methods and properties on forms such as Form_1.width (NOT IMPLEMENTED YET)
+                        //         (3) Manipulate components on forms such as Form_1.button_1.setText("Hello Ducks")
                         for (  let  aForm  of  this.getForms() ) {
                             callableUiForms[ aForm.name  ] = {
                                 init: function({formName}) {
@@ -3026,6 +3027,7 @@ ${origCode}
 
 
 
+                        //-------------------------------------------------------------------
                         // COMPONENTS:      Any components on the current form, like "button_1"
                         //-------------------------------------------------------------------
                         // set up property access for all controls on this form like:
@@ -3065,7 +3067,12 @@ ${origCode}
                             }
                         }
 
+
 `
+                        //-------------------------------------------------------------------
+                        // ME - define "me" which means the current object, maybe a form,
+                        //      the app, or a control
+                        //-------------------------------------------------------------------
                         if (type == "subcomponent_event") {
                             argsToUserCode["me"] = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[thisControl.name];
                         } else if (type == "form_event") {
@@ -3074,6 +3081,13 @@ ${origCode}
                         argsToUserCodeString += "me, "
 
 
+
+                        //-------------------------------------------------------------------
+                        // APP - the top level of an app. Contains:
+                        //       (1) Global user defined properties
+                        //       (2) Global user defined methods
+                        //-------------------------------------------------------------------
+                        //zzz
                         argsToUserCode["app"] = await mm.getRuntimeAppInfo()
                         argsToUserCodeString += "app }"
 
