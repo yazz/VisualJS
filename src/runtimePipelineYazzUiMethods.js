@@ -3088,10 +3088,11 @@ ${origCode}
                         //       (2) Global user defined methods
                         //-------------------------------------------------------------------
                         //zzz
+                        debugger
                         argsToUserCode["app"] = await mm.getRuntimeAppProperties()
                         argsToUserCodeString += "app }"
 
-debugger
+
 //zzz
 
 
@@ -3156,6 +3157,13 @@ ${code}
             },
             getRuntimeAppProperties:                      async function  (  ) {
                 let mm = this
+                let appValues
+                for (let appProperty of mm.model.app_properties) {
+
+                    if (appProperty.type == "Action" ) {
+                        mm.model
+                    }
+                }
                 return mm.model
             },
             gotoDragDropEditor:                     function        (  ) {
