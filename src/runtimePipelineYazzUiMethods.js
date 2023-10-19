@@ -2545,16 +2545,16 @@ ${origCode}
                 //                  /-------------------------------------/
                 //
                 //----------------------------------------------------------------------------
-                // This is used to ...
+                // This is used to set up the object (app/form/component) and
+                // method selectors (onLoad, clicked, etc) for the event and
+                // method editor in the VB editor. These selectors can be
+                // found at the top of the event text editor pane
                 //--------------------------------------------------------------------
                 let mm = this
 
                 setTimeout( function() {
 
-                    //
                     // Add the selectors using the SelectR library
-                    //
-
                     if (!document.getElementById("select_code_object_parent")) {
                         return; }
                     document.getElementById("select_code_object_parent").innerHTML=' <select id=select_code_object ></select>'
@@ -2564,10 +2564,7 @@ ${origCode}
 
 
 
-                    //
                     //   initialise vars
-                    //
-
                     let objectListForSelector  = []
                     let methodListForSelector  = []
                     let indexObjectSelector    = 0
@@ -2577,10 +2574,7 @@ ${origCode}
 
 
 
-                    //
                     // if we selected the app or a form
-                    //
-
                     if (mm.model.app_selected || (!isValidObject(mm.active_component_index))) {
 
                         if (mm.edited_app_component_id) {
@@ -2645,6 +2639,19 @@ ${origCode}
                         // if we selected a component
                         //
                     } else if (isValidObject(mm.active_component_index)) {
+
+                        if (mm.edited_app_component_id) {
+                            objectListForSelector.push(
+                                {
+                                    value:      "" + indexObjectSelector,
+                                    app:        mm.edited_app_component_id,
+                                    form:       null,
+                                    component:  null
+                                })
+                        }
+                        indexObjectSelector++
+
+
 
                         objectListForSelector.push(
                             {
