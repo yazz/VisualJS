@@ -603,7 +603,7 @@
                 return newControl
             },
             editAsCode:                             async function  (  { app_selected , active_form , active_component_index , property_id }  ) {
-
+debugger
                 // This is called when the "..." button is pressed for
                 // a property in the property inspector
                 //
@@ -2891,6 +2891,8 @@ ${origCode}
                     document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
 
                     selectCodeObject.on('selectr.select', function(option) {
+                        debugger
+                        //zzz
                         let dd = objectListForSelector[option.idx]
                         if (dd.component) {
                             mm.selectComponent(dd.component_index)
@@ -2912,7 +2914,7 @@ ${origCode}
                             mm.select_app()
                             mm.editAsCode({
                                 app_selected:           true,
-                                active_form:            mm.active_form,
+                                active_form:            null,
                                 active_component_index: null,
                                 property_id:            "app_started_event"
 
@@ -3925,6 +3927,7 @@ ${code}
                 this.active_component_index         = null
                 this.model.app_selected             = true
                 this.active_property_index          = null
+                this.active_form                    = null
 
                 this.properties                     = mm.getAllAppPropeties()
 
