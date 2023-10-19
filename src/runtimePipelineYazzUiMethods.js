@@ -2473,7 +2473,7 @@ ${origCode}
                                 //
 
                             } else if (isApp) {
-                                //debugger
+                                debugger
 
                                 let appProps = mm.getAllAppPropeties()
                                 for (let formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
