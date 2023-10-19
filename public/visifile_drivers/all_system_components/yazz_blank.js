@@ -16,12 +16,27 @@ formEditor({
       "name": "test",
       "type": "String"
     }
-      ,
+    ,
     {
-    "id": "test2",
-    "name": "test2",
-    "type": "String"
-  }
+        id:         "testFn",
+        snippet:    `testFn("")`,
+        name:       "testFn",
+        type:       "Action",
+        help:       `<div>Help text for
+                        <b>testFn</b> function
+                     </div>`
+    }
+    ,
+    {
+        id:         "testAsyncFn",
+        pre_snippet: `await `,
+        snippet:    `testAsyncFn("")`,
+        name:       "testAsyncFn",
+        type:       "Action",
+        help:       `<div>Help text for
+                        <b>testAsyncFn</b> function
+                     </div>`
+    }
   ],
   "forms": {
     "Form_1": {
