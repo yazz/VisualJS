@@ -17,6 +17,7 @@ formEditor({
       "type": "String"
     }
     ,
+    //zzz
     {
         id:         "testFn",
         snippet:    `testFn("")`,

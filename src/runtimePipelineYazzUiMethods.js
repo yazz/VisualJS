@@ -2091,9 +2091,23 @@ ${origCode}
                 this.ui_code_editor.gotoLine(line , 10, true);
             },
             setupCodeAutocompletions:               function        (  ) {
-
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /      setupCodeAutocompletions       /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This is used to fill in the autocomplete values when editing scripts:
+                //
+                // User types:
+                //
+                // button_1. ----->     button_1.setText( )
+                //
                 // This is called when editing event code to autocomplete
                 // form names, control names, and methods
+                //--------------------------------------------------------------------
+
 
                 let mm          = this
                 let langTools   = ace.require("ace/ext/language_tools");
@@ -2101,24 +2115,23 @@ ${origCode}
 
 
                 // Clear any default auto-completers that have been set
-
                 langTools.setCompleters([]);
 
 
-                // Create the autocompleter
 
+                // Create the auto completer
                 let autocompleterFunction = {
                     identifierRegexps: [/[a-zA-Z_0-9.]/]
                     ,
 
                     // The "getCompletions" callback is called every time the user
                     // presses a key in the editor. So for example they may type
-                    // "Form_1" follow by the "." key, which caused this to be called
-
+                    // "Form_1" follow by the "." key, which causes this to be called
                     getCompletions: function(editor, session, pos, prefix, callback) {
 
-                        // If no text entered then do nothing
 
+
+                        // If no text entered then do nothing
                         if (prefix.length === 0) {
                             callback(null, []);
                             return
@@ -2128,7 +2141,6 @@ ${origCode}
 
                         // Get the first part of the text that the user entered, before the
                         // ".", for example, "Form_1." would return "Form_1"
-
                         let textBeforeFirstDot = null
                         let textBeforeSecondDot = null
                         if (prefix.indexOf(".") != -1) {
@@ -2145,7 +2157,6 @@ ${origCode}
 
                         // Create the list of initial objects to complete:
                         // app, forms, controls
-
                         if (textBeforeFirstDot == null) {
 
                             wordList.push(  {
@@ -2526,21 +2537,15 @@ ${origCode}
                 });
             },
             setupCodeEditorSelectors:               function        (  property_id  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                                      |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /      setupCodeEditorSelectors       /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This is used to ...
+                //--------------------------------------------------------------------
                 let mm = this
 
                 setTimeout( function() {
@@ -3192,7 +3197,7 @@ ${code}
 
                 return false
             },
-            getFormProperties:                      function        (    formName    ) {
+            getFormProperties:                      function        (  formName  ) {
 
                 let props = []
                 props.push({   id: "name",          name: "Name",           type:   "String"    })
