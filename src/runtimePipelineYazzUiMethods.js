@@ -5922,10 +5922,10 @@ return {}
                         // ---------------------------------------------------------
                         // For each app property
                         // ---------------------------------------------------------
-                        debugger
                         let appProps = mm.getAllAppPropeties()
                         for (let propDetails of appProps) {
                             if (propDetails.type == "Action") {
+                                debugger
                                 mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
                             } else if (!isValidObject(mm.model[propDetails.id])) {
                                 if (isValidObject(propDetails.default)) {
