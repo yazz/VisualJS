@@ -3161,7 +3161,7 @@ ${code}
                 for (let appProperty of mm.model.app_properties) {
 
                     if (appProperty.type == "Action" ) {
-                        mm.model
+                        mm.model.testFn = (function() {alert(JSON.stringify(appProperty,null,2))})
                     }
                 }
                 return mm.model
