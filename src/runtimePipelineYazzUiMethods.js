@@ -2485,9 +2485,10 @@ ${origCode}
                                     if (isValidObject(propDetails.snippet)) {
                                         propName = textBeforeFirstDot + "." + propDetails.snippet
                                     }
-                                    if (isValidObject(propDetails.snippet)) {
-                                        propName = propDetails.snippet + propName
+                                    if (isValidObject(propDetails.pre_snippet)) {
+                                        propName = propDetails.pre_snippet + propName
                                     }
+
                                     if (propDetails.type == "Action") {
                                         meta = "Method"
                                     }
