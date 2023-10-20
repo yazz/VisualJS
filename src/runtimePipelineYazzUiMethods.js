@@ -1593,7 +1593,8 @@ ${formprop.fn}
                 let mm                      = this
                 let isAsync                 = true
                 let isAppInDesignMode       = mm.design_mode
-                let appProps = mm.getAllAppProperties()
+                let appProps                = mm.getAllAppProperties()
+
                 for (let propDetails of appProps) {
                     if (propDetails.id == propDetailsId) {
                         if (propDetails.async) {
@@ -1604,9 +1605,9 @@ ${formprop.fn}
                     }
                 }
                 if (isAsync || isValidObject(methodFn)){
-                    return mm.getAppAsyncMethod(  methodId  ,  isAppInDesignMode  )
+                    return mm.getAppAsyncMethod(  propDetailsId  ,  isAppInDesignMode  )
                 } else {
-                    return mm.getAppNonAsyncMethod(  methodId  ,  isAppInDesignMode  )
+                    return mm.getAppNonAsyncMethod(  propDetailsId  ,  isAppInDesignMode  )
                 }
             },
             getAppNonAsyncMethod:                   function        (  methodId  ,  isAppInDesignMode  ) {
@@ -1616,7 +1617,7 @@ ${formprop.fn}
                     let fnDetails       = null
                     let isString = value => typeof value === 'string' || value instanceof String;
                     if (!isAppInDesignMode) {
-                        if (mm.model && mm.model[methodId] && isString(mm.model[methodId]) {
+                        if (mm.model && mm.model[methodId] && isString(mm.model[methodId])) {
                             fnDetails = mm.model[methodId]
                             retv = fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
                         } else {
