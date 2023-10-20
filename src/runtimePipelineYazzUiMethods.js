@@ -603,7 +603,7 @@
                 return newControl
             },
             editAsCode:                             async function  (  { app_selected , active_form , active_component_index , property_id }  ) {
-debugger
+
                 // This is called when the "..." button is pressed for
                 // a property in the property inspector
                 //
@@ -2905,8 +2905,6 @@ ${methodSrcCode}
                     document.getElementsByClassName("selectr-selected")[2].style["border-left"] = "2px solid gray"
 
                     selectCodeObject.on('selectr.select', function(option) {
-                        debugger
-                        //zzz
                         let dd = objectListForSelector[option.idx]
                         if (dd.component) {
                             mm.selectComponent(dd.component_index)
@@ -2928,7 +2926,7 @@ ${methodSrcCode}
                             mm.select_app()
                             mm.editAsCode({
                                 app_selected:           true,
-                                active_form:            null,
+                                active_form:            mm.active_form,
                                 active_component_index: null,
                                 property_id:            "app_started_event"
 
@@ -3917,34 +3915,24 @@ ${code}
                 return properties
             },
             select_app:                             function        (  ) {
-                //-------------------------------------------------------------------
-                //                             select_app
+                //----------------------------------------------------------------------------------
                 //
+                //                    /-------------------------------------/
+                //                   /              select_app             /
+                //                  /-------------------------------------/
                 //
-                //-------------------------------------------------------------------
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
+                //----------------------------------------------------------------------------
+                // This is used to run user written event code in the app, form, or control
+                // event handlers
+                //--------------------------------------------------------------------
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
 
                 this.active_component_index         = null
                 this.model.app_selected             = true
                 this.active_property_index          = null
-                this.active_form                    = null
-                this.app_selected                   = true
-
+                //this.active_form                    = null
+                //this.app_selected                   = true
                 this.properties                     = mm.getAllAppProperties()
 
                 this.updatePropertySelector()
