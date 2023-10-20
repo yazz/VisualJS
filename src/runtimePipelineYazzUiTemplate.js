@@ -2322,7 +2322,7 @@ Pushlist
 
 
 
-                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn)) "
+                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn))  ||  (model.app_selected && (property.type  == 'Action'))"
                                                 style="width:100%">
 
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
