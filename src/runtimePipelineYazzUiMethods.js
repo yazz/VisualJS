@@ -1578,7 +1578,7 @@ ${formprop.fn}
                 }
 
             },
-            getAppMethod:                           function        (  propDetailsId  ) {
+            getAppMethod:                           function        (  appMethodId  ) {
                 //----------------------------------------------------------------------------------
                 //
                 //                    /-------------------------------------/
@@ -1591,12 +1591,21 @@ ${formprop.fn}
                 //--------------------------------------------------------------------
                 debugger
                 let mm                      = this
-                let isAsync                 = true
                 let isAppInDesignMode       = mm.design_mode
+
+                if (mm.model[appMethodId].instanceof Function) {
+                    return mm.model[appMethodId]
+                }
+                if (isAppInDesignMode) {
+                    return null
+                }
+
+
+                let isAsync                 = true
                 let appProps                = mm.getAllAppProperties()
 
                 for (let propDetails of appProps) {
-                    if (propDetails.id == propDetailsId) {
+                    if (propDetails.id == appMethodId) {
                         if (propDetails.async) {
                             isAsync = true
                         } else {
@@ -1605,59 +1614,35 @@ ${formprop.fn}
                     }
                 }
                 if (isAsync) {
-                    return mm.getAppAsyncMethod(  propDetailsId  ,  isAppInDesignMode  )
+                    return mm.convertAppMethodStringToAsyncFn(  appMethodId  )
                 } else {
-                    return mm.getAppNonAsyncMethod(  propDetailsId  ,  isAppInDesignMode  )
+                    return mm.convertAppMethodStringToFn(  appMethodId  )
                 }
             },
-            getAppNonAsyncMethod:                   function        (  methodId  ,  isAppInDesignMode  ) {
+            convertAppMethodStringToFn:             function        (  appMethodId  ) {
                 let mm = this
                 return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                    let retv            =  null
+                    let retv            = null
                     let fnDetails       = null
-                    let isString = value => typeof value === 'string' || value instanceof String;
-                    if (!isAppInDesignMode) {
-                        if (mm.model && mm.model[methodId] && isString(mm.model[methodId])) {
-                            fnDetails = mm.model[methodId]
-                            retv = fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
-                        } else {
-                            retv = fnDetails
-                        }
+                    if (  mm.model  &&  mm.model[  appMethodId  ]  ) {
+                        fnDetails = mm.model[  appMethodId  ]
+                        retv = fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+                    } else {
+                        retv = fnDetails
                     }
                     return retv
                 }
             },
-            getAppAsyncMethod:                      function        (  componentDetails  ) {
-                return async function (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
-                    let me = componentDetails
-                    let parent = null
-                    if (me.parent) {
-                        parent = this.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
-                    }
+            convertAppMethodStringToAsyncFn:        function        (  appMethodId  ) {
+//                    if (isValidObject(methodFn)) {
+  //                      let thecode =
+      //                      `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+    //                ${methodFn}
+        //            })`
 
-                    let fnDetails = null
-                    if (isValidObject(methodFn)) {
-                        let thecode =
-                            `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                    ${methodFn}
-                    })`
-
-                        fnDetails = eval(thecode)
-
-                    } else {
-                        let controlDetails = null
-                        if (isComponentInDesignMode) {
-                            controlDetails = yz.componentsAPI.vue.getDesignModeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
-                        } else {
-                            controlDetails = yz.componentsAPI.vue.getRuntimeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
-                        }
-                        fnDetails = controlDetails[methodId]
-                    }
-                    let retv = await fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
-
-
-                    return retv
-                }
+                    //    fnDetails = controlDetails[methodId]
+                    
+//                    let retv = await fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
             },
             deleteCursor:                           function        (  ) {
                 /*
@@ -3207,7 +3192,7 @@ ${code}
                     mm.$forceUpdate();
                 }
             },
-            getRuntimeAppProperties:                      async function  (  ) {
+            getRuntimeAppProperties:                async function  (  ) {
                 let mm = this
                 let appValues
                 for (let appProperty of mm.model.app_properties) {
