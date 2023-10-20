@@ -1593,7 +1593,7 @@ ${formprop.fn}
                 let mm                      = this
                 let isAppInDesignMode       = mm.design_mode
 
-                if (mm.model[appMethodId] && (mm.model[appMethodId].instanceof Function)) {
+                if (mm.model[appMethodId] && (mm.model[appMethodId] instanceof Function)) {
                     return mm.model[  appMethodId  ]
                 }
                 if (isAppInDesignMode) {
