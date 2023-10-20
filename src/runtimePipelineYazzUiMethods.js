@@ -1609,11 +1609,7 @@ ${formprop.fn}
                     }
                 }
                 debugger
-                if (isAsync) {
-                    return mm.convertAppMethodStringToFn(  appMethodId  ,  true)
-                } else {
-                    return mm.convertAppMethodStringToFn(  appMethodId  ,  false)
-                }
+                return mm.convertAppMethodStringToFn(  appMethodId  ,  isAsync)
             },
             convertAppMethodStringToFn:             function        (  appMethodId  ,  isAsync  ) {
                 let mm = this
@@ -1628,8 +1624,15 @@ ${methodSrcCode}
                     {
                         skipFirstAndLastLine: true
                     })
+                let containingCode =
+`(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+let innerf= ${debugFcc}
+let retv = innerf(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+return retv
+})
+`
 
-                fnDetails = eval(debugFcc)
+                fnDetails = eval(containingCode)
                 return fnDetails
             },
             deleteCursor:                           function        (  ) {
