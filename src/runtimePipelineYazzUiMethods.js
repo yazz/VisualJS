@@ -1621,28 +1621,27 @@ ${formprop.fn}
             },
             convertAppMethodStringToFn:             function        (  appMethodId  ) {
                 let mm = this
-                return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                    let retv            = null
-                    let fnDetails       = null
-                    if (  mm.model  &&  mm.model[  appMethodId  ]  ) {
-                        fnDetails = mm.model[  appMethodId  ]
-                        retv = fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
-                    } else {
-                        retv = fnDetails
-                    }
-                    return retv
-                }
-            },
-            convertAppMethodStringToAsyncFn:        function        (  appMethodId  ) {
-//                    if (isValidObject(methodFn)) {
-  //                      let thecode =
-      //                      `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-    //                ${methodFn}
-        //            })`
+                let methodSrcCode = mm.model[appMethodId]
+                let thecode =
+                    `(function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${methodSrcCode}
+})`
 
-                    //    fnDetails = controlDetails[methodId]
-                    
-//                    let retv = await fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+                fnDetails = eval(thecode)
+                let retv = fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                return retv
+            },
+            convertAppMethodStringToAsyncFn:        async function  (  appMethodId  ) {
+                let mm = this
+                let methodSrcCode = mm.model[appMethodId]
+                let thecode =
+                    `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+${methodSrcCode}
+})`
+
+                fnDetails = eval(thecode)
+                let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                return retv
             },
             deleteCursor:                           function        (  ) {
                 /*

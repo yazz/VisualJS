@@ -39,6 +39,8 @@ formEditor({
                      </div>`
     }
   ],
+  testFn: "alert('testFn called')",
+  testAsyncFn: "alert('testAsyncFn called')",
   "forms": {
     "Form_1": {
       "name": "Form_1",
