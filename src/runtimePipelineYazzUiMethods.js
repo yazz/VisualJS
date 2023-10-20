@@ -1589,15 +1589,10 @@ ${formprop.fn}
                 // This is used to run user defined method on an app. In essence these
                 // are "global" functions in a Yazz app
                 //--------------------------------------------------------------------
-                debugger
                 let mm                      = this
-                let isAppInDesignMode       = mm.design_mode
 
                 if (mm.model[appMethodId] && (mm.model[appMethodId] instanceof Function)) {
                     return mm.model[  appMethodId  ]
-                }
-                if (isAppInDesignMode) {
-                    return null
                 }
 
 
@@ -1613,6 +1608,7 @@ ${formprop.fn}
                         }
                     }
                 }
+                debugger
                 if (isAsync) {
                     return mm.convertAppMethodStringToAsyncFn(  appMethodId  )
                 } else {
@@ -1628,10 +1624,9 @@ ${methodSrcCode}
 })`
 
                 fnDetails = eval(thecode)
-                let retv = fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                return retv
+                return fnDetails
             },
-            convertAppMethodStringToAsyncFn:        async function  (  appMethodId  ) {
+            convertAppMethodStringToAsyncFn:        function  (  appMethodId  ) {
                 let mm = this
                 let methodSrcCode = mm.model[appMethodId]
                 let thecode =
@@ -1640,8 +1635,7 @@ ${methodSrcCode}
 })`
 
                 fnDetails = eval(thecode)
-                let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
-                return retv
+                return fnDetails
             },
             deleteCursor:                           function        (  ) {
                 /*
@@ -5952,8 +5946,10 @@ return {}
                         let appProps = mm.getAllAppProperties()
                         for (let propDetails of appProps) {
                             if (propDetails.type == "Action") {
-                                debugger
-                                mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
+                                //debugger
+                                if (!mm.design_mode) {
+                                    mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
+                                }
                             } else if (!isValidObject(mm.model[propDetails.id])) {
                                 if (isValidObject(propDetails.default)) {
                                     mm.model[propDetails.id] = propDetails.default
