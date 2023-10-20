@@ -1610,27 +1610,16 @@ ${formprop.fn}
                 }
                 debugger
                 if (isAsync) {
-                    return mm.convertAppMethodStringToAsyncFn(  appMethodId  )
+                    return mm.convertAppMethodStringToFn(  appMethodId  ,  true)
                 } else {
-                    return mm.convertAppMethodStringToFn(  appMethodId  )
+                    return mm.convertAppMethodStringToFn(  appMethodId  ,  false)
                 }
             },
-            convertAppMethodStringToFn:             function        (  appMethodId  ) {
+            convertAppMethodStringToFn:             function        (  appMethodId  ,  isAsync  ) {
                 let mm = this
                 let methodSrcCode = mm.model[appMethodId]
                 let thecode =
-`(function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-${methodSrcCode}
-})`
-
-                fnDetails = eval(thecode)
-                return fnDetails
-            },
-            convertAppMethodStringToAsyncFn:        function  (  appMethodId  ) {
-                let mm = this
-                let methodSrcCode = mm.model[appMethodId]
-                let thecode =
-`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+`(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 ${methodSrcCode}
 })`
 
