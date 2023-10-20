@@ -1604,7 +1604,7 @@ ${formprop.fn}
                         }
                     }
                 }
-                if (isAsync || isValidObject(methodFn)){
+                if (isAsync) {
                     return mm.getAppAsyncMethod(  propDetailsId  ,  isAppInDesignMode  )
                 } else {
                     return mm.getAppNonAsyncMethod(  propDetailsId  ,  isAppInDesignMode  )
