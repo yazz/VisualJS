@@ -1593,8 +1593,8 @@ ${formprop.fn}
                 let mm                      = this
                 let isAppInDesignMode       = mm.design_mode
 
-                if (mm.model[appMethodId].instanceof Function) {
-                    return mm.model[appMethodId]
+                if (mm.model[appMethodId] && (mm.model[appMethodId].instanceof Function)) {
+                    return mm.model[  appMethodId  ]
                 }
                 if (isAppInDesignMode) {
                     return null
@@ -1604,9 +1604,9 @@ ${formprop.fn}
                 let isAsync                 = true
                 let appProps                = mm.getAllAppProperties()
 
-                for (let propDetails of appProps) {
-                    if (propDetails.id == appMethodId) {
-                        if (propDetails.async) {
+                for (let appPropertyDetails of appProps) {
+                    if (appPropertyDetails.id == appMethodId) {
+                        if (appPropertyDetails.async) {
                             isAsync = true
                         } else {
                             isAsync = false
