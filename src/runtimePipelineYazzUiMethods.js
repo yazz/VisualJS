@@ -1553,21 +1553,16 @@ debugger
 
             },
             getFormMethod:                          function        (  formName  ,  formprop  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /             getFormMethod           /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This is used to get the user defined event on a form
+                //--------------------------------------------------------------------
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                     let formDetails = mm.model.forms[formName]
@@ -1584,37 +1579,84 @@ ${formprop.fn}
 
             },
             getAppMethod:                           function        (  propDetailsId  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /              getAppMethod           /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This is used to run user defined method on an app. In essence these
+                // are "global" functions in a Yazz app
+                //--------------------------------------------------------------------
+                debugger
+                let mm                      = this
+                let isAsync                 = true
+                let isAppInDesignMode       = mm.design_mode
+                let appProps = mm.getAllAppProperties()
+                for (let propDetails of appProps) {
+                    if (propDetails.id == propDetailsId) {
+                        if (propDetails.async) {
+                            isAsync = true
+                        } else {
+                            isAsync = false
+                        }
+                    }
+                }
+                if (isAsync || isValidObject(methodFn)){
+                    return mm.getAppAsyncMethod(  methodId  ,  isAppInDesignMode  )
+                } else {
+                    return mm.getAppNonAsyncMethod(  methodId  ,  isAppInDesignMode  )
+                }
+            },
+            getAppNonAsyncMethod:                   function        (  methodId  ,  isAppInDesignMode  ) {
                 let mm = this
-                return async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                    let retv            =  null
+                    let fnDetails       = null
+                    let isString = value => typeof value === 'string' || value instanceof String;
+                    if (!isAppInDesignMode) {
+                        if (mm.model && mm.model[methodId] && isString(mm.model[methodId]) {
+                            fnDetails = mm.model[methodId]
+                            retv = fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+                        } else {
+                            retv = fnDetails
+                        }
+                    }
+                    return retv
+                }
+            },
+            getAppAsyncMethod:                      function        (  componentDetails  ) {
+                return async function (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
+                    let me = componentDetails
+                    let parent = null
+                    if (me.parent) {
+                        parent = this.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
+                    }
 
-                    let origCode = mm.model[propDetailsId]
-                    let thecode =
-                        `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-${origCode}
-})`
+                    let fnDetails = null
+                    if (isValidObject(methodFn)) {
+                        let thecode =
+                            `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                    ${methodFn}
+                    })`
 
-                    fnDetails = eval(thecode)
-                    let retv = await fnDetails(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+                        fnDetails = eval(thecode)
+
+                    } else {
+                        let controlDetails = null
+                        if (isComponentInDesignMode) {
+                            controlDetails = yz.componentsAPI.vue.getDesignModeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
+                        } else {
+                            controlDetails = yz.componentsAPI.vue.getRuntimeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
+                        }
+                        fnDetails = controlDetails[methodId]
+                    }
+                    let retv = await fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 
 
                     return retv
                 }
-
             },
             deleteCursor:                           function        (  ) {
                 /*
@@ -2475,7 +2517,7 @@ ${origCode}
                             } else if (isApp) {
                                 debugger
 
-                                let appProps = mm.getAllAppPropeties()
+                                let appProps = mm.getAllAppProperties()
                                 for (let formPropIndex = 0 ; formPropIndex < appProps.length ; formPropIndex++ ) {
 
                                     let propDetails = appProps[formPropIndex]
@@ -2687,7 +2729,7 @@ ${origCode}
 
                     // get the app methods
                     if (mm.model.app_selected) {
-                        let allProperties = mm.getAllAppPropeties()
+                        let allProperties = mm.getAllAppProperties()
                         for (let ui=0;ui < allProperties.length; ui ++) {
                             let prop = allProperties[ui]
                             if ((prop.type == "Event") || (prop.type == "Action")) {
@@ -3878,7 +3920,7 @@ ${code}
 
                 ]
             },
-            getAllAppPropeties:                     function        (  ) {
+            getAllAppProperties:                     function        (  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -3931,7 +3973,7 @@ ${code}
                 this.active_form                    = null
                 this.app_selected                   = true
 
-                this.properties                     = mm.getAllAppPropeties()
+                this.properties                     = mm.getAllAppProperties()
 
                 this.updatePropertySelector()
 
@@ -5922,7 +5964,7 @@ return {}
                         // ---------------------------------------------------------
                         // For each app property
                         // ---------------------------------------------------------
-                        let appProps = mm.getAllAppPropeties()
+                        let appProps = mm.getAllAppProperties()
                         for (let propDetails of appProps) {
                             if (propDetails.type == "Action") {
                                 debugger
