@@ -1619,7 +1619,7 @@ ${formprop.fn}
                 let mm = this
                 let methodSrcCode = mm.model[appMethodId]
                 let thecode =
-                    `(function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+`(function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 ${methodSrcCode}
 })`
 
@@ -1630,7 +1630,7 @@ ${methodSrcCode}
                 let mm = this
                 let methodSrcCode = mm.model[appMethodId]
                 let thecode =
-                    `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 ${methodSrcCode}
 })`
 
@@ -1638,21 +1638,14 @@ ${methodSrcCode}
                 return fnDetails
             },
             deleteCursor:                           function        (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /              deleteCursor           /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                //--------------------------------------------------------------------
                 document.getElementById(this.vb_grid_element_id).style.cursor = "crosshair"
                 document.getElementById("grid_container").style.cursor = "default"
                 if (this.oldCursor) {

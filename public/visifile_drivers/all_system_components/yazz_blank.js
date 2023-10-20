@@ -39,8 +39,8 @@ formEditor({
                      </div>`
     }
   ],
-  testFn: "alert('testFn called')",
-  testAsyncFn: "alert('testAsyncFn called')",
+  testFn: "alert('testFn called. mm: ' + mm.model.test)",
+  testAsyncFn: "alert('testAsyncFn called. mm: ' + thecode)",
   "forms": {
     "Form_1": {
       "name": "Form_1",
