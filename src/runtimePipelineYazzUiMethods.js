@@ -1622,8 +1622,14 @@ ${formprop.fn}
 `(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 ${methodSrcCode}
 })`
+                let debugFcc = getDebugCode(
+                    "app." + appMethodId,
+                    thecode,
+                    {
+                        skipFirstAndLastLine: true
+                    })
 
-                fnDetails = eval(thecode)
+                fnDetails = eval(debugFcc)
                 return fnDetails
             },
             deleteCursor:                           function        (  ) {
