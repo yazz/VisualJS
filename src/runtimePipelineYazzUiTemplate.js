@@ -2472,7 +2472,7 @@ Pushlist
 
                             <select  class='col-md-7 small'
                                      style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                     v-model='new_property_type'>
+                                     v-model='new_async'>
 
                                     <option  v-bind:selected='new_async=="true"' value="True">True</option>
                                     <option  v-bind:selected='new_async=="false"' value="False">False</option>
@@ -2486,7 +2486,7 @@ Pushlist
                             </div>
                             <input  style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-7 small'
-                                    placeholder='pre_snippet'
+                                    v-bind:placeholder='((new_async=="true")?"await ":"")'
                                     v-model='new_pre_snippet'>
                             </input>
                         </div>
@@ -2497,7 +2497,7 @@ Pushlist
                             </div>
                             <input  style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-7 small'
-                                    placeholder='snippet'
+                                    placeholder='doAction(...)'
                                     v-model='new_snippet'>
                             </input>
                         </div>
@@ -2506,11 +2506,13 @@ Pushlist
                                     class='col-md-4'>
                                 Help
                             </div>
-                            <input  style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-7 small'
-                                    placeholder='pre_help'
+                            
+                            <textarea  style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-5 small'
+                                    rows=10
+                                    placeholder='doAction(...) does something'
                                     v-model='new_help'>
-                            </input>
+                            </textarea>
                         </div>
                         
                         
