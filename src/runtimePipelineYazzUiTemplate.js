@@ -2436,7 +2436,7 @@ Pushlist
                         </div>
                         
                         
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
                             <div    style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-4'>
                                 Async
@@ -2451,7 +2451,7 @@ Pushlist
                             </select>
                         </div>
                         
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
                             <div    style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-4'>
                                 Pre snippet
@@ -2462,7 +2462,7 @@ Pushlist
                                     v-model='new_pre_snippet'>
                             </input>
                         </div>
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
                             <div    style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-4'>
                                 Snippet
@@ -2473,7 +2473,7 @@ Pushlist
                                     v-model='new_snippet'>
                             </input>
                         </div>
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
                             <div    style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-4'>
                                 Help
