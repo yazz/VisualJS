@@ -32,6 +32,7 @@ formEditor({
         id:         "testAsyncFn",
         pre_snippet: `await `,
         snippet:    `testAsyncFn("")`,
+        async:      true,
         name:       "testAsyncFn",
         type:       "Action",
         help:       `<div>Help text for

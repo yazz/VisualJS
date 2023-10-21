@@ -2453,6 +2453,42 @@ Pushlist
                             </select>
                         </div>
 
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-4'>
+                               ID
+                            </div>
+
+                            <input  style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-7 small'
+                                    placeholder='pre_snippet'
+                                    v-model='new_pre_snippet'>
+                            </input>
+                            <input  style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-7 small'
+                                    placeholder='snippet'
+                                    v-model='new_snippet'>
+                            </input>
+                        </div>
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-4'>
+                                Async
+                            </div>
+
+                            <select  class='col-md-7 small'
+                                     style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                     v-model='new_property_type'>
+
+                                    <option  v-bind:selected='new_async=="true"' value="True">True</option>
+                                    <option  v-bind:selected='new_async=="false"' value="False">False</option>
+                            </select>
+                        </div>
+                        <input  style='font-family:verdana,helvetica;font-size: 13px;'
+                                class='col-md-7 small'
+                                placeholder='pre_help'
+                                v-model='new_help'>
+                        </input>
 
 
 
