@@ -2389,9 +2389,16 @@ Pushlist
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>                            
                         </div>
-
+                        
+                        
+                        
+                        <!-- --------------------
+                        
+                             + PROPERTY BUTTON
+                             
+                         -------------------- -->
                         <div  v-if='model.app_selected && (!add_property)' class='row'>
                             <div  class='col-md-12 small'>
                                 <button     type=button class='btn btn-sm btn-info'
@@ -2401,6 +2408,34 @@ Pushlist
                                 </button>
                             </div>
                         </div>
+                        
+                        <div  style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div
+                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;background-color:#000099;color:white;"'>
+                                            NAME
+                                </div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                            <input
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
+                                            </input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+                    </div>
+                    
+                        
+                        
+
+
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
                             <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:20px;color:white;background-color:blue;'
