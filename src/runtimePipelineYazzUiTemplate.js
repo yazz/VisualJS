@@ -2521,7 +2521,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (add_property)'
+                        <div   v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2538,6 +2538,62 @@ Pushlist
                                             </select>
                                         </div></div></div></div></div>
                         
+                        
+                        
+                        
+                        
+
+                        <!-- --------------------
+                        
+                             NEW PROPERTY PRE SNIPPET
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Pre snippet</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                             <input
+                                                    v-bind:placeholder='((new_async=="true")?"await ":"")'
+                                                    v-model='new_pre_snippet'
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    >
+                                            </input>
+                                                                              
+                                        </div></div></div></div></div>
+                               
+                               
+      
+      
+      
+      
+                        <!-- --------------------
+                        
+                             NEW PROPERTY SNIPPET
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Snippet</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                             <input
+                                                    v-bind:placeholder='((new_async=="true")?"await ":"")'
+                                                    v-model='new_snippet'
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    >
+                                            </input>
+                                                                              
+                                        </div></div></div></div></div>
+                                        
                     </div>
                     
                         
@@ -2554,32 +2610,7 @@ Pushlist
 
                         
                         
-                        
-                        
-  
-                        
-                        <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-4'>
-                                Pre snippet
-                            </div>
-                            <input  style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-7 small'
-                                    v-bind:placeholder='((new_async=="true")?"await ":"")'
-                                    v-model='new_pre_snippet'>
-                            </input>
-                        </div>
-                        <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-4'>
-                                Snippet
-                            </div>
-                            <input  style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-7 small'
-                                    placeholder='doAction(...)'
-                                    v-model='new_snippet'>
-                            </input>
-                        </div>
+      
                         <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
                             <div    style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-4'>
