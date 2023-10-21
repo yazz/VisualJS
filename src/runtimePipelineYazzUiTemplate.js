@@ -2399,10 +2399,10 @@ Pushlist
                              + PROPERTY BUTTON
                              
                          -------------------- -->
-                        <div  v-if='model.app_selected && (!add_property)' class='row'>
+                        <div  v-if='model.app_selected && (!add_property)' class='row' style='padding-top:10px; margin: 5px;'>
                             <div  class='col-md-12 small'>
                                 <button     type=button class='btn btn-sm btn-info'
-                                            style='font-family:verdana,helvetica;font-size: 13px;'
+                                            style='font-family:verdana,helvetica;font-size: 13px;padding: 3px;'
                                             v-on:click='$event.stopPropagation();addPropertyToApp()'  >
                                     +
                                 </button>
@@ -2427,7 +2427,18 @@ Pushlist
                             </div>
                         </div>
                         
+                        <!-- --------------------
                         
+                             Add property text
+                             
+                         -------------------- -->
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='left:10px;padding-left:10px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
+                                    class='col-md-12 small'>
+                                Add a property
+                            </div>
+                        </div>
+
                         
                         
                     </div>
@@ -2437,12 +2448,6 @@ Pushlist
 
 
 
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:20px;color:white;background-color:blue;'
-                                    class='col-md-12 small'>
-                                Add a property
-                            </div>
-                        </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
                             <div    style='font-family:verdana,helvetica;font-size: 13px;'
