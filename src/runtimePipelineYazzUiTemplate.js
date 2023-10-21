@@ -2453,17 +2453,12 @@ Pushlist
                             </select>
                         </div>
 
+                        <input  style='font-family:verdana,helvetica;font-size: 13px;'
+                                class='col-md-7 small'
+                                placeholder='pre_snippet'
+                                v-model='new_pre_snippet'>
+                        </input>
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-4'>
-                               ID
-                            </div>
-
-                            <input  style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-7 small'
-                                    placeholder='pre_snippet'
-                                    v-model='new_pre_snippet'>
-                            </input>
                             <input  style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-7 small'
                                     placeholder='snippet'
