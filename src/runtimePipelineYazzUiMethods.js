@@ -887,7 +887,17 @@
 
                 return val
             },
-            addProperty:                            function        (  ) {
+            addPropertyToApp:                       function        (  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /         addPropertyToApp            /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This is called when the user presses "+" in the VB object inspector
+                // to add a property or an action to the VB app
+                //--------------------------------------------------------------------
 
                 let mm = this
                 mm.add_property = true

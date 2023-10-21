@@ -2396,8 +2396,8 @@ Pushlist
                             <div  class='col-md-12 small'>
                                 <button     type=button class='btn btn-sm btn-info'
                                             style='font-family:verdana,helvetica;font-size: 13px;'
-                                            v-on:click='$event.stopPropagation();addProperty()'  >
-                                    Add property
+                                            v-on:click='$event.stopPropagation();addPropertyToApp()'  >
+                                    +
                                 </button>
                             </div>
                         </div>
