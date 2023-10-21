@@ -2475,6 +2475,40 @@ Pushlist
 
 
 
+
+
+
+
+
+
+
+                        <!-- --------------------
+                        
+                             NEW PROPERTY TYPE
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (add_property)'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Type</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                            <select  class='col-md-7 small'
+                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                     v-model='new_property_type'>
+            
+                                                <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
+                                                <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
+                                                <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
+                                                <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
+                                                <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
+                                            </select>
+                                        </div></div></div></div></div>
+
+
                         
                     </div>
                     
@@ -2489,25 +2523,6 @@ Pushlist
                         
                         
                         
-                        
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-4'>
-                                Type
-                            </div>
-
-                            <select  class='col-md-7 small'
-                                     style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                     v-model='new_property_type'>
-
-                                    <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
-                                    <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
-                                    <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
-                                    <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
-                                    <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
-                            </select>
-                        </div>
-
 
                         
                         
