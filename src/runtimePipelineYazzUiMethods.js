@@ -6416,7 +6416,7 @@ return {}
                 new_property_type:                   "",
                 new_pre_snippet:                     "",
                 new_snippet:                         "",
-                new_async:                           "False",
+                new_async:                           "false",
                 new_help:                            "",
                 local_app:                           false,
                 refresh:                             0,
