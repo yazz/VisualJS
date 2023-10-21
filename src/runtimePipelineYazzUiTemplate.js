@@ -2417,7 +2417,7 @@ Pushlist
 
                             <input  style='font-family:verdana,helvetica;font-size: 13px;'
                                     class='col-md-7 small'
-                                    placeholder='background_color'
+                                    v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
                                     v-model='new_property_id'>
                             </input>
                         </div>
@@ -2429,11 +2429,39 @@ Pushlist
                             </div>
 
                             <input  class='col-md-7 small'
-                                    placeholder='Background Color'
+                                    v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
                                     style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                                     v-model='new_property_name'>
                             </input>
                         </div>
+                        
+                        
+                        
+                        
+                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
+                                    class='col-md-4'>
+                                Type
+                            </div>
+
+                            <select  class='col-md-7 small'
+                                     style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                     v-model='new_property_type'>
+
+                                    <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
+                                    <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
+                                    <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
+                                    <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
+                                    <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
+                            </select>
+                        </div>
+
+
+                        
+                        
+                        
+                        
+                        
                         
                         
                         <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
@@ -2486,25 +2514,6 @@ Pushlist
                         </div>
                         
                         
-
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-4'>
-                                Type
-                            </div>
-
-                            <select  class='col-md-7 small'
-                                     style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                     v-model='new_property_type'>
-
-                                    <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
-                                    <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
-                                    <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
-                                    <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
-                                    <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
-                            </select>
-                        </div>
-
 
 
 
