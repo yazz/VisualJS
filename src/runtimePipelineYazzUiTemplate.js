@@ -2533,8 +2533,8 @@ Pushlist
                                                      style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                      v-model='new_async'>
                     
-                                                    <option  v-bind:selected='new_async=="true"' value="True">True</option>
-                                                    <option  v-bind:selected='new_async=="false"' value="False">False</option>
+                                                    <option  v-bind:selected='new_async=="true"' value="true">True</option>
+                                                    <option  v-bind:selected='new_async=="false"' value="false">False</option>
                                             </select>
                                         </div></div></div></div></div>
                         
