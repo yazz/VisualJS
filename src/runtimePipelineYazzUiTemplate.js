@@ -2409,23 +2409,7 @@ Pushlist
                             </div>
                         </div>
                         
-                        <div  style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div
-                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;background-color:#000099;color:white;"'>
-                                            NAME
-                                </div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                            <input
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
-                                            </input>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         
                         <!-- --------------------
                         
@@ -2433,12 +2417,41 @@ Pushlist
                              
                          -------------------- -->
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='left:10px;padding-left:10px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
+                            <div    style='left:10px;padding-left:10px;padding-top:4px;padding-bottom:4px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
                                     class='col-md-12 small'>
                                 Add a property
                             </div>
                         </div>
 
+
+
+
+
+                        <!-- --------------------
+                        
+                             NEW PROPERTY ID
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (add_property)'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'>
+                                            ID
+                                </div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                            <input
+                                                    v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    v-model='new_property_id'>
+                                            </input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         
                         
                     </div>
@@ -2449,18 +2462,6 @@ Pushlist
 
 
 
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-4'>
-                               ID
-                            </div>
-
-                            <input  style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-7 small'
-                                    v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
-                                    v-model='new_property_id'>
-                            </input>
-                        </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
                             <div    style='font-family:verdana,helvetica;font-size: 13px;'
