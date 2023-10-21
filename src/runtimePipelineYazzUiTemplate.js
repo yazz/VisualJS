@@ -2436,9 +2436,8 @@ Pushlist
                         <div   v-if='(model.app_selected) && (add_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'>
-                                            ID
-                                </div>
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >ID</div>
                                 <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
                                     <div style="width:100%">
                                         <div>
@@ -2447,12 +2446,35 @@ Pushlist
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     v-model='new_property_id'>
                                             </input>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                        </div></div></div></div></div>
                         
+
+
+
+                        <!-- --------------------
+                        
+                             NEW PROPERTY NAME
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (add_property)'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Name</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                            <input
+                                                    v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
+                                                    v-model='new_property_name'
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    >
+                                            </input>
+                                        </div></div></div></div></div>
+
+
+
                         
                     </div>
                     
@@ -2463,18 +2485,7 @@ Pushlist
 
 
 
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-4'>
-                                Name
-                            </div>
 
-                            <input  class='col-md-7 small'
-                                    v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
-                                    style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                    v-model='new_property_name'>
-                            </input>
-                        </div>
                         
                         
                         
