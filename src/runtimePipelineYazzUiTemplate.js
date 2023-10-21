@@ -2403,7 +2403,7 @@ Pushlist
                         </div>
 
                         <div v-if='(model.app_selected) && (add_property)' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:20px;'
+                            <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:20px;color:white;background-color:blue;'
                                     class='col-md-12 small'>
                                 Add a property
                             </div>
