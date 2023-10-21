@@ -935,13 +935,21 @@
                     defaultVal = []
                 }
 
-                mm.model.app_properties.push({
+                let newProperty = {
                     id:         mm.new_property_id,
                     name:       mm.new_property_name,
                     type:       mm.new_property_type,
                     fn:         fnText,
                     default:    defaultVal
-                })
+                }
+                if (mm.new_property_type == "Action") {
+                    newProperty.pre_snippet = mm.new_pre_snippet
+                    newProperty.snippet     = mm.new_snippet
+                    newProperty.help        = mm.new_help
+                    newProperty.async       = mm.new_async
+                }
+
+                mm.model.app_properties.push(  newProperty  )
 
                 mm.generateCodeFromModel( )
 
