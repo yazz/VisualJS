@@ -900,10 +900,11 @@
                 //--------------------------------------------------------------------
 
                 let mm = this
-                mm.add_property = true
-                mm.new_property_id = ""
-                mm.new_property_name = ""
-                mm.new_property_type = "String"
+
+                mm.add_property         = true
+                mm.new_property_id      = ""
+                mm.new_property_name    = ""
+                mm.new_property_type    = "String"
 
 
                 setTimeout(function(){
