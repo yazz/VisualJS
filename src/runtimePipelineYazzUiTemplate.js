@@ -2586,7 +2586,7 @@ Pushlist
                                     <div style="width:100%">
                                         <div>
                                              <input
-                                                    v-bind:placeholder='((new_async=="true")?"await ":"")'
+                                                    placeholder='doAction(...)'
                                                     v-model='new_snippet'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     >
@@ -2594,42 +2594,48 @@ Pushlist
                                                                               
                                         </div></div></div></div></div>
                                         
-                    </div>
-                    
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                        <!-- --------------------
                         
+                             NEW PROPERTY SNIPPET
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Help</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                             <textarea  
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    class='col-md-5 small'
+                                                    rows=10
+                                                    placeholder='doAction(...) does something'
+                                                    v-model='new_help'>
+                                            </textarea>                     
+                                        </div></div></div></div></div>
+                                        
+                                        
+                                       
+                                       
+                                       
+                                       
+                                                                             
+                                        
+                                        
+                        <!-- --------------------
                         
-
-
-
-
-
-
-                        
-                        
-                        
-
-                        
-                        
-      
-                        <div v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")' class='row'>
-                            <div    style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-4'>
-                                Help
-                            </div>
-                            
-                            <textarea  style='font-family:verdana,helvetica;font-size: 13px;'
-                                    class='col-md-5 small'
-                                    rows=10
-                                    placeholder='doAction(...) does something'
-                                    v-model='new_help'>
-                            </textarea>
-                        </div>
-                        
-                        
-
-
-
-
+                             CANVEL / SAVE BUTTON
+                             
+                         -------------------- -->          
                         <div    v-if='(model.app_selected) && (add_property)'
                                 style='padding-bottom:60px;'
                                 class='row'>
@@ -2647,6 +2653,28 @@ Pushlist
                                 </button>
                             </div>
                         </div>
+                        
+                        
+                        
+                        
+                         
+                    </div>
+                    
+                        
+                        
+
+
+
+
+
+
+                        
+                        
+                        
+
+  
+
+
 
                     </div>
                 </div>
