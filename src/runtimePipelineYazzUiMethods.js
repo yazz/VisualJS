@@ -2988,7 +2988,6 @@ return retv
                 // event handlers
                 //--------------------------------------------------------------------
                 let mm                      = this
-                let callableUiForms         = {}
                 let shallIProcessThisEvent  = false
                 let argsToUserCode          = {}
 
@@ -3041,26 +3040,7 @@ return retv
                         //         (1) Methods such as Form_1.show()
                         //         (2) Methods and properties on forms such as Form_1.width (NOT IMPLEMENTED YET)
                         //         (3) Manipulate components on forms such as Form_1.button_1.setText("Hello Ducks")
-                        for (  let  aForm  of  this.getForms() ) {
-                            callableUiForms[ aForm.name  ] = {
-                                init: function({formName}) {
-                                    this.name = formName;
-                                },
-                                show: function() {
-                                    mm.model.forms[this.name].show()
-                                }
-                            }
-
-                            for (let formControl  of  mm.model.forms[  aForm.name ].components) {
-                                if (formControl.name) {
-                                    callableUiForms[ aForm.name  ][formControl.name] = mm.runtimeFormsInfo[ aForm.name ].component_lookup_by_name[formControl.name]
-                                }
-                            }
-                            callableUiForms[ aForm.name  ].init({formName: aForm.name})
-
-                            argsToUserCode[aForm.name] = callableUiForms[ aForm.name ]
-                        }
-
+                        mm.fillInAllFormsToScopeObject(  argsToUserCode  )
 
 
 
@@ -3198,6 +3178,29 @@ ${code}
                 }
                 argsToUserCodeStringV2 = argsToUserCodeStringV2 + " }"
                 return argsToUserCodeStringV2
+            },
+            fillInAllFormsToScopeObject:            function (  argsToUserCode  ) {
+                let mm = this
+                let callableUiForms         = {}
+                for (  let  aForm  of  this.getForms() ) {
+                    callableUiForms[aForm.name] = {
+                        init: function ({formName}) {
+                            this.name = formName;
+                        },
+                        show: function () {
+                            mm.model.forms[this.name].show()
+                        }
+                    }
+
+                    for (let formControl of mm.model.forms[aForm.name].components) {
+                        if (formControl.name) {
+                            callableUiForms[aForm.name][formControl.name] = mm.runtimeFormsInfo[aForm.name].component_lookup_by_name[formControl.name]
+                        }
+                    }
+                    callableUiForms[aForm.name].init({formName: aForm.name})
+
+                    argsToUserCode[aForm.name] = callableUiForms[aForm.name]
+                }
             },
             getRuntimeAppProperties:                async function  (  ) {
                 let mm = this
