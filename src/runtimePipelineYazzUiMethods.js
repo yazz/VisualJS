@@ -3126,14 +3126,23 @@ return retv
                         //       (1) Global user defined properties
                         //       (2) Global user defined methods
                         //-------------------------------------------------------------------
-                        //zzz
-                        debugger
                         argsToUserCode["app"] = await mm.getRuntimeAppProperties()
                         argsToUserCodeString += "app }"
 
+                        let namesOfObjectsInScope = Object.keys(argsToUserCode)
+                        let argsToUserCodeStringV2 = "{ "
+                        for (let nameOfObjectIndex = 0; nameOfObjectIndex < namesOfObjectsInScope.length; nameOfObjectIndex++) {
+                            let nameOfObject = namesOfObjectsInScope[nameOfObjectIndex]
+                            argsToUserCodeStringV2 = argsToUserCodeStringV2 + nameOfObject
+                            if (nameOfObjectIndex < (namesOfObjectsInScope.length - 1)) {
+                                argsToUserCodeStringV2 = argsToUserCodeStringV2 + ", "
+                            }
+                        }
+                        argsToUserCodeStringV2 = argsToUserCodeStringV2 + " }"
+
 
 //zzz
-
+                        debugger
 
 
                         let fcc =
