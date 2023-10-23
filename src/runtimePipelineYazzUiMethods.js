@@ -1632,10 +1632,10 @@ ${formprop.fn}
             },
             convertAppMethodStringToFn:             function        (  appMethodId  ,  isAsync  ) {
                 let mm = this
-                let methodSrcCode = mm.model[appMethodId]
+                let innerMethodSrcCode = mm.model[appMethodId]
                 let thecode =
 `(${isAsync?"async ":""}function({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10}) {
-${methodSrcCode}
+${innerMethodSrcCode}
 })`
                 let debugFcc = getDebugCode(
                     "app." + appMethodId,
@@ -1643,7 +1643,7 @@ ${methodSrcCode}
                     {
                         skipFirstAndLastLine: true
                     })
-                let containingCode =
+                let wrapperMethodSrcCode =
 `(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 let innerf= ${debugFcc}
 let retv = innerf({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10})
@@ -1651,7 +1651,7 @@ return retv
 })
 `
 
-                fnDetails = eval(containingCode)
+                fnDetails = eval(wrapperMethodSrcCode)
                 return fnDetails
             },
             deleteCursor:                           function        (  ) {
