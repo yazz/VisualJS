@@ -1634,7 +1634,7 @@ ${formprop.fn}
                 let mm = this
                 let methodSrcCode = mm.model[appMethodId]
                 let thecode =
-`(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+`(${isAsync?"async ":""}function({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10}) {
 ${methodSrcCode}
 })`
                 let debugFcc = getDebugCode(
@@ -1646,7 +1646,7 @@ ${methodSrcCode}
                 let containingCode =
 `(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 let innerf= ${debugFcc}
-let retv = innerf(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10)
+let retv = innerf({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10})
 return retv
 })
 `
