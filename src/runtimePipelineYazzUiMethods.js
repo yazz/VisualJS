@@ -1617,6 +1617,8 @@ ${formprop.fn}
 
                 let isAsync                 = true
                 let appProps                = mm.getAllAppProperties()
+                let fnDetails = null
+
 
                 for (let appPropertyDetails of appProps) {
                     if (appPropertyDetails.id == appMethodId) {
@@ -1625,26 +1627,22 @@ ${formprop.fn}
                         } else {
                             isAsync = false
                         }
-                    }
-                }
-                debugger
-                return mm.convertAppMethodStringToFn(  appMethodId  ,  isAsync)
-            },
-            convertAppMethodStringToFn:             function        (  appMethodId  ,  isAsync  ) {
-                let mm = this
-                let innerMethodSrcCode = mm.model[appMethodId]
-                let thecode =
-`(${isAsync?"async ":""}function({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10}) {
+                        let argsToUserCode          = {}
+
+                        let mm = this
+                        let innerMethodSrcCode = mm.model[appMethodId]
+                        let thecode =
+                            `(${isAsync?"async ":""}function({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10}) {
 ${innerMethodSrcCode}
 })`
-                let debugFcc = getDebugCode(
-                    "app." + appMethodId,
-                    thecode,
-                    {
-                        skipFirstAndLastLine: true
-                    })
-                let wrapperMethodSrcCode =
-`(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+                        let debugFcc = getDebugCode(
+                            "app." + appMethodId,
+                            thecode,
+                            {
+                                skipFirstAndLastLine: true
+                            })
+                        let wrapperMethodSrcCode =
+                            `(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
 let Form_1=mm.model
 let innerf= ${debugFcc}
 let retv = innerf({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10, Form_1})
@@ -1652,7 +1650,9 @@ return retv
 })
 `
 
-                fnDetails = eval(wrapperMethodSrcCode)
+                        fnDetails = eval(wrapperMethodSrcCode)
+                    }
+                }
                 return fnDetails
             },
             deleteCursor:                           function        (  ) {
