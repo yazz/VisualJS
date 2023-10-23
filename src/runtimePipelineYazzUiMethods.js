@@ -1610,9 +1610,9 @@ ${formprop.fn}
                 //--------------------------------------------------------------------
                 let mm                      = this
 
-                //if (mm.model[appMethodId] && (mm.model[appMethodId] instanceof Function)) {
-                //    return mm.model[  appMethodId  ]
-                //}
+                if (mm.model[appMethodId] && (mm.model[appMethodId] instanceof Function)) {
+                    return mm.model[  appMethodId  ]
+                }
 
 
                 let isAsync                 = true
@@ -1622,17 +1622,23 @@ ${formprop.fn}
 
                 for (let appPropertyDetails of appProps) {
                     if (appPropertyDetails.id == appMethodId) {
+                        debugger
                         if (appPropertyDetails.async) {
                             isAsync = true
                         } else {
                             isAsync = false
                         }
-                        let argsToUserCode          = {}
 
-                        let mm = this
+                        let argsToUserCodeStringV2 = "{ "
+                        for (  let  aForm  of  mm.getForms() ) {
+                            argsToUserCodeStringV2 = argsToUserCodeStringV2 + aForm.name + ", "
+                        }
+                        argsToUserCodeStringV2 = argsToUserCodeStringV2 + "arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10 }"
+
+
                         let innerMethodSrcCode = mm.model[appMethodId]
                         let thecode =
-                            `(${isAsync?"async ":""}function({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10}) {
+                            `(${isAsync?"async ":""}function(${argsToUserCodeStringV2}) {
 ${innerMethodSrcCode}
 })`
                         let debugFcc = getDebugCode(
@@ -1642,11 +1648,12 @@ ${innerMethodSrcCode}
                                 skipFirstAndLastLine: true
                             })
                         let wrapperMethodSrcCode =
-                            `(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-let Form_1=mm.model
-let innerf= ${debugFcc}
-let retv = innerf({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10, Form_1})
-return retv
+`(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+    let argsToUserCode= {arg1: arg1, arg2: arg2,arg3: arg3,arg4: arg4,arg5: arg5,arg6: arg6,arg7: arg7,arg8: arg8,arg9: arg9,arg10: arg10}
+    mm.fillInAllFormsToScopeObject(  argsToUserCode  )
+    let innerf = ${debugFcc}
+    let retv = innerf(argsToUserCode)
+    return retv
 })
 `
 
