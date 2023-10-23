@@ -1610,9 +1610,9 @@ ${formprop.fn}
                 //--------------------------------------------------------------------
                 let mm                      = this
 
-                if (mm.model[appMethodId] && (mm.model[appMethodId] instanceof Function)) {
-                    return mm.model[  appMethodId  ]
-                }
+                //if (mm.model[appMethodId] && (mm.model[appMethodId] instanceof Function)) {
+                //    return mm.model[  appMethodId  ]
+                //}
 
 
                 let isAsync                 = true
@@ -1645,8 +1645,9 @@ ${innerMethodSrcCode}
                     })
                 let wrapperMethodSrcCode =
 `(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+let Form_1=mm.model
 let innerf= ${debugFcc}
-let retv = innerf({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10})
+let retv = innerf({arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10, Form_1})
 return retv
 })
 `
