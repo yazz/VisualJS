@@ -2990,7 +2990,6 @@ return retv
                 let mm                      = this
                 let callableUiForms         = {}
                 let shallIProcessThisEvent  = false
-                let argsToUserCodeString    = "{"
                 let argsToUserCode          = {}
 
 
@@ -3059,7 +3058,6 @@ return retv
                             }
                             callableUiForms[ aForm.name  ].init({formName: aForm.name})
 
-                            argsToUserCodeString += aForm.name + ","
                             argsToUserCode[aForm.name] = callableUiForms[ aForm.name ]
                         }
 
@@ -3075,7 +3073,6 @@ return retv
                         // - button_1.text = "Hello Ducks"
                         let allC = this.model.forms[this.active_form].components
                         for ( let comp  of  allC ) {
-                            argsToUserCodeString += comp.name + ","
                             argsToUserCode[comp.name] = mm.runtimeFormsInfo[this.active_form].component_lookup_by_name[comp.name];
                         }
 
@@ -3085,14 +3082,12 @@ return retv
                             if (isValidObject(thisControl)) {
 
                                 if (isValidObject(thisControl.parent)) {
-                                    argsToUserCodeString += parent + ","
                                     argsToUserCode["parent"] = mm.runtimeFormsInfo[this.active_form].component_lookup_by_name[thisControl.parent];
                                 }
                             }
                         }
 
 
-                        argsToUserCodeString += "myForm ,"
                         argsToUserCode["myForm"] = mm.model.forms[this.active_form];
 
 
@@ -3101,7 +3096,6 @@ return retv
                         if (isValidObject(args)) {
                             listOfArgs = Object.keys(args)
                             for (let rtt=0;rtt<listOfArgs.length;rtt++) {
-                                argsToUserCodeString += listOfArgs[rtt] + " ,"
                                 argsToUserCode[listOfArgs[rtt]] = JSON.stringify(args[listOfArgs[rtt]])
                             }
                         }
@@ -3117,7 +3111,7 @@ return retv
                         } else if (type == "form_event") {
                             argsToUserCode["me"] = mm.model.forms[mm.active_form]
                         }
-                        argsToUserCodeString += "me, "
+
 
 
 
@@ -3127,7 +3121,6 @@ return retv
                         //       (2) Global user defined methods
                         //-------------------------------------------------------------------
                         argsToUserCode["app"] = await mm.getRuntimeAppProperties()
-                        argsToUserCodeString += "app }"
 
                         let namesOfObjectsInScope = Object.keys(argsToUserCode)
                         let argsToUserCodeStringV2 = "{ "
@@ -3146,7 +3139,7 @@ return retv
 
 
                         let fcc =
-`(async function(${argsToUserCodeString}){
+`(async function(${argsToUserCodeStringV2}){
 ${code}
 })`
                         let blockName = ""
