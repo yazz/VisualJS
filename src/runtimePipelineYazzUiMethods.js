@@ -3122,17 +3122,7 @@ return retv
                         //-------------------------------------------------------------------
                         argsToUserCode["app"] = await mm.getRuntimeAppProperties()
 
-                        let namesOfObjectsInScope = Object.keys(argsToUserCode)
-                        let argsToUserCodeStringV2 = "{ "
-                        for (let nameOfObjectIndex = 0; nameOfObjectIndex < namesOfObjectsInScope.length; nameOfObjectIndex++) {
-                            let nameOfObject = namesOfObjectsInScope[nameOfObjectIndex]
-                            argsToUserCodeStringV2 = argsToUserCodeStringV2 + nameOfObject
-                            if (nameOfObjectIndex < (namesOfObjectsInScope.length - 1)) {
-                                argsToUserCodeStringV2 = argsToUserCodeStringV2 + ", "
-                            }
-                        }
-                        argsToUserCodeStringV2 = argsToUserCodeStringV2 + " }"
-
+                        let argsToUserCodeStringV2 = mm.getObjectsInScopeSignatureFromObjects(argsToUserCode)
 
 //zzz
                         debugger
@@ -3195,6 +3185,19 @@ ${code}
                     mm.refresh ++
                     mm.$forceUpdate();
                 }
+            },
+            getObjectsInScopeSignatureFromObjects:  function(  argsToUserCode  ) {
+                let argsToUserCodeStringV2 = "{ "
+                let namesOfObjectsInScope = Object.keys(argsToUserCode)
+                for (let nameOfObjectIndex = 0; nameOfObjectIndex < namesOfObjectsInScope.length; nameOfObjectIndex++) {
+                    let nameOfObject = namesOfObjectsInScope[nameOfObjectIndex]
+                    argsToUserCodeStringV2 = argsToUserCodeStringV2 + nameOfObject
+                    if (nameOfObjectIndex < (namesOfObjectsInScope.length - 1)) {
+                        argsToUserCodeStringV2 = argsToUserCodeStringV2 + ", "
+                    }
+                }
+                argsToUserCodeStringV2 = argsToUserCodeStringV2 + " }"
+                return argsToUserCodeStringV2
             },
             getRuntimeAppProperties:                async function  (  ) {
                 let mm = this
