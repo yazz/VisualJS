@@ -947,9 +947,15 @@
 
                 mm.generateCodeFromModel( )
 
-                setTimeout(function() {
+                setTimeout(async function() {
                         mm.refresh ++
                         mm.select_app()
+                        await mm.editAsCode({
+                            app_selected:           true,
+                            active_form:            mm.active_form,
+                            active_component_index: mm.active_component_index,
+                            property_id:            mm.new_property_id
+                        })
                     }
                     ,100)
 
