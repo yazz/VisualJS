@@ -2322,6 +2322,11 @@ Pushlist
 
 
 
+                                        <div    v-if="property.custom == 'true'"    
+                                                style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:5px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
+                                                v-on:click='$event.stopPropagation();editAppProperty(property)'
+                                                          >*</div>
+
 
                                         <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn))  ||  (model.app_selected && (property.type  == 'Action'))"
                                                 style="width:100%">
@@ -2338,11 +2343,6 @@ Pushlist
                                           
                                         </div>
 
-
-                                        <div    v-if="property.custom == 'true'"    
-                                                style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:5px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                                v-on:click='$event.stopPropagation();editAppProperty(property)'
-                                                          >*</div>
 
 
 
@@ -2729,7 +2729,7 @@ Pushlist
 
                         <!-- --------------------
                         
-                             NEW PROPERTY TYPE
+                             EDIT PROPERTY TYPE
                              
                          -------------------- -->
 
@@ -2745,11 +2745,11 @@ Pushlist
                                                      style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                      v-model='edit_property_type'>
             
-                                                <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
-                                                <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
-                                                <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
-                                                <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
-                                                <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
+                                                <option  v-bind:selected='edit_property_type=="String"' value="String">String</option>
+                                                <option  v-bind:selected='edit_property_type=="Number"' value="Number">Number</option>
+                                                <option  v-bind:selected='edit_property_type=="Array"' value="Array">Array</option>
+                                                <option  v-bind:selected='edit_property_type=="Object"' value="Object">Object</option>
+                                                <option  v-bind:selected='edit_property_type=="Action"' value="Action">Action</option>
                                             </select>
                                         </div></div></div></div></div>
 
@@ -2761,7 +2761,7 @@ Pushlist
                         
                         <!-- --------------------
                         
-                             NEW PROPERTY PRE SNIPPET
+                             EDIT PROPERTY PRE SNIPPET
                              
                          -------------------- -->
 
@@ -2789,7 +2789,7 @@ Pushlist
       
                         <!-- --------------------
                         
-                             NEW PROPERTY SNIPPET
+                             EDIT PROPERTY SNIPPET
                              
                          -------------------- -->
 
@@ -2803,7 +2803,7 @@ Pushlist
                                         <div>
                                              <input
                                                     placeholder='doAction(...)'
-                                                    v-model='edit_snippet'
+                                                    v-model='edit_property_snippet'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     >
                                             </input>
@@ -2818,7 +2818,7 @@ Pushlist
                                         
                         <!-- --------------------
                         
-                             NEW PROPERTY HELP
+                             EDIT PROPERTY HELP
                              
                          -------------------- -->
 
@@ -2834,7 +2834,7 @@ Pushlist
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     rows=10
                                                     placeholder='await doAction(...) does something'
-                                                    v-model='edit_help'>
+                                                    v-model='edit_property_help'>
                                             </textarea>                     
                                         </div></div></div></div></div>
                                         
