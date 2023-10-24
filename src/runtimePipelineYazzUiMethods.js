@@ -953,12 +953,18 @@
                         mm.select_app()
                         if (mm.new_property_type == "Action") {
                             await mm.editAsCode({
-                                app_selected: true,
-                                active_form: mm.active_form,
+                                app_selected:           true,
+                                active_form:            mm.active_form,
                                 active_component_index: mm.active_component_index,
-                                property_id: mm.new_property_id
+                                property_id:            mm.new_property_id
                             })
                         }
+
+                        mm.new_property_id      = ""
+                        mm.new_property_name    = ""
+                        mm.new_property_type    = "String"
+                        mm.new_snippet          = ""
+                        mm.new_help             = ""
                     }
                     ,100)
 
@@ -1030,6 +1036,13 @@
 
                 mm.refresh ++
                 mm.select_app()
+
+                mm.edit_property_id         = null
+                mm.edit_property_name       = null
+                mm.edit_property_type       = null
+                mm.edit_property_type       = null
+                mm.edit_property_snippet    = null
+                mm.edit_property_help       = null
             },
             editPropertyDelete:                     async function  (  ) {
                 let mm = this

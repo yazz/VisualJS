@@ -2675,7 +2675,7 @@ Pushlist
 
                         <!-- --------------------
                         
-                             NEW PROPERTY ID
+                             EDIT PROPERTY ID
                              
                          -------------------- -->
 
@@ -2689,7 +2689,7 @@ Pushlist
                                         <div>
                                             <div
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    v-html='new_property_id'>
+                                                    v-html='edit_property_id'>
                                             </div>
                                         </div></div></div></div></div>
                         
@@ -2698,7 +2698,7 @@ Pushlist
 
                         <!-- --------------------
                         
-                             NEW PROPERTY NAME
+                             EDIT PROPERTY NAME
                              
                          -------------------- -->
 
