@@ -994,10 +994,9 @@
                     objDiv.scrollTop = objDiv.scrollHeight;
                 },200)
             },
-            editPropertySave:                        function        (  ) {
-
+            editPropertySave:                        async function        (  ) {
                 let mm = this
-                if ((mm.edit_property_name.length == 0) ) {
+                if (mm.edit_property_name.length == 0) {
                     alert("You must enter a property name")
                     return;
                 }
@@ -1012,30 +1011,25 @@
                     defaultVal = []
                 }
 
-                let editedProperty = {
-                    id:         mm.edit_property_id,
-                    name:       mm.edit_property_name,
-                    type:       mm.edit_property_type,
-                    default:    defaultVal,
-                    custom:     "true"
-                }
-                if (mm.new_property_type == "Action") {
-                    editedProperty.pre_snippet = "await "
-                    editedProperty.snippet     = mm.new_snippet
-                    editedProperty.help        = mm.new_help
-                    editedProperty.async       = "true"
-                }
+                for (let appProperty of mm.model.app_properties) {
+                    if (appProperty.id == mm.edit_property_id) {
+                        appProperty.name        = mm.edit_property_name
+                        appProperty.type        = mm.edit_property_type
+                        appProperty.default     = defaultVal
 
-                mm.model.app_properties.push(  editedProperty  )
-
-                mm.generateCodeFromModel( )
-
-                setTimeout(async function() {
-                        mm.refresh ++
-                        mm.select_app()
+                        if (mm.edit_property_type == "Action") {
+                            appProperty.pre_snippet = "await "
+                            appProperty.snippet     = mm.edit_property_snippet
+                            appProperty.help        = mm.edit_property_help
+                            appProperty.async       = "true"
+                        }
                     }
-                    ,100)
+                }
 
+                await mm.generateCodeFromModel( )
+
+                mm.refresh ++
+                mm.select_app()
             },
             editPropertyCancel:                      function        (  ) {
 

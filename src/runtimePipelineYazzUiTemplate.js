@@ -2864,7 +2864,7 @@ Pushlist
 
                                 <button style='font-family:verdana,helvetica;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();editPropertySave()'  >
+                                        v-on:click='$event.stopPropagation();(async function(){await editPropertySave()})();'  >
                                     Save
                                 </button>
                             </div>
