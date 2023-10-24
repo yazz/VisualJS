@@ -988,11 +988,17 @@
 
                 let mm = this
 
-                mm.add_property         = false
-                mm.edit_property        = true
-                mm.edit_property_id     = propertyToEdit.id
-                mm.edit_property_name   = propertyToEdit.name
-                mm.edit_property_type   = propertyToEdit.type
+                mm.add_property                 = false
+                mm.edit_property                = true
+                mm.edit_property_id             = propertyToEdit.id
+                mm.edit_property_name           = propertyToEdit.name
+                mm.edit_property_type           = propertyToEdit.type
+                mm.edit_property_help           = propertyToEdit.help
+                if (mm.edit_property_type == "Action") {
+                    mm.edit_property_snippet        = propertyToEdit.snippet
+                } else {
+                    mm.edit_property_snippet        = ""
+                }
 
 
                 setTimeout(function(){
