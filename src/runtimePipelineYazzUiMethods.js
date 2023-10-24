@@ -934,7 +934,8 @@
                     id:         mm.new_property_id,
                     name:       mm.new_property_name,
                     type:       mm.new_property_type,
-                    default:    defaultVal
+                    default:    defaultVal,
+                    custom:     "true"
                 }
                 if (mm.new_property_type == "Action") {
                     newProperty.pre_snippet = "await "
@@ -950,12 +951,14 @@
                 setTimeout(async function() {
                         mm.refresh ++
                         mm.select_app()
-                        await mm.editAsCode({
-                            app_selected:           true,
-                            active_form:            mm.active_form,
-                            active_component_index: mm.active_component_index,
-                            property_id:            mm.new_property_id
-                        })
+                        if (mm.new_property_type == "Action") {
+                            await mm.editAsCode({
+                                app_selected: true,
+                                active_form: mm.active_form,
+                                active_component_index: mm.active_component_index,
+                                property_id: mm.new_property_id
+                            })
+                        }
                     }
                     ,100)
 
