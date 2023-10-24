@@ -11,37 +11,7 @@ formEditor({
   "id": "yazz_blank",
   "next_component_id": 114,
   "app_properties": [
-    {
-      "id": "test",
-      "name": "test",
-      "type": "String"
-    }
-    ,
-    //zzz
-    {
-        id:         "testFn",
-        snippet:    `testFn("")`,
-        name:       "testFn",
-        type:       "Action",
-        help:       `<div>Help text for
-                        <b>testFn</b> function
-                     </div>`
-    }
-    ,
-    {
-        id:         "testAsyncFn",
-        pre_snippet: `await `,
-        snippet:    `testAsyncFn("")`,
-        async:      true,
-        name:       "testAsyncFn",
-        type:       "Action",
-        help:       `<div>Help text for
-                        <b>testAsyncFn</b> function
-                     </div>`
-    }
   ],
-  testFn: "alert('testFn called. mm: ' + mm.model.test)",
-  testAsyncFn: "alert('testAsyncFn called. mm: ' + thecode)",
   "forms": {
     "Form_1": {
       "name": "Form_1",
