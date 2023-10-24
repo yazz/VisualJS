@@ -2687,11 +2687,10 @@ Pushlist
                                 <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
                                     <div style="width:100%">
                                         <div>
-                                            <input
-                                                    v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
+                                            <div
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    v-model='new_property_id'>
-                                            </input>
+                                                    v-html='new_property_id'>
+                                            </div>
                                         </div></div></div></div></div>
                         
 
@@ -2713,7 +2712,7 @@ Pushlist
                                         <div>
                                             <input
                                                     v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
-                                                    v-model='new_property_name'
+                                                    v-model='edit_property_name'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     >
                                             </input>
@@ -2744,7 +2743,7 @@ Pushlist
                                         <div>
                                             <select  class='col-md-7 small'
                                                      style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                     v-model='new_property_type'>
+                                                     v-model='edit_property_type'>
             
                                                 <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
                                                 <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
@@ -2766,7 +2765,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property) && (new_property_type=="Action")'
+                        <div   v-if='(model.app_selected) && (edit_property) && (edit_property_type=="Action")'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2794,7 +2793,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property) && (new_property_type=="Action")'
+                        <div   v-if='(model.app_selected) && (edit_property) && (edit_property_type=="Action")'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2804,7 +2803,7 @@ Pushlist
                                         <div>
                                              <input
                                                     placeholder='doAction(...)'
-                                                    v-model='new_snippet'
+                                                    v-model='edit_snippet'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     >
                                             </input>
@@ -2823,7 +2822,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property) && (new_property_type=="Action")'
+                        <div   v-if='(model.app_selected) && (edit_property) && (edit_property_type=="Action")'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2835,7 +2834,7 @@ Pushlist
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     rows=10
                                                     placeholder='await doAction(...) does something'
-                                                    v-model='new_help'>
+                                                    v-model='edit_help'>
                                             </textarea>                     
                                         </div></div></div></div></div>
                                         
@@ -2844,7 +2843,7 @@ Pushlist
                                         
                         <!-- --------------------
                         
-                             CANCEL / SAVE BUTTON
+                             CANCEL / DELETE / SAVE BUTTON
                              
                          -------------------- -->          
                         <div    v-if='(model.app_selected) && (edit_property)'
@@ -2853,13 +2852,19 @@ Pushlist
                             <div class='col-md-12'>
                                 <button style='font-family:verdana,helvetica;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                        v-on:click='$event.stopPropagation();editPropertyCancel()'  >
                                     Cancel
                                 </button>
 
                                 <button style='font-family:verdana,helvetica;font-size: 13px;'
+                                        type=button class='btn btn-sm btn-danger'
+                                        v-on:click='$event.stopPropagation();editPropertyDelete()'  >
+                                    Delete
+                                </button>
+
+                                <button style='font-family:verdana,helvetica;font-size: 13px;'
                                         type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                        v-on:click='$event.stopPropagation();editPropertySave()'  >
                                     Save
                                 </button>
                             </div>
