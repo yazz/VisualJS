@@ -2565,7 +2565,6 @@ Pushlist
                                         <div>
                                              <textarea  
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    class='col-md-5 small'
                                                     rows=10
                                                     placeholder='doAction(...) does something'
                                                     v-model='new_help'>
@@ -2574,11 +2573,6 @@ Pushlist
                                         
                                         
                                        
-                                       
-                                       
-                                       
-                                                                             
-                                        
                                         
                         <!-- --------------------
                         
