@@ -921,11 +921,6 @@
                 }
                 mm.add_property = false
 
-                let fnText = null
-                if (mm.new_property_type == "Action") {
-                    fnText = ""
-                }
-
                 let defaultVal = null
                 if (mm.new_property_type == "Object") {
                     defaultVal = new Object()
@@ -939,7 +934,6 @@
                     id:         mm.new_property_id,
                     name:       mm.new_property_name,
                     type:       mm.new_property_type,
-                    fn:         fnText,
                     default:    defaultVal
                 }
                 if (mm.new_property_type == "Action") {
