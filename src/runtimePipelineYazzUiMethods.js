@@ -994,7 +994,7 @@
                     objDiv.scrollTop = objDiv.scrollHeight;
                 },200)
             },
-            editPropertySave:                        async function        (  ) {
+            editPropertySave:                       async function  (  ) {
                 let mm = this
                 if (mm.edit_property_name.length == 0) {
                     alert("You must enter a property name")
@@ -1031,7 +1031,24 @@
                 mm.refresh ++
                 mm.select_app()
             },
-            editPropertyCancel:                      function        (  ) {
+            editPropertyDelete:                     async function  (  ) {
+                let mm = this
+                mm.edit_property = false
+
+                for (let appPropertyIndex = 0; appPropertyIndex < mm.model.app_properties.length; appPropertyIndex++ ) {
+                    let appProperty = mm.model.app_properties[appPropertyIndex]
+                    if (appProperty.id == mm.edit_property_id) {
+                        mm.model.app_properties.splice( appPropertyIndex, 1);
+                        break
+                    }
+                }
+
+                await mm.generateCodeFromModel( )
+
+                mm.refresh ++
+                mm.select_app()
+            },
+            editPropertyCancel:                     function        (  ) {
 
                 let mm = this
                 mm.edit_property = false
