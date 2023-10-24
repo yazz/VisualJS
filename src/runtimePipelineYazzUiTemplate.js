@@ -2399,14 +2399,12 @@ Pushlist
                              + PROPERTY BUTTON
                              
                          -------------------- -->
-                        <div  v-if='model.app_selected && (!add_property)' class='row' style='padding-top:10px; margin: 5px;'>
-                            <div  class='col-md-12 small'>
-                                <button     type=button class='btn btn-sm btn-info'
-                                            style='font-family:verdana,helvetica;font-size: 13px;padding: 3px;'
-                                            v-on:click='$event.stopPropagation();addPropertyToApp()'  >
-                                    +
-                                </button>
-                            </div>
+                        <div  v-if='model.app_selected && (!add_property)' class='row' style='margin: 5px;'>
+                            <button     type=button class='btn btn-info'
+                                        style='font-family:verdana,helvetica;font-size: 13px;padding: 3px;'
+                                        v-on:click='$event.stopPropagation();addPropertyToApp()'  >
+                                +
+                            </button>
                         </div>
                         
 
