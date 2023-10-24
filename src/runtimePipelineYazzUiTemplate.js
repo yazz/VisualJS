@@ -2221,9 +2221,6 @@ Pushlist
                                                       }'
                                                       > ..
                                   </div>
-                                  <div    v-if="property.custom == 'true'"    
-                                          style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                                      >*</div>
 
                                 </div>
 
@@ -2340,6 +2337,13 @@ Pushlist
                                             </div>
                                           
                                         </div>
+
+
+                                        <div    v-if="property.custom == 'true'"    
+                                                style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:5px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
+                                                          >*</div>
+
+
 
                                     </div>
 
