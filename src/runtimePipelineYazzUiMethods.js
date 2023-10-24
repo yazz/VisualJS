@@ -943,10 +943,9 @@
                     default:    defaultVal
                 }
                 if (mm.new_property_type == "Action") {
-                    newProperty.pre_snippet = mm.new_pre_snippet
+                    newProperty.pre_snippet = "await "
                     newProperty.snippet     = mm.new_snippet
                     newProperty.help        = mm.new_help
-                    newProperty.async       = mm.new_async
                 }
 
                 mm.model.app_properties.push(  newProperty  )
@@ -6438,9 +6437,7 @@ return {}
                 new_property_name:                   "",
                 new_property_id:                     "",
                 new_property_type:                   "",
-                new_pre_snippet:                     "",
                 new_snippet:                         "",
-                new_async:                           "false",
                 new_help:                            "",
                 local_app:                           false,
                 refresh:                             0,
