@@ -968,6 +968,32 @@
                 let mm = this
                 mm.add_property = false
             },
+            editAppProperty:                        function        (  propertyToEdit  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /           editAppProperty           /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This is called when the user presses "*" in the VB object inspector
+                // to edit a custom property / action
+                //--------------------------------------------------------------------
+
+                let mm = this
+
+                mm.add_property         = false
+                mm.edit_property        = true
+                mm.edit_property_id     = propertyToEdit.id
+                mm.edit_property_name   = propertyToEdit.name
+                mm.edit_property_type   = propertyToEdit.type
+
+
+                setTimeout(function(){
+                    let objDiv = document.getElementById("property_scroll_region");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                },200)
+            },
             recalcPossibleControlPropertyLinks:     async function  (  ) {
 
                 let mm                      = this
@@ -6431,6 +6457,12 @@ return {}
                 leftHandWidth:                       130,
                 right_mode:                          "project",
                 add_property:                        false,
+                edit_property:                       false,
+                edit_property_id:                    null,
+                edit_property_name:                  "",
+                edit_property_type:                  "",
+                edit_property_snippet:               "",
+                edit_property_help:                  "",
                 new_property_name:                   "",
                 new_property_id:                     "",
                 new_property_type:                   "",
