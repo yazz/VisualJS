@@ -2401,6 +2401,20 @@ Pushlist
                         </div>
                         
                         
+
+
+
+
+                        <!-- ----------------------------------------------------------------------------------- 
+                        
+                        
+                                                            ADD PROPERTY
+                        
+                             
+                         ----------------------------------------------------------------------------------- -->
+
+
+
                         
                         <!-- --------------------
                         
@@ -2604,7 +2618,7 @@ Pushlist
                                         
                         <!-- --------------------
                         
-                             CANVEL / SAVE BUTTON
+                             CANCEL / SAVE BUTTON
                              
                          -------------------- -->          
                         <div    v-if='(model.app_selected) && (add_property)'
@@ -2624,6 +2638,237 @@ Pushlist
                                 </button>
                             </div>
                         </div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- ----------------------------------------------------------------------------------- 
+                        
+                        
+                                                            EDIT PROPERTY
+                        
+                             
+                         ----------------------------------------------------------------------------------- -->
+                        
+                        
+                        
+                                                
+                        <!-- --------------------
+                        
+                             Edit property text
+                             
+                         -------------------- -->
+                        <div v-if='(model.app_selected) && (edit_property)' class='row'>
+                            <div    style='left:10px;padding-left:10px;padding-top:4px;padding-bottom:4px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
+                                    class='col-md-12 small'>
+                                Edit property
+                            </div>
+                        </div>
+
+
+
+
+
+                        <!-- --------------------
+                        
+                             NEW PROPERTY ID
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (edit_property)'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >ID</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                            <input
+                                                    v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    v-model='new_property_id'>
+                                            </input>
+                                        </div></div></div></div></div>
+                        
+
+
+
+                        <!-- --------------------
+                        
+                             NEW PROPERTY NAME
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (edit_property)'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Name</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                            <input
+                                                    v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
+                                                    v-model='new_property_name'
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    >
+                                            </input>
+                                        </div></div></div></div></div>
+
+
+
+
+
+
+
+
+
+
+                        <!-- --------------------
+                        
+                             NEW PROPERTY TYPE
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (edit_property)'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Type</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                            <select  class='col-md-7 small'
+                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                     v-model='new_property_type'>
+            
+                                                <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
+                                                <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
+                                                <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
+                                                <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
+                                                <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
+                                            </select>
+                                        </div></div></div></div></div>
+
+
+
+
+
+                        
+                        
+                        <!-- --------------------
+                        
+                             NEW PROPERTY PRE SNIPPET
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (edit_property) && (new_property_type=="Action")'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Pre snippet</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                             <input
+                                                    readonly
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    value="await "
+                                                    >
+                                            </input>
+                                        </div></div></div></div></div>                        
+                        
+                        
+                               
+      
+      
+      
+      
+                        <!-- --------------------
+                        
+                             NEW PROPERTY SNIPPET
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (edit_property) && (new_property_type=="Action")'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Snippet</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                             <input
+                                                    placeholder='doAction(...)'
+                                                    v-model='new_snippet'
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    >
+                                            </input>
+                                                                              
+                                        </div></div></div></div></div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                        <!-- --------------------
+                        
+                             NEW PROPERTY HELP
+                             
+                         -------------------- -->
+
+                        <div   v-if='(model.app_selected) && (edit_property) && (new_property_type=="Action")'
+                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                    >Help</div>
+                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                    <div style="width:100%">
+                                        <div>
+                                             <textarea  
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                    rows=10
+                                                    placeholder='await doAction(...) does something'
+                                                    v-model='new_help'>
+                                            </textarea>                     
+                                        </div></div></div></div></div>
+                                        
+                                        
+                                       
+                                        
+                        <!-- --------------------
+                        
+                             CANCEL / SAVE BUTTON
+                             
+                         -------------------- -->          
+                        <div    v-if='(model.app_selected) && (edit_property)'
+                                style='padding-bottom:60px;'
+                                class='row'>
+                            <div class='col-md-12'>
+                                <button style='font-family:verdana,helvetica;font-size: 13px;'
+                                        type=button class='btn btn-sm btn-info'
+                                        v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                    Cancel
+                                </button>
+
+                                <button style='font-family:verdana,helvetica;font-size: 13px;'
+                                        type=button class='btn btn-sm btn-info'
+                                        v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                        
+
+                        
+                        
+                        
+                        
                         
                         
                         
