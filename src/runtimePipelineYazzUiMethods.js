@@ -946,6 +946,7 @@
                     newProperty.pre_snippet = "await "
                     newProperty.snippet     = mm.new_snippet
                     newProperty.help        = mm.new_help
+                    newProperty.async       = "true"
                 }
 
                 mm.model.app_properties.push(  newProperty  )
@@ -1614,19 +1615,12 @@ ${formprop.fn}
                 }
 
 
-                let isAsync                 = true
                 let appProps                = mm.getAllAppProperties()
                 let fnDetails = null
 
 
                 for (let appPropertyDetails of appProps) {
                     if (appPropertyDetails.id == appMethodId) {
-                        debugger
-                        if (appPropertyDetails.async) {
-                            isAsync = true
-                        } else {
-                            isAsync = false
-                        }
 
                         let argsToUserCodeStringV2 = "{ "
                         for (  let  aForm  of  mm.getForms() ) {
@@ -1637,7 +1631,7 @@ ${formprop.fn}
 
                         let innerMethodSrcCode = mm.model[appMethodId]
                         let thecode =
-                            `(${isAsync?"async ":""}function(${argsToUserCodeStringV2}) {
+                            `(async function(${argsToUserCodeStringV2}) {
 ${innerMethodSrcCode}
 })`
                         let debugFcc = getDebugCode(
@@ -1647,7 +1641,7 @@ ${innerMethodSrcCode}
                                 skipFirstAndLastLine: true
                             })
                         let wrapperMethodSrcCode =
-`(${isAsync?"async ":""}function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
+`(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
     let argsToUserCode= {arg1: arg1, arg2: arg2,arg3: arg3,arg4: arg4,arg5: arg5,arg6: arg6,arg7: arg7,arg8: arg8,arg9: arg9,arg10: arg10}
     mm.fillInAllFormsToScopeObject(  argsToUserCode  )
     let innerf = ${debugFcc}
