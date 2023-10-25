@@ -2157,7 +2157,8 @@ Pushlist
                                                     <div  style='width:100%;display:inline-block;overflow: hidden;'
                                                           >
 
-                                                            {{av2.name}}
+                                                            <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
+                                                            <span>{{av2.name}}</span>
                                                     </div>
                                                   </div>
                                               </div>
