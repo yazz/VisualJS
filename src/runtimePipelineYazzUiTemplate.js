@@ -2126,7 +2126,7 @@ Pushlist
                             <div>
                                 <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!model.app_selected))' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!model.app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
                                      <img
                                             src='/driver_icons/form.png'
                                             style='width: 20px; margin-right: 10px;'
@@ -2143,7 +2143,7 @@ Pushlist
                                           v-if='(av.parent == null)'>
                                       <div  style='width:100%;display:inline-block;overflow: hidden;'>
 
-                                              <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
+                                              <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
                                               <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'>{{av.name}}</span>
                                               
                                               <div    v-if='form.name == active_form'
@@ -2153,7 +2153,7 @@ Pushlist
                                                         v-if='(av2.parent == av.name)'>
                                                     <div  style='width:100%;display:inline-block;overflow: hidden;'>
 
-                                                            <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
+                                                            <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
                                                             <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'>{{av2.name}}</span>
                                                     </div>
                                                   </div>
