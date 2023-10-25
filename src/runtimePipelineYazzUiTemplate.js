@@ -2119,6 +2119,7 @@ Pushlist
                         <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
                                 v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
 
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='model.app_selected' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
                                     <b>App - {{edited_app_display_name}}</b>
                         </div>
 
