@@ -681,7 +681,7 @@
                             // application code (THIS MUST BE FIST IN THE IF STATEMENT)
                             if (property_id && mm.model[property_id] && isValidObject(mm.model[property_id].fn)) {
                                 ccode = mm.model[property_id].fn
-                            } else if (mm.model.app_selected) {
+                            } else if (mm.app_selected) {
                                 ccode = mm.model[property_id]
 
 
@@ -781,9 +781,9 @@
 
                 if (mm.active_component_index != null) {
                     type = "component"
-                } else if ((mm.active_component_index == null) && (mm.active_form != null) && (!mm.model.app_selected)) {
+                } else if ((mm.active_component_index == null) && (mm.active_form != null) && (!mm.app_selected)) {
                     type = "form"
-                } else if (mm.model.app_selected) {
+                } else if (mm.app_selected) {
                     type = "app"
                 }
 
@@ -866,9 +866,9 @@
                 let type
                 if (this.active_component_index != null) {
                     type = "component"
-                } else if ((this.active_component_index == null) && (this.active_form != null) && (!this.model.app_selected)) {
+                } else if ((this.active_component_index == null) && (this.active_form != null) && (!this.app_selected)) {
                     type = "form"
-                } else if (this.model.app_selected) {
+                } else if (this.app_selected) {
                     type = "app"
                 }
 
@@ -2717,7 +2717,7 @@ ${innerMethodSrcCode}
 
 
                     // if we selected the app or a form
-                    if (mm.model.app_selected || (!isValidObject(mm.active_component_index))) {
+                    if (mm.app_selected || (!isValidObject(mm.active_component_index))) {
 
                         if (mm.edited_app_component_id) {
                             objectListForSelector.push(
@@ -2729,7 +2729,7 @@ ${innerMethodSrcCode}
                                 })
                         }
 
-                        if (mm.model.app_selected) {
+                        if (mm.app_selected) {
                             selectedCodeObject = indexObjectSelector
                         }
                         indexObjectSelector++
@@ -2745,7 +2745,7 @@ ${innerMethodSrcCode}
                                     component:  null
                                 }
                             )
-                            if ((!mm.model.app_selected) && (form.name == mm.active_form)) {
+                            if ((!mm.app_selected) && (form.name == mm.active_form)) {
                                 selectedCodeObject = indexObjectSelector
                             }
                             indexObjectSelector++
@@ -2755,7 +2755,7 @@ ${innerMethodSrcCode}
                             // show the sub controls of this form if it is the current form
                             //
 
-                            if ((!mm.model.app_selected) && (form.name == mm.active_form)) {
+                            if ((!mm.app_selected) && (form.name == mm.active_form)) {
                                 let components = mm.getActiveFormComponents()
                                 for (  let ere1 = 0; ere1 < components.length; ere1++  ) {
                                     let component = components[ ere1 ]
@@ -2828,7 +2828,7 @@ ${innerMethodSrcCode}
 
 
                     // get the app methods
-                    if (mm.model.app_selected) {
+                    if (mm.app_selected) {
                         let allProperties = mm.getAllAppProperties()
                         for (let ui=0;ui < allProperties.length; ui ++) {
                             let prop = allProperties[ui]
@@ -3446,7 +3446,7 @@ ${code}
                 let mm = this
 
                 mm.active_component_index   = null
-                mm.model.app_selected       = false
+                mm.app_selected       = false
                 mm.properties               = mm.getFormProperties( formId )
                 mm.active_form              = formId
                 mm.refresh ++
@@ -4065,7 +4065,7 @@ ${code}
                 let mm = this
 
                 this.active_component_index         = null
-                this.model.app_selected             = true
+                this.app_selected             = true
                 this.active_property_index          = null
                 //this.active_form                    = null
                 //this.app_selected                   = true
@@ -4183,7 +4183,7 @@ ${code}
                 let indexProp       = 0
                 let selectedItem    = null
 
-                if (mm.model.app_selected || (!isValidObject(mm.active_component_index))) {
+                if (mm.app_selected || (!isValidObject(mm.active_component_index))) {
 
                     if (mm.edited_app_component_id) {
                         sdata.push(
@@ -4195,7 +4195,7 @@ ${code}
                             })
                     }
 
-                    if (mm.model.app_selected) {
+                    if (mm.app_selected) {
                         selectedItem = indexProp
                     }
                     indexProp++
@@ -4211,7 +4211,7 @@ ${code}
                                 component:  null
                             }
                         )
-                        if ((!mm.model.app_selected) && (form.name == mm.active_form)) {
+                        if ((!mm.app_selected) && (form.name == mm.active_form)) {
                             selectedItem = indexProp
                         }
                         indexProp++
@@ -4471,7 +4471,7 @@ return {}
                     return
                 }
                 this.active_property_index = null
-                this.model.app_selected = false
+                this.app_selected = false
                 this.active_component_index = index
                 this.properties = this.getControlProperties(this.model.forms[this.active_form].components[index].base_component_id)
 
@@ -6488,6 +6488,7 @@ return {}
             return {
                 //*** copy_data_start ***//
                 code_changes:                        [],
+                app_selected:                        false,
                 showFilePicker:                      false,
                 editor_locked:                       false,
                 open_file_path:                      "/",

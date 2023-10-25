@@ -7,7 +7,6 @@ formEditor({
   "max_form": 5,
   "active_form": "Form_1",
   "default_form": "Form_1",
-  "app_selected": false,
   "id": "yazz_blank",
   "next_component_id": 114,
   "app_properties": [

@@ -2116,17 +2116,17 @@ Pushlist
                 <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
                     <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
-                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'>
+                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='model.app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
                                     <b   v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>App - {{edited_app_display_name}}</b>
                         </div>
 
                         <div v-for='form in getForms()' v-bind:refresh='refresh'>
                             <div>
-                                <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;position:relative;"'>
+                                <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;position:relative;"'>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!model.app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
                                      <img
                                             src='/driver_icons/form.png'
                                             style='width: 20px; margin-right: 10px;'
@@ -2183,7 +2183,7 @@ Pushlist
                 <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
                         v-on:click='selected_pane = "properties";chooseRight("properties");'>
-                    Properties - {{isValidObject(active_component_index)?model.forms[active_form].components[active_component_index].name + " (Component)" : (model.app_selected?"App":active_form + " (Form)")}}
+                    Properties - {{isValidObject(active_component_index)?model.forms[active_form].components[active_component_index].name + " (Component)" : (app_selected?"App":active_form + " (Form)")}}
                 </div>
 
 
@@ -2275,7 +2275,7 @@ Pushlist
 
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();selectFilePath({
-                                                            app_selected:           model.app_selected,
+                                                            app_selected:           app_selected,
                                                             active_form:            active_form,
                                                             active_component_index: active_component_index,
                                                             property_id:            property.id,
@@ -2325,12 +2325,12 @@ Pushlist
                                                           >*</div>
 
 
-                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn))  ||  (model.app_selected && (property.type  == 'Action'))"
+                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn))  ||  (app_selected && (property.type  == 'Action'))"
                                                 style="width:100%">
 
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();editAsCode({
-                                                            app_selected:           model.app_selected,
+                                                            app_selected:           app_selected,
                                                             active_form:            active_form,
                                                             active_component_index: active_component_index,
                                                             property_id:            property.id
@@ -2383,10 +2383,10 @@ Pushlist
 
                                         </div>
 
-                                        <div v-if='(active_component_index == null) && (active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[active_form][property.id]'>
+                                        <div v-if='(active_component_index == null) && (active_form != null) && (app_selected == false)' class='col-md-12 small'   v-model='model.forms[active_form][property.id]'>
                                         </div>
 
-                                        <div    v-if='model.app_selected'
+                                        <div    v-if='app_selected'
                                                 style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
                                                 class='col-md-12 small'  >
 
@@ -2419,7 +2419,7 @@ Pushlist
                              + PROPERTY BUTTON
                              
                          -------------------- -->
-                        <div  v-if='model.app_selected && (!add_property)' class='row' style='margin: 5px;'>
+                        <div  v-if='app_selected && (!add_property)' class='row' style='margin: 5px;'>
                             <button     type=button class='btn btn-info'
                                         style='font-family:verdana,helvetica;font-size: 13px;padding: 3px;'
                                         v-on:click='$event.stopPropagation();addPropertyToApp()'  >
@@ -2434,7 +2434,7 @@ Pushlist
                              Add property text
                              
                          -------------------- -->
-                        <div v-if='(model.app_selected) && (add_property)' class='row'>
+                        <div v-if='(app_selected) && (add_property)' class='row'>
                             <div    style='left:10px;padding-left:10px;padding-top:4px;padding-bottom:4px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
                                     class='col-md-12 small'>
                                 Add a property
@@ -2451,7 +2451,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (add_property)'
+                        <div   v-if='(app_selected) && (add_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2475,7 +2475,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (add_property)'
+                        <div   v-if='(app_selected) && (add_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2506,7 +2506,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (add_property)'
+                        <div   v-if='(app_selected) && (add_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2538,7 +2538,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")'
+                        <div   v-if='(app_selected) && (add_property) && (new_property_type=="Action")'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2566,7 +2566,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")'
+                        <div   v-if='(app_selected) && (add_property) && (new_property_type=="Action")'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2595,7 +2595,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (add_property)'
+                        <div   v-if='(app_selected) && (add_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2619,7 +2619,7 @@ Pushlist
                              CANCEL / SAVE BUTTON
                              
                          -------------------- -->          
-                        <div    v-if='(model.app_selected) && (add_property)'
+                        <div    v-if='(app_selected) && (add_property)'
                                 style='padding-bottom:60px;'
                                 class='row'>
                             <div class='col-md-12'>
@@ -2659,7 +2659,7 @@ Pushlist
                              Edit property text
                              
                          -------------------- -->
-                        <div v-if='(model.app_selected) && (edit_property)' class='row'>
+                        <div v-if='(app_selected) && (edit_property)' class='row'>
                             <div    style='left:10px;padding-left:10px;padding-top:4px;padding-bottom:4px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
                                     class='col-md-12 small'>
                                 Edit property
@@ -2676,7 +2676,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property)'
+                        <div   v-if='(app_selected) && (edit_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2699,7 +2699,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property)'
+                        <div   v-if='(app_selected) && (edit_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2730,7 +2730,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property)'
+                        <div   v-if='(app_selected) && (edit_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2762,7 +2762,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property) && (edit_property_type=="Action")'
+                        <div   v-if='(app_selected) && (edit_property) && (edit_property_type=="Action")'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2790,7 +2790,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property) && (edit_property_type=="Action")'
+                        <div   v-if='(app_selected) && (edit_property) && (edit_property_type=="Action")'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2819,7 +2819,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property)'
+                        <div   v-if='(app_selected) && (edit_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2843,7 +2843,7 @@ Pushlist
                              CANCEL / DELETE / SAVE BUTTON
                              
                          -------------------- -->          
-                        <div    v-if='(model.app_selected) && (edit_property)'
+                        <div    v-if='(app_selected) && (edit_property)'
                                 style='padding-bottom:60px;'
                                 class='row'>
                             <div class='col-md-12'>

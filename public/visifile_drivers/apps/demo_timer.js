@@ -15,7 +15,6 @@ formEditor({
   "max_form": 4,
   "active_form": "Form_1",
   "default_form": "Form_1",
-  "app_selected": false,
   "id": "demo_timer",
   "next_component_id": 115,
   "app_properties": [

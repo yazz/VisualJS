@@ -42,7 +42,6 @@ runtime_pipeline(["EDITOR_PLUG_IN"])
                         next_id:            1,
                         next_component_id:  1,
                         max_form:           1,
-                        app_selected:       false,
                         default_form:       "Form_1",
                         app_properties:     [],
                         fields:             [],
