@@ -2124,16 +2124,16 @@ Pushlist
 
                         <div v-for='form in getForms()' v-bind:refresh='refresh'>
                             <div>
-                                <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'
-                                      v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>
+                                <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!model.app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;"'>
 
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!model.app_selected))' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
                                      <img
                                             src='/driver_icons/form.png'
                                             style='width: 20px; margin-right: 10px;'
                                             class='img-fluid'>
                                      </img>
 
-                                              {{form.name}} ({{form.components.length}})
+                                      <span v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>{{form.name}} ({{form.components.length}})</span>
                                 </div>
 
                                 <div    v-if='form.name == active_form'
