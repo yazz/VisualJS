@@ -4654,6 +4654,7 @@ return {}
                 let json2   = this.getJsonModelFromCode(  textValue  )
 
                 mm.edited_app_component_id = yz.helpers.getValueOfCodeString(textValue, "base_component_id")
+                mm.edited_app_display_name = yz.helpers.getValueOfCodeString(textValue, "display_name")
 
                 mm.old_model    = JSON.parse(JSON.stringify(json2));
                 mm.model        = json2
@@ -4680,6 +4681,7 @@ return {}
                 |________________________________________________________________________ */
                 let mm = this
                 mm.edited_app_component_id  = yz.helpers.getValueOfCodeString(codeV, "base_component_id")
+                mm.edited_app_display_name  = yz.helpers.getValueOfCodeString(codeV, "display_name")
                 mm.componentType            = yz.helpers.getValueOfCodeString(codeV, "component_type")
                 let json2 = yz.helpers.getValueOfCodeString(codeV,"formEditor",")//formEditor")
                 return json2
@@ -6018,6 +6020,7 @@ return {}
                         mm.old_model                = JSON.parse(JSON.stringify(json2));
                         mm.model                    = json2
                         mm.edited_app_component_id  = yz.helpers.getValueOfCodeString(texti, "base_component_id")
+                        mm.edited_app_display_name  = yz.helpers.getValueOfCodeString(texti, "display_name")
                         mm.read_only                = yz.helpers.getValueOfCodeString(texti, "read_only")
                     }
                     mm.active_form = mm.model.default_form
@@ -6532,6 +6535,7 @@ return {}
                 highlighted_control:                 null,
                 highlighted_control_code_id:         null,
                 edited_app_component_id:             null,
+                edited_app_display_name:             null,
                 componentType:                       null,
                 event_code:                          null,
                 text:                                texti,

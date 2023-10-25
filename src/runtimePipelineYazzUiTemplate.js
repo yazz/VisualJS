@@ -2119,7 +2119,7 @@ Pushlist
                         <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
                                 v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
 
-                                    <b>{{edited_app_component_id}}</b>
+                                    <b>App - {{edited_app_display_name}}</b>
                         </div>
 
                         <div v-for='form in getForms()' v-bind:refresh='refresh'>
