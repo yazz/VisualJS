@@ -4189,7 +4189,7 @@ ${code}
                         sdata.push(
                             {
                                 value:      "" + indexProp,
-                                app:        mm.edited_app_component_id,
+                                app:        mm.edited_app_display_name,
                                 form:       null,
                                 component:  null
                             })
