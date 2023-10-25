@@ -2418,6 +2418,7 @@ ${innerMethodSrcCode}
                             if (textBeforeFirstDot == "me") {
 
                                 if (mm.design_mode_pane.app_selected) {
+                                    isApp = true
 
                                 } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
                                     componentId = mm.model.forms[mm.active_form].components[ mm.design_mode_pane.active_component_index ].base_component_id
