@@ -2137,28 +2137,24 @@ Pushlist
                                 </div>
 
                                 <div    v-if='form.name == active_form'
-                                        v-for='(av,index) in getActiveFormComponents()'
-                                        v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'
-                                        >
+                                        v-for='(av,index) in getActiveFormComponents()'>
 
                                     <div  v-bind:style='(((index == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
                                           v-if='(av.parent == null)'>
                                       <div  style='width:100%;display:inline-block;overflow: hidden;'>
 
                                               <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
-                                              <span >{{av.name}}</span>
+                                              <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'>{{av.name}}</span>
+                                              
                                               <div    v-if='form.name == active_form'
-                                                      v-for='(av2,index2) in getActiveFormComponents()'
-                                                      v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'
-                                                      >
+                                                      v-for='(av2,index2) in getActiveFormComponents()'>
 
                                                   <div  v-bind:style='(((index2 == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;width:90%;"'
                                                         v-if='(av2.parent == av.name)'>
-                                                    <div  style='width:100%;display:inline-block;overflow: hidden;'
-                                                          >
+                                                    <div  style='width:100%;display:inline-block;overflow: hidden;'>
 
                                                             <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
-                                                            <span>{{av2.name}}</span>
+                                                            <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'>{{av2.name}}</span>
                                                     </div>
                                                   </div>
                                               </div>
