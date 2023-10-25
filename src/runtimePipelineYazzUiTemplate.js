@@ -2143,10 +2143,10 @@ Pushlist
 
                                     <div  v-bind:style='(((index == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
                                           v-if='(av.parent == null)'>
-                                      <div  style='width:100%;display:inline-block;overflow: hidden;'
-                                            >
+                                      <div  style='width:100%;display:inline-block;overflow: hidden;'>
 
-                                              {{av.name}}
+                                              <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
+                                              <span >{{av.name}}</span>
                                               <div    v-if='form.name == active_form'
                                                       v-for='(av2,index2) in getActiveFormComponents()'
                                                       v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'
