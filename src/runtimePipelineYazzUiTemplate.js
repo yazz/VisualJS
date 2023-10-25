@@ -2116,11 +2116,10 @@ Pushlist
                 <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
                     <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
-                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'
-                                v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>
+                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'>
 
                                     <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='model.app_selected' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
-                                    <b>App - {{edited_app_display_name}}</b>
+                                    <b   v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>App - {{edited_app_display_name}}</b>
                         </div>
 
                         <div v-for='form in getForms()' v-bind:refresh='refresh'>
