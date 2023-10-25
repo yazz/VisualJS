@@ -934,13 +934,13 @@
                     id:         mm.new_property_id,
                     name:       mm.new_property_name,
                     type:       mm.new_property_type,
+                    help:       mm.new_help,
                     default:    defaultVal,
                     custom:     "true"
                 }
                 if (mm.new_property_type == "Action") {
                     newProperty.pre_snippet = "await "
                     newProperty.snippet     = mm.new_snippet
-                    newProperty.help        = mm.new_help
                     newProperty.async       = "true"
                 }
 
@@ -1028,11 +1028,11 @@
                         appProperty.name        = mm.edit_property_name
                         appProperty.type        = mm.edit_property_type
                         appProperty.default     = defaultVal
+                        appProperty.help        = mm.edit_property_help
 
                         if (mm.edit_property_type == "Action") {
                             appProperty.pre_snippet = "await "
                             appProperty.snippet     = mm.edit_property_snippet
-                            appProperty.help        = mm.edit_property_help
                             appProperty.async       = "true"
                         }
                     }
