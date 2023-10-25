@@ -2598,7 +2598,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (add_property) && (new_property_type=="Action")'
+                        <div   v-if='(model.app_selected) && (add_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2609,7 +2609,7 @@ Pushlist
                                              <textarea  
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     rows=10
-                                                    placeholder='await doAction(...) does something'
+                                                    v-bind:placeholder='(new_property_type=="Action")?"await doAction(...) does something":"background_color is the standard HTML color for backgrounds"'
                                                     v-model='new_help'>
                                             </textarea>                     
                                         </div></div></div></div></div>
@@ -2822,7 +2822,7 @@ Pushlist
                              
                          -------------------- -->
 
-                        <div   v-if='(model.app_selected) && (edit_property) && (edit_property_type=="Action")'
+                        <div   v-if='(model.app_selected) && (edit_property)'
                                 style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
                             <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                                 <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
@@ -2833,7 +2833,7 @@ Pushlist
                                              <textarea  
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     rows=10
-                                                    placeholder='await doAction(...) does something'
+                                                    v-bind:placeholder='(edit_property_type=="Action")?"await doAction(...) does something":"background_color is the standard HTML color for backgrounds"'
                                                     v-model='edit_property_help'>
                                             </textarea>                     
                                         </div></div></div></div></div>
