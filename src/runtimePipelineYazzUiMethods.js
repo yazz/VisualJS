@@ -2723,7 +2723,7 @@ ${innerMethodSrcCode}
                             objectListForSelector.push(
                                 {
                                     value:      "" + indexObjectSelector,
-                                    app:        mm.edited_app_component_id,
+                                    app:        mm.edited_app_display_name,
                                     form:       null,
                                     component:  null
                                 })
@@ -2786,7 +2786,7 @@ ${innerMethodSrcCode}
                             objectListForSelector.push(
                                 {
                                     value:      "" + indexObjectSelector,
-                                    app:        mm.edited_app_component_id,
+                                    app:        mm.edited_app_display_name,
                                     form:       null,
                                     component:  null
                                 })
@@ -2836,7 +2836,7 @@ ${innerMethodSrcCode}
                                 methodListForSelector.push(
                                     {
                                         value:              "" + indexActionSelector,
-                                        app:                mm.edited_app_component_id,
+                                        app:                mm.edited_app_display_name,
                                         form:               mm.active_form,
                                         component:          null,
                                         action_id:          prop.id,
@@ -4223,7 +4223,7 @@ ${code}
                         sdata.push(
                             {
                                 value:      "" + indexProp,
-                                app:        mm.edited_app_component_id,
+                                app:        mm.edited_app_display_name,
                                 form:       null,
                                 component:  null
                             })
