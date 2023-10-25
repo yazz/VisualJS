@@ -2118,7 +2118,7 @@ Pushlist
 
                         <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='model.app_selected' type=button class='btn btn-sm btn-info' style="margin-right:5px">&uarr;</button>
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='model.app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
                                     <b   v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>App - {{edited_app_display_name}}</b>
                         </div>
 
