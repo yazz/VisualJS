@@ -2865,26 +2865,27 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-
-
-
-
-
+                    send_is_win:                        isWin
                 // ----------------------------------------------------------------------------------------------
                 //
                 //                  Share the container environment variables with the front end
                 //
                 // ----------------------------------------------------------------------------------------------
-                socket.on('env_vars',async function(data) {
-                    console.log("env_vars received from server socket: " + JSON.stringify(data,null,2));
+                socket.on('server_init_data',async function(data) {
+                    console.log("Server init data received from server socket: " + JSON.stringify(data,null,2));
 
-                    var allEnvVarNames = Object.keys(data.value)
+                    networkIntranetIpAddress = data.network_ip_address_intranet
+                    isWin                    = data.send_is_win
+                    console.log("networkIntranetIpAddress: " + networkIntranetIpAddress);
+                    console.log("isWin:                    " + isWin);
+
+                    var allEnvVarNames = Object.keys(data.env_vars)
                     for (var i=0; i< allEnvVarNames.length;i++) {
                         try
                         {
                             let envName = allEnvVarNames[i].replace(/[^a-zA-Z0-9]/g,'_')
                             //console.log(envName)
-                            var valueEnvVar = data.value[envName]
+                            var valueEnvVar = data.env_vars[envName]
                             var cmddd = '($' + envName + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
 
                             eval(cmddd)
@@ -2917,38 +2918,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 });
 
 
-
-
-
-
-
-
-
-                // ----------------------------------------------------------------------------------------------
-                //
-                //                  Share the container environent variables with the front end
-                //
-                // ----------------------------------------------------------------------------------------------
-                socket.on('network_ip_address_intranet',function(data) {
-                    console.log("network_ip_address_intranet  received from server socket: " + JSON.stringify(data,null,2));
-
-                    networkIntranetIpAddress = data.value
-                });
-
-
-
-
-
-                // ----------------------------------------------------------------------------------------------
-                //
-                //
-                //
-                // ----------------------------------------------------------------------------------------------
-                socket.on('send_is_win',function(data) {
-                    console.log("send_is_win received from server socket: " + JSON.stringify(data,null,2));
-
-                    isWin = data.value
-                });
 
 
 

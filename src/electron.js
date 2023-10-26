@@ -3579,18 +3579,12 @@ function        websocketFn                             (  ws  ) {
     serverwebsockets.push(ws);
     sendToBrowserViaWebSocket(ws, {type: "ws_socket_connected"});
     sendOverWebSockets({
-        type:   "env_vars",
-        value:   envVars
+        type:                               "server_init_data",
+        env_vars:                           envVars,
+        network_ip_address_intranet:        hostaddressintranet,
+        send_is_win:                        isWin
     });
-    //console.log('Socket connected : ' + serverwebsockets.length);
-    sendOverWebSockets({
-        type:   "network_ip_address_intranet",
-        value:   hostaddressintranet
-    });
-    sendOverWebSockets({
-        type:   "send_is_win",
-        value:   isWin
-    });
+
 
     ws.on('message', async function(msg) {
         let receivedMessage = eval("(" + msg + ")");
