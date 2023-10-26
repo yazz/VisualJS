@@ -2195,7 +2195,19 @@
                 yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
                 yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
             }
-            async function  initYazzApplication                              (   ) {
+            async function  initSystem                          (   ) {
+                if (GLOBALS.isStaticHtmlPageApp) {
+                    useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
+                    usePort = /*static_port_start*/ -1/*static_port_end*/
+                } else {
+                    useHostname = location.hostname
+                    usePort = location.port
+                }
+                setupWebSocket(useHostname, usePort);
+                //alert(useHostname + ":" +  usePort)
+                await initYazzApplication()
+            }
+            async function  initYazzApplication                 (   ) {
                 //----------------------------------------------------------------------------------
                 //
                 //                    /-------------------------------------/
@@ -2740,15 +2752,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
 
 
-                    if (GLOBALS.isStaticHtmlPageApp) {
-                        useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
-                        usePort = /*static_port_start*/-1/*static_port_end*/
-                    } else {
-                        useHostname = location.hostname
-                        usePort = location.port
-                    }
-                    setupWebSocket(useHostname,  usePort);
-                    //alert(useHostname + ":" +  usePort)
+
 
                     let regex = /[?&]([^=#]+)=([^&#]*)/g,
                         url = window.location.href,
@@ -4253,7 +4257,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
         </script> <!-- main code and functions -->
 
     </head>
-    <body onload='initYazzApplication()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
+    <body onload='initSystem()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
         <div    id='popup'
                 style='display: none;position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
                 onclick='document.getElementById("popup").style.zIndex = "-1";document.getElementById("popup").style.display = "none";document.getElementById("popup_content").innerHTML =""'>
