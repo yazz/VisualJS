@@ -2800,6 +2800,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 if (yz.mainVars.online) {
                     msg.cookie = getYazzCookie()
                     socket.send(JSON.stringify(msg));
+                } else {
+                    console.log("Websocket call failed: Websocket not connected yet")
                 }
                 //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
             }
@@ -2810,7 +2812,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //console.log('opening web socketio');
                 socket.on('ws_socket_connected',function(data){
                     yz.mainVars.online = true
-                    //console.log("Connected: " + JSON.stringify(data,null,2));
+                    console.log("Websocket connected: " + JSON.stringify(data,null,2));
 
                     setTimeout(function(){
                         //
