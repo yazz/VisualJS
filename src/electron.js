@@ -3599,29 +3599,17 @@ function        websocketFn                             (  ws  ) {
 
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
-        // if we get the message "server_get_all_queries" from the web browser
-        if (receivedMessage.message_type == "server_get_all_queries") {
 
-            let seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = ws;
-
-
-
-
-
-
-
-            // --------------------------------------------------------------------
-            //
-            //                         ws_browser_calls_component_via_web_socket
-            //
-            // "ws_browser_calls_component_via_web_socket" is used to call server side apps/code.
-            //
-            //
-            //
-            // --------------------------------------------------------------------
-        } else if (receivedMessage.message_type == "ws_browser_calls_component_via_web_socket") {
+        // --------------------------------------------------------------------
+        //
+        //                         ws_browser_calls_component_via_web_socket
+        //
+        // "ws_browser_calls_component_via_web_socket" is used to call server side apps/code.
+        //
+        //
+        //
+        // --------------------------------------------------------------------
+        if (receivedMessage.message_type == "ws_browser_calls_component_via_web_socket") {
 
             // Use an integer counter to identify whoever was
             // calling the server function (in this case a web browser with
