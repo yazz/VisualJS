@@ -2204,8 +2204,10 @@
                     usePort = location.port
                 }
                 setupWebSocket(useHostname, usePort);
+                if (GLOBALS.isStaticHtmlPageApp) {
+                    await initYazzApplication()
+                }
                 //alert(useHostname + ":" +  usePort)
-                await initYazzApplication()
             }
             async function  initYazzApplication                 (   ) {
                 //----------------------------------------------------------------------------------
@@ -2891,6 +2893,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         }
                     }
                     yz.mainVars.pageInitialised = true
+                    await initYazzApplication()
 
 
 
