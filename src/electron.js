@@ -3609,43 +3609,6 @@ function        websocketFn                             (  ws  ) {
 
 
 
-        //                                  ______
-        // Browser  --Send me your data-->  Server
-        //                                  ______
-        //
-        } else if (receivedMessage.message_type == "ws_browser_asks_server_for_data") {
-
-            let seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = ws;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

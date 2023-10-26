@@ -2817,23 +2817,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 socket.on('ws_socket_connected',function(data){
                     yz.mainVars.online = true
                     console.log("Websocket connected: " + JSON.stringify(data,null,2));
-
-                    setTimeout(function(){
-                        //
-                        // _______
-                        // Browser  --Send me your data--  Server
-                        // _______
-                        //
-
-
-                        setInterval(async function() {
-                            await sendToServerViaWebSocket({
-                                message_type: "ws_browser_asks_server_for_data"
-                            });
-                        }, 5000)
-
-
-                    },3000);
                 });
 
 
