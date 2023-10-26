@@ -2873,7 +2873,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //
                 // ----------------------------------------------------------------------------------------------
                 socket.on('env_vars',async function(data) {
-                    //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+                    console.log("env_vars received from server socket: " + JSON.stringify(data,null,2));
 
                     var allEnvVarNames = Object.keys(data.value)
                     for (var i=0; i< allEnvVarNames.length;i++) {
@@ -2926,7 +2926,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //
                 // ----------------------------------------------------------------------------------------------
                 socket.on('network_ip_address_intranet',function(data) {
-                    //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+                    console.log("network_ip_address_intranet  received from server socket: " + JSON.stringify(data,null,2));
 
                     networkIntranetIpAddress = data.value
                 });
@@ -2941,7 +2941,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //
                 // ----------------------------------------------------------------------------------------------
                 socket.on('send_is_win',function(data) {
-                    //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+                    console.log("send_is_win received from server socket: " + JSON.stringify(data,null,2));
 
                     isWin = data.value
                 });
