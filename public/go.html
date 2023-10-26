@@ -2195,7 +2195,18 @@
                 yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
                 yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
             }
-            async function  initFn                              (   ) {
+            async function  initYazzApplication                              (   ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /         initYazzApplication         /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // Once the system is set up than this is called to set up the
+                // application
+                //--------------------------------------------------------------------
+
                 setTimeout(async function(){
 
                     await setupAlaSqlDatabase()
@@ -4242,7 +4253,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
         </script> <!-- main code and functions -->
 
     </head>
-    <body onload='initFn()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
+    <body onload='initYazzApplication()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
         <div    id='popup'
                 style='display: none;position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
                 onclick='document.getElementById("popup").style.zIndex = "-1";document.getElementById("popup").style.display = "none";document.getElementById("popup_content").innerHTML =""'>
