@@ -2797,11 +2797,16 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //***ADD_STATIC_CODE
             }
             async function  sendToServerViaWebSocket            (   msg   ) {
-                if (yz.mainVars.online) {
+                debugger
+                let isThisAppOnline = true
+                if (localAppshareApp) {
+                    isThisAppOnline = false
+                }
+                if (isThisAppOnline) {
                     msg.cookie = getYazzCookie()
                     socket.send(JSON.stringify(msg));
                 } else {
-                    console.log("Websocket call failed: Websocket not connected yet")
+                    console.log("Yazz web app running in local mode: Yazz will not call websocket fns")
                 }
                 //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
             }
