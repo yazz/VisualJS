@@ -2204,7 +2204,7 @@
                     usePort = location.port
                 }
                 setupWebSocket(useHostname, usePort);
-                if (GLOBALS.isStaticHtmlPageApp) {
+                if (localAppshareApp) {
                     await initYazzApplication()
                 }
                 //alert(useHostname + ":" +  usePort)
@@ -2221,6 +2221,7 @@
                 // application
                 //--------------------------------------------------------------------
 
+                console.log("Called initYazzApplication()")
                 setTimeout(async function(){
 
                     await setupAlaSqlDatabase()
