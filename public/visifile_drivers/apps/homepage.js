@@ -33,7 +33,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         -----------------
         [
             {
-                type:               "app" <--- this is in error I think!
                 base_component_id:  "todo"
                 displayName:        "Todo App"
                 code_id:            "Qmc9F1EaUDEau1nc3HV4Q7oJEHTqYRKz5x8HPZfThMEbWf"
@@ -1365,7 +1364,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             }
                         }
                         let app = {
-                            type:                       "app",
                             base_component_id:          baseComponentId,
                             displayName:                displayName
                         }
