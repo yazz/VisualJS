@@ -3580,12 +3580,19 @@ async function  copyAppshareApp                         (  args  ) {
 function        websocketFn                             (  ws  ) {
     serverwebsockets.push(ws);
     sendToBrowserViaWebSocket(ws, {type: "ws_socket_connected"});
-    sendOverWebSockets({
+    /*sendOverWebSockets({
+        type:                               "server_init_data",
+        env_vars:                           envVars,
+        network_ip_address_intranet:        hostaddressintranet,
+        send_is_win:                        isWin
+    });*/
+    sendToBrowserViaWebSocket(ws, {
         type:                               "server_init_data",
         env_vars:                           envVars,
         network_ip_address_intranet:        hostaddressintranet,
         send_is_win:                        isWin
     });
+    sendToBrowserViaWebSocket
 
 
     ws.on('message', async function(msg) {
