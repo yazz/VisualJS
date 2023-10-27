@@ -1402,7 +1402,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     //
                     // --------------------------------------------------------------------
 
-                    debugger
                     let mm                = this
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
@@ -1512,7 +1511,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     //----------------------------------------------------------------------------
                     // Given the commit ID of an app in the app store, download it and run it
                     //--------------------------------------------------------------------
-                    debugger
                     let mm                = this
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
@@ -1563,7 +1561,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     //     ------           The "commit ID" of the app to load
                     //
                     //--------------------------------------------------------------------
-                    debugger
                     let mm = this
 
                     globalEventBus.$emit('hide_settings', {});
