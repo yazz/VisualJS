@@ -1387,19 +1387,21 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     return null
                 },
                 addToEditableAppsAndEdit:           async function  ( ipfsHash ) {
-                    /* Given the commit ID of an app in the app store, download it and edit it
-                    ________________________________________
-                    |                                      |
-                    |       addToEditableAppsAndEdit       |
-                    |                                      |
-                    |______________________________________|
-                    Given the commit ID of an app in the app store, download it and edit it
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     ipfsHash
-                    |     --------
-                    |________________________________________________________________________ */
+                    //----------------------------------------------------------------------------------
+                    //
+                    //                    /-------------------------------------/
+                    //                   /         addToEditableAppsAndEdit    /
+                    //                  /-------------------------------------/
+                    //
+                    //----------------------------------------------------------------------------
+                    // Given the commit ID of an app in the app store, download it and edit it
+                    //
+                    //     ipfsHash
+                    //     --------
+                    //
+                    // --------------------------------------------------------------------
+
+                    debugger
                     let mm                = this
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
