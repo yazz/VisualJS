@@ -68,12 +68,12 @@ formEditor({
                     })
 
                     mm.addControl({
-                        base_component_id: "button_control",
-                        name: "ccc" + controlIndex,
-                        leftX:200,
-                        value: "Apply",
-                        topY: lastY + 30,
-                        click_event: "aaa." + propertyDefn.id + " = bbb" + controlIndex + ".value"
+                        base_component_id:  "button_control",
+                        text:               "Set",
+                        name:               "ccc" + controlIndex,
+                        leftX:              200,
+                        topY:               lastY + 30,
+                        click_event:        "aaa." + propertyDefn.id + " = bbb" + controlIndex + ".value"
                     })
                     controlIndex++
                     lastY += 100
@@ -101,12 +101,12 @@ formEditor({
                     })
 
                     mm.addControl({
-                        base_component_id: "button_control",
-                        name: "ccc" + controlIndex,
-                        leftX:200,
-                        value: "Apply",
-                        topY: lastY + 30,
-                        click_event: "aaa." + propertyDefn.id + " = JSON.parse(bbb" + controlIndex + ".value)"
+                        base_component_id:  "button_control",
+                        name:               "ccc" + controlIndex,
+                        leftX:              200,
+                        text:               "Set",
+                        topY:               lastY + 30,
+                        click_event:        "aaa." + propertyDefn.id + " = JSON.parse(bbb" + controlIndex + ".value)"
                     })
                     controlIndex++
                     lastY += 100
