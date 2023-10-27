@@ -1519,6 +1519,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                     let result = (await sqliteQuery(
                         `select  
+                            id,
                             base_component_id,  
                             display_name   
                         from  
@@ -1528,7 +1529,13 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                     await mm.addLogoForApp(result.base_component_id)
 
-                    await mm.addEditableComponentToHomepage(result.base_component_id, result.display_name)
+                    await mm.addEditableComponentToHomepage(
+                        result.base_component_id,
+                        result.display_name,
+                        {
+                            codeId: result.id
+                        }
+                    )
                     setTimeout(async function() {
                         hideProgressBar()
                         await mm.highlightEditableComponent(result.base_component_id)
