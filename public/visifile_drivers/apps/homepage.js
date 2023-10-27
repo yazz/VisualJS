@@ -608,6 +608,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     
                                     <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                             class='btn btn-sm'
+                                            v-if="item.component_type == 'app' "
                                             v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.ipfs_hash)})()'>
                                       <img    src='/driver_icons/play.png'
                                               style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -663,13 +664,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 </div>
             </div>`,
             data:       function() {
-                /* data for the Vue object
-                __________
-                | ITEMS  |______________________________________________________________
-                |
-                |     hideImportButtons
-                |     -----------------  Which tab
-                |________________________________________________________________________ */
+                // data for the Vue object - see top of file for more info
                 return {
                             // editable apps
                             editingBaseComponentId:                 null,
@@ -692,7 +687,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             open_file_path:                         "/",
                             open_file_list:                         [],
                             open_file_name:                         "",
-                            disableHighlightEditableApp:                    false,
+                            disableHighlightEditableApp:            false,
 
                             // debug helpers
                             listenerD:                              null,

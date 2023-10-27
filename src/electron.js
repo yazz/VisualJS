@@ -3902,8 +3902,9 @@ async function  startServices                           (  ) {
                              distinct(level_2_released_components.id), 
                              component_name, 
                              ipfs_hash, 
-                             level_2_released_components.base_component_id, 
-                             logo_url 
+                             level_2_released_components.base_component_id,
+                             component_type, 
+                             logo_url
                         from 
                              level_2_released_components 
                         where 
@@ -3930,7 +3931,8 @@ async function  startServices                           (  ) {
                                                     base_component_id:  thisRow.base_component_id,
                                                     logo:               thisRow.logo_url,
                                                     ipfs_hash:          thisRow.ipfs_hash,
-                                                    display_name:       thisRow.component_name
+                                                    display_name:       thisRow.component_name,
+                                                    component_type:     thisRow.component_type
                                                 })
                                         }
                                     }
