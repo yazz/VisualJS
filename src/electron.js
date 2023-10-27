@@ -3891,10 +3891,7 @@ async function  startServices                           (  ) {
 
     });
     app.post(   '/http_post_load_topapps',                                  async function (req, res) {
-        //console.log("app.post('/http_post_load_topapps'): ")
-        //console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
         let topApps = []
-        let sessionId = await getSessionId(req)
 
         let promise = new Promise(async function(returnfn) {
 

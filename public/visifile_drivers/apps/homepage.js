@@ -25,12 +25,43 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         only has the code for playing apps, not editing them
 
 
-         --------
-        | Params |
-    ----          --------------------------------------------------------------
-   |
-   |    NONE
-   |
+        Main data structures:
+        --------------------
+
+        appstore_apps - This is a list of the apps and components in the appstore that are available, but they may not
+        -------------   have been downloaded to thew browser for running or editing yet
+        [
+            "id":                   "demo_timer",
+            "base_component_id":    "demo_timer",
+            "logo":                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS...",
+            "ipfs_hash":            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU",
+            "display_name":         "Timer demo"
+        ]
+
+        To be documented:
+        ----------------
+        editingBaseComponentId:                 null,
+        editingCodeId:                          null,
+        lastEditedBaseComponentId:              null,
+        lastEditedCodeId:                       null,
+        editable_app_list:                      [],
+        lastHighlightedEditableCodeId:          null,
+        currentlyHighlightedEditableCodeId:     null,
+        currentlyHighlightedAppstoreBCI:        null,
+        app_store_component_logos_by_BCI:       new Object(),
+        hideImportButtons:                      true,
+        refresh:                                0,
+        showFilePicker:                         false,
+        open_file_path:                         "/",
+        open_file_list:                         [],
+        open_file_name:                         "",
+        disableHighlightEditableApp:                    false,
+        listenerD:                              null,
+        debugMode:                              false,
+        homepageDebugViewName:                  null
+
+
+
     ------------------------------------------------------------------------------ */
     Yazz.component(
         {
@@ -1184,17 +1215,15 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                 // load apps from app store
                 loadAppStoreApps:                   async function  ( ) {
-                    /* ____________________________________
-                    |                                      |
-                    |           loadAppStoreApps           |
-                    |                                      |
-                    |______________________________________|
-                    Load the apps from the app store
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
+                    //----------------------------------------------------------------------------------
+                    //
+                    //                    /-------------------------------------/
+                    //                   /         loadAppStoreApps            /
+                    //                  /-------------------------------------/
+                    //
+                    //----------------------------------------------------------------------------
+                    // Load the apps from the app store
+                    //--------------------------------------------------------------------
                     let mm = this
 
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_topapps"
@@ -1290,28 +1319,27 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                 // amend the edited apps
                 addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
-                    /* Given the base component ID of an app, a new display name, and
-                    some other data, add a new editable app to the homepage
+                    //----------------------------------------------------------------------------------
+                    //
+                    //                    /-------------------------------------/
+                    //                   /   addEditableComponentToHomepage    /
+                    //                  /-------------------------------------/
+                    //
+                    //----------------------------------------------------------------------------
+                    // Given the base component ID of an app, a new display name, and
+                    // some other data, add a new editable app to the homepage
+                    //
+                    //     baseComponentId
+                    //     ---------------
+                    //
+                    //     displayName
+                    //     -----------
+                    //
+                    //     other
+                    //     -----
+                    //
+                    //--------------------------------------------------------------------
 
-                    ________________________________________
-                    |                                      |
-                    |   addEditableComponentToHomepage     |
-                    |                                      |
-                    |______________________________________|
-                    Given the base component ID of an app, a new display name, and
-                    some other data, add a new editable app to the homepage
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |
-                    |     displayName
-                    |     -----------
-                    |
-                    |     other
-                    |     -----
-                    |________________________________________________________________________ */
                     let mm = this
                     // add the app to the list of BCI apps
                     if (baseComponentId) {
