@@ -473,16 +473,18 @@ module.exports = {
                             }
                             let newLatestRev = null
                             let readIn = false
-                            for (let i=0; i < sqlite.migrations.length; i+=2) {
-                                let sqlStKey = sqlite.migrations[i].name
+                            if (sqlite.migrations) {
+                                for (let i=0; i < sqlite.migrations.length; i+=2) {
+                                    let sqlStKey = sqlite.migrations[i].name
 
-                                for (let j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
-                                    if ((latestRevision == null) || readIn) {
-                                        let sqlSt = sqlite.migrations[i].name
-                                        newLatestRev = sqlStKey
-                                    }
-                                    if (latestRevision == sqlStKey) {
-                                        readIn = true
+                                    for (let j = 0  ;  j < sqlite.migrations[i].up.length  ;  j++ ) {
+                                        if ((latestRevision == null) || readIn) {
+                                            let sqlSt = sqlite.migrations[i].name
+                                            newLatestRev = sqlStKey
+                                        }
+                                        if (latestRevision == sqlStKey) {
+                                            readIn = true
+                                        }
                                     }
                                 }
                             }

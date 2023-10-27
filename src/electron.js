@@ -4483,6 +4483,7 @@ async function  startServices                           (  ) {
 
     // load component helpers
     app.post(   '/http_post_load_ui_components_v3',                         async function (req, res) {
+        console.log("CAlled /http_post_load_ui_components_v3")
         // Loads a bunch of components
         let inputComponentsToLoad       = req.body.find_components.items
         let outputComponents            = []
