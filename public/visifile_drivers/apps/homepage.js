@@ -33,11 +33,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         -----------------
         [
             {
-                type:               "app"
+                type:               "app" <--- this is in error I think!
                 base_component_id:  "todo"
                 displayName:        "Todo App"
                 code_id:            "Qmc9F1EaUDEau1nc3HV4Q7oJEHTqYRKz5x8HPZfThMEbWf"
                 logo_url:           "/driver_icons/todo.png"
+                component_type:     "app" / "component"
             }
         ]
 
@@ -509,6 +510,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             
                                                                 <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                                                         class='btn btn-sm'
+                                                                        v-if="item.component_type=='app'"
                                                                         v-on:click='runAppInNewBrowserTab(item.base_component_id);'>
                                                                   
                                                                         <img    src='/driver_icons/play.png'
