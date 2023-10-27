@@ -28,36 +28,50 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         Main data structures:
         --------------------
 
+
+        editable_app_list - This is a list of the apps that are currently being edited
+        -----------------
+        [
+            {
+                type:               "app"
+                base_component_id:  "todo"
+                displayName:        "Todo App"
+                code_id:            "Qmc9F1EaUDEau1nc3HV4Q7oJEHTqYRKz5x8HPZfThMEbWf"
+                logo_url:           "/driver_icons/todo.png"
+            }
+        ]
+
         appstore_apps - This is a list of the apps and components in the appstore that are available, but they may not
         -------------   have been downloaded to thew browser for running or editing yet
         [
-            "id":                   "demo_timer",
-            "base_component_id":    "demo_timer",
-            "logo":                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS...",
-            "ipfs_hash":            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU",
-            "display_name":         "Timer demo"
+            {
+                id:                   "demo_timer"
+                base_component_id:    "demo_timer"
+                logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
+                ipfs_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
+                display_name:         "Timer demo"
+            }
         ]
 
         To be documented:
         ----------------
-        editingBaseComponentId:                 null,
-        editingCodeId:                          null,
-        lastEditedBaseComponentId:              null,
-        lastEditedCodeId:                       null,
-        editable_app_list:                      [],
-        lastHighlightedEditableCodeId:          null,
-        currentlyHighlightedEditableCodeId:     null,
-        currentlyHighlightedAppstoreBCI:        null,
-        app_store_component_logos_by_BCI:       new Object(),
-        hideImportButtons:                      true,
-        refresh:                                0,
-        showFilePicker:                         false,
-        open_file_path:                         "/",
-        open_file_list:                         [],
-        open_file_name:                         "",
-        disableHighlightEditableApp:                    false,
-        listenerD:                              null,
-        debugMode:                              false,
+        editingBaseComponentId:                 null
+        editingCodeId:                          null
+        lastEditedBaseComponentId:              null
+        lastEditedCodeId:                       null
+        lastHighlightedEditableCodeId:          null
+        currentlyHighlightedEditableCodeId:     null
+        currentlyHighlightedAppstoreBCI:        null
+        app_store_component_logos_by_BCI:       new Object()
+        hideImportButtons:                      true
+        refresh:                                0
+        showFilePicker:                         false
+        open_file_path:                         "/"
+        open_file_list:                         []
+        open_file_name:                         ""
+        disableHighlightEditableApp:            false
+        listenerD:                              null
+        debugMode:                              false
         homepageDebugViewName:                  null
 
 
