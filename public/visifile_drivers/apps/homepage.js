@@ -1577,12 +1577,16 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     mm.refresh ++
                 },
                 reloadEditedAppsFromServer:         async function  ( ) {
-                    /*
-                    ____________________________________________________________
-                    |    reloadEditedAppsFromServer
-                    |_________________________
-                                             | get the editable apps
-                                             |__________________________________ */
+                    //----------------------------------------------------------------------------------
+                    //
+                    //                    /-------------------------------------/
+                    //                   /     reloadEditedAppsFromServer      /
+                    //                  /-------------------------------------/
+                    //
+                    //----------------------------------------------------------------------------
+                    // This updates the list of apps that can be edited on the homepage.
+                    // It does this by getting the apps from the server
+                    //--------------------------------------------------------------------
                     let mm = this
                     let openfileurl =   "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST +
                                         "/http_post_load_editable_apps"
