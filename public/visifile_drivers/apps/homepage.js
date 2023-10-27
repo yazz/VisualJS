@@ -1493,24 +1493,24 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     },50)
                 },
                 editApp:                            async function  ( baseComponentId, codeId) {
-                    /* editApp
-                    ________________________________________
-                    |                                      |
-                    |             editApp                  |
-                    |                                      |
-                    |______________________________________|
-                    Allows an app to be edited given either the base component ID or
-                    the commit ID
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ----  The "base_component_id" of the app to load
-                    |
-                    |     codeId
-                    |     ------  The commit ID of the app to load
-                    |
-                    |________________________________________________________________________ */
+                    //----------------------------------------------------------------------------------
+                    //
+                    //                    /-------------------------------------/
+                    //                   /              editApp                /
+                    //                  /-------------------------------------/
+                    //
+                    //----------------------------------------------------------------------------
+                    // Allows an app to be edited given either the base component ID or
+                    // the commit ID
+                    //
+                    //     baseComponentId
+                    //     ---------------  The "base_component_id" of the app to load
+                    //
+                    //     codeId
+                    //     ------           The "commit ID" of the app to load
+                    //
+                    //--------------------------------------------------------------------
+                    debugger
                     let mm = this
 
                     globalEventBus.$emit('hide_settings', {});
