@@ -769,8 +769,9 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 text.base_component_id,
                                 text.display_name,
                                 {
-                                    codeId:     text.ipfs_hash,
-                                    logoUrl:    text.logo_url
+                                    codeId:         text.ipfs_hash,
+                                    logoUrl:        text.logo_url,
+                                    componentType: "app"
                                 })
 
                             mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
@@ -975,8 +976,9 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 baseComponentId,
                                 displayName,
                                 {
-                                    codeId:     codeId,
-                                    logoUrl:    logoUrl
+                                    codeId:         codeId,
+                                    logoUrl:        logoUrl,
+                                    componentType: "app"
                                 })
 
                             setTimeout(async function() {
@@ -1375,6 +1377,9 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             if (other.logoUrl) {
                                 app.logo_url = other.logoUrl
                             }
+                            if (other.componentType) {
+                                app.component_type = other.componentType
+                            }
                         }
 
                         mm.editable_app_list.push( app  )
@@ -1459,12 +1464,18 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             code_id:            codeId?codeId:""
                         })
 
+                    let componentType = "app"
+                    if (result.component_type == "COMPONENT") {
+                        componentType = "component"
+                    }
+
                     await mm.addEditableComponentToHomepage(
                         result.base_component_id,
                         result.new_display_name,
                         {
-                            codeId:     result.code_id,
-                            logoUrl:    result.logo_url
+                            codeId:         result.code_id,
+                            logoUrl:        result.logo_url,
+                            componentType:  result.component_type
                         })
 
                     setTimeout(async function() {
@@ -1527,8 +1538,9 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         result.base_component_id,
                         result.display_name,
                         {
-                            codeId:     result.id,
-                            logoUrl:    logoUrl
+                            codeId:         result.id,
+                            logoUrl:        logoUrl,
+                            componentType:  "app"
                         }
                     )
                     setTimeout(async function() {
@@ -1610,8 +1622,9 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                     responseJson[rt].base_component_id,
                                     responseJson[rt].display_name,
                                     {
-                                        codeId:     responseJson[rt].ipfs_hash,
-                                        logoUrl:    responseJson[rt].logo_url
+                                        codeId:         responseJson[rt].ipfs_hash,
+                                        logoUrl:        responseJson[rt].logo_url,
+                                        componentType:  responseJson[rt].component_type
                                     })
                             }
 

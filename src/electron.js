@@ -3390,6 +3390,7 @@ async function  copyAppshareApp                         (  args  ) {
         let dbToCopyFrom            = argsBaseComponentId
         let altDbUsed               = yz.helpers.getValueOfCodeString(code,"use_db")
         let logoUrl                 = yz.helpers.getValueOfCodeString(code,"logo_url")
+        let componentType           = yz.helpers.getValueOfCodeString(code,"component_type")
         let codeIdRet               = null
         let saveret
 
@@ -3425,7 +3426,8 @@ async function  copyAppshareApp                         (  args  ) {
             new_display_name:   newDisplayName,
             base_component_id:  newBaseid,
             code_id:            codeIdRet,
-            logo_url:           logoUrl
+            logo_url:           logoUrl,
+            component_type:     componentType
         })
 
     }
@@ -3825,6 +3827,7 @@ async function  startServices                           (  ) {
                     dbsearch.all( `SELECT
                                         level_2_system_code.id,
                                         level_2_system_code.base_component_id,
+                                        level_2_system_code.component_type,
                                         level_2_system_code.read_write_status,
                                         level_2_system_code.display_name,
                                         level_2_system_code.logo_url
@@ -3846,17 +3849,18 @@ async function  startServices                           (  ) {
                                     if (rows.length > 0) {
                                         for (let rowIndex =0; rowIndex < rows.length; rowIndex++) {
                                             let thisRow = rows[rowIndex]
+                                            let componentType = "app"
+                                            if (thisRow.component_type == "VB") {
+                                                componentType = "component"
+                                            }
                                             returnRows.push(
                                                 {
-                                                    base_component_id: thisRow.base_component_id
-                                                    ,
-                                                    logo: ""
-                                                    ,
-                                                    ipfs_hash: thisRow.id
-                                                    ,
-                                                    display_name: thisRow.display_name
-                                                    ,
-                                                    logo_url: thisRow.logo_url
+                                                    base_component_id:  thisRow.base_component_id,
+                                                    logo:               "",
+                                                    ipfs_hash:          thisRow.id,
+                                                    display_name:       thisRow.display_name,
+                                                    logo_url:           thisRow.logo_url,
+                                                    component_type:     componentType
                                                 })
                                         }
                                     }
