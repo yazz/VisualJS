@@ -1458,42 +1458,39 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     mm.refresh++
                 },
                 downloadAndRunApp:                  async function  ( ipfsHash ) {
-                    /* downloadAndRunApp
-                    ________________________________________
-                    |                                      |
-                    |           downloadAndRunApp          |
-                    |                                      |
-                    |______________________________________|
-                    Given the commit ID of an app in the app store, download it and run it
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     ipfsHash
-                    |     --------
-                    |________________________________________________________________________ */
-                  let mm                = this
-                  this.open_file_name   = ""
-                  this.open_file_path   = "/"
-                  saveCodeToFile        = null
+                    //----------------------------------------------------------------------------------
+                    //
+                    //                    /-------------------------------------/
+                    //                   /         downloadAndRunApp           /
+                    //                  /-------------------------------------/
+                    //
+                    //----------------------------------------------------------------------------
+                    // Given the commit ID of an app in the app store, download it and run it
+                    //--------------------------------------------------------------------
+                    debugger
+                    let mm                = this
+                    this.open_file_name   = ""
+                    this.open_file_path   = "/"
+                    saveCodeToFile        = null
 
-                  let result = (await sqliteQuery(
-                      `select  
-                        base_component_id,  
-                        display_name   
-                    from  
-                        level_2_system_code  
-                    where 
-                        id = '${ipfsHash}'`))[0]
+                    let result = (await sqliteQuery(
+                        `select  
+                            base_component_id,  
+                            display_name   
+                        from  
+                            level_2_system_code  
+                        where 
+                            id = '${ipfsHash}'`))[0]
 
-                  await mm.addLogoForApp(result.base_component_id)
+                    await mm.addLogoForApp(result.base_component_id)
 
-                  await mm.addEditableComponentToHomepage(result.base_component_id, result.display_name)
-                  setTimeout(async function() {
-                      hideProgressBar()
-                      await mm.highlightEditableComponent(result.base_component_id)
-                      await mm.runAppInNewBrowserTab(result.base_component_id)
+                    await mm.addEditableComponentToHomepage(result.base_component_id, result.display_name)
+                    setTimeout(async function() {
+                        hideProgressBar()
+                        await mm.highlightEditableComponent(result.base_component_id)
+                        await mm.runAppInNewBrowserTab(result.base_component_id)
 
-                  },50)
+                    },50)
                 },
                 editApp:                            async function  ( baseComponentId, codeId) {
                     /* editApp
