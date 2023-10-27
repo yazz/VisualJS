@@ -775,7 +775,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 text.display_name,
                                 {
                                     codeId:     text.ipfs_hash,
-                                    logo_url:   text.logo_url
+                                    logoUrl:    text.logo_url
                                 })
 
                             mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
@@ -981,7 +981,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 displayName,
                                 {
                                     codeId:     codeId,
-                                    logo_url:   logoUrl
+                                    logoUrl:    logoUrl
                                 })
 
                             setTimeout(async function() {
@@ -1328,7 +1328,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     }
 
                     mm.refresh++
-
+                    return mm.app_store_component_logos_by_BCI[baseComponentId]
                 },
 
                 // amend the edited apps
@@ -1351,7 +1351,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     //
                     //     other
                     //     -----
-                    //
+                    //           logo_url
+                    //           codeId
                     //--------------------------------------------------------------------
 
                     let mm = this
@@ -1376,8 +1377,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             if (other.codeId) {
                                 app.code_id = other.codeId
                             }
-                            if (other.logo_url) {
-                                app.logo_url = other.logo_url
+                            if (other.logoUrl) {
+                                app.logo_url = other.logoUrl
                             }
                         }
 
@@ -1469,7 +1470,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         result.new_display_name,
                         {
                             codeId:     result.code_id,
-                            logo_url:   result.logo_url
+                            logoUrl:    result.logo_url
                         })
 
                     setTimeout(async function() {
@@ -1527,13 +1528,14 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         where 
                             id = '${ipfsHash}'`))[0]
 
-                    await mm.addLogoForApp(result.base_component_id)
+                    let logoUrl = await mm.addLogoForApp(result.base_component_id)
 
                     await mm.addEditableComponentToHomepage(
                         result.base_component_id,
                         result.display_name,
                         {
-                            codeId: result.id
+                            codeId:     result.id,
+                            logoUrl:    logoUrl
                         }
                     )
                     setTimeout(async function() {
@@ -1616,8 +1618,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                     responseJson[rt].base_component_id,
                                     responseJson[rt].display_name,
                                     {
-                                        codeId: responseJson[rt].ipfs_hash,
-                                        logo_url: responseJson[rt].logo_url
+                                        codeId:     responseJson[rt].ipfs_hash,
+                                        logoUrl:    responseJson[rt].logo_url
                                     })
                             }
 
