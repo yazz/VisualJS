@@ -484,7 +484,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                        type="button" class="btn btn-light ">
 
                     <img
-                        src='/driver_icons/undo_icon.jpeg'
+                        src='/driver_icons/undo_icon.png'
                         style='height:35px; margin-right: 10px;'
                         class='img-fluid'>
                     </img>
@@ -492,6 +492,29 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
 
                   </a>
 
+
+                  
+
+                  <!-- ----------------------------------------------
+                    
+                        REDO BUTTON
+                    
+                      ---------------------------------------------- -->
+                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                       href="#"
+                       v-if="show_download_save"
+                       v-on:mouseenter='setInfo("Redo last change")'
+                       v-on:mouseleave='setInfo(null)'
+                       type="button" class="btn btn-light ">
+
+                    <img
+                        src='/driver_icons/redo_icon.png'
+                        style='height:35px; margin-right: 10px;'
+                        class='img-fluid'>
+                    </img>
+                    Redo
+
+                  </a>
 
 
 
