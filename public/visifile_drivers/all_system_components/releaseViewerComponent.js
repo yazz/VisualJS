@@ -95,11 +95,30 @@ load_once_from_file(true)
                   </div>
 
                   <div  v-if='selectedTab=="commit"'>
-                    Commit tab
+                    Commit
                   </div>
 
                   <div  v-if='selectedTab=="release"'>
-                    Release tab
+                    <h2>Release</h2>
+
+                    <!-- ----------------------------------------------
+
+                            GO LIVE BUTTON
+                        
+                        ---------------------------------------------- -->
+                    <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' "
+                         href="#"
+                         v-on:click='setTimeout(async function(){appClearIntervals();await releaseCodePressed()},100)'
+                         type="button" class="btn btn-light ">
+
+                      <img
+                          src='/driver_icons/publish.png'
+                          style='height:35px; margin-right: 10px;'
+                          class='img-fluid'>
+                      </img>
+                      Rel V1
+
+                    </a>
                   </div>
 
 
