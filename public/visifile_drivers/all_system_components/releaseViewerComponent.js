@@ -741,14 +741,13 @@ load_once_from_file(true)
                 // of the app
                 //--------------------------------------------------------------------
                 try {
-                    debugger
                     let mm = this
                     showProgressBar()
 
                     let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_commit"
                     callAjaxPost(postAppUrl,
                         {
-                            code_id:                  mm.code_id
+                            code_id:                  mm.codeId
                             ,
                             user_id:                 "xyz"
                         }
@@ -756,6 +755,7 @@ load_once_from_file(true)
                         async function(response){
                             let responseJson = JSON.parse(response)
 
+                            debugger
                             hideProgressBar()
                             this.save_state = "saved"
                         })
