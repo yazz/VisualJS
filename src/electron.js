@@ -4447,24 +4447,6 @@ async function  startServices                           (  ) {
         ));
 
     });
-    app.post(   "/http_post_bookmark_commit" ,                              async function (req, res) {
-        //
-        // get stuff
-        //
-        let ipfsHash = req.body.value.code_id;
-        let version = req.body.value.version;
-        let userId = req.body.value.user_id;
-
-
-        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
-        await yz.tagVersion(dbsearch, ipfsHash, code)
-
-
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash:   ipfsHash,
-        }))
-    })
     app.post(   "/http_post_release_commit" ,                               async function (req, res) {
         //
         // get stuff

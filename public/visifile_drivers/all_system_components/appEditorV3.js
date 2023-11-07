@@ -148,7 +148,6 @@ ___________
 |-------------------------
 |     checkSavedFile                    : function() {
 |     copyApp                           : async function( appId , newAppId, codeId) {
-|     bookmarkCode                      : async function() {
 |     loadComponentIntoEditor    : async function ( options ) {
 |     save                              function( base_component_id, code_id , textIn, extras) {
 |
@@ -453,7 +452,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-on:click='setTimeout(async function(){appClearIntervals();await bookmarkCode()},100)'
+                       v-on:click='setTimeout(async function(){await switchEditor("release_viewer_component")},100)'
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Bookmark this code")'
                        v-on:mouseleave='setInfo(null)'
@@ -494,32 +493,6 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
 
 
 
-
-
-
-
-
-                  <!-- ----------------------------------------------
-                    
-                        GO LIVE BUTTON V2
-                    
-                      ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                       href="#"
-                       v-on:click='setTimeout(async function(){await switchEditor("release_viewer_component")},100)'
-                       v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Publish this app to the central server")'
-                       v-on:mouseleave='setInfo(null)'
-                       type="button" class="btn btn-light ">
-
-                    <img
-                        src='/driver_icons/publish.png'
-                        style='height:35px; margin-right: 10px;'
-                        class='img-fluid'>
-                    </img>
-                    Release
-
-                  </a>
 
 
 
@@ -1492,44 +1465,6 @@ End of app preview menu
                         mm.setInfo("...")
                     },1500)
                 },200)
-            },
-            bookmarkCode:                   async function  (  ) {
-                // ---------------------------------------------------------------
-                //                          bookmarkCode
-                //
-                // Bookmark code is the same as tagging code with a version. This
-                // tags the current commit.
-                //
-                // Right now it doesn't do anything
-                // but it should add a record to tag the code with the current
-                // date
-                //
-                // ---------------------------------------------------------------
-                try {
-                    let mm = this
-                    showProgressBar()
-
-                    let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_bookmark_commit"
-                    callAjaxPost(postAppUrl,
-                        {
-                            code_id:                  mm.code_id
-                            ,
-                            user_id:                 "xyz"
-                        }
-                        ,
-                        async function(response){
-                            let responseJson = JSON.parse(response)
-
-                            hideProgressBar()
-                            this.save_state = "saved"
-
-                        })
-
-                } catch (e) {
-                    hideProgressBar()
-                    this.save_state = "saved"
-                    //this.checkSavedFile()
-                }
             },
             releaseCodePressed:                    async function  (  ) {
                 // ---------------------------------------------------------------
