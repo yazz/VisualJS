@@ -28,6 +28,8 @@ load_once_from_file(true)
                 // the type of the commit
                 baseComponentId:        null,
                 codeId:                 null,
+                releaseMessage:         "",
+                releaseErrorMessage:         "",
 
                 // info for the UI timeline
                 timeline:               null,
@@ -116,7 +118,9 @@ load_once_from_file(true)
                           style='height:35px; margin-right: 10px;'
                           class='img-fluid'>
                       </img>
-                      Rel V1
+                      Release
+                      <div style="color: green;">{{releaseMessage}}</div>
+                      <div style="color: red;">{{releaseErrorMessage}}</div>
 
                     </a>
                   </div>
@@ -755,14 +759,13 @@ load_once_from_file(true)
                         async function(response){
                             let responseJson = JSON.parse(response)
 
-                            debugger
+                            mm.releaseMessage = "Release successful"
                             hideProgressBar()
-                            this.save_state = "saved"
                         })
 
                 } catch (e) {
                     hideProgressBar()
-                    this.save_state = "saved"
+                    mm.releaseErrorMessage = "Error in release: " + JSON.stringify(e,null,2)
                     //this.checkSavedFile()
                 }
             }
