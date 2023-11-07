@@ -14,6 +14,7 @@ load_once_from_file(true)
             return {
                 // the component code
                 text:                   args.text,
+                selectedTab:            "commit",
 
                 // this is used to show source code and code diffs
                 commitCode:             null,
@@ -81,13 +82,12 @@ load_once_from_file(true)
 
                     <div class="container" style="margin-top: 40px;">
 
-
                       <ul class="nav nav-pills">
-                        <li class="nav-item"   style="width: 45%;">
-                          <a class="nav-link active" href="#">Commit</a>
+                        <li class="nav-item"   style="width: 45%;" v-on:click='selectedTab="commit"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="commit"?" active":"")' href="#">Commit</a>
                         </li>
-                        <li class="nav-item"   style="width: 45%;">
-                          <a class="nav-link" href="#">Release</a>
+                        <li class="nav-item"   style="width: 45%;" v-on:click='selectedTab="release"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
                         </li>
                       </ul>
         
