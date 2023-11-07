@@ -93,11 +93,18 @@ load_once_from_file(true)
         
                       
                   </div>
-        
-        
-        
-        
-              </div>`,
+
+                  <div  v-if='selectedTab=="commit"'>
+                    Commit tab
+                  </div>
+
+                  <div  v-if='selectedTab=="release"'>
+                    Release tab
+                  </div>
+
+
+
+                  </div>`,
         mounted:    async function() {
         },
         methods:    {
