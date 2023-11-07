@@ -442,13 +442,11 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
 
                   <!-- ----------------------------------------------
                   
-                      BOOKMARK CODE 
+                      Commit / Release code
                       
                       This can be thought of as tagging a commit in
                       git, or adding a version number to the code
                       
-                      The bookmark will be a timestamp by default
-                  
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
@@ -463,7 +461,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                         style='height:35px; margin-right: 0px;'
                         class='img-fluid'>
                     </img>
-                    Bookmark
+                    Commit
 
                   </a>
 
