@@ -129,7 +129,7 @@ load_once_from_file(true)
         methods:    {
 
             // editor interface
-            getText:                            async function () {
+            getText:                            async function (  ) {
                  // -----------------------------------------------------
                  //                      getText
                  //
@@ -172,7 +172,7 @@ load_once_from_file(true)
             },
 
             // setup functions
-            setupTimeline:                      async function () {
+            setupTimeline:                      async function (  ) {
                 // ----------------------------------------------------------------------
                 //
                 //                            setupTimeline
@@ -258,7 +258,7 @@ load_once_from_file(true)
             },
 
             // helper functions
-            getCurrentCommitId:                 async function () {
+            getCurrentCommitId:                 async function (  ) {
                  // ----------------------------------------------------------------------
                  //
                  //                            getCurrentCommitId
@@ -287,7 +287,7 @@ load_once_from_file(true)
                 await mm.highlightItem(commitId)
                 await mm.unHighlightAllExceptLockedItem()
             },
-            onlyHighlightLockedItem:            async function () {
+            onlyHighlightLockedItem:            async function (  ) {
              //debugger
              let mm = this
              await mm.highlightItem(mm.selectedCommitId)
@@ -348,7 +348,7 @@ load_once_from_file(true)
              } finally {
              }
          },
-            renderCommitsToTimeline:            async function () {
+            renderCommitsToTimeline:            async function (  ) {
                  // ----------------------------------------------------------------------
                  //
                  //                            render commits to timeline
@@ -439,25 +439,25 @@ load_once_from_file(true)
                  }
                 }
             },
-            clearDetailsPane:                   async function () {
+            clearDetailsPane:                   async function (  ) {
                 let mm = this
 
                 mm.commitCode = null
                 mm.parentCommitCode = null
                 mm.diffText = ""
             },
-            showCommit:                         async function () {
+            showCommit:                         async function (  ) {
                 let mm = this
                 mm.showCode='commit'
 
                 let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.selectedCommitId})
                 mm.commitCode = responseJson.code
             },
-            showDetails:                        async function () {
+            showDetails:                        async function (  ) {
                 let mm = this
                 mm.showCode='details'
             },
-            diffCode:                           async function () {
+            diffCode:                           async function (  ) {
                 //debugger
                 let mm = this
                 mm.showCode = "diff"
@@ -501,7 +501,7 @@ load_once_from_file(true)
 
 
             },
-            gotoParent:                         async function () {
+            gotoParent:                         async function (  ) {
                 // -----------------------------------------------------
                 //                      gotoParent
                 //
@@ -523,7 +523,7 @@ load_once_from_file(true)
                 await mm.highlightItem(parentId)
                 await mm.unHighlightAllExceptLockedItem()
             },
-            gotoChild:                          async function () {
+            gotoChild:                          async function (  ) {
                 // -----------------------------------------------------
                 //                      gotoChild
                 //
@@ -563,7 +563,7 @@ load_once_from_file(true)
                 await mm.highlightItem(commitId)
                 await mm.unHighlightAllExceptLockedItem()
             },
-            gotoHome:                           async function () {
+            gotoHome:                           async function (  ) {
                 // -----------------------------------------------------
                 //                      gotoHome
                 //
@@ -583,7 +583,7 @@ load_once_from_file(true)
             },
 
             // interaction with the Yazz system
-            getCommitHistoryForThisComponent:   async function () {
+            getCommitHistoryForThisComponent:   async function (  ) {
                 //                 get the history of this commit going backwards
                 //debugger
                 let mm          = this
@@ -688,7 +688,7 @@ load_once_from_file(true)
                     }
                 }
             },
-            calculateBranchStrength:            async function () {
+            calculateBranchStrength:            async function (  ) {
                 let mm = this
                 let responseJson = await getFromYazzReturnJson(
                                         "/http_get_bulk_calculate_branch_strength_for_component",
@@ -697,7 +697,7 @@ load_once_from_file(true)
                                             baseComponentId:    mm.baseComponentId
                                         })
             },
-            checkoutCode:                       async function () {
+            checkoutCode:                       async function (  ) {
                 let mm              = this
                 let responseJson    = await getFromYazzReturnJson(
                     "/http_get_load_code_commit",
@@ -728,6 +728,43 @@ load_once_from_file(true)
                         baseComponentId:    mm.baseComponentId
                     }
                 )
+            },
+            releaseCodePressed:                 async function (  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /         releaseCodePressed          /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This tries to release the current commit as the release version
+                // of the app
+                //--------------------------------------------------------------------
+                try {
+                    debugger
+                    let mm = this
+                    showProgressBar()
+
+                    let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_commit"
+                    callAjaxPost(postAppUrl,
+                        {
+                            code_id:                  mm.code_id
+                            ,
+                            user_id:                 "xyz"
+                        }
+                        ,
+                        async function(response){
+                            let responseJson = JSON.parse(response)
+
+                            hideProgressBar()
+                            this.save_state = "saved"
+                        })
+
+                } catch (e) {
+                    hideProgressBar()
+                    this.save_state = "saved"
+                    //this.checkSavedFile()
+                }
             }
         }
     })
