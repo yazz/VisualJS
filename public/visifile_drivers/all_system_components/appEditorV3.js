@@ -467,31 +467,6 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
 
 
 
-                  <!-- ----------------------------------------------
-                  
-                      GO LIVE BUTTON
-                  
-                  ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                       href="#"
-                       v-on:click='setTimeout(async function(){appClearIntervals();await releaseCodePressed()},100)'
-                       v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Publish this app to the central server")'
-                       v-on:mouseleave='setInfo(null)'
-                       type="button" class="btn btn-light ">
-
-                    <img
-                        src='/driver_icons/publish.png'
-                        style='height:35px; margin-right: 10px;'
-                        class='img-fluid'>
-                    </img>
-                    Rel V1
-
-                  </a>
-
-
-
-
 
 
 
@@ -1463,39 +1438,6 @@ End of app preview menu
                         mm.setInfo("...")
                     },1500)
                 },200)
-            },
-            releaseCodePressed:                    async function  (  ) {
-                // ---------------------------------------------------------------
-                //                          releaseCodePressed
-                //
-                // This tries to release the current commit as the release version
-                // of the app
-                //
-                // ---------------------------------------------------------------
-                try {
-                    let mm = this
-                    showProgressBar()
-
-                    let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_commit"
-                    callAjaxPost(postAppUrl,
-                        {
-                            code_id:                  mm.code_id
-                            ,
-                            user_id:                 "xyz"
-                        }
-                        ,
-                        async function(response){
-                            let responseJson = JSON.parse(response)
-
-                            hideProgressBar()
-                            this.save_state = "saved"
-                        })
-
-                } catch (e) {
-                    hideProgressBar()
-                    this.save_state = "saved"
-                    //this.checkSavedFile()
-                }
             },
             loadComponentIntoEditor:        async function  (  options  ) {
                 /*
