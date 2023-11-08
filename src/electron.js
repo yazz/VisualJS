@@ -3073,12 +3073,40 @@ function        startNode                               (  msg  ) {
 
 }
 async function  executeSqliteForApp                     (  args  ) {
+    //----------------------------------------------------------------------------------/
+    //
+    //                    /-------------------------------------/
+    //                   /     executeSqliteForApp             /
+    //                  /-------------------------------------/
+    //
+    //----------------------------------------------------------------------------/
+    // This executes a SQL statement for an app at app runtime. It will
+    // generally find the correct app database first and then run the
+    // SQL. If the database doesn't already exist then create it
+    //
+    //________
+    // PARAMS \______________________________________________________________/
+    //
+    //    args:
+    //    {
+    //        sql                     The SQL to execute
+    //        ---
+    //
+    //        base_component_id       The base component ID of the
+    //        -----------------       app
+    //
+    //        params                  Parameters to use for the SQL
+    //        ------                  statement
+    //    }
+    //-------------------------------------------------------/
+
     if (!args.sql) {
         return []
     }
     let getSqlResults = new Promise(returnResult => {
         //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         //console.log("args: " + JSON.stringify(args,null,2))
+        console.log("SQL: " + JSON.stringify(args.sql,null,2))
         let appDb = null
         if (appDbs[args.base_component_id]) {
             appDb = appDbs[args.base_component_id]

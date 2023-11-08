@@ -1,53 +1,42 @@
+//----------------------------------------------------------------------------------/
+//
+//                    /-------------------------------------/
+//                   /            functionName             /
+//                  /-------------------------------------/
+//
+//----------------------------------------------------------------------------/
+// This is used to run user written event code in the app, form, or control
+// event handlers
+//
+//________
+// PARAMS \______________________________________________________________/
+//
+//    NONE
+//    ----
+//
+//    OR
+//
+//    componentSearchDetails    Some text
+//    ----------------------    can go here
+//                              and on the
+//                              following lines
+//
+//    second param              Some text
+//    ------------              can go here
+//                              and on the
+//                              following lines
+//-----------------------------------------------------/
+
+
+
+
+
 //                /--------------------------------/
 //               /          addCodeChange         /
 //              /--------------------------------/
 //
 // This is called to try to keep a log of changes that has occurred on a commit
 
-
-//----------------------------------------------------------------------------------
-//
-//                    /-------------------------------------/
-//                   /         processControlEvent         /
-//                  /-------------------------------------/
-//
-//----------------------------------------------------------------------------
-// This is used to run user written event code in the app, form, or control
-// event handlers
-//--------------------------------------------------------------------
-
-
-
-/*
-_______________________________________
-|                                      \
-|       FUNCTION_NAME                   \
-|                                        \
-|_________________________________________\
-Function description
-_________
-| PARAMS \______________________________________________________________
-|
-|     NONE
-|     ----
-|
-|     OR
-|
-|     componentSearchDetails    Some text
-|     ----------------------    can go here
-|                               and on the
-|                               following lines
-|
-|     second param              Some text
-|     ------------              can go here
-|                               and on the
-|                               following lines
-|--------------------
-|    SECTION NAME    \
-|_____________________\______________________
-|     first data item           Some text
-|     second data item          Some text
-|________________________________________________________________________ */
 
 
 /*
