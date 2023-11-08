@@ -361,13 +361,34 @@ module.exports = {
         return null
     },
     updateRevisions:                function        (  thisDb  ,  sqlite  ,  baseComponentId  ) {
-        //------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------/
         //
+        //                    /-------------------------------------/
+        //                   /         updateRevisions             /
+        //                  /-------------------------------------/
         //
+        //----------------------------------------------------------------------------/
+        // This updates the schema for an app
         //
+        //________
+        // PARAMS \______________________________________________________________/
         //
+        //    thisDb                The handle to the main yazz DB
+        //    ------
         //
-        //------------------------------------------------------------------------------
+        //    sqlite                The list of SQL migrations, taken from the source
+        //    ------                code:
+        //
+        //                              sqlite(
+        //                              {
+        //                                  migrations:
+        //                                  [
+        //                                  ...
+        //
+        //    baseComponentId       The BCI of the app to fast forward
+        //    ---------------
+        //
+        //-------------------------------------------------------/
         let mm = this
         try {
 
@@ -447,14 +468,34 @@ module.exports = {
         }
     },
     fastForwardToLatestRevision:    function        (  thisDb  ,  sqlite  ,  baseComponentId  ) {
-        //------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------/
         //
+        //                    /-------------------------------------/
+        //                   /      fastForwardToLatestRevision    /
+        //                  /-------------------------------------/
         //
+        //----------------------------------------------------------------------------/
+        // This updates the schema for an app
         //
+        //________
+        // PARAMS \______________________________________________________________/
         //
+        //    thisDb                The handle to the main yazz DB
+        //    ------
         //
-        //------------------------------------------------------------------------------
-        //console.log("fastForwardToLatestRevision    ")
+        //    sqlite                The list of SQL migrations, taken from the source
+        //    ------                code:
+        //
+        //                              sqlite(
+        //                              {
+        //                                  migrations:
+        //                                  [
+        //                                  ...
+        //
+        //    baseComponentId       The BCI of the app to fast forward
+        //    ---------------
+        //
+        //-------------------------------------------------------/
         try {
 
             thisDb.serialize(
