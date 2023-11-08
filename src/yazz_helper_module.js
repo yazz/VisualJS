@@ -360,15 +360,15 @@ module.exports = {
 
         return null
     },
-    updateRevisions:                function        (  thisDb  ,  sqlite  ,  baseComponentId  ) {
+    updateDbSchemaFromSave:                function        (  thisDb  ,  sqlite  ,  baseComponentId  ) {
         //----------------------------------------------------------------------------------/
         //
         //                    /-------------------------------------/
-        //                   /         updateRevisions             /
+        //                   /         updateDbSchemaFromSave      /
         //                  /-------------------------------------/
         //
         //----------------------------------------------------------------------------/
-        // This updates the schema for an app
+        // This updates the schema for an app (mostly from when saving code)
         //
         //________
         // PARAMS \______________________________________________________________/
@@ -467,15 +467,15 @@ module.exports = {
             console.log(ewr)
         }
     },
-    fastForwardToLatestRevision:    function        (  thisDb  ,  sqlite  ,  baseComponentId  ) {
+    updateDbSchemaFromFileUpload:    function        (  thisDb  ,  sqlite  ,  baseComponentId  ) {
         //----------------------------------------------------------------------------------/
         //
         //                    /-------------------------------------/
-        //                   /      fastForwardToLatestRevision    /
+        //                   /      updateDbSchemaFromFileUpload   /
         //                  /-------------------------------------/
         //
         //----------------------------------------------------------------------------/
-        // This updates the schema for an app
+        // This updates the schema for an app when uploading code
         //
         //________
         // PARAMS \______________________________________________________________/
@@ -1325,12 +1325,12 @@ module.exports = {
                                 })
 
                             } else if (mm.isValidObject(options) && options.fast_forward_database_to_latest_revision) {
-                                mm.fastForwardToLatestRevision(thisDb, sqlite, baseComponentId)
+                                mm.updateDbSchemaFromFileUpload(thisDb, sqlite, baseComponentId)
 
                             } else {
-                                ////showTimer('updateRevisions(sqlite, baseComponentId)')
+                                ////showTimer('updateDbSchemaFromSave(sqlite, baseComponentId)')
                                 ////showTimer('    ' + JSON.stringify(options,null,2))
-                                mm.updateRevisions(thisDb, sqlite, baseComponentId)
+                                mm.updateDbSchemaFromSave(thisDb, sqlite, baseComponentId)
                             }
 
                         }
