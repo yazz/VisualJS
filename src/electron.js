@@ -3777,53 +3777,8 @@ async function  startServices                           (  ) {
         }
         return field.name + " " + fieldType
     }
-    app.post(   '/http_post_browser_sql_write_operation',                   async function (req, res) {
-        let userId          = await getUserId(req)
-        let updateSql       = req.body.browser_write_sql
-        let updateParams    = req.body.sql_params
 
-        await yz.executeQuickSql(
-            dbsearch,
-            updateSql,
-            updateParams
-        )
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            {}
-        ));
-
-    })
-    app.post(   '/http_post_create_browser_table',                          async function (req, res) {
-        let userId          = await getUserId(req)
-
-        let tn = req.body.table_name;
-        let f = req.body.fields;
-
-        let createTableSql =             "CREATE TABLE IF NOT EXISTS " + tn +
-                " ("
-        for (let fieldNameIndex =0; fieldNameIndex < f.length - 1;  fieldNameIndex++) {
-            let field = f[fieldNameIndex]
-            createTableSql += getAddField(field)
-            createTableSql += ","
-        }
-        createTableSql += getAddField(f[f.length - 1])
-        createTableSql += ")"
-
-        await yz.executeQuickSql(
-            dbsearch,
-            createTableSql
-        )
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            {userId: userId, tableName2: tn, fields2: f}
-        ));
-
-    });
-
-
-    //  Get a list of all apps that can be edited
+    //------------------------- HOMEPAGE STUFF -------------------------
     app.post(   '/http_post_load_editable_apps',                            async function (req, res) {
         let editableApps    = []
         let userId          = await getUserId(req)
@@ -3974,7 +3929,7 @@ async function  startServices                           (  ) {
             topApps
         ));
     });
-    app.get(    '/http_get_hashes_for_released_components',                async function (req, res, next) {
+    app.get(    '/http_get_hashes_for_released_components',                 async function (req, res, next) {
         let maxMasterMillis     = req.query.max_master_millis
 
         let listOfHashes = await yz.getReleasedHashesAfterTimestamp( dbsearch  ,  maxMasterMillis )
@@ -4158,7 +4113,7 @@ async function  startServices                           (  ) {
 
     });
 
-    // debug helpers
+    //------------------------- DEBUG HELPERS -------------------------
     app.post(   '/http_post_save_debug_text',                               async function (req, res) {
         /*
         ________________________________________
@@ -4212,11 +4167,52 @@ async function  startServices                           (  ) {
             res.status(500).send('Readiness check did not pass');
         }
     });
+    app.post(   '/http_post_browser_sql_write_operation',                   async function (req, res) {
+        let userId          = await getUserId(req)
+        let updateSql       = req.body.browser_write_sql
+        let updateParams    = req.body.sql_params
 
+        await yz.executeQuickSql(
+            dbsearch,
+            updateSql,
+            updateParams
+        )
 
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {}
+        ));
 
+    })
+    app.post(   '/http_post_create_browser_table',                          async function (req, res) {
+        let userId          = await getUserId(req)
 
-    // source code helpers
+        let tn = req.body.table_name;
+        let f = req.body.fields;
+
+        let createTableSql =             "CREATE TABLE IF NOT EXISTS " + tn +
+            " ("
+        for (let fieldNameIndex =0; fieldNameIndex < f.length - 1;  fieldNameIndex++) {
+            let field = f[fieldNameIndex]
+            createTableSql += getAddField(field)
+            createTableSql += ","
+        }
+        createTableSql += getAddField(f[f.length - 1])
+        createTableSql += ")"
+
+        await yz.executeQuickSql(
+            dbsearch,
+            createTableSql
+        )
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {userId: userId, tableName2: tn, fields2: f}
+        ));
+
+    });
+
+    //------------------------- EDIT/SAVE HELPERS -------------------------
     app.get(    '/http_get_point_edit_marker_at_commit',                    async function (req, res, next) {
         let userid          = await getUserId(req)
 
@@ -4467,150 +4463,6 @@ async function  startServices                           (  ) {
             ipfsHash:   ipfsHash,
         }))
     })
-
-
-
-    // load component helpers
-    app.post(   '/http_post_load_ui_components_v3',                         async function (req, res) {
-        console.log("CAlled /http_post_load_ui_components_v3")
-        // Loads a bunch of components
-        let inputComponentsToLoad       = req.body.find_components.items
-        let outputComponents            = []
-
-        for (let componentItem    of    inputComponentsToLoad ) {
-            let resultsRow = null
-
-
-
-            //----------------------------------------------------------------------------
-            // if IPFS Hash given
-            //----------------------------------------------------------------------------
-            if (componentItem.codeId) {
-                componentItem.ipfsHashId = componentItem.codeId
-                if (componentItem.codeId == "QmW7Cam6Yu4PjVcG7Mxq1swSZjgkaDjuu7tHbBHQavrbwK") {
-                    debugger
-                }
-
-                resultsRow = await yz.getQuickSqlOneRow(
-                    dbsearch
-                    ,
-                    `SELECT  
-                        level_2_system_code.*  
-                    FROM
-                        level_2_system_code  
-                    WHERE  
-                        id  = ?`
-                    ,
-                    componentItem.codeId)
-
-                //----------------------------------------------------------------------------
-                // if the component has not been loaded then try to load it from the cache
-                //----------------------------------------------------------------------------
-                if (!resultsRow) {
-                    let gc = await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
-                    await yz.createLevel2RecordFromContent( {thisDb: thisDb, ipfsHash: ipfsHashFileName})
-
-                    resultsRow = await yz.getQuickSqlOneRow(
-                        dbsearch
-                        ,
-                        `SELECT  
-                        level_2_system_code.*  
-                    FROM
-                        level_2_system_code  
-                    WHERE  
-                        id  = ?`
-                        ,
-                        componentItem.codeId)
-                }
-
-
-            //----------------------------------------------------------------------------
-            // otherwise, if ONLY baseComponentId given then get the published component.
-            // If there is no published component then just get the latest one
-            //----------------------------------------------------------------------------
-            } else if (componentItem.baseComponentId) {
-                resultsRow = await yz.getQuickSqlOneRow(
-                    dbsearch
-                    ,
-                    `SELECT  
-                        level_2_system_code.*  
-                    FROM   
-                        level_2_system_code, 
-                        level_2_released_components   
-                    WHERE  
-                        level_2_released_components.base_component_id = ?
-                            and   
-                        level_2_released_components.ipfs_hash = level_2_system_code.id 
-                    `
-                    ,
-                    componentItem.baseComponentId)
-
-                if (!resultsRow) {
-                    resultsRow = await yz.getQuickSqlOneRow(
-                        dbsearch
-                        ,
-                        `SELECT  
-                            level_2_system_code.*  
-                        FROM
-                            level_2_system_code  
-                        WHERE  
-                            base_component_id  = ?
-                        order by 
-                            creation_timestamp limit 1  
-                        `
-                        ,
-                        componentItem.baseComponentId)
-                }
-            }
-
-
-
-
-
-            //----------------------------------------------------------------------------
-            // if the component is stored in Yazz's database then load it
-            //----------------------------------------------------------------------------
-            if (resultsRow) {
-                outputComponents.push(resultsRow)
-            }
-        }
-
-
-        //----------------------------------------------------------------------------
-        // return the result to the API caller
-        //----------------------------------------------------------------------------
-        let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(decorateResult))
-    })
-    app.post(   '/http_post_call_component',                                async function (req, res) {
-        //currently neverused. Still needs to be implemented
-        console.log("app.post('/http_post_call_component'): ")
-        console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
-
-        let topApps = []
-        //let baseComponentId = req.body.value.base_component_id
-        //let baseComponentIdVersion = req.body.value.base_component_id_version
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(
-            topApps
-        ));
-    })
-    app.post(   "/http_post_extract_commit_hash_id_from_code" ,             async function (req, res) {
-        //
-        // get stuff
-        //
-        let code = req.body.text;
-
-        let ipfsHash = await yz.getDistributedKey(code)
-        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-        res.end(JSON.stringify({
-            ipfsHash: ipfsHash,
-        }))
-    })
-
-
-    // edit/save component helpers
     app.post(   '/http_post_add_or_update_app',                             async function (req, res) {
         console.log("/http_post_add_or_update_app")
         let baseComponentIdLocal = req.body.base_component_id
@@ -4917,7 +4769,148 @@ async function  startServices                           (  ) {
         }))
     });
 
-    //file upload helpers
+
+    //------------------------- LOAD COMPONENT HELPERS -------------------------
+    app.post(   '/http_post_load_ui_components_v3',                         async function (req, res) {
+        console.log("CAlled /http_post_load_ui_components_v3")
+        // Loads a bunch of components
+        let inputComponentsToLoad       = req.body.find_components.items
+        let outputComponents            = []
+
+        for (let componentItem    of    inputComponentsToLoad ) {
+            let resultsRow = null
+
+
+
+            //----------------------------------------------------------------------------
+            // if IPFS Hash given
+            //----------------------------------------------------------------------------
+            if (componentItem.codeId) {
+                componentItem.ipfsHashId = componentItem.codeId
+                if (componentItem.codeId == "QmW7Cam6Yu4PjVcG7Mxq1swSZjgkaDjuu7tHbBHQavrbwK") {
+                    debugger
+                }
+
+                resultsRow = await yz.getQuickSqlOneRow(
+                    dbsearch
+                    ,
+                    `SELECT  
+                        level_2_system_code.*  
+                    FROM
+                        level_2_system_code  
+                    WHERE  
+                        id  = ?`
+                    ,
+                    componentItem.codeId)
+
+                //----------------------------------------------------------------------------
+                // if the component has not been loaded then try to load it from the cache
+                //----------------------------------------------------------------------------
+                if (!resultsRow) {
+                    let gc = await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
+                    await yz.createLevel2RecordFromContent( {thisDb: thisDb, ipfsHash: ipfsHashFileName})
+
+                    resultsRow = await yz.getQuickSqlOneRow(
+                        dbsearch
+                        ,
+                        `SELECT  
+                        level_2_system_code.*  
+                    FROM
+                        level_2_system_code  
+                    WHERE  
+                        id  = ?`
+                        ,
+                        componentItem.codeId)
+                }
+
+
+                //----------------------------------------------------------------------------
+                // otherwise, if ONLY baseComponentId given then get the published component.
+                // If there is no published component then just get the latest one
+                //----------------------------------------------------------------------------
+            } else if (componentItem.baseComponentId) {
+                resultsRow = await yz.getQuickSqlOneRow(
+                    dbsearch
+                    ,
+                    `SELECT  
+                        level_2_system_code.*  
+                    FROM   
+                        level_2_system_code, 
+                        level_2_released_components   
+                    WHERE  
+                        level_2_released_components.base_component_id = ?
+                            and   
+                        level_2_released_components.ipfs_hash = level_2_system_code.id 
+                    `
+                    ,
+                    componentItem.baseComponentId)
+
+                if (!resultsRow) {
+                    resultsRow = await yz.getQuickSqlOneRow(
+                        dbsearch
+                        ,
+                        `SELECT  
+                            level_2_system_code.*  
+                        FROM
+                            level_2_system_code  
+                        WHERE  
+                            base_component_id  = ?
+                        order by 
+                            creation_timestamp limit 1  
+                        `
+                        ,
+                        componentItem.baseComponentId)
+                }
+            }
+
+
+
+
+
+            //----------------------------------------------------------------------------
+            // if the component is stored in Yazz's database then load it
+            //----------------------------------------------------------------------------
+            if (resultsRow) {
+                outputComponents.push(resultsRow)
+            }
+        }
+
+
+        //----------------------------------------------------------------------------
+        // return the result to the API caller
+        //----------------------------------------------------------------------------
+        let decorateResult = [{record: JSON.stringify(outputComponents, null, 2)}]
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(decorateResult))
+    })
+    app.post(   '/http_post_call_component',                                async function (req, res) {
+        //currently neverused. Still needs to be implemented
+        console.log("app.post('/http_post_call_component'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies, null, 2))
+
+        let topApps = []
+        //let baseComponentId = req.body.value.base_component_id
+        //let baseComponentIdVersion = req.body.value.base_component_id_version
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            topApps
+        ));
+    })
+    app.post(   "/http_post_extract_commit_hash_id_from_code" ,             async function (req, res) {
+        //
+        // get stuff
+        //
+        let code = req.body.text;
+
+        let ipfsHash = await yz.getDistributedKey(code)
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash: ipfsHash,
+        }))
+    })
+
+
+    //------------------------- FILE UPLOAD HELPERS -------------------------
     app.post(   '/http_post_file_open_single',                              upload.single( 'openfilefromhomepage' ), async function (req, res, next) {
         console.log("File open: " + JSON.stringify(req.file.originalname,null,2))
         return (await file_uploadSingleFn(req, res, next));
