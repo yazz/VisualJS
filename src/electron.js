@@ -1056,7 +1056,7 @@ function        isRequestFromMobile                     (  req  ) {
 function        bytesToMb                               (  bytes  ) {
     return (bytes / 1024 ) / 1024
 }
-function        getChildMem                             (childProcessName,stats) {
+function        getChildMem                             (  childProcessName  ,  stats  ) {
     let memoryused = 0
     if (stats) {
         memoryused = stats.memory ;
@@ -2516,7 +2516,7 @@ async function  file_name_load                          (  req  ,  res  ,  next 
         client_file_upload_id:  req.query.client_file_upload_id
     })
 };
-async function  loadAppFromFile                         (  { localFilePath  ,  client_file_upload_id, user_id} ) {
+async function  loadAppFromFile                         (  {  localFilePath  ,  client_file_upload_id  ,  user_id  }  ) {
     let readIn  = fs.readFileSync(  localFilePath  ).toString()
     let bci     = yz.helpers.getValueOfCodeString(readIn, "base_component_id")
 
@@ -5115,7 +5115,7 @@ async function  startServices                           (  ) {
     await finishInit()
 })()
 
-async function  universalSaveStaticUIControl            (  { sha1sum , unescapedCode , baseComponentId , loadMethod }  ) {
+async function  universalSaveStaticUIControl            (  {  sha1sum  ,  unescapedCode  ,  baseComponentId  ,  loadMethod  }  ) {
     await yz.saveCodeV3(
         dbsearch,
         unescapedCode,
