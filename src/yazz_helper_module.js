@@ -549,12 +549,12 @@ module.exports = {
         }
 
     },
-    isNumeric:                      function (str) {
+    isNumeric:                      function        (  str  ) {
         if (typeof str != "string") return false // we only process strings!
         return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
             !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     },
-    setGlobalVar:                  async function  (  thisDb  ,  key  ,  type,  value  ) {
+    setGlobalVar:                   async function  (  thisDb  ,  key  ,  type,  value  ) {
         let mm              = this
         let valueToStore    = null
         let typeToStore     = null
@@ -582,7 +582,7 @@ module.exports = {
                 `,
             [keyToStore, typeToStore, valueToStore])
     } ,
-    getGlobalVar:                  async function  (  thisDb  ,  key  ) {
+    getGlobalVar:                   async function  (  thisDb  ,  key  ) {
         let mm              = this
         let keyToRead       = "" + key
         let valueToReturn   = null
@@ -610,27 +610,7 @@ module.exports = {
         }
         return {value: valueToReturn}
     },
-    insertNewCode:                  async function  (   thisDb,
-                                                        {
-                                                            sha1sum,
-                                                            parentHash,
-                                                            code,
-                                                            baseComponentId,
-                                                            displayName,
-                                                            updatedTimestamp,
-                                                            logoUrl,
-                                                            visibility,
-                                                            useDb,
-                                                            editors,
-                                                            readWriteStatus,
-                                                            propertiesAsJsonString,
-                                                            controlType,
-                                                            save_code_to_file,
-                                                            codeChangesStr,
-                                                            numCodeChanges,
-                                                            userId
-                                                        }
-    ) {
+    insertNewCode:                  async function  (  thisDb,  {  sha1sum  ,  parentHash  ,  code  ,  baseComponentId  ,  displayName  ,  updatedTimestamp  ,  logoUrl  ,  visibility  ,  useDb  ,  editors  ,  readWriteStatus  ,  propertiesAsJsonString  ,  controlType  ,  save_code_to_file  ,  codeChangesStr  ,  numCodeChanges  ,  userId  }  ) {
         let mm = this
         mm.executeQuickSql(
             thisDb,
@@ -679,7 +659,7 @@ module.exports = {
             [sha1sum,"CODE",sha1sum]
         )
     },
-    createTables: async function(dbsearch, callbackFn) {
+    createTables:                   async function  (  dbsearch  ,  callbackFn  ) {
         //console.log("--------------- createTables: function(dbsearch, callbackFn) {");
         let mm = this
 
@@ -1366,7 +1346,7 @@ module.exports = {
         let ret = await promise;
         return ret
     },
-    getDebugTimestampText:          function        () {
+    getDebugTimestampText:          function        (  ) {
         let dt = new Date().getTime()
         let rt = this.msToTime(dt)
         return rt
