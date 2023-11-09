@@ -85,11 +85,14 @@ load_once_from_file(true)
                     <div class="container" style="margin-top: 40px;">
 
                       <ul class="nav nav-pills">
-                        <li class="nav-item"   style="width: 45%;" v-on:click='selectedTab="commit"'>
+                        <li class="nav-item"   style="width: 30%;" v-on:click='selectedTab="commit"'>
                           <a v-bind:class='"nav-link" + (selectedTab=="commit"?" active":"")' href="#">Commit</a>
                         </li>
-                        <li class="nav-item"   style="width: 45%;" v-on:click='selectedTab="release"'>
+                        <li class="nav-item"   style="width: 30%;" v-on:click='selectedTab="release"'>
                           <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
+                        </li>
+                        <li class="nav-item"   style="width: 30%;" v-on:click='selectedTab="databases"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="databases"?" active":"")' href="#">Databases</a>
                         </li>
                       </ul>
         
@@ -129,9 +132,23 @@ load_once_from_file(true)
                     
                     <div  v-if='selectedTab=="release"'>
                         <h2>Release</h2>
-    
-                        
-                        
+
+
+
+
+
+
+                    <!-- --------------------------- DATABASES PANE ------------------------------
+                    |                               ----------------
+                    |
+                    |  The release pane is for database instances
+                    |
+                    -------------------------------------------------------------------------- -->
+
+                    <div  v-if='selectedTab=="databases"'>
+                        <h2>Databases</h2>
+
+
                         <!-- ----------------------------------------------
     
                                 GO LIVE BUTTON
