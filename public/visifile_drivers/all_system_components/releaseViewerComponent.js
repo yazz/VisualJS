@@ -85,14 +85,17 @@ load_once_from_file(true)
                     <div class="container" style="margin-top: 40px;">
 
                       <ul class="nav nav-pills">
-                        <li class="nav-item"   style="width: 30%;" v-on:click='selectedTab="commit"'>
+                        <li class="nav-item"   style="width: 14%;" v-on:click='selectedTab="commit"'>
                           <a v-bind:class='"nav-link" + (selectedTab=="commit"?" active":"")' href="#">Commit</a>
                         </li>
-                        <li class="nav-item"   style="width: 30%;" v-on:click='selectedTab="release"'>
+                        <li class="nav-item"   style="width: 24%;" v-on:click='selectedTab="release"'>
                           <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
                         </li>
-                        <li class="nav-item"   style="width: 30%;" v-on:click='selectedTab="databases"'>
+                        <li class="nav-item"   style="width: 24%;" v-on:click='selectedTab="databases"'>
                           <a v-bind:class='"nav-link" + (selectedTab=="databases"?" active":"")' href="#">Databases</a>
+                        </li>
+                        <li class="nav-item"   style="width: 24%;" v-on:click='selectedTab="environments"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="environments"?" active":"")' href="#">Envs</a>
                         </li>
                       </ul>
         
@@ -115,7 +118,7 @@ load_once_from_file(true)
                     -------------------------------------------------------------------------- -->
                     
                       <div  v-if='selectedTab=="commit"'>
-                        Commit
+                        <h2>Commit</h2>
                       </div>
 
 
@@ -132,6 +135,7 @@ load_once_from_file(true)
                     
                     <div  v-if='selectedTab=="release"'>
                         <h2>Release</h2>
+                    </div>
 
 
 
@@ -141,36 +145,26 @@ load_once_from_file(true)
                     <!-- --------------------------- DATABASES PANE ------------------------------
                     |                               ----------------
                     |
-                    |  The release pane is for database instances
+                    |  The database pane is for database instances
                     |
                     -------------------------------------------------------------------------- -->
 
                     <div  v-if='selectedTab=="databases"'>
                         <h2>Databases</h2>
+                    </div>
 
 
-                        <!-- ----------------------------------------------
-    
-                                GO LIVE BUTTON
-                            
-                            ---------------------------------------------- -->
-                        <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' "
-                             href="#"
-                             v-on:click='setTimeout(async function(){appClearIntervals();await releaseCodePressed()},100)'
-                             type="button" class="btn btn-light ">
-    
-                          <img
-                              src='/driver_icons/publish.png'
-                              style='height:35px; margin-right: 10px;'
-                              class='img-fluid'>
-                          </img>
-                          Release
-                          <div style="color: green;">{{releaseMessage}}</div>
-                          <div style="color: red;">{{releaseErrorMessage}}</div>
-    
-                        </a>
-                      </div>
-                  </div>
+
+                    <!-- --------------------------- ENVIRONMENTS PANE ------------------------------
+                    |                               -------------------
+                    |
+                    |  The environments pane is for editing environments
+                    |
+                     -------------------------------------------------------------------------- -->
+                
+                    <div  v-if='selectedTab=="environments"'>
+                      <h2>Environments</h2>
+                    </div>
 
 
 
