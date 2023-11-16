@@ -2,7 +2,7 @@ function component( args ) {
 /*
 This is an editor component that is used to view the history of a component
 
-base_component_id("history_viewer_component")
+base_component_id("manage_component_editor")
 component_type("SYSTEM")
 load_once_from_file(true)
 */
