@@ -12,6 +12,8 @@ load_once_from_file(true)
         data:       function () {
             // ******** DATA ********
             return {
+                selectedTab:            "history",
+
                 // the component code
                 text:                   args.text,
 
@@ -78,8 +80,39 @@ load_once_from_file(true)
         
                       Manage Component
                     </div>
-        
-        
+
+
+
+
+                    <!-- --------------------------- MAIN TAB MENU ------------------------------
+                    |                               ---------------
+                    |
+                    |  Details of the main tab menu
+                    |
+                    --------------------------------------------------------------------- -->                    
+                    <div class="container" style="margin-top: 40px;">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="history"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="history"?" active":"")' href="#">History</a>
+                        </li>
+                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="commit"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="commit"?" active":"")' href="#">Commit</a>
+                        </li>
+                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="release"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
+                        </li>
+                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="databases"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="databases"?" active":"")' href="#">Databases</a>
+                        </li>
+                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="environments"'>
+                          <a v-bind:class='"nav-link" + (selectedTab=="environments"?" active":"")' href="#">Envs</a>
+                        </li>
+                      </ul>
+                    </div>
+
+                    
+                    
+                    
                     <div style="margin: 10px;"
                          v-on:mouseenter="onlyHighlightLockedItem()">
         
