@@ -63,177 +63,198 @@ load_once_from_file(true)
                 listOfAllCommits:       {}
             }
         },
-        template:   `<div style='background-color:white; ' >
+        template:   `
+<div style='background-color:white; ' > 
+    <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
+        <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
+        </slot>
+    </div>
         
-                  <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
-                    <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
-                    </slot>
-                  </div>
         
-        
-                  <!-- ---------------------------------------------------------------------------------------------
-                  Show the new style view 
-                  --------------------------------------------------------------------------------------------- -->
-                  <div  style='overflow: scroll;height:75%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>
-                             
-                    <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
-        
-                      Manage Component
-                    </div>
+    <!-- ---------------------------------------------------------------------------------------------
+    Show the new style view 
+    --------------------------------------------------------------------------------------------- -->
+    <div  style='overflow: scroll;height:75%;border-radius: 5px;margin-left:15px;margin-top:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 4px solid lightgray;padding:5px; '>                     
+        <div    style='font-size:14px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 0px solid lightgray; padding:4px; margin:0;padding-left:14px;'>
+            Manage Component
+        </div>
 
 
 
 
-                    <!-- --------------------------- MAIN TAB MENU ------------------------------
-                    |                               ---------------
-                    |
-                    |  Details of the main tab menu
-                    |
-                    --------------------------------------------------------------------- -->                    
-                    <div class="container" style="margin-top: 40px;">
-                      <ul class="nav nav-pills">
-                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="history"'>
-                          <a v-bind:class='"nav-link" + (selectedTab=="history"?" active":"")' href="#">History</a>
-                        </li>
-                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="commit"'>
-                          <a v-bind:class='"nav-link" + (selectedTab=="commit"?" active":"")' href="#">Commit</a>
-                        </li>
-                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="release"'>
-                          <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
-                        </li>
-                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="databases"'>
-                          <a v-bind:class='"nav-link" + (selectedTab=="databases"?" active":"")' href="#">Databases</a>
-                        </li>
-                        <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="environments"'>
-                          <a v-bind:class='"nav-link" + (selectedTab=="environments"?" active":"")' href="#">Envs</a>
-                        </li>
-                      </ul>
-                    </div>
+        <!-- --------------------------- MAIN TAB MENU ------------------------------
+        |                               ---------------
+        |
+        |  Details of the main tab menu
+        |
+        --------------------------------------------------------------------- -->                    
+        <div class="container" style="margin-top: 40px;">
+            <ul class="nav nav-pills">
+                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="history"'>
+                    <a v-bind:class='"nav-link" + (selectedTab=="history"?" active":"")' href="#">History</a>
+                </li>
+              
+                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="commit"'>
+                    <a v-bind:class='"nav-link" + (selectedTab=="commit"?" active":"")' href="#">Commit</a>
+                </li>
+              
+                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="release"'>
+                    <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
+                </li>
+              
+                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="databases"'>
+                    <a v-bind:class='"nav-link" + (selectedTab=="databases"?" active":"")' href="#">Databases</a>
+                </li>
+              
+                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="environments"'>
+                    <a v-bind:class='"nav-link" + (selectedTab=="environments"?" active":"")' href="#">Envs</a>
+                </li>
+            </ul>
+        </div>
 
-                    
-                    
-                    
-                    <div style="margin: 10px;"
-                         v-on:mouseenter="onlyHighlightLockedItem()">
+
+
+
+
+
+
+
+
+        <!-- --------------------------- HISTORY PANE ------------------------------
+        |                               -------------
+        |
+        |  
+        |
+        -------------------------------------------------------------------------- -->
         
-                      <button  type=button class='btn btn-dark'
-                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                               v-on:click="gotoHome()" >Home</button>
-                               
-                               
-                      <button  type=button class='btn  btn-primary'
-                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                               v-on:click="gotoParent()" >&lt;</button>
+        <div  v-if='selectedTab=="history"'>
+
+            <div style="margin: 10px;"
+                 v-on:mouseenter="onlyHighlightLockedItem()">
         
-                      <button  type=button class='btn  btn-primary'
-                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                               v-on:click="gotoChild()" >&gt;</button>
+            <button  type=button class='btn btn-dark'
+                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                     v-on:click="gotoHome()" >Home</button>
+              
+            <button  type=button class='btn  btn-primary'
+                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                     v-on:click="gotoParent()" >&lt;</button>
         
-                      <button  type=button class='btn  btn-primary'
-                               style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                               v-on:click="showDetails()" >Details</button>
+            <button  type=button class='btn  btn-primary'
+                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                     v-on:click="gotoChild()" >&gt;</button>
+        
+            <button  type=button class='btn  btn-primary'
+                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                     v-on:click="showDetails()" >Details</button>
+        
+            <button  type=button class='btn  btn-primary'
+                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
+                     v-on:click="showCommit()" >Code</button>
+        
+            <button  type=button class='btn  btn-info'
+                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                     v-on:click="diffCode()" >Diff</button>
+        
+            <button  type=button class='btn  btn-info'
+                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                     v-on:click="checkoutCode()" >Checkout</button>
+
+
+            <button  type=button class='btn  btn-info' 
+                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                     v-if="false"
+                     v-on:click="calculateBranchStrength()" >Expermintal - caclulate branch strength</button>
         
         
-                        <button  type=button class='btn  btn-primary'
-                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                                 v-on:click="showCommit()" >Code</button>
+        </div>
         
-                        <button  type=button class='btn  btn-info'
-                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click="diffCode()" >Diff</button>
-        
-                        <button  type=button class='btn  btn-info'
-                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-on:click="checkoutCode()" >Checkout</button>
-        
-        
-                        <button  type=button class='btn  btn-info' 
-                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                                 v-if="false"
-                                   v-on:click="calculateBranchStrength()" >Expermintal - caclulate branch strength</button>
-        
-        
-                    </div>
-        
-                      <div id="visualization_history_timeline">
-                      </div>
+        <div id="visualization_history_timeline">
+        </div>
                 
         
-                      <div  id="visualization_commit_details"
-                            style="padding: 10px;">
-                            
-                        <div v-if="(selectedCommitId != null) && (listOfAllCommits[selectedCommitId])">
-                          
-                          <div v-if="showCode=='details'">
-        
-                            <div><b>Number of Changes:</b> {{listOfAllCommits[selectedCommitId].num_changes}}</div>
-                            <div v-if="listOfAllCommits[selectedCommitId].changes">
-                              <div style="margin-left: 80px;"
-                                   v-for="(item,i) in listOfAllCommits[selectedCommitId].changes.slice().reverse()">
-                                <span v-if="i==(listOfAllCommits[selectedCommitId].changes.length - 1)"><b>First commit</b> - </span>
-                                <span v-if="i!=(listOfAllCommits[selectedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[selectedCommitId], item.timestamp)) }}</b> - </span>
-        
-                                {{ item.code_change_text }}
-                              </div>
-                            </div>
-                            <br/>
-        
-                                <div><b>Tags:</b> {{listOfAllCommits[selectedCommitId].code_tag_list.length}}</div>
-                                  <div style="margin-left: 80px;"
-                                       v-for="(item,i) in listOfAllCommits[selectedCommitId].code_tag_list">
-                                    {{ item.code_tag }}
-                                    <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
-                                  </div>
-        
-                              <div v-bind:style="listOfAllCommits[selectedCommitId].id==codeId?'color:red;fpnt-style:bold;':''">
-                                  <b>Commit ID:</b> {{listOfAllCommits[selectedCommitId].id}}
-                                  <b v-if="listOfAllCommits[selectedCommitId].id==codeId"> (Current commit)</b>
-                                  </div>
-                              <div><b>Time:</b> {{msToTime(listOfAllCommits[selectedCommitId].timestamp,{timeOnly: true})}} </div>
-                              <div><b>User ID:</b> {{listOfAllCommits[selectedCommitId].user_id}}</div>
-                              <div><b>Parent:</b> {{listOfAllCommits[selectedCommitId].parent_id}}</div>
-                              <div><b>Type:</b> {{listOfAllCommits[selectedCommitId].base_component_id}}</div>
-                              <div><b>Descendants:</b>
-                                  <span v-if="listOfAllCommits[selectedCommitId].descendants.length==1">
-                                    ({{listOfAllCommits[selectedCommitId].descendants.length}})
-                                  </span>
-                                <span v-if="listOfAllCommits[selectedCommitId].descendants.length>1" style="color:red;">
-                                    ({{listOfAllCommits[selectedCommitId].descendants.length}})
-                                  </span>
-                                   
-                                <span v-for='(descendant,index) in listOfAllCommits[selectedCommitId].descendants'>
-                                  <a href="#"
-                                    v-on:click="jumpToCommitId(descendant.id)" 
-                                        >
-                                        {{descendant.id.substr(0,5)}}...
-                                  </a>  
-                                </span>
-        
-                              </div>
-        
-        
-                          </div>
-        
-        
-        
-        
-                          <div style="margin-top: 30px;">
-                                <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
-        
-                                <pre  v-if="showCode=='diff'"
-                                      v-html="diffText"></pre>
-                          </div>
-                          
-                          
-                        </div>
-        
-                      </div>
+        <div  id="visualization_commit_details"
+            style="padding: 10px;">
+            
+            <div v-if="(selectedCommitId != null) && (listOfAllCommits[selectedCommitId])">
+              
+              <div v-if="showCode=='details'">
+            
+                <div><b>Number of Changes:</b> {{listOfAllCommits[selectedCommitId].num_changes}}</div>
+                <div v-if="listOfAllCommits[selectedCommitId].changes">
+                  <div style="margin-left: 80px;"
+                       v-for="(item,i) in listOfAllCommits[selectedCommitId].changes.slice().reverse()">
+                    <span v-if="i==(listOfAllCommits[selectedCommitId].changes.length - 1)"><b>First commit</b> - </span>
+                    <span v-if="i!=(listOfAllCommits[selectedCommitId].changes.length - 1)"><b>{{ capitalizeFirstLetter(timeDiffLater(firstCommitTimestamps[selectedCommitId], item.timestamp)) }}</b> - </span>
+            
+                    {{ item.code_change_text }}
                   </div>
-        
-        
-        
-        
-              </div>`,
+                </div>
+                <br/>
+            
+                    <div><b>Tags:</b> {{listOfAllCommits[selectedCommitId].code_tag_list.length}}</div>
+                      <div style="margin-left: 80px;"
+                           v-for="(item,i) in listOfAllCommits[selectedCommitId].code_tag_list">
+                        {{ item.code_tag }}
+                        <span v-if="item.main_score">, Score: {{ item.main_score }}</span>
+                      </div>
+            
+                  <div v-bind:style="listOfAllCommits[selectedCommitId].id==codeId?'color:red;fpnt-style:bold;':''">
+                      <b>Commit ID:</b> {{listOfAllCommits[selectedCommitId].id}}
+                      <b v-if="listOfAllCommits[selectedCommitId].id==codeId"> (Current commit)</b>
+                      </div>
+                  <div><b>Time:</b> {{msToTime(listOfAllCommits[selectedCommitId].timestamp,{timeOnly: true})}} </div>
+                  <div><b>User ID:</b> {{listOfAllCommits[selectedCommitId].user_id}}</div>
+                  <div><b>Parent:</b> {{listOfAllCommits[selectedCommitId].parent_id}}</div>
+                  <div><b>Type:</b> {{listOfAllCommits[selectedCommitId].base_component_id}}</div>
+                  <div><b>Descendants:</b>
+                      <span v-if="listOfAllCommits[selectedCommitId].descendants.length==1">
+                        ({{listOfAllCommits[selectedCommitId].descendants.length}})
+                      </span>
+                    <span v-if="listOfAllCommits[selectedCommitId].descendants.length>1" style="color:red;">
+                        ({{listOfAllCommits[selectedCommitId].descendants.length}})
+                      </span>
+                       
+                    <span v-for='(descendant,index) in listOfAllCommits[selectedCommitId].descendants'>
+                      <a href="#"
+                        v-on:click="jumpToCommitId(descendant.id)" 
+                            >
+                            {{descendant.id.substr(0,5)}}...
+                      </a>  
+                    </span>
+            
+                  </div>
+            
+            
+              </div>
+            
+            
+            
+            
+              <div style="margin-top: 30px;">
+                    <pre v-if="commitCode && showCode=='commit'">{{commitCode}}</pre>
+            
+                    <pre  v-if="showCode=='diff'"
+                          v-html="diffText"></pre>
+              </div>
+              
+              
+            </div>
+            
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>`,
         mounted:    async function() {
         },
         methods:    {
