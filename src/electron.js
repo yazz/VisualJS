@@ -1617,7 +1617,7 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/all_system_components//comp.js')
     await releaseComponentFromPath( '/all_system_components//sqliteEditorComponent.js')
     await releaseComponentFromPath( '/all_system_components//keycloakEditorComponent.js')
-    await releaseComponentFromPath( '/all_system_components//historyViewerComponent.js')
+    await releaseComponentFromPath( '/all_system_components//manageComponentViewer.js')
     await releaseComponentFromPath( '/all_system_components//releaseViewerComponent.js')
     await releaseComponentFromPath( '/all_system_components//iconEditorComponent.js')
     await releaseComponentFromPath( '/all_system_components//controlEditor.js')
