@@ -90,23 +90,23 @@ load_once_from_file(true)
         --------------------------------------------------------------------- -->                    
         <div class="container" style="margin-top: 40px;">
             <ul class="nav nav-pills">
-                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="history"'>
+                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "history"})'>
                     <a v-bind:class='"nav-link" + (selectedTab=="history"?" active":"")' href="#">History</a>
                 </li>
               
-                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="commit"'>
+                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "commit"})'>
                     <a v-bind:class='"nav-link" + (selectedTab=="commit"?" active":"")' href="#">Commit</a>
                 </li>
               
-                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="release"'>
+                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "release"})'>
                     <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
                 </li>
               
-                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="databases"'>
+                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "databases"})'>
                     <a v-bind:class='"nav-link" + (selectedTab=="databases"?" active":"")' href="#">Databases</a>
                 </li>
               
-                <li class="nav-item"   style="width: 19%;" v-on:click='selectedTab="environments"'>
+                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "environments"})'>
                     <a v-bind:class='"nav-link" + (selectedTab=="environments"?" active":"")' href="#">Envs</a>
                 </li>
             </ul>
@@ -260,7 +260,12 @@ load_once_from_file(true)
         methods:    {
 
             // editor interface
-            getText:                            async function () {
+            switchTab:                            async function (  {  tabName  }  ) {
+                let mm = this
+                mm.selectedTab = tabName
+            },
+            // editor interface
+            getText:                            async function (  ) {
                  // -----------------------------------------------------
                  //                      getText
                  //
