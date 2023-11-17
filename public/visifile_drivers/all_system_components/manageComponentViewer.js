@@ -12,6 +12,7 @@ load_once_from_file(true)
         data:       function () {
             // ******** DATA ********
             return {
+                commit_pane_header:         "",
                 commit_pane_description:    "",
                 releaseMessage:             "",
                 releaseErrorMessage:        "",
@@ -270,6 +271,7 @@ load_once_from_file(true)
             <input
                   style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                   v-on:click=''
+                  v-model='commit_pane_header'
                   value=''>
             </input>
         </div>
@@ -346,6 +348,12 @@ load_once_from_file(true)
         mounted:    async function() {
         },
         methods:    {
+            choosePane_commitPressed:           async function (  ) {
+                debugger
+                let mm = this
+                let header = mm.commit_pane_header
+                let desc = mm.commit_pane_description
+            },
             releaseCodePressed:                 async function (  ) {
                 //----------------------------------------------------------------------------------
                 //
