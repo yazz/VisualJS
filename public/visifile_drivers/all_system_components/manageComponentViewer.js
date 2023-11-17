@@ -263,6 +263,13 @@ load_once_from_file(true)
             switchTab:                            async function (  {  tabName  }  ) {
                 let mm = this
                 mm.selectedTab = tabName
+                if (tabName == "history") {
+                    await mm.setupTimeline()
+                    setTimeout(async function(){
+                        await mm.calculateBranchStrength()
+                        await mm.getCommitHistoryForThisComponent()
+                    })
+                }
             },
             // editor interface
             getText:                            async function (  ) {
@@ -298,13 +305,9 @@ load_once_from_file(true)
                 let mm                  =  this
                 this.text               = textValue
                 this.baseComponentId    = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
-                this.codeId   = await this.getCurrentCommitId()
+                this.codeId             = await this.getCurrentCommitId()
 
-                await this.setupTimeline()
-                setTimeout(async function(){
-                    await mm.calculateBranchStrength()
-                    await mm.getCommitHistoryForThisComponent()
-                })
+                await mm.switchTab( {tabName: mm.selectedTab} )
             },
 
             // setup functions
