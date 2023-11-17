@@ -13,6 +13,8 @@ load_once_from_file(true)
             // ******** DATA ********
             return {
                 commit_pane_description:    "",
+                releaseMessage:             "",
+                releaseErrorMessage:        "",
 
                 selectedTab:                "history",
 
@@ -299,6 +301,40 @@ load_once_from_file(true)
 
 
 
+
+
+
+      <!-- --------------------------- RELEASE PANE ------------------------------
+      |                               --------------
+      |
+      |  
+      |
+      -------------------------------------------------------------------------- -->
+
+      <div  v-if='selectedTab=="release"' style="padding:15px;">
+
+        <!-- ----------------------------------------------
+        Old release button
+        ---------------------------------------------- -->
+        <div style='margin-top: 20px;padding-bottom: 40vh;'>
+          <button  type=button
+                   class=' btn btn-info btn-lg'
+                   v-on:click='releaseCodePressed()' >Old release</button>
+        </div>
+        <div style="color:black">{{releaseMessage}}</div>
+        <div style="color:red">{{releaseErrorMessage}}</div>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+
+
+
+
 <!-- --------------------------- END OF PANES ------------------------------
 |                               ---------------
 |
@@ -310,6 +346,42 @@ load_once_from_file(true)
         mounted:    async function() {
         },
         methods:    {
+            releaseCodePressed:                 async function (  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /         releaseCodePressed          /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This tries to release the current commit as the release version
+                // of the app
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+                    showProgressBar()
+
+                    let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_commit"
+                    callAjaxPost(postAppUrl,
+                        {
+                            code_id:                  mm.codeId
+                            ,
+                            user_id:                 "xyz"
+                        }
+                        ,
+                        async function(response){
+                            let responseJson = JSON.parse(response)
+
+                            mm.releaseMessage = "Release successful"
+                            hideProgressBar()
+                        })
+
+                } catch (e) {
+                    hideProgressBar()
+                    mm.releaseErrorMessage = "Error in release: " + JSON.stringify(e,null,2)
+                    //this.checkSavedFile()
+                }
+            },
 
             // editor interface
             switchTab:                            async function (  {  tabName  }  ) {
