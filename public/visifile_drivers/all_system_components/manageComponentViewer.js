@@ -12,16 +12,18 @@ load_once_from_file(true)
         data:       function () {
             // ******** DATA ********
             return {
-                selectedTab:            "history",
+                commit_pane_description:    "",
+
+                selectedTab:                "history",
 
                 // the component code
-                text:                   args.text,
+                text:                       args.text,
 
                 // this is used to show source code and code diffs
-                commitCode:             null,
-                parentCommitCode:       null,
-                diffText:               "",
-                showCode:               "details",
+                commitCode:                 null,
+                parentCommitCode:           null,
+                diffText:                   "",
+                showCode:                   "details",
 
                 // used to preview and select commits
                 selectedCommitId:      null,
@@ -249,10 +251,60 @@ load_once_from_file(true)
 
 
 
+      <!-- --------------------------- COMMIT PANE ------------------------------
+      |                               --------------
+      |
+      |  
+      |
+      -------------------------------------------------------------------------- -->
+
+    <div  v-if='selectedTab=="commit"' style="padding:15px;">
+      
+        <!-- ----------------------------------------------
+        header
+        ---------------------------------------------- -->
+        <div style="margin-top:20px;">
+            <div>Commit Header</div>
+            <input
+                  style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                  v-on:click=''
+                  value=''>
+            </input>
+        </div>
+      
+        <!-- ----------------------------------------------
+        description
+        ---------------------------------------------- -->
+        <div style="margin-top: 30px;">
+          <div>Commit Description</div>
+          <textarea rows=10 
+                    cols=50
+                    style="margin: 5px;"
+                    v-model='commit_pane_description'>
+          </textarea>
+        </div>
+
+        <!-- ----------------------------------------------
+        Commit button
+        ---------------------------------------------- -->
+        <div style='margin-top: 20px;padding-bottom: 40vh;'>
+            <button  type=button
+                     class=' btn btn-info btn-lg'        
+                     v-on:click='choosePane_commitPressed()' >Commit</button>
+        </div>
+
+    </div>
 
 
 
 
+
+<!-- --------------------------- END OF PANES ------------------------------
+|                               ---------------
+|
+|  
+|
+-------------------------------------------------------------------------- -->
     </div>
 </div>`,
         mounted:    async function() {
