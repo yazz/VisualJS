@@ -4470,6 +4470,21 @@ async function  startServices                           (  ) {
         ));
 
     });
+    app.post(   "/http_post_commit_code" ,                               async function (req, res) {
+        //
+        // get stuff
+        //
+        let ipfsHash    = req.body.value.code_id;
+        let userId      = req.body.value.user_id;
+        let header      = req.body.value.header;
+        let description = req.body.value.description;
+
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:   ipfsHash,
+        }))
+    })
     app.post(   "/http_post_release_commit" ,                               async function (req, res) {
         //
         // get stuff

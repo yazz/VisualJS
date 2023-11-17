@@ -14,6 +14,8 @@ load_once_from_file(true)
             return {
                 commit_pane_header:         "",
                 commit_pane_description:    "",
+                commitMessage:              "",
+                commitErrorMessage:         "",
                 releaseMessage:             "",
                 releaseErrorMessage:        "",
 
@@ -291,11 +293,14 @@ load_once_from_file(true)
         <!-- ----------------------------------------------
         Commit button
         ---------------------------------------------- -->
-        <div style='margin-top: 20px;padding-bottom: 40vh;'>
+        <div style='margin-top: 20px;;'>
             <button  type=button
                      class=' btn btn-info btn-lg'        
                      v-on:click='choosePane_commitPressed()' >Commit</button>
         </div>
+        
+        <div style="margin-top: 20px;">{{commitMessage}}</div>
+        <div style="color:red">{{commitErrorMessage}}</div>
 
     </div>
 
@@ -351,8 +356,23 @@ load_once_from_file(true)
             choosePane_commitPressed:           async function (  ) {
                 debugger
                 let mm = this
-                let header = mm.commit_pane_header
-                let desc = mm.commit_pane_description
+                showProgressBar()
+
+                let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_commit_code"
+                callAjaxPost(postAppUrl,
+                    {
+                        code_id:                mm.codeId,
+                        user_id:                "xyz",
+                        header:                 mm.commit_pane_header,
+                        description:            mm.commit_pane_description
+                    }
+                    ,
+                    async function(response){
+                        let responseJson = JSON.parse(response)
+
+                        mm.commitMessage = "Commit successful"
+                        hideProgressBar()
+                    })
             },
             releaseCodePressed:                 async function (  ) {
                 //----------------------------------------------------------------------------------
