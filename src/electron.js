@@ -3292,6 +3292,34 @@ async function  getRowForCommit                         (  commitId  ) {
     }
     return commitStructure
 }
+async function  getSaveChain                            (  commitId  ) {
+    //----------------------------------------------------------------------------------/
+    //
+    //                    /-------------------------------------/
+    //                   /             getSaveChain            /
+    //                  /-------------------------------------/
+    //
+    //----------------------------------------------------------------------------/
+    // This gets the previous saves when given the last save in a chain
+    //
+    //________
+    // PARAMS \______________________________________________________________/
+    //
+    //    commitId    Last save Code ID
+    //    --------
+    //-----------------------------------------------------------/
+    //zzz
+    let returnRows      = []
+
+    let parentCommitRow = await getRowForCommit( commitId  )
+    returnRows.push(parentCommitRow)
+    returnRows = await getPreviousCommitsFor(
+        {
+            commitId:       commitId,
+            returnRows:     returnRows
+        })
+    return returnRows
+}
 async function  getPreviousCommitsFor                   (  args  ) {
     /*
     ________________________________________
@@ -4473,13 +4501,15 @@ async function  startServices                           (  ) {
     app.post(   "/http_post_commit_code" ,                                  async function (req, res) {
         let ipfsHash = req.body.value.code_id;
         let code        = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        //zzz
+        let previousSaves = await getSaveChain(ipfsHash)
         let newCode     = yz.helpers.insertCodeString(code,"commit",
                             {
                                 title: 		    req.body.value.header,
                                 description: 	req.body.value.description,
-                                num_commits:	7,
-                                first_commit:	"Qmx76328…",
-                                last_commit:	"Qmv678347863…"
+                                num_commits:	previousSaves.numSaves,
+                                first_commit:	previousSaves.firstCodeId,
+                                last_commit:	previousSaves.lastCodeId
                             })
         let saveResult  = await yz.saveCodeV3(
             dbsearch,
@@ -4488,7 +4518,6 @@ async function  startServices                           (  ) {
                 make_public: true,
                 save_html:   true
             })
-        //zzz
         let newCommitId = saveResult.code_id
         await yz.tagVersion(dbsearch, ipfsHash, newCommitId)
 
