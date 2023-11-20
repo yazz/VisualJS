@@ -4470,19 +4470,25 @@ async function  startServices                           (  ) {
         ));
 
     });
-    app.post(   "/http_post_commit_code" ,                               async function (req, res) {
-        //
-        // get stuff
-        //
-        let ipfsHash    = req.body.value.code_id;
-        let userId      = req.body.value.user_id;
-        let header      = req.body.value.header;
-        let description = req.body.value.description;
-
+    app.post(   "/http_post_commit_code" ,                                  async function (req, res) {
+        let ipfsHash = req.body.value.code_id;
+        let code        = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        let newCode     = yz.helpers.insertCodeString(code,"commit",{})
+        let saveResult  = await yz.saveCodeV3(
+            dbsearch,
+            newCode,
+            {
+                make_public: true,
+                save_html:   true
+            })
+        //zzz
+        let newCommitId = saveResult.code_id
+        await yz.tagVersion(dbsearch, ipfsHash, newCommitId)
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
-            ipfsHash:   ipfsHash,
+            ipfsHash:           ipfsHash,
+            newCommitId:        newCommitId
         }))
     })
     app.post(   "/http_post_release_commit" ,                               async function (req, res) {

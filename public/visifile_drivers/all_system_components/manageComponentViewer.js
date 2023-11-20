@@ -440,6 +440,16 @@ load_once_from_file(true)
                         hideProgressBar()
                         debugger
                         //zzz
+                        if (responseJson && responseJson.newCommitId) {
+                            mm.$root.$emit(
+                                'message'
+                                ,
+                                {
+                                    type:            "force_raw_load",
+                                    commitId:         responseJson.newCommitId
+                                }
+                            )
+                        }
                     })
             },
 
