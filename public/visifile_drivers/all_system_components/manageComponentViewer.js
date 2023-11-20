@@ -141,7 +141,7 @@ load_once_from_file(true)
         
             <button  type=button class='btn btn-dark'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                     v-on:click="gotoHome()" >Home</button>
+                     v-on:click="pane_history_gotoHome()" >Home</button>
               
             <button  type=button class='btn  btn-primary'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
@@ -224,7 +224,7 @@ load_once_from_file(true)
                        
                     <span v-for='(descendant,index) in listOfAllCommits[selectedCommitId].descendants'>
                       <a href="#"
-                        v-on:click="jumpToCommitId(descendant.id)" 
+                        v-on:click="pane_history_jumpToCommitId(descendant.id)" 
                             >
                             {{descendant.id.substr(0,5)}}...
                       </a>  
@@ -326,7 +326,7 @@ load_once_from_file(true)
         <div style='margin-top: 20px;padding-bottom: 40vh;'>
           <button  type=button
                    class=' btn btn-info btn-lg'
-                   v-on:click='releaseCodePressed()' >Old release</button>
+                   v-on:click='pane_release_releaseCodePressed()' >Old release</button>
         </div>
         <div style="color:black">{{releaseMessage}}</div>
         <div style="color:red">{{releaseErrorMessage}}</div>
@@ -353,7 +353,75 @@ load_once_from_file(true)
         mounted:    async function() {
         },
         methods:    {
-            pane_commit_commitPressed:          async function (  ) {
+            // editor interface
+            switchTab:                                      async function (  {  tabName  }  ) {
+                let mm = this
+                mm.selectedTab = tabName
+                if (tabName == "history") {
+                    await mm.setupTimeline()
+                    setTimeout(async function(){
+                        await mm.pane_history_calculateBranchStrength()
+                        await mm.pane_history_getCommitHistoryForThisComponent()
+                    })
+                }
+            },
+            getText:                                        async function (  ) {
+                 // -----------------------------------------------------
+                 //                      getText
+                 //
+                 // -----------------------------------------------------
+                 if (!isValidObject(this.text)) {
+                     return null
+                 }
+
+                 return this.text
+             },
+            setText:                                        async function (  textValue  ) {
+
+                /*
+                ________________________________________
+                |                                      |
+                |             setText                  |
+                |                                      |
+                |______________________________________|
+                This is called to set the component state
+                __________
+                | PARAMS |______________________________________________________________
+                |
+                |     textValue     Use the component code to find out what changes
+                |     ---------     have been made to this code
+                |________________________________________________________________________ */
+                if (!isValidObject(textValue)) {
+                    return
+                }
+
+                let mm                  =  this
+                this.text               = textValue
+                this.baseComponentId    = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
+                this.codeId             = await this.getCurrentCommitId()
+
+                await mm.switchTab( {tabName: mm.selectedTab} )
+            },
+
+
+            // helper functions
+            getCurrentCommitId:                             async function (  ) {
+                // ----------------------------------------------------------------------
+                //
+                //                            getCurrentCommitId
+                //
+                // ----------------------------------------------------------------------
+                //debugger
+                let mm     = this
+                let retVal = null
+                retval     = await getIpfsHash( mm.text )
+                return retval
+            },
+
+
+
+            // commit pane
+            pane_commit_commitPressed:                      async function (  ) {
                 let mm = this
                 showProgressBar()
 
@@ -375,11 +443,14 @@ load_once_from_file(true)
                         //zzz
                     })
             },
-            releaseCodePressed:                 async function (  ) {
+
+
+            // release pane
+            pane_release_releaseCodePressed:                async function (  ) {
                 //----------------------------------------------------------------------------------
                 //
                 //                    /-------------------------------------/
-                //                   /         releaseCodePressed          /
+                //                   /         pane_release_releaseCodePressed          /
                 //                  /-------------------------------------/
                 //
                 //----------------------------------------------------------------------------
@@ -412,58 +483,8 @@ load_once_from_file(true)
                 }
             },
 
-            // editor interface
-            switchTab:                          async function (  {  tabName  }  ) {
-                let mm = this
-                mm.selectedTab = tabName
-                if (tabName == "history") {
-                    await mm.setupTimeline()
-                    setTimeout(async function(){
-                        await mm.pane_history_calculateBranchStrength()
-                        await mm.pane_history_getCommitHistoryForThisComponent()
-                    })
-                }
-            },
-            // editor interface
-            getText:                            async function (  ) {
-                 // -----------------------------------------------------
-                 //                      getText
-                 //
-                 // -----------------------------------------------------
-                 if (!isValidObject(this.text)) {
-                     return null
-                 }
 
-                 return this.text
-             },
-            setText:                            async function (  textValue  ) {
-
-                /*
-                ________________________________________
-                |                                      |
-                |             setText                  |
-                |                                      |
-                |______________________________________|
-                This is called to set the component state
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     textValue     Use the component code to find out what changes
-                |     ---------     have been made to this code
-                |________________________________________________________________________ */
-                if (!isValidObject(textValue)) {
-                    return
-                }
-
-                let mm                  =  this
-                this.text               = textValue
-                this.baseComponentId    = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
-                this.codeId             = await this.getCurrentCommitId()
-
-                await mm.switchTab( {tabName: mm.selectedTab} )
-            },
-
-            // setup functions
+            // history pane
             setupTimeline:                                  async function (  ) {
                 // ----------------------------------------------------------------------
                 //
@@ -548,22 +569,6 @@ load_once_from_file(true)
                     });
                 },100)
             },
-
-            // helper functions
-            getCurrentCommitId:                             async function (  ) {
-                 // ----------------------------------------------------------------------
-                 //
-                 //                            getCurrentCommitId
-                 //
-                 // ----------------------------------------------------------------------
-                 //debugger
-                 let mm     = this
-                 let retVal = null
-                 retval     = await getIpfsHash( mm.text )
-                 return retval
-            },
-
-            // interaction with the timeline UI
             selectItemDetails:                              async function (  commitId  ) {
                 let mm              = this
                 mm.selectedCommitId = commitId
@@ -572,19 +577,19 @@ load_once_from_file(true)
                 if (mm.listOfAllCommits[commitId].descendants) {
                     for(let descendant of mm.listOfAllCommits[commitId].descendants) {
                         if (!mm.listOfAllCommits[descendant.id]) {
-                             await mm.pane_history_findFutureCommits(descendant.id)
-                         }
+                            await mm.pane_history_findFutureCommits(descendant.id)
+                        }
                     }
                 }
                 await mm.highlightItem(commitId)
                 await mm.unHighlightAllExceptLockedItem()
             },
             onlyHighlightLockedItem:                        async function (  ) {
-             //debugger
-             let mm = this
-             await mm.highlightItem(mm.selectedCommitId)
-             await mm.unHighlightAllExceptLockedItem()
-         },
+                //debugger
+                let mm = this
+                await mm.highlightItem(mm.selectedCommitId)
+                await mm.unHighlightAllExceptLockedItem()
+            },
             unHighlightAllExceptLockedItem:                 async function (  unhighlightLockedItem  ) {
                 let mm = this
                 if (mm.inUnHighlightAll) {
@@ -593,7 +598,7 @@ load_once_from_file(true)
 
                 mm.inUnHighlightAll = true
                 for (let highlightedItem of Object.keys(mm.highlightedItems)) {
-                     if (mm.highlightedItems[highlightedItem]) {
+                    if (mm.highlightedItems[highlightedItem]) {
                         if ((unhighlightLockedItem == true) || highlightedItem != mm.selectedCommitId) {
                             let itemStyle = ""
                             let selectedCommitDataItem = mm.listOfAllCommits[highlightedItem]
@@ -610,43 +615,43 @@ load_once_from_file(true)
                             });
                             mm.highlightedItems[highlightedItem] = false
                         }
-                     }
+                    }
                 }
                 mm.inUnHighlightAll = false
-             },
+            },
             highlightItem:                                  async function (  commitId  ,  options  ) {
-             let mm = this
-             try {
-                 let itemStyle = ""
-                 let selectedCommitDataItem = mm.listOfAllCommits[commitId]
-                 if (!selectedCommitDataItem) {
-                    return
-                 }
-                 if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
-                    itemStyle += "font-weight: bold;"
-                 }
+                let mm = this
+                try {
+                    let itemStyle = ""
+                    let selectedCommitDataItem = mm.listOfAllCommits[commitId]
+                    if (!selectedCommitDataItem) {
+                        return
+                    }
+                    if (selectedCommitDataItem.descendants && (selectedCommitDataItem.descendants.length > 1)) {
+                        itemStyle += "font-weight: bold;"
+                    }
 
-                 let selectedCommitUiItem = mm.timelineData.get(commitId);
-                 if (options && options.style) {
-                     itemStyle += options.style
-                 } else {
-                     let itemGroup = selectedCommitUiItem.group
-                     itemStyle += mm.groupColors[itemGroup].highlighted
-                 }
-                 mm.timelineData.update({id: commitId, style: itemStyle});
-                 mm.highlightedItems[commitId] = true
-             } catch (err) {
-                 //debugger
-             } finally {
-             }
-         },
+                    let selectedCommitUiItem = mm.timelineData.get(commitId);
+                    if (options && options.style) {
+                        itemStyle += options.style
+                    } else {
+                        let itemGroup = selectedCommitUiItem.group
+                        itemStyle += mm.groupColors[itemGroup].highlighted
+                    }
+                    mm.timelineData.update({id: commitId, style: itemStyle});
+                    mm.highlightedItems[commitId] = true
+                } catch (err) {
+                    //debugger
+                } finally {
+                }
+            },
             renderCommitsToTimeline:                        async function (  ) {
-                 // ----------------------------------------------------------------------
-                 //
-                 //                            render commits to timeline
-                 //
-                 // ----------------------------------------------------------------------
-                 let mm = this
+                // ----------------------------------------------------------------------
+                //
+                //                            render commits to timeline
+                //
+                // ----------------------------------------------------------------------
+                let mm = this
                 //debugger
 
                 let listOfCommits = Object.keys(mm.listOfAllCommits)
@@ -703,14 +708,14 @@ load_once_from_file(true)
                 mainContent = commitItem.id.substr(0,5) + (commitItem.num_changes?(" (" + commitItem.num_changes +")"):"")
                 extraContent = ""
                 if (commitItem.code_tag_list) {
-                 for (codeTagItem of commitItem.code_tag_list) {
-                     if (codeTagItem.code_tag =="TIP") {
-                         extraContent = ", TIP"
-                         if (codeTagItem.main_score) {
-                             extraContent += "=" + codeTagItem.main_score
-                         }
-                     }
-                 }
+                    for (codeTagItem of commitItem.code_tag_list) {
+                        if (codeTagItem.code_tag =="TIP") {
+                            extraContent = ", TIP"
+                            if (codeTagItem.main_score) {
+                                extraContent += "=" + codeTagItem.main_score
+                            }
+                        }
+                    }
                 }
                 if (commitItem && commitItem.timestamp) {
                     mm.timelineData.add(
@@ -724,11 +729,11 @@ load_once_from_file(true)
                 }
 
                 if (commitItem.descendants) {
-                 for (const descendant of commitItem.descendants) {
-                     if (mm.listOfAllCommits[descendant.id]) {
-                        await mm.renderCommit(descendant.id)
-                     }
-                 }
+                    for (const descendant of commitItem.descendants) {
+                        if (mm.listOfAllCommits[descendant.id]) {
+                            await mm.renderCommit(descendant.id)
+                        }
+                    }
                 }
             },
             clearDetailsPane:                               async function (  ) {
@@ -843,9 +848,9 @@ load_once_from_file(true)
                 await mm.highlightItem(childId)
                 await mm.unHighlightAllExceptLockedItem()
             },
-            jumpToCommitId:                                 async function (  commitId  ) {
+            pane_history_jumpToCommitId:                    async function (  commitId  ) {
                 // -----------------------------------------------------
-                //                      jumpToCommitId
+                //                      pane_history_jumpToCommitId
                 //
                 //
                 // -----------------------------------------------------
@@ -855,9 +860,9 @@ load_once_from_file(true)
                 await mm.highlightItem(commitId)
                 await mm.unHighlightAllExceptLockedItem()
             },
-            gotoHome:                                       async function (  ) {
+            pane_history_gotoHome:                          async function (  ) {
                 // -----------------------------------------------------
-                //                      gotoHome
+                //                      pane_history_gotoHome
                 //
                 // Go to the current commit ID ID item
                 //
@@ -873,37 +878,35 @@ load_once_from_file(true)
                     await mm.unHighlightAllExceptLockedItem()
                 }
             },
-
-            // interaction with the Yazz system
             pane_history_getCommitHistoryForThisComponent:  async function (  ) {
                 //                 get the history of this commit going backwards
                 //debugger
                 let mm          = this
                 let openfileurl =
-                        "http" +
-                        (($HOSTPORT == 443) ? "s" : "") +
-                        "://" + $HOST +
-                        "/http_get_load_version_history_v2?" +
-                         new URLSearchParams({
-                             id:        mm.baseComponentId,
-                             commit_id: mm.codeId
-                         })
+                    "http" +
+                    (($HOSTPORT == 443) ? "s" : "") +
+                    "://" + $HOST +
+                    "/http_get_load_version_history_v2?" +
+                    new URLSearchParams({
+                        id:        mm.baseComponentId,
+                        commit_id: mm.codeId
+                    })
 
                 let promise = new Promise(async function (returnfn) {
                     fetch(openfileurl, {
                         method:         'get',
                         credentials:    "include"
                     })
-                    .then((response) => response.json())
-                    .then(async function (responseJson) {
-                        await mm.pane_history_saveResponseToCommitData(responseJson)
-                        await mm.renderCommitsToTimeline()
-                        returnfn()
-                    })
-                    .catch(err => {
-                        //error block
-                        returnfn()
-                    })
+                        .then((response) => response.json())
+                        .then(async function (responseJson) {
+                            await mm.pane_history_saveResponseToCommitData(responseJson)
+                            await mm.renderCommitsToTimeline()
+                            returnfn()
+                        })
+                        .catch(err => {
+                            //error block
+                            returnfn()
+                        })
                 })
 
                 let retval = await promise
@@ -920,34 +923,34 @@ load_once_from_file(true)
                 let mm = this
 
                 let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_future?" +
-                 new URLSearchParams({
-                     commit_id: commitId
-                 })
+                    new URLSearchParams({
+                        commit_id: commitId
+                    })
 
                 let promise = new Promise(async function (returnfn) {
-                 fetch(openfileurl, {
-                     method: 'get',
-                     credentials: "include"
-                 })
-                 .then((response) => response.json())
-                 .then(async function (responseJson) {
-                 //debugger
-                     if (responseJson.length > 0) {
-                         let earliestCommit = responseJson[0].id
-                         await mm.pane_history_saveResponseToCommitData(responseJson)
-                         setTimeout(async function(){
-                             mm.currentGroupId ++
-                             await mm.renderCommit(earliestCommit)
-                         })
-                     }
+                    fetch(openfileurl, {
+                        method: 'get',
+                        credentials: "include"
+                    })
+                        .then((response) => response.json())
+                        .then(async function (responseJson) {
+                            //debugger
+                            if (responseJson.length > 0) {
+                                let earliestCommit = responseJson[0].id
+                                await mm.pane_history_saveResponseToCommitData(responseJson)
+                                setTimeout(async function(){
+                                    mm.currentGroupId ++
+                                    await mm.renderCommit(earliestCommit)
+                                })
+                            }
 
 
-                     returnfn()
-                 })
-                 .catch(err => {
-                     //error block
-                     returnfn()
-                 })
+                            returnfn()
+                        })
+                        .catch(err => {
+                            //error block
+                            returnfn()
+                        })
                 })
                 let retval = await promise
                 return retval
@@ -962,17 +965,17 @@ load_once_from_file(true)
                     }
 
                     mm.listOfAllCommits[responseJson[rt].id] =
-                    {
-                        id:                 responseJson[rt].id,
-                        timestamp:          responseJson[rt].creation_timestamp,
-                        num_changes:        responseJson[rt].num_changes,
-                        changes:            responseJson[rt].changes,
-                        user_id:            responseJson[rt].user_id,
-                        base_component_id:  responseJson[rt].base_component_id,
-                        descendants:        responseJson[rt].descendants,
-                        parent_id:          responseJson[rt].parent_commit_id,
-                        code_tag_list:      responseJson[rt].code_tag_list
-                    }
+                        {
+                            id:                 responseJson[rt].id,
+                            timestamp:          responseJson[rt].creation_timestamp,
+                            num_changes:        responseJson[rt].num_changes,
+                            changes:            responseJson[rt].changes,
+                            user_id:            responseJson[rt].user_id,
+                            base_component_id:  responseJson[rt].base_component_id,
+                            descendants:        responseJson[rt].descendants,
+                            parent_id:          responseJson[rt].parent_commit_id,
+                            code_tag_list:      responseJson[rt].code_tag_list
+                        }
                     if (responseJson[rt].changes && responseJson[rt].changes.length > 0) {
                         if (responseJson[rt].changes[0].timestamp) {
                             mm.firstCommitTimestamps[responseJson[rt].id] = responseJson[rt].changes[0].timestamp
@@ -983,11 +986,11 @@ load_once_from_file(true)
             pane_history_calculateBranchStrength:           async function (  ) {
                 let mm = this
                 let responseJson = await getFromYazzReturnJson(
-                                        "/http_get_bulk_calculate_branch_strength_for_component",
-                                        {
-                                            commit_id:          mm.selectedCommitId,
-                                            baseComponentId:    mm.baseComponentId
-                                        })
+                    "/http_get_bulk_calculate_branch_strength_for_component",
+                    {
+                        commit_id:          mm.selectedCommitId,
+                        baseComponentId:    mm.baseComponentId
+                    })
             },
             pane_history_checkoutCode:                      async function (  ) {
                 let mm              = this
