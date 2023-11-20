@@ -651,7 +651,7 @@ module.exports = {
         }
         return {value: valueToReturn}
     },
-    insertNewCode:                  async function  (  thisDb,  {  sha1sum  ,  parentHash  ,  code  ,  baseComponentId  ,  displayName  ,  updatedTimestamp  ,  logoUrl  ,  visibility  ,  useDb  ,  editors  ,  readWriteStatus  ,  propertiesAsJsonString  ,  controlType  ,  save_code_to_file  ,  codeChangesStr  ,  numCodeChanges  ,  userId  }  ) {
+    insertNewCode:                  async function  (  thisDb,  {  sha1sum  ,  parentHash  ,  code  ,  baseComponentId  ,  displayName  ,  updatedTimestamp  ,  logoUrl  ,  visibility  ,  useDb  ,  editors  ,  readWriteStatus  ,  propertiesAsJsonString  ,  controlType  ,  save_code_to_file  ,  codeChangesStr  ,  numCodeChanges  ,  userId  ,  stampedAs  }  ) {
         let mm = this
         mm.executeQuickSql(
             thisDb,
@@ -661,9 +661,10 @@ module.exports = {
                       display_name, creation_timestamp, 
                       logo_url, visibility,use_db, editors, read_write_status,properties, 
                       component_type, edit_file_path, 
-                      code_changes, num_changes, fk_user_id, score, score_reason) 
+                      code_changes, num_changes, fk_user_id, score, score_reason,
+                      stamped_as) 
               values 
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
             ,
             [
                 sha1sum,
@@ -684,7 +685,8 @@ module.exports = {
                 numCodeChanges,
                 userId,
                 1,
-                "1 point for being committed"
+                "1 point for being committed",
+                stampedAs
             ]
         )
 
