@@ -4473,7 +4473,14 @@ async function  startServices                           (  ) {
     app.post(   "/http_post_commit_code" ,                                  async function (req, res) {
         let ipfsHash = req.body.value.code_id;
         let code        = await yz.getCodeForCommit(dbsearch, ipfsHash)
-        let newCode     = yz.helpers.insertCodeString(code,"commit",{})
+        let newCode     = yz.helpers.insertCodeString(code,"commit",
+                            {
+                                title: 		    req.body.value.header,
+                                description: 	req.body.value.description,
+                                num_commits:	7,
+                                first_commit:	"Qmx76328…",
+                                last_commit:	"Qmv678347863…"
+                            })
         let saveResult  = await yz.saveCodeV3(
             dbsearch,
             newCode,
