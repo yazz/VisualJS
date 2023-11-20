@@ -737,7 +737,7 @@ module.exports = {
                     "CREATE TABLE IF NOT EXISTS level_2_content_hash_to_db_key_mapping          (ipfs_hash TEXT, db_table_type TEXT, table_key TEXT, UNIQUE(ipfs_hash,db_table_type,table_key));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_2_content_hash_to_db_key_mapping',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_2_system_code                 (id TEXT, base_component_id TEXT, display_name TEXT, component_type TEXT, creation_timestamp INTEGER, parent_id TEXT, fk_user_id TEXT,code TEXT,  logo_url TEXT, visibility TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, edit_file_path TEXT,  num_changes INTEGER, code_changes TEXT, last_read_from_ipfs INTEGER, score INTEGER, score_reason TEXT, score_total INTEGER);",
+                    "CREATE TABLE IF NOT EXISTS level_2_system_code                 (id TEXT, base_component_id TEXT, display_name TEXT, component_type TEXT, creation_timestamp INTEGER, parent_id TEXT, stamped_as TEXT, fk_user_id TEXT,code TEXT,  logo_url TEXT, visibility TEXT, use_db TEXT, editors TEXT, read_write_status TEXT, properties TEXT, edit_file_path TEXT,  num_changes INTEGER, code_changes TEXT, last_read_from_ipfs INTEGER, score INTEGER, score_reason TEXT, score_total INTEGER);",
                     "CREATE INDEX IF NOT EXISTS system_code_base_component_id_idx   ON level_2_system_code (base_component_id);",
                     "CREATE INDEX IF NOT EXISTS system_code_id_idx                  ON level_2_system_code (id);",
                     "CREATE INDEX IF NOT EXISTS system_code_logo_url_idx            ON level_2_system_code (logo_url);",
