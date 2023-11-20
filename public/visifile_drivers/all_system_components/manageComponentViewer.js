@@ -137,7 +137,7 @@ load_once_from_file(true)
         <div  v-if='selectedTab=="history"'>
 
             <div style="margin: 10px;"
-                 v-on:mouseenter="onlyHighlightLockedItem()">
+                 v-on:mouseenter="pane_history_onlyHighlightLockedItem()">
         
             <button  type=button class='btn btn-dark'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
@@ -145,23 +145,23 @@ load_once_from_file(true)
               
             <button  type=button class='btn  btn-primary'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                     v-on:click="gotoParent()" >&lt;</button>
+                     v-on:click="pane_history_gotoParent()" >&lt;</button>
         
             <button  type=button class='btn  btn-primary'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                     v-on:click="gotoChild()" >&gt;</button>
+                     v-on:click="pane_history_gotoChild()" >&gt;</button>
         
             <button  type=button class='btn  btn-primary'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                     v-on:click="showDetails()" >Details</button>
+                     v-on:click="pane_history_showDetails()" >Details</button>
         
             <button  type=button class='btn  btn-primary'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 20px;"
-                     v-on:click="showCommit()" >Code</button>
+                     v-on:click="pane_history_showCommit()" >Code</button>
         
             <button  type=button class='btn  btn-info'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                     v-on:click="diffCode()" >Diff</button>
+                     v-on:click="pane_history_diffCode()" >Diff</button>
         
             <button  type=button class='btn  btn-info'
                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
@@ -358,7 +358,7 @@ load_once_from_file(true)
                 let mm = this
                 mm.selectedTab = tabName
                 if (tabName == "history") {
-                    await mm.setupTimeline()
+                    await mm.pane_history_setupTimeline()
                     setTimeout(async function(){
                         await mm.pane_history_calculateBranchStrength()
                         await mm.pane_history_getCommitHistoryForThisComponent()
@@ -417,7 +417,6 @@ load_once_from_file(true)
                 retval     = await getIpfsHash( mm.text )
                 return retval
             },
-
 
 
             // commit pane
@@ -485,10 +484,10 @@ load_once_from_file(true)
 
 
             // history pane
-            setupTimeline:                                  async function (  ) {
+            pane_history_setupTimeline:                     async function (  ) {
                 // ----------------------------------------------------------------------
                 //
-                //                            setupTimeline
+                //                            pane_history_setupTimeline
                 //
                 // ----------------------------------------------------------------------
                 let mm              = this
@@ -545,10 +544,10 @@ load_once_from_file(true)
 
                     mm.timeline.on("click", async function (properties) {
                         if (properties.item) {
-                            await mm.selectItemDetails(properties.item)
+                            await mm.pane_history_selectItemDetails(properties.item)
                         } else {
                             mm.selectedCommitId = null
-                            await mm.unHighlightAllExceptLockedItem()
+                            await mm.pane_history_unHighlightAllExceptLockedItem()
                         }
                     });
 
@@ -560,8 +559,8 @@ load_once_from_file(true)
                     }
                     window.keepTimeline = false
 
-                    await mm.selectItemDetails(mm.codeId)
-                    await mm.highlightItem(mm.codeId)
+                    await mm.pane_history_selectItemDetails(mm.codeId)
+                    await mm.pane_history_highlightItem(mm.codeId)
 
                     mm.timeline.on('rangechanged', function (properties) {
                         mm.timelineStart    = properties.start.getTime()
@@ -569,7 +568,7 @@ load_once_from_file(true)
                     });
                 },100)
             },
-            selectItemDetails:                              async function (  commitId  ) {
+            pane_history_selectItemDetails:                 async function (  commitId  ) {
                 let mm              = this
                 mm.selectedCommitId = commitId
                 mm.showCode='details'
@@ -581,16 +580,16 @@ load_once_from_file(true)
                         }
                     }
                 }
-                await mm.highlightItem(commitId)
-                await mm.unHighlightAllExceptLockedItem()
+                await mm.pane_history_highlightItem(commitId)
+                await mm.pane_history_unHighlightAllExceptLockedItem()
             },
-            onlyHighlightLockedItem:                        async function (  ) {
+            pane_history_onlyHighlightLockedItem:           async function (  ) {
                 //debugger
                 let mm = this
-                await mm.highlightItem(mm.selectedCommitId)
-                await mm.unHighlightAllExceptLockedItem()
+                await mm.pane_history_highlightItem(mm.selectedCommitId)
+                await mm.pane_history_unHighlightAllExceptLockedItem()
             },
-            unHighlightAllExceptLockedItem:                 async function (  unhighlightLockedItem  ) {
+            pane_history_unHighlightAllExceptLockedItem:    async function (  unhighlightLockedItem  ) {
                 let mm = this
                 if (mm.inUnHighlightAll) {
                     return
@@ -619,7 +618,7 @@ load_once_from_file(true)
                 }
                 mm.inUnHighlightAll = false
             },
-            highlightItem:                                  async function (  commitId  ,  options  ) {
+            pane_history_highlightItem:                     async function (  commitId  ,  options  ) {
                 let mm = this
                 try {
                     let itemStyle = ""
@@ -645,7 +644,7 @@ load_once_from_file(true)
                 } finally {
                 }
             },
-            renderCommitsToTimeline:                        async function (  ) {
+            pane_history_renderCommitsToTimeline:           async function (  ) {
                 // ----------------------------------------------------------------------
                 //
                 //                            render commits to timeline
@@ -672,12 +671,12 @@ load_once_from_file(true)
                 //
                 // render the timeline items
                 //
-                await mm.renderCommit(earliestCommit)
+                await mm.pane_history_renderCommit(earliestCommit)
             },
-            renderCommit:                                   async function (  commitId  ) {
+            pane_history_renderCommit:                      async function (  commitId  ) {
                 // ----------------------------------------------------------------------
                 //
-                //                 renderCommit
+                //                 pane_history_renderCommit
                 //
                 // ----------------------------------------------------------------------
                 let mm          = this
@@ -731,30 +730,30 @@ load_once_from_file(true)
                 if (commitItem.descendants) {
                     for (const descendant of commitItem.descendants) {
                         if (mm.listOfAllCommits[descendant.id]) {
-                            await mm.renderCommit(descendant.id)
+                            await mm.pane_history_renderCommit(descendant.id)
                         }
                     }
                 }
             },
-            clearDetailsPane:                               async function (  ) {
+            pane_history_clearDetailsPane:                  async function (  ) {
                 let mm = this
 
                 mm.commitCode = null
                 mm.parentCommitCode = null
                 mm.diffText = ""
             },
-            showCommit:                                     async function (  ) {
+            pane_history_showCommit:                        async function (  ) {
                 let mm = this
                 mm.showCode='commit'
 
                 let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.selectedCommitId})
                 mm.commitCode = responseJson.code
             },
-            showDetails:                                    async function (  ) {
+            pane_history_showDetails:                       async function (  ) {
                 let mm = this
                 mm.showCode='details'
             },
-            diffCode:                                       async function (  ) {
+            pane_history_diffCode:                          async function (  ) {
                 //debugger
                 let mm = this
                 mm.showCode = "diff"
@@ -798,9 +797,9 @@ load_once_from_file(true)
 
 
             },
-            gotoParent:                                     async function (  ) {
+            pane_history_gotoParent:                        async function (  ) {
                 // -----------------------------------------------------
-                //                      gotoParent
+                //                      pane_history_gotoParent
                 //
                 // Go to the parent of the current history item
                 //
@@ -816,13 +815,13 @@ load_once_from_file(true)
                 let parentId = mm.listOfAllCommits[mm.selectedCommitId].parent_id
                 //alert("goto parent : " + parentId)
                 mm.timeline.moveTo(mm.listOfAllCommits[parentId].timestamp)
-                await mm.selectItemDetails(parentId)
-                await mm.highlightItem(parentId)
-                await mm.unHighlightAllExceptLockedItem()
+                await mm.pane_history_selectItemDetails(parentId)
+                await mm.pane_history_highlightItem(parentId)
+                await mm.pane_history_unHighlightAllExceptLockedItem()
             },
-            gotoChild:                                      async function (  ) {
+            pane_history_gotoChild:                         async function (  ) {
                 // -----------------------------------------------------
-                //                      gotoChild
+                //                      pane_history_gotoChild
                 //
                 // Go to the child of the current history item
                 //
@@ -844,9 +843,9 @@ load_once_from_file(true)
                 //alert("goto child : " + descendants[0].id)
                 let childId = descendants[0].id
                 mm.timeline.moveTo(mm.listOfAllCommits[childId].timestamp)
-                await mm.selectItemDetails(childId)
-                await mm.highlightItem(childId)
-                await mm.unHighlightAllExceptLockedItem()
+                await mm.pane_history_selectItemDetails(childId)
+                await mm.pane_history_highlightItem(childId)
+                await mm.pane_history_unHighlightAllExceptLockedItem()
             },
             pane_history_jumpToCommitId:                    async function (  commitId  ) {
                 // -----------------------------------------------------
@@ -856,9 +855,9 @@ load_once_from_file(true)
                 // -----------------------------------------------------
                 let mm = this
                 mm.timeline.moveTo(mm.listOfAllCommits[commitId].timestamp)
-                await mm.selectItemDetails(commitId)
-                await mm.highlightItem(commitId)
-                await mm.unHighlightAllExceptLockedItem()
+                await mm.pane_history_selectItemDetails(commitId)
+                await mm.pane_history_highlightItem(commitId)
+                await mm.pane_history_unHighlightAllExceptLockedItem()
             },
             pane_history_gotoHome:                          async function (  ) {
                 // -----------------------------------------------------
@@ -873,9 +872,9 @@ load_once_from_file(true)
                 let mm = this
                 if (mm.listOfAllCommits[mm.codeId].timestamp) {
                     mm.timeline.moveTo(mm.listOfAllCommits[mm.codeId].timestamp)
-                    await mm.selectItemDetails(mm.codeId)
-                    await mm.highlightItem(mm.codeId)
-                    await mm.unHighlightAllExceptLockedItem()
+                    await mm.pane_history_selectItemDetails(mm.codeId)
+                    await mm.pane_history_highlightItem(mm.codeId)
+                    await mm.pane_history_unHighlightAllExceptLockedItem()
                 }
             },
             pane_history_getCommitHistoryForThisComponent:  async function (  ) {
@@ -900,7 +899,7 @@ load_once_from_file(true)
                         .then((response) => response.json())
                         .then(async function (responseJson) {
                             await mm.pane_history_saveResponseToCommitData(responseJson)
-                            await mm.renderCommitsToTimeline()
+                            await mm.pane_history_renderCommitsToTimeline()
                             returnfn()
                         })
                         .catch(err => {
@@ -940,7 +939,7 @@ load_once_from_file(true)
                                 await mm.pane_history_saveResponseToCommitData(responseJson)
                                 setTimeout(async function(){
                                     mm.currentGroupId ++
-                                    await mm.renderCommit(earliestCommit)
+                                    await mm.pane_history_renderCommit(earliestCommit)
                                 })
                             }
 
