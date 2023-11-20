@@ -987,6 +987,15 @@ module.exports = {
         let propertiesAsJsonString                  = null
         let existingCodeAlreadyInSystemCodeTable
         let save_code_to_file                       = null
+        let stampedAs                               = "SAVE"
+        let commit                                  = yz.helpers.getValueOfCodeString(code,"commit")
+        if (commit) {
+            stampedAs = "COMMIT"
+        }
+        let release                                  = yz.helpers.getValueOfCodeString(code,"release")
+        if (release) {
+            stampedAs = "RELEASE"
+        }
 
         let promise = new Promise(async function(returnFn) {
 
@@ -1075,7 +1084,8 @@ module.exports = {
                             save_code_to_file,
                             codeChangesStr,
                             numCodeChanges,
-                            userId
+                            userId,
+                            stampedAs
                         })
 
                     await mm.pointEditMarkerAtCommit(
