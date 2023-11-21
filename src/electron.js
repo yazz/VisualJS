@@ -4503,7 +4503,23 @@ async function  startServices                           (  ) {
         let code        = await yz.getCodeForCommit(dbsearch, ipfsHash)
         //zzz
         let previousSaves = await getSaveChain(ipfsHash)
-        let newCode     = yz.helpers.insertCodeString(code,"commit",
+
+        //
+        // Remove old COMMIT or RELEASE sections
+        //
+        let commit = yz.helpers.getValueOfCodeString(code,"commit")
+        if (commit) {
+            code = yz.helpers.deleteCodeString(code, "commit")
+        }
+        let release = yz.helpers.getValueOfCodeString(code,"release")
+        if (release) {
+            code = yz.helpers.deleteCodeString(code, "release")
+        }
+
+        //
+        // Insert COMMIT section
+        //
+        code     = yz.helpers.insertCodeString(code,"commit",
                             {
                                 title: 		    req.body.value.header,
                                 description: 	req.body.value.description,
@@ -4513,7 +4529,7 @@ async function  startServices                           (  ) {
                             })
         let saveResult  = await yz.saveCodeV3(
             dbsearch,
-            newCode,
+            code,
             {
                 make_public: true,
                 save_html:   true
