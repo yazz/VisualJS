@@ -271,7 +271,7 @@ load_once_from_file(true)
         <div style="margin-top:20px;">
             <div>Commit Header</div>
             <input
-                  style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                  style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                   v-on:click=''
                   v-on:keydown="pane_commit_clearMessages()"
                   v-model='commit_pane_header'
