@@ -1039,6 +1039,8 @@
                     let logoUrl
                     let lastParentHash
                     let oldBaseComp
+                    let commit
+                    let release
 
                     if (options) {
                         parentHash      = options.parentHash
@@ -1112,6 +1114,26 @@
                     if (newvisibility != visibility) {
                         code = yz.helpers.deleteCodeString(code, "visibility")
                         code = yz.helpers.insertCodeString(code, "visibility", newvisibility)
+                    }
+
+
+
+                    //
+                    // make sure there are no COMMIT sections as this is just a SAVE
+                    //
+                    commit = yz.helpers.getValueOfCodeString(code,"commit")
+                    if (commit) {
+                        code = yz.helpers.deleteCodeString(code, "commit")
+                    }
+
+
+
+                    //
+                    // make sure there are no RELEASE sections as this is just a SAVE
+                    //
+                    release = yz.helpers.getValueOfCodeString(code,"release")
+                    if (release) {
+                        code = yz.helpers.deleteCodeString(code, "release")
                     }
 
 
