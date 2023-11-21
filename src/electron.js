@@ -3285,7 +3285,8 @@ async function  getRowForCommit                         (  commitId  ) {
                     parent_commit_id:   thisCommit.parent_id,
                     user_id:            thisCommit.fk_user_id,
                     descendants:        parentCommits,
-                    code_tag_list:      codeTags
+                    code_tag_list:      codeTags,
+                    stamped_as:         thisCommit.stamped_as
                 }
         } catch (err) {
         }
@@ -3313,16 +3314,64 @@ async function  getSaveChain                            (  commitId  ) {
 
     let parentCommitRow = await getRowForCommit( commitId  )
     returnRows.push(parentCommitRow)
-    returnRows = await getPreviousCommitsFor(
+    returnRows = await getPreviousSavesToLastCommit(
         {
             commitId:       commitId,
             returnRows:     returnRows
         })
     return {
-        numSaves:       8,
-        firstCodeId:	"previousSaves.firstCodeId",
-        lastCodeId:	    "qm"
+                numSaves:       returnRows.length,
+                firstCodeId:	returnRows[returnRows.length - 1].id,
+                lastCodeId:	    returnRows[0].id
+            }
+}
+async function  getPreviousSavesToLastCommit            (  args  ) {
+    //----------------------------------------------------------------------------------/
+    //
+    //                    /-------------------------------------/
+    //                   /     getPreviousSavesToLastCommit    /
+    //                  /-------------------------------------/
+    //
+    //----------------------------------------------------------------------------/
+    // This is used to get the chain of discarded saves since the last commit
+    //
+    //________
+    // PARAMS \______________________________________________________________/
+    //
+    //     args
+    //     ---- {
+    //              commitId
+    //              returnRows
+    //          }
+    //---------------------------------------------------------------/
+
+    let commitId        = args.commitId
+    let returnRows      = []
+
+    if (args.returnRows) {
+        returnRows = args.returnRows
     }
+
+    let commitRow = await getRowForCommit( commitId  )
+    let parentCommitId = commitRow.parent_commit_id
+
+    if (parentCommitId) {
+        let parentCommitRow = await getRowForCommit( parentCommitId  )
+        if (parentCommitRow) {
+            returnRows.push(parentCommitRow)
+            if (parentCommitRow.parent_commit_id) {
+                returnRows = await getPreviousCommitsFor(
+                    {
+                        commitId: parentCommitRow.id
+                        ,
+                        parentCommitId: parentCommitRow.parent_commit_id
+                        ,
+                        returnRows: returnRows
+                    })
+            }
+        }
+    }
+    return returnRows
 }
 async function  getPreviousCommitsFor                   (  args  ) {
     /*
