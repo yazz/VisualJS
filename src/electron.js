@@ -3355,20 +3355,18 @@ async function  getPreviousSavesToLastCommit            (  args  ) {
     let stampedAs       = commitRow.stamped_as
     let parentCommitId  = commitRow.parent_commit_id
     returnRows.push(commitRow)
+
     if ( (stampedAs != "SAVE") || (parentCommitId == null) ) {
-        returnRows.push(commitRow)
         return returnRows
     }
 
     let parentCommitRow = await getRowForCommit( parentCommitId  )
     if (parentCommitRow) {
-        if (parentCommitRow.parent_commit_id) {
-            returnRows = await getPreviousCommitsFor(
-                {
-                    commitId: parentCommitRow.id,
-                    returnRows: returnRows
-                })
-        }
+        returnRows = await getPreviousSavesToLastCommit(
+            {
+                commitId:   parentCommitRow.id,
+                returnRows: returnRows
+            })
     }
     return returnRows
 }
