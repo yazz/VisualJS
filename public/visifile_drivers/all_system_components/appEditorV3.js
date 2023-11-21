@@ -455,11 +455,11 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                        type="button" class="btn btn-light ">
 
                     <img
-                        src='/driver_icons/bookmark.png'
+                        src='/driver_icons/deliver.png'
                         style='height:35px; margin-right: 0px;'
                         class='img-fluid'>
                     </img>
-                    Manage
+                    Deliver
 
                   </a>
 
