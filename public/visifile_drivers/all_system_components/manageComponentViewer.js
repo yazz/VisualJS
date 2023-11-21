@@ -273,6 +273,7 @@ load_once_from_file(true)
             <input
                   style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                   v-on:click=''
+                  v-on:keydown="pane_commit_clearMessages()"
                   v-model='commit_pane_header'
                   value=''>
             </input>
@@ -286,6 +287,7 @@ load_once_from_file(true)
           <textarea rows=10 
                     cols=50
                     style="margin: 5px;"
+                    v-on:keydown="pane_commit_clearMessages()"
                     v-model='commit_pane_description'>
           </textarea>
         </div>
@@ -422,6 +424,15 @@ load_once_from_file(true)
             // commit pane
             pane_commit_commitPressed:                      async function (  ) {
                 let mm = this
+
+                if ((mm.commit_pane_header == null) || (mm.commit_pane_header.length <= 5)) {
+                    mm.commitErrorMessage = "Commit header must be more than 5 chars"
+                    return
+                }
+                if (mm.commit_pane_description == null) {
+                    mm.commit_pane_description = ""
+                }
+
                 showProgressBar()
 
                 let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_commit_code"
@@ -436,10 +447,7 @@ load_once_from_file(true)
                     async function(response){
                         let responseJson = JSON.parse(response)
 
-                        mm.commitMessage = "Commit successful"
                         hideProgressBar()
-                        debugger
-                        //zzz
                         if (responseJson && responseJson.newCommitId) {
                             mm.$root.$emit(
                                 'message'
@@ -450,7 +458,23 @@ load_once_from_file(true)
                                 }
                             )
                         }
+                        await mm.pane_commit_clearAll()
+                        mm.commitMessage = "Commit successful"
                     })
+            },
+            pane_commit_clearAll:                          async function (  ) {
+                let mm = this
+
+                mm.commitMessage            = ""
+                mm.commitErrorMessage       = ""
+                mm.commit_pane_header       = ""
+                mm.commit_pane_description  = ""
+            },
+            pane_commit_clearMessages:                     async function (  ) {
+                let mm = this
+
+                mm.commitMessage            = ""
+                mm.commitErrorMessage       = ""
             },
 
 
