@@ -3312,16 +3312,15 @@ async function  getSaveChain                            (  commitId  ) {
     //zzz
     let returnRows      = []
 
-    let parentCommitRow = await getRowForCommit( commitId  )
-    returnRows.push(parentCommitRow)
     returnRows = await getPreviousSavesToLastCommit(
         {
             commitId:       commitId,
             returnRows:     returnRows
         })
+
     return {
-                numSaves:       returnRows.length,
-                firstCodeId:	returnRows[returnRows.length - 1].id,
+                chainLength:    returnRows.length,
+                startOfChain:	returnRows[returnRows.length - 1].id,
                 lastCodeId:	    returnRows[0].id
             }
 }
@@ -3352,23 +3351,24 @@ async function  getPreviousSavesToLastCommit            (  args  ) {
         returnRows = args.returnRows
     }
 
-    let commitRow = await getRowForCommit( commitId  )
-    let parentCommitId = commitRow.parent_commit_id
+    let commitRow       = await getRowForCommit( commitId  )
+    let parentCommitId  = commitRow.parent_commit_id
+    let stampedAs       = commitRow.stamped_as
 
-    if (parentCommitId) {
-        let parentCommitRow = await getRowForCommit( parentCommitId  )
-        if (parentCommitRow) {
-            returnRows.push(parentCommitRow)
-            if (parentCommitRow.parent_commit_id) {
-                returnRows = await getPreviousCommitsFor(
-                    {
-                        commitId: parentCommitRow.id
-                        ,
-                        parentCommitId: parentCommitRow.parent_commit_id
-                        ,
-                        returnRows: returnRows
-                    })
-            }
+    if ( (stampedAs != "SAVE") || (parentCommitId == null) ) {
+        returnRows.push(commitRow)
+        return returnRows
+    }
+
+    let parentCommitRow = await getRowForCommit( parentCommitId  )
+    if (parentCommitRow) {
+        returnRows.push(parentCommitRow)
+        if (parentCommitRow.parent_commit_id) {
+            returnRows = await getPreviousCommitsFor(
+                {
+                    commitId: parentCommitRow.id,
+                    returnRows: returnRows
+                })
         }
     }
     return returnRows
@@ -4576,10 +4576,24 @@ async function  startServices                           (  ) {
                             {
                                 title: 		    req.body.value.header,
                                 description: 	req.body.value.description,
-                                num_commits:	previousSaves.numSaves,
-                                first_commit:	previousSaves.firstCodeId,
+                                num_commits:	previousSaves.chainLength,
+                                start_of_chain:	previousSaves.startOfChain,
                                 last_commit:	previousSaves.lastCodeId
                             })
+
+        //
+        // set the parent hash
+        //
+        let parentHash = yz.helpers.getValueOfCodeString(code,"parent_hash")
+        if (parentHash) {
+            code = yz.helpers.deleteCodeString(code, "parent_hash")
+        }
+        if (previousSaves.numSaves > 0) {
+            code = yz.helpers.insertCodeString(code, "parent_hash", previousSaves.startOfChain)
+        }
+
+
+
         let saveResult  = await yz.saveCodeV3(
             dbsearch,
             code,
@@ -4588,7 +4602,7 @@ async function  startServices                           (  ) {
                 save_html:   true
             })
         let newCommitId = saveResult.code_id
-        await yz.tagVersion(dbsearch, ipfsHash, newCommitId)
+        await yz.tagVersion(dbsearch, newCommitId, newCommitId)
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
