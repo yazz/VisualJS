@@ -4588,7 +4588,7 @@ async function  startServices                           (  ) {
         if (parentHash) {
             code = yz.helpers.deleteCodeString(code, "parent_hash")
         }
-        if (previousSaves.numSaves > 0) {
+        if (previousSaves.chainLength > 0) {
             code = yz.helpers.insertCodeString(code, "parent_hash", previousSaves.startOfChain)
         }
 
