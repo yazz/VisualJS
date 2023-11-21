@@ -3318,7 +3318,11 @@ async function  getSaveChain                            (  commitId  ) {
             commitId:       commitId,
             returnRows:     returnRows
         })
-    return returnRows
+    return {
+        numSaves:       8,
+        firstCodeId:	"previousSaves.firstCodeId",
+        lastCodeId:	    "qm"
+    }
 }
 async function  getPreviousCommitsFor                   (  args  ) {
     /*
