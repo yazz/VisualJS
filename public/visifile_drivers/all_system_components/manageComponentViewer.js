@@ -137,44 +137,49 @@ load_once_from_file(true)
 
       <div  v-if='selectedTab=="changes"' style="padding:15px;">
 
-        <!-- ----------------------------------------------
-        header
-        ---------------------------------------------- -->
-        <div style="margin-top:5px;">
-          <input
-              style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width: 50%;'
-              v-on:click=''
-              v-on:keydown="pane_commit_clearMessages()"
-              placeholder="Summary (Required)"
-              v-model='commit_pane_header'
-              value=''>
-          </input>
-        </div>
-
-        <!-- ----------------------------------------------
-        description
-        ---------------------------------------------- -->
-        <div style="margin-top: 0px;">
-          <textarea rows=7
-                    style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:100%"
-                    placeholder="Description"
-                    v-on:keydown="pane_commit_clearMessages()"
-                    v-model='commit_pane_description'>
-          </textarea>
-        </div>
-
-        <!-- ----------------------------------------------
-        Commit button
-        ---------------------------------------------- -->
-        <div style='margin: 10px; margin-top: 0px;'>
-          <button  type=button
-                   class=' btn btn-info btn-lg'
-                   v-on:click='pane_commit_commitPressed()' >Commit</button>
-        </div>
-
-        <div style="margin-top: 20px;">{{commitMessage}}</div>
-        <div style="color:red">{{commitErrorMessage}}</div>
-
+          <span style="width:30%;display: inline-block;">
+                <!-- ----------------------------------------------
+                header
+                ---------------------------------------------- -->
+                <div style="margin-top:5px;">
+                  <input
+                      style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width: 100%;'
+                      v-on:click=''
+                      v-on:keydown="pane_commit_clearMessages()"
+                      placeholder="Summary (Required)"
+                      v-model='commit_pane_header'
+                      value=''>
+                  </input>
+                </div>
+        
+                <!-- ----------------------------------------------
+                description
+                ---------------------------------------------- -->
+                <div style="margin-top: 0px;">
+                  <textarea rows=7
+                            style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:100%"
+                            placeholder="Description"
+                            v-on:keydown="pane_commit_clearMessages()"
+                            v-model='commit_pane_description'>
+                  </textarea>
+                </div>
+        
+                <!-- ----------------------------------------------
+                Commit button
+                ---------------------------------------------- -->
+                <div style='margin: 10px; margin-top: 0px;'>
+                  <button  type=button
+                           class=' btn btn-info btn-lg'
+                           v-on:click='pane_commit_commitPressed()' >Commit</button>
+                </div>
+        
+                <div style="margin-top: 20px;">{{commitMessage}}</div>
+                <div style="color:red">{{commitErrorMessage}}</div>
+          </span>
+        
+        
+          <span style="width:65%;display: inline-block;">
+          </span>
       </div>
 
 
