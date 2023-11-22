@@ -3319,8 +3319,8 @@ async function  getSaveChain                            (  commitId  ) {
         })
 
     return {
-                chainLength:    returnRows.length,
-                startOfChain:	returnRows[returnRows.length - 1].id,
+                segmentLength:    returnRows.length,
+                startOfSegment:	returnRows[returnRows.length - 1].id,
                 lastCodeId:	    returnRows[0].id
             }
 }
@@ -4571,11 +4571,11 @@ async function  startServices                           (  ) {
         //
         code     = yz.helpers.insertCodeString(code,"commit",
                             {
-                                title: 		    req.body.value.header,
-                                description: 	req.body.value.description,
-                                num_commits:	previousSaves.chainLength,
-                                start_of_chain:	previousSaves.startOfChain,
-                                last_commit:	previousSaves.lastCodeId
+                                title: 		        req.body.value.header,
+                                description: 	    req.body.value.description,
+                                num_saves:    	    previousSaves.segmentLength - 1,
+                                start_of_segment:	previousSaves.startOfSegment,
+                                last_commit:	    previousSaves.lastCodeId
                             })
 
         //
@@ -4585,8 +4585,8 @@ async function  startServices                           (  ) {
         if (parentHash) {
             code = yz.helpers.deleteCodeString(code, "parent_hash")
         }
-        if (previousSaves.chainLength > 0) {
-            code = yz.helpers.insertCodeString(code, "parent_hash", previousSaves.startOfChain)
+        if (previousSaves.segmentLength > 0) {
+            code = yz.helpers.insertCodeString(code, "parent_hash", previousSaves.startOfSegment)
         }
 
 
