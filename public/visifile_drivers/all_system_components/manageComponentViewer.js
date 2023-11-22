@@ -142,7 +142,7 @@ load_once_from_file(true)
         ---------------------------------------------- -->
         <div style="margin-top:5px;">
           <input
-              style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+              style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width: 100%;'
               v-on:click=''
               v-on:keydown="pane_commit_clearMessages()"
               placeholder="Summary (Required)"
@@ -155,9 +155,9 @@ load_once_from_file(true)
         description
         ---------------------------------------------- -->
         <div style="margin-top: 0px;">
-          <textarea rows=10
-                    cols=50
-                    style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;"
+          <textarea rows=6
+                    cols2=50
+                    style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:100%"
                     placeholder="Description"
                     v-on:keydown="pane_commit_clearMessages()"
                     v-model='commit_pane_description'>
