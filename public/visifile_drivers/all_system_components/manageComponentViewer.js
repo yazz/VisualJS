@@ -1,6 +1,6 @@
 function component( args ) {
 /*
-This is an editor component that is used to view the history of a component
+This is a system editor component that is used to manage the release of the component being edited
 
 base_component_id("manage_component_editor")
 component_type("SYSTEM")
@@ -19,7 +19,7 @@ load_once_from_file(true)
                 releaseMessage:             "",
                 releaseErrorMessage:        "",
 
-                selectedTab:                "history",
+                selectedTab:                "changes",
 
                 // the component code
                 text:                       args.text,
@@ -97,12 +97,13 @@ load_once_from_file(true)
         --------------------------------------------------------------------- -->                    
         <div class="container" style="margin-top: 40px;">
             <ul class="nav nav-pills">
+
+                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "changes"})'>
+                  <a v-bind:class='"nav-link" + (selectedTab=="changes"?" active":"")' href="#">Changes</a>
+                </li>
+
                 <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "history"})'>
                     <a v-bind:class='"nav-link" + (selectedTab=="history"?" active":"")' href="#">History</a>
-                </li>
-              
-                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "commit"})'>
-                    <a v-bind:class='"nav-link" + (selectedTab=="commit"?" active":"")' href="#">Commit</a>
                 </li>
               
                 <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "release"})'>
@@ -127,12 +128,77 @@ load_once_from_file(true)
 
 
 
-        <!-- --------------------------- HISTORY PANE ------------------------------
-        |                               -------------
-        |
-        |  
-        |
-        -------------------------------------------------------------------------- -->
+      <!-- --------------------------- CHANGES PANE ------------------------------
+      |                               --------------
+      |
+      |  
+      |
+      -------------------------------------------------------------------------- -->
+
+      <div  v-if='selectedTab=="changes"' style="padding:15px;">
+
+        <!-- ----------------------------------------------
+        header
+        ---------------------------------------------- -->
+        <div style="margin-top:20px;">
+          <div>Commit Header</div>
+          <input
+              style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+              v-on:click=''
+              v-on:keydown="pane_commit_clearMessages()"
+              v-model='commit_pane_header'
+              value=''>
+          </input>
+        </div>
+
+        <!-- ----------------------------------------------
+        description
+        ---------------------------------------------- -->
+        <div style="margin-top: 30px;">
+          <div>Commit Description</div>
+          <textarea rows=10
+                    cols=50
+                    style="margin: 5px;"
+                    v-on:keydown="pane_commit_clearMessages()"
+                    v-model='commit_pane_description'>
+          </textarea>
+        </div>
+
+        <!-- ----------------------------------------------
+        Commit button
+        ---------------------------------------------- -->
+        <div style='margin-top: 20px;;'>
+          <button  type=button
+                   class=' btn btn-info btn-lg'
+                   v-on:click='pane_commit_commitPressed()' >Commit</button>
+        </div>
+
+        <div style="margin-top: 20px;">{{commitMessage}}</div>
+        <div style="color:red">{{commitErrorMessage}}</div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- --------------------------- HISTORY PANE ------------------------------
+      |                               -------------
+      |
+      |  
+      |
+      -------------------------------------------------------------------------- -->
         
         <div  v-if='selectedTab=="history"'>
 
@@ -252,59 +318,6 @@ load_once_from_file(true)
         </div>
 
 
-
-
-
-
-      <!-- --------------------------- COMMIT PANE ------------------------------
-      |                               --------------
-      |
-      |  
-      |
-      -------------------------------------------------------------------------- -->
-
-    <div  v-if='selectedTab=="commit"' style="padding:15px;">
-      
-        <!-- ----------------------------------------------
-        header
-        ---------------------------------------------- -->
-        <div style="margin-top:20px;">
-            <div>Commit Header</div>
-            <input
-                  style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                  v-on:click=''
-                  v-on:keydown="pane_commit_clearMessages()"
-                  v-model='commit_pane_header'
-                  value=''>
-            </input>
-        </div>
-      
-        <!-- ----------------------------------------------
-        description
-        ---------------------------------------------- -->
-        <div style="margin-top: 30px;">
-          <div>Commit Description</div>
-          <textarea rows=10 
-                    cols=50
-                    style="margin: 5px;"
-                    v-on:keydown="pane_commit_clearMessages()"
-                    v-model='commit_pane_description'>
-          </textarea>
-        </div>
-
-        <!-- ----------------------------------------------
-        Commit button
-        ---------------------------------------------- -->
-        <div style='margin-top: 20px;;'>
-            <button  type=button
-                     class=' btn btn-info btn-lg'        
-                     v-on:click='pane_commit_commitPressed()' >Commit</button>
-        </div>
-        
-        <div style="margin-top: 20px;">{{commitMessage}}</div>
-        <div style="color:red">{{commitErrorMessage}}</div>
-
-    </div>
 
 
 
