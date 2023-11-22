@@ -25,6 +25,7 @@ load_once_from_file(true)
                 pane_environments_env_desc:         "",
                 pane_environments_env_list:         [],
                 pane_environments_selected_env_id:  null,
+                pane_environments_selected_env_pos: null,
 
                 selectedTab:                "changes",
 
@@ -482,7 +483,7 @@ load_once_from_file(true)
                     <button  type=button
                              class=' btn btn-info btn'
                              style="float:right;"
-                             v-on:click='pane_environmentPressed()' >Save changes</button>
+                             v-on:click='pane_environment_savePressed()' >Save changes</button>
                 </div>
             </div>
           
@@ -1253,14 +1254,39 @@ load_once_from_file(true)
                         }
                     )
 
-                    mm.pane_environments_selected_env_id = "NEW_ENV"
-                    mm.pane_environments_env_id = "NEW_ENV"
-                    mm.pane_environments_env_name = ""
-                    mm.pane_environments_env_desc = ""
+                    mm.pane_environments_selected_env_id    = "NEW_ENV"
+                    mm.pane_environments_selected_env_pos   = 0
+                    mm.pane_environments_env_id             = "NEW_ENV"
+                    mm.pane_environments_env_name           = ""
+                    mm.pane_environments_env_desc           = ""
 
                     hideProgressBar()
                 } catch (e) {
                     
+                }
+            },
+            pane_environment_savePressed:                   async function (  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /      pane_environment_savePressed   /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This saves changes to an environment
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+                    showProgressBar()
+
+
+                    mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].id            = mm.pane_environments_env_id
+                    mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].name          = mm.pane_environments_env_name
+                    mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
+
+                    hideProgressBar()
+                } catch (e) {
+
                 }
             }
 
