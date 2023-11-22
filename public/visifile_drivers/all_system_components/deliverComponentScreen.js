@@ -19,11 +19,12 @@ load_once_from_file(true)
                 releaseMessage:                 "",
                 releaseErrorMessage:            "",
 
-                pane_environments_in_dev_mode:  true,
-                pane_environments_env_id:  "",
-                pane_environments_env_name:  "",
-                pane_environments_env_desc:  "",
-                pane_environments_env_list:  [],
+                pane_environments_in_dev_mode:      true,
+                pane_environments_env_id:           "",
+                pane_environments_env_name:         "",
+                pane_environments_env_desc:         "",
+                pane_environments_env_list:         [],
+                pane_environments_selected_env_id:  null,
 
                 selectedTab:                "changes",
 
@@ -397,74 +398,75 @@ load_once_from_file(true)
     
             <button  type=button
                      class=' btn btn-info btn-lg'
-                     v-on:click='pane_environmentPressed()' >Add</button>
+                     v-on:click='pane_environment_addPressed()' >Add</button>
         </div>
       
       
-      <!-- ----------------------------------------------
-            Environment ID
-            ---------------------------------------------- -->
-      <div style="margin-top:5px;font-family:verdana,helvetica;font-size: 13px;">
-        <span style="width:20%;display: inline-block;">
-            Environment ID
-        </span>
-        <input
-            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
-            v-on:click=''
-            v-on:keydown="pane_changes_clearMessages()"
-            placeholder="environment_id_with_underscores (Required)"
-            v-model='pane_environments_env_id'
-            value=''>
-        </input>
-      </div>
-      
-      
-      <!-- ----------------------------------------------
-            Environment name
-            ---------------------------------------------- -->
-      <div style="margin-top:15px;">
-        <span style="width:20%;display: inline-block;">
-            Environment name
-        </span>
-        <input
-            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
-            v-on:click=''
-            v-on:keydown="pane_changes_clearMessages()"
-            placeholder="Environment name (Required)"
-            v-model='pane_environments_env_name'
-            value=''>
-        </input>
-      </div>
-
-        <!-- ----------------------------------------------
-        description
-        ---------------------------------------------- -->
-        <div style="margin-top: 10px;">
-           <span style="width:20%;display: inline-block;">
-                Environment description
-            </span>
-            <textarea rows=6
-                    style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:30%;display: inline-block;vertical-align:top"
-                    placeholder="Description"
-                    v-on:keydown="pane_changes_clearMessages()"
-                    v-model='pane_environments_env_desc'>
-            </textarea>
-
-
-
-
-
-
+      <div v-if="pane_environments_selected_env_id">
           <!-- ----------------------------------------------
-            save changes button
+                Environment ID
+                ---------------------------------------------- -->
+          <div style="margin-top:5px;font-family:verdana,helvetica;font-size: 13px;">
+            <span style="width:20%;display: inline-block;">
+                Environment ID
+            </span>
+            <input
+                style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
+                v-on:click=''
+                v-on:keydown="pane_changes_clearMessages()"
+                placeholder="environment_id_with_underscores (Required)"
+                v-model='pane_environments_env_id'
+                value=''>
+            </input>
+          </div>
+          
+          
+          <!-- ----------------------------------------------
+                Environment name
+                ---------------------------------------------- -->
+          <div style="margin-top:15px;">
+            <span style="width:20%;display: inline-block;">
+                Environment name
+            </span>
+            <input
+                style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
+                v-on:click=''
+                v-on:keydown="pane_changes_clearMessages()"
+                placeholder="Environment name (Required)"
+                v-model='pane_environments_env_name'
+                value=''>
+            </input>
+          </div>
+    
+            <!-- ----------------------------------------------
+            description
             ---------------------------------------------- -->
-          <div style="width:50%">
-                <button  type=button
-                         class=' btn btn-info btn'
-                         style="float:right;"
-                         v-on:click='pane_environmentPressed()' >Save changes</button>
+            <div style="margin-top: 10px;">
+               <span style="width:20%;display: inline-block;">
+                    Environment description
+                </span>
+                <textarea rows=6
+                        style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:30%;display: inline-block;vertical-align:top"
+                        placeholder="Description"
+                        v-on:keydown="pane_changes_clearMessages()"
+                        v-model='pane_environments_env_desc'>
+                </textarea>
+    
+    
+    
+    
+    
+    
+                <!-- ----------------------------------------------
+                  save changes button
+                  ---------------------------------------------- -->
+                <div style="width:50%">
+                    <button  type=button
+                             class=' btn btn-info btn'
+                             style="float:right;"
+                             v-on:click='pane_environmentPressed()' >Save changes</button>
+                </div>
             </div>
-
           
         </div>
 
@@ -1203,8 +1205,43 @@ load_once_from_file(true)
                     mm.releaseErrorMessage = "Error in release: " + JSON.stringify(e,null,2)
                     //this.checkSavedFile()
                 }
-            }
+            },
 
+
+            // environments pane
+            pane_environment_addPressed:                    async function (  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /      pane_environment_addPressed    /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This adds a new environment
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+                    showProgressBar()
+
+                    mm.pane_environments_env_list.unshift(
+                        {
+                            id:		        "NEW_ENV",
+                            name:		    "",
+                            url_path:       "",
+                            backup_db:      true,
+                            backup_db_path: "",
+                            is_live: 	    true,
+                            url_path:       ""
+                        }
+                    )
+
+                    mm.pane_environments_selected_env_id = "NEW_ENV"
+
+                    hideProgressBar()
+                } catch (e) {
+                    
+                }
+            }
 
         }
     })
