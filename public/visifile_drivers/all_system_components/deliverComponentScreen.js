@@ -366,7 +366,8 @@ load_once_from_file(true)
 
       <div  v-if='selectedTab=="environments"' style="padding:15px;">
 
-        DEV MODE: {{pane_environments_in_dev_mode}}
+        {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
+        
       </div>
       
       
@@ -398,14 +399,12 @@ load_once_from_file(true)
                     })
                 }
                 if (tabName == "environments") {
-                    let commit  =  yz.helpers.getValueOfCodeString(this.text, "commit")
                     let release =  yz.helpers.getValueOfCodeString(this.text, "release")
-                    if (commit || release) {
+                    if (release) {
                         mm.pane_environments_in_dev_mode = false
                     } else {
                         mm.pane_environments_in_dev_mode = true
                     }
-                    //zzz
                 }
             },
             getText:                                        async function (  ) {
