@@ -20,7 +20,10 @@ load_once_from_file(true)
                 releaseErrorMessage:            "",
 
                 pane_environments_in_dev_mode:  true,
-                allow_row_resize: true,
+                pane_environments_env_id:  "",
+                pane_environments_env_name:  "",
+                pane_environments_env_desc:  "",
+                pane_environments_env_list:  [],
 
                 selectedTab:                "changes",
 
@@ -398,7 +401,6 @@ load_once_from_file(true)
         </div>
       
       
-      //zzz
       <!-- ----------------------------------------------
             Environment ID
             ---------------------------------------------- -->
@@ -407,11 +409,11 @@ load_once_from_file(true)
             Environment ID
         </span>
         <input
-            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:25%;display: inline-block;'
+            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
             v-on:click=''
             v-on:keydown="pane_changes_clearMessages()"
             placeholder="environment_id_with_underscores (Required)"
-            v-model='changes_pane_header'
+            v-model='pane_environments_env_id'
             value=''>
         </input>
       </div>
@@ -425,11 +427,11 @@ load_once_from_file(true)
             Environment name
         </span>
         <input
-            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:25%;display: inline-block;'
+            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
             v-on:click=''
             v-on:keydown="pane_changes_clearMessages()"
             placeholder="Environment name (Required)"
-            v-model='changes_pane_header'
+            v-model='pane_environments_env_name'
             value=''>
         </input>
       </div>
@@ -442,33 +444,21 @@ load_once_from_file(true)
                 Environment description
             </span>
             <textarea rows=6
-                    style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:40%;display: inline-block;vertical-align:top"
+                    style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:30%;display: inline-block;vertical-align:top"
                     placeholder="Description"
                     v-on:keydown="pane_changes_clearMessages()"
-                    v-model='changes_pane_description'>
+                    v-model='pane_environments_env_desc'>
             </textarea>
 
 
 
 
-          <!-- ----------------------------------------------
-          is live environment?
-          ---------------------------------------------- -->
-          <div class="form-check">
-            <input  type="checkbox" 
-                    class="form-check-input" 
-                    id="allow_row_resize"
-                    :checked='allow_row_resize' 
-                    v-model='allow_row_resize'>
-            <label class="form-check-label" 
-                   for="allow_row_resize">Allow row resize</label>
-          </div>
 
 
           <!-- ----------------------------------------------
             save changes button
             ---------------------------------------------- -->
-          <div style="width:60%">
+          <div style="width:50%">
                 <button  type=button
                          class=' btn btn-info btn'
                          style="float:right;"
@@ -515,6 +505,12 @@ load_once_from_file(true)
                     } else {
                         mm.pane_environments_in_dev_mode = true
                     }
+
+                    let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
+                    if (environments) {
+                        pane_environments_env_list = environments
+                    }
+
                 }
             },
             getText:                                        async function (  ) {
