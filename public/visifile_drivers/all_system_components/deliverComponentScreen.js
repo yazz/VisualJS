@@ -372,9 +372,24 @@ load_once_from_file(true)
     <div  v-if='selectedTab=="environments"' style="padding:15px;font-family:verdana,helvetica;font-size: 13px;">
 
         {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
+      
+      
         <div  v-if='pane_environments_in_dev_mode' style="padding:15px;">
+
+          <!-- ----------------------------------------------
+                List of Environments
+                ---------------------------------------------- -->          
             <span style="width:40%;display: inline-block;">
-                list of envs  
+                <select   v-model="pane_environments_selected_env_id" 
+                          @change="">
+                    <option disabled value="">Please select one</option>
+                    <option   v-for="this_env in pane_environments_env_list"
+                              v-bind:selected="pane_environments_selected_env_id == this_env.id"
+                              v-bind:value="this_env.id">
+                      {{this_env.name}}
+                    </option>
+                </select>
+
             </span>
           
             <span style="width:59%;display: inline-block;">
@@ -382,8 +397,11 @@ load_once_from_file(true)
             </span>
         </div>
 
+
+      <!-- ----------------------------------------------
+      Environment Buttons
+      ---------------------------------------------- -->
         <div>
-         
             <button  type=button
                      class=' btn btn-info btn-lg'
                      v-on:click='pane_environmentPressed()' >Move Up</button>
