@@ -20,6 +20,7 @@ load_once_from_file(true)
                 releaseErrorMessage:            "",
 
                 pane_environments_in_dev_mode:  true,
+                allow_row_resize: true,
 
                 selectedTab:                "changes",
 
@@ -364,7 +365,7 @@ load_once_from_file(true)
       |
       -------------------------------------------------------------------------- -->
 
-    <div  v-if='selectedTab=="environments"' style="padding:15px;">
+    <div  v-if='selectedTab=="environments"' style="padding:15px;font-family:verdana,helvetica;font-size: 13px;">
 
         {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
         <div  v-if='pane_environments_in_dev_mode' style="padding:15px;">
@@ -401,51 +402,81 @@ load_once_from_file(true)
       <!-- ----------------------------------------------
             Environment ID
             ---------------------------------------------- -->
-      <div style="margin-top:5px;">
-        <span style="width:40%;display: inline-block;">
+      <div style="margin-top:5px;font-family:verdana,helvetica;font-size: 13px;">
+        <span style="width:20%;display: inline-block;">
             Environment ID
         </span>
         <input
-            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:50%;display: inline-block;'
+            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:25%;display: inline-block;'
             v-on:click=''
             v-on:keydown="pane_changes_clearMessages()"
-            placeholder="Summary (Required)"
+            placeholder="environment_id_with_underscores (Required)"
             v-model='changes_pane_header'
             value=''>
         </input>
       </div>
+      
+      
       <!-- ----------------------------------------------
             Environment name
             ---------------------------------------------- -->
-      <div style="margin-top:5px;">
-        <span style="width:40%;display: inline-block;">
+      <div style="margin-top:15px;">
+        <span style="width:20%;display: inline-block;">
             Environment name
         </span>
         <input
-            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:50%;display: inline-block;'
+            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:25%;display: inline-block;'
             v-on:click=''
             v-on:keydown="pane_changes_clearMessages()"
-            placeholder="Summary (Required)"
+            placeholder="Environment name (Required)"
             v-model='changes_pane_header'
             value=''>
         </input>
       </div>
 
-      <!-- ----------------------------------------------
-      description
-      ---------------------------------------------- -->
-      <div style="margin-top: 0px;">
-                  <textarea rows=7
-                            style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:100%"
-                            placeholder="Description"
-                            v-on:keydown="pane_changes_clearMessages()"
-                            v-model='changes_pane_description'>
-                  </textarea>
-      </div>
+        <!-- ----------------------------------------------
+        description
+        ---------------------------------------------- -->
+        <div style="margin-top: 10px;">
+           <span style="width:20%;display: inline-block;">
+                Environment description
+            </span>
+            <textarea rows=6
+                    style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:40%;display: inline-block;vertical-align:top"
+                    placeholder="Description"
+                    v-on:keydown="pane_changes_clearMessages()"
+                    v-model='changes_pane_description'>
+            </textarea>
 
-      <button  type=button
-               class=' btn btn-info btn-lg'
-               v-on:click='pane_environmentPressed()' >Save changes</button>
+
+
+
+          <!-- ----------------------------------------------
+          is live environment?
+          ---------------------------------------------- -->
+          <div class="form-check">
+            <input  type="checkbox" 
+                    class="form-check-input" 
+                    id="allow_row_resize"
+                    :checked='allow_row_resize' 
+                    v-model='allow_row_resize'>
+            <label class="form-check-label" 
+                   for="allow_row_resize">Allow row resize</label>
+          </div>
+
+
+          <!-- ----------------------------------------------
+            save changes button
+            ---------------------------------------------- -->
+          <div style="width:60%">
+                <button  type=button
+                         class=' btn btn-info btn'
+                         style="float:right;"
+                         v-on:click='pane_environmentPressed()' >Save changes</button>
+            </div>
+
+          
+        </div>
 
     </div>
       
