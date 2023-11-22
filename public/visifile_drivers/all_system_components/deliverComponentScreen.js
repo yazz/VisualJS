@@ -1236,6 +1236,9 @@ load_once_from_file(true)
                     )
 
                     mm.pane_environments_selected_env_id = "NEW_ENV"
+                    mm.pane_environments_env_id = "NEW_ENV"
+                    mm.pane_environments_env_name = ""
+                    mm.pane_environments_env_desc = ""
 
                     hideProgressBar()
                 } catch (e) {
