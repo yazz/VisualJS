@@ -140,12 +140,12 @@ load_once_from_file(true)
         <!-- ----------------------------------------------
         header
         ---------------------------------------------- -->
-        <div style="margin-top:20px;">
-          <div>Commit Header</div>
+        <div style="margin-top:5px;">
           <input
               style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
               v-on:click=''
               v-on:keydown="pane_commit_clearMessages()"
+              placeholder="Summary (Required)"
               v-model='commit_pane_header'
               value=''>
           </input>
@@ -154,11 +154,11 @@ load_once_from_file(true)
         <!-- ----------------------------------------------
         description
         ---------------------------------------------- -->
-        <div style="margin-top: 30px;">
-          <div>Commit Description</div>
+        <div style="margin-top: 0px;">
           <textarea rows=10
                     cols=50
-                    style="margin: 5px;"
+                    style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;"
+                    placeholder="Description"
                     v-on:keydown="pane_commit_clearMessages()"
                     v-model='commit_pane_description'>
           </textarea>
@@ -167,7 +167,7 @@ load_once_from_file(true)
         <!-- ----------------------------------------------
         Commit button
         ---------------------------------------------- -->
-        <div style='margin-top: 20px;;'>
+        <div style='margin: 10px; margin-top: 0px;'>
           <button  type=button
                    class=' btn btn-info btn-lg'
                    v-on:click='pane_commit_commitPressed()' >Commit</button>
