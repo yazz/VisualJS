@@ -382,7 +382,7 @@ load_once_from_file(true)
                 ---------------------------------------------- -->          
             <span style="width:40%;display: inline-block;">
                 <select   v-model="pane_environments_selected_env_id" 
-                          @change="">
+                          @change="pane_environment_envSelected()">
                     <option disabled value="">Please select one</option>
                     <option   v-for="this_env in pane_environments_env_list"
                               v-bind:selected="pane_environments_selected_env_id == this_env.id"
@@ -1246,6 +1246,7 @@ load_once_from_file(true)
                         {
                             id:		        "NEW_ENV",
                             name:		    "",
+                            description:    "",
                             url_path:       "",
                             backup_db:      true,
                             backup_db_path: "",
@@ -1283,6 +1284,36 @@ load_once_from_file(true)
                     mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].id            = mm.pane_environments_env_id
                     mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].name          = mm.pane_environments_env_name
                     mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
+
+                    hideProgressBar()
+                } catch (e) {
+
+                }
+            },
+            pane_environment_envSelected:                   async function ( ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /      pane_environment_envSelected   /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This changes environment being viewed
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+                    showProgressBar()
+
+
+                    for (let envIndex = 0 ; envIndex < mm.pane_environments_env_list.length; envIndex ++ ) {
+                        if (mm.pane_environments_env_list[envIndex].id == mm.pane_environments_selected_env_id) {
+                            mm.pane_environments_selected_env_pos = envIndex
+                        }
+                    }
+
+                    mm.pane_environments_env_id     = mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].id
+                    mm.pane_environments_env_name   = mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].name
+                    mm.pane_environments_env_desc   = mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description
 
                     hideProgressBar()
                 } catch (e) {
