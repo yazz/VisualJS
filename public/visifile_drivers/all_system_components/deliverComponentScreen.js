@@ -2,7 +2,7 @@ function component( args ) {
 /*
 This is a system editor component that is used to manage the release of the component being edited
 
-base_component_id("manage_component_editor")
+base_component_id("deliver_component_screen")
 component_type("SYSTEM")
 load_once_from_file(true)
 */
