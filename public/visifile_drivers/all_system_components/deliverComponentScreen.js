@@ -376,26 +376,76 @@ load_once_from_file(true)
               env details
             </span>
         </div>
-      
-        <button  type=button
-                 class=' btn btn-info btn-lg'
-                 v-on:click='pane_environmentPressed()' >Edit</button>
-      
-        <button  type=button
-                 class=' btn btn-info btn-lg'
-                 v-on:click='pane_environmentPressed()' >Move Up</button>
 
-        <button  type=button
+        <div>
+         
+            <button  type=button
+                     class=' btn btn-info btn-lg'
+                     v-on:click='pane_environmentPressed()' >Move Up</button>
+    
+            <button  type=button
+                   class=' btn btn-info btn-lg'
+                   v-on:click='pane_environmentPressed()' >Move Down</button>
+    
+            <button  type=button
+                     class=' btn btn-info btn-lg'
+                     v-on:click='pane_environmentPressed()' >Delete</button>
+    
+            <button  type=button
+                     class=' btn btn-info btn-lg'
+                     v-on:click='pane_environmentPressed()' >Add</button>
+        </div>
+      
+      
+      //zzz
+      <!-- ----------------------------------------------
+            Environment ID
+            ---------------------------------------------- -->
+      <div style="margin-top:5px;">
+        <span style="width:40%;display: inline-block;">
+            Environment ID
+        </span>
+        <input
+            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:50%;display: inline-block;'
+            v-on:click=''
+            v-on:keydown="pane_changes_clearMessages()"
+            placeholder="Summary (Required)"
+            v-model='changes_pane_header'
+            value=''>
+        </input>
+      </div>
+      <!-- ----------------------------------------------
+            Environment name
+            ---------------------------------------------- -->
+      <div style="margin-top:5px;">
+        <span style="width:40%;display: inline-block;">
+            Environment name
+        </span>
+        <input
+            style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:50%;display: inline-block;'
+            v-on:click=''
+            v-on:keydown="pane_changes_clearMessages()"
+            placeholder="Summary (Required)"
+            v-model='changes_pane_header'
+            value=''>
+        </input>
+      </div>
+
+      <!-- ----------------------------------------------
+      description
+      ---------------------------------------------- -->
+      <div style="margin-top: 0px;">
+                  <textarea rows=7
+                            style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:100%"
+                            placeholder="Description"
+                            v-on:keydown="pane_changes_clearMessages()"
+                            v-model='changes_pane_description'>
+                  </textarea>
+      </div>
+
+      <button  type=button
                class=' btn btn-info btn-lg'
-               v-on:click='pane_environmentPressed()' >Move Down</button>
-
-        <button  type=button
-                 class=' btn btn-info btn-lg'
-                 v-on:click='pane_environmentPressed()' >Delete</button>
-
-        <button  type=button
-                 class=' btn btn-info btn-lg'
-                 v-on:click='pane_environmentPressed()' >Add</button>
+               v-on:click='pane_environmentPressed()' >Save changes</button>
 
     </div>
       
