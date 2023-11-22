@@ -12,8 +12,8 @@ load_once_from_file(true)
         data:       function () {
             // ******** DATA ********
             return {
-                commit_pane_header:         "",
-                commit_pane_description:    "",
+                changes_pane_header:         "",
+                changes_pane_description:    "",
                 commitMessage:              "",
                 commitErrorMessage:         "",
                 releaseMessage:             "",
@@ -145,9 +145,9 @@ load_once_from_file(true)
                   <input
                       style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width: 100%;'
                       v-on:click=''
-                      v-on:keydown="pane_commit_clearMessages()"
+                      v-on:keydown="pane_changes_clearMessages()"
                       placeholder="Summary (Required)"
-                      v-model='commit_pane_header'
+                      v-model='changes_pane_header'
                       value=''>
                   </input>
                 </div>
@@ -159,8 +159,8 @@ load_once_from_file(true)
                   <textarea rows=7
                             style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:100%"
                             placeholder="Description"
-                            v-on:keydown="pane_commit_clearMessages()"
-                            v-model='commit_pane_description'>
+                            v-on:keydown="pane_changes_clearMessages()"
+                            v-model='changes_pane_description'>
                   </textarea>
                 </div>
         
@@ -170,7 +170,7 @@ load_once_from_file(true)
                 <div style='margin: 10px; margin-top: 0px;'>
                   <button  type=button
                            class=' btn btn-info btn-lg'
-                           v-on:click='pane_commit_commitPressed()' >Commit</button>
+                           v-on:click='pane_changes_commitPressed()' >Commit</button>
                 </div>
         
                 <div style="margin-top: 20px;">{{commitMessage}}</div>
@@ -438,16 +438,16 @@ load_once_from_file(true)
             },
 
 
-            // commit pane
-            pane_commit_commitPressed:                      async function (  ) {
+            // changes pane
+            pane_changes_commitPressed:                     async function (  ) {
                 let mm = this
 
-                if ((mm.commit_pane_header == null) || (mm.commit_pane_header.length <= 5)) {
+                if ((mm.changes_pane_header == null) || (mm.changes_pane_header.length <= 5)) {
                     mm.commitErrorMessage = "Commit header must be more than 5 chars"
                     return
                 }
-                if (mm.commit_pane_description == null) {
-                    mm.commit_pane_description = ""
+                if (mm.changes_pane_description == null) {
+                    mm.changes_pane_description = ""
                 }
 
                 showProgressBar()
@@ -457,8 +457,8 @@ load_once_from_file(true)
                     {
                         code_id:                mm.codeId,
                         user_id:                "xyz",
-                        header:                 mm.commit_pane_header,
-                        description:            mm.commit_pane_description
+                        header:                 mm.changes_pane_header,
+                        description:            mm.changes_pane_description
                     }
                     ,
                     async function(response){
@@ -475,63 +475,25 @@ load_once_from_file(true)
                                 }
                             )
                         }
-                        await mm.pane_commit_clearAll()
+                        await mm.pane_changes_clearAll()
                         mm.commitMessage = "Commit successful"
                     })
             },
-            pane_commit_clearAll:                          async function (  ) {
+            pane_changes_clearAll:                          async function (  ) {
+                let mm = this
+
+                mm.commitMessage                = ""
+                mm.commitErrorMessage           = ""
+                mm.changes_pane_header          = ""
+                mm.changes_pane_description     = ""
+            },
+            pane_changes_clearMessages:                     async function (  ) {
                 let mm = this
 
                 mm.commitMessage            = ""
                 mm.commitErrorMessage       = ""
-                mm.commit_pane_header       = ""
-                mm.commit_pane_description  = ""
-            },
-            pane_commit_clearMessages:                     async function (  ) {
-                let mm = this
-
-                mm.commitMessage            = ""
-                mm.commitErrorMessage       = ""
             },
 
-
-            // release pane
-            pane_release_releaseCodePressed:                async function (  ) {
-                //----------------------------------------------------------------------------------
-                //
-                //                    /-------------------------------------/
-                //                   /         pane_release_releaseCodePressed          /
-                //                  /-------------------------------------/
-                //
-                //----------------------------------------------------------------------------
-                // This tries to release the current commit as the release version
-                // of the app
-                //--------------------------------------------------------------------
-                try {
-                    let mm = this
-                    showProgressBar()
-
-                    let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_commit"
-                    callAjaxPost(postAppUrl,
-                        {
-                            code_id:                  mm.codeId
-                            ,
-                            user_id:                 "xyz"
-                        }
-                        ,
-                        async function(response){
-                            let responseJson = JSON.parse(response)
-
-                            mm.releaseMessage = "Release successful"
-                            hideProgressBar()
-                        })
-
-                } catch (e) {
-                    hideProgressBar()
-                    mm.releaseErrorMessage = "Error in release: " + JSON.stringify(e,null,2)
-                    //this.checkSavedFile()
-                }
-            },
 
 
             // history pane
@@ -1073,7 +1035,48 @@ load_once_from_file(true)
                         baseComponentId:    mm.baseComponentId
                     }
                 )
+            },
+
+
+            // release pane
+            pane_release_releaseCodePressed:                async function (  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /         pane_release_releaseCodePressed          /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This tries to release the current commit as the release version
+                // of the app
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+                    showProgressBar()
+
+                    let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_commit"
+                    callAjaxPost(postAppUrl,
+                        {
+                            code_id:                  mm.codeId
+                            ,
+                            user_id:                 "xyz"
+                        }
+                        ,
+                        async function(response){
+                            let responseJson = JSON.parse(response)
+
+                            mm.releaseMessage = "Release successful"
+                            hideProgressBar()
+                        })
+
+                } catch (e) {
+                    hideProgressBar()
+                    mm.releaseErrorMessage = "Error in release: " + JSON.stringify(e,null,2)
+                    //this.checkSavedFile()
+                }
             }
+
+
         }
     })
 }
