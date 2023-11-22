@@ -364,11 +364,40 @@ load_once_from_file(true)
       |
       -------------------------------------------------------------------------- -->
 
-      <div  v-if='selectedTab=="environments"' style="padding:15px;">
+    <div  v-if='selectedTab=="environments"' style="padding:15px;">
 
         {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
-        
-      </div>
+        <div  v-if='pane_environments_in_dev_mode' style="padding:15px;">
+            <span style="width:40%;display: inline-block;">
+                list of envs  
+            </span>
+          
+            <span style="width:59%;display: inline-block;">
+              env details
+            </span>
+        </div>
+      
+        <button  type=button
+                 class=' btn btn-info btn-lg'
+                 v-on:click='pane_environmentPressed()' >Edit</button>
+      
+        <button  type=button
+                 class=' btn btn-info btn-lg'
+                 v-on:click='pane_environmentPressed()' >Move Up</button>
+
+        <button  type=button
+               class=' btn btn-info btn-lg'
+               v-on:click='pane_environmentPressed()' >Move Down</button>
+
+        <button  type=button
+                 class=' btn btn-info btn-lg'
+                 v-on:click='pane_environmentPressed()' >Delete</button>
+
+        <button  type=button
+                 class=' btn btn-info btn-lg'
+                 v-on:click='pane_environmentPressed()' >Add</button>
+
+    </div>
       
       
       
