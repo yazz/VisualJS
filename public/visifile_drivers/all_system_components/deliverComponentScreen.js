@@ -12,12 +12,14 @@ load_once_from_file(true)
         data:       function () {
             // ******** DATA ********
             return {
-                changes_pane_header:         "",
-                changes_pane_description:    "",
-                commitMessage:              "",
-                commitErrorMessage:         "",
-                releaseMessage:             "",
-                releaseErrorMessage:        "",
+                changes_pane_header:            "",
+                changes_pane_description:       "",
+                commitMessage:                  "",
+                commitErrorMessage:             "",
+                releaseMessage:                 "",
+                releaseErrorMessage:            "",
+
+                pane_environments_in_dev_mode:  true,
 
                 selectedTab:                "changes",
 
@@ -350,10 +352,22 @@ load_once_from_file(true)
         <div style="color:black">{{releaseMessage}}</div>
         <div style="color:red">{{releaseErrorMessage}}</div>
       </div>
-      
-      
-      
-      
+
+
+
+
+
+      <!-- --------------------------- ENVIRONMENTS PANE ------------------------------
+      |                               --------------------
+      |
+      |  
+      |
+      -------------------------------------------------------------------------- -->
+
+      <div  v-if='selectedTab=="environments"' style="padding:15px;">
+
+        DEV MODE: {{pane_environments_in_dev_mode}}
+      </div>
       
       
       
@@ -382,6 +396,16 @@ load_once_from_file(true)
                         await mm.pane_history_calculateBranchStrength()
                         await mm.pane_history_getCommitHistoryForThisComponent()
                     })
+                }
+                if (tabName == "environments") {
+                    let commit  =  yz.helpers.getValueOfCodeString(this.text, "commit")
+                    let release =  yz.helpers.getValueOfCodeString(this.text, "release")
+                    if (commit || release) {
+                        mm.pane_environments_in_dev_mode = false
+                    } else {
+                        mm.pane_environments_in_dev_mode = true
+                    }
+                    //zzz
                 }
             },
             getText:                                        async function (  ) {
@@ -1043,7 +1067,7 @@ load_once_from_file(true)
                 //----------------------------------------------------------------------------------
                 //
                 //                    /-------------------------------------/
-                //                   /         pane_release_releaseCodePressed          /
+                //                   /  pane_release_releaseCodePressed    /
                 //                  /-------------------------------------/
                 //
                 //----------------------------------------------------------------------------
