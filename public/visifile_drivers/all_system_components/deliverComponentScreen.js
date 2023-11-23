@@ -61,6 +61,7 @@ when was the change in a commit first made (each commit can have many changes)
 
                 // environments pane
                 pane_environments_in_dev_mode:      true,
+                editingEnvironment:                 false,
                 pane_environments_env_id:           "",
                 pane_environments_env_name:         "",
                 pane_environments_env_desc:         "",
@@ -438,7 +439,7 @@ when was the change in a commit first made (each commit can have many changes)
         |  Editor for adding or editing an environment
         |
         --------------------------------------------------------------------- -->
-      <div v-if="pane_environments_selected_env_id">
+      <div v-if="editingEnvironment">
           <!-- ----------------------------------------------
                 Environment ID
                 ---------------------------------------------- -->
@@ -1277,6 +1278,7 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_id             = "NEW_ENV"
                     mm.pane_environments_env_name           = ""
                     mm.pane_environments_env_desc           = ""
+                    mm.editingEnvironment                   = true
 
                     mm.refresh ++
 
@@ -1300,7 +1302,9 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_info_message   = ""
                     mm.pane_environments_error_message  = ""
 
-                    if ((mm.pane_environments_env_name == null) || (mm.pane_environments_env_name.length <= 5))
+                    if ((mm.pane_environments_env_id != null) && (mm.pane_environments_env_id == "NEW_ENV")) {
+                        mm.pane_environments_error_message = "Environment must be changed to a unique name"
+                    } else if ((mm.pane_environments_env_name == null) || (mm.pane_environments_env_name.length <= 5))
                     {
                         mm.pane_environments_error_message = "Environment name must be at least 5 characters"
                     } else {
@@ -1309,6 +1313,7 @@ when was the change in a commit first made (each commit can have many changes)
                         mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
 
                         mm.pane_environments_info_message = "Environment added"
+                        mm.editingEnvironment             = false
                     }
 
 
