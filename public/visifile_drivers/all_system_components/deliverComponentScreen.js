@@ -373,27 +373,23 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
-            <div>Environments</div>
+            <div><b>Environments</b></div>
             <span style="width:40%;display: inline-block;"
                   v-bind:refresh='refresh'
             >
-                <select   v-model="pane_environments_selected_env_id"
-                          v-bind:refresh='refresh'
-                          style="width:200px"
-                          v-bind:size="pane_environments_env_list.length"
-                          @change="pane_environment_envSelected()">
-                    <option   v-for="this_env in pane_environments_env_list"
-                              v-bind:selected="pane_environments_selected_env_id == this_env.id"
-                              v-bind:value="this_env.id">
-                      {{this_env.name}}
-                    </option>
-                </select>
+            <div style=";display: block;">
+                <div v-for="this_env2 in pane_environments_env_list">
+                    <div  v-bind:style='"width: 250px;height:20px;" + (pane_environments_selected_env_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'
+                          v-on:click="pane_environments_selected_env_id = this_env2.id; pane_environment_envSelected()"
+                    >{{this_env2.name}}</div>
+                </div>
+            </div>
 
             </span>
           
             <span style="width:59%;display: inline-block;">
-              env details
-              </pre>
+              Details:
+
             </span>
         </div>
 
