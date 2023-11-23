@@ -385,14 +385,20 @@ when was the change in a commit first made (each commit can have many changes)
                     </div>
                 </div>
             </span>
+
           
           
+          
+          <!-- ----------------------------------------------
+                Details Pane
+                ---------------------------------------------- -->
             <span style="width:59%;display: inline-block;vertical-align: top;">
                 <div><b>Details</b></div> 
                 <div v-if="pane_environments_selected_env_id">
                     <div><b>Env ID:</b>        {{pane_environments_selected_env_id}}</div>
                     <div><b>Name:</b>          {{pane_environments_env_list[pane_environments_selected_env_pos].name}}</div>
                     <div><b>Description:</b>   {{pane_environments_env_list[pane_environments_selected_env_pos].description}}</div>
+                    <div><b>Live?</b>          {{(pane_environments_selected_env_pos == (pane_environments_env_list.length - 1))?"TRUE (LIVE)":"FALSE"}}</div>
                 </div>
 
             </span>
@@ -405,7 +411,7 @@ when was the change in a commit first made (each commit can have many changes)
         <div>
             <button  type=button
                      class=' btn btn-info btn-lg'
-                     v-bind:disabled="pane_environments_selected_env_id==null"
+                     v-bind:disabled="(pane_environments_selected_env_id==null) || editingEnvironment"
                      v-on:click='pane_environment_editPressed()' >Edit</button>
 
             <button  type=button
@@ -425,6 +431,7 @@ when was the change in a commit first made (each commit can have many changes)
     
             <button  type=button
                      class=' btn btn-info btn-lg'
+                     v-bind:disabled="editingEnvironment"
                      v-on:click='pane_environment_addPressed()' >Add</button>
         </div>
 
