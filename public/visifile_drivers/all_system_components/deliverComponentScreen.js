@@ -374,7 +374,7 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
-            <span style="width:40%;display: inline-block;"  v-bind:refresh='refresh'>
+            <span style="width:40%;display: inline-block;vertical-align: top;"  v-bind:refresh='refresh' >
                 <div><b>Environments</b></div>
                 <div style=";display: block;">
                     <div v-for="this_env2 in pane_environments_env_list">
@@ -387,7 +387,7 @@ when was the change in a commit first made (each commit can have many changes)
             </span>
           
           
-            <span style="width:59%;display: inline-block;">
+            <span style="width:59%;display: inline-block;vertical-align: top;">
                 <div><b>Details</b></div> 
   
             </span>
