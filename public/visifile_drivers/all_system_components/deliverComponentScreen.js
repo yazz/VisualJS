@@ -366,15 +366,20 @@ when was the change in a commit first made (each commit can have many changes)
         {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
       
       
-        <div  v-if='pane_environments_in_dev_mode' style="padding:15px;">
+        <div  v-if='pane_environments_in_dev_mode' style="padding:15px;"
+              v-bind:refresh='refresh'
+        >
 
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
             <div>Environments</div>
-            <span style="width:40%;display: inline-block;">
+            <span style="width:40%;display: inline-block;"
+                  v-bind:refresh='refresh'
+            >
                 <select   v-model="pane_environments_selected_env_id"
                           v-bind:refresh='refresh'
+                          style="width:200px"
                           v-bind:size="pane_environments_env_list.length"
                           @change="pane_environment_envSelected()">
                     <option   v-for="this_env in pane_environments_env_list"
@@ -1253,6 +1258,8 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_id             = "NEW_ENV"
                     mm.pane_environments_env_name           = ""
                     mm.pane_environments_env_desc           = ""
+
+                    mm.refresh ++
 
                     hideProgressBar()
                 } catch (e) {
