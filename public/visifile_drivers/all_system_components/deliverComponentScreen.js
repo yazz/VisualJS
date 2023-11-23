@@ -405,18 +405,22 @@ when was the change in a commit first made (each commit can have many changes)
         <div>
             <button  type=button
                      class=' btn btn-info btn-lg'
+                     v-bind:disabled="pane_environments_selected_env_id==null"
                      v-on:click='pane_environment_editPressed()' >Edit</button>
 
             <button  type=button
                      class=' btn btn-info btn-lg'
+                     v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0)"
                      v-on:click='pane_environment_moveUpPressed()' >Move Up</button>
     
             <button  type=button
                      class=' btn btn-info btn-lg'
+                     v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1))"
                      v-on:click='pane_environment_moveDownPressed()' >Move Down</button>
     
             <button  type=button
                      class=' btn btn-info btn-lg'
+                     v-bind:disabled="pane_environments_selected_env_id==null"
                      v-on:click='pane_environment_deletePressed()' >Delete</button>
     
             <button  type=button
@@ -1272,7 +1276,6 @@ when was the change in a commit first made (each commit can have many changes)
                 //--------------------------------------------------------------------
                 try {
                     let mm = this
-                    showProgressBar()
 
                     mm.pane_environments_env_list.unshift(
                         {
@@ -1293,10 +1296,9 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_name           = ""
                     mm.pane_environments_env_desc           = ""
                     mm.editingEnvironment                   = true
+                    await pane_environment_envSelected()
 
                     mm.refresh ++
-
-                    hideProgressBar()
                 } catch (e) {
                     
                 }
@@ -1518,6 +1520,7 @@ when was the change in a commit first made (each commit can have many changes)
 
                     mm.pane_environments_selected_env_pos = null
                     mm.pane_environments_selected_env_id = null
+                    mm.editingEnvironment             = false
                     await pane_environment_envSelected()
 
                 } catch (e) {
