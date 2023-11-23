@@ -62,7 +62,7 @@ when was the change in a commit first made (each commit can have many changes)
                 // environments pane
                 pane_environments_in_dev_mode:      true,
                 editingEnvironment:                 false,
-                pane_environments_env_id:           "",
+                pane_environments_env_id:           null,
                 pane_environments_env_name:         "",
                 pane_environments_env_desc:         "",
                 pane_environments_env_list:         [],
@@ -483,13 +483,19 @@ when was the change in a commit first made (each commit can have many changes)
         
         
                 <!-- ----------------------------------------------
-                save changes button
+                Save changes and cancel buttons
                 ---------------------------------------------- -->
                 <div style="width:50%;height: 40px;">
                     <button  type=button
                              class=' btn btn-info btn'
-                             style="float:right;"
+                             style="float:right; "
                              v-on:click='pane_environment_savePressed()' >Save changes</button>
+                  
+                  <button  type=button
+                           class=' btn btn-info btn'
+                           style="float:right; margin-right: 20px;"
+                           v-on:click='pane_environment_cancelPressed()' >Cancel changes</button>
+
                 </div>
             </div>
         </div>
@@ -1305,7 +1311,12 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_info_message = ""
                     mm.pane_environments_error_message = ""
 
-                    mm.editingEnvironment = true
+                    if ( mm.pane_environments_env_id == null ) {
+                        mm.pane_environments_error_message = "You must select an environment first"
+                    } else {
+                        mm.editingEnvironment = true
+                    }
+
                     mm.refresh++
 
                 } catch (e) {
@@ -1344,6 +1355,28 @@ when was the change in a commit first made (each commit can have many changes)
 
 
                     mm.pane_environments_selected_env_id = mm.pane_environments_env_id
+                    mm.refresh ++
+
+                } catch (e) {
+
+                }
+            },
+            pane_environment_cancelPressed:                 async function (  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /    pane_environment_cancelPressed   /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This cancels any further changes to an environment
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+                    mm.pane_environments_info_message   = ""
+                    mm.pane_environments_error_message  = ""
+
+                    mm.editingEnvironment             = false
                     mm.refresh ++
 
                 } catch (e) {
