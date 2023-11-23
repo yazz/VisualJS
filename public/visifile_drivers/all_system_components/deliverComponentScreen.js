@@ -66,7 +66,9 @@ when was the change in a commit first made (each commit can have many changes)
                 pane_environments_env_desc:         "",
                 pane_environments_env_list:         [],
                 pane_environments_selected_env_id:  null,
-                pane_environments_selected_env_pos: null
+                pane_environments_selected_env_pos: null,
+                pane_environments_info_message:     "",
+                pane_environments_error_message:    ""
             }
         },
         template:   `
@@ -373,10 +375,10 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
-            <div><b>Environments</b></div>
             <span style="width:40%;display: inline-block;"
                   v-bind:refresh='refresh'
             >
+            <div><b>Environments</b></div>
             <div style=";display: block;">
                 <div v-for="this_env2 in pane_environments_env_list">
                     <div  v-bind:style='"width: 250px;height:20px;" + (pane_environments_selected_env_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'
@@ -388,8 +390,8 @@ when was the change in a commit first made (each commit can have many changes)
             </span>
           
             <span style="width:59%;display: inline-block;">
-              Details:
-
+              <div><b>Details</b></div> 
+  
             </span>
         </div>
 
@@ -414,8 +416,28 @@ when was the change in a commit first made (each commit can have many changes)
                      class=' btn btn-info btn-lg'
                      v-on:click='pane_environment_addPressed()' >Add</button>
         </div>
-      
-      
+
+
+
+      <!-- --------------------------- INFO AND ERRORS ------------------------------
+        |                            ---------------------
+        |
+        |  Information and error messages for an environment
+        |
+        --------------------------------------------------------------------- -->
+        <div style="color: black">{{pane_environments_info_message}}</div>
+        <div style="color: red">{{pane_environments_error_message}}</div>
+
+
+
+
+
+      <!-- --------------------------- EDIT ENVIRONMENT ------------------------------
+        |                             ---------------------
+        |
+        |  Editor for adding or editing an environment
+        |
+        --------------------------------------------------------------------- -->
       <div v-if="pane_environments_selected_env_id">
           <!-- ----------------------------------------------
                 Environment ID
@@ -1275,14 +1297,22 @@ when was the change in a commit first made (each commit can have many changes)
                 //--------------------------------------------------------------------
                 try {
                     let mm = this
-                    showProgressBar()
+                    mm.pane_environments_info_message   = ""
+                    mm.pane_environments_error_message  = ""
+
+                    if ((mm.pane_environments_env_name == null) || (mm.pane_environments_env_name.length <= 5))
+                    {
+                        mm.pane_environments_error_message = "Environment name must be at least 5 characters"
+                    } else {
+                        mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].id            = mm.pane_environments_env_id
+                        mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].name          = mm.pane_environments_env_name
+                        mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
+
+                        mm.pane_environments_info_message = "Environment added"
+                    }
 
 
-                    mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].id            = mm.pane_environments_env_id
-                    mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].name          = mm.pane_environments_env_name
-                    mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
 
-                    hideProgressBar()
                     mm.pane_environments_selected_env_id = mm.pane_environments_env_id
                     mm.refresh ++
 
