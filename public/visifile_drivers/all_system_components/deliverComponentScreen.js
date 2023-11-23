@@ -417,7 +417,7 @@ when was the change in a commit first made (each commit can have many changes)
     
             <button  type=button
                      class=' btn btn-info btn-lg'
-                     v-on:click='pane_environmentPressed()' >Delete</button>
+                     v-on:click='pane_environment_deletePressed()' >Delete</button>
     
             <button  type=button
                      class=' btn btn-info btn-lg'
@@ -1488,8 +1488,42 @@ when was the change in a commit first made (each commit can have many changes)
                 } catch (e) {
 
                 }
-            }
+            },
+            pane_environment_deletePressed:                 async function ( ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /    pane_environment_deletePressed   /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This deletes the selected environment
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
 
+
+                    for (let envIndex = 0 ; envIndex < mm.pane_environments_env_list.length; envIndex ++ ) {
+                        if (mm.pane_environments_env_list[envIndex].id == mm.pane_environments_selected_env_id) {
+                            mm.pane_environments_selected_env_pos = envIndex
+                        }
+                    }
+
+                    if (mm.pane_environments_selected_env_pos >= (mm.pane_environments_env_list.length )) {
+                        return
+                    }
+
+                    let envToMove = mm.pane_environments_env_list[  mm.pane_environments_selected_env_pos  ]
+                    mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos, 1)
+
+                    mm.pane_environments_selected_env_pos = null
+                    mm.pane_environments_selected_env_id = null
+                    await pane_environment_envSelected()
+
+                } catch (e) {
+
+                }
+            }
         }
     })
 }
