@@ -357,57 +357,58 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-      <!-- --------------------------- ENVIRONMENTS PANE ------------------------------
-      |                               --------------------
-      |
-      |  
-      |
-      -------------------------------------------------------------------------- -->
+    <!-- --------------------------- ENVIRONMENTS PANE ------------------------------
+    |                               --------------------
+    |
+    |  
+    |
+    -------------------------------------------------------------------------- -->
 
     <div  v-if='selectedTab=="environments"' style="padding:15px;font-family:verdana,helvetica;font-size: 13px;">
 
         {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
       
       
-        <div  v-if='pane_environments_in_dev_mode' style="padding:15px;"
-              v-bind:refresh='refresh'
-        >
+        <div  v-if='pane_environments_in_dev_mode' style="padding:15px;"  v-bind:refresh='refresh'>
 
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
-            <span style="width:40%;display: inline-block;"
-                  v-bind:refresh='refresh'
-            >
-            <div><b>Environments</b></div>
-            <div style=";display: block;">
-                <div v-for="this_env2 in pane_environments_env_list">
-                    <div  v-bind:style='"width: 250px;height:20px;" + (pane_environments_selected_env_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'
-                          v-on:click="pane_environments_selected_env_id = this_env2.id; pane_environment_envSelected()"
-                    >{{this_env2.name}}</div>
+            <span style="width:40%;display: inline-block;"  v-bind:refresh='refresh'>
+                <div><b>Environments</b></div>
+                <div style=";display: block;">
+                    <div v-for="this_env2 in pane_environments_env_list">
+                        <div  v-bind:style='"width: 250px;height:20px;" + (pane_environments_selected_env_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'
+                              v-on:click="pane_environments_selected_env_id = this_env2.id; pane_environment_envSelected()">
+                          {{this_env2.name}}
+                        </div>
+                    </div>
                 </div>
-            </div>
-
             </span>
           
+          
             <span style="width:59%;display: inline-block;">
-              <div><b>Details</b></div> 
+                <div><b>Details</b></div> 
   
             </span>
         </div>
 
 
-      <!-- ----------------------------------------------
-      Environment Buttons
-      ---------------------------------------------- -->
+        <!-- ----------------------------------------------
+        Environment Buttons
+        ---------------------------------------------- -->
         <div>
+            <button  type=button
+                     class=' btn btn-info btn-lg'
+                     v-on:click='pane_environment_editPressed()' >Edit</button>
+
             <button  type=button
                      class=' btn btn-info btn-lg'
                      v-on:click='pane_environmentPressed()' >Move Up</button>
     
             <button  type=button
-                   class=' btn btn-info btn-lg'
-                   v-on:click='pane_environmentPressed()' >Move Down</button>
+                     class=' btn btn-info btn-lg'
+                     v-on:click='pane_environmentPressed()' >Move Down</button>
     
             <button  type=button
                      class=' btn btn-info btn-lg'
@@ -420,97 +421,99 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-      <!-- --------------------------- INFO AND ERRORS ------------------------------
-        |                            ---------------------
-        |
-        |  Information and error messages for an environment
-        |
-        --------------------------------------------------------------------- -->
-        <div style="color: black">{{pane_environments_info_message}}</div>
-        <div style="color: red">{{pane_environments_error_message}}</div>
 
 
 
-
-
-      <!-- --------------------------- EDIT ENVIRONMENT ------------------------------
+        <!-- --------------------------- EDIT ENVIRONMENT ------------------------------
         |                             ---------------------
         |
         |  Editor for adding or editing an environment
         |
         --------------------------------------------------------------------- -->
-      <div v-if="editingEnvironment">
-          <!-- ----------------------------------------------
-                Environment ID
-                ---------------------------------------------- -->
-          <div style="margin-top:5px;font-family:verdana,helvetica;font-size: 13px;">
-            <span style="width:20%;display: inline-block;">
-                Environment ID
-            </span>
-            <input
-                style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
-                v-on:click=''
-                v-on:keydown="pane_changes_clearMessages()"
-                placeholder="environment_id_with_underscores (Required)"
-                v-model='pane_environments_env_id'
-                value=''>
-            </input>
-          </div>
-          
-          
-          <!-- ----------------------------------------------
-                Environment name
-                ---------------------------------------------- -->
-          <div style="margin-top:15px;">
-            <span style="width:20%;display: inline-block;">
-                Environment name
-            </span>
-            <input
-                style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
-                v-on:click=''
-                v-on:keydown="pane_changes_clearMessages()"
-                placeholder="Environment name (Required)"
-                v-model='pane_environments_env_name'
-                value=''>
-            </input>
-          </div>
-    
-            <!-- ----------------------------------------------
-            description
-            ---------------------------------------------- -->
-            <div style="margin-top: 10px;">
-               <span style="width:20%;display: inline-block;">
-                    Environment description
-                </span>
-                <textarea rows=6
-                        style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:30%;display: inline-block;vertical-align:top"
-                        placeholder="Description"
-                        v-on:keydown="pane_changes_clearMessages()"
-                        v-model='pane_environments_env_desc'>
-                </textarea>
-    
-    
-    
-    
-    
-    
+        <div style="height: 300px;">
+            <div v-if="editingEnvironment">
+              
                 <!-- ----------------------------------------------
-                  save changes button
-                  ---------------------------------------------- -->
-                <div style="width:50%">
+                Environment ID
+                ---------------------------------------------- -->
+                <div style="margin-top:5px;font-family:verdana,helvetica;font-size: 13px;">
+                    <span style="width:20%;display: inline-block;">
+                        Environment ID
+                    </span>
+                    <input  style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
+                            v-on:click=''
+                            v-on:keydown="pane_changes_clearMessages()"
+                            placeholder="environment_id_with_underscores (Required)"
+                            v-model='pane_environments_env_id'
+                            value=''>
+                    </input>
+                </div>
+              
+              
+                <!-- ----------------------------------------------
+                Environment name
+                ---------------------------------------------- -->
+                <div style="margin-top:15px;">
+                    <span style="width:20%;display: inline-block;">
+                        Environment name
+                    </span>
+                    <input style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
+                           v-on:click=''
+                           v-on:keydown="pane_changes_clearMessages()"
+                           placeholder="Environment name (Required)"
+                           v-model='pane_environments_env_name'
+                           value=''>
+                    </input>
+                </div>
+        
+                <!-- ----------------------------------------------
+                description
+                ---------------------------------------------- -->
+                <div style="margin-top: 10px;">
+                    <span style="width:20%;display: inline-block;">
+                        Environment description
+                    </span>
+                    <textarea rows=6
+                            style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:30%;display: inline-block;vertical-align:top"
+                            placeholder="Description"
+                            v-on:keydown="pane_changes_clearMessages()"
+                            v-model='pane_environments_env_desc'>
+                    </textarea>
+                </div>
+        
+        
+                <!-- ----------------------------------------------
+                save changes button
+                ---------------------------------------------- -->
+                <div style="width:50%;height: 40px;">
                     <button  type=button
                              class=' btn btn-info btn'
                              style="float:right;"
                              v-on:click='pane_environment_savePressed()' >Save changes</button>
                 </div>
             </div>
-          
         </div>
 
+        <!-- --------------------------- INFO AND ERRORS ------------------------------
+        |                            ---------------------
+        |
+        |  Information and error messages for an environment
+        |
+        --------------------------------------------------------------------- -->
+        <div style="border: 1px solid black; width: 100%; height: 50px; ">
+            <div style="color: black">{{pane_environments_info_message}}</div>
+            <div style="color: red">{{pane_environments_error_message}}</div>
+        </div>
+      
     </div>
-      
-      
-      
+
+
+
+
+
+
+
+
 
 
 
@@ -1287,6 +1290,28 @@ when was the change in a commit first made (each commit can have many changes)
                     
                 }
             },
+            pane_environment_editPressed:                   async function (  ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /      pane_environment_editPressed   /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This allows an environment item to be changed
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+                    mm.pane_environments_info_message = ""
+                    mm.pane_environments_error_message = ""
+
+                    mm.editingEnvironment = true
+                    mm.refresh++
+
+                } catch (e) {
+
+                }
+            },
             pane_environment_savePressed:                   async function (  ) {
                 //----------------------------------------------------------------------------------
                 //
@@ -1304,15 +1329,15 @@ when was the change in a commit first made (each commit can have many changes)
 
                     if ((mm.pane_environments_env_id != null) && (mm.pane_environments_env_id == "NEW_ENV")) {
                         mm.pane_environments_error_message = "Environment must be changed to a unique name"
-                    } else if ((mm.pane_environments_env_name == null) || (mm.pane_environments_env_name.length <= 5))
+                    } else if ((mm.pane_environments_env_name == null) || (mm.pane_environments_env_name.length <= 3))
                     {
-                        mm.pane_environments_error_message = "Environment name must be at least 5 characters"
+                        mm.pane_environments_error_message = "Environment name must be at least 3 characters"
                     } else {
                         mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].id            = mm.pane_environments_env_id
                         mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].name          = mm.pane_environments_env_name
                         mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
 
-                        mm.pane_environments_info_message = "Environment added"
+                        mm.pane_environments_info_message = "Changes saved"
                         mm.editingEnvironment             = false
                     }
 
