@@ -393,6 +393,7 @@ when was the change in a commit first made (each commit can have many changes)
           
             <span style="width:59%;display: inline-block;">
               env details
+              </pre>
             </span>
         </div>
 
@@ -1286,7 +1287,8 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
 
                     hideProgressBar()
-                    mm.pane_environments_selected_env_id = null
+                    mm.pane_environments_selected_env_id = mm.pane_environments_env_id
+                    mm.refresh ++
 
                 } catch (e) {
 
