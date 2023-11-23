@@ -390,7 +390,9 @@ when was the change in a commit first made (each commit can have many changes)
             <span style="width:59%;display: inline-block;vertical-align: top;">
                 <div><b>Details</b></div> 
                 <div v-if="pane_environments_selected_env_id">
-                    Env ID: {{pane_environments_selected_env_id}}
+                    <div><b>Env ID:</b>        {{pane_environments_selected_env_id}}</div>
+                    <div><b>Name:</b>          {{pane_environments_env_list[pane_environments_selected_env_pos].name}}</div>
+                    <div><b>Description:</b>   {{pane_environments_env_list[pane_environments_selected_env_pos].description}}</div>
                 </div>
 
             </span>
@@ -1358,6 +1360,7 @@ when was the change in a commit first made (each commit can have many changes)
 
 
                     mm.pane_environments_selected_env_id = mm.pane_environments_env_id
+                    await pane_environment_envSelected()
                     mm.refresh ++
 
                 } catch (e) {
