@@ -409,11 +409,11 @@ when was the change in a commit first made (each commit can have many changes)
 
             <button  type=button
                      class=' btn btn-info btn-lg'
-                     v-on:click='pane_environmentPressed()' >Move Up</button>
+                     v-on:click='pane_environment_moveUpPressed()' >Move Up</button>
     
             <button  type=button
                      class=' btn btn-info btn-lg'
-                     v-on:click='pane_environmentPressed()' >Move Down</button>
+                     v-on:click='pane_environment_moveDownPressed()' >Move Down</button>
     
             <button  type=button
                      class=' btn btn-info btn-lg'
@@ -1345,7 +1345,7 @@ when was the change in a commit first made (each commit can have many changes)
 
                     if ((mm.pane_environments_env_id != null) && (mm.pane_environments_env_id == "NEW_ENV")) {
                         mm.pane_environments_error_message = "Environment must be changed to a unique name"
-                    } else if ((mm.pane_environments_env_name == null) || (mm.pane_environments_env_name.length <= 3))
+                    } else if ((mm.pane_environments_env_name == null) || (mm.pane_environments_env_name.length < 3))
                     {
                         mm.pane_environments_error_message = "Environment name must be at least 3 characters"
                     } else {
@@ -1415,6 +1415,76 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_desc   = mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description
 
                     hideProgressBar()
+                } catch (e) {
+
+                }
+            },
+            pane_environment_moveUpPressed:                 async function ( ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /    pane_environment_moveUpPressed   /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This moves the selected environment up one in the list
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+
+
+                    for (let envIndex = 0 ; envIndex < mm.pane_environments_env_list.length; envIndex ++ ) {
+                        if (mm.pane_environments_env_list[envIndex].id == mm.pane_environments_selected_env_id) {
+                            mm.pane_environments_selected_env_pos = envIndex
+                        }
+                    }
+
+                    if (mm.pane_environments_selected_env_pos == 0) {
+                        return
+                    }
+
+                    let envToMove = mm.pane_environments_env_list[  mm.pane_environments_selected_env_pos  ]
+                    mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos, 1)
+                    mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos - 1, 0, envToMove)
+
+                    mm.pane_environments_selected_env_pos --
+                    await pane_environment_envSelected()
+
+                } catch (e) {
+
+                }
+            },
+            pane_environment_moveDownPressed:               async function ( ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /  pane_environment_moveDownPressed   /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This moves the selected environment down one in the list
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+
+
+                    for (let envIndex = 0 ; envIndex < mm.pane_environments_env_list.length; envIndex ++ ) {
+                        if (mm.pane_environments_env_list[envIndex].id == mm.pane_environments_selected_env_id) {
+                            mm.pane_environments_selected_env_pos = envIndex
+                        }
+                    }
+
+                    if (mm.pane_environments_selected_env_pos == (mm.pane_environments_env_list.length - 1)) {
+                        return
+                    }
+
+                    let envToMove = mm.pane_environments_env_list[  mm.pane_environments_selected_env_pos  ]
+                    mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos, 1)
+                    mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos + 1, 0, envToMove)
+
+                    mm.pane_environments_selected_env_pos ++
+                    await pane_environment_envSelected()
+
                 } catch (e) {
 
                 }
