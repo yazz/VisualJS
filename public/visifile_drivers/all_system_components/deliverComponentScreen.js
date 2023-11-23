@@ -5,6 +5,15 @@ This is a system editor component that is used to manage the release of the comp
 base_component_id("deliver_component_screen")
 component_type("SYSTEM")
 load_once_from_file(true)
+
+when was the change in a commit first made (each commit can have many changes)
+    eg:
+        Number of Changes in commit: 5
+            After a few seconds     - Add component: button_control_115(button_control)
+            After a few seconds     - Moved component: button_control_114
+            After a few seconds     - Moved component: button_control_114
+            After under a second    - Moved component: button_control_114
+            First commit            - Add component: button_control_114(button_control)
 */
 
     Yazz.component( {
@@ -12,70 +21,52 @@ load_once_from_file(true)
         data:       function () {
             // ******** DATA ********
             return {
-                changes_pane_header:            "",
-                changes_pane_description:       "",
-                commitMessage:                  "",
-                commitErrorMessage:             "",
-                releaseMessage:                 "",
-                releaseErrorMessage:            "",
+                // common code
+                selectedTab:                        "changes",
+                refresh:                            0,
+                text:                               args.text,
+                baseComponentId:                    null,
+                codeId:                             null,
 
+                // changes pane
+                changes_pane_header:                "",
+                changes_pane_description:           "",
+                commitMessage:                      "",
+                commitErrorMessage:                 "",
+                releaseMessage:                     "",
+                releaseErrorMessage:                "",
+                commitCode:                         null,
+                parentCommitCode:                   null,
+                diffText:                           "",
+                showCode:                           "details",
+                selectedCommitId:                   null,
+
+                // history pane
+                timeline:                           null,
+                timelineData:                       new vis.DataSet([]),
+                currentGroupId:                     1,
+                groupColors:                        {
+                                                        1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
+                                                        2: {normal: "background-color: pink",       highlighted: "background-color: red;color:white;"},
+                                                        3: {normal: "background-color: lightgray",  highlighted: "background-color: gray;color:white;"},
+                                                        4: {normal: "background-color: yellow",     highlighted: "background-color: orange;color:white;"},
+                                                        5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
+                                                    },
+                highlightedItems:                   {},
+                inUnHighlightAll:                   false,
+                timelineStart:                      null,
+                timelineEnd:                        null,
+                firstCommitTimestamps:              {},
+                listOfAllCommits:                   {},
+
+                // environments pane
                 pane_environments_in_dev_mode:      true,
                 pane_environments_env_id:           "",
                 pane_environments_env_name:         "",
                 pane_environments_env_desc:         "",
                 pane_environments_env_list:         [],
                 pane_environments_selected_env_id:  null,
-                pane_environments_selected_env_pos: null,
-
-                selectedTab:                "changes",
-
-                // the component code
-                text:                       args.text,
-
-                // this is used to show source code and code diffs
-                commitCode:                 null,
-                parentCommitCode:           null,
-                diffText:                   "",
-                showCode:                   "details",
-
-                // used to preview and select commits
-                selectedCommitId:      null,
-
-                // the type of the commit
-                baseComponentId:        null,
-                codeId:                 null,
-
-                // info for the UI timeline
-                timeline:               null,
-                timelineData:           new vis.DataSet([]),
-                currentGroupId:         1,
-                groupColors:            {
-                    1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
-                    2: {normal: "background-color: pink",       highlighted: "background-color: red;color:white;"},
-                    3: {normal: "background-color: lightgray",  highlighted: "background-color: gray;color:white;"},
-                    4: {normal: "background-color: yellow",     highlighted: "background-color: orange;color:white;"},
-                    5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
-                },
-                highlightedItems:       {},
-                inUnHighlightAll:       false,
-                timelineStart:          null,
-                timelineEnd:            null,
-
-
-                /* when was the change in a commit first made (each commit can have many changes)
-                eg:
-                    Number of Changes in commit: 5
-                        After a few seconds     - Add component: button_control_115(button_control)
-                        After a few seconds     - Moved component: button_control_114
-                        After a few seconds     - Moved component: button_control_114
-                        After under a second    - Moved component: button_control_114
-                        First commit            - Add component: button_control_114(button_control)
-
-                 */
-                firstCommitTimestamps:  {},
-
-                // list of commits
-                listOfAllCommits:       {}
+                pane_environments_selected_env_pos: null
             }
         },
         template:   `
@@ -379,11 +370,13 @@ load_once_from_file(true)
 
           <!-- ----------------------------------------------
                 List of Environments
-                ---------------------------------------------- -->          
+                ---------------------------------------------- -->
+            <div>Environments</div>
             <span style="width:40%;display: inline-block;">
-                <select   v-model="pane_environments_selected_env_id" 
+                <select   v-model="pane_environments_selected_env_id"
+                          v-bind:refresh='refresh'
+                          v-bind:size="pane_environments_env_list.length"
                           @change="pane_environment_envSelected()">
-                    <option disabled value="">Please select one</option>
                     <option   v-for="this_env in pane_environments_env_list"
                               v-bind:selected="pane_environments_selected_env_id == this_env.id"
                               v-bind:value="this_env.id">
@@ -1286,6 +1279,8 @@ load_once_from_file(true)
                     mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
 
                     hideProgressBar()
+                    mm.pane_environments_selected_env_id = null
+
                 } catch (e) {
 
                 }
