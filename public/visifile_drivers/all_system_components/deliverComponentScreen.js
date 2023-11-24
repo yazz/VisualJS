@@ -374,11 +374,11 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
-            <span style="width:40%;display: inline-block;vertical-align: top;"  v-bind:refresh='refresh' >
-                <div><b>Environments</b></div>
+            <span style="width:40%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:200px;"  v-bind:refresh='refresh' >
+                <div style="margin-bottom: 15px;font-size:18px"><b>Environments</b></div>
                 <div style=";display: block;">
                     <div v-for="this_env2 in pane_environments_env_list">
-                        <div  v-bind:style='"width: 250px;height:20px;" + (pane_environments_selected_env_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'
+                        <div  v-bind:style='"width: 250px;height:26px;padding:3px;" + (pane_environments_selected_env_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'
                               v-on:click="pane_environments_selected_env_id = this_env2.id; pane_environment_envSelected()">
                           {{this_env2.name}}
                         </div>
@@ -392,8 +392,8 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
                 Details Pane
                 ---------------------------------------------- -->
-            <span style="width:59%;display: inline-block;vertical-align: top;">
-                <div><b>Details</b></div> 
+            <span style="width:59%;display: inline-block;vertical-align: top;background-color: lightblue;padding: 5px;height:200px">
+                <div style="margin-bottom: 15px;font-size:18px;"><b>Environment Details</b></div> 
                 <div v-if="pane_environments_selected_env_id">
                     <div><b>Env ID:</b>        {{pane_environments_selected_env_id}}</div>
                     <div><b>Name:</b>          {{pane_environments_env_list[pane_environments_selected_env_pos].name}}</div>
