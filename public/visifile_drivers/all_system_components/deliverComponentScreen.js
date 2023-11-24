@@ -1364,13 +1364,13 @@ when was the change in a commit first made (each commit can have many changes)
 
                         mm.pane_environments_info_message = "Changes saved"
                         mm.editingEnvironment             = false
+                        debugger
+
+                        mm.pane_environments_selected_env_id = mm.pane_environments_env_id
+                        await mm.pane_environment_envSelected()
+                        mm.refresh ++
+                        await mm.pane_environment_saveCode()
                     }
-
-
-
-                    mm.pane_environments_selected_env_id = mm.pane_environments_env_id
-                    await pane_environment_envSelected()
-                    mm.refresh ++
 
                 } catch (e) {
 
@@ -1410,7 +1410,6 @@ when was the change in a commit first made (each commit can have many changes)
                 //--------------------------------------------------------------------
                 try {
                     let mm = this
-                    showProgressBar()
 
 
                     for (let envIndex = 0 ; envIndex < mm.pane_environments_env_list.length; envIndex ++ ) {
@@ -1423,9 +1422,8 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_name   = mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].name
                     mm.pane_environments_env_desc   = mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description
 
-                    hideProgressBar()
                 } catch (e) {
-
+                    console.log(e)
                 }
             },
             pane_environment_moveUpPressed:                 async function ( ) {
@@ -1457,10 +1455,10 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos - 1, 0, envToMove)
 
                     mm.pane_environments_selected_env_pos --
-                    await pane_environment_envSelected()
+                    await mm.pane_environment_envSelected()
 
                 } catch (e) {
-
+                    console.log(e)
                 }
             },
             pane_environment_moveDownPressed:               async function ( ) {
@@ -1532,6 +1530,26 @@ when was the change in a commit first made (each commit can have many changes)
 
                 } catch (e) {
 
+                }
+            },
+            pane_environment_saveCode:                      async function ( ) {
+                //----------------------------------------------------------------------------------
+                //
+                //                    /-------------------------------------/
+                //                   /        pane_environment_saveCode    /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------
+                // This saves the environment code
+                //--------------------------------------------------------------------
+                try {
+                    let mm = this
+                    this.text = yz.helpers.insertCodeString(this.text, "environments", {})
+                    mm.$root.$emit('message', {
+                        type: "pending"
+                    })
+                } catch (e) {
+                    
                 }
             }
         }
