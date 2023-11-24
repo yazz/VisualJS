@@ -1456,6 +1456,7 @@ when was the change in a commit first made (each commit can have many changes)
 
                     mm.pane_environments_selected_env_pos --
                     await mm.pane_environment_envSelected()
+                    await mm.pane_environment_saveCode()
 
                 } catch (e) {
                     console.log(e)
@@ -1491,7 +1492,7 @@ when was the change in a commit first made (each commit can have many changes)
 
                     mm.pane_environments_selected_env_pos ++
                     await pane_environment_envSelected()
-
+                    await mm.pane_environment_saveCode()
                 } catch (e) {
 
                 }
@@ -1527,6 +1528,7 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_selected_env_id = null
                     mm.editingEnvironment             = false
                     await pane_environment_envSelected()
+                    await mm.pane_environment_saveCode()
 
                 } catch (e) {
 
@@ -1544,7 +1546,7 @@ when was the change in a commit first made (each commit can have many changes)
                 //--------------------------------------------------------------------
                 try {
                     let mm = this
-                    this.text = yz.helpers.insertCodeString(this.text, "environments", {})
+                    this.text = yz.helpers.insertCodeString(this.text, "environments", mm.pane_environments_env_list)
                     mm.$root.$emit('message', {
                         type: "pending"
                     })
