@@ -591,7 +591,7 @@ when was the change in a commit first made (each commit can have many changes)
 
                     let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
                     if (environments) {
-                        pane_environments_env_list = environments.list_of_environments
+                        mm.pane_environments_env_list = environments.list_of_environments
                     }
 
                 }
@@ -642,7 +642,6 @@ when was the change in a commit first made (each commit can have many changes)
                 //                            getCurrentCommitId
                 //
                 // ----------------------------------------------------------------------
-                //debugger
                 let mm     = this
                 let retVal = null
                 retval     = await getIpfsHash( mm.text )
@@ -809,7 +808,6 @@ when was the change in a commit first made (each commit can have many changes)
                 await mm.pane_history_unHighlightAllExceptLockedItem()
             },
             pane_history_onlyHighlightLockedItem:           async function (  ) {
-                //debugger
                 let mm = this
                 await mm.pane_history_highlightItem(mm.selectedCommitId)
                 await mm.pane_history_unHighlightAllExceptLockedItem()
@@ -865,7 +863,6 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.timelineData.update({id: commitId, style: itemStyle});
                     mm.highlightedItems[commitId] = true
                 } catch (err) {
-                    //debugger
                 } finally {
                 }
             },
@@ -876,7 +873,6 @@ when was the change in a commit first made (each commit can have many changes)
                 //
                 // ----------------------------------------------------------------------
                 let mm = this
-                //debugger
 
                 let listOfCommits = Object.keys(mm.listOfAllCommits)
                 let earliestTimestamp = null
@@ -979,7 +975,6 @@ when was the change in a commit first made (each commit can have many changes)
                 mm.showCode='details'
             },
             pane_history_diffCode:                          async function (  ) {
-                //debugger
                 let mm = this
                 mm.showCode = "diff"
 
@@ -1104,7 +1099,6 @@ when was the change in a commit first made (each commit can have many changes)
             },
             pane_history_getCommitHistoryForThisComponent:  async function (  ) {
                 //                 get the history of this commit going backwards
-                //debugger
                 let mm          = this
                 let openfileurl =
                     "http" +
@@ -1143,7 +1137,6 @@ when was the change in a commit first made (each commit can have many changes)
                 //                            pane_history_findFutureCommits
                 //
                 // ----------------------------------------------------------------------
-                //debugger
                 let mm = this
 
                 let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + "/http_get_load_version_future?" +
@@ -1158,7 +1151,6 @@ when was the change in a commit first made (each commit can have many changes)
                     })
                         .then((response) => response.json())
                         .then(async function (responseJson) {
-                            //debugger
                             if (responseJson.length > 0) {
                                 let earliestCommit = responseJson[0].id
                                 await mm.pane_history_saveResponseToCommitData(responseJson)
@@ -1383,7 +1375,6 @@ when was the change in a commit first made (each commit can have many changes)
 
                         mm.pane_environments_info_message = "Changes saved"
                         mm.editingEnvironment             = false
-                        debugger
 
                         mm.pane_environments_selected_env_id = mm.pane_environments_env_id
                         await mm.pane_environment_envSelected()
@@ -1565,6 +1556,7 @@ when was the change in a commit first made (each commit can have many changes)
                 //--------------------------------------------------------------------
                 try {
                     let mm = this
+                    this.text = yz.helpers.deleteCodeString(this.text, "environments")
                     this.text = yz.helpers.insertCodeString(this.text, "environments",
                         {
                             list_of_environments:   mm.pane_environments_env_list,
