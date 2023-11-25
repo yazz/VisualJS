@@ -503,12 +503,24 @@ when was the change in a commit first made (each commit can have many changes)
                             v-model='pane_environments_env_desc'>
                     </textarea>
                 </div>
-        
-        
-                <!-- ----------------------------------------------
-                Save changes and cancel buttons
-                ---------------------------------------------- -->
-                <div style="width:45%;height: 40px;">
+
+                <div v-if="true">
+                    <span style="width:20%;display: inline-block;">
+                        Live environment?
+                    </span>
+                    <input   style="margin-left: 10px;"
+                             type="checkbox"
+                             id="id_use_last_env_as_live"
+                             value="false"
+                             v-model2=""
+                             @change2="">
+                </div>
+
+
+              <!-- ----------------------------------------------
+              Save changes and cancel buttons
+              ---------------------------------------------- -->
+                <div style="width:45%;height: 40px;margin-top: 10px;">
                     <button  type=button
                              class='btn-sm btn-info'
                              style="float:right; "
