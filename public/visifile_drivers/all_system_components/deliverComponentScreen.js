@@ -374,7 +374,7 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
-            <span style="width:40%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:200px;"  v-bind:refresh='refresh' >
+            <span style="width:40%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
                 <div style="margin-bottom: 15px;font-size:18px"><b>Environments</b></div>
                 <div style=";display: block;">
                     <div v-for="this_env2 in pane_environments_env_list">
@@ -392,7 +392,7 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
                 Details Pane
                 ---------------------------------------------- -->
-            <span style="width:59%;display: inline-block;vertical-align: top;background-color: lightblue;padding: 5px;height:200px">
+            <span style="width:59%;display: inline-block;vertical-align: top;background-color: lightblue;padding: 5px;height:170px">
                 <div style="margin-bottom: 15px;font-size:18px;"><b>Environment Details</b></div> 
                 <div v-if="pane_environments_selected_env_id">
                     <div><b>Env ID:</b>        {{pane_environments_selected_env_id}}</div>
@@ -410,27 +410,27 @@ when was the change in a commit first made (each commit can have many changes)
         ---------------------------------------------- -->
         <div>
             <button  type=button
-                     class=' btn btn-info btn-lg'
+                     class=' btn btn-info'
                      v-bind:disabled="(pane_environments_selected_env_id==null) || editingEnvironment"
                      v-on:click='pane_environment_editPressed()' >Edit</button>
 
             <button  type=button
-                     class=' btn btn-info btn-lg'
+                     class=' btn btn-info'
                      v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0)"
                      v-on:click='pane_environment_moveUpPressed()' >Move Up</button>
     
             <button  type=button
-                     class=' btn btn-info btn-lg'
+                     class=' btn btn-info'
                      v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1))"
                      v-on:click='pane_environment_moveDownPressed()' >Move Down</button>
     
             <button  type=button
-                     class=' btn btn-info btn-lg'
+                     class=' btn btn-info'
                      v-bind:disabled="pane_environments_selected_env_id==null"
                      v-on:click='pane_environment_deletePressed()' >Delete</button>
     
             <button  type=button
-                     class=' btn btn-info btn-lg'
+                     class=' btn btn-info'
                      v-bind:disabled="editingEnvironment"
                      v-on:click='pane_environment_addPressed()' >Add</button>
         </div>
@@ -572,7 +572,7 @@ when was the change in a commit first made (each commit can have many changes)
 
                     let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
                     if (environments) {
-                        pane_environments_env_list = environments
+                        pane_environments_env_list = environments.list_of_environments
                     }
 
                 }
@@ -1546,7 +1546,13 @@ when was the change in a commit first made (each commit can have many changes)
                 //--------------------------------------------------------------------
                 try {
                     let mm = this
-                    this.text = yz.helpers.insertCodeString(this.text, "environments", mm.pane_environments_env_list)
+                    this.text = yz.helpers.insertCodeString(this.text, "environments",
+                        {
+                            list_of_environments:   mm.pane_environments_env_list,
+                            lastEnvIsLive:          false
+                        }
+
+                    )
                     mm.$root.$emit('message', {
                         type: "pending"
                     })
