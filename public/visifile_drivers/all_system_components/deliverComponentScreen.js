@@ -374,7 +374,7 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
-            <span style="width:40%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
+            <span style="width:20%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
                 <div style="margin-bottom: 15px;font-size:18px"><b>Environments</b></div>
                 <div style=";display: block;">
                     <div v-for="this_env2 in pane_environments_env_list">
@@ -385,6 +385,42 @@ when was the change in a commit first made (each commit can have many changes)
                     </div>
                 </div>
             </span>
+
+
+          <!-- ----------------------------------------------
+          Environment Buttons
+          ---------------------------------------------- -->
+          <span style="width:20%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
+
+            <div><button   type=button
+                           class=' btn-sm btn-info'
+                           style="width:110px;"
+                           v-bind:disabled="editingEnvironment"
+                           v-on:click='pane_environment_addPressed()' >Add</button></div>
+            <div><button   type=button
+                           class=' btn-sm btn-info'
+                           style="width:110px;"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || editingEnvironment"
+                           v-on:click='pane_environment_editPressed()' >Edit</button></div>
+
+            <div><button   type=button
+                           class=' btn-sm btn-info'
+                           style="width:110px;"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0)"
+                           v-on:click='pane_environment_moveUpPressed()' >Move Up</button></div>
+
+            <div><button   type=button
+                           class=' btn-sm btn-info'
+                           style="width:110px;"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1))"
+                           v-on:click='pane_environment_moveDownPressed()' >Move Down</button></div>
+
+            <div><button   type=button
+                           class=' btn-sm btn-info'
+                           style="width:110px;"
+                           v-bind:disabled="pane_environments_selected_env_id==null"
+                           v-on:click='pane_environment_deletePressed()' >Delete</button></div>
+          </span>
 
           
           
@@ -405,35 +441,6 @@ when was the change in a commit first made (each commit can have many changes)
         </div>
 
 
-        <!-- ----------------------------------------------
-        Environment Buttons
-        ---------------------------------------------- -->
-        <div>
-            <button  type=button
-                     class=' btn btn-info'
-                     v-bind:disabled="(pane_environments_selected_env_id==null) || editingEnvironment"
-                     v-on:click='pane_environment_editPressed()' >Edit</button>
-
-            <button  type=button
-                     class=' btn btn-info'
-                     v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0)"
-                     v-on:click='pane_environment_moveUpPressed()' >Move Up</button>
-    
-            <button  type=button
-                     class=' btn btn-info'
-                     v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1))"
-                     v-on:click='pane_environment_moveDownPressed()' >Move Down</button>
-    
-            <button  type=button
-                     class=' btn btn-info'
-                     v-bind:disabled="pane_environments_selected_env_id==null"
-                     v-on:click='pane_environment_deletePressed()' >Delete</button>
-    
-            <button  type=button
-                     class=' btn btn-info'
-                     v-bind:disabled="editingEnvironment"
-                     v-on:click='pane_environment_addPressed()' >Add</button>
-        </div>
 
 
 
