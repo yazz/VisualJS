@@ -459,11 +459,11 @@ when was the change in a commit first made (each commit can have many changes)
                 <!-- ----------------------------------------------
                 Environment ID
                 ---------------------------------------------- -->
-                <div style="margin-top:5px;font-family:verdana,helvetica;font-size: 13px;">
+                <div style="margin-top:0px;font-family:verdana,helvetica;font-size: 13px;">
                     <span style="width:20%;display: inline-block;">
                         Environment ID
                     </span>
-                    <input  style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
+                    <input  style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:20%;display: inline-block;'
                             v-on:click=''
                             v-on:keydown="pane_changes_clearMessages()"
                             placeholder="environment_id_with_underscores (Required)"
@@ -476,11 +476,11 @@ when was the change in a commit first made (each commit can have many changes)
                 <!-- ----------------------------------------------
                 Environment name
                 ---------------------------------------------- -->
-                <div style="margin-top:15px;">
+                <div style="margin-top:10px;">
                     <span style="width:20%;display: inline-block;">
                         Environment name
                     </span>
-                    <input style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:30%;display: inline-block;'
+                    <input style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:20%;display: inline-block;'
                            v-on:click=''
                            v-on:keydown="pane_changes_clearMessages()"
                            placeholder="Environment name (Required)"
@@ -492,12 +492,12 @@ when was the change in a commit first made (each commit can have many changes)
                 <!-- ----------------------------------------------
                 description
                 ---------------------------------------------- -->
-                <div style="margin-top: 10px;">
+                <div style="margin-top: 5px;">
                     <span style="width:20%;display: inline-block;">
                         Environment description
                     </span>
                     <textarea rows=6
-                            style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:30%;display: inline-block;vertical-align:top"
+                            style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:20%;display: inline-block;vertical-align:top"
                             placeholder="Description"
                             v-on:keydown="pane_changes_clearMessages()"
                             v-model='pane_environments_env_desc'>
@@ -508,14 +508,14 @@ when was the change in a commit first made (each commit can have many changes)
                 <!-- ----------------------------------------------
                 Save changes and cancel buttons
                 ---------------------------------------------- -->
-                <div style="width:50%;height: 40px;">
+                <div style="width:45%;height: 40px;">
                     <button  type=button
-                             class=' btn btn-info btn'
+                             class='btn-sm btn-info'
                              style="float:right; "
                              v-on:click='pane_environment_savePressed()' >Save changes</button>
                   
                   <button  type=button
-                           class=' btn btn-info btn'
+                           class='btn-sm btn-info'
                            style="float:right; margin-right: 20px;"
                            v-on:click='pane_environment_cancelPressed()' >Cancel changes</button>
 
