@@ -435,7 +435,7 @@ when was the change in a commit first made (each commit can have many changes)
                     <div><b>Env ID:</b>        {{pane_environments_selected_env_id}}</div>
                     <div><b>Name:</b>          {{pane_environments_env_list[pane_environments_selected_env_pos].name}}</div>
                     <div><b>Description:</b>   {{pane_environments_env_list[pane_environments_selected_env_pos].description}}</div>
-                    <div><b>Live?</b>          {{(pane_environments_selected_env_pos == (pane_environments_env_list.length - 1))?"TRUE (LIVE)":"FALSE"}}</div>
+                    <div><b>Live?</b>          {{(pane_environments_selected_env_pos == (pane_environments_env_list.length - 1)) && pane_environments_last_env_is_live?"TRUE (LIVE)":"FALSE"}}</div>
                 </div>
 
             </span>
@@ -1559,7 +1559,7 @@ when was the change in a commit first made (each commit can have many changes)
                     this.text = yz.helpers.insertCodeString(this.text, "environments",
                         {
                             list_of_environments:   mm.pane_environments_env_list,
-                            lastEnvIsLive:          false
+                            lastEnvIsLive:          mm.pane_environments_last_env_is_live
                         }
 
                     )
