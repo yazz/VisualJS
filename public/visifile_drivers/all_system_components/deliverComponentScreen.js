@@ -64,12 +64,14 @@ when was the change in a commit first made (each commit can have many changes)
                 pane_release_env_id:           null,
                 pane_release_env_name:         "",
                 pane_release_env_desc:         "",
-                pane_release_env_list:         [],
-                pane_release_selected_env_id:  null,
-                pane_release_selected_env_pos: null,
-                pane_release_info_message:     "",
-                pane_release_error_message:    "",
-                pane_release_last_env_is_live: false,
+                pane_release_env_list:                  [],
+                pane_release_selected_app_position:     null,
+                pane_release_selected_env_pos:          null,
+                pane_release_info_message:              "",
+                pane_release_error_message:             "",
+                pane_release_last_env_is_live:          false,
+                pane_release_commit_code_id:            "fhjedhj",
+                pane_release_development_code_id:        "Qmfhjedhj",
 
                 // environments pane
                 pane_environments_in_dev_mode:          true,
@@ -366,9 +368,19 @@ when was the change in a commit first made (each commit can have many changes)
         <span style="width:20%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
             <div style="margin-bottom: 15px;font-size:18px"><b>Current position</b></div>
             <div style=";display: block;">
+                <div  v-bind:style='"width: 100%;height:26px;padding:3px;" + (pane_release_development_code_id?"background-color: lightgray;":"background-color: white;")'
+                      v-on:click="pane_release_envSelected()">
+                  Development: {{pane_release_development_code_id}}
+                </div>
+                
+                <div  v-bind:style='"width: 100%;height:26px;padding:3px;" + (pane_release_commit_code_id?"background-color: lightgray;":"background-color: white;")'
+                      v-on:click="pane_release_envSelected()">
+                  Commit: {{pane_release_commit_code_id}}
+                </div>
+                
                 <div v-for="this_env2 in pane_release_env_list">
-                    <div  v-bind:style='"width: 250px;height:26px;padding:3px;" + (pane_release_selected_env_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'
-                          v-on:click="pane_release_selected_env_id = this_env2.id; pane_release_envSelected()">
+                    <div  v-bind:style='"width: 100%;height:26px;padding:3px;" + (pane_release_selected_app_position == this_env2.id?"background-color: lightgray;":"background-color: white;")'
+                          v-on:click="pane_release_selected_app_position = this_env2.id; pane_release_envSelected()">
                       {{this_env2.name}}
                     </div>
                 </div>
