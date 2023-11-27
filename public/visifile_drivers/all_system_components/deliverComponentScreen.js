@@ -353,10 +353,28 @@ when was the change in a commit first made (each commit can have many changes)
       -------------------------------------------------------------------------- -->
 
 
-      <div  v-if='selectedTab=="release"' style="padding:15px;">
+    <div  v-if='selectedTab=="release"' style="padding:15px;">
 
-        {{pane_release_in_dev_mode?"Read only mode: Releases can not be made in dev mode. Commit or release code first":""}}
+        <div>
+            {{pane_release_in_dev_mode?"Read only mode: Releases can not be made in dev mode. Commit or release code first":""}}
+        </div>
       
+      
+        <!-- ----------------------------------------------
+        Current state of code
+        ---------------------------------------------- -->
+        <span style="width:20%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
+            <div style="margin-bottom: 15px;font-size:18px"><b>Current position</b></div>
+            <div style=";display: block;">
+                <div v-for="this_env2 in pane_release_env_list">
+                    <div  v-bind:style='"width: 250px;height:26px;padding:3px;" + (pane_release_selected_env_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'
+                          v-on:click="pane_release_selected_env_id = this_env2.id; pane_release_envSelected()">
+                      {{this_env2.name}}
+                    </div>
+                </div>
+            </div>
+        </span>
+            
         <!-- ----------------------------------------------
         Old release button
         ---------------------------------------------- -->
@@ -367,7 +385,7 @@ when was the change in a commit first made (each commit can have many changes)
         </div>
         <div style="color:black">{{releaseMessage}}</div>
         <div style="color:red">{{releaseErrorMessage}}</div>
-      </div>
+    </div>
 
 
 
@@ -386,7 +404,10 @@ when was the change in a commit first made (each commit can have many changes)
       
         <div  v-if='pane_environments_in_dev_mode' style="padding:15px;"  v-bind:refresh='refresh'>
 
-          {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
+            <div>  
+                {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
+            </div>
+          
           
           <!-- ----------------------------------------------
                 List of Environments
