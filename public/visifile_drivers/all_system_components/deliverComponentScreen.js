@@ -408,13 +408,13 @@ when was the change in a commit first made (each commit can have many changes)
                            class=' btn-sm btn-info'
                            style="width:110px;"
                            v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0)"
-                           v-on:click='pane_environment_moveUpPressed()' >Move Up</button></div>
+                           v-on:click='pane_environment_moveUpPressed()' >&uarr;</button></div>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
                            v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1))"
-                           v-on:click='pane_environment_moveDownPressed()' >Move Down</button></div>
+                           v-on:click='pane_environment_moveDownPressed()' >&darr;</button></div>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
@@ -1305,7 +1305,6 @@ when was the change in a commit first made (each commit can have many changes)
                             url_path:       "",
                             backup_db:      true,
                             backup_db_path: "",
-                            is_live: 	    true,
                             url_path:       ""
                         }
                     )
