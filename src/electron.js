@@ -1523,7 +1523,7 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/services/serverFolderContentsV2.js')
     await releaseComponentFromPath( '/services/compile_solidity.js')
     await releaseComponentFromPath( '/services/serverDatabaseStuff.js')
-    await releaseComponentFromPath( '/services/serverDockerStuff.js')
+    //await releaseComponentFromPath( '/services/serverDockerStuff.js')
     await releaseComponentFromPath( '/services/serverTerminalStuff.js')
 
 

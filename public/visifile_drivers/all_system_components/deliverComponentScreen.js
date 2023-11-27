@@ -390,7 +390,7 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
           Environment Buttons
           ---------------------------------------------- -->
-          <span style="width:20%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
+          <span style="width:15%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
 
             <div><button   type=button
                            class=' btn-sm btn-info'
