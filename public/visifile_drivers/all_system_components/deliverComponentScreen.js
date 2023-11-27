@@ -69,7 +69,8 @@ when was the change in a commit first made (each commit can have many changes)
                 pane_environments_selected_env_id:  null,
                 pane_environments_selected_env_pos: null,
                 pane_environments_info_message:     "",
-                pane_environments_error_message:    ""
+                pane_environments_error_message:    "",
+                pane_environments_last_env_is_live: false
             }
         },
         template:   `
@@ -511,9 +512,7 @@ when was the change in a commit first made (each commit can have many changes)
                     <input   style="margin-left: 10px;"
                              type="checkbox"
                              id="id_use_last_env_as_live"
-                             value="false"
-                             v-model2=""
-                             @change2="">
+                             v-model="pane_environments_last_env_is_live"ß>
                 </div>
 
 
