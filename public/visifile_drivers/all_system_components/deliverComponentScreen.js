@@ -504,7 +504,7 @@ when was the change in a commit first made (each commit can have many changes)
                     </textarea>
                 </div>
 
-                <div v-if="true">
+                <div v-if="pane_environments_selected_env_pos == (pane_environments_env_list.length - 1)">
                     <span style="width:20%;display: inline-block;">
                         Live environment?
                     </span>
