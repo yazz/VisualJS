@@ -591,6 +591,9 @@ when was the change in a commit first made (each commit can have many changes)
                     let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
                     if (environments) {
                         mm.pane_environments_env_list = environments.list_of_environments
+                        if (environments.last_env_is_live) {
+                            mm.pane_environments_last_env_is_live = environments.last_env_is_live
+                        }
                     }
 
                 }
@@ -1459,6 +1462,11 @@ when was the change in a commit first made (each commit can have many changes)
                         return
                     }
 
+                    // if this is the live env then switch off the live env
+                    if (mm.pane_environments_selected_env_pos == (mm.pane_environments_env_list.length - 1)) {
+                        mm.pane_environments_last_env_is_live = false
+                    }
+
                     let envToMove = mm.pane_environments_env_list[  mm.pane_environments_selected_env_pos  ]
                     mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos, 1)
                     mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos - 1, 0, envToMove)
@@ -1500,6 +1508,12 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos + 1, 0, envToMove)
 
                     mm.pane_environments_selected_env_pos ++
+
+                    // if this is the live env then switch off the live env
+                    if (mm.pane_environments_selected_env_pos == (mm.pane_environments_env_list.length - 1)) {
+                        mm.pane_environments_last_env_is_live = false
+                    }
+
                     await pane_environment_envSelected()
                     await mm.pane_environment_saveCode()
                 } catch (e) {
@@ -1530,12 +1544,20 @@ when was the change in a commit first made (each commit can have many changes)
                         return
                     }
 
+                    // if this is the live env then switch off the live env
+                    if (mm.pane_environments_selected_env_pos == (mm.pane_environments_env_list.length - 1)) {
+                        mm.pane_environments_last_env_is_live = false
+                    }
+
+
                     let envToMove = mm.pane_environments_env_list[  mm.pane_environments_selected_env_pos  ]
                     mm.pane_environments_env_list.splice(mm.pane_environments_selected_env_pos, 1)
 
-                    mm.pane_environments_selected_env_pos = null
-                    mm.pane_environments_selected_env_id = null
-                    mm.editingEnvironment             = false
+                    mm.pane_environments_selected_env_pos   = null
+                    mm.pane_environments_selected_env_id    = null
+                    mm.editingEnvironment                   = false
+
+
                     await pane_environment_envSelected()
                     await mm.pane_environment_saveCode()
 
@@ -1559,7 +1581,7 @@ when was the change in a commit first made (each commit can have many changes)
                     this.text = yz.helpers.insertCodeString(this.text, "environments",
                         {
                             list_of_environments:   mm.pane_environments_env_list,
-                            lastEnvIsLive:          mm.pane_environments_last_env_is_live
+                            last_env_is_live:       mm.pane_environments_last_env_is_live
                         }
 
                     )
