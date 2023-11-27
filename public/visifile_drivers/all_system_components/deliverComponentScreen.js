@@ -352,8 +352,11 @@ when was the change in a commit first made (each commit can have many changes)
       |
       -------------------------------------------------------------------------- -->
 
+
       <div  v-if='selectedTab=="release"' style="padding:15px;">
 
+        {{pane_release_in_dev_mode?"Read only mode: Releases can not be made in dev mode. Commit or release code first":""}}
+      
         <!-- ----------------------------------------------
         Old release button
         ---------------------------------------------- -->
@@ -379,11 +382,12 @@ when was the change in a commit first made (each commit can have many changes)
 
     <div  v-if='selectedTab=="environments"' style="padding:15px;font-family:verdana,helvetica;font-size: 13px;">
 
-        {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
       
       
         <div  v-if='pane_environments_in_dev_mode' style="padding:15px;"  v-bind:refresh='refresh'>
 
+          {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
+          
           <!-- ----------------------------------------------
                 List of Environments
                 ---------------------------------------------- -->
@@ -605,6 +609,24 @@ when was the change in a commit first made (each commit can have many changes)
                         mm.pane_environments_env_list = environments.list_of_environments
                         if (environments.last_env_is_live) {
                             mm.pane_environments_last_env_is_live = environments.last_env_is_live
+                        }
+                    }
+
+                }
+                if (tabName == "release") {
+                    let release =  yz.helpers.getValueOfCodeString(this.text, "release")
+                    let commit =  yz.helpers.getValueOfCodeString(this.text, "commit")
+                    if (release || commit) {
+                        mm.pane_release_in_dev_mode = false
+                    } else {
+                        mm.pane_release_in_dev_mode = true
+                    }
+
+                    let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
+                    if (environments) {
+                        mm.pane_release_env_list = environments.list_of_environments
+                        if (environments.last_env_is_live) {
+                            mm.pane_release_last_env_is_live = environments.last_env_is_live
                         }
                     }
 
