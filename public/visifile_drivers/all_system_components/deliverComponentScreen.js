@@ -59,18 +59,30 @@ when was the change in a commit first made (each commit can have many changes)
                 firstCommitTimestamps:              {},
                 listOfAllCommits:                   {},
 
+                // release pane
+                pane_release_in_dev_mode:      true,
+                pane_release_env_id:           null,
+                pane_release_env_name:         "",
+                pane_release_env_desc:         "",
+                pane_release_env_list:         [],
+                pane_release_selected_env_id:  null,
+                pane_release_selected_env_pos: null,
+                pane_release_info_message:     "",
+                pane_release_error_message:    "",
+                pane_release_last_env_is_live: false,
+
                 // environments pane
-                pane_environments_in_dev_mode:      true,
-                editingEnvironment:                 false,
-                pane_environments_env_id:           null,
-                pane_environments_env_name:         "",
-                pane_environments_env_desc:         "",
-                pane_environments_env_list:         [],
-                pane_environments_selected_env_id:  null,
-                pane_environments_selected_env_pos: null,
-                pane_environments_info_message:     "",
-                pane_environments_error_message:    "",
-                pane_environments_last_env_is_live: false
+                pane_environments_in_dev_mode:          true,
+                pane_environments_editingEnvironment:   false,
+                pane_environments_env_id:               null,
+                pane_environments_env_name:             "",
+                pane_environments_env_desc:             "",
+                pane_environments_env_list:             [],
+                pane_environments_selected_env_id:      null,
+                pane_environments_selected_env_pos:     null,
+                pane_environments_info_message:         "",
+                pane_environments_error_message:        "",
+                pane_environments_last_env_is_live:     false
             }
         },
         template:   `
@@ -396,12 +408,12 @@ when was the change in a commit first made (each commit can have many changes)
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="editingEnvironment"
+                           v-bind:disabled="pane_environments_editingEnvironment"
                            v-on:click='pane_environment_addPressed()' >Add</button></div>
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="(pane_environments_selected_env_id==null) || editingEnvironment"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || pane_environments_editingEnvironment"
                            v-on:click='pane_environment_editPressed()' >Edit</button></div>
 
             <div><button   type=button
@@ -455,7 +467,7 @@ when was the change in a commit first made (each commit can have many changes)
         |
         --------------------------------------------------------------------- -->
         <div style="height: 300px;">
-            <div v-if="editingEnvironment">
+            <div v-if="pane_environments_editingEnvironment">
               
                 <!-- ----------------------------------------------
                 Environment ID
@@ -1314,7 +1326,7 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_env_id             = "NEW_ENV"
                     mm.pane_environments_env_name           = ""
                     mm.pane_environments_env_desc           = ""
-                    mm.editingEnvironment                   = true
+                    mm.pane_environments_editingEnvironment                   = true
                     await pane_environment_envSelected()
 
                     mm.refresh ++
@@ -1340,7 +1352,7 @@ when was the change in a commit first made (each commit can have many changes)
                     if ( mm.pane_environments_env_id == null ) {
                         mm.pane_environments_error_message = "You must select an environment first"
                     } else {
-                        mm.editingEnvironment = true
+                        mm.pane_environments_editingEnvironment = true
                     }
 
                     mm.refresh++
@@ -1375,7 +1387,7 @@ when was the change in a commit first made (each commit can have many changes)
                         mm.pane_environments_env_list[mm.pane_environments_selected_env_pos].description   = mm.pane_environments_env_desc
 
                         mm.pane_environments_info_message = "Changes saved"
-                        mm.editingEnvironment             = false
+                        mm.pane_environments_editingEnvironment             = false
 
                         mm.pane_environments_selected_env_id = mm.pane_environments_env_id
                         await mm.pane_environment_envSelected()
@@ -1402,7 +1414,7 @@ when was the change in a commit first made (each commit can have many changes)
                     mm.pane_environments_info_message   = ""
                     mm.pane_environments_error_message  = ""
 
-                    mm.editingEnvironment             = false
+                    mm.pane_environments_editingEnvironment             = false
                     mm.refresh ++
 
                 } catch (e) {
@@ -1554,7 +1566,7 @@ when was the change in a commit first made (each commit can have many changes)
 
                     mm.pane_environments_selected_env_pos   = null
                     mm.pane_environments_selected_env_id    = null
-                    mm.editingEnvironment                   = false
+                    mm.pane_environments_editingEnvironment = false
 
 
                     await pane_environment_envSelected()
