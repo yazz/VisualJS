@@ -622,6 +622,11 @@ when was the change in a commit first made (each commit can have many changes)
             switchTab:                                      async function (  {  tabName  }  ) {
                 let mm = this
                 mm.selectedTab = tabName
+
+
+                // ------------------------------------------------
+                //    init history pane
+                // ------------------------------------------------
                 if (tabName == "history") {
                     await mm.pane_history_setupTimeline()
                     setTimeout(async function(){
@@ -629,6 +634,42 @@ when was the change in a commit first made (each commit can have many changes)
                         await mm.pane_history_getCommitHistoryForThisComponent()
                     })
                 }
+
+
+
+                // ------------------------------------------------
+                //    init release pane
+                // ------------------------------------------------
+                if (tabName == "release") {
+                    let release =  yz.helpers.getValueOfCodeString(this.text, "release")
+                    let commit =  yz.helpers.getValueOfCodeString(this.text, "commit")
+                    if (commit) {
+                        mm.pane_release_in_dev_mode         = false
+                        mm.pane_release_development_code_id = mm.codeId
+                        mm.pane_release_environment_id      = null
+                    } else  if (release) {
+                        mm.pane_release_in_dev_mode         = false
+                        mm.pane_release_environment_id      = "ENV_X"
+                        mm.pane_release_development_code_id = null
+                    } else {
+                        mm.pane_release_in_dev_mode         = true
+                        mm.pane_release_development_code_id = mm.codeId
+                    }
+
+                    let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
+                    if (environments) {
+                        mm.pane_release_env_list = environments.list_of_environments
+                        if (environments.last_env_is_live) {
+                            mm.pane_release_last_env_is_live = environments.last_env_is_live
+                        }
+                    }
+
+                }
+
+
+                // ------------------------------------------------
+                //    init environments pane
+                // ------------------------------------------------
                 if (tabName == "environments") {
                     let release =  yz.helpers.getValueOfCodeString(this.text, "release")
                     if (release) {
@@ -642,24 +683,6 @@ when was the change in a commit first made (each commit can have many changes)
                         mm.pane_environments_env_list = environments.list_of_environments
                         if (environments.last_env_is_live) {
                             mm.pane_environments_last_env_is_live = environments.last_env_is_live
-                        }
-                    }
-
-                }
-                if (tabName == "release") {
-                    let release =  yz.helpers.getValueOfCodeString(this.text, "release")
-                    let commit =  yz.helpers.getValueOfCodeString(this.text, "commit")
-                    if (release || commit) {
-                        mm.pane_release_in_dev_mode = false
-                    } else {
-                        mm.pane_release_in_dev_mode = true
-                    }
-
-                    let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
-                    if (environments) {
-                        mm.pane_release_env_list = environments.list_of_environments
-                        if (environments.last_env_is_live) {
-                            mm.pane_release_last_env_is_live = environments.last_env_is_live
                         }
                     }
 
