@@ -107,8 +107,8 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-        <!-- --------------------------- MAIN TAB MENU ------------------------------
-        |                               ---------------
+        <!--  MAIN TAB MENU ---------------------------------------------------------
+        |    ---------------
         |
         |  Details of the main tab menu
         |
@@ -146,8 +146,8 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-      <!-- --------------------------- CHANGES PANE ------------------------------
-      |                               --------------
+      <!--  CHANGES PANE ---------------------------------------------------------
+      |    --------------
       |
       |  
       |
@@ -385,17 +385,31 @@ when was the change in a commit first made (each commit can have many changes)
                 </div>
             </div>
         </span>
+           
+        <div style='margin: 10px; margin-top: 30px;'> 
+            <!-- ----------------------------------------------
+            Promote button
+            ---------------------------------------------- -->
+            <div style='margin: 10px; margin-top: 0px;'>
+                Promote
+                <button     type=button
+                            class=' btn btn-info btn-lg'
+                            v-on:click='pane_release_promoteEnvironment()' >Promote</button>
+            </div>
             
-        <!-- ----------------------------------------------
-        Old release button
-        ---------------------------------------------- -->
-        <div style='margin-top: 20px;padding-bottom: 40vh;'>
-          <button  type=button
-                   class=' btn btn-info btn-lg'
-                   v-on:click='pane_release_releaseCodePressed()' >Old release</button>
+                
+                
+            <!-- ----------------------------------------------
+            Old release button
+            ---------------------------------------------- -->
+            <div style='margin-top: 20px;padding-bottom: 40vh;'>
+              <button  type=button
+                       class=' btn btn-info btn-lg'
+                       v-on:click='pane_release_releaseCodePressed()' >Old release</button>
+            </div>
+            <div style="color:black">{{releaseMessage}}</div>
+            <div style="color:red">{{releaseErrorMessage}}</div>
         </div>
-        <div style="color:black">{{releaseMessage}}</div>
-        <div style="color:red">{{releaseErrorMessage}}</div>
     </div>
 
 
