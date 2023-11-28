@@ -369,8 +369,7 @@ when was the change in a commit first made (each commit can have many changes)
         <span style="width:20%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
             <div style="margin-bottom: 15px;font-size:18px"><b>Current position</b></div>
             <div style="">
-                <div  v-bind:style='"overflow-y: scroll;width: 100%;height:26px;padding:3px;" + (pane_release_development_code_id?"background-color: lightgray;":"background-color: white;")'
-                      v-on:click="pane_release_envSelected()">
+                <div  v-bind:style='"overflow-y: scroll;width: 100%;height:26px;padding:3px;" + (pane_release_development_code_id?"background-color: lightgray;":"background-color: white;")'>
                   Development: {{pane_release_development_code_id}}
                 </div>
                 
@@ -642,18 +641,23 @@ when was the change in a commit first made (each commit can have many changes)
                 // ------------------------------------------------
                 if (tabName == "release") {
                     let release =  yz.helpers.getValueOfCodeString(this.text, "release")
-                    let commit =  yz.helpers.getValueOfCodeString(this.text, "commit")
+                    let commit  =  yz.helpers.getValueOfCodeString(this.text, "commit")
+debugger
                     if (commit) {
                         mm.pane_release_in_dev_mode         = false
-                        mm.pane_release_development_code_id = mm.codeId
+                        mm.pane_release_development_code_id = null
                         mm.pane_release_environment_id      = null
+                        mm.pane_release_commit_code_id      = mm.codeId
                     } else  if (release) {
                         mm.pane_release_in_dev_mode         = false
                         mm.pane_release_environment_id      = "ENV_X"
                         mm.pane_release_development_code_id = null
+                        mm.pane_release_commit_code_id      = null
                     } else {
                         mm.pane_release_in_dev_mode         = true
                         mm.pane_release_development_code_id = mm.codeId
+                        mm.pane_release_environment_id      = null
+                        mm.pane_release_commit_code_id      = null
                     }
 
                     let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
