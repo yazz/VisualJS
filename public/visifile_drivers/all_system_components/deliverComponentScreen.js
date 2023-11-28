@@ -22,56 +22,57 @@ when was the change in a commit first made (each commit can have many changes)
             // ******** DATA ********
             return {
                 // common code
-                selectedTab:                        "changes",
-                refresh:                            0,
-                text:                               args.text,
-                baseComponentId:                    null,
-                codeId:                             null,
+                selectedTab:                            "changes",
+                refresh:                                0,
+                text:                                   args.text,
+                baseComponentId:                        null,
+                codeId:                                 null,
 
                 // changes pane
-                changes_pane_header:                "",
-                changes_pane_description:           "",
-                commitMessage:                      "",
-                commitErrorMessage:                 "",
-                releaseMessage:                     "",
-                releaseErrorMessage:                "",
-                commitCode:                         null,
-                parentCommitCode:                   null,
-                diffText:                           "",
-                showCode:                           "details",
-                selectedCommitId:                   null,
+                changes_pane_header:                    "",
+                changes_pane_description:               "",
+                commitMessage:                          "",
+                commitErrorMessage:                     "",
+                releaseMessage:                         "",
+                releaseErrorMessage:                    "",
+                commitCode:                             null,
+                parentCommitCode:                       null,
+                diffText:                               "",
+                showCode:                               "details",
+                selectedCommitId:                       null,
 
                 // history pane
-                timeline:                           null,
-                timelineData:                       new vis.DataSet([]),
-                currentGroupId:                     1,
-                groupColors:                        {
-                                                        1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
-                                                        2: {normal: "background-color: pink",       highlighted: "background-color: red;color:white;"},
-                                                        3: {normal: "background-color: lightgray",  highlighted: "background-color: gray;color:white;"},
-                                                        4: {normal: "background-color: yellow",     highlighted: "background-color: orange;color:white;"},
-                                                        5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
-                                                    },
-                highlightedItems:                   {},
-                inUnHighlightAll:                   false,
-                timelineStart:                      null,
-                timelineEnd:                        null,
-                firstCommitTimestamps:              {},
-                listOfAllCommits:                   {},
+                timeline:                               null,
+                timelineData:                           new vis.DataSet([]),
+                currentGroupId:                         1,
+                groupColors:                            {
+                                                            1: {normal: "background-color: lightblue",  highlighted: "background-color: blue;color:white;"},
+                                                            2: {normal: "background-color: pink",       highlighted: "background-color: red;color:white;"},
+                                                            3: {normal: "background-color: lightgray",  highlighted: "background-color: gray;color:white;"},
+                                                            4: {normal: "background-color: yellow",     highlighted: "background-color: orange;color:white;"},
+                                                            5: {normal: "background-color: lightbrown", highlighted: "background-color: brown;color:white;"}
+                                                        },
+                highlightedItems:                       {},
+                inUnHighlightAll:                       false,
+                timelineStart:                          null,
+                timelineEnd:                            null,
+                firstCommitTimestamps:                  {},
+                listOfAllCommits:                        {},
 
                 // release pane
-                pane_release_in_dev_mode:      true,
-                pane_release_env_id:           null,
-                pane_release_env_name:         "",
-                pane_release_env_desc:         "",
+                pane_release_in_dev_mode:               true,
+                pane_release_env_id:                    null,
+                pane_release_env_name:                  "",
+                pane_release_env_desc:                  "",
                 pane_release_env_list:                  [],
                 pane_release_selected_app_position:     null,
                 pane_release_selected_env_pos:          null,
                 pane_release_info_message:              "",
                 pane_release_error_message:             "",
                 pane_release_last_env_is_live:          false,
-                pane_release_commit_code_id:            "fhjedhj",
-                pane_release_development_code_id:        "Qmfhjedhj",
+                pane_release_commit_code_id:            null,
+                pane_release_environment_id:            null,
+                pane_release_development_code_id:       null,
 
                 // environments pane
                 pane_environments_in_dev_mode:          true,
@@ -379,8 +380,7 @@ when was the change in a commit first made (each commit can have many changes)
                 </div>
                 
                 <div v-for="this_env2 in pane_release_env_list">
-                    <div  v-bind:style='"overflow-y: scroll;width: 100%;height:26px;padding:3px;" + (pane_release_selected_app_position == this_env2.id?"background-color: lightgray;":"background-color: white;")'
-                          v-on:click="pane_release_selected_app_position = this_env2.id; pane_release_envSelected()">
+                    <div  v-bind:style='"overflow-y: scroll;width: 100%;height:26px;padding:3px;" + (pane_release_environment_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'>
                       {{this_env2.name}}
                     </div>
                 </div>
