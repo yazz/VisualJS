@@ -72,6 +72,7 @@ when was the change in a commit first made (each commit can have many changes)
                 pane_release_last_env_is_live:          false,
                 pane_release_commit_code_id:            null,
                 pane_release_environment_id:            null,
+                pane_release_next_env_id:               null,
                 pane_release_development_code_id:       null,
 
                 // environments pane
@@ -386,7 +387,7 @@ when was the change in a commit first made (each commit can have many changes)
             </div>
         </span>
            
-        <div style='margin: 10px; margin-top: 30px;'>
+        <div style='margin: 10px; margin-top: 30px;'  v-if="!pane_release_in_dev_mode">
             <!-- ----------------------------------------------
             header
             ---------------------------------------------- -->
@@ -417,10 +418,9 @@ when was the change in a commit first made (each commit can have many changes)
             Promote button
             ---------------------------------------------- -->
             <div style='margin: 10px; margin-top: 0px;'>
-                Promote
                 <button     type=button
                             class=' btn btn-info btn-lg'
-                            v-on:click='pane_release_promotePressed()' >Promote</button>
+                            v-on:click='pane_release_promotePressed()' >Promote to "{{pane_release_next_env_id}}"</button>
             </div>
             
                 
@@ -683,15 +683,17 @@ when was the change in a commit first made (each commit can have many changes)
                 if (tabName == "release") {
                     let release =  yz.helpers.getValueOfCodeString(this.text, "release")
                     let commit  =  yz.helpers.getValueOfCodeString(this.text, "commit")
+                    let envs    =  yz.helpers.getValueOfCodeString(this.text, "environments")
 debugger
                     if (commit) {
                         mm.pane_release_in_dev_mode         = false
                         mm.pane_release_development_code_id = null
                         mm.pane_release_environment_id      = null
                         mm.pane_release_commit_code_id      = mm.codeId
+                        mm.pane_release_next_env_id         = envs.list_of_environments[0].name
                     } else  if (release) {
                         mm.pane_release_in_dev_mode         = false
-                        mm.pane_release_environment_id      = "ENV_X"
+                        mm.pane_release_environment_id      = release.env_id
                         mm.pane_release_development_code_id = null
                         mm.pane_release_commit_code_id      = null
                     } else {
