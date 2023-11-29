@@ -2,6 +2,19 @@ async function(args) {
     /*
 updated_timestamp(1677214094918)
 code_changes([])//code_changes
+environments({
+    "list_of_environments": [
+        {
+            "id": "LIVE",
+            "name": "Live application",
+            "description": "This is an application that is tested and is available to be used by other users.",
+            "url_path": "",
+            "backup_db": true,
+            "backup_db_path": ""
+        }
+    ],
+    "last_env_is_live": true
+})
 formEditor({
   "next_id": 7,
   "max_form": 5,
