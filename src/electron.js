@@ -4605,6 +4605,57 @@ async function  startServices                           (  ) {
             newCommitId:        newCommitId
         }))
     })
+    app.post(   "/http_post_release_code" ,                                  async function (req, res) {
+        let ipfsHash = req.body.value.code_id;
+        let code        = await yz.getCodeForCommit(dbsearch, ipfsHash)
+
+        //
+        // Remove old COMMIT or RELEASE sections
+        //
+        let commit = yz.helpers.getValueOfCodeString(code,"commit")
+        if (commit) {
+            code = yz.helpers.deleteCodeString(code, "commit")
+        }
+        let release = yz.helpers.getValueOfCodeString(code,"release")
+        if (release) {
+            code = yz.helpers.deleteCodeString(code, "release")
+        }
+
+        //
+        // Insert RELEASE section
+        //
+        code     = yz.helpers.insertCodeString(code,"release",
+            {
+                title: 		        req.body.value.header,
+                description: 	    req.body.value.description
+            })
+
+        //
+        // set the parent hash
+        //
+        let parentHash = yz.helpers.getValueOfCodeString(code,"parent_hash")
+        if (parentHash) {
+            code = yz.helpers.deleteCodeString(code, "parent_hash")
+        }
+
+
+
+        let saveResult  = await yz.saveCodeV3(
+            dbsearch,
+            code,
+            {
+                make_public: true,
+                save_html:   true
+            })
+        let newCommitId = saveResult.code_id
+        await yz.tagVersion(dbsearch, newCommitId, newCommitId)
+
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(JSON.stringify({
+            ipfsHash:           ipfsHash,
+            newCommitId:        newCommitId
+        }))
+    })
     app.post(   "/http_post_release_commit" ,                               async function (req, res) {
         //
         // get stuff

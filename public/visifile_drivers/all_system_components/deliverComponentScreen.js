@@ -686,7 +686,7 @@ when was the change in a commit first made (each commit can have many changes)
                     let release =  yz.helpers.getValueOfCodeString(this.text, "release")
                     let commit  =  yz.helpers.getValueOfCodeString(this.text, "commit")
                     let envs    =  yz.helpers.getValueOfCodeString(this.text, "environments")
-debugger
+
                     if (commit) {
                         mm.pane_release_in_dev_mode         = false
                         mm.pane_release_development_code_id = null
@@ -1425,6 +1425,9 @@ debugger
                         await mm.pane_release_clearAll()
                         mm.pane_release_info_message = "Release successful"
                     })
+            },
+            pane_release_clearAll:                                    async function (  ) {
+
             },
             pane_release_clearMessages:                               async function (  ) {
 
