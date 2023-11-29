@@ -348,8 +348,8 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-      <!-- --------------------------- RELEASE PANE ------------------------------
-      |                               --------------
+      <!--  RELEASE PANE ---------------------------------------------------------
+      |    --------------
       |
       |  
       |
@@ -369,17 +369,17 @@ when was the change in a commit first made (each commit can have many changes)
         <span style="width:20%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
             <div style="margin-bottom: 15px;font-size:18px"><b>Current position</b></div>
             <div style="">
-                <div  v-bind:style='"overflow-y: scroll;width: 100%;height:26px;padding:3px;" + (pane_release_development_code_id?"background-color: lightgray;":"background-color: white;")'>
+                <div  v-bind:style='"width: 100%;height:26px;padding:3px;" + (pane_release_development_code_id?"background-color: lightgray;":"background-color: white;")'>
                   Development: 
                 </div>
                 
-                <div  v-bind:style='"overflow-y: scroll;width: 100%;height:26px;padding:3px;" + (pane_release_commit_code_id?"background-color: lightgray;":"background-color: white;")'
+                <div  v-bind:style='"width: 100%;height:26px;padding:3px;" + (pane_release_commit_code_id?"background-color: lightgray;":"background-color: white;")'
                       v-on:click="pane_release_envSelected()">
                   Commit: 
                 </div>
                 
                 <div v-for="this_env2 in pane_release_env_list">
-                    <div  v-bind:style='"overflow-y: scroll;width: 100%;height:26px;padding:3px;" + (pane_release_environment_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'>
+                    <div  v-bind:style='"scroll;width: 100%;height:26px;padding:3px;" + (pane_release_environment_id == this_env2.id?"background-color: lightgray;":"background-color: white;")'>
                       {{this_env2.name}}
                     </div>
                 </div>
@@ -416,8 +416,8 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-    <!-- --------------------------- ENVIRONMENTS PANE ------------------------------
-    |                               --------------------
+    <!--  ENVIRONMENTS PANE ---------------------------------------------------------
+    |    --------------------
     |
     |  
     |
@@ -510,12 +510,13 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-        <!-- --------------------------- EDIT ENVIRONMENT ------------------------------
-        |                             ---------------------
-        |
-        |  Editor for adding or editing an environment
-        |
-        --------------------------------------------------------------------- -->
+          <!--  ENVIRONMENTS PANE ---------------------------------------------------------
+          |    -------  EDIT ENVIRONMENT 
+          |            ------------------
+          |
+          |  Editor for adding or editing an environment
+          |
+          --------------------------------------------------------------------- -->
         <div style="height: 300px;">
             <div v-if="pane_environments_editingEnvironment">
               
