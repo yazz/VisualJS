@@ -74,6 +74,8 @@ when was the change in a commit first made (each commit can have many changes)
                 pane_release_environment_id:            null,
                 pane_release_next_env_id:               null,
                 pane_release_development_code_id:       null,
+                pane_release_header:                    "",
+                pane_release_description:               "",
 
                 // environments pane
                 pane_environments_in_dev_mode:          true,
@@ -393,11 +395,11 @@ when was the change in a commit first made (each commit can have many changes)
             ---------------------------------------------- -->
             <div style="margin-top:5px;">
                 <input
-                    style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width: 100%;'
+                    style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width: 40%;'
                     v-on:click=''
-                    v-on:keydown="pane_changes_clearMessages()"
+                    v-on:keydown="pane_release_clearMessages()"
                     placeholder="Summary (Required)"
-                    v-model='changes_pane_header'
+                    v-model='pane_release_header'
                     value=''>
                 </input>
             </div>
@@ -407,10 +409,10 @@ when was the change in a commit first made (each commit can have many changes)
             ---------------------------------------------- -->
             <div style="margin-top: 0px;">
                 <textarea rows=7
-                          style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:100%"
+                          style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:40%"
                           placeholder="Description"
-                          v-on:keydown="pane_changes_clearMessages()"
-                          v-model='changes_pane_description'>
+                          v-on:keydown="pane_release_clearMessages()"
+                          v-model='pane_release_description'>
                 </textarea>
             </div>
           
@@ -1393,24 +1395,17 @@ debugger
                 // This is used to promote an app/component to an environment
                 //--------------------------------------------------------------------------/
                 let mm = this
-
-                if ((mm.changes_pane_header == null) || (mm.changes_pane_header.length <= 5)) {
-                    mm.commitErrorMessage = "Commit header must be more than 5 chars"
-                    return
-                }
-                if (mm.changes_pane_description == null) {
-                    mm.changes_pane_description = ""
-                }
+                debugger
 
                 showProgressBar()
 
-                let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_commit_code"
+                let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_code"
                 callAjaxPost(postAppUrl,
                     {
                         code_id:                mm.codeId,
                         user_id:                "xyz",
-                        header:                 mm.changes_pane_header,
-                        description:            mm.changes_pane_description
+                        header:                 mm.pane_release_header,
+                        description:            mm.pane_release_description
                     }
                     ,
                     async function(response){
@@ -1427,9 +1422,12 @@ debugger
                                 }
                             )
                         }
-                        await mm.pane_changes_clearAll()
-                        mm.commitMessage = "Commit successful"
+                        await mm.pane_release_clearAll()
+                        mm.pane_release_info_message = "Release successful"
                     })
+            },
+            pane_release_clearMessages:                               async function (  ) {
+
             },
             pane_release_oldVersionReleaseCodePressed:                async function (  ) {
                 //----------------------------------------------------------------------------------
