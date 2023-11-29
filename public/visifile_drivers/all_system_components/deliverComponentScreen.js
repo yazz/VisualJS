@@ -215,8 +215,8 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-      <!-- --------------------------- HISTORY PANE ------------------------------
-      |                               -------------
+      <!--  HISTORY PANE ---------------------------------------------------------
+      |    -------------
       |
       |  
       |
@@ -405,7 +405,7 @@ when was the change in a commit first made (each commit can have many changes)
             <div style='margin-top: 20px;padding-bottom: 40vh;'>
               <button  type=button
                        class=' btn btn-info btn-lg'
-                       v-on:click='pane_release_releaseCodePressed()' >Old release</button>
+                       v-on:click='pane_release_oldVersionReleaseCodePressed()' >Old release</button>
             </div>
             <div style="color:black">{{releaseMessage}}</div>
             <div style="color:red">{{releaseErrorMessage}}</div>
@@ -1354,12 +1354,52 @@ debugger
 
 
             // release pane
-            pane_release_releaseCodePressed:                async function (  ) {
+            pane_release_promotePressed:                     async function (  ) {
+                let mm = this
+
+                if ((mm.changes_pane_header == null) || (mm.changes_pane_header.length <= 5)) {
+                    mm.commitErrorMessage = "Commit header must be more than 5 chars"
+                    return
+                }
+                if (mm.changes_pane_description == null) {
+                    mm.changes_pane_description = ""
+                }
+
+                showProgressBar()
+
+                let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_commit_code"
+                callAjaxPost(postAppUrl,
+                    {
+                        code_id:                mm.codeId,
+                        user_id:                "xyz",
+                        header:                 mm.changes_pane_header,
+                        description:            mm.changes_pane_description
+                    }
+                    ,
+                    async function(response){
+                        let responseJson = JSON.parse(response)
+
+                        hideProgressBar()
+                        if (responseJson && responseJson.newCommitId) {
+                            mm.$root.$emit(
+                                'message'
+                                ,
+                                {
+                                    type:            "force_raw_load",
+                                    commitId:         responseJson.newCommitId
+                                }
+                            )
+                        }
+                        await mm.pane_changes_clearAll()
+                        mm.commitMessage = "Commit successful"
+                    })
+            },
+            pane_release_oldVersionReleaseCodePressed:                async function (  ) {
                 //----------------------------------------------------------------------------------
                 //
-                //                    /-------------------------------------/
-                //                   /  pane_release_releaseCodePressed    /
-                //                  /-------------------------------------/
+                //                    /-----------------------------------------------/
+                //                   /  pane_release_oldVersionReleaseCodePressed    /
+                //                  /-----------------------------------------------/
                 //
                 //----------------------------------------------------------------------------
                 // This tries to release the current commit as the release version
