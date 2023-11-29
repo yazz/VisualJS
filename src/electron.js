@@ -4613,13 +4613,51 @@ async function  startServices                           (  ) {
         // Remove old COMMIT or RELEASE sections
         //
         let commit = yz.helpers.getValueOfCodeString(code,"commit")
+        let release = yz.helpers.getValueOfCodeString(code,"release")
+        let envs = yz.helpers.getValueOfCodeString(code,"environments")
+
+        if ((!commit) && (!release)) {
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify({
+                error: "Code must be committed before release"
+            }))
+            return
+        }
+        if (!envs) {
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.end(JSON.stringify({
+                error: "Code has no environments set"
+            }))
+            return
+        }
+        if (envs) {
+            if (envs.list_of_environments) {
+                if (envs.list_of_environments.length == 0) {
+                    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+                    res.end(JSON.stringify({
+                        error: "Code has empty list of environments"
+                    }))
+                    return
+                }
+            }
+        }
+
         if (commit) {
             code = yz.helpers.deleteCodeString(code, "commit")
         }
-        let release = yz.helpers.getValueOfCodeString(code,"release")
         if (release) {
             code = yz.helpers.deleteCodeString(code, "release")
         }
+
+        let nextEnvId = null
+
+        //
+        // Figure out what the next environment will be
+        //
+        if (commit) {
+            nextEnvId = envs.list_of_environments[0].id
+        }
+
 
         //
         // Insert RELEASE section
@@ -4629,7 +4667,7 @@ async function  startServices                           (  ) {
             {
                 title: 		        req.body.value.header,
                 description: 	    req.body.value.description,
-                env_id:             "LIVE"
+                env_id:             nextEnvId
             })
 
         //
