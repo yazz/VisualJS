@@ -4624,10 +4624,12 @@ async function  startServices                           (  ) {
         //
         // Insert RELEASE section
         //
-        code     = yz.helpers.insertCodeString(code,"release",
+        code     = yz.helpers.insertCodeString(code,
+            "release",
             {
                 title: 		        req.body.value.header,
-                description: 	    req.body.value.description
+                description: 	    req.body.value.description,
+                env_id:             "LIVE"
             })
 
         //
