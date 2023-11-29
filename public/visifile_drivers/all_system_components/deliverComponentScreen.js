@@ -435,8 +435,8 @@ when was the change in a commit first made (each commit can have many changes)
                        class=' btn btn-info btn-lg'
                        v-on:click='pane_release_oldVersionReleaseCodePressed()' >Old release</button>
             </div>
-            <div style="color:black">{{releaseMessage}}</div>
-            <div style="color:red">{{releaseErrorMessage}}</div>
+            <div style="color:black">{{pane_release_info_message}}</div>
+            <div style="color:red">{{pane_release_error_message}}</div>
         </div>
     </div>
 
