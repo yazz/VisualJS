@@ -386,7 +386,33 @@ when was the change in a commit first made (each commit can have many changes)
             </div>
         </span>
            
-        <div style='margin: 10px; margin-top: 30px;'> 
+        <div style='margin: 10px; margin-top: 30px;'>
+            <!-- ----------------------------------------------
+            header
+            ---------------------------------------------- -->
+            <div style="margin-top:5px;">
+                <input
+                    style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width: 100%;'
+                    v-on:click=''
+                    v-on:keydown="pane_changes_clearMessages()"
+                    placeholder="Summary (Required)"
+                    v-model='changes_pane_header'
+                    value=''>
+                </input>
+            </div>
+
+            <!-- ----------------------------------------------
+            description
+            ---------------------------------------------- -->
+            <div style="margin-top: 0px;">
+                <textarea rows=7
+                          style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:100%"
+                          placeholder="Description"
+                          v-on:keydown="pane_changes_clearMessages()"
+                          v-model='changes_pane_description'>
+                </textarea>
+            </div>
+          
             <!-- ----------------------------------------------
             Promote button
             ---------------------------------------------- -->
@@ -394,7 +420,7 @@ when was the change in a commit first made (each commit can have many changes)
                 Promote
                 <button     type=button
                             class=' btn btn-info btn-lg'
-                            v-on:click='pane_release_promoteEnvironment()' >Promote</button>
+                            v-on:click='pane_release_promotePressed()' >Promote</button>
             </div>
             
                 
@@ -1355,6 +1381,15 @@ debugger
 
             // release pane
             pane_release_promotePressed:                     async function (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /     pane_release_promotePressed     /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This is used to promote an app/component to an environment
+                //--------------------------------------------------------------------------/
                 let mm = this
 
                 if ((mm.changes_pane_header == null) || (mm.changes_pane_header.length <= 5)) {
