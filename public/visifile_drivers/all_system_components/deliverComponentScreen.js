@@ -373,12 +373,12 @@ when was the change in a commit first made (each commit can have many changes)
             <div style="margin-bottom: 15px;font-size:18px"><b>Current position</b></div>
             <div style="">
                 <div  v-bind:style='"width: 100%;height:26px;padding:3px;" + (pane_release_development_code_id?"background-color: lightgray;":"background-color: white;")'>
-                  Development: 
+                  &lt;&lt; Development &gt;&gt; 
                 </div>
                 
                 <div  v-bind:style='"width: 100%;height:26px;padding:3px;" + (pane_release_commit_code_id?"background-color: lightgray;":"background-color: white;")'
                       v-on:click="pane_release_envSelected()">
-                  Commit: 
+                  &lt;&lt; Commit &gt;&gt; 
                 </div>
                 
                 <div v-for="this_env2 in pane_release_env_list">
