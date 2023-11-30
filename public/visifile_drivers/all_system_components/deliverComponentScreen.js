@@ -57,7 +57,7 @@ when was the change in a commit first made (each commit can have many changes)
                 timelineStart:                          null,
                 timelineEnd:                            null,
                 firstCommitTimestamps:                  {},
-                listOfAllCommits:                        {},
+                listOfAllCommits:                       {},
 
                 // release pane
                 pane_release_in_dev_mode:               true,
@@ -361,6 +361,31 @@ selectedCommitId:                       {{selectedCommitId}}
             </div>
             
             </div>
+
+
+
+
+
+<pre v-if='$DEBUGUI == "true"'>
+-------------------------------------------------------------------- 
+|                                                                    |
+|                               DEBUG INFO                           |
+|                                                                    |
+-------------------------------------------------------------------- 
+timeline:                               CANNOT SHOW (CIRCULAR REFS)
+timelineData:                           {{timelineData}}
+currentGroupId:                         {{currentGroupId}}
+groupColors:                            {{groupColors}}
+highlightedItems:                       {{highlightedItems}}
+inUnHighlightAll:                       {{inUnHighlightAll}}
+timelineStart:                          {{timelineStart}}
+timelineEnd:                            {{timelineEnd}}
+firstCommitTimestamps:                  {{firstCommitTimestamps}}
+listOfAllCommits:                       {{listOfAllCommits}}
+</pre>
+
+
+
         </div>
 
 
