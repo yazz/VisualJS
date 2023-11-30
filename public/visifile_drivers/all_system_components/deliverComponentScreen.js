@@ -201,6 +201,27 @@ when was the change in a commit first made (each commit can have many changes)
         
           <span style="width:65%;display: inline-block;">
           </span>
+
+
+
+<pre v-if='$DEBUGUI == "true"'>
+ -------------------------------------------------------------------- 
+|                                                                    |
+|                               DEBUG INFO                           |
+|                                                                    |
+ -------------------------------------------------------------------- 
+changes_pane_header:                    {{changes_pane_header}}
+changes_pane_description:               {{changes_pane_description}}
+commitMessage:                          {{commitMessage}}
+commitErrorMessage:                     {{commitErrorMessage}}
+releaseMessage:                         {{releaseMessage}}
+releaseErrorMessage:                    {{releaseErrorMessage}}
+commitCode:                             {{commitCode}}
+parentCommitCode:                       {{parentCommitCode}}
+diffText:                               {{diffText}}
+showCode:                               {{showCode}}
+selectedCommitId:                       {{selectedCommitId}}
+</pre>        
       </div>
 
 
