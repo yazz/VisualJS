@@ -438,6 +438,33 @@ when was the change in a commit first made (each commit can have many changes)
             <div style="color:black">{{pane_release_info_message}}</div>
             <div style="color:red">{{pane_release_error_message}}</div>
         </div>
+
+
+
+
+<pre v-if='$DEBUGUI == "true"'>
+ -------------------------------------------------------------------- 
+|                                                                    |
+|                               DEBUG INFO                           |
+|                                                                    |
+ -------------------------------------------------------------------- 
+pane_release_in_dev_mode:               {{pane_release_in_dev_mode}}
+pane_release_env_id:                    {{pane_release_env_id}}
+pane_release_env_name:                  {{pane_release_env_name}}
+pane_release_env_desc:                  {{pane_release_env_desc}}
+pane_release_env_list:                  {{pane_release_env_list}}
+pane_release_selected_app_position:     {{pane_release_selected_app_position}}
+pane_release_selected_env_pos:          {{pane_release_selected_env_pos}}
+pane_release_info_message:              {{pane_release_info_message}}
+pane_release_error_message:             {{pane_release_error_message}}
+pane_release_last_env_is_live:          {{pane_release_last_env_is_live}}
+pane_release_commit_code_id:            {{pane_release_commit_code_id}}
+pane_release_environment_id:            {{pane_release_environment_id}}
+pane_release_next_env_id:               {{pane_release_next_env_id}}
+pane_release_development_code_id:       {{pane_release_development_code_id}}
+pane_release_header:                    {{pane_release_header}}
+pane_release_description:               {{pane_release_description}}
+</pre>
     </div>
 
 
