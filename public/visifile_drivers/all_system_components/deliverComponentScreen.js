@@ -455,7 +455,7 @@ when was the change in a commit first made (each commit can have many changes)
 
       
       
-        <div  v-if='pane_environments_in_dev_mode' style="padding:15px;"  v-bind:refresh='refresh'>
+        <div   style="padding:15px;"  v-bind:refresh='refresh'>
 
             <div>  
                 {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
@@ -481,35 +481,36 @@ when was the change in a commit first made (each commit can have many changes)
           <!-- ----------------------------------------------
           Environment Buttons
           ---------------------------------------------- -->
-          <span style="width:15%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  v-bind:refresh='refresh' >
+          <span   style="width:15%;display: inline-block;vertical-align: top;padding: 5px;background-color: #ffff00;height:170px;"  
+                  v-bind:refresh='refresh'>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="pane_environments_editingEnvironment"
+                           v-bind:disabled="pane_environments_editingEnvironment || (!pane_environments_in_dev_mode)"
                            v-on:click='pane_environment_addPressed()' >Add</button></div>
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="(pane_environments_selected_env_id==null) || pane_environments_editingEnvironment"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || pane_environments_editingEnvironment || (!pane_environments_in_dev_mode)"
                            v-on:click='pane_environment_editPressed()' >Edit</button></div>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0)"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0) || (!pane_environments_in_dev_mode)"
                            v-on:click='pane_environment_moveUpPressed()' >&uarr;</button></div>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1))"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1)) || (!pane_environments_in_dev_mode)"
                            v-on:click='pane_environment_moveDownPressed()' >&darr;</button></div>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="pane_environments_selected_env_id==null"
+                           v-bind:disabled="pane_environments_selected_env_id==null || (!pane_environments_in_dev_mode)"
                            v-on:click='pane_environment_deletePressed()' >Delete</button></div>
           </span>
 
@@ -546,8 +547,8 @@ when was the change in a commit first made (each commit can have many changes)
           |
           --------------------------------------------------------------------- -->
         <div style="height: 300px;">
-            <div v-if="pane_environments_editingEnvironment">
-              
+            <div v-if="pane_environments_editingEnvironment && pane_environments_in_dev_mode">
+
                 <!-- ----------------------------------------------
                 Environment ID
                 ---------------------------------------------- -->
