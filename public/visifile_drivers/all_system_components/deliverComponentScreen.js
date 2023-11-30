@@ -435,7 +435,8 @@ listOfAllCommits:                       {{listOfAllCommits}}
             </div>
         </span>
            
-        <div style='margin: 10px; margin-top: 30px;'  v-if="!pane_release_in_dev_mode">
+        <div style='margin: 10px; margin-top: 30px;'  
+             v-if="(!pane_release_in_dev_mode) && pane_release_next_env_id">
             <!-- ----------------------------------------------
             header
             ---------------------------------------------- -->
@@ -468,7 +469,6 @@ listOfAllCommits:                       {{listOfAllCommits}}
             <div style='margin: 10px; margin-top: 0px;'>
                 <button     type=button
                             class=' btn btn-info btn-lg'
-                            v-if="pane_release_next_env_id"
                             v-on:click='pane_release_promotePressed()' >Promote to "{{pane_release_next_env_id}}"</button>
             </div>
             
