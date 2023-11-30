@@ -698,11 +698,24 @@ when was the change in a commit first made (each commit can have many changes)
                         mm.pane_release_environment_id      = release.env_id
                         mm.pane_release_development_code_id = null
                         mm.pane_release_commit_code_id      = null
+                        let currentEnvPos = -1
+                        mm.pane_release_next_env_id         = null
+                        for (let pp = 0 ; pp <  envs.list_of_environments.length; pp ++) {
+                            if (release.env_id == envs.list_of_environments[pp].id) {
+                                currentEnvPos = pp
+                            }
+                        }
+                        if (currentEnvPos != -1) {
+                            if ((currentEnvPos + 1) < envs.list_of_environments.length) {
+                                mm.pane_release_next_env_id         = envs.list_of_environments[currentEnvPos + 1].name
+                            }
+                        }
                     } else {
                         mm.pane_release_in_dev_mode         = true
                         mm.pane_release_development_code_id = mm.codeId
                         mm.pane_release_environment_id      = null
                         mm.pane_release_commit_code_id      = null
+                        mm.pane_release_next_env_id         = null
                     }
 
                     let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
