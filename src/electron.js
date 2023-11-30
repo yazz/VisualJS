@@ -4605,7 +4605,7 @@ async function  startServices                           (  ) {
             newCommitId:        newCommitId
         }))
     })
-    app.post(   "/http_post_release_code" ,                                  async function (req, res) {
+    app.post(   "/http_post_promote_to_environment" ,                                  async function (req, res) {
         let ipfsHash = req.body.value.code_id;
         let code        = await yz.getCodeForCommit(dbsearch, ipfsHash)
 
@@ -4656,6 +4656,17 @@ async function  startServices                           (  ) {
         //
         if (commit) {
             nextEnvId = envs.list_of_environments[0].id
+        } else if (release) {
+            for (let pp = 0 ; pp <  envs.list_of_environments.length; pp ++) {
+                if (release.env_id == envs.list_of_environments[pp].id) {
+                    currentEnvPos = pp
+                }
+            }
+            if (currentEnvPos != -1) {
+                if ((currentEnvPos + 1) < envs.list_of_environments.length) {
+                    nextEnvId  = envs.list_of_environments[currentEnvPos + 1].id
+                }
+            }
         }
 
 

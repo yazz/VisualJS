@@ -824,7 +824,7 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
                         }
                         if (currentEnvPos != -1) {
                             if ((currentEnvPos + 1) < envs.list_of_environments.length) {
-                                mm.pane_release_next_env_id         = envs.list_of_environments[currentEnvPos + 1].name
+                                mm.pane_release_next_env_id         = envs.list_of_environments[currentEnvPos + 1].id
                             }
                         }
                     } else {
@@ -1528,7 +1528,7 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
 
                 showProgressBar()
 
-                let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_code"
+                let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_promote_to_environment"
                 callAjaxPost(postAppUrl,
                     {
                         code_id:                mm.codeId,
