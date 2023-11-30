@@ -4669,6 +4669,8 @@ async function  startServices                           (  ) {
                 description: 	    req.body.value.description,
                 env_id:             nextEnvId
             })
+        code    = yz.helpers.deleteCodeString(code, "read_only")
+        code    = yz.helpers.insertCodeString(code, "read_only", true)
 
         //
         // set the parent hash
