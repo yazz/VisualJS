@@ -81,3 +81,26 @@ ____________________________________________________________
         SIMPLE COMMENTS
 
     ---------------------------------------------- -->
+
+
+
+
+
+<pre v-if='$DEBUGUI == "true"'>
+ --------------------------------------------------------------------
+|                                                                    |
+|                               DEBUG INFO                           |
+|                                                                    |
+ --------------------------------------------------------------------
+pane_environments_in_dev_mode:          {{pane_environments_in_dev_mode}}
+pane_environments_editingEnvironment:   {{pane_environments_editingEnvironment}}
+pane_environments_env_id:               {{pane_environments_env_id}}
+pane_environments_env_name:             {{pane_environments_env_name}}
+pane_environments_env_desc:             {{pane_environments_env_list}}
+pane_environments_env_list:             {{pane_environments_env_list}}
+pane_environments_selected_env_id:      {{pane_environments_selected_env_id}}
+pane_environments_selected_env_pos:     {{pane_environments_selected_env_pos}}
+pane_environments_info_message:         {{pane_environments_info_message}}
+pane_environments_error_message:        {{pane_environments_error_message}}
+pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
+</pre>

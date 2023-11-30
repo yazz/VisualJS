@@ -450,7 +450,7 @@ when was the change in a commit first made (each commit can have many changes)
     |  
     |
     -------------------------------------------------------------------------- -->
-
+      
     <div  v-if='selectedTab=="environments"' style="padding:15px;font-family:verdana,helvetica;font-size: 13px;">
 
       
@@ -635,7 +635,36 @@ when was the change in a commit first made (each commit can have many changes)
             <div style="color: black">{{pane_environments_info_message}}</div>
             <div style="color: red">{{pane_environments_error_message}}</div>
         </div>
-      
+
+
+
+
+      <!--  ENVIRONMENTS PANE ---------------------------------------------------------
+      |    -------  DEBUG VIEW 
+      |            ------------------
+      |
+      --------------------------------------------------------------------- -->
+
+      <pre v-if='$DEBUGUI == "true"'>
+ -------------------------------------------------------------------- 
+|                                                                    |
+|                               DEBUG INFO                           |
+|                                                                    |
+ -------------------------------------------------------------------- 
+pane_environments_in_dev_mode:          {{pane_environments_in_dev_mode}}
+pane_environments_editingEnvironment:   {{pane_environments_editingEnvironment}}
+pane_environments_env_id:               {{pane_environments_env_id}}
+pane_environments_env_name:             {{pane_environments_env_name}}
+pane_environments_env_desc:             {{pane_environments_env_list}}
+pane_environments_env_list:             {{pane_environments_env_list}}
+pane_environments_selected_env_id:      {{pane_environments_selected_env_id}}
+pane_environments_selected_env_pos:     {{pane_environments_selected_env_pos}}
+pane_environments_info_message:         {{pane_environments_info_message}}
+pane_environments_error_message:        {{pane_environments_error_message}}
+pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
+      </pre>
+
+
     </div>
 
 
@@ -664,7 +693,6 @@ when was the change in a commit first made (each commit can have many changes)
             switchTab:                                      async function (  {  tabName  }  ) {
                 let mm = this
                 mm.selectedTab = tabName
-
 
                 // ------------------------------------------------
                 //    init history pane
@@ -1408,7 +1436,6 @@ when was the change in a commit first made (each commit can have many changes)
                 // This is used to promote an app/component to an environment
                 //--------------------------------------------------------------------------/
                 let mm = this
-                debugger
 
                 showProgressBar()
 
