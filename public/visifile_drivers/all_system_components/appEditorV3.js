@@ -1846,11 +1846,14 @@ End of app preview menu
                 let mm = this
                 debugger
 
-                await mm.loadComponentIntoEditor({codeId:  this.code_id , runThisApp: false})
-                setTimeout(function(){
-                    console.log("appClearIntervals()")
-                    appClearIntervals()
-                },2500)
+                let parentHash = yz.helpers.getValueOfCodeString(this.editor_text, "parent_hash")
+                if (parentHash) {
+                    await mm.loadComponentIntoEditor({codeId:  parentHash , runThisApp: true})
+                    setTimeout(function(){
+                        console.log("appClearIntervals()")
+                        appClearIntervals()
+                    },2500)
+                }
             },
             redo:                           async function  (  ) {
                 //----------------------------------------------------------------------------------/
