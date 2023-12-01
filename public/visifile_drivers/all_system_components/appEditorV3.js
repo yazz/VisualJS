@@ -1849,6 +1849,8 @@ End of app preview menu
                 let parentHash = yz.helpers.getValueOfCodeString(this.editor_text, "parent_hash")
                 if (parentHash) {
                     await mm.loadComponentIntoEditor({codeId:  parentHash , runThisApp: true})
+                    //await mm.save(mm.base_component_id, parentHash, null)
+                    await mm.closeSubEditor()
                     setTimeout(function(){
                         console.log("appClearIntervals()")
                         appClearIntervals()
