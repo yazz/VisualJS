@@ -1847,6 +1847,8 @@ End of app preview menu
                 debugger
 
                 let parentHash = yz.helpers.getValueOfCodeString(this.editor_text, "parent_hash")
+                mm.code_id = parentHash
+                await mm.closeSubEditor()
                 if (parentHash) {
                     mm.$root.$emit(
                         'message'
