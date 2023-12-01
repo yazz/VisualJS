@@ -398,6 +398,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Undo last change")'
                        v-on:mouseleave='setInfo(null)'
+                       v-on:click='setTimeout(async function(){await undo()},100)'
                        type="button" class="btn btn-light ">
 
                     <img
@@ -422,6 +423,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Redo last change")'
                        v-on:mouseleave='setInfo(null)'
+                       v-on:click='setTimeout(async function(){await redo()},100)'
                        type="button" class="btn btn-light ">
 
                     <img
@@ -1826,6 +1828,49 @@ End of app preview menu
                     mm.editor_shell_locked = false
                     return true
                 }
+            },
+            undo:                           async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /                  undo               /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // Undo the last change. We can do this by looking for the parent change
+                // and switching to that
+                //
+                // Note that when we do an Undo we need to record the chain of undos since
+                // we may need to redo the changes
+                //-----------------------------------------------------------/
+                let mm = this
+                debugger
+
+                await mm.loadComponentIntoEditor({codeId:  this.code_id , runThisApp: false})
+                setTimeout(function(){
+                    console.log("appClearIntervals()")
+                    appClearIntervals()
+                },2500)
+            },
+            redo:                           async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /                  redo               /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // Redo the last undone change. To do this we need to make a note of where we came from
+                // when we do an undo in the first place
+                //-----------------------------------------------------------/
+                let mm = this
+                debugger
+
+                await mm.loadComponentIntoEditor({codeId:  this.code_id , runThisApp: false})
+                setTimeout(function(){
+                    console.log("appClearIntervals()")
+                    appClearIntervals()
+                },2500)
             },
 
             // debugger
