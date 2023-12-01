@@ -489,7 +489,7 @@ listOfAllCommits:                       {{listOfAllCommits}}
 
 
 
-<pre v-if='$DEBUGUI == "true"'>
+<pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
 |                               DEBUG INFO                           |
