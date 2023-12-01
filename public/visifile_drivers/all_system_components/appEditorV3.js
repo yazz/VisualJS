@@ -1031,6 +1031,7 @@ End of app preview menu
 `,
         data:           function() {
            return {
+               undo_list:                       [],
                sqlite_data_saved_in_html:       false,
                file_save_state:                 (saveCodeToFile?saveCodeToFile:""),
                editor_shell_locked:             true,
@@ -1844,20 +1845,20 @@ End of app preview menu
                 // we may need to redo the changes
                 //-----------------------------------------------------------/
                 let mm = this
-                debugger
 
                 let parentHash = yz.helpers.getValueOfCodeString(this.editor_text, "parent_hash")
-                mm.code_id = parentHash
-                await mm.closeSubEditor()
                 if (parentHash) {
+                    mm.undo_list.push(mm.code_id)
+                    mm.code_id = parentHash
+                    await mm.closeSubEditor()
                     mm.$root.$emit(
                         'message'
                         ,
                         {
                             type:            "force_raw_load",
                             commitId:        parentHash
-                        }
-                    )
+                        })
+
                 }
             },
             redo:                           async function  (  ) {
@@ -1872,13 +1873,21 @@ End of app preview menu
                 // when we do an undo in the first place
                 //-----------------------------------------------------------/
                 let mm = this
-                debugger
 
-                await mm.loadComponentIntoEditor({codeId:  this.code_id , runThisApp: false})
-                setTimeout(function(){
-                    console.log("appClearIntervals()")
-                    appClearIntervals()
-                },2500)
+                if (mm.undo_list.length > 0) {
+                    let codeId = mm.undo_list.pop(  )
+                    await mm.closeSubEditor()
+                    if (codeId) {
+                        mm.$root.$emit(
+                            'message'
+                            ,
+                            {
+                                type:            "force_raw_load",
+                                commitId:        codeId
+                            }
+                        )
+                    }
+                }
             },
 
             // debugger
