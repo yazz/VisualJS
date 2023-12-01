@@ -204,7 +204,7 @@ when was the change in a commit first made (each commit can have many changes)
 
 
 
-<pre v-if='$DEBUGUI == "true"'>
+<pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
 |                               DEBUG INFO                           |
@@ -366,7 +366,7 @@ selectedCommitId:                       {{selectedCommitId}}
 
 
 
-<pre v-if='$DEBUGUI == "true"'>
+<pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
 -------------------------------------------------------------------- 
 |                                                                    |
 |                               DEBUG INFO                           |
@@ -524,7 +524,7 @@ pane_release_description:               {{pane_release_description}}
 
       <div  v-if='selectedTab=="databases"' style="padding:15px;font-family:verdana,helvetica;font-size: 13px;">
         DATABASES
-<pre v-if='$DEBUGUI == "true"'>
+<pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
 |                               DEBUG INFO                           |
@@ -735,7 +735,7 @@ pane_release_description:               {{pane_release_description}}
       |
       --------------------------------------------------------------------- -->
 
-      <pre v-if='$DEBUGUI == "true"'>
+      <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
 |                               DEBUG INFO                           |
