@@ -16,7 +16,8 @@ load_once_from_file(true)
             editorDomId:    newEditorDomId,
             errors:         null,
             sqlText:        "{}",
-            editor:         null
+            editor:         null,
+            selectedTab:    "home"
         }
       },
       template: `<div style='background-color:white; ' >
@@ -30,6 +31,43 @@ load_once_from_file(true)
 
                                App Sqlite Database Editor
                           </div>
+
+
+                        <!--  MAIN TAB MENU ---------------------------------------------------------
+                        |    ---------------
+                        |
+                        |  Details of the main tab menu
+                        |
+                        --------------------------------------------------------------------- -->
+                        <div class="container" style="margin-top: 40px;">
+                          <ul class="nav nav-pills">
+
+                            <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "home"})'>
+                              <a v-bind:class='"nav-link" + (selectedTab=="home"?" active":"")' href="#">Home</a>
+                            </li>
+
+                            <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "tables"})'>
+                              <a v-bind:class='"nav-link" + (selectedTab=="tables"?" active":"")' href="#">Tables</a>
+                            </li>
+
+                            <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "fields"})'>
+                              <a v-bind:class='"nav-link" + (selectedTab=="fields"?" active":"")' href="#">Fields</a>
+                            </li>
+
+                            <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "data"})'>
+                              <a v-bind:class='"nav-link" + (selectedTab=="data"?" active":"")' href="#">Data</a>
+                            </li>
+
+                            <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "sql"})'>
+                              <a v-bind:class='"nav-link" + (selectedTab=="sql"?" active":"")' href="#">Sql</a>
+                            </li>
+
+                            <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "text"})'>
+                              <a v-bind:class='"nav-link" + (selectedTab=="text"?" active":"")' href="#">Text</a>
+                            </li>
+                          </ul>
+                        </div>
+
 
                         <div    v-bind:id='editorDomId' >
                         </div>
@@ -126,6 +164,17 @@ load_once_from_file(true)
          mm.editor.focus();
      },
      methods: {
+         switchTab:                                      async function (  {  tabName  }  ) {
+             let mm = this
+             mm.selectedTab = tabName
+
+             // ------------------------------------------------
+             //    init history pane
+             // ------------------------------------------------
+             if (tabName == "xyz") {
+             }
+         }
+         ,
         gotoLine: function(line) {
             this.editor.gotoLine(line , 10, true);
         }
