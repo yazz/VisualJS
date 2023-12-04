@@ -369,7 +369,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                   
                   <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-on:click='setTimeout(async function(){await switchEditor("sqlite_editor_component")},100)'
+                       v-on:click='setTimeout(async function(){await switchEditor("sqlite_app_editor_component_v2")},100)'
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Publish this app to the central server")'
                        v-on:mouseleave='setInfo(null)'
