@@ -156,8 +156,6 @@ load_once_from_file(true)
                 // ------------------------------------------------
                 if (tabName == "text") {
                     mm.$nextTick(() => {
-                        let thisVueInstance = this
-                        let mm = this
                         args.text           = null
                         yz.mainVars.disableAutoSave     = true
 
@@ -181,7 +179,7 @@ load_once_from_file(true)
                             //
                             // set the editor to read only if in read only mode
                             //
-                            mm.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+                            mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                             if (mm.read_only) {
                                 mm.editor.setReadOnly(true)
                             }
@@ -191,7 +189,7 @@ load_once_from_file(true)
                             // If a database definition has been given then read it
                             //
 
-                            let llsqlText = yz.helpers.getValueOfCodeString(this.text, "sqlite", ")//sqlite")
+                            let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
                             if (isValidObject(llsqlText)) {
                                 mm.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
                             } else {
@@ -208,50 +206,50 @@ load_once_from_file(true)
                         document.getElementById(mm.editorDomId).style["border"] = "0px"
 
                         document.getElementById(mm.editorDomId).style.height="65vh"
-                        if (isValidObject(thisVueInstance.text)) {
-                            mm.editor.getSession().setValue(thisVueInstance.sqlText);
-                            mm.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+                        if (isValidObject(mm.text)) {
+                            mm.editor.getSession().setValue(mm.sqlText);
+                            mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                         }
 
                         mm.editor.getSession().setUseWorker(false);
-                        if (this.read_only) {
+                        if (mm.read_only) {
                             mm.editor.setReadOnly(true)
                         }
 
 
                         mm.editor.getSession().on('change', function() {
                             let haveIChangedtext = false
-                            if (thisVueInstance.sqlText != mm.editor.getSession().getValue()) {
+                            if (mm.sqlText != mm.editor.getSession().getValue()) {
                                 haveIChangedtext = true
                             }
-                            thisVueInstance.sqlText = mm.editor.getSession().getValue();
-                            thisVueInstance.errors = null
-                            if (!isValidObject(thisVueInstance.sqlText)) {
+                            mm.sqlText = mm.editor.getSession().getValue();
+                            mm.errors = null
+                            if (!isValidObject(mm.sqlText)) {
                                 return
                             }
-                            if (thisVueInstance.sqlText.length == 0) {
+                            if (mm.sqlText.length == 0) {
                                 return
                             }
                             try {
-                                let newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
+                                let newNode = esprima.parse("(" + mm.sqlText + ")", { tolerant: true })
                                 //alert(JSON.stringify(newNode.errors, null, 2))
-                                thisVueInstance.errors = newNode.errors
-                                if (thisVueInstance.errors) {
-                                    if (thisVueInstance.errors.length == 0) {
-                                        thisVueInstance.errors = null
+                                mm.errors = newNode.errors
+                                if (mm.errors) {
+                                    if (mm.errors.length == 0) {
+                                        mm.errors = null
                                         if (haveIChangedtext) {
-                                            thisVueInstance.$root.$emit(
+                                            mm.$root.$emit(
                                                 'message', {
                                                     type:   "pending"
                                                 })
                                         }
                                     } else {
-                                        thisVueInstance.errors = thisVueInstance.errors[0]
+                                        mm.errors = mm.errors[0]
                                     }
                                 }
                             } catch(e) {
                                 //alert(JSON.stringify(e, null, 2))
-                                thisVueInstance.errors = e
+                                mm.errors = e
                             }
                         });
 
@@ -295,7 +293,7 @@ load_once_from_file(true)
                 // Sets the source code text, in this case the SQL definitions are what
                 // is read by the database editor
                 //------------------------------------------------------------------------/
-                let thisVueInstance = this
+                let mm = this
                 this.text           =  textValue
 
                 if (!isValidObject(this.text)) {
