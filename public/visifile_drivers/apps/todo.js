@@ -89,5 +89,40 @@ Yazz.component({
     }
     )//sqlite
    grant_full_db_access_to(["todo_app_reader"])
+
+
+    database(
+    {
+        11:
+        {
+            timestamp_ms:	11,
+            name: 		    "create table X",
+            up: 			[ "create table x ()" ],
+            down: 		    [ "drop table X" ]
+        }
+        ,
+        453:
+        {
+            timestamp_ms:	453,
+            name: 		    "create table Y",
+            up:			    [
+                                "create table Y (int x)",
+                                "create index pls"
+                            ],
+            down: 		    [
+                                "drop table Y",
+                                "drop index pls"
+                            ]
+        }
+        ,
+        678867:
+        {
+            timestamp_ms:	678867,
+            name:			"create table Z",
+            up: 			[ "create table Z ()" ],
+            down:			[ "drop table Z" ]
+        }
+    })//database
+
    */
 }
