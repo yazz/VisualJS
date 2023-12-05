@@ -189,7 +189,7 @@ load_once_from_file(true)
                             // If a database definition has been given then read it
                             //
 
-                            let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
+                            let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                             if (isValidObject(llsqlText)) {
                                 mm.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
                             } else {
@@ -277,8 +277,8 @@ load_once_from_file(true)
                     return null
                 }
 
-                this.text = yz.helpers.deleteCodeString(this.text, "sqlite", ")//sqlite")
-                this.text = yz.helpers.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
+                this.text = yz.helpers.deleteCodeString(this.text, "database", ")//database")
+                this.text = yz.helpers.insertCodeString(this.text, "database", JSON.parse(this.sqlText) ,")//database")
 
                 return this.text
             },
