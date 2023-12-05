@@ -97,7 +97,7 @@ load_once_from_file(true)
         </div>
       
         <pre>
-          {{text}}
+{{text}}
         </pre>
         
         <pre    v-on:click="gotoLine(errors.lineNumber)"
@@ -163,38 +163,21 @@ load_once_from_file(true)
                 //    init history pane
                 // ------------------------------------------------
                 if (tabName == "text") {
-                    mm.$nextTick(() => {
-                        args.text           = null
-                        yz.mainVars.disableAutoSave     = true
+                    debugger
+                    args.text           = null
+                    yz.mainVars.disableAutoSave     = true
 
-                        ace.config.set('basePath', '/');
-                        mm.editor = ace.edit(           mm.editorDomId, {
-                            selectionStyle: "text",
-                            mode:           "ace/mode/javascript"
-                        })
-
-                        //Bug fix: Need a delay when setting theme or view is corrupted
-                        setTimeout(function(){
-                            let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
-                            if (isValidObject(llsqlText)) {
-                                mm.text =  llsqlText
-                            } else {
-                                mm.text =  JSON.stringify(  [] , null , 2  )
-                            }
+                    let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
+                    if (isValidObject(llsqlText)) {
+                        mm.text =  llsqlText
+                    } else {
+                        mm.text =  JSON.stringify(  [] , null , 2  )
+                    }
 
 
-                        },100)
-
-
-
-                        if (isValidObject(mm.text)) {
-                            mm.text = mm.sqlText
-                            mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
-                        }
-
-
-
-                    });
+                    if (isValidObject(mm.text)) {
+                        mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
+                    }
                 }
             },
             gotoLine:                   function        (  line  ) {
@@ -232,6 +215,7 @@ load_once_from_file(true)
                 // is read by the database editor
                 //------------------------------------------------------------------------/
                 let mm = this
+                debugger
                 this.text           =  textValue
 
                 if (!isValidObject(this.text)) {
