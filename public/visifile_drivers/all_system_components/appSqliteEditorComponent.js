@@ -90,7 +90,7 @@ load_once_from_file(true)
     <div  v-if='selectedTab=="text"'  style="padding:15px;">
         
         <pre>
-{{text}}
+{{sqlText}}
         </pre>
         
         <pre    v-on:click="gotoLine(errors.lineNumber)"
@@ -162,9 +162,9 @@ load_once_from_file(true)
 
                     let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                     if (isValidObject(llsqlText)) {
-                        mm.text =  llsqlText
+                        mm.sqlText =  llsqlText
                     } else {
-                        mm.text =  JSON.stringify(  [] , null , 2  )
+                        mm.sqlText =  JSON.stringify(  [] , null , 2  )
                     }
 
 
