@@ -17,7 +17,11 @@ load_once_from_file(true)
             errors:         null,
             sqlText:        "{}",
             editor:         null,
-            selectedTab:    "home"
+            selectedTab:    "home",
+
+            // text pane
+
+
         }
       },
         template: `<div style='background-color:white; ' >
@@ -91,6 +95,10 @@ load_once_from_file(true)
         
         <div    v-bind:id='editorDomId' >
         </div>
+      
+        <pre>
+          {{text}}
+        </pre>
         
         <pre    v-on:click="gotoLine(errors.lineNumber)"
                 style="background:pink;color:blue;"
@@ -167,33 +175,11 @@ load_once_from_file(true)
 
                         //Bug fix: Need a delay when setting theme or view is corrupted
                         setTimeout(function(){
-                            mm.editor.setTheme("ace/theme/sqlserver");
-
-                            let langTools = ace.require("ace/ext/language_tools");
-                            mm.editor.setOptions({
-                                enableBasicAutocompletion: true,
-                                enableSnippets: true,
-                                enableLiveAutocompletion: false
-                            });
-
-                            //
-                            // set the editor to read only if in read only mode
-                            //
-                            mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
-                            if (mm.read_only) {
-                                mm.editor.setReadOnly(true)
-                            }
-
-
-                            //
-                            // If a database definition has been given then read it
-                            //
-
                             let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                             if (isValidObject(llsqlText)) {
-                                mm.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
+                                mm.text =  llsqlText
                             } else {
-                                mm.editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
+                                mm.text =  JSON.stringify(  [] , null , 2  )
                             }
 
 
@@ -201,60 +187,12 @@ load_once_from_file(true)
 
 
 
-                        document.getElementById(mm.editorDomId).style["font-size"] = "16px"
-                        document.getElementById(mm.editorDomId).style.width="100%"
-                        document.getElementById(mm.editorDomId).style["border"] = "0px"
-
-                        document.getElementById(mm.editorDomId).style.height="65vh"
                         if (isValidObject(mm.text)) {
-                            mm.editor.getSession().setValue(mm.sqlText);
+                            mm.text = mm.sqlText
                             mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                         }
 
-                        mm.editor.getSession().setUseWorker(false);
-                        if (mm.read_only) {
-                            mm.editor.setReadOnly(true)
-                        }
 
-
-                        mm.editor.getSession().on('change', function() {
-                            let haveIChangedtext = false
-                            if (mm.sqlText != mm.editor.getSession().getValue()) {
-                                haveIChangedtext = true
-                            }
-                            mm.sqlText = mm.editor.getSession().getValue();
-                            mm.errors = null
-                            if (!isValidObject(mm.sqlText)) {
-                                return
-                            }
-                            if (mm.sqlText.length == 0) {
-                                return
-                            }
-                            try {
-                                let newNode = esprima.parse("(" + mm.sqlText + ")", { tolerant: true })
-                                //alert(JSON.stringify(newNode.errors, null, 2))
-                                mm.errors = newNode.errors
-                                if (mm.errors) {
-                                    if (mm.errors.length == 0) {
-                                        mm.errors = null
-                                        if (haveIChangedtext) {
-                                            mm.$root.$emit(
-                                                'message', {
-                                                    type:   "pending"
-                                                })
-                                        }
-                                    } else {
-                                        mm.errors = mm.errors[0]
-                                    }
-                                }
-                            } catch(e) {
-                                //alert(JSON.stringify(e, null, 2))
-                                mm.errors = e
-                            }
-                        });
-
-                        mm.editor.resize(true);
-                        mm.editor.focus();
 
                     });
                 }
