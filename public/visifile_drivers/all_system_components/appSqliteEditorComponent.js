@@ -69,12 +69,72 @@ load_once_from_file(true)
                         </div>
 
 
+
+
+
+
+
+
+
+
+
+
+      <!--  TEXT PANE ---------------------------------------------------------
+      |    --------------
+      |
+      |  
+      |
+      -------------------------------------------------------------------------- -->
+
+
+    <div  v-if='selectedTab=="text"' style="padding:15px;">
+
+        Text pane
+
+
+
+
+<pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
+ -------------------------------------------------------------------- 
+|                                                                    |
+|                               DEBUG INFO                           |
+|                                                                    |
+ -------------------------------------------------------------------- 
+</pre>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
                         <div    v-bind:id='editorDomId' >
                         </div>
 
                         <pre    v-on:click="gotoLine(errors.lineNumber)"
                                 style="background:pink;color:blue;"
                                 v-if="errors != null">Line {{errors.lineNumber}}: {{errors.description}}</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     </div>
                     <hr></hr>
