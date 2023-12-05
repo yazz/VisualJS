@@ -5,15 +5,11 @@ component_type("SYSTEM")
 load_once_from_file(true)
 */
 
-    let newEditorDomId     = uuidv4()
-
-
     Yazz.component( {
         data: function () {
         return {
             text:           args.text,
             read_only:      false,
-            editorDomId:    newEditorDomId,
             errors:         null,
             sqlText:        "{}",
             editor:         null,
@@ -93,9 +89,6 @@ load_once_from_file(true)
 
     <div  v-if='selectedTab=="text"'  style="padding:15px;">
         
-        <div    v-bind:id='editorDomId' >
-        </div>
-      
         <pre>
 {{text}}
         </pre>
