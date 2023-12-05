@@ -95,34 +95,23 @@ Yazz.component({
     {
         migrations_by_timestamp_ms:
         {
-            11:
+            1669781800000:
             {
-                timestamp_ms:	11,
-                name: 		    "create table X",
-                up: 			[ "create table x ()" ],
-                down: 		    [ "drop table X" ]
-            }
-            ,
-            453:
-            {
-                timestamp_ms:	453,
-                name: 		    "create table Y",
-                up:			    [
-                                    "create table Y (int x)",
-                                    "create index pls"
+                timestamp_ms:	1669781800000,
+                name: 		    "Create the initial item table",
+                up: 			[
+                                    "CREATE TABLE items (id	TEXT, name	TEXT);",
+                                    "alter TABLE items add column time INTEGER;"
                                 ],
-                down: 		    [
-                                    "drop table Y",
-                                    "drop index pls"
-                                ]
+                down: 		    [  "drop table items"  ]
             }
             ,
-            678867:
+            1669781800001:
             {
-                timestamp_ms:	678867,
-                name:			"create table Z",
-                up: 			[ "create table Z ()" ],
-                down:			[ "drop table Z" ]
+                timestamp_ms:	1669781800001,
+                name: 		    "Add a column for the user name",
+                up:			    [  "alter TABLE items add column user TEXT;"  ],
+                down: 		    [  "alter TABLE items drop column user;"  ]
             }
         }
     })//database
