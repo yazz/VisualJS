@@ -9,7 +9,7 @@ load_once_from_file(true)
 
 
     Yazz.component( {
-      data: function () {
+        data: function () {
         return {
             text:           args.text,
             read_only:      false,
@@ -20,7 +20,7 @@ load_once_from_file(true)
             selectedTab:    "home"
         }
       },
-      template: `<div style='background-color:white; ' >
+        template: `<div style='background-color:white; ' >
                       <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
                           <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
                           </slot>
@@ -88,7 +88,6 @@ load_once_from_file(true)
 
 
     <div  v-if='selectedTab=="text"' style="padding:15px;">
-
         Text pane
 
 
@@ -139,9 +138,9 @@ load_once_from_file(true)
                     </div>
                     <hr></hr>
                  </div>`
-     ,
+        ,
 
-     mounted: function() {
+        mounted: function() {
          let thisVueInstance = this
          let mm = this
          args.text           = null
@@ -223,92 +222,95 @@ load_once_from_file(true)
          mm.editor.resize(true);
          mm.editor.focus();
      },
-     methods: {
-         switchTab:                                      async function (  {  tabName  }  ) {
-             let mm = this
-             mm.selectedTab = tabName
+        methods: {
+            switchTab:                  async function  (  {  tabName  }  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /               switchTab             /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This switches to a new tab
+                //------------------------------------------------------------------------/
+                let mm = this
+                mm.selectedTab = tabName
 
-             // ------------------------------------------------
-             //    init history pane
-             // ------------------------------------------------
-             if (tabName == "xyz") {
-             }
-         }
-         ,
-        gotoLine: function(line) {
+                // ------------------------------------------------
+                //    init history pane
+                // ------------------------------------------------
+                if (tabName == "text") {
+                    mm.$nextTick(() => {
+                        alert(1);
+                    });
+                }
+            },
+            gotoLine:                   function        (  line  ) {
             this.editor.gotoLine(line , 10, true);
-        }
-        ,
+            },
+            getText:                    async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /                 getText             /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // gets the source code text, in this case changes to the
+                // SQL definitions
+                //------------------------------------------------------------------------/
+                if (!isValidObject(this.text)) {
+                    return null
+                }
+
+                this.text = yz.helpers.deleteCodeString(this.text, "sqlite", ")//sqlite")
+                this.text = yz.helpers.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
+
+                return this.text
+            },
+            setText:                    function        (  textValue  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /                 setText             /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // Sets the source code text, in this case the SQL definitions are what
+                // is read by the database editor
+                //------------------------------------------------------------------------/
+                let thisVueInstance = this
+                this.text           =  textValue
+
+                if (!isValidObject(this.text)) {
+                    return
+                }
+
+                //
+                // set the editor to read only if in read only mode
+                //
 
 
-
-        // -----------------------------------------------------
-        //                      getText
-        //
-        // This is called to get the SQL definitions
-        //
-        //
-        //
-        // -----------------------------------------------------
-        getText: async function() {
-            if (!isValidObject(this.text)) {
-                return null
-            }
-
-            this.text = yz.helpers.deleteCodeString(this.text, "sqlite", ")//sqlite")
-            this.text = yz.helpers.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
-
-            return this.text
-        }
-        ,
-
-
-
-        // -----------------------------------------------------
-        //                      setText
-        //
-        // This is called to set the SQL
-        //
-        //
-        //
-        // -----------------------------------------------------
-        setText: function(textValue) {
-            let thisVueInstance = this
-            this.text           =  textValue
-
-            if (!isValidObject(this.text)) {
-                return
-            }
-
-            //
-            // set the editor to read only if in read only mode
-            //
-
-
-            this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
-            if (this.read_only) {
-               this.editor.setReadOnly(true)
-            }
+                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+                if (this.read_only) {
+                   this.editor.setReadOnly(true)
+                }
 
 
 
 
 
-            //
-            // If a database definition has been given then read it
-            //
+                //
+                // If a database definition has been given then read it
+                //
 
-            let llsqlText = yz.helpers.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
-            if (isValidObject(llsqlText)) {
-                this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
-            } else {
-                this.editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
+                let llsqlText = yz.helpers.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
+                if (isValidObject(llsqlText)) {
+                    this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
+                } else {
+                    this.editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
+                }
             }
         }
-
-     }
-
-
     })
-
 }
