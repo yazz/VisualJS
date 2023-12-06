@@ -93,6 +93,10 @@ Yazz.component({
 
     database(
     {
+        db_type:
+        {
+            name: "sqlite"
+        },
         migrations_by_timestamp_ms:
         {
             1669781800000:
@@ -109,9 +113,10 @@ Yazz.component({
             1669781800001:
             {
                 timestamp_ms:	1669781800001,
-                name: 		    "Add a column for the user name",
-                up:			    [  "alter TABLE items add column user TEXT;"  ],
-                down: 		    [  "alter TABLE items drop column user;"  ]
+                name: 	        "Add a column for the user name",
+                up:             [  "alter TABLE items add column user TEXT;"  ],
+                down: 	        [  "alter TABLE items drop column user;"  ],
+                down_sqlite:    [  "update items set user = null;"  ]
             }
         }
     })//database
