@@ -552,21 +552,7 @@ pane_release_description:               {{pane_release_description}}
       <div  v-if='selectedTab=="databases"' style="padding:15px;font-family:verdana,helvetica;font-size: 13px;">
         DATABASES
 
-        <div>
-            <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;' "
-                 href="#"
-                 v-on:click='setTimeout(async function(){$root.$emit("message", {type:          "switch_editor",editorName: "sqlite_editor_component"})},100)'
-                 type="button" class="btn btn-light ">
-    
-              <img
-                  src='/driver_icons/database.png'
-                  style='height:35px; margin-right: 0px;'
-                  class='img-fluid'>
-              </img>
-              Old DB Editor
-    
-            </a>
-        </div>
+
 
 
 
