@@ -200,6 +200,25 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 </component>
                         </div>
                     </div>
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     <!-- -------------------------------------  Show the Yazz logo and top tabs   ------------------------------------------------ -->
                     <!-- 
@@ -274,7 +293,21 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             
                       </span>
                     </div>
-                
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     <!-- ------------------------------------   Show the top buttons, New App, etc    -->
                     <!-- 
                      
@@ -450,6 +483,19 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         </h1>
                     </div>
 
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     <!-- -----------------------------------    Show the "Editable" apps ------------------------------------------------ -->
                     <!-- 
                      
@@ -554,6 +600,26 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 </div>
                             </div>
                 
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
                     <!-- 
                      
