@@ -529,7 +529,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     <div    class=""
                             v-bind:refresh='refresh'
                             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
-                        <span style="font-size: 60px; color: white;">All Apps</span>
                         <div  v-bind:refresh='refresh'
                               class='force_scrollbars'
                               style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;margin-bottom:80px;'>
