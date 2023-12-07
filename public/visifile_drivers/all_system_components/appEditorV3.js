@@ -223,6 +223,8 @@ ___________
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){switchEditor("export_editor_component")},100)' >Export</button>
 
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){switchEditor("environment_editor_component")},100)' >Envs</button>
+
             </div>
 
 
