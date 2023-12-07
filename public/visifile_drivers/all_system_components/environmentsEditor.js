@@ -22,7 +22,7 @@ when was the change in a commit first made (each commit can have many changes)
             // ******** DATA ********
             return {
                 // common code
-                selectedTab:                            "changes",
+                selectedTab:                            "environments",
                 refresh:                                0,
                 text:                                   args.text,
                 baseComponentId:                        null,
@@ -119,22 +119,6 @@ when was the change in a commit first made (each commit can have many changes)
         <div class="container" style="margin-top: 40px;">
             <ul class="nav nav-pills">
 
-                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "changes"})'>
-                  <a v-bind:class='"nav-link" + (selectedTab=="changes"?" active":"")' href="#">Changes</a>
-                </li>
-
-                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "history"})'>
-                    <a v-bind:class='"nav-link" + (selectedTab=="history"?" active":"")' href="#">History</a>
-                </li>
-              
-                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "release"})'>
-                    <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
-                </li>
-              
-                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "databases"})'>
-                    <a v-bind:class='"nav-link" + (selectedTab=="databases"?" active":"")' href="#">Databases</a>
-                </li>
-              
                 <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "environments"})'>
                     <a v-bind:class='"nav-link" + (selectedTab=="environments"?" active":"")' href="#">Envs</a>
                 </li>

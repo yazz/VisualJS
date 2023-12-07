@@ -130,14 +130,6 @@ when was the change in a commit first made (each commit can have many changes)
                 <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "release"})'>
                     <a v-bind:class='"nav-link" + (selectedTab=="release"?" active":"")' href="#">Release</a>
                 </li>
-              
-                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "databases"})'>
-                    <a v-bind:class='"nav-link" + (selectedTab=="databases"?" active":"")' href="#">Databases</a>
-                </li>
-              
-                <li class="nav-item"   style="width: 19%;" v-on:click='switchTab({tabName: "environments"})'>
-                    <a v-bind:class='"nav-link" + (selectedTab=="environments"?" active":"")' href="#">Envs</a>
-                </li>
             </ul>
         </div>
 
