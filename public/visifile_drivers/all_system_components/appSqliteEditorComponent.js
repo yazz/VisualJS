@@ -215,13 +215,12 @@ load_once_from_file(true)
                 //    init history pane
                 // ------------------------------------------------
                 if (tabName == "text") {
-                    debugger
                     args.text           = null
                     yz.mainVars.disableAutoSave     = true
 
                     let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                     if (isValidObject(llsqlText)) {
-                        mm.sqlText =  llsqlText
+                        mm.sqlText =  JSON.stringify( llsqlText , null, 2)
                     } else {
                         mm.sqlText =  JSON.stringify(  [] , null , 2  )
                     }
@@ -249,7 +248,7 @@ load_once_from_file(true)
                 if (!isValidObject(this.text)) {
                     return null
                 }
-
+debugger
                 this.text = yz.helpers.deleteCodeString(this.text, "database", ")//database")
                 this.text = yz.helpers.insertCodeString(this.text, "database", JSON.parse(this.sqlText) ,")//database")
 
@@ -267,7 +266,6 @@ load_once_from_file(true)
                 // is read by the database editor
                 //------------------------------------------------------------------------/
                 let mm = this
-                debugger
                 this.text           =  textValue
 
                 if (!isValidObject(this.text)) {
