@@ -296,7 +296,8 @@ when was the change in a commit first made (each commit can have many changes)
 |                                                                    |
 |                               DEBUG INFO                           |
 |                                                                    |
- -------------------------------------------------------------------- 
+ --------------------------------------------------------------------
+pane_environments_writable:             {{pane_environments_writable}}
 pane_environments_in_dev_mode:          {{pane_environments_in_dev_mode}}
 pane_environments_editingEnvironment:   {{pane_environments_editingEnvironment}}
 pane_environments_env_id:               {{pane_environments_env_id}}
@@ -396,6 +397,11 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
                 this.text               = textValue
                 this.baseComponentId    = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.codeId             = await this.getCurrentCommitId()
+                let readOnly            = yz.helpers.getValueOfCodeString(this.text, "read_only")
+                mm.pane_environments_writable = true
+                if (readOnly && (readOnly == true)) {
+                    mm.pane_environments_writable = false
+                }
 
                 await mm.switchTab( {tabName: mm.selectedTab} )
             },
