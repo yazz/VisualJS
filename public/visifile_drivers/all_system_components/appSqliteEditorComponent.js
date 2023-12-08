@@ -148,7 +148,7 @@ load_once_from_file(true)
 
     <div  v-if='selectedTab=="text"'  style="padding:15px;">
         
-        <pre>
+        <pre style="height:60%;">
 {{sqlText}}
         </pre>
         
