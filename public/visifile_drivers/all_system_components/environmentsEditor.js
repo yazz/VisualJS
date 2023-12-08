@@ -388,68 +388,6 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
                 let mm = this
                 mm.selectedTab = tabName
 
-                // ------------------------------------------------
-                //    init history pane
-                // ------------------------------------------------
-                if (tabName == "history") {
-                    await mm.pane_history_setupTimeline()
-                    setTimeout(async function(){
-                        await mm.pane_history_calculateBranchStrength()
-                        await mm.pane_history_getCommitHistoryForThisComponent()
-                    })
-                }
-
-
-
-                // ------------------------------------------------
-                //    init release pane
-                // ------------------------------------------------
-                if (tabName == "release") {
-                    let release =  yz.helpers.getValueOfCodeString(this.text, "release")
-                    let commit  =  yz.helpers.getValueOfCodeString(this.text, "commit")
-                    let envs    =  yz.helpers.getValueOfCodeString(this.text, "environments")
-
-                    if (commit) {
-                        mm.pane_release_in_dev_mode         = false
-                        mm.pane_release_development_code_id = null
-                        mm.pane_release_environment_id      = null
-                        mm.pane_release_commit_code_id      = mm.codeId
-                        mm.pane_release_next_env_id         = envs.list_of_environments[0].name
-                    } else  if (release) {
-                        mm.pane_release_in_dev_mode         = false
-                        mm.pane_release_environment_id      = release.env_id
-                        mm.pane_release_development_code_id = null
-                        mm.pane_release_commit_code_id      = null
-                        let currentEnvPos = -1
-                        mm.pane_release_next_env_id         = null
-                        for (let pp = 0 ; pp <  envs.list_of_environments.length; pp ++) {
-                            if (release.env_id == envs.list_of_environments[pp].id) {
-                                currentEnvPos = pp
-                            }
-                        }
-                        if (currentEnvPos != -1) {
-                            if ((currentEnvPos + 1) < envs.list_of_environments.length) {
-                                mm.pane_release_next_env_id         = envs.list_of_environments[currentEnvPos + 1].id
-                            }
-                        }
-                    } else {
-                        mm.pane_release_in_dev_mode         = true
-                        mm.pane_release_development_code_id = mm.codeId
-                        mm.pane_release_environment_id      = null
-                        mm.pane_release_commit_code_id      = null
-                        mm.pane_release_next_env_id         = null
-                    }
-
-                    let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
-                    if (environments) {
-                        mm.pane_release_env_list = environments.list_of_environments
-                        if (environments.last_env_is_live) {
-                            mm.pane_release_last_env_is_live = environments.last_env_is_live
-                        }
-                    }
-
-                }
-
 
                 // ------------------------------------------------
                 //    init environments pane
