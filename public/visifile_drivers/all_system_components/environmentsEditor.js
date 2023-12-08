@@ -105,6 +105,9 @@ when was the change in a commit first made (each commit can have many changes)
             <div>  
                 {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
             </div>
+            <div>
+                {{!pane_environments_writable?"Read only mode: Environments can not be edited in read only mode. Try remixing this app/component!":""}}
+            </div>
           
           
           <!-- ----------------------------------------------
@@ -132,30 +135,30 @@ when was the change in a commit first made (each commit can have many changes)
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="pane_environments_editingEnvironment || (!pane_environments_in_dev_mode)"
+                           v-bind:disabled="pane_environments_editingEnvironment || (!pane_environments_in_dev_mode) || (!pane_environments_writable)"
                            v-on:click='pane_environment_addPressed()' >Add</button></div>
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="(pane_environments_selected_env_id==null) || pane_environments_editingEnvironment || (!pane_environments_in_dev_mode)"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || pane_environments_editingEnvironment || (!pane_environments_in_dev_mode) || (!pane_environments_writable)"
                            v-on:click='pane_environment_editPressed()' >Edit</button></div>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0) || (!pane_environments_in_dev_mode)"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == 0) || (!pane_environments_in_dev_mode) || (!pane_environments_writable)"
                            v-on:click='pane_environment_moveUpPressed()' >&uarr;</button></div>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1)) || (!pane_environments_in_dev_mode)"
+                           v-bind:disabled="(pane_environments_selected_env_id==null) || (pane_environments_selected_env_pos == (pane_environments_env_list.length - 1)) || (!pane_environments_in_dev_mode) || (!pane_environments_writable)"
                            v-on:click='pane_environment_moveDownPressed()' >&darr;</button></div>
 
             <div><button   type=button
                            class=' btn-sm btn-info'
                            style="width:110px;"
-                           v-bind:disabled="pane_environments_selected_env_id==null || (!pane_environments_in_dev_mode)"
+                           v-bind:disabled="pane_environments_selected_env_id==null || (!pane_environments_in_dev_mode) || (!pane_environments_writable)"
                            v-on:click='pane_environment_deletePressed()' >Delete</button></div>
           </span>
 
