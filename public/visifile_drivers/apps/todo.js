@@ -103,7 +103,7 @@ Yazz.component({
             [
                 {
                     name:    "items",
-                    fields:
+                    cols:
                     [
                         {
                             id:   "id",
@@ -112,6 +112,10 @@ Yazz.component({
                         {
                             id:   "name",
                             type: "TEXT"
+                        },
+                        {
+                            id:   "time",
+                            type: "INTEGER"
                         },
                         {
                             id:   "user",
@@ -126,21 +130,37 @@ Yazz.component({
             1669781800000:
             {
                 timestamp_ms:	1669781800000,
-                name: 		    "Create the initial item table",
-                up: 			[
-                                    "CREATE TABLE items (id	TEXT, name	TEXT);",
-                                    "alter TABLE items add column time INTEGER;"
-                                ],
-                down: 		    [  "drop table items"  ]
+                desc: 		    "Create the initial item table",
+                ddl:    	    [
+                                    {
+                                        action:     "CREATE_TABLE",
+                                        table_name: "items",
+                                        cols:
+                                        [
+                                            {id:   "id",    type: "TEXT"},
+                                            {id:   "name",  type: "TEXT"},
+                                        ]
+                                    }
+                                    ,
+                                    {
+                                        action:     "ADD_COLUMN",
+                                        table_name: "items",
+                                        col:        {id:   "time",    type: "INTEGER"}
+                                    }
+                                ]
             }
             ,
             1669781800001:
             {
                 timestamp_ms:	1669781800001,
-                name: 	        "Add a column for the user name",
-                up:             [  "alter TABLE items add column user TEXT;"  ],
-                down: 	        [  "alter TABLE items drop column user;"  ],
-                down_sqlite:    [  "update items set user = null;"  ]
+                desc: 	        "Add a column for the user name",
+                ddl:    	    [
+                                    {
+                                        action:     "ADD_COLUMN",
+                                        table_name: "items",
+                                        col:        {id:   "user",    type: "TEXT"}
+                                    }
+                                ]
             }
         }
     })//database
