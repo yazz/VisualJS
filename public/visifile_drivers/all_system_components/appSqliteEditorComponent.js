@@ -222,7 +222,21 @@ load_once_from_file(true)
                     if (isValidObject(llsqlText)) {
                         mm.sqlText =  JSON.stringify( llsqlText , null, 2)
                     } else {
-                        mm.sqlText =  JSON.stringify(  [] , null , 2  )
+                        mm.sqlText =  JSON.stringify(
+                            {
+                                db_type:
+                                    {
+                                        name: "sqlite"
+                                    },
+                                schema:
+                                    {
+                                        tables:
+                                            [
+                                            ]
+                                    }
+                            }
+
+                            , null , 2  )
                     }
 
 
