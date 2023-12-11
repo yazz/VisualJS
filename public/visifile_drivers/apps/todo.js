@@ -97,6 +97,30 @@ Yazz.component({
         {
             name: "sqlite"
         },
+        schema:
+        {
+            tables:
+            [
+                {
+                    name:    "items",
+                    fields:
+                    [
+                        {
+                            id:   "id",
+                            type: "TEXT"
+                        },
+                        {
+                            id:   "name",
+                            type: "TEXT"
+                        },
+                        {
+                            id:   "user",
+                            type: "TEXT"
+                        }
+                    ]
+                }
+            ]
+        },
         migrations_by_timestamp_ms:
         {
             1669781800000:
