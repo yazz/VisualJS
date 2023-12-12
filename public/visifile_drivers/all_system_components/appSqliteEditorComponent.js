@@ -7,19 +7,19 @@ load_once_from_file(true)
 
     Yazz.component( {
         data:       function () {
-        return {
-            text:           args.text,
-            read_only:      false,
-            errors:         null,
-            sqlText:        "{}",
-            editor:         null,
-            selectedTab:    "home",
+            return {
+                text:                   args.text,
+                read_only:              false,
+                errors:                 null,
+                sqlText:                "{}",
+                parsedDatabaseEntry:    null,
+                editor:                 null,
+                selectedTab:            "home",
+                list_of_tables:         null
 
-            // text pane
-
-
-        }
-      },
+                // text pane
+            }
+        },
         template:   `<div style='background-color:white; ' >
                       <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
                           <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
@@ -95,6 +95,7 @@ load_once_from_file(true)
                               
                                 <div style="width: 20%;border: 1px solid blue;display: inline-block;height:100%;">
                                     List of tables
+                                    <pre>{{list_of_tables}}</pre>
                                 </div>
                               
                               
@@ -284,12 +285,12 @@ load_once_from_file(true)
                 if (tabName == "text") {
                     args.text           = null
                     yz.mainVars.disableAutoSave     = true
-
-                    let llsqlText = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
-                    if (isValidObject(llsqlText)) {
-                        mm.sqlText =  JSON.stringify( llsqlText , null, 2)
+debugger
+                    mm.parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
+                    if (isValidObject(mm.parsedDatabaseEntry)) {
+                        mm.sqlText =  JSON.stringify( mm.parsedDatabaseEntry , null, 2)
                     } else {
-                        mm.sqlText =  JSON.stringify(
+                        mm.parsedDatabaseEntry =
                             {
                                 db_type:
                                     {
@@ -315,7 +316,12 @@ load_once_from_file(true)
                                     }
                             }
 
-                            , null , 2  )
+                            mm.sqlText =  JSON.stringify(  mm.parsedDatabaseEntry  ,  null  ,  2  )
+                    }
+
+                    mm.list_of_tables = []
+                    if (mm.parsedDatabaseEntry && mm.parsedDatabaseEntry.schema && mm.parsedDatabaseEntry.schema.tables) {
+                        mm.list_of_tables = mm.parsedDatabaseEntry.schema.tables
                     }
 
 
@@ -341,7 +347,6 @@ load_once_from_file(true)
                 if (!isValidObject(this.text)) {
                     return null
                 }
-debugger
                 this.text = yz.helpers.deleteCodeString(this.text, "database", ")//database")
                 this.text = yz.helpers.insertCodeString(this.text, "database", JSON.parse(this.sqlText) ,")//database")
 
