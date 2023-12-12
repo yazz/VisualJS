@@ -631,87 +631,66 @@ logo_url("/driver_icons/data_window.png")
 
 </div>`,
         data: function(  ) {
-       return   {
+            return
+            {
                     selected_index:        null,
                     columnDefinitions:     [ ],
                     tables:                [ ],
+                    table:                null,
                     designDetailTab:       "connection"
-                }
-     },
+            }
+        },
         watch: {
-       // This would be called anytime the value of the input changes
-       refresh: function(newValue, oldValue) {
-           //console.log("refresh: " + this.args.text)
-           if (isValidObject(this.args)) {
-               this.getTables()
-               //alert(JSON.stringify(this.tables,null,2))
-           }
-       }
-     },
+        // This would be called anytime the value of the input changes
+            refresh: function(newValue, oldValue) {
+                //console.log("refresh: " + this.args.text)
+                if (isValidObject(this.args)) {
+                    this.getTables()
+                    //alert(JSON.stringify(this.tables,null,2))
+                }
+            }
+        },
         mounted: async function(  ) {
-         await registerComponent(this)
+            await registerComponent(this)
 
-         if (isValidObject(this.args)) {
-         }
+            if (isValidObject(this.args)) {
+            }
 
-         if (this.design_mode == false) {
-             this.table = new Tabulator(this.$refs.exampletable, {
-                    width:                    this.args.width
-                    ,
-                    height:                    this.args.height
-                    ,
-                    tables:                    []
-                    ,
-                    data:                      this.args.data
-                    ,
-                	layout:                    "fitColumns"
-                    ,
-                	responsiveLayout:          "hide"
-                    ,
-                	tooltips:                   true
-                    ,
-                	addRowPos:                 "top"
-                    ,
-                	history:                    true
-                    ,
-                	pagination:                "local"
-                    ,
-                	paginationSize:             7
-                    ,
-                	movableColumns:             true
-                    ,
-                    resizableColumns:           this.args.allow_col_resize
-                    ,
-                	resizableRows:              this.args.allow_row_resize
-                    ,
-                    movableColumns:            this.args.allow_col_move
-                    ,
-                    layout:                    this.args.layout
-                    ,
-                    tableNames:              []
-                    ,
-
+            if (this.design_mode == false) {
+                this.table = new Tabulator(this.$refs.exampletable,
+                    {
+                    width:                      this.args.width,
+                    height:                     this.args.height,
+                    tables:                     [],
+                    data:                       this.args.data,
+                	layout:                     "fitColumns",
+                	responsiveLayout:           "hide",
+                	tooltips:                   true,
+                	addRowPos:                  "top",
+                	history:                    true,
+                	pagination:                 "local",
+                	paginationSize:             7,
+                	movableColumns:             true,
+                    resizableColumns:           this.args.allow_col_resize,
+                	resizableRows:              this.args.allow_row_resize,
+                    movableColumns:             this.args.allow_col_move,
+                    layout:                     this.args.layout,
+                    tableNames:                 [],
                 	initialSort:                [
-                                            	]
-                    ,
-
+                                            	],
                 	columns:                    this.columnDefinitions
                 });
+            }
+            if (this.design_mode) {
+                await this.getTables()
+            }
 
-         }
-         if (this.design_mode) {
-             await this.getTables()
-
-         }
-
-         if (!this.design_mode) {
-
-             var results = await this.executeSql()
-             //alert(JSON.stringify(results,null,2))
-             await this.setData(results)
-         }
-
-      },
+            if (!this.design_mode) {
+                var results = await this.executeSql()
+                //alert(JSON.stringify(results,null,2))
+                await this.setData(results)
+            }
+        },
         methods: {
             setSql:             function      (  ) {
                 var colSql = "*"
@@ -835,15 +814,16 @@ logo_url("/driver_icons/data_window.png")
                                         {
                                             base_component_id: "postgres_server"
                                         }
-                                            ,{
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
-                                                get_columns:      true,
-                                                table:           this.args.design_mode_table
-                                             })
+                                        ,
+                                        {
+                                            user:            this.args.user,
+                                            password:        this.args.password,
+                                            database:        this.args.database,
+                                            host:            this.args.host,
+                                            port:            this.args.port,
+                                            get_columns:      true,
+                                            table:           this.args.design_mode_table
+                                        })
 
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
