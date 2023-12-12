@@ -32,6 +32,13 @@ load_once_from_file(true)
                                App Sqlite Database Editor
                           </div>
 
+                        
+                        
+                        
+                        
+                        
+                        
+                        
 
                         <!--  MAIN TAB MENU ---------------------------------------------------------
                         |    ---------------
@@ -83,8 +90,20 @@ load_once_from_file(true)
                         <div  v-if='selectedTab=="home"'  style="padding:15px;">
         
 
-                          <div>
-                          </div>
+                            <div style="width: 100%;border: 1px solid blue; height:60%;">
+                              
+                              
+                                <div style="width: 20%;border: 1px solid blue;display: inline-block;height:100%;">
+                                    List of tables
+                                </div>
+                              
+                              
+                                <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;">
+                                    Data
+                                </div>
+                              
+                              
+                            </div>
 
 
 
