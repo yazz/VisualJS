@@ -282,7 +282,19 @@ load_once_from_file(true)
                                     {
                                         tables:
                                             [
+                                                {
+                                                    name:    "TABLE_1",
+                                                    cols:
+                                                        [
+                                                            {
+                                                                id:   "id",
+                                                                type: "TEXT"
+                                                            }
+                                                        ]
+                                                }
+
                                             ]
+
                                     }
                             }
 
