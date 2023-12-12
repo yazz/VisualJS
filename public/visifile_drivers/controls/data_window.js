@@ -297,9 +297,8 @@ logo_url("/driver_icons/data_window.png")
 */
 
     Yazz.component({
-      props: ["meta","name","args","refresh","design_mode"]
-      ,
-      template:
+        props: ["meta","name","args","refresh","design_mode"],
+        template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
         v-bind:refresh='refresh'>
 
@@ -630,27 +629,16 @@ logo_url("/driver_icons/data_window.png")
 
 
 
-</div>`
-      ,
-
-
-      data: function() {
-       return {
-         selected_index:      null
-         ,
-         columnDefinitions:  [ ]
-         ,
-         tables:             [ ]
-
-
-         ,
-         designDetailTab:     "connection"
-       }
-     }
-     ,
-
-
-     watch: {
+</div>`,
+        data: function(  ) {
+       return   {
+                    selected_index:        null,
+                    columnDefinitions:     [ ],
+                    tables:                [ ],
+                    designDetailTab:       "connection"
+                }
+     },
+        watch: {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
            //console.log("refresh: " + this.args.text)
@@ -659,11 +647,8 @@ logo_url("/driver_icons/data_window.png")
                //alert(JSON.stringify(this.tables,null,2))
            }
        }
-     }
-     ,
-
-
-     mounted: async function() {
+     },
+        mounted: async function(  ) {
          await registerComponent(this)
 
          if (isValidObject(this.args)) {
@@ -726,16 +711,9 @@ logo_url("/driver_icons/data_window.png")
              await this.setData(results)
          }
 
-      }
-      ,
-
-
-      methods: {
-
-
-
-
-            setSql: function() {
+      },
+        methods: {
+            setSql:             function      (  ) {
                 var colSql = "*"
                 if (this.args.dataWindowColumns.length > 0) {
                     colSql = ""
@@ -753,34 +731,26 @@ logo_url("/driver_icons/data_window.png")
                 }
 
 
-            }
-            ,
-            changedFn: function() {
+            },
+            changedFn:          function      (  ) {
                 if (isValidObject(this.args)) {
                 }
-            }
-
-
-            ,
-            resetColumns: async function(data) {
+            },
+            resetColumns:       async function(  data  ) {
                 this.table.setColumns([])
-            }
-            ,
-            addColumn: async function(colData) {
+            },
+            addColumn:          async function(  colData  ) {
                 this.table.addColumn(colData, true, "name");
-            }
-            ,
-
-            runEventHandler: function() {
+            },
+            runEventHandler:    function      (  ) {
                 this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 control_name:        this.args.name,
                                                 sub_type:           "changed",
                                                 code:                this.args.changed_event
                                             })
-            }
-            ,
-            setData: async function(data) {
+            },
+            setData:            async function(  data  ) {
                 this.args.data = data
                 this.table.setData(data)
 
@@ -813,12 +783,8 @@ logo_url("/driver_icons/data_window.png")
                     }
                 }
 
-            }
-            ,
-
-
-
-            array_move: function (arr, old_index, new_index) {
+            },
+            array_move:         function      (  arr  ,  old_index  ,  new_index  ) {
                 if (new_index >= arr.length) {
                     var k = new_index - arr.length + 1;
                     while (k--) {
@@ -827,12 +793,8 @@ logo_url("/driver_icons/data_window.png")
                 }
                 arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
                 return arr; // for testing
-            }
-            ,
-
-
-
-            getTables: async function() {
+            },
+            getTables:          async function(  ) {
                 console.log("In getTables")
 
                 if (this.design_mode) {
@@ -864,20 +826,8 @@ logo_url("/driver_icons/data_window.png")
 
 
                 }
-            }
-            ,
-
-
-
-
-
-
-
-
-
-
-
-            getColumns: async function() {
+            },
+            getColumns:         async function(  ) {
                 console.log("In getColumns")
 
                 if (this.design_mode) {
@@ -909,21 +859,8 @@ logo_url("/driver_icons/data_window.png")
 
 
                 }
-            }
-            ,
-
-
-
-
-
-
-
-
-
-
-
-
-            executeSql: async function() {
+            },
+            executeSql:         async function(  ) {
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
@@ -955,18 +892,6 @@ logo_url("/driver_icons/data_window.png")
                 //this.changedFn()
                 return {}
             }
-
-
-
-
-
-
-
-
-
-
-
         }
-
     })
 }
