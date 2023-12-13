@@ -95,7 +95,9 @@ load_once_from_file(true)
                               
                                 <div style="width: 20%;border: 1px solid blue;display: inline-block;height:100%;">
                                     List of tables
-                                    <pre>{{listOfTables}}</pre>
+                                    <div v-for="(tableItem,i) in listOfTables">
+                                        <div>{{tableItem.name}}</div>
+                                    </div>
 
                                   <div style="margin-left: 30px;">
                                         <button  type=button class='btn btn-sm btn-primary'
