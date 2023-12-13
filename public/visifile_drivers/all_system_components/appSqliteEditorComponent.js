@@ -329,7 +329,6 @@ load_once_from_file(true)
                                                         }
                                                     ]
                                             }
-
                                         ]
 
                                 },
@@ -435,6 +434,31 @@ load_once_from_file(true)
                     return
                 }
                 await mm.createModelFromSrcCode()
+            },
+            pane_home_addTable:         async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /          pane_home_addTable         /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // Add a table
+                //------------------------------------------------------------------------/
+                let mm = this
+                mm.listOfTables.push(
+                    {
+                        name:    "TABLE_" + mm.nextTableId,
+                        cols:
+                            [
+                                {
+                                    id: "id",
+                                    type: "TEXT"
+                                }
+                            ]
+                    })
+                mm.nextTableId ++
+                mm.schemaChanged()
             }
         }
     })
