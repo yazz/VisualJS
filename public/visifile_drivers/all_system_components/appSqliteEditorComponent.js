@@ -258,7 +258,8 @@ load_once_from_file(true)
                     <hr></hr>
                  </div>`,
         mounted:    async function() {
-     },
+            yz.mainVars.disableAutoSave     = false
+        },
         methods:    {
             switchTab:                  async function  (  {  tabName  }  ) {
                 //----------------------------------------------------------------------------------/
@@ -277,9 +278,7 @@ load_once_from_file(true)
                 //    init history pane
                 // ------------------------------------------------
                 if (tabName == "text") {
-                    args.text           = null
-                    yz.mainVars.disableAutoSave     = true
-
+                    args.text                       = null
                 }
             },
             createJsonModel:            async function  (  ) {
@@ -378,12 +377,11 @@ load_once_from_file(true)
                 // gets the source code text, in this case changes to the
                 // SQL definitions
                 //------------------------------------------------------------------------/
-                debugger
+                let mm = this
                 if (!isValidObject(this.text)) {
                     return null
                 }
-                this.text = yz.helpers.deleteCodeString(this.text, "database", ")//database")
-                this.text = yz.helpers.insertCodeString(this.text, "database", JSON.parse(this.sqlText) ,")//database")
+                await mm.convertJsonModelToSrcCode()
 
                 return this.text
             },
