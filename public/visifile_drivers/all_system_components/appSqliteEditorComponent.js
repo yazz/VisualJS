@@ -306,6 +306,7 @@ load_once_from_file(true)
                 // in the source code
                 //------------------------------------------------------------------------/
                 let mm = this
+                let changed = false
                 let parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                 if (!isValidObject(parsedDatabaseEntry)) {
                     parsedDatabaseEntry =
@@ -334,8 +335,9 @@ load_once_from_file(true)
                                 },
                             next_table_id: 2
                         }
-                    await mm.convertJsonModelToSrcCode()
-                    mm.schemaChanged()
+                    //await mm.convertJsonModelToSrcCode()
+                    //mm.schemaChanged()
+                    changed = true
                 }
                 mm.sqlText =  JSON.stringify(  parsedDatabaseEntry  ,  null  ,  2  )
 
@@ -352,8 +354,13 @@ load_once_from_file(true)
                     mm.nextTableId = parsedDatabaseEntry.next_table_id
                 } else (
                     mm.nextTableId = 2
+                    //await mm.convertJsonModelToSrcCode()
                     //mm.schemaChanged()
                 )
+                if (changed) {
+                    await mm.convertJsonModelToSrcCode()
+                    mm.schemaChanged()
+                }
             },
             schemaChanged:              function        (  ) {
                 this.$root.$emit(
