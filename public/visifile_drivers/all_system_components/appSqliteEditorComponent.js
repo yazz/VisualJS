@@ -18,7 +18,7 @@ load_once_from_file(true)
                 nextTableId:                null,
 
                 // text pane
-                pane_text_selectedTable:    null
+                pane_home_selectedTable:    null
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -97,7 +97,10 @@ load_once_from_file(true)
                                 <div style="width: 20%;border: 1px solid blue;display: inline-block;height:100%;">
                                     List of tables
                                     <div v-for="(tableItem,i) in listOfTables">
-                                        <div>{{tableItem.name}}</div>
+                                        <div
+                                            v-bind:style='pane_home_selectedTable==tableItem.name?"background-color:lightgray;":""'
+                                            v-on:click="pane_home_selectedTable=tableItem.name"
+                                        >{{tableItem.name}}</div>
                                     </div>
 
                                   <div style="margin-left: 30px;">
@@ -276,7 +279,7 @@ load_once_from_file(true)
         mounted:    async function() {
             let mm = this
             yz.mainVars.disableAutoSave     = true
-            mm.pane_text_selectedTable      = null
+            mm.pane_home_selectedTable      = null
         },
         methods:    {
             switchTab:                  async function  (  {  tabName  }  ) {
@@ -299,7 +302,7 @@ load_once_from_file(true)
                     args.text                       = null
                 }
             },
-            createModelFromSrcCode:        async function  (  ) {
+            createModelFromSrcCode:     async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -358,11 +361,23 @@ load_once_from_file(true)
                     mm.nextTableId = 2
                     changed = true
                 }
+                if (  mm.listOfTables && (mm.listOfTables.length > 0)  )
+                {
+                    if (mm.pane_home_selectedTable == null) {
+                        await mm.pane_home_selectTable(  {  tableName:  mm.listOfTables[0].name  }  )
+                    }
+                }
+
+
+
+
+
+
                 if (changed) {
                     await mm.schemaChanged()
                 }
             },
-            schemaChanged:              async function   (  ) {
+            schemaChanged:              async function  (  ) {
                 let mm = this
                 await mm.convertJsonModelToSrcCode()
                 mm.$root.$emit(
@@ -451,9 +466,10 @@ load_once_from_file(true)
                 // Add a table
                 //------------------------------------------------------------------------/
                 let mm = this
+                let newTableName = "TABLE_" + mm.nextTableId
                 mm.listOfTables.push(
                     {
-                        name:    "TABLE_" + mm.nextTableId,
+                        name:    newTableName,
                         cols:
                             [
                                 {
@@ -463,7 +479,12 @@ load_once_from_file(true)
                             ]
                     })
                 mm.nextTableId ++
+                await mm.pane_home_selectTable(  { tableName: newTableName})
                 await mm.schemaChanged()
+            },
+            pane_home_selectTable:      async function  (  {  tableName  }  ) {
+                let mm = this
+                mm.pane_home_selectedTable = tableName
             }
         }
     })
