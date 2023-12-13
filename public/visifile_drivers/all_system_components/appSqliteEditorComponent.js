@@ -306,12 +306,12 @@ load_once_from_file(true)
                 // ------------------------------------------------
                 if (tabName == "home") {
                     if (mm.pane_home_tabulator == null ) {
+                        debugger
                         var elTab =  document.createElement("div");
                         elTab.setAttribute("id", "db_editor_grid_view")
-                        elTab.setAttribute("ref", "db_editor_grid_view")
                         document.getElementById("db_editor_grid_view_parent").appendChild(elTab);
                         setTimeout(async function(){
-                            mm.pane_home_tabulator = new Tabulator(mm.$refs.db_editor_grid_view,
+                            mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                 {
                                     width:              "100px",
                                     height:             "100px",
@@ -340,8 +340,8 @@ load_once_from_file(true)
                         },300)
                     }
                 } else {
-                    mm.pane_home_tabulator = null
                     document.getElementById("db_editor_grid_view").remove()
+                    mm.pane_home_tabulator = null
                 }
 
 
