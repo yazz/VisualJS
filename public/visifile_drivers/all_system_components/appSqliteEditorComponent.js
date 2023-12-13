@@ -8,16 +8,17 @@ load_once_from_file(true)
     Yazz.component( {
         data:       function () {
             return {
-                text:                   args.text,
-                read_only:              false,
-                errors:                 null,
-                sqlText:                "{}",
-                editor:                 null,
-                selectedTab:            "home",
-                listOfTables:           null,
-                nextTableId:            null,
+                text:                       args.text,
+                read_only:                  false,
+                errors:                     null,
+                sqlText:                    "{}",
+                editor:                     null,
+                selectedTab:                "home",
+                listOfTables:               null,
+                nextTableId:                null,
 
                 // text pane
+                pane_text_selectedTable:    null
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -273,7 +274,9 @@ load_once_from_file(true)
                     <hr></hr>
                  </div>`,
         mounted:    async function() {
+            let mm = this
             yz.mainVars.disableAutoSave     = true
+            mm.pane_text_selectedTable      = null
         },
         methods:    {
             switchTab:                  async function  (  {  tabName  }  ) {
@@ -351,18 +354,18 @@ load_once_from_file(true)
 
                 if (parsedDatabaseEntry && parsedDatabaseEntry.next_table_id) {
                     mm.nextTableId = parsedDatabaseEntry.next_table_id
-                } else (
+                } else {
                     mm.nextTableId = 2
-                    //await mm.convertJsonModelToSrcCode()
-                    //mm.schemaChanged()
-                )
+                    changed = true
+                }
                 if (changed) {
-                    await mm.convertJsonModelToSrcCode()
-                    mm.schemaChanged()
+                    await mm.schemaChanged()
                 }
             },
-            schemaChanged:              function        (  ) {
-                this.$root.$emit(
+            schemaChanged:              async function   (  ) {
+                let mm = this
+                await mm.convertJsonModelToSrcCode()
+                mm.$root.$emit(
                     'message', {
                         type: "pending"
                     })
@@ -460,7 +463,7 @@ load_once_from_file(true)
                             ]
                     })
                 mm.nextTableId ++
-                mm.schemaChanged()
+                await mm.schemaChanged()
             }
         }
     })
