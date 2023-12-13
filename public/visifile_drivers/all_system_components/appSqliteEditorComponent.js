@@ -306,13 +306,13 @@ load_once_from_file(true)
                 // ------------------------------------------------
                 if (tabName == "home") {
                     if (mm.pane_home_tabulator == null ) {
-                        setTimeout(async function(){
+                        Vue.nextTick(function () {
                             debugger
                             var elTab =  document.createElement("div");
                             elTab.setAttribute("id", "db_editor_grid_view")
                             let parentEl = document.getElementById("db_editor_grid_view_parent")
                             parentEl.appendChild(elTab);
-                            setTimeout(async function(){
+                            Vue.nextTick(function () {
                                 mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                     {
                                         width:              "100px",
@@ -339,8 +339,8 @@ load_once_from_file(true)
                                         initialSort:        [],
                                         columns:            []
                                     });
-                            },100)
-                        },100)
+                            })
+                        })
                     }
                 } else {
                     //document.getElementById("db_editor_grid_view").remove()
