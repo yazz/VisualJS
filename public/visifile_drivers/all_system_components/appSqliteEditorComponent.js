@@ -306,41 +306,44 @@ load_once_from_file(true)
                 // ------------------------------------------------
                 if (tabName == "home") {
                     if (mm.pane_home_tabulator == null ) {
-                        debugger
-                        var elTab =  document.createElement("div");
-                        elTab.setAttribute("id", "db_editor_grid_view")
-                        document.getElementById("db_editor_grid_view_parent").appendChild(elTab);
                         setTimeout(async function(){
-                            mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
-                                {
-                                    width:              "100px",
-                                    height:             "100px",
-                                    tables:             [],
-                                    data:               [],
-                                    layout:             "fitColumns",
-                                    responsiveLayout:   "hide",
-                                    tooltips:           true,
-                                    addRowPos:          "top",
-                                    history:            true,
-                                    pagination:         "local",
-                                    paginationSize:     7,
-                                    movableColumns:     true,
-                                    resizableColumns:   true,
-                                    resizableRows:      true,
-                                    movableColumns:     true,
-                                    layout:             [
-                                        {display: "Fit Columns",    value: "fitColumns"},
-                                        {display: "Fit Data",       value: "fitData"},
-                                        {display: "Fit Data Fill",  value: "fitDataFill"}
-                                    ],
-                                    tableNames:         [],
-                                    initialSort:        [],
-                                    columns:            []
-                                });
-                        },300)
+                            debugger
+                            var elTab =  document.createElement("div");
+                            elTab.setAttribute("id", "db_editor_grid_view")
+                            let parentEl = document.getElementById("db_editor_grid_view_parent")
+                            parentEl.appendChild(elTab);
+                            setTimeout(async function(){
+                                mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
+                                    {
+                                        width:              "100px",
+                                        height:             "100px",
+                                        tables:             [],
+                                        data:               [],
+                                        layout:             "fitColumns",
+                                        responsiveLayout:   "hide",
+                                        tooltips:           true,
+                                        addRowPos:          "top",
+                                        history:            true,
+                                        pagination:         "local",
+                                        paginationSize:     7,
+                                        movableColumns:     true,
+                                        resizableColumns:   true,
+                                        resizableRows:      true,
+                                        movableColumns:     true,
+                                        layout:             [
+                                            {display: "Fit Columns",    value: "fitColumns"},
+                                            {display: "Fit Data",       value: "fitData"},
+                                            {display: "Fit Data Fill",  value: "fitDataFill"}
+                                        ],
+                                        tableNames:         [],
+                                        initialSort:        [],
+                                        columns:            []
+                                    });
+                            },100)
+                        },100)
                     }
                 } else {
-                    document.getElementById("db_editor_grid_view").remove()
+                    //document.getElementById("db_editor_grid_view").remove()
                     mm.pane_home_tabulator = null
                 }
 
