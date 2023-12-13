@@ -263,7 +263,7 @@ load_once_from_file(true)
                       </div>
                     <hr></hr>
                  </div>`,
-        mounted:    function() {
+        mounted:    async function() {
      },
         methods:    {
             switchTab:                  async function  (  {  tabName  }  ) {
@@ -285,7 +285,7 @@ load_once_from_file(true)
                 if (tabName == "text") {
                     args.text           = null
                     yz.mainVars.disableAutoSave     = true
-debugger
+                    debugger
                     mm.parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                     if (isValidObject(mm.parsedDatabaseEntry)) {
                         mm.sqlText =  JSON.stringify( mm.parsedDatabaseEntry , null, 2)
@@ -316,7 +316,7 @@ debugger
                                     }
                             }
 
-                            mm.sqlText =  JSON.stringify(  mm.parsedDatabaseEntry  ,  null  ,  2  )
+                        mm.sqlText =  JSON.stringify(  mm.parsedDatabaseEntry  ,  null  ,  2  )
                     }
 
                     mm.list_of_tables = []
@@ -328,6 +328,62 @@ debugger
                     if (isValidObject(mm.text)) {
                         mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                     }
+                }
+            },
+            createJsonModel:            async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /          createJsonModel            /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This creates a model of the database based on the database( ... ) tag
+                // in the source code
+                //------------------------------------------------------------------------/
+                let mm = this
+                debugger
+                mm.parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
+                if (isValidObject(mm.parsedDatabaseEntry)) {
+                    mm.sqlText =  JSON.stringify( mm.parsedDatabaseEntry , null, 2)
+                } else {
+                    mm.parsedDatabaseEntry =
+                        {
+                            db_type:
+                                {
+                                    name: "sqlite"
+                                },
+                            schema:
+                                {
+                                    tables:
+                                        [
+                                            {
+                                                name:    "TABLE_1",
+                                                cols:
+                                                    [
+                                                        {
+                                                            id:   "id",
+                                                            type: "TEXT"
+                                                        }
+                                                    ]
+                                            }
+
+                                        ]
+
+                                }
+                        }
+
+                    mm.sqlText =  JSON.stringify(  mm.parsedDatabaseEntry  ,  null  ,  2  )
+                }
+
+                mm.list_of_tables = []
+                if (mm.parsedDatabaseEntry && mm.parsedDatabaseEntry.schema && mm.parsedDatabaseEntry.schema.tables) {
+                    mm.list_of_tables = mm.parsedDatabaseEntry.schema.tables
+                }
+
+
+                if (isValidObject(mm.text)) {
+                    mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                 }
             },
             gotoLine:                   function        (  line  ) {
@@ -352,7 +408,7 @@ debugger
 
                 return this.text
             },
-            setText:                    function        (  textValue  ) {
+            setText:                    async function        (  textValue  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -369,7 +425,7 @@ debugger
                 if (!isValidObject(this.text)) {
                     return
                 }
-
+                await mm.createJsonModel()
             }
         }
     })
