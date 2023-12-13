@@ -14,7 +14,8 @@ load_once_from_file(true)
                 sqlText:                "{}",
                 editor:                 null,
                 selectedTab:            "home",
-                list_of_tables:         null
+                listOfTables:           null,
+                nextTableId:            null,
 
                 // text pane
             }
@@ -94,7 +95,7 @@ load_once_from_file(true)
                               
                                 <div style="width: 20%;border: 1px solid blue;display: inline-block;height:100%;">
                                     List of tables
-                                    <pre>{{list_of_tables}}</pre>
+                                    <pre>{{listOfTables}}</pre>
 
                                   <div style="margin-left: 30px;">
                                         <button  type=button class='btn btn-sm btn-primary'
@@ -293,11 +294,11 @@ load_once_from_file(true)
                     args.text                       = null
                 }
             },
-            createJsonModel:            async function  (  ) {
+            getModelFromSrcCode:        async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
-                //                   /          createJsonModel            /
+                //                   /      getModelFromSrcCode            /
                 //                  /-------------------------------------/
                 //
                 //----------------------------------------------------------------------------/
@@ -330,23 +331,31 @@ load_once_from_file(true)
 
                                         ]
 
-                                }
+                                },
+                            next_table_id: 2
                         }
                     await mm.convertJsonModelToSrcCode()
                     mm.schemaChanged()
                 }
                 mm.sqlText =  JSON.stringify(  parsedDatabaseEntry  ,  null  ,  2  )
 
-                mm.list_of_tables = []
+                mm.listOfTables = []
                 if (parsedDatabaseEntry && parsedDatabaseEntry.schema && parsedDatabaseEntry.schema.tables) {
-                    mm.list_of_tables = parsedDatabaseEntry.schema.tables
+                    mm.listOfTables = parsedDatabaseEntry.schema.tables
                 }
 
                 if (isValidObject(mm.text)) {
                     mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                 }
+
+                if (parsedDatabaseEntry && parsedDatabaseEntry.next_table_id) {
+                    mm.nextTableId = parsedDatabaseEntry.next_table_id
+                } else (
+                    mm.nextTableId = 2
+                    //mm.schemaChanged()
+                )
             },
-            schemaChanged:              function  (  ) {
+            schemaChanged:              function        (  ) {
                 this.$root.$emit(
                     'message', {
                         type: "pending"
@@ -377,8 +386,9 @@ load_once_from_file(true)
                             },
                         schema:
                             {
-                                tables: mm.list_of_tables
-                            }
+                                tables: mm.listOfTables
+                            },
+                        next_table_id: mm.nextTableId
                     }
 
                 mm.sqlText =  JSON.stringify(  newDatabaseEntry  ,  null  ,  2  )
@@ -400,7 +410,6 @@ load_once_from_file(true)
                     return null
                 }
                 await mm.convertJsonModelToSrcCode()
-debugger
                 return this.text
             },
             setText:                    async function  (  textValue  ) {
@@ -420,7 +429,7 @@ debugger
                 if (!isValidObject(this.text)) {
                     return
                 }
-                await mm.createJsonModel()
+                await mm.getModelFromSrcCode()
             }
         }
     })
