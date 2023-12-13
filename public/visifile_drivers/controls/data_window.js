@@ -204,11 +204,9 @@ properties(
             type:       "Select",
             default:    "fitColumns",
             values:     [
-                            {display: "Fit Columns",   value: "fitColumns"},
-                            {display: "Fit Data",  value: "fitData"},
+                            {display: "Fit Columns",    value: "fitColumns"},
+                            {display: "Fit Data",       value: "fitData"},
                             {display: "Fit Data Fill",  value: "fitDataFill"}
-
-
                         ]
         }
 
@@ -635,7 +633,7 @@ logo_url("/driver_icons/data_window.png")
                     selected_index:        null,
                     columnDefinitions:     [ ],
                     tables:                [ ],
-                    table:                null,
+                    table:                 null,
                     designDetailTab:       "connection"
             }
         },
