@@ -12,7 +12,6 @@ load_once_from_file(true)
                 read_only:              false,
                 errors:                 null,
                 sqlText:                "{}",
-                parsedDatabaseEntry:    null,
                 editor:                 null,
                 selectedTab:            "home",
                 list_of_tables:         null
@@ -99,7 +98,7 @@ load_once_from_file(true)
                                 </div>
                               
                               
-                                <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;">
+                                <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
                                     Data
                                 </div>
                               
@@ -162,11 +161,6 @@ load_once_from_file(true)
 {{sqlText}}
         </pre>
         
-        <pre    v-on:click="gotoLine(errors.lineNumber)"
-                style="background:pink;color:blue;"
-                v-if="errors != null">Line {{errors.lineNumber}}: {{errors.description}}</pre>
-
-
 
 
 
@@ -285,49 +279,7 @@ load_once_from_file(true)
                 if (tabName == "text") {
                     args.text           = null
                     yz.mainVars.disableAutoSave     = true
-                    debugger
-                    mm.parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
-                    if (isValidObject(mm.parsedDatabaseEntry)) {
-                        mm.sqlText =  JSON.stringify( mm.parsedDatabaseEntry , null, 2)
-                    } else {
-                        mm.parsedDatabaseEntry =
-                            {
-                                db_type:
-                                    {
-                                        name: "sqlite"
-                                    },
-                                schema:
-                                    {
-                                        tables:
-                                            [
-                                                {
-                                                    name:    "TABLE_1",
-                                                    cols:
-                                                        [
-                                                            {
-                                                                id:   "id",
-                                                                type: "TEXT"
-                                                            }
-                                                        ]
-                                                }
 
-                                            ]
-
-                                    }
-                            }
-
-                        mm.sqlText =  JSON.stringify(  mm.parsedDatabaseEntry  ,  null  ,  2  )
-                    }
-
-                    mm.list_of_tables = []
-                    if (mm.parsedDatabaseEntry && mm.parsedDatabaseEntry.schema && mm.parsedDatabaseEntry.schema.tables) {
-                        mm.list_of_tables = mm.parsedDatabaseEntry.schema.tables
-                    }
-
-
-                    if (isValidObject(mm.text)) {
-                        mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
-                    }
                 }
             },
             createJsonModel:            async function  (  ) {
@@ -343,11 +295,9 @@ load_once_from_file(true)
                 //------------------------------------------------------------------------/
                 let mm = this
                 debugger
-                mm.parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
-                if (isValidObject(mm.parsedDatabaseEntry)) {
-                    mm.sqlText =  JSON.stringify( mm.parsedDatabaseEntry , null, 2)
-                } else {
-                    mm.parsedDatabaseEntry =
+                let parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
+                if (!isValidObject(parsedDatabaseEntry)) {
+                    parsedDatabaseEntry =
                         {
                             db_type:
                                 {
@@ -372,22 +322,50 @@ load_once_from_file(true)
 
                                 }
                         }
-
-                    mm.sqlText =  JSON.stringify(  mm.parsedDatabaseEntry  ,  null  ,  2  )
                 }
+                mm.sqlText =  JSON.stringify(  parsedDatabaseEntry  ,  null  ,  2  )
 
                 mm.list_of_tables = []
-                if (mm.parsedDatabaseEntry && mm.parsedDatabaseEntry.schema && mm.parsedDatabaseEntry.schema.tables) {
-                    mm.list_of_tables = mm.parsedDatabaseEntry.schema.tables
+                if (parsedDatabaseEntry && parsedDatabaseEntry.schema && parsedDatabaseEntry.schema.tables) {
+                    mm.list_of_tables = parsedDatabaseEntry.schema.tables
                 }
-
 
                 if (isValidObject(mm.text)) {
                     mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                 }
             },
-            gotoLine:                   function        (  line  ) {
-            this.editor.gotoLine(line , 10, true);
+            convertJsonModelToSrcCode:  async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /   convertJsonModelToSrcCode         /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This takes the model of the database and amends the database( ... ) tag
+                // in the source code
+                //------------------------------------------------------------------------/
+                let mm = this
+                debugger
+                let srcDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
+                if (isValidObject(srcDatabaseEntry)) {
+                    mm.text = yz.helpers.deleteCodeString(mm.text, "database", ")//database")
+                }
+
+                let newDatabaseEntry =
+                    {
+                        db_type:
+                            {
+                                name: "sqlite"
+                            },
+                        schema:
+                            {
+                                tables: mm.list_of_tables
+                            }
+                    }
+
+                mm.sqlText =  JSON.stringify(  newDatabaseEntry  ,  null  ,  2  )
+                mm.text = yz.helpers.insertCodeString(mm.text, "database", newDatabaseEntry , ")//database")
             },
             getText:                    async function  (  ) {
                 //----------------------------------------------------------------------------------/
@@ -400,6 +378,7 @@ load_once_from_file(true)
                 // gets the source code text, in this case changes to the
                 // SQL definitions
                 //------------------------------------------------------------------------/
+                debugger
                 if (!isValidObject(this.text)) {
                     return null
                 }
@@ -408,7 +387,7 @@ load_once_from_file(true)
 
                 return this.text
             },
-            setText:                    async function        (  textValue  ) {
+            setText:                    async function  (  textValue  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -420,6 +399,7 @@ load_once_from_file(true)
                 // is read by the database editor
                 //------------------------------------------------------------------------/
                 let mm = this
+                debugger
                 this.text           =  textValue
 
                 if (!isValidObject(this.text)) {
