@@ -17,8 +17,9 @@ load_once_from_file(true)
                 listOfTables:               null,
                 nextTableId:                null,
 
-                // text pane
-                pane_home_selectedTable:    null
+                // home pane
+                pane_home_selectedTable:    null,
+                pane_home_grid_view:        null
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -119,6 +120,7 @@ load_once_from_file(true)
                               
                                 <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
                                     Data
+                                  <div    ref="db_editor_grid_view"></div>
                                 </div>
                               
                               
@@ -295,8 +297,43 @@ load_once_from_file(true)
                 let mm = this
                 mm.selectedTab = tabName
 
+
                 // ------------------------------------------------
-                //    init history pane
+                //    init home pane
+                // ------------------------------------------------
+                if (tabName == "home") {
+                    mm.pane_home_grid_view = new Tabulator(this.$refs.db_editor_grid_view,
+                        {
+                            width:              "100px",
+                            height:             "100px",
+                            tables:             [],
+                            data:               [],
+                            layout:             "fitColumns",
+                            responsiveLayout:   "hide",
+                            tooltips:           true,
+                            addRowPos:          "top",
+                            history:            true,
+                            pagination:         "local",
+                            paginationSize:     7,
+                            movableColumns:     true,
+                            resizableColumns:   true,
+                            resizableRows:      true,
+                            movableColumns:     true,
+                            layout:             [
+                                                    {display: "Fit Columns",    value: "fitColumns"},
+                                                    {display: "Fit Data",       value: "fitData"},
+                                                    {display: "Fit Data Fill",  value: "fitDataFill"}
+                                                ],
+                            tableNames:         [],
+                            initialSort:        [],
+                            columns:            []
+                        });
+                }
+
+
+
+                // ------------------------------------------------
+                //    init text pane
                 // ------------------------------------------------
                 if (tabName == "text") {
                     args.text                       = null
