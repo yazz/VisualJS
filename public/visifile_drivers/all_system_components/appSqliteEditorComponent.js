@@ -95,6 +95,18 @@ load_once_from_file(true)
                                 <div style="width: 20%;border: 1px solid blue;display: inline-block;height:100%;">
                                     List of tables
                                     <pre>{{list_of_tables}}</pre>
+
+                                  <div style="margin-left: 30px;">
+                                        <button  type=button class='btn btn-sm btn-primary'
+                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
+                                                 v-on:click="pane_home_addTable()" >+</button>
+    
+                                        <button  type=button class='btn btn-sm btn-primary'
+                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
+                                                 v-on:click="pane_home_deleteTable()" >-</button>
+                                  </div>
+
+
                                 </div>
                               
                               
