@@ -294,11 +294,11 @@ load_once_from_file(true)
                     args.text                       = null
                 }
             },
-            getModelFromSrcCode:        async function  (  ) {
+            createModelFromSrcCode:        async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
-                //                   /      getModelFromSrcCode            /
+                //                   /      createModelFromSrcCode         /
                 //                  /-------------------------------------/
                 //
                 //----------------------------------------------------------------------------/
@@ -335,8 +335,6 @@ load_once_from_file(true)
                                 },
                             next_table_id: 2
                         }
-                    //await mm.convertJsonModelToSrcCode()
-                    //mm.schemaChanged()
                     changed = true
                 }
                 mm.sqlText =  JSON.stringify(  parsedDatabaseEntry  ,  null  ,  2  )
@@ -436,7 +434,7 @@ load_once_from_file(true)
                 if (!isValidObject(this.text)) {
                     return
                 }
-                await mm.getModelFromSrcCode()
+                await mm.createModelFromSrcCode()
             }
         }
     })
