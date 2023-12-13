@@ -258,7 +258,7 @@ load_once_from_file(true)
                     <hr></hr>
                  </div>`,
         mounted:    async function() {
-            yz.mainVars.disableAutoSave     = false
+            yz.mainVars.disableAutoSave     = true
         },
         methods:    {
             switchTab:                  async function  (  {  tabName  }  ) {
@@ -293,7 +293,6 @@ load_once_from_file(true)
                 // in the source code
                 //------------------------------------------------------------------------/
                 let mm = this
-                debugger
                 let parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                 if (!isValidObject(parsedDatabaseEntry)) {
                     parsedDatabaseEntry =
@@ -321,6 +320,8 @@ load_once_from_file(true)
 
                                 }
                         }
+                    await mm.convertJsonModelToSrcCode()
+                    mm.schemaChanged()
                 }
                 mm.sqlText =  JSON.stringify(  parsedDatabaseEntry  ,  null  ,  2  )
 
@@ -332,6 +333,12 @@ load_once_from_file(true)
                 if (isValidObject(mm.text)) {
                     mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                 }
+            },
+            schemaChanged:              function  (  ) {
+                this.$root.$emit(
+                    'message', {
+                        type: "pending"
+                    })
             },
             convertJsonModelToSrcCode:  async function  (  ) {
                 //----------------------------------------------------------------------------------/
@@ -345,7 +352,6 @@ load_once_from_file(true)
                 // in the source code
                 //------------------------------------------------------------------------/
                 let mm = this
-                debugger
                 let srcDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                 if (isValidObject(srcDatabaseEntry)) {
                     mm.text = yz.helpers.deleteCodeString(mm.text, "database", ")//database")
@@ -382,7 +388,7 @@ load_once_from_file(true)
                     return null
                 }
                 await mm.convertJsonModelToSrcCode()
-
+debugger
                 return this.text
             },
             setText:                    async function  (  textValue  ) {
@@ -397,7 +403,6 @@ load_once_from_file(true)
                 // is read by the database editor
                 //------------------------------------------------------------------------/
                 let mm = this
-                debugger
                 this.text           =  textValue
 
                 if (!isValidObject(this.text)) {
