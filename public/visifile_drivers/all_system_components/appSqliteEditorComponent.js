@@ -120,7 +120,8 @@ load_once_from_file(true)
                               
                                 <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
                                     Data
-                                  <div    id="db_editor_grid_view_parent"></div>
+                                  <div    id="db_editor_grid_view_parent">
+                                  </div>
                                 </div>
                               
                               
@@ -306,10 +307,11 @@ load_once_from_file(true)
                 if (tabName == "home") {
                     if (mm.pane_home_tabulator == null ) {
                         var elTab =  document.createElement("div");
+                        elTab.setAttribute("id", "db_editor_grid_view")
                         elTab.setAttribute("ref", "db_editor_grid_view")
                         document.getElementById("db_editor_grid_view_parent").appendChild(elTab);
                         setTimeout(async function(){
-                            mm.pane_home_tabulator = new Tabulator(this.$refs.db_editor_grid_view,
+                            mm.pane_home_tabulator = new Tabulator(mm.$refs.db_editor_grid_view,
                                 {
                                     width:              "100px",
                                     height:             "100px",
@@ -335,10 +337,11 @@ load_once_from_file(true)
                                     initialSort:        [],
                                     columns:            []
                                 });
-                        },100)
+                        },300)
                     }
                 } else {
                     mm.pane_home_tabulator = null
+                    document.getElementById("db_editor_grid_view").remove()
                 }
 
 
