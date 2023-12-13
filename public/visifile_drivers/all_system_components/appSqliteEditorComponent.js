@@ -282,6 +282,7 @@ load_once_from_file(true)
             let mm = this
             yz.mainVars.disableAutoSave     = true
             mm.pane_home_selectedTable      = null
+            await mm.switchTab({tabName: "home"})
         },
         methods:    {
             switchTab:                  async function  (  {  tabName  }  ) {
