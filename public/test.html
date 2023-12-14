@@ -182,11 +182,8 @@ Standard HTML and JS
                     template:   `<div style="margin-top: 30px;">Inside VueJS 2
                     <div id="example-table2"></div>
                     </div>`,
-                    el:         "#rootel"
-                })
-                setTimeout(
-                    function() {
-
+                    el:         "#rootel",
+                    mounted: async function() {
                         var table = new Tabulator("#example-table2", {
                             reactiveData: true,
                             width: "100px",
@@ -239,10 +236,10 @@ Standard HTML and JS
                                 {title: "Name2", field: "name2", width: 200, headerMenu: headerMenu, editor: true},
                             ]
                         });
-                    }
 
-                    ,200)
-                },200
+                    }
+                })
+        },200
     )
 </script>
 </html>
