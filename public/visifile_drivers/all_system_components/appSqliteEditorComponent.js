@@ -313,6 +313,82 @@ load_once_from_file(true)
                             elTab.setAttribute("style", "height:100%;")
                             let parentEl = document.getElementById("db_editor_grid_view_parent")
                             parentEl.appendChild(elTab);
+                            var rowMenu = [
+                                {
+                                    label:"<i class='fas fa-user'></i> Change Name",
+                                    action:function(e, row){
+                                        row.update({name:"Steve Bobberson"});
+                                    }
+                                },
+                                {
+                                    label:"<i class='fas fa-check-square'></i> Select Row",
+                                    action:function(e, row){
+                                        row.select();
+                                    }
+                                },
+                                {
+                                    separator:true,
+                                },
+                                {
+                                    label:"Admin Functions",
+                                    menu:[
+                                        {
+                                            label:"<i class='fas fa-trash'></i> Delete Row",
+                                            action:function(e, row){
+                                                row.delete();
+                                            }
+                                        },
+                                        {
+                                            label:"<i class='fas fa-ban'></i> Disabled Option",
+                                            disabled:true,
+                                        },
+                                    ]
+                                }]
+                            var headerMenu = function(){
+                                var menu = [];
+                                var columns = this.getColumns();
+
+                                for(let column of columns){
+
+                                    //create checkbox element using font awesome icons
+                                    let icon = document.createElement("i");
+                                    icon.classList.add("fas");
+                                    icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
+
+                                    //build label
+                                    let label = document.createElement("span");
+                                    let title = document.createElement("span");
+
+                                    title.textContent = " " + column.getDefinition().title;
+
+                                    label.appendChild(icon);
+                                    label.appendChild(title);
+
+                                    //create menu item
+                                    menu.push({
+                                        label:label,
+                                        action:function(e){
+                                            //prevent menu closing
+                                            e.stopPropagation();
+
+                                            //toggle current column visibility
+                                            column.toggle();
+
+                                            //change menu item icon
+                                            if(column.isVisible()){
+                                                icon.classList.remove("fa-square");
+                                                icon.classList.add("fa-check-square");
+                                            }else{
+                                                icon.classList.remove("fa-check-square");
+                                                icon.classList.add("fa-square");
+                                            }
+                                        }
+                                    });
+                                }
+
+                                return menu;
+                            };
+
                             Vue.nextTick(function () {
                                 mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                     {
@@ -345,11 +421,13 @@ load_once_from_file(true)
                                         ],
                                         tableNames:         [],
                                         initialSort:        [],
+                                        rowContextMenu: rowMenu,
                                         columns:            [
-                                            {title:"Name",              field:"name",   width:150                               },
-                                            {title:"Age",               field:"age",    hozAlign:"left", formatter:"progress"   },
-                                            {title:"Favourite Color",   field:"col"                                             },
-                                            {title:"Date Of Birth",     field:"dob",    sorter:"date", hozAlign:"center"        },
+                                            {title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu},
+                                            {title:"Age",               field:"age",    hozAlign:"left", formatter:"progress"   , headerMenu: headerMenu},
+                                            {title:"Favourite Color",   field:"col"                                             , headerMenu: headerMenu},
+                                            {title:"Date Of Birth",     field:"dob",    sorter:"date", hozAlign:"center"        , headerMenu: headerMenu},
+                                            {title:"Name2", field:"name2", width:200, headerMenu: headerMenu,editor: true},
                                         ]
                                     });
                             })
