@@ -120,7 +120,7 @@ load_once_from_file(true)
                               
                                 <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
                                     Data
-                                  <div    id="db_editor_grid_view_parent">
+                                  <div    id="db_editor_grid_view_parent" style="height: 500px;">
                                   </div>
                                 </div>
                               
@@ -310,15 +310,23 @@ load_once_from_file(true)
                             debugger
                             var elTab =  document.createElement("div");
                             elTab.setAttribute("id", "db_editor_grid_view")
+                            elTab.setAttribute("style", "height:100%;")
                             let parentEl = document.getElementById("db_editor_grid_view_parent")
                             parentEl.appendChild(elTab);
                             Vue.nextTick(function () {
                                 mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                     {
                                         width:              "100px",
-                                        height:             "100px",
+                                        //height:           "70px",
+                                        rowHeight:          30,
                                         tables:             [],
-                                        data:               [],
+                                        data:               [
+                                            {id:1, name:"Oli Bob", age:"12", col:"red", dob:""},
+                                            {id:2, name:"Mary May", age:"1", col:"blue", dob:"14/05/1982"},
+                                            {id:3, name:"Christine Lobowski", age:"42", col:"green", dob:"22/05/1982"},
+                                            {id:4, name:"Brendon Philips", age:"125", col:"orange", dob:"01/08/1980"},
+                                            {id:5, name:"Margret Marmajuke", age:"16", col:"yellow", dob:"31/01/1999"},
+                                        ],
                                         layout:             "fitColumns",
                                         responsiveLayout:   "hide",
                                         tooltips:           true,
@@ -337,7 +345,12 @@ load_once_from_file(true)
                                         ],
                                         tableNames:         [],
                                         initialSort:        [],
-                                        columns:            []
+                                        columns:            [
+                                            {title:"Name",              field:"name",   width:150                               },
+                                            {title:"Age",               field:"age",    hozAlign:"left", formatter:"progress"   },
+                                            {title:"Favourite Color",   field:"col"                                             },
+                                            {title:"Date Of Birth",     field:"dob",    sorter:"date", hozAlign:"center"        },
+                                        ]
                                     });
                             })
                         })
