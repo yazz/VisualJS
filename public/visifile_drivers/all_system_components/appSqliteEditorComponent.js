@@ -392,6 +392,7 @@ load_once_from_file(true)
                             Vue.nextTick(function () {
                                 mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                     {
+                                        reactiveData:true,
                                         width:              "100px",
                                         //height:           "70px",
                                         rowHeight:          30,
