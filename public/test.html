@@ -4,8 +4,21 @@
     <meta name="viewport"               Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta charset="UTF-8"                                                                                                                                                                                           />
 
+
+    <link       rel="stylesheet"                                                                href="https://cdn.usebootstrap.com/bootstrap/4.1.3/css/bootstrap.min.css">                                          </link>
     <link       rel="stylesheet"                                                                href="/js_libs/tabulator.min.css">                                                                                 </link>
-    <script     src="/js_libs/tabulator.js">                                                                                                                                                                    </script>
+    <script     src="/js_libs/dropzone5.4.0.js">                                                                                                                                                                    </script>
+    <script     src="https://cdn.socket.io/4.5.3/socket.io.min.js"                              integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi"     crossorigin="anonymous">    </script>
+    <script     src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js">                                                                                                                                 </script>
+    <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
+
+
+
+
+
+
+
+    <scriptold     src="/js_libs/tabulator.js">                                                                                                                                                                    </scriptold>
     <body>
 Tab
 
@@ -89,9 +102,37 @@ Tab
 
         return menu;
     };
+    async function  useTabulatorJs                      (   ) {
+debugger
+            let promise = new Promise(returnfn => {
+                let loadTabulatorJsLibScript = document.createElement('script');
+                loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
+
+                document.head.appendChild(loadTabulatorJsLibScript);
+                loadTabulatorJsLibScript.onload = function () {
+                    //debugger
+                    try {
 
 
-    
+                    } catch (error) {
+
+                    }
+                    returnfn()
+                };
+
+            })
+
+
+            let ret = await promise
+
+    }
+
+
+     useTabulatorJs()
+
+    setTimeout(
+        function(){
+
     var table = new Tabulator("#example-table", {
                 reactiveData:true,
                 width:              "100px",
@@ -132,5 +173,7 @@ Tab
                     {title:"Name2", field:"name2", width:200, headerMenu: headerMenu,editor: true},
                 ]
             });
+        },200
+    )
 </script>
 </html>
