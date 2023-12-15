@@ -392,7 +392,7 @@ load_once_from_file(true)
                             Vue.nextTick(function () {
                                 mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                     {
-                                        reactiveData:true,
+                                        reactiveData:       true,
                                         width:              "100px",
                                         //height:           "70px",
                                         rowHeight:          30,
@@ -425,7 +425,12 @@ load_once_from_file(true)
                                         rowContextMenu: rowMenu,
                                         columns:            [
                                             {title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"},
-                                            {title:"Age",               field:"age",    hozAlign:"left", formatter:"progress"   , headerMenu: headerMenu},
+                                            {title:"Age",               field:"age",    hozAlign:"left", formatter:"progress"   , headerMenu: headerMenu, headerFilter:
+                                                    (function(cell, onR, success, cancel, eP) {
+                                                        let el = document.createElement('button');
+                                                        el.innerHTML = 'Primary';
+                                                        return el;
+                                                    })},
                                             {title:"Favourite Color",   field:"col"                                             , headerMenu: headerMenu},
                                             {title:"Date Of Birth",     field:"dob",    sorter:"date", hozAlign:"center"        , headerMenu: headerMenu},
                                             {title:"Name2", field:"name2", width:200, headerMenu: headerMenu,editor: true},
