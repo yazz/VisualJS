@@ -424,7 +424,7 @@ load_once_from_file(true)
                                         initialSort:        [],
                                         rowContextMenu: rowMenu,
                                         columns:            [
-                                            {title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu},
+                                            {title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"},
                                             {title:"Age",               field:"age",    hozAlign:"left", formatter:"progress"   , headerMenu: headerMenu},
                                             {title:"Favourite Color",   field:"col"                                             , headerMenu: headerMenu},
                                             {title:"Date Of Birth",     field:"dob",    sorter:"date", hozAlign:"center"        , headerMenu: headerMenu},
