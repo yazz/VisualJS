@@ -107,7 +107,7 @@ load_once_from_file(true)
                                   <div style="margin-left: 30px;">
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
-                                                 v-on:click="pane_home_addTable()" >+</button>
+                                                 v-on:click="pane_home_addColumn()" >+</button>
     
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
@@ -119,8 +119,12 @@ load_once_from_file(true)
                               
                               
                                 <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
-                                    Data
-                                  <div    id="db_editor_grid_view_parent" style="height: 500px;">
+                                  <div    id="db_editor_grid_view_parent" style="height: 500px;display: inline-block; width:85%;">
+                                  </div>
+                                  <div    id="" style="height: 500px;display: inline-block;vertical-align:top">
+                                      <button   type=button class='btn btn-sm btn-primary'
+                                                style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
+                                                v-on:click="pane_home_add()" >+</button>
                                   </div>
                                 </div>
                               
