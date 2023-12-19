@@ -683,7 +683,7 @@ load_once_from_file(true)
                 }
                 mm.pane_home_tabulator.setColumns(
                     [
-                        {title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"},
+                        {title:"Name",              field:"name",   width:150   ,  headerFilter:"input"},
                     ]
                 )
                 //zzz
