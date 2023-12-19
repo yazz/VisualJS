@@ -85,11 +85,7 @@ load_once_from_file(true)
                         |
                         -------------------------------------------------------------------------- -->
                         <div  v-if='selectedTab=="home"'  style="padding:15px;">
-        
-
                             <div style="width: 100%;border: 1px solid blue; height:60%;">
-                              
-                              
                                 <div style="width: 20%;border: 1px solid blue;display: inline-block;height:100%;">
                                     List of tables
                                     <div v-for="(tableItem,i) in listOfTables">
@@ -108,10 +104,7 @@ load_once_from_file(true)
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
                                                  v-on:click="pane_home_deleteTable()" >-</button>
                                   </div>
-
-
                                 </div>
-                              
                               
                                 <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
                                   <div    id="db_editor_grid_view_parent" style="height: 500px;display: inline-block; width:85%;">
@@ -122,10 +115,7 @@ load_once_from_file(true)
                                                 v-on:click="pane_home_addColumn()" >+</button>
                                   </div>
                                 </div>
-                              
-                              
                             </div>
-                          
 <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
@@ -171,7 +161,6 @@ load_once_from_file(true)
       |
       -------------------------------------------------------------------------- -->
     <div  v-if='selectedTab=="text"'  style="padding:15px;">
-        
         <pre style="height:60%;">{{sqlText}}
         </pre>
 <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
@@ -271,7 +260,7 @@ load_once_from_file(true)
                 //                   /               switchTab             /
                 //                  /-------------------------------------/
                 //
-                //----------------------------------------------------------------------------/
+                //--------------------------------------------------------------------------/
                 // This switches to a new tab
                 //------------------------------------------------------------------------/
                 let mm = this
@@ -365,7 +354,7 @@ load_once_from_file(true)
                                 return menu;
                             };
 
-                            Vue.nextTick(function () {
+                            Vue.nextTick(async function () {
                                 mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                     {
                                         reactiveData:       true,
@@ -403,6 +392,9 @@ load_once_from_file(true)
                                             //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
                                         ]
                                     });
+                                debugger
+                                await mm.createModelFromSrcCode()
+
                             })
                         })
                     }
@@ -433,6 +425,9 @@ load_once_from_file(true)
                 //------------------------------------------------------------------------/
                 let mm = this
                 let changed = false
+                if (mm.text == null) {
+                    return
+                }
                 let parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                 if (!isValidObject(parsedDatabaseEntry)) {
                     parsedDatabaseEntry =
@@ -645,7 +640,10 @@ load_once_from_file(true)
                 for (let field of table.cols) {
                     tabulatorFields.push({title: field.id, field: field.id,   width:150   ,  headerFilter:"input"})
                 }
-                mm.pane_home_tabulator.setColumns(  tabulatorFields  )
+                Vue.nextTick(async function () {
+                    mm.pane_home_tabulator.setColumns(tabulatorFields)
+                    mm.pane_home_tabulator.refresh()
+                })
                 //zzz
             }
         }
