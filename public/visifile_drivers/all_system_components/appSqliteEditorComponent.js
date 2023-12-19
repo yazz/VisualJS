@@ -21,7 +21,6 @@ load_once_from_file(true)
                 pane_home_selectedTable:    null,
                 pane_home_tabulator:        null,
                 pane_home_selectedField:    null,
-                pane_home_fields:           null
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -675,17 +674,13 @@ load_once_from_file(true)
             pane_home_selectTable:      async function  (  {  tableName  }  ) {
                 let mm = this
                 mm.pane_home_selectedTable = tableName
-                mm.pane_home_fields = []
+                let tabulatorFields = []
                 debugger
-                let table = await mm.getTable( { tableName: tableName})
-                for (let field in table.cols) {
-
+                let table = await mm.getTable( { tableName: tableName } )
+                for (let field of table.cols) {
+                    tabulatorFields.push({title: field.id, field: field.id,   width:150   ,  headerFilter:"input"})
                 }
-                mm.pane_home_tabulator.setColumns(
-                    [
-                        {title:"Name",              field:"name",   width:150   ,  headerFilter:"input"},
-                    ]
-                )
+                mm.pane_home_tabulator.setColumns(  tabulatorFields  )
                 //zzz
             }
         }
