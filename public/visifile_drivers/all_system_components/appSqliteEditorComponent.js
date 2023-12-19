@@ -107,7 +107,7 @@ load_once_from_file(true)
                                   <div style="margin-left: 30px;">
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
-                                                 v-on:click="pane_home_addColumn()" >+</button>
+                                                 v-on:click="pane_home_addTable()" >+</button>
     
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
@@ -124,7 +124,7 @@ load_once_from_file(true)
                                   <div    id="" style="height: 500px;display: inline-block;vertical-align:top">
                                       <button   type=button class='btn btn-sm btn-primary'
                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
-                                                v-on:click="pane_home_add()" >+</button>
+                                                v-on:click="pane_home_addColumn()" >+</button>
                                   </div>
                                 </div>
                               
@@ -311,7 +311,6 @@ load_once_from_file(true)
                 if (tabName == "home") {
                     if (mm.pane_home_tabulator == null ) {
                         Vue.nextTick(function () {
-                            debugger
                             var elTab =  document.createElement("div");
                             elTab.setAttribute("id", "db_editor_grid_view")
                             elTab.setAttribute("style", "height:100%;")
@@ -635,6 +634,30 @@ load_once_from_file(true)
                     })
                 mm.nextTableId ++
                 await mm.pane_home_selectTable(  { tableName: newTableName})
+                await mm.schemaChanged()
+            },
+            pane_home_deleteTable:      async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /       pane_home_deleteTable         /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // Delete a table
+                //------------------------------------------------------------------------/
+                let mm = this
+                if (mm.pane_home_selectedTable == null) {
+                    return
+                }
+                for (let tableIndex = mm.listOfTables.length - 1; tableIndex >= 0; tableIndex--) {
+                    if (mm.listOfTables[tableIndex]) {
+                        if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                            mm.listOfTables.splice(tableIndex, 1);
+                        }
+                    }
+                }
+                await mm.pane_home_selectTable(  { tableName: null})
                 await mm.schemaChanged()
             },
             pane_home_selectTable:      async function  (  {  tableName  }  ) {
