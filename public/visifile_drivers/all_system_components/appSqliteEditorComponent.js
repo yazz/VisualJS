@@ -428,16 +428,7 @@ load_once_from_file(true)
                                         initialSort:        [],
                                         rowContextMenu: rowMenu,
                                         columns:            [
-                                            {title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"},
-                                            {title:"Age",               field:"age",    hozAlign:"left", formatter:"progress"   , headerMenu: headerMenu, headerFilter:
-                                                    (function(cell, onR, success, cancel, eP) {
-                                                        let el = document.createElement('button');
-                                                        el.innerHTML = 'Primary';
-                                                        return el;
-                                                    })},
-                                            {title:"Favourite Color",   field:"col"                                             , headerMenu: headerMenu},
-                                            {title:"Date Of Birth",     field:"dob",    sorter:"date", hozAlign:"center"        , headerMenu: headerMenu},
-                                            {title:"Name2", field:"name2", width:200, headerMenu: headerMenu,editor: true},
+                                            //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
                                         ]
                                     });
                             })
@@ -490,7 +481,8 @@ load_once_from_file(true)
                                                             id:   "id",
                                                             type: "TEXT"
                                                         }
-                                                    ]
+                                                    ],
+                                                next_field_id: 2
                                             }
                                         ]
 
@@ -631,7 +623,8 @@ load_once_from_file(true)
                                     id: "id",
                                     type: "TEXT"
                                 }
-                            ]
+                            ],
+                        next_field_id: 2
                     })
                 mm.nextTableId ++
                 await mm.pane_home_selectTable(  { tableName: newTableName})
