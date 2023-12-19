@@ -56,10 +56,6 @@ load_once_from_file(true)
                               <a v-bind:class='"nav-link" + (selectedTab=="home"?" active":"")' href="#">Home</a>
                             </li>
 
-                            <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "data"})'>
-                              <a v-bind:class='"nav-link" + (selectedTab=="data"?" active":"")' href="#">Data</a>
-                            </li>
-
                             <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "sql"})'>
                               <a v-bind:class='"nav-link" + (selectedTab=="sql"?" active":"")' href="#">Sql</a>
                             </li>
@@ -83,13 +79,11 @@ load_once_from_file(true)
 
 
                         <!--  HOME PANE ---------------------------------------------------------
-                        |    --------------
+                        |    -----------
                         |
                         |  
                         |
                         -------------------------------------------------------------------------- -->
-
-
                         <div  v-if='selectedTab=="home"'  style="padding:15px;">
         
 
@@ -131,12 +125,8 @@ load_once_from_file(true)
                               
                               
                             </div>
-
-
-
-
-
-                          <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
+                          
+<pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
 |                               DEBUG INFO                           |
@@ -180,17 +170,10 @@ load_once_from_file(true)
       |  
       |
       -------------------------------------------------------------------------- -->
-
-
     <div  v-if='selectedTab=="text"'  style="padding:15px;">
         
-        <pre style="height:60%;">
-{{sqlText}}
+        <pre style="height:60%;">{{sqlText}}
         </pre>
-        
-
-
-
 <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
@@ -220,37 +203,26 @@ load_once_from_file(true)
 
 
                         <!--  OLD PANE ---------------------------------------------------------
-                        |    -----------
+                        |    ----------
                         |
                         |  
                         |
                         -------------------------------------------------------------------------- -->
-
-
                         <div  v-if='selectedTab=="old"'  style="padding:15px;">
-
-
                           <div>
                             <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;' "
                                  href="#"
                                  v-on:click='setTimeout(async function(){$root.$emit("message", {type:          "switch_editor",editorName: "sqlite_editor_component"})},100)'
                                  type="button" class="btn btn-light ">
-
                               <img
                                   src='/driver_icons/database.png'
                                   style='height:35px; margin-right: 0px;'
                                   class='img-fluid'>
                               </img>
                               Old DB Editor
-
                             </a>
                           </div>
-
-
-
-
-
-                          <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
+<pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
 |                               DEBUG INFO                           |
