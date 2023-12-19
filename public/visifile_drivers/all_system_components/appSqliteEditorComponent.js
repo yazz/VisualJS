@@ -19,7 +19,9 @@ load_once_from_file(true)
 
                 // home pane
                 pane_home_selectedTable:    null,
-                pane_home_tabulator:        null
+                pane_home_tabulator:        null,
+                pane_home_selectedField:    null,
+                pane_home_fields:           null
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -660,9 +662,31 @@ load_once_from_file(true)
                 await mm.pane_home_selectTable(  { tableName: null})
                 await mm.schemaChanged()
             },
+            getTable:                   async function  (  { tableName  }  ) {
+                let mm = this
+                for (let tableIndex = mm.listOfTables.length - 1; tableIndex >= 0; tableIndex--) {
+                    if (mm.listOfTables[tableIndex]) {
+                        if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                            return mm.listOfTables[tableIndex]
+                        }
+                    }
+                }
+            },
             pane_home_selectTable:      async function  (  {  tableName  }  ) {
                 let mm = this
                 mm.pane_home_selectedTable = tableName
+                mm.pane_home_fields = []
+                debugger
+                let table = await mm.getTable( { tableName: tableName})
+                for (let field in table.cols) {
+
+                }
+                mm.pane_home_tabulator.setColumns(
+                    [
+                        {title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"},
+                    ]
+                )
+                //zzz
             }
         }
     })
