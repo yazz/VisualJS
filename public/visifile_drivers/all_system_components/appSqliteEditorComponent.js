@@ -392,7 +392,6 @@ load_once_from_file(true)
                                             //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
                                         ]
                                     });
-                                debugger
                                 await mm.createModelFromSrcCode()
 
                             })
@@ -597,6 +596,33 @@ load_once_from_file(true)
                 await mm.pane_home_selectTable(  { tableName: newTableName})
                 await mm.schemaChanged()
             },
+            pane_home_addColumn:         async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /         pane_home_addColumn         /
+                //                  /-------------------------------------/
+                //
+                //--------------------------------------------------------------------------/
+                // Add a column
+                //------------------------------------------------------------------------/
+                let mm = this
+                debugger
+                if (mm.pane_home_selectedTable == null) {
+                    return
+                }
+                let table = await mm.getTable( { tableName: mm.pane_home_selectedTable } )
+
+                let newColumnName = "COL_" + table.next_field_id
+                table.cols.push(
+                    {
+                        id:     newColumnName,
+                        type:   "TEXT"
+                    }
+                )
+                table.next_field_id ++
+                await mm.schemaChanged()
+            },
             pane_home_deleteTable:      async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
@@ -635,7 +661,6 @@ load_once_from_file(true)
                 let mm = this
                 mm.pane_home_selectedTable = tableName
                 let tabulatorFields = []
-                debugger
                 let table = await mm.getTable( { tableName: tableName } )
                 for (let field of table.cols) {
                     tabulatorFields.push({title: field.id, field: field.id,   width:150   ,  headerFilter:"input"})
@@ -644,7 +669,6 @@ load_once_from_file(true)
                     mm.pane_home_tabulator.setColumns(tabulatorFields)
                     mm.pane_home_tabulator.refresh()
                 })
-                //zzz
             }
         }
     })
