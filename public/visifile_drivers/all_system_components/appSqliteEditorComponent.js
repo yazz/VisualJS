@@ -658,6 +658,7 @@ load_once_from_file(true)
                 }
             },
             pane_home_selectTable:      async function  (  {  tableName  }  ) {
+                debugger
                 let mm = this
                 mm.pane_home_selectedTable = tableName
                 let tabulatorFields = []
@@ -666,8 +667,9 @@ load_once_from_file(true)
                     tabulatorFields.push({title: field.id, field: field.id,   width:150   ,  headerFilter:"input"})
                 }
                 Vue.nextTick(async function () {
-                    mm.pane_home_tabulator.setColumns(tabulatorFields)
-                    mm.pane_home_tabulator.refresh()
+                    if (tabulatorFields) {
+                        mm.pane_home_tabulator.setColumns(tabulatorFields)
+                    }
                 })
             }
         }
