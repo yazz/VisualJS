@@ -666,11 +666,11 @@ load_once_from_file(true)
                 for (let field of table.cols) {
                     tabulatorFields.push({title: field.id, field: field.id,   width:150   ,  headerFilter:"input"})
                 }
-                Vue.nextTick(async function () {
+                setTimeout(async function () {
                     if (tabulatorFields) {
                         mm.pane_home_tabulator.setColumns(tabulatorFields)
                     }
-                })
+                },100)
             }
         }
     })
