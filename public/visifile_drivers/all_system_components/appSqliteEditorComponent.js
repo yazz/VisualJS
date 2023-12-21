@@ -91,7 +91,7 @@ load_once_from_file(true)
                                     <div v-for="(tableItem,i) in listOfTables">
                                         <div
                                             v-bind:style='pane_home_selectedTable==tableItem.name?"background-color:lightgray;":""'
-                                            v-on:click="pane_home_selectedTable=tableItem.name"
+                                            v-on:click="pane_home_selectTable(  {  tableName:  tableItem.name  }  )"
                                         >{{tableItem.name}}</div>
                                     </div>
 
