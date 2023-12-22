@@ -622,6 +622,7 @@ load_once_from_file(true)
                 )
                 table.next_field_id ++
                 await mm.schemaChanged()
+                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
             },
             pane_home_deleteTable:      async function  (  ) {
                 //----------------------------------------------------------------------------------/
