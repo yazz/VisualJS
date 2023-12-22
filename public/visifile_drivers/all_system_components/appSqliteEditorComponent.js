@@ -248,7 +248,7 @@ load_once_from_file(true)
         mounted:    async function() {
             let mm = this
             await useTabulatorJs()
-            yz.mainVars.disableAutoSave     = true
+            yz.mainVars.disableAutoSave     = false
             mm.pane_home_selectedTable      = null
             await mm.switchTab({tabName: "home"})
         },
