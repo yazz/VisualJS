@@ -392,7 +392,6 @@ load_once_from_file(true)
                                             //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
                                         ]
                                     });
-                                await mm.createModelFromSrcCode()
 
                             })
                         })
@@ -408,7 +407,6 @@ load_once_from_file(true)
                 //    init text pane
                 // ------------------------------------------------
                 if (tabName == "text") {
-                    args.text                       = null
                 }
             },
             createModelFromSrcCode:     async function  (  ) {
@@ -492,7 +490,6 @@ load_once_from_file(true)
             },
             schemaChanged:              async function  (  ) {
                 let mm = this
-                await mm.convertJsonModelToSrcCode()
                 mm.$root.$emit(
                     'message', {
                         type: "pending"
@@ -566,6 +563,8 @@ load_once_from_file(true)
                 if (!isValidObject(this.text)) {
                     return
                 }
+                args.text                       = null
+
                 await mm.createModelFromSrcCode()
             },
             pane_home_addTable:         async function  (  ) {
@@ -621,8 +620,9 @@ load_once_from_file(true)
                     }
                 )
                 table.next_field_id ++
-                await mm.schemaChanged()
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
+                debugger
+                await mm.schemaChanged()
             },
             pane_home_deleteTable:      async function  (  ) {
                 //----------------------------------------------------------------------------------/
