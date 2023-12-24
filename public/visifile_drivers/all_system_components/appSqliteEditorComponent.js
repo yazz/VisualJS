@@ -16,6 +16,7 @@ load_once_from_file(true)
                 selectedTab:                "home",
                 listOfTables:               null,
                 nextTableId:                null,
+                oldDatabaseDefn:            [],
 
                 // home pane
                 pane_home_selectedTable:    null,
@@ -293,6 +294,7 @@ load_once_from_file(true)
                                 },
                                 {
                                     separator:true,
+                                    separator:true,
                                 },
                                 {
                                     label:"Admin Functions",
@@ -457,6 +459,17 @@ load_once_from_file(true)
                 }
                 mm.sqlText =  JSON.stringify(  parsedDatabaseEntry  ,  null  ,  2  )
 
+                let oldParsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
+                if (!isValidObject(oldParsedDatabaseEntry)) {
+                    oldParsedDatabaseEntry =
+                        {
+                            migrations: []
+                        }
+                }
+                mm.oldDatabaseDefn = oldParsedDatabaseEntry.migrations
+
+
+
                 mm.listOfTables = []
                 if (parsedDatabaseEntry && parsedDatabaseEntry.schema && parsedDatabaseEntry.schema.tables) {
                     mm.listOfTables = parsedDatabaseEntry.schema.tables
@@ -546,13 +559,7 @@ load_once_from_file(true)
                     mm.text = yz.helpers.deleteCodeString(mm.text, "sqlite", ")//sqlite")
                 }
 
-                srcOldDatabaseEntry.migrations.push(
-                    {
-                        name: "Add a zubair table"
-                        ,
-                        up: ["alter TABLE items add column zubair INTEGER;"]
-                    }
-                )
+                srcOldDatabaseEntry.migrations = mm.oldDatabaseDefn
 
                 let oldSqlText =  JSON.stringify(  srcOldDatabaseEntry  ,  null  ,  2  )
                 mm.text = yz.helpers.insertCodeString(mm.text, "sqlite", srcOldDatabaseEntry , ")//sqlite")
@@ -654,6 +661,13 @@ load_once_from_file(true)
                         type:   "TEXT"
                     }
                 )
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Add a zubair table"
+                        ,
+                        up: ["alter TABLE items add column zubair INTEGER;"]
+                    })
+
 
                 table.next_field_id ++
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
