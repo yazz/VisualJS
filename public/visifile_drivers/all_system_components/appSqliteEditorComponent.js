@@ -555,7 +555,7 @@ load_once_from_file(true)
                 )
 
                 let oldSqlText =  JSON.stringify(  srcOldDatabaseEntry  ,  null  ,  2  )
-                mm.text = yz.helpers.insertCodeString(mm.text, "sqlite", oldSqlText , ")//sqlite")
+                mm.text = yz.helpers.insertCodeString(mm.text, "sqlite", srcOldDatabaseEntry , ")//sqlite")
             },
             getText:                    async function  (  ) {
                 //----------------------------------------------------------------------------------/
