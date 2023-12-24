@@ -607,6 +607,9 @@ load_once_from_file(true)
                 // Add a table
                 //------------------------------------------------------------------------/
                 let mm = this
+                if (!mm.nextTableId) {
+                    mm.nextTableId = 1
+                }
                 let newTableName = "TABLE_" + mm.nextTableId
                 mm.listOfTables.push(
                     {
@@ -641,6 +644,9 @@ load_once_from_file(true)
                 }
                 let table = await mm.getTable( { tableName: mm.pane_home_selectedTable } )
 
+                if (!table.next_field_id) {
+                    table.next_field_id = 1
+                }
                 let newColumnName = "COL_" + table.next_field_id
                 table.cols.push(
                     {
@@ -648,6 +654,7 @@ load_once_from_file(true)
                         type:   "TEXT"
                     }
                 )
+
                 table.next_field_id ++
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
 
