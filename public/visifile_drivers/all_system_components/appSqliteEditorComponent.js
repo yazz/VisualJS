@@ -434,6 +434,23 @@ load_once_from_file(true)
                 if (mm.text == null) {
                     return
                 }
+
+
+
+                let oldParsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
+                if (!isValidObject(oldParsedDatabaseEntry) || (oldParsedDatabaseEntry.migrations == null)) {
+                    oldParsedDatabaseEntry =
+                        {
+                            migrations: []
+                        }
+                }
+                mm.oldDatabaseDefn = oldParsedDatabaseEntry.migrations
+
+
+
+
+
+
                 let parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                 if (!isValidObject(parsedDatabaseEntry)) {
                     parsedDatabaseEntry =
@@ -462,19 +479,19 @@ load_once_from_file(true)
                                 },
                             next_table_id: 2
                         }
+                        mm.oldDatabaseDefn.push(
+                            {
+                                name: "Add table TABLE_1",
+                                up: ["create TABLE  TABLE_1 ( id TEXT );"]
+                            })
+
                     changed = true
                 }
                 mm.sqlText =  JSON.stringify(  parsedDatabaseEntry  ,  null  ,  2  )
 
-                let oldParsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
-                if (!isValidObject(oldParsedDatabaseEntry) || (oldParsedDatabaseEntry.migrations == null)) {
-                    oldParsedDatabaseEntry =
-                        {
-                            migrations: []
-                        }
-                }
-                debugger
-                mm.oldDatabaseDefn = oldParsedDatabaseEntry.migrations
+
+
+
 
 
 
