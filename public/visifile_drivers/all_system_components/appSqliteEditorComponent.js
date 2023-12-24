@@ -467,12 +467,13 @@ load_once_from_file(true)
                 mm.sqlText =  JSON.stringify(  parsedDatabaseEntry  ,  null  ,  2  )
 
                 let oldParsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
-                if (!isValidObject(oldParsedDatabaseEntry)) {
+                if (!isValidObject(oldParsedDatabaseEntry) || (oldParsedDatabaseEntry.migrations == null)) {
                     oldParsedDatabaseEntry =
                         {
                             migrations: []
                         }
                 }
+                debugger
                 mm.oldDatabaseDefn = oldParsedDatabaseEntry.migrations
 
 
@@ -658,6 +659,7 @@ load_once_from_file(true)
                 //--------------------------------------------------------------------------/
                 // Add a column
                 //------------------------------------------------------------------------/
+                debugger
                 let mm = this
 
                 if (mm.pane_home_selectedTable == null) {
