@@ -22,6 +22,7 @@ load_once_from_file(true)
                 pane_home_selectedTable:    null,
                 pane_home_tabulator:        null,
                 pane_home_selectedField:    null,
+                data_rows:                  [],
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -376,7 +377,7 @@ load_once_from_file(true)
                                         //height:           "70px",
                                         rowHeight:          30,
                                         tables:             [],
-                                        data:               [],
+                                        data:               mm.data_rows,
                                         layout:             "fitColumns",
                                         responsiveLayout:   "hide",
                                         tooltips:           true,
@@ -733,6 +734,8 @@ load_once_from_file(true)
                 setTimeout(async function () {
                     if (tabulatorFields) {
                         mm.pane_home_tabulator.setColumns(tabulatorFields)
+                        mm.data_rows = [{id: 1},{id: 2}]
+                        mm.pane_home_tabulator.setData(mm.data_rows)
                     }
                 },100)
             }
