@@ -527,6 +527,35 @@ load_once_from_file(true)
 
                 mm.sqlText =  JSON.stringify(  newDatabaseEntry  ,  null  ,  2  )
                 mm.text = yz.helpers.insertCodeString(mm.text, "database", newDatabaseEntry , ")//database")
+
+
+
+
+
+                //
+                // old DB defn
+                //
+                debugger
+                let srcOldDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
+                if ((srcOldDatabaseEntry == null) || (srcOldDatabaseEntry.migrations == null)) {
+                    srcOldDatabaseEntry = {
+                        migrations: []
+                    }
+                }
+                if (isValidObject(srcOldDatabaseEntry)) {
+                    mm.text = yz.helpers.deleteCodeString(mm.text, "sqlite", ")//sqlite")
+                }
+
+                srcOldDatabaseEntry.migrations.push(
+                    {
+                        name: "Add a zubair table"
+                        ,
+                        up: ["alter TABLE items add column zubair INTEGER;"]
+                    }
+                )
+
+                let oldSqlText =  JSON.stringify(  srcOldDatabaseEntry  ,  null  ,  2  )
+                mm.text = yz.helpers.insertCodeString(mm.text, "sqlite", oldSqlText , ")//sqlite")
             },
             getText:                    async function  (  ) {
                 //----------------------------------------------------------------------------------/
@@ -606,7 +635,7 @@ load_once_from_file(true)
                 // Add a column
                 //------------------------------------------------------------------------/
                 let mm = this
-                debugger
+
                 if (mm.pane_home_selectedTable == null) {
                     return
                 }
@@ -621,7 +650,7 @@ load_once_from_file(true)
                 )
                 table.next_field_id ++
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
-                debugger
+
                 await mm.schemaChanged()
             },
             pane_home_deleteTable:      async function  (  ) {
@@ -659,7 +688,7 @@ load_once_from_file(true)
                 }
             },
             pane_home_selectTable:      async function  (  {  tableName  }  ) {
-                debugger
+
                 let mm = this
                 mm.pane_home_selectedTable = tableName
                 let tabulatorFields = []
