@@ -631,6 +631,13 @@ load_once_from_file(true)
                         next_field_id: 2
                     })
                 mm.nextTableId ++
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Add table " + newTableName,
+                        up: ["create TABLE " + newTableName + "( id TEXT );"]
+                    })
+
+
                 await mm.pane_home_selectTable(  { tableName: newTableName})
                 await mm.schemaChanged()
             },
@@ -663,9 +670,9 @@ load_once_from_file(true)
                 )
                 mm.oldDatabaseDefn.push(
                     {
-                        name: "Add a zubair table"
+                        name: "Add column " + newColumnName + " to table " + mm.pane_home_selectedTable
                         ,
-                        up: ["alter TABLE items add column zubair INTEGER;"]
+                        up: ["alter TABLE " + mm.pane_home_selectedTable + " add column " + newColumnName + " INTEGER;"]
                     })
 
 

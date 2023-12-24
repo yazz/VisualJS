@@ -76,7 +76,7 @@ Yazz.component({
          {
            name: "Create the initial item table"
            ,
-           up: ["CREATE TABLE items (id	TEXT, name	TEXT);",
+           up: ["CREATE TABLE items (id TEXT, name TEXT);",
                 "alter TABLE items add column time INTEGER;"]
          }
          ,
