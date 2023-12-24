@@ -111,9 +111,21 @@ load_once_from_file(true)
                                   <div    id="db_editor_grid_view_parent" style="height: 500px;display: inline-block; width:85%;">
                                   </div>
                                   <div    id="" style="height: 500px;display: inline-block;vertical-align:top">
-                                      <button   type=button class='btn btn-sm btn-primary'
-                                                style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
-                                                v-on:click="pane_home_addColumn()" >+</button>
+                                      <div style='margin-top:10px;'>
+                                          <button   type=button class='btn btn-sm btn-info'
+                                                    style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:70px;"
+                                                    v-on:click="pane_home_addColumn()" >+ Col</button>
+                                      </div>
+                                      <div style='margin-top:50px;'>
+                                          <button   type=button class='btn btn-sm btn-primary'
+                                                    style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:70px;"
+                                                    v-on:click="pane_home_addRow()" >+ Row</button>
+                                      </div>
+                                      <div>
+                                          <button   type=button class='btn btn-sm btn-primary'
+                                                    style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:70px;"
+                                                    v-on:click="pane_home_deleteRow()" >- Row</button>
+                                      </div>
                                   </div>
                                 </div>
                             </div>
@@ -364,13 +376,7 @@ load_once_from_file(true)
                                         //height:           "70px",
                                         rowHeight:          30,
                                         tables:             [],
-                                        data:               [
-                                            {id:1, name:"Oli Bob", age:"12", col:"red", dob:""},
-                                            {id:2, name:"Mary May", age:"1", col:"blue", dob:"14/05/1982"},
-                                            {id:3, name:"Christine Lobowski", age:"42", col:"green", dob:"22/05/1982"},
-                                            {id:4, name:"Brendon Philips", age:"125", col:"orange", dob:"01/08/1980"},
-                                            {id:5, name:"Margret Marmajuke", age:"16", col:"yellow", dob:"31/01/1999"},
-                                        ],
+                                        data:               [],
                                         layout:             "fitColumns",
                                         responsiveLayout:   "hide",
                                         tooltips:           true,
