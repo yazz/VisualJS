@@ -755,7 +755,7 @@ load_once_from_file(true)
                         // here we need to get the data from the database
                         //mm.data_rows = [{id: 1},{id: 2}] //sql("select id,name from items")
                         debugger
-                        //mm.data_rows = await rxsql(mm.code_id,mm.base_component_id,"select id,name from items")
+                        //mm.data_rows = sql("select id,name from items")
                         mm.pane_home_tabulator.setData(mm.data_rows)
                     }
                 },100)
