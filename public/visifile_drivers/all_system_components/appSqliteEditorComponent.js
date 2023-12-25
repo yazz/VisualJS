@@ -3,6 +3,7 @@ function component( args ) {
 base_component_id("sqlite_app_editor_component_v2")
 component_type("SYSTEM")
 load_once_from_file(true)
+use_db("todo")
 */
 
     Yazz.component( {
@@ -755,7 +756,7 @@ load_once_from_file(true)
                         // here we need to get the data from the database
                         //mm.data_rows = [{id: 1},{id: 2}] //sql("select id,name from items")
                         debugger
-                        //mm.data_rows = sql("select id,name from items")
+                        mm.data_rows = sql("select id,name from items")
                         mm.pane_home_tabulator.setData(mm.data_rows)
                     }
                 },100)
