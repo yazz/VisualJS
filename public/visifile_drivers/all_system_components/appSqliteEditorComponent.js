@@ -740,6 +740,18 @@ use_db("todo")
                     }
                 }
             },
+            getCurrentCommitId:                             async function (  ) {
+                // ----------------------------------------------------------------------
+                //
+                //                            getCurrentCommitId
+                //
+                // ----------------------------------------------------------------------
+                let mm     = this
+                let retVal = null
+                retval     = await getIpfsHash( mm.text )
+                return retval
+            },
+
             pane_home_selectTable:      async function  (  {  tableName  }  ) {
 
                 let mm = this
@@ -756,6 +768,9 @@ use_db("todo")
                         // here we need to get the data from the database
                         //mm.data_rows = [{id: 1},{id: 2}] //sql("select id,name from items")
                         debugger
+                        let codeId = await mm.getCurrentCommitId()
+                        let baseComponentid = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                        //mm.data_rows = await sqlRx('Qme4Rffz5g1d21yfW1LZwLqGC6nnoyTD6aZfZ447y87AEC', 'todo', "select id,name from items")
                         mm.data_rows = sql("select id,name from items")
                         mm.pane_home_tabulator.setData(mm.data_rows)
                     }

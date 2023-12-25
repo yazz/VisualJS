@@ -1361,10 +1361,10 @@
 
 
                         // Sqlite stuff
-                        trcode2 = trcode2.toString().replaceAll("sql[(]","await rxsql(" + addP)
-                        trcode2 = trcode2.toString().replaceAll("sql1[(]","await rxsql1(" + addP)
-                        trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await rxsqlFirstCol(" + addP)
-                        trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await rxsqlFirstCol1(" + addP)
+                        trcode2 = trcode2.toString().replaceAll("sql[(]","await sqlRx(" + addP)
+                        trcode2 = trcode2.toString().replaceAll("sql1[(]","await sqlRx1(" + addP)
+                        trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await sqlRxFirstCol(" + addP)
+                        trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await sqlRxFirstCol1(" + addP)
 
 
 
@@ -3231,7 +3231,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     })
                 return results
             }
-            async function  rxsql                               (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+            async function  sqlRx                               (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
                 if (localAppshareApp) {
                     var results = localSql(sqlcode,params)
                     return results
@@ -3252,16 +3252,16 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return results
                 }
             }
-            async function  rxsql1                              (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await rxsql(code_id,base_component_id,sqlcode, params)
+            async function  sqlRx1                              (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+                var x = await sqlRx(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
                     return x[0]
                 } else {
                     return null
                 }
             }
-            async function  rxsqlFirstCol                       (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await rxsql(code_id,base_component_id,sqlcode, params)
+            async function  sqlRxFirstCol                       (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+                var x = await sqlRx(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
                     var colName = Object.keys(x[0])[0]
                     var ff = []
@@ -3273,8 +3273,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return []
                 }
             }
-            async function  rxsqlFirstCol1                      (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await rxsqlFirstCol(code_id,base_component_id,sqlcode, params)
+            async function  sqlRxFirstCol1                      (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+                var x = await sqlRxFirstCol(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
                     return x[0]
                 } else {
@@ -3668,10 +3668,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 }
 
-                trcode2 = trcode2.toString().replaceAll("await rxsql[(][^,]*,[^,]*,","sql(")
-                trcode2 = trcode2.toString().replaceAll("await rxsql1[(][^,]*,[^,]*,","sql1(" )
-                trcode2 = trcode2.toString().replaceAll("await rxsqlFirstCol[(][^,]*,[^,]*,","sqlFirstCol(" )
-                trcode2 = trcode2.toString().replaceAll("await rxsqlFirstCol1[(][^,]*,[^,]*,","sqlFirstCol1(" )
+                trcode2 = trcode2.toString().replaceAll("await sqlRx[(][^,]*,[^,]*,","sql(")
+                trcode2 = trcode2.toString().replaceAll("await sqlRx1[(][^,]*,[^,]*,","sql1(" )
+                trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol[(][^,]*,[^,]*,","sqlFirstCol(" )
+                trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol1[(][^,]*,[^,]*,","sqlFirstCol1(" )
 
                 executionCode[blockName].code = trcode2
                 executionCode[blockName].start = startTimelineTop
