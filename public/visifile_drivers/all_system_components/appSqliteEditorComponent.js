@@ -770,7 +770,7 @@ use_db("todo")
                         debugger
                         let codeId = await mm.getCurrentCommitId()
                         let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                        mm.data_rows = await sqlRx(codeId, baseComponentId, "select id,name from items")
+                        mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + tableName)
                         //mm.data_rows = sql("select id,name from items")
                         mm.pane_home_tabulator.setData(mm.data_rows)
                     }
