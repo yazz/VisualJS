@@ -573,7 +573,6 @@ load_once_from_file(true)
                 //
                 // old DB defn
                 //
-                debugger
                 let srcOldDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
                 if ((srcOldDatabaseEntry == null) || (srcOldDatabaseEntry.migrations == null)) {
                     srcOldDatabaseEntry = {
@@ -676,7 +675,6 @@ load_once_from_file(true)
                 //--------------------------------------------------------------------------/
                 // Add a column
                 //------------------------------------------------------------------------/
-                debugger
                 let mm = this
 
                 if (mm.pane_home_selectedTable == null) {
@@ -753,7 +751,11 @@ load_once_from_file(true)
                 setTimeout(async function () {
                     if (tabulatorFields) {
                         mm.pane_home_tabulator.setColumns(tabulatorFields)
-                        mm.data_rows = [{id: 1},{id: 2}]
+                        //zzz
+                        // here we need to get the data from the database
+                        //mm.data_rows = [{id: 1},{id: 2}] //sql("select id,name from items")
+                        debugger
+                        //mm.data_rows = await rxsql(mm.code_id,mm.base_component_id,"select id,name from items")
                         mm.pane_home_tabulator.setData(mm.data_rows)
                     }
                 },100)
