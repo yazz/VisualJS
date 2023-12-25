@@ -769,9 +769,9 @@ use_db("todo")
                         //mm.data_rows = [{id: 1},{id: 2}] //sql("select id,name from items")
                         debugger
                         let codeId = await mm.getCurrentCommitId()
-                        let baseComponentid = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                        //mm.data_rows = await sqlRx('Qme4Rffz5g1d21yfW1LZwLqGC6nnoyTD6aZfZ447y87AEC', 'todo', "select id,name from items")
-                        mm.data_rows = sql("select id,name from items")
+                        let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                        mm.data_rows = await sqlRx(codeId, baseComponentId, "select id,name from items")
+                        //mm.data_rows = sql("select id,name from items")
                         mm.pane_home_tabulator.setData(mm.data_rows)
                     }
                 },100)
