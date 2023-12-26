@@ -751,7 +751,15 @@ use_db("todo")
                 retval     = await getIpfsHash( mm.text )
                 return retval
             },
-
+            pane_home_addRow:           async function  (  ) {
+                let mm = this
+                let codeId = await mm.getCurrentCommitId()
+                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                await sqlRx(codeId, baseComponentId, "insert into " + mm.pane_home_selectedTable + " (id) values (1)")
+                mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                //mm.data_rows = sql("select id,name from items")
+                mm.pane_home_tabulator.setData(mm.data_rows)
+            },
             pane_home_selectTable:      async function  (  {  tableName  }  ) {
 
                 let mm = this
@@ -764,10 +772,6 @@ use_db("todo")
                 setTimeout(async function () {
                     if (tabulatorFields) {
                         mm.pane_home_tabulator.setColumns(tabulatorFields)
-                        //zzz
-                        // here we need to get the data from the database
-                        //mm.data_rows = [{id: 1},{id: 2}] //sql("select id,name from items")
-                        debugger
                         let codeId = await mm.getCurrentCommitId()
                         let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                         mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + tableName)
