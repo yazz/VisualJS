@@ -52,7 +52,7 @@ Yazz.component({
                 return
             }
 
-            sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
+            sql("insert into items (name) values (?)", x)
             this.items = sql("select id,name from items")
             this.new_item = ""
         }
@@ -76,7 +76,7 @@ Yazz.component({
          {
            name: "Create the initial item table"
            ,
-           up: ["CREATE TABLE items (id TEXT, name TEXT);",
+           up: ["CREATE TABLE items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);",
                 "alter TABLE items add column time INTEGER;"]
          }
          ,

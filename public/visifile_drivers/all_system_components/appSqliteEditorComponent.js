@@ -483,7 +483,7 @@ use_db("todo")
                         mm.oldDatabaseDefn.push(
                             {
                                 name: "Add table TABLE_1",
-                                up: ["create TABLE  TABLE_1 ( id TEXT );"]
+                                up: ["create TABLE  TABLE_1 ( id INTEGER PRIMARY KEY AUTOINCREMENT);"]
                             })
 
                     changed = true
@@ -659,7 +659,7 @@ use_db("todo")
                 mm.oldDatabaseDefn.push(
                     {
                         name: "Add table " + newTableName,
-                        up: ["create TABLE " + newTableName + "( id TEXT );"]
+                        up: ["create TABLE " + newTableName + "( id INTEGER PRIMARY KEY AUTOINCREMENT );"]
                     })
 
 
@@ -756,7 +756,7 @@ use_db("todo")
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 await sqlRx(codeId, baseComponentId,
-                    "insert into " + mm.pane_home_selectedTable + " (id,name) values (1,?)",
+                    "insert into " + mm.pane_home_selectedTable + " (name) values (?)",
                     "Get the milk")
                 mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                 //mm.data_rows = sql("select id,name from items")
