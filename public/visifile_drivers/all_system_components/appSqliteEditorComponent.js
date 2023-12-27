@@ -402,6 +402,8 @@ use_db("todo")
                                             //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
                                         ]
                                     });
+                                debugger
+                                await mm.pane_home_selectTable({tableName: mm.pane_home_selectedTable})
 
                             })
                         })
