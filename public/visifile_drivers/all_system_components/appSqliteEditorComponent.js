@@ -668,7 +668,7 @@ use_db("todo")
                 await mm.pane_home_selectTable(  { tableName: newTableName})
                 await mm.schemaChanged()
             },
-            pane_home_addColumn:         async function  (  ) {
+            pane_home_addColumn:        async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -733,6 +733,16 @@ use_db("todo")
                 await mm.schemaChanged()
             },
             getTable:                   async function  (  { tableName  }  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /               getTable              /
+                //                  /-------------------------------------/
+                //
+                //--------------------------------------------------------------------------/
+                // Gets the table properties
+                //------------------------------------------------------------------------/
+
                 let mm = this
                 for (let tableIndex = mm.listOfTables.length - 1; tableIndex >= 0; tableIndex--) {
                     if (mm.listOfTables[tableIndex]) {
@@ -742,12 +752,16 @@ use_db("todo")
                     }
                 }
             },
-            getCurrentCommitId:                             async function (  ) {
-                // ----------------------------------------------------------------------
+            getCurrentCommitId:         async function  (  ) {
+                //----------------------------------------------------------------------------------/
                 //
-                //                            getCurrentCommitId
+                //                    /-------------------------------------/
+                //                   /         getCurrentCommitId          /
+                //                  /-------------------------------------/
                 //
-                // ----------------------------------------------------------------------
+                //--------------------------------------------------------------------------/
+                // Get the Code ID for the current version of the code
+                //------------------------------------------------------------------------/
                 let mm     = this
                 let retVal = null
                 retval     = await getIpfsHash( mm.text )
@@ -765,6 +779,15 @@ use_db("todo")
                 mm.pane_home_tabulator.setData(mm.data_rows)
             },
             pane_home_selectTable:      async function  (  {  tableName  }  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /      pane_home_selectTable          /
+                //                  /-------------------------------------/
+                //
+                //--------------------------------------------------------------------------/
+                // Select a table
+                //------------------------------------------------------------------------/
 
                 let mm = this
                 mm.pane_home_selectedTable = tableName
