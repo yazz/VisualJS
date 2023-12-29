@@ -793,20 +793,17 @@ use_db("todo")
 
                 let mm = this
                 mm.pane_home_selectedTable = tableName
-                let tabulatorFields = []
                 let table = await mm.getTable( { tableName: tableName } )
+                mm.pane_home_tabulator.setColumns([])
                 for (let field of table.cols) {
-                    tabulatorFields.push({title: field.id, field: field.id,   width:150   ,  headerFilter:"input"})
+                    mm.pane_home_tabulator.addColumn({title: field.id, field: field.id,   width:150   ,  headerFilter:"input"})
                 }
                 setTimeout(async function () {
-                    if (tabulatorFields) {
-                        mm.pane_home_tabulator.setColumns(tabulatorFields)
-                        let codeId = await mm.getCurrentCommitId()
-                        let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                        mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + tableName)
-                        //mm.data_rows = sql("select id,name from items")
-                        mm.pane_home_tabulator.setData(mm.data_rows)
-                    }
+                    let codeId = await mm.getCurrentCommitId()
+                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                    mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + tableName)
+                    //mm.data_rows = sql("select id,name from items")
+                    mm.pane_home_tabulator.setData(mm.data_rows)
                 },100)
             }
         }
