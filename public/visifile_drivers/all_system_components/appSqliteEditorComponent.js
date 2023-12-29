@@ -622,8 +622,9 @@ use_db("todo")
 
 
                 table.next_field_id ++
-                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.schemaChanged()
+                debugger
+                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
             pane_home_deleteTable:          async function  (  ) {
@@ -700,8 +701,7 @@ use_db("todo")
                                 }
                             },
                             {
-                                separator:true,
-                                separator:true,
+                                separator:true
                             },
                             {
                                 label:"Admin Functions",
@@ -773,8 +773,9 @@ use_db("todo")
                                     rowHeight:          30,
                                     tables:             [],
                                     data:               mm.data_rows,
-                                    layout:             "fitColumns",
-                                    responsiveLayout:   "hide",
+                                    layout:             "fitDataStretch",
+                                    //responsiveLayout:   "hide",
+                                    responsiveLayout:   true,
                                     tooltips:           true,
                                     addRowPos:          "top",
                                     history:            true,
@@ -783,7 +784,6 @@ use_db("todo")
                                     movableColumns:     true,
                                     resizableColumns:   true,
                                     resizableRows:      true,
-                                    movableColumns:     true,
                                     layout:             [
                                         //{display: "Fit Columns",    value: "fitColumns"},
                                         //{display: "Fit Data",       value: "fitData"},
@@ -818,15 +818,13 @@ use_db("todo")
                             headerFilter:   "input"
                         })
                     }
-                    setTimeout(async function () {
-                        let codeId          = await mm.getCurrentCommitId()
-                        let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
-                        mm.data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
-                        //mm.data_rows      = sql("select id,name from items")
+                    let codeId          = await mm.getCurrentCommitId()
+                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+                    mm.data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                    //mm.data_rows      = sql("select id,name from items")
 
-                        mm.pane_home_tabulator.setData(mm.data_rows)
-                    }, 100)
-                },100)
+                    mm.pane_home_tabulator.setData(mm.data_rows)
+                },200)
             }
         }
     })
