@@ -268,7 +268,7 @@ use_db("todo")
             await mm.switchTab({tabName: "home"})
         },
         methods:    {
-            switchTab:                  async function  (  {  tabName  }  ) {
+            switchTab:                      async function  (  {  tabName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -286,130 +286,7 @@ use_db("todo")
                 //    init home pane
                 // ------------------------------------------------
                 if (tabName == "home") {
-                    if (mm.pane_home_tabulator == null ) {
-                        Vue.nextTick(function () {
-                            var elTab =  document.createElement("div");
-                            elTab.setAttribute("id", "db_editor_grid_view")
-                            elTab.setAttribute("style", "height:100%;")
-                            let parentEl = document.getElementById("db_editor_grid_view_parent")
-                            parentEl.appendChild(elTab);
-                            var rowMenu = [
-                                {
-                                    label:"<i class='fas fa-user'></i> Change Name",
-                                    action:function(e, row){
-                                        row.update({name:"Steve Bobberson"});
-                                    }
-                                },
-                                {
-                                    label:"<i class='fas fa-check-square'></i> Select Row",
-                                    action:function(e, row){
-                                        row.select();
-                                    }
-                                },
-                                {
-                                    separator:true,
-                                    separator:true,
-                                },
-                                {
-                                    label:"Admin Functions",
-                                    menu:[
-                                        {
-                                            label:"<i class='fas fa-trash'></i> Delete Row",
-                                            action:function(e, row){
-                                                row.delete();
-                                            }
-                                        },
-                                        {
-                                            label:"<i class='fas fa-ban'></i> Disabled Option",
-                                            disabled:true,
-                                        },
-                                    ]
-                                }]
-                            var headerMenu = function(){
-                                var menu = [];
-                                var columns = this.getColumns();
-
-                                for(let column of columns){
-
-                                    //create checkbox element using font awesome icons
-                                    let icon = document.createElement("i");
-                                    icon.classList.add("fas");
-                                    icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
-
-                                    //build label
-                                    let label = document.createElement("span");
-                                    let title = document.createElement("span");
-
-                                    title.textContent = " " + column.getDefinition().title;
-
-                                    label.appendChild(icon);
-                                    label.appendChild(title);
-
-                                    //create menu item
-                                    menu.push({
-                                        label:label,
-                                        action:function(e){
-                                            //prevent menu closing
-                                            e.stopPropagation();
-
-                                            //toggle current column visibility
-                                            column.toggle();
-
-                                            //change menu item icon
-                                            if(column.isVisible()){
-                                                icon.classList.remove("fa-square");
-                                                icon.classList.add("fa-check-square");
-                                            }else{
-                                                icon.classList.remove("fa-check-square");
-                                                icon.classList.add("fa-square");
-                                            }
-                                        }
-                                    });
-                                }
-
-                                return menu;
-                            };
-
-                            Vue.nextTick(async function () {
-                                mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
-                                    {
-                                        reactiveData:       true,
-                                        width:              "100px",
-                                        //height:           "70px",
-                                        rowHeight:          30,
-                                        tables:             [],
-                                        data:               mm.data_rows,
-                                        layout:             "fitColumns",
-                                        responsiveLayout:   "hide",
-                                        tooltips:           true,
-                                        addRowPos:          "top",
-                                        history:            true,
-                                        pagination:         "local",
-                                        paginationSize:     7,
-                                        movableColumns:     true,
-                                        resizableColumns:   true,
-                                        resizableRows:      true,
-                                        movableColumns:     true,
-                                        layout:             [
-                                            //{display: "Fit Columns",    value: "fitColumns"},
-                                            //{display: "Fit Data",       value: "fitData"},
-                                            //{display: "Fit Data Fill",  value: "fitDataFill"}
-                                        ],
-                                        tableNames:         [],
-                                        initialSort:        [],
-                                        rowContextMenu:     rowMenu,
-                                        columns:            [
-                                            //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
-                                        ]
-                                    });
-                                window.dbEditorWindow = mm
-                                debugger
-                                await mm.pane_home_selectTable({tableName: mm.pane_home_selectedTable})
-
-
-                            })
-                        })
-                    }
+                    await mm.pane_home_createTabulatorGrid()
                 } else {
                     //document.getElementById("db_editor_grid_view").remove()
                     mm.pane_home_tabulator = null
@@ -423,7 +300,7 @@ use_db("todo")
                 if (tabName == "text") {
                 }
             },
-            createModelFromSrcCode:     async function  (  ) {
+            createModelFromSrcCode:         async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -531,14 +408,14 @@ use_db("todo")
                     await mm.schemaChanged()
                 }
             },
-            schemaChanged:              async function  (  ) {
+            schemaChanged:                  async function  (  ) {
                 let mm = this
                 mm.$root.$emit(
                     'message', {
                         type: "pending"
                     })
             },
-            convertJsonModelToSrcCode:  async function  (  ) {
+            convertJsonModelToSrcCode:      async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -593,7 +470,7 @@ use_db("todo")
                 let oldSqlText =  JSON.stringify(  srcOldDatabaseEntry  ,  null  ,  2  )
                 mm.text = yz.helpers.insertCodeString(mm.text, "sqlite", srcOldDatabaseEntry , ")//sqlite")
             },
-            getText:                    async function  (  ) {
+            getText:                        async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -611,7 +488,7 @@ use_db("todo")
                 await mm.convertJsonModelToSrcCode()
                 return this.text
             },
-            setText:                    async function  (  textValue  ) {
+            setText:                        async function  (  textValue  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -632,7 +509,7 @@ use_db("todo")
 
                 await mm.createModelFromSrcCode()
             },
-            pane_home_addTable:         async function  (  ) {
+            pane_home_addTable:             async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -670,7 +547,7 @@ use_db("todo")
                 await mm.pane_home_selectTable(  { tableName: newTableName})
                 await mm.schemaChanged()
             },
-            pane_home_addColumn:        async function  (  ) {
+            pane_home_addColumn:            async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -710,7 +587,7 @@ use_db("todo")
 
                 await mm.schemaChanged()
             },
-            pane_home_deleteTable:      async function  (  ) {
+            pane_home_deleteTable:          async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -734,7 +611,7 @@ use_db("todo")
                 await mm.pane_home_selectTable(  { tableName: null})
                 await mm.schemaChanged()
             },
-            getTable:                   async function  (  { tableName  }  ) {
+            getTable:                       async function  (  { tableName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -754,7 +631,7 @@ use_db("todo")
                     }
                 }
             },
-            getCurrentCommitId:         async function  (  ) {
+            getCurrentCommitId:             async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -769,7 +646,7 @@ use_db("todo")
                 retval     = await getIpfsHash( mm.text )
                 return retval
             },
-            pane_home_addRow:           async function  (  ) {
+            pane_home_addRow:               async function  (  ) {
                 let mm = this
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
@@ -780,7 +657,7 @@ use_db("todo")
                 //mm.data_rows = sql("select id,name from items")
                 mm.pane_home_tabulator.setData(mm.data_rows)
             },
-            pane_home_selectTable:      async function  (  {  tableName  }  ) {
+            pane_home_selectTable:          async function  (  {  tableName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -805,6 +682,133 @@ use_db("todo")
                     //mm.data_rows = sql("select id,name from items")
                     mm.pane_home_tabulator.setData(mm.data_rows)
                 },100)
+            },
+            pane_home_createTabulatorGrid:  async function  () {
+                let mm = this
+                if (mm.pane_home_tabulator == null ) {
+                    Vue.nextTick(function () {
+                        var elTab =  document.createElement("div");
+                        elTab.setAttribute("id", "db_editor_grid_view")
+                        elTab.setAttribute("style", "height:100%;")
+                        let parentEl = document.getElementById("db_editor_grid_view_parent")
+                        parentEl.appendChild(elTab);
+                        var rowMenu = [
+                            {
+                                label:"<i class='fas fa-user'></i> Change Name",
+                                action:function(e, row){
+                                    row.update({name:"Steve Bobberson"});
+                                }
+                            },
+                            {
+                                label:"<i class='fas fa-check-square'></i> Select Row",
+                                action:function(e, row){
+                                    row.select();
+                                }
+                            },
+                            {
+                                separator:true,
+                                separator:true,
+                            },
+                            {
+                                label:"Admin Functions",
+                                menu:[
+                                    {
+                                        label:"<i class='fas fa-trash'></i> Delete Row",
+                                        action:function(e, row){
+                                            row.delete();
+                                        }
+                                    },
+                                    {
+                                        label:"<i class='fas fa-ban'></i> Disabled Option",
+                                        disabled:true,
+                                    },
+                                ]
+                            }]
+                        var headerMenu = function(){
+                            var menu = [];
+                            var columns = this.getColumns();
+
+                            for(let column of columns){
+
+                                //create checkbox element using font awesome icons
+                                let icon = document.createElement("i");
+                                icon.classList.add("fas");
+                                icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
+
+                                //build label
+                                let label = document.createElement("span");
+                                let title = document.createElement("span");
+
+                                title.textContent = " " + column.getDefinition().title;
+
+                                label.appendChild(icon);
+                                label.appendChild(title);
+
+                                //create menu item
+                                menu.push({
+                                    label:label,
+                                    action:function(e){
+                                        //prevent menu closing
+                                        e.stopPropagation();
+
+                                        //toggle current column visibility
+                                        column.toggle();
+
+                                        //change menu item icon
+                                        if(column.isVisible()){
+                                            icon.classList.remove("fa-square");
+                                            icon.classList.add("fa-check-square");
+                                        }else{
+                                            icon.classList.remove("fa-check-square");
+                                            icon.classList.add("fa-square");
+                                        }
+                                    }
+                                });
+                            }
+
+                            return menu;
+                        };
+
+                        Vue.nextTick(async function () {
+                            mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
+                                {
+                                    reactiveData:       true,
+                                    width:              "100px",
+                                    //height:           "70px",
+                                    rowHeight:          30,
+                                    tables:             [],
+                                    data:               mm.data_rows,
+                                    layout:             "fitColumns",
+                                    responsiveLayout:   "hide",
+                                    tooltips:           true,
+                                    addRowPos:          "top",
+                                    history:            true,
+                                    pagination:         "local",
+                                    paginationSize:     7,
+                                    movableColumns:     true,
+                                    resizableColumns:   true,
+                                    resizableRows:      true,
+                                    movableColumns:     true,
+                                    layout:             [
+                                        //{display: "Fit Columns",    value: "fitColumns"},
+                                        //{display: "Fit Data",       value: "fitData"},
+                                        //{display: "Fit Data Fill",  value: "fitDataFill"}
+                                    ],
+                                    tableNames:         [],
+                                    initialSort:        [],
+                                    rowContextMenu:     rowMenu,
+                                    columns:            [
+                                        //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
+                                    ]
+                                });
+                            window.dbEditorWindow = mm
+                            debugger
+                            await mm.pane_home_selectTable({tableName: mm.pane_home_selectedTable})
+
+
+                        })
+                    })
+                }
             }
         }
     })
