@@ -393,17 +393,6 @@ use_db("todo")
                     mm.nextTableId = 2
                     changed = true
                 }
-                if (  mm.listOfTables && (mm.listOfTables.length > 0)  )
-                {
-                    if (mm.pane_home_selectedTable == null) {
-                        await mm.pane_home_selectTable(  {  tableName:  mm.listOfTables[0].name  }  )
-                    }
-                }
-
-
-
-
-
 
                 if (changed) {
                     await mm.schemaChanged()
@@ -509,6 +498,12 @@ use_db("todo")
                 args.text                       = null
 
                 await mm.createModelFromSrcCode()
+                if (  mm.listOfTables && (mm.listOfTables.length > 0)  )
+                {
+                    if (mm.pane_home_selectedTable == null) {
+                        await mm.pane_home_selectTable(  {  tableName:  mm.listOfTables[0].name  }  )
+                    }
+                }
             },
             getTable:                       async function  (  { tableName  }  ) {
                 //----------------------------------------------------------------------------------/
