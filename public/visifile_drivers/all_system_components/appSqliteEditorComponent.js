@@ -287,7 +287,7 @@ use_db("todo")
                 //    init home pane
                 // ------------------------------------------------
                 if (tabName == "home") {
-                    await mm.pane_home_createTabulatorGrid()
+                    await mm.pane_home_drawTabulatorGrid()
                 } else {
                     //document.getElementById("db_editor_grid_view").remove()
                     mm.pane_home_tabulator = null
@@ -681,7 +681,7 @@ use_db("todo")
                     mm.pane_home_tabulator.setData(mm.data_rows)
                 },100)
             },
-            pane_home_createTabulatorGrid:  async function  () {
+            pane_home_drawTabulatorGrid:    async function  (  ) {
                 let mm = this
                 if (mm.pane_home_tabulator == null ) {
                     Vue.nextTick(function () {
