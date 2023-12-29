@@ -391,18 +391,18 @@ use_db("todo")
                                         resizableRows:      true,
                                         movableColumns:     true,
                                         layout:             [
-                                            {display: "Fit Columns",    value: "fitColumns"},
-                                            {display: "Fit Data",       value: "fitData"},
-                                            {display: "Fit Data Fill",  value: "fitDataFill"}
+                                            //{display: "Fit Columns",    value: "fitColumns"},
+                                            //{display: "Fit Data",       value: "fitData"},
+                                            //{display: "Fit Data Fill",  value: "fitDataFill"}
                                         ],
                                         tableNames:         [],
                                         initialSort:        [],
-                                        rowContextMenu: rowMenu,
+                                        rowContextMenu:     rowMenu,
                                         columns:            [
                                             //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
                                         ]
                                     });
-                                window.pane_home_tabulator = mm.pane_home_tabulator
+                                window.dbEditorWindow = mm
                                 debugger
                                 await mm.pane_home_selectTable({tableName: mm.pane_home_selectedTable})
 
