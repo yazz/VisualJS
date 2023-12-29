@@ -584,6 +584,7 @@ use_db("todo")
 
                 await mm.pane_home_selectTable(  { tableName: newTableName})
                 await mm.schemaChanged()
+                await mm.pane_home_drawTabulatorGrid()
             },
             pane_home_addColumn:            async function  (  ) {
                 //----------------------------------------------------------------------------------/
@@ -622,8 +623,8 @@ use_db("todo")
 
                 table.next_field_id ++
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
-
                 await mm.schemaChanged()
+                await mm.pane_home_drawTabulatorGrid()
             },
             pane_home_deleteTable:          async function  (  ) {
                 //----------------------------------------------------------------------------------/
@@ -648,6 +649,7 @@ use_db("todo")
                 }
                 await mm.pane_home_selectTable(  { tableName: null})
                 await mm.schemaChanged()
+                await mm.pane_home_drawTabulatorGrid()
             },
             pane_home_addRow:               async function  (  ) {
                 let mm = this
