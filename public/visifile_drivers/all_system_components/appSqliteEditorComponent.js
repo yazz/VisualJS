@@ -265,7 +265,6 @@ use_db("todo")
             await useTabulatorJs()
             yz.mainVars.disableAutoSave     = false
             mm.pane_home_selectedTable      = null
-            await mm.switchTab({tabName: "home"})
         },
         methods:    {
             // main fns
@@ -287,7 +286,17 @@ use_db("todo")
                 //    init home pane
                 // ------------------------------------------------
                 if (tabName == "home") {
+                    if (  mm.listOfTables && (mm.listOfTables.length > 0)  )
+                    {
+                        if (mm.pane_home_selectedTable == null) {
+                            await mm.pane_home_selectTable(  {  tableName:  mm.listOfTables[0].name  }  )
+                        } else {
+                            await mm.pane_home_selectTable({tableName: mm.pane_home_selectedTable})
+                        }
+                    }
+
                     await mm.pane_home_drawTabulatorGrid()
+
                 } else {
                     //document.getElementById("db_editor_grid_view").remove()
                     mm.pane_home_tabulator = null
@@ -498,12 +507,8 @@ use_db("todo")
                 args.text                       = null
 
                 await mm.createModelFromSrcCode()
-                if (  mm.listOfTables && (mm.listOfTables.length > 0)  )
-                {
-                    if (mm.pane_home_selectedTable == null) {
-                        await mm.pane_home_selectTable(  {  tableName:  mm.listOfTables[0].name  }  )
-                    }
-                }
+                await mm.switchTab({tabName: "home"})
+
             },
             getTable:                       async function  (  { tableName  }  ) {
                 //----------------------------------------------------------------------------------/
@@ -667,19 +672,7 @@ use_db("todo")
                 //------------------------------------------------------------------------/
 
                 let mm = this
-                mm.pane_home_selectedTable = tableName
-                let table = await mm.getTable( { tableName: tableName } )
-                mm.pane_home_tabulator.setColumns([])
-                for (let field of table.cols) {
-                    mm.pane_home_tabulator.addColumn({title: field.id, field: field.id,   width:150   ,  headerFilter:"input"})
-                }
-                setTimeout(async function () {
-                    let codeId = await mm.getCurrentCommitId()
-                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                    mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + tableName)
-                    //mm.data_rows = sql("select id,name from items")
-                    mm.pane_home_tabulator.setData(mm.data_rows)
-                },100)
+                mm.pane_home_selectedTable  = tableName
             },
             pane_home_drawTabulatorGrid:    async function  (  ) {
                 let mm = this
@@ -768,6 +761,7 @@ use_db("todo")
                         };
 
                         Vue.nextTick(async function () {
+
                             mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                 {
                                     reactiveData:       true,
@@ -800,8 +794,30 @@ use_db("todo")
                                     ]
                                 });
                             window.dbEditorWindow = mm
-                            debugger
-                            await mm.pane_home_selectTable({tableName: mm.pane_home_selectedTable})
+                            setTimeout(async function ( ) {
+
+                                let table                   = await mm.getTable( { tableName: mm.pane_home_selectedTable } )
+                                debugger
+
+                                //mm.pane_home_tabulator.setColumns( [ ] )
+                                for (let field of table.cols) {
+                                    mm.pane_home_tabulator.addColumn({
+                                        title:          field.id,
+                                        field:          field.id,
+                                        width:          150,
+                                        headerFilter:   "input"
+                                    })
+                                }
+                                setTimeout(async function () {
+                                    let codeId          = await mm.getCurrentCommitId()
+                                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+                                    mm.data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                                    //mm.data_rows      = sql("select id,name from items")
+
+                                    mm.pane_home_tabulator.setData(mm.data_rows)
+                                }, 100)
+                            },100)
+
 
 
                         })
