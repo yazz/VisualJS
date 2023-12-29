@@ -268,6 +268,7 @@ use_db("todo")
             await mm.switchTab({tabName: "home"})
         },
         methods:    {
+            // main fns
             switchTab:                      async function  (  {  tabName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
@@ -509,6 +510,43 @@ use_db("todo")
 
                 await mm.createModelFromSrcCode()
             },
+            getTable:                       async function  (  { tableName  }  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /               getTable              /
+                //                  /-------------------------------------/
+                //
+                //--------------------------------------------------------------------------/
+                // Gets the table properties
+                //------------------------------------------------------------------------/
+
+                let mm = this
+                for (let tableIndex = mm.listOfTables.length - 1; tableIndex >= 0; tableIndex--) {
+                    if (mm.listOfTables[tableIndex]) {
+                        if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                            return mm.listOfTables[tableIndex]
+                        }
+                    }
+                }
+            },
+            getCurrentCommitId:             async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /         getCurrentCommitId          /
+                //                  /-------------------------------------/
+                //
+                //--------------------------------------------------------------------------/
+                // Get the Code ID for the current version of the code
+                //------------------------------------------------------------------------/
+                let mm     = this
+                let retVal = null
+                retval     = await getIpfsHash( mm.text )
+                return retval
+            },
+
+            // HOME pane
             pane_home_addTable:             async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
@@ -610,41 +648,6 @@ use_db("todo")
                 }
                 await mm.pane_home_selectTable(  { tableName: null})
                 await mm.schemaChanged()
-            },
-            getTable:                       async function  (  { tableName  }  ) {
-                //----------------------------------------------------------------------------------/
-                //
-                //                    /-------------------------------------/
-                //                   /               getTable              /
-                //                  /-------------------------------------/
-                //
-                //--------------------------------------------------------------------------/
-                // Gets the table properties
-                //------------------------------------------------------------------------/
-
-                let mm = this
-                for (let tableIndex = mm.listOfTables.length - 1; tableIndex >= 0; tableIndex--) {
-                    if (mm.listOfTables[tableIndex]) {
-                        if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
-                            return mm.listOfTables[tableIndex]
-                        }
-                    }
-                }
-            },
-            getCurrentCommitId:             async function  (  ) {
-                //----------------------------------------------------------------------------------/
-                //
-                //                    /-------------------------------------/
-                //                   /         getCurrentCommitId          /
-                //                  /-------------------------------------/
-                //
-                //--------------------------------------------------------------------------/
-                // Get the Code ID for the current version of the code
-                //------------------------------------------------------------------------/
-                let mm     = this
-                let retVal = null
-                retval     = await getIpfsHash( mm.text )
-                return retval
             },
             pane_home_addRow:               async function  (  ) {
                 let mm = this
