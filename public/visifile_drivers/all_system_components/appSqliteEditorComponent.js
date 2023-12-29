@@ -94,7 +94,7 @@ use_db("todo")
                                     <div v-for="(tableItem,i) in listOfTables">
                                         <div
                                             v-bind:style='pane_home_selectedTable==tableItem.name?"background-color:lightgray;":""'
-                                            v-on:click="pane_home_selectTable(  {  tableName:  tableItem.name  }  )"
+                                            v-on:click="(async function(){await pane_home_selectTable(  {  tableName:  tableItem.name  }  ); await pane_home_drawTabulatorGrid()})()"
                                         >{{tableItem.name}}</div>
                                     </div>
 
@@ -675,6 +675,7 @@ use_db("todo")
                 mm.pane_home_selectedTable  = tableName
             },
             pane_home_drawTabulatorGrid:    async function  (  ) {
+                debugger
                 let mm = this
                 if (mm.pane_home_tabulator == null ) {
                     Vue.nextTick(function () {
@@ -794,35 +795,36 @@ use_db("todo")
                                     ]
                                 });
                             window.dbEditorWindow = mm
-                            setTimeout(async function ( ) {
 
-                                let table                   = await mm.getTable( { tableName: mm.pane_home_selectedTable } )
-                                debugger
-
-                                //mm.pane_home_tabulator.setColumns( [ ] )
-                                for (let field of table.cols) {
-                                    mm.pane_home_tabulator.addColumn({
-                                        title:          field.id,
-                                        field:          field.id,
-                                        width:          150,
-                                        headerFilter:   "input"
-                                    })
-                                }
-                                setTimeout(async function () {
-                                    let codeId          = await mm.getCurrentCommitId()
-                                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
-                                    mm.data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
-                                    //mm.data_rows      = sql("select id,name from items")
-
-                                    mm.pane_home_tabulator.setData(mm.data_rows)
-                                }, 100)
-                            },100)
 
 
 
                         })
                     })
                 }
+                setTimeout(async function ( ) {
+
+                    let table                   = await mm.getTable( { tableName: mm.pane_home_selectedTable } )
+                    debugger
+
+                    mm.pane_home_tabulator.setColumns( [ ] )
+                    for (let field of table.cols) {
+                        mm.pane_home_tabulator.addColumn({
+                            title:          field.id,
+                            field:          field.id,
+                            width:          150,
+                            headerFilter:   "input"
+                        })
+                    }
+                    setTimeout(async function () {
+                        let codeId          = await mm.getCurrentCommitId()
+                        let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+                        mm.data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                        //mm.data_rows      = sql("select id,name from items")
+
+                        mm.pane_home_tabulator.setData(mm.data_rows)
+                    }, 100)
+                },100)
             }
         }
     })
