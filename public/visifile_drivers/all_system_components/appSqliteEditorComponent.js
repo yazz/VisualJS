@@ -768,34 +768,27 @@ use_db("todo")
 
                             mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                 {
-                                    reactiveData: true,
-                                    width: "100px",
+                                    //reactiveData:     true,
+                                    //width:            "100px",
                                     //height:           "70px",
-                                    rowHeight: 30,
-                                    tables: [],
-                                    data: mm.data_rows,
-                                    layout: "fitDataStretch",
-                                    //responsiveLayout:   "hide",
-                                    responsiveLayout: true,
-                                    tooltips: true,
-                                    addRowPos: "top",
-                                    history: true,
-                                    pagination: "local",
-                                    paginationSize: 7,
-                                    movableColumns: true,
-                                    resizableColumns: true,
-                                    resizableRows: true,
-                                    layout: [
-                                        //{display: "Fit Columns",    value: "fitColumns"},
-                                        //{display: "Fit Data",       value: "fitData"},
-                                        //{display: "Fit Data Fill",  value: "fitDataFill"}
-                                    ],
-                                    tableNames: [],
-                                    initialSort: [],
-                                    rowContextMenu: rowMenu,
-                                    columns: [
-                                        //{title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu, headerFilter:"input"}
-                                    ]
+                                    rowHeight:          30,
+                                    tables:             [],
+                                    data:               mm.data_rows,
+                                    layout:             true,
+                                    //responsiveLayout: "hide",
+                                    responsiveLayout:   true,
+                                    tooltips:           true,
+                                    addRowPos:          "top",
+                                    history:            false,
+                                    pagination:         "local",
+                                    paginationSize:     7,
+                                    movableColumns:     true,
+                                    resizableColumns:   true,
+                                    resizableRows:      true,
+                                    tableNames:         [],
+                                    initialSort:        [],
+                                    rowContextMenu:     rowMenu,
+                                    columns:            []
                                 });
                             window.dbEditorWindow = mm
                             returnfn()
