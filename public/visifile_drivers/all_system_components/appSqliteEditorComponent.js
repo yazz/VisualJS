@@ -623,7 +623,6 @@ use_db("todo")
 
                 table.next_field_id ++
                 await mm.schemaChanged()
-                debugger
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
@@ -678,7 +677,6 @@ use_db("todo")
                 mm.pane_home_selectedTable  = tableName
             },
             pane_home_drawTabulatorGrid:    async function  (  ) {
-                debugger
                 let mm = this
                 if (mm.pane_home_tabulator == null ) {
                     let promise = new Promise(async function(returnfn) {
@@ -801,7 +799,6 @@ use_db("todo")
                 setTimeout(async function ( ) {
 
                     let table                   = await mm.getTable( { tableName: mm.pane_home_selectedTable } )
-                    debugger
 
                     mm.pane_home_tabulator.setColumns( [ ] )
                     for (let field of table.cols) {
@@ -811,7 +808,6 @@ use_db("todo")
                             //width:          150,
                             headerFilter:   "input"
                         })
-                        //mm.pane_home_tabulator.
                     }
                     let codeId          = await mm.getCurrentCommitId()
                     let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
