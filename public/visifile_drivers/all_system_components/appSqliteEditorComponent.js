@@ -811,7 +811,7 @@ use_db("todo")
 
                     mm.pane_home_tabulator.setColumns( [ ] )
                     for (let field of table.cols) {
-                        mm.pane_home_tabulator.addColumn({
+                        await mm.pane_home_tabulator.addColumn({
                             title:          field.id,
                             field:          field.id,
                             width:          150,
