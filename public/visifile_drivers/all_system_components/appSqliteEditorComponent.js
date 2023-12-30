@@ -24,6 +24,7 @@ use_db("todo")
                 pane_home_tabulator:        null,
                 pane_home_selectedField:    null,
                 data_rows:                  [],
+                pane_home_selectedColumn:   null
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -622,6 +623,7 @@ use_db("todo")
 
 
                 table.next_field_id ++
+                mm.pane_home_selectedColumn = newColumnName
                 await mm.schemaChanged()
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
@@ -815,6 +817,9 @@ use_db("todo")
                     //mm.data_rows      = sql("select id,name from items")
 
                     mm.pane_home_tabulator.setData(mm.data_rows)
+                    if (mm.pane_home_selectedColumn) {
+                        mm.pane_home_tabulator.scrollToColumn(mm.pane_home_selectedColumn)
+                    }
                 },200)
             }
         }
