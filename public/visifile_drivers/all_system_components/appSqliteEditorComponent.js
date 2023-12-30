@@ -774,7 +774,7 @@ use_db("todo")
                                     rowHeight:          30,
                                     tables:             [],
                                     data:               mm.data_rows,
-                                    layout:             true,
+                                    layout:             "fitColumns",
                                     //responsiveLayout: "hide",
                                     responsiveLayout:   true,
                                     tooltips:           true,
@@ -788,7 +788,8 @@ use_db("todo")
                                     tableNames:         [],
                                     initialSort:        [],
                                     rowContextMenu:     rowMenu,
-                                    columns:            []
+                                    columns:            [],
+                                    autoResize:         true
                                 });
                             window.dbEditorWindow = mm
                             returnfn()
@@ -807,9 +808,10 @@ use_db("todo")
                         await mm.pane_home_tabulator.addColumn({
                             title:          field.id,
                             field:          field.id,
-                            width:          150,
+                            //width:          150,
                             headerFilter:   "input"
                         })
+                        //mm.pane_home_tabulator.
                     }
                     let codeId          = await mm.getCurrentCommitId()
                     let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
