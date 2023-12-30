@@ -767,14 +767,14 @@ use_db("todo")
                             mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                 {
                                     //reactiveData:     true,
-                                    //width:            "100px",
-                                    //height:           "70px",
+                                    width:              "1700px",
+                                    //height:           "100px",
                                     rowHeight:          30,
                                     tables:             [],
                                     data:               mm.data_rows,
                                     layout:             "fitColumns",
                                     //responsiveLayout: "hide",
-                                    responsiveLayout:   true,
+                                    responsiveLayout:   false,
                                     tooltips:           true,
                                     addRowPos:          "top",
                                     history:            false,
@@ -805,7 +805,7 @@ use_db("todo")
                         await mm.pane_home_tabulator.addColumn({
                             title:          field.id,
                             field:          field.id,
-                            //width:          150,
+                            width:          150,
                             headerFilter:   "input"
                         })
                     }
