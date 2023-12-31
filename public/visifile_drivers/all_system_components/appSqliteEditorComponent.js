@@ -362,6 +362,10 @@ use_db("todo")
                                                     [
                                                         {
                                                             id:   "id",
+                                                            type: "INTEGER"
+                                                        },
+                                                        {
+                                                            id:   "uuid",
                                                             type: "TEXT"
                                                         }
                                                     ],
@@ -375,7 +379,7 @@ use_db("todo")
                         mm.oldDatabaseDefn.push(
                             {
                                 name: "Add table TABLE_1",
-                                up: ["create TABLE  TABLE_1 ( id INTEGER PRIMARY KEY AUTOINCREMENT);"]
+                                up: ["create TABLE  TABLE_1 ( id INTEGER PRIMARY KEY AUTOINCREMENT, uuid TEXT);"]
                             })
 
                     changed = true
@@ -570,6 +574,10 @@ use_db("todo")
                             [
                                 {
                                     id: "id",
+                                    type: "INTEGER"
+                                },
+                                {
+                                    id: "uuid",
                                     type: "TEXT"
                                 }
                             ],
@@ -579,7 +587,7 @@ use_db("todo")
                 mm.oldDatabaseDefn.push(
                     {
                         name: "Add table " + newTableName,
-                        up: ["create TABLE " + newTableName + "( id INTEGER PRIMARY KEY AUTOINCREMENT );"]
+                        up: ["create TABLE " + newTableName + "( id INTEGER PRIMARY KEY AUTOINCREMENT , uuid TEXT );"]
                     })
 
 
@@ -658,8 +666,7 @@ use_db("todo")
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 await sqlRx(codeId, baseComponentId,
-                    "insert into " + mm.pane_home_selectedTable + " (name) values (?)",
-                    "Get the milk")
+                    "insert into " + mm.pane_home_selectedTable + " (uuid) values (?)", uuidv4())
                 mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                 //mm.data_rows = sql("select id,name from items")
                 mm.pane_home_tabulator.setData(mm.data_rows)
