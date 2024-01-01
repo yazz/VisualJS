@@ -720,12 +720,17 @@ use_db("todo")
                 let mm = this
                 mm.pane_home_editTableName = true
                 mm.pane_home_newTableName = mm.pane_home_selectedTable
-                // CREATE TABLE new_table AS
-                // SELECT * FROM items;
-                // DROP TABLE items;
             },
             pane_home_renameTable:          async function  (  ) {
                 let mm = this
+                debugger
+
+                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                        let tableToRename = mm.listOfTables[  tableIndex  ]
+                        tableToRename.name = mm.pane_home_newTableName
+                    }
+                }
                 // CREATE TABLE new_table AS
                 // SELECT * FROM items;
                 // DROP TABLE items;
