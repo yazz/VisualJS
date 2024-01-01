@@ -731,9 +731,18 @@ use_db("todo")
                         tableToRename.name = mm.pane_home_newTableName
                     }
                 }
-                // CREATE TABLE new_table AS
-                // SELECT * FROM items;
-                // DROP TABLE items;
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Rename table from " + mm.pane_home_selectedTable + " to " + mm.pane_home_newTableName
+                        ,
+                        up:
+                        [
+                            "CREATE TABLE " + mm.pane_home_newTableName + " AS " + "  SELECT * FROM " + mm.pane_home_selectedTable + ";"
+                            ,
+                            "DROP TABLE " + mm.pane_home_selectedTable + ";"
+                        ]
+                    })
+                mm.pane_home_selectedTable = mm.pane_home_newTableName
                 mm.pane_home_editTableName = false
             },
             pane_home_selectTable:          async function  (  {  tableName  }  ) {
