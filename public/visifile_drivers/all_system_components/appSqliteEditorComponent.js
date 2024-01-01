@@ -23,8 +23,9 @@ use_db("todo")
                 pane_home_selectedTable:    null,
                 pane_home_tabulator:        null,
                 pane_home_selectedField:    null,
-                data_rows:                  [],
-                pane_home_selectedColumn:   null
+                pane_home_data_rows:        [],
+                pane_home_selectedColumn:   null,
+                pane_home_editTableName:    false
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -110,7 +111,7 @@ use_db("todo")
     
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 0x;width:70px;"
-                                                 v-on:click="pane_home_renameTable()" >Rename</button>
+                                                 v-on:click="pane_home_startRenameTable()" >Rename</button>
                                   </div>
 
 
@@ -675,9 +676,9 @@ use_db("todo")
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 await sqlRx(codeId, baseComponentId,
                     "insert into " + mm.pane_home_selectedTable + " DEFAULT VALUES")
-                mm.data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
-                //mm.data_rows = sql("select id,name from items")
-                mm.pane_home_tabulator.setData(mm.data_rows)
+                mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                //mm.pane_home_data_rows = sql("select id,name from items")
+                mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
             },
             pane_home_moveTableDown:        async function  (  ) {
                 let mm = this
@@ -700,6 +701,19 @@ use_db("todo")
                         return
                     }
                 }
+            },
+            pane_home_startRenameTable:     async function  (  ) {
+                let mm = this
+                mm.pane_home_editTableName = true
+                // CREATE TABLE new_table AS
+                // SELECT * FROM items;
+                // DROP TABLE items;
+            },
+            pane_home_renameTable:          async function  (  {  oldTableName  ,  newTableName  }  ) {
+                let mm = this
+                // CREATE TABLE new_table AS
+                // SELECT * FROM items;
+                // DROP TABLE items;
             },
             pane_home_selectTable:          async function  (  {  tableName  }  ) {
                 //----------------------------------------------------------------------------------/
@@ -810,7 +824,7 @@ use_db("todo")
                                     //height:           "100px",
                                     rowHeight:          30,
                                     tables:             [],
-                                    data:               mm.data_rows,
+                                    data:               mm.pane_home_data_rows,
                                     layout:             "fitColumns",
                                     //responsiveLayout: "hide",
                                     responsiveLayout:   false,
@@ -850,10 +864,10 @@ use_db("todo")
                     }
                     let codeId          = await mm.getCurrentCommitId()
                     let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
-                    mm.data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
-                    //mm.data_rows      = sql("select id,name from items")
+                    mm.pane_home_data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                    //mm.pane_home_data_rows      = sql("select id,name from items")
 
-                    mm.pane_home_tabulator.setData(mm.data_rows)
+                    mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
                     if (mm.pane_home_selectedColumn) {
                         mm.pane_home_tabulator.scrollToColumn(mm.pane_home_selectedColumn)
                     }
