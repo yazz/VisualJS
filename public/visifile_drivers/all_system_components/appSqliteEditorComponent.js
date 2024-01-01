@@ -25,7 +25,8 @@ use_db("todo")
                 pane_home_selectedField:    null,
                 pane_home_data_rows:        [],
                 pane_home_selectedColumn:   null,
-                pane_home_editTableName:    false
+                pane_home_editTableName:    false,
+                pane_home_newTableName:     ""
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -95,12 +96,25 @@ use_db("todo")
                                     List of tables
                                     <div v-for="(tableItem,i) in listOfTables">
                                         <div
+                                            v-if="(!pane_home_editTableName) || (pane_home_selectedTable!=tableItem.name)"
                                             v-bind:style='pane_home_selectedTable==tableItem.name?"background-color:lightgray;":""'
                                             v-on:click="(async function(){await pane_home_selectTable(  {  tableName:  tableItem.name  }  ); await pane_home_drawTabulatorGrid()})()"
                                         >{{tableItem.name}}</div>
+                                        <input
+                                            v-if="(pane_home_editTableName) && (pane_home_selectedTable==tableItem.name)"
+                                            style="width:80%"
+                                            v-model="pane_home_newTableName"
+                                        ></input>
+                                        <div>
+                                            <button  type=button class='btn btn-sm btn-primary'
+                                                     v-if="(pane_home_editTableName) && (pane_home_selectedTable==tableItem.name)"
+                                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
+                                                     v-on:click="pane_home_renameTable()" >Save</button>
+                                        </div>
+    
                                     </div>
 
-                                  <div style="margin-left: 5px;">
+                                  <div style="margin-left: 5px;margin-top: 10px;">
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 0px;width:30px;"
                                                  v-on:click="pane_home_moveTableUp()" >&uarr;</button>
@@ -705,15 +719,17 @@ use_db("todo")
             pane_home_startRenameTable:     async function  (  ) {
                 let mm = this
                 mm.pane_home_editTableName = true
+                mm.pane_home_newTableName = mm.pane_home_selectedTable
                 // CREATE TABLE new_table AS
                 // SELECT * FROM items;
                 // DROP TABLE items;
             },
-            pane_home_renameTable:          async function  (  {  oldTableName  ,  newTableName  }  ) {
+            pane_home_renameTable:          async function  (  ) {
                 let mm = this
                 // CREATE TABLE new_table AS
                 // SELECT * FROM items;
                 // DROP TABLE items;
+                mm.pane_home_editTableName = false
             },
             pane_home_selectTable:          async function  (  {  tableName  }  ) {
                 //----------------------------------------------------------------------------------/
