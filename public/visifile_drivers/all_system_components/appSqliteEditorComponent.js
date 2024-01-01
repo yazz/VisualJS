@@ -744,6 +744,9 @@ use_db("todo")
                     })
                 mm.pane_home_selectedTable = mm.pane_home_newTableName
                 mm.pane_home_editTableName = false
+                await mm.schemaChanged()
+                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
+                await mm.pane_home_drawTabulatorGrid()
             },
             pane_home_selectTable:          async function  (  {  tableName  }  ) {
                 //----------------------------------------------------------------------------------/
