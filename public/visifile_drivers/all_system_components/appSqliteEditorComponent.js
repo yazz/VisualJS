@@ -99,15 +99,31 @@ use_db("todo")
                                         >{{tableItem.name}}</div>
                                     </div>
 
-                                  <div style="margin-left: 30px;">
+                                  <div style="margin-left: 5px;">
                                         <button  type=button class='btn btn-sm btn-primary'
-                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
-                                                 v-on:click="pane_home_addTable()" >+</button>
+                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 0px;width:35px;"
+                                                 v-on:click="pane_home_moveTableUp()" >Up</button>
     
                                         <button  type=button class='btn btn-sm btn-primary'
-                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
-                                                 v-on:click="pane_home_deleteTable()" >-</button>
+                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 0px;width:50px;"
+                                                 v-on:click="pane_home_moveTableDown()" >Down</button>
+    
+                                        <button  type=button class='btn btn-sm btn-primary'
+                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 0x;width:70px;"
+                                                 v-on:click="pane_home_renameTable()" >Rename</button>
                                   </div>
+
+
+                                  <div style="margin-left: 30px;">
+                                        <button  type=button class='btn btn-sm btn-primary'
+                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:40px;"
+                                                 v-on:click="pane_home_addTable()" >Add</button>
+    
+                                        <button  type=button class='btn btn-sm btn-primary'
+                                                 style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:70px;"
+                                                 v-on:click="pane_home_deleteTable()" >Delete</button>
+                                  </div>
+    
                                 </div>
                               
                                 <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
