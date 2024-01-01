@@ -690,6 +690,17 @@ use_db("todo")
                     }
                 }
             },
+            pane_home_moveTableUp:          async function  (  ) {
+                let mm = this
+                for (let tableIndex = 1 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                        let tableToMove = mm.listOfTables[  tableIndex  ]
+                        mm.listOfTables.splice(tableIndex, 1)
+                        mm.listOfTables.splice(tableIndex - 1, 0, tableToMove)
+                        return
+                    }
+                }
+            },
             pane_home_selectTable:          async function  (  {  tableName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
