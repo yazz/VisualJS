@@ -729,15 +729,27 @@ use_db("todo")
             },
             pane_home_renameTable:          async function  (  ) {
                 let mm = this
-                debugger
+                let tableToRename = null
 
                 for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
                     if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
-                        let tableToRename = mm.listOfTables[  tableIndex  ]
+                        tableToRename = mm.listOfTables[  tableIndex  ]
                         tableToRename.name = mm.pane_home_newTableName
                     }
                 }
                 debugger
+                let createNewTableSql = ""
+                if (tableToRename) {
+                    createNewTableSql += "CREATE TABLE " + mm.pane_home_newTableName + " ( id INTEGER PRIMARY KEY AUTOINCREMENT "
+                    for (let col of tableToRename.cols) {
+                        if ( col.id == "id" ) {
+
+                        } else {
+                            createNewTableSql += ", " +  col.id + " " + col.type
+                        }
+                    }
+                    createNewTableSql += " );"
+                }
                 //zzz
                 mm.oldDatabaseDefn.push(
                     {
@@ -745,7 +757,9 @@ use_db("todo")
                         ,
                         up:
                         [
-                            "CREATE TABLE " + mm.pane_home_newTableName + " AS " + "  SELECT * FROM " + mm.pane_home_selectedTable + ";"
+                            createNewTableSql
+                            ,
+                            "INSERT INTO " + mm.pane_home_newTableName + " SELECT * FROM " + mm.pane_home_selectedTable + ";"
                             ,
                             "DROP TABLE " + mm.pane_home_selectedTable + ";"
                         ]
