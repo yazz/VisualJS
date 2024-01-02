@@ -117,14 +117,17 @@ use_db("todo")
                                   <div style="margin-left: 5px;margin-top: 10px;">
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 0px;width:30px;"
+                                                 v-bind:disabled="read_only"
                                                  v-on:click="pane_home_moveTableUp()" >&uarr;</button>
     
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 0px;width:30px;"
+                                                 v-bind:disabled="read_only"
                                                  v-on:click="pane_home_moveTableDown()" >&darr;</button>
     
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 0x;width:70px;"
+                                                 v-bind:disabled="read_only"
                                                  v-on:click="pane_home_startRenameTable()" >Rename</button>
                                   </div>
 
@@ -132,10 +135,12 @@ use_db("todo")
                                   <div style="margin-left: 30px;">
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
+                                                 v-bind:disabled="read_only"
                                                  v-on:click="pane_home_addTable()" >+</button>
     
                                         <button  type=button class='btn btn-sm btn-primary'
                                                  style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:30px;"
+                                                 v-bind:disabled="read_only"
                                                  v-on:click="pane_home_deleteTable()" >-</button>
                                   </div>
     
@@ -147,6 +152,7 @@ use_db("todo")
                                   <div    id="" style="height: 500px;display: inline-block;vertical-align:top">
                                       <div style='margin-top:10px;'>
                                           <button   type=button class='btn btn-sm btn-info'
+                                                    v-bind:disabled="read_only"
                                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:70px;"
                                                     v-on:click="pane_home_addColumn()" >+ Col</button>
                                       </div>
