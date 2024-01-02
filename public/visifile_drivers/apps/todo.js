@@ -107,7 +107,7 @@ Yazz.component({
                     [
                         {
                             id:   "id",
-                            type: "TEXT"
+                            type: "INTEGER"
                         },
                         {
                             id:   "name",
@@ -137,7 +137,7 @@ Yazz.component({
                                         table_name: "items",
                                         cols:
                                         [
-                                            {id:   "id",    type: "TEXT"},
+                                            {id:   "id",    type: "INTEGER"},
                                             {id:   "name",  type: "TEXT"},
                                         ]
                                     }

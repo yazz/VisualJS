@@ -399,7 +399,7 @@ use_db("todo")
                                                     [
                                                         {
                                                             id:   "id",
-                                                            type: "TEXT"
+                                                            type: "INTEGER"
                                                         }
                                                     ],
                                                 next_field_id: 2
@@ -737,6 +737,8 @@ use_db("todo")
                         tableToRename.name = mm.pane_home_newTableName
                     }
                 }
+                debugger
+                //zzz
                 mm.oldDatabaseDefn.push(
                     {
                         name: "Rename table from " + mm.pane_home_selectedTable + " to " + mm.pane_home_newTableName
