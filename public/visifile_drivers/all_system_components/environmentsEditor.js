@@ -106,7 +106,7 @@ when was the change in a commit first made (each commit can have many changes)
                 {{!pane_environments_in_dev_mode?"Read only mode: Environments can not be edited in releases":""}}
             </div>
             <div>
-                {{!pane_environments_writable?"Read only mode: Environments can not be edited in read only mode. Try remixing this app/component!":""}}
+                {{!pane_environments_writable?"Read only mode: Environments can not be edited in read only mode. Try remixing this app / component!":""}}
             </div>
           
           

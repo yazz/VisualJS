@@ -331,7 +331,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                        href="#"
                        v-on:click='setTimeout(async function(){await switchEditor("icon_editor_component")},100)'
                        v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Publish this app to the central server")'
+                       v-on:mouseenter='setInfo("Create a new icon for this app / component")'
                        v-on:mouseleave='setInfo(null)'
                        type="button" class="btn btn-light ">
 
@@ -355,7 +355,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                        v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
                        download
                        v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Download app source code")'
+                       v-on:mouseenter='setInfo("Download the source code for this app / component")'
                        v-on:mouseleave='setInfo(null)'
                        type="button" class="btn btn-light ">
 
@@ -373,7 +373,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                        href="#"
                        v-on:click='setTimeout(async function(){await switchEditor("sqlite_app_editor_component_v2")},100)'
                        v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Publish this app to the central server")'
+                       v-on:mouseenter='setInfo("Edit the database for this app / component")'
                        v-on:mouseleave='setInfo(null)'
                        type="button" class="btn btn-light ">
 
@@ -454,7 +454,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                        href="#"
                        v-on:click='setTimeout(async function(){await switchEditor("deliver_component_screen")},100)'
                        v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Bookmark this code")'
+                       v-on:mouseenter='setInfo("Save changes, view history, and publish apps / components")'
                        v-on:mouseleave='setInfo(null)'
                        type="button" class="btn btn-light ">
 
@@ -511,7 +511,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
 
 
                   <button   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                            v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
+                            v-on:mouseenter='setInfo("Make a copy of this app / component")'
                             v-on:mouseleave='setInfo(null)'
                             v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
                             type="button" class="btn  btn-primary"
