@@ -156,6 +156,18 @@ use_db("todo")
                                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:70px;"
                                                     v-on:click="pane_home_addColumn()" >+ Col</button>
                                       </div>
+                                      
+                                      <button  style='margin-top:50px;'
+                                                v-on:click='pane_home_refreshData()'
+                                                class="btn">
+                                            
+                                          <img      src='/driver_icons/reload.png'
+                                                    style='height:40px; margin-right: 0px;'
+                                                    class='img-fluid'>
+                                          </img>
+                                      </button>
+                    
+                    
                                       <div style='margin-top:50px;'>
                                           <button   type=button class='btn btn-sm btn-primary'
                                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:70px;"
@@ -622,6 +634,25 @@ use_db("todo")
 
                 await mm.pane_home_selectTable(  { tableName: newTableName})
                 await mm.schemaChanged()
+                await mm.pane_home_drawTabulatorGrid()
+            },
+            pane_home_refreshData:          async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /       pane_home_refreshData         /
+                //                  /-------------------------------------/
+                //
+                //--------------------------------------------------------------------------/
+                // Refresh the data grid
+                //------------------------------------------------------------------------/
+                let mm = this
+
+                if (mm.pane_home_selectedTable == null) {
+                    return
+                }
+
+                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
             pane_home_addColumn:            async function  (  ) {
