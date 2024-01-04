@@ -928,6 +928,15 @@ use_db("todo")
                                     columns:            [],
                                     autoResize:         true
                                 });
+                            mm.pane_home_tabulator.on("cellClick", function(e, cell){
+                                //e - the click event object
+                                //cell - cell component
+                                var data = cell.getData(); // get data for the row of the clicked cell
+                                var field = cell.getField(); // get field name of the clicked cell
+                                var value = cell.getValue(); // get value of the clicked cell
+
+                                debugger
+                            });
                             window.dbEditorWindow = mm
                             returnfn()
                         })
