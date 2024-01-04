@@ -151,7 +151,7 @@ use_db("todo")
                                   </div>
                                   <div    id="" style="height: 500px;display: inline-block;vertical-align:top">
                                       <div style='margin-top:10px;'>
-                                          <button   type=button class='btn btn-sm btn-info'
+                                          <button   type=button class='btn btn-sm btn-primary'
                                                     v-bind:disabled="read_only"
                                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;margin-right: 10px;width:70px;"
                                                     v-on:click="pane_home_addColumn()" >+ Col</button>
