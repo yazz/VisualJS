@@ -935,7 +935,21 @@ use_db("todo")
                                 var field = cell.getField(); // get field name of the clicked cell
                                 var value = cell.getValue(); // get value of the clicked cell
 
+                                //debugger
+                                //cell.edit()
+                            });
+                            mm.pane_home_tabulator.on("cellEdited", function(cell){
+                                // cell - cell component for the edited cell
+                                var oldValue = cell.getOldValue();
+                                var newValue = cell.getValue();
+                                var rowData = cell.getRow().getData();
+                                var fieldName = cell.getField();
                                 debugger
+
+                                // You can now use the old and new values
+                                console.log('Cell edited. Old value:', oldValue, 'New value:', newValue);
+
+                                // Perform further actions as needed
                             });
                             window.dbEditorWindow = mm
                             returnfn()
@@ -954,7 +968,8 @@ use_db("todo")
                             title:          field.id,
                             field:          field.id,
                             width:          150,
-                            headerFilter:   "input"
+                            headerFilter:   "input",
+                            editor:         "input"
                         })
                     }
                     let codeId          = await mm.getCurrentCommitId()
