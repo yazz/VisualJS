@@ -948,8 +948,9 @@ use_db("todo")
                                 // You can now use the old and new values
                                 console.log('Cell edited. Old value:', oldValue, 'New value:', newValue);
                                 //zzz
+                                let codeId = await mm.getCurrentCommitId()
                                 let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? "
-                                let ret = await sqlRx(codeId, updateSql, newValue)
+                                let ret = await sqlRx(codeId, updateSql, [newValue])
                                 debugger
                             });
                             window.dbEditorWindow = mm
