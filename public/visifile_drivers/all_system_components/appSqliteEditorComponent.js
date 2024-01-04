@@ -949,9 +949,10 @@ use_db("todo")
                                 console.log('Cell edited. Old value:', oldValue, 'New value:', newValue);
                                 //zzz
                                 let codeId = await mm.getCurrentCommitId()
+                                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
                                 let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? "
-                                let ret = await sqlRx(codeId, updateSql, [newValue])
                                 debugger
+                                let ret = await sqlRx(codeId, baseComponentId, updateSql, [newValue])
                             });
                             window.dbEditorWindow = mm
                             returnfn()
