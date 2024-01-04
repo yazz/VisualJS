@@ -950,9 +950,10 @@ use_db("todo")
                                 //zzz
                                 let codeId = await mm.getCurrentCommitId()
                                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
-                                let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? "
+                                let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? " +
+                                                " where id = ?"
                                 debugger
-                                let ret = await sqlRx(codeId, baseComponentId, updateSql, [newValue])
+                                let ret = await sqlRx(codeId, baseComponentId, updateSql, [ newValue , rowData.id ])
                             });
                             window.dbEditorWindow = mm
                             returnfn()
