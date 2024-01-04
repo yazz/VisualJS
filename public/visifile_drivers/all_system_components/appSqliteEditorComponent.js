@@ -781,7 +781,7 @@ use_db("todo")
                     }
                     createNewTableSql += " );"
                 }
-                //zzz
+
                 mm.oldDatabaseDefn.push(
                     {
                         name: "Rename table from " + mm.pane_home_selectedTable + " to " + mm.pane_home_newTableName
@@ -938,18 +938,19 @@ use_db("todo")
                                 //debugger
                                 //cell.edit()
                             });
-                            mm.pane_home_tabulator.on("cellEdited", function(cell){
+                            mm.pane_home_tabulator.on("cellEdited", async function(cell){
                                 // cell - cell component for the edited cell
                                 var oldValue = cell.getOldValue();
                                 var newValue = cell.getValue();
                                 var rowData = cell.getRow().getData();
                                 var fieldName = cell.getField();
-                                debugger
 
                                 // You can now use the old and new values
                                 console.log('Cell edited. Old value:', oldValue, 'New value:', newValue);
-
-                                // Perform further actions as needed
+                                //zzz
+                                let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? "
+                                let ret = await sqlRx(codeId, updateSql, newValue)
+                                debugger
                             });
                             window.dbEditorWindow = mm
                             returnfn()
