@@ -905,30 +905,30 @@ use_db("todo")
 
                             mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                 {
-                                    //reactiveData:     true,
-                                    width:              "1700px",
-                                    //height:           "100px",
-                                    rowHeight:          30,
-                                    tables:             [],
-                                    data:               mm.pane_home_data_rows,
-                                    layout:             "fitColumns",
-                                    //responsiveLayout: "hide",
-                                    responsiveLayout:   false,
-                                    tooltips:           true,
-                                    addRowPos:          "top",
-                                    history:            false,
-                                    pagination:         "local",
-                                    paginationSize:     7,
-                                    movableColumns:     true,
-                                    resizableColumns:   true,
-                                    resizableRows:      true,
-                                    tableNames:         [],
-                                    initialSort:        [],
-                                    rowContextMenu:     rowMenu,
-                                    columns:            [],
-                                    autoResize:         true,
-                                    selectable:         1,
-                                    selectableRollingSelection:true,
+                                    //reactiveData:             true,
+                                    width:                      "1700px",
+                                    //height:                   "100px",
+                                    rowHeight:                  30,
+                                    tables:                     [],
+                                    data:                       mm.pane_home_data_rows,
+                                    layout:                     "fitColumns",
+                                    //responsiveLayout:         "hide",
+                                    responsiveLayout:           false,
+                                    tooltips:                   true,
+                                    addRowPos:                  "top",
+                                    history:                    false,
+                                    pagination:                 "local",
+                                    paginationSize:             7,
+                                    movableColumns:             true,
+                                    resizableColumns:           true,
+                                    resizableRows:              true,
+                                    tableNames:                 [],
+                                    initialSort:                [],
+                                    rowContextMenu:             rowMenu,
+                                    columns:                    [],
+                                    autoResize:                 true,
+                                    selectable:                 1,
+                                    selectableRollingSelection: true,
                                 });
                             mm.pane_home_tabulator.on("cellClick", function(e, cell){
                                 //e - the click event object
@@ -942,7 +942,7 @@ use_db("todo")
                             });
                             mm.pane_home_tabulator.on("rowClick", function(e, row) {
                                 // 'e' is the event object, and 'row' is the clicked row
-                                debugger
+                                //debugger
                                 //var rowData = row.getData();
                                 //row.getElement().classList.add("highlighted-row");
 
