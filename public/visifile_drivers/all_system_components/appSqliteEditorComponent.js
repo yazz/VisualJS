@@ -926,7 +926,9 @@ use_db("todo")
                                     initialSort:        [],
                                     rowContextMenu:     rowMenu,
                                     columns:            [],
-                                    autoResize:         true
+                                    autoResize:         true,
+                                    selectable:         1,
+                                    selectableRollingSelection:true,
                                 });
                             mm.pane_home_tabulator.on("cellClick", function(e, cell){
                                 //e - the click event object
@@ -937,6 +939,15 @@ use_db("todo")
 
                                 //debugger
                                 //cell.edit()
+                            });
+                            mm.pane_home_tabulator.on("rowClick", function(e, row) {
+                                // 'e' is the event object, and 'row' is the clicked row
+                                debugger
+                                //var rowData = row.getData();
+                                //row.getElement().classList.add("highlighted-row");
+
+                                // You now have access to the data of the clicked row
+                                //alert("Clicked Row Data:", rowData);
                             });
                             mm.pane_home_tabulator.on("cellEdited", async function(cell){
                                 // cell - cell component for the edited cell
