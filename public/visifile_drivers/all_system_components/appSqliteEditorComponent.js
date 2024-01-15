@@ -5,7 +5,81 @@ component_type("SYSTEM")
 load_once_from_file(true)
 use_db("todo")
 */
+    var rowMenu = [
+        {
+            label: "<i class='fas fa-user'></i> Change Name",
+            action: function (e, row) {
+                row.update({name: "Steve Bobberson"});
+            }
+        },
+        {
+            label: "<i class='fas fa-check-square'></i> Select Row",
+            action: function (e, row) {
+                row.select();
+            }
+        },
+        {
+            separator: true
+        },
+        {
+            label: "Admin Functions",
+            menu: [
+                {
+                    label: "<i class='fas fa-trash'></i> Delete Row",
+                    action: function (e, row) {
+                        row.delete();
+                    }
+                },
+                {
+                    label: "<i class='fas fa-ban'></i> Disabled Option",
+                    disabled: true,
+                },
+            ]
+        }]
+    var headerMenu = function () {
+        var menu = [];
+        var columns = this.getColumns();
 
+        for (let column of columns) {
+
+            //create checkbox element using font awesome icons
+            let icon = document.createElement("i");
+            icon.classList.add("fas");
+            icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
+
+            //build label
+            let label = document.createElement("span");
+            let title = document.createElement("span");
+
+            title.textContent = " " + column.getDefinition().title;
+
+            label.appendChild(icon);
+            label.appendChild(title);
+
+            //create menu item
+            menu.push({
+                label: label,
+                action: function (e) {
+                    //prevent menu closing
+                    e.stopPropagation();
+
+                    //toggle current column visibility
+                    column.toggle();
+
+                    //change menu item icon
+                    if (column.isVisible()) {
+                        icon.classList.remove("fa-square");
+                        icon.classList.add("fa-check-square");
+                    } else {
+                        icon.classList.remove("fa-check-square");
+                        icon.classList.add("fa-square");
+                    }
+                }
+            });
+        }
+
+        return menu;
+    };
     Yazz.component( {
         data:       function () {
             return {
@@ -841,82 +915,6 @@ use_db("todo")
                             elTab.setAttribute("style", "height:100%;")
                             let parentEl = document.getElementById("db_editor_grid_view_parent")
                             parentEl.appendChild(elTab);
-                            var rowMenu = [
-                                {
-                                    label: "<i class='fas fa-user'></i> Change Name",
-                                    action: function (e, row) {
-                                        row.update({name: "Steve Bobberson"});
-                                    }
-                                },
-                                {
-                                    label: "<i class='fas fa-check-square'></i> Select Row",
-                                    action: function (e, row) {
-                                        row.select();
-                                    }
-                                },
-                                {
-                                    separator: true
-                                },
-                                {
-                                    label: "Admin Functions",
-                                    menu: [
-                                        {
-                                            label: "<i class='fas fa-trash'></i> Delete Row",
-                                            action: function (e, row) {
-                                                row.delete();
-                                            }
-                                        },
-                                        {
-                                            label: "<i class='fas fa-ban'></i> Disabled Option",
-                                            disabled: true,
-                                        },
-                                    ]
-                                }]
-                            var headerMenu = function () {
-                                var menu = [];
-                                var columns = this.getColumns();
-
-                                for (let column of columns) {
-
-                                    //create checkbox element using font awesome icons
-                                    let icon = document.createElement("i");
-                                    icon.classList.add("fas");
-                                    icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
-
-                                    //build label
-                                    let label = document.createElement("span");
-                                    let title = document.createElement("span");
-
-                                    title.textContent = " " + column.getDefinition().title;
-
-                                    label.appendChild(icon);
-                                    label.appendChild(title);
-
-                                    //create menu item
-                                    menu.push({
-                                        label: label,
-                                        action: function (e) {
-                                            //prevent menu closing
-                                            e.stopPropagation();
-
-                                            //toggle current column visibility
-                                            column.toggle();
-
-                                            //change menu item icon
-                                            if (column.isVisible()) {
-                                                icon.classList.remove("fa-square");
-                                                icon.classList.add("fa-check-square");
-                                            } else {
-                                                icon.classList.remove("fa-check-square");
-                                                icon.classList.add("fa-square");
-                                            }
-                                        }
-                                    });
-                                }
-
-                                return menu;
-                            };
-
 
                             mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
                                 {
@@ -999,7 +997,8 @@ use_db("todo")
                             field:          field.id,
                             width:          150,
                             headerFilter:   "input",
-                            editor:         "input"
+                            editor:         "input",
+                            headerMenu:     headerMenu
                         })
                     }
                     let codeId          = await mm.getCurrentCommitId()
