@@ -36,20 +36,6 @@ use_db("todo")
                 },
             ]
         }]
-    let mm = this
-    let headerMenu = function () {
-        var menu = [];
-
-        menu.push({
-            label: "Edit column",
-            action: function (e) {
-                e.stopPropagation();
-                alert("Del")
-            }
-        });
-
-        return menu;
-    };
     Yazz.component( {
         data:       function () {
             return {
@@ -103,7 +89,7 @@ use_db("todo")
                           <ul class="nav nav-pills">
 
                             <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "home"})'>
-                              <a v-bind:class='"nav-link" + (selectedTab=="home"?" active":"")' href="#">Home</a>
+                              <a v-bind:class='"nav-link" + (((selectedTab=="home")||(selectedTab=="home_col"))?" active":"")' href="#">Home</a>
                             </li>
 
                             <li class="nav-item"   style="width: 16%;" v-on:click='switchTab({tabName: "sql"})'>
@@ -233,42 +219,74 @@ use_db("todo")
  -------------------------------------------------------------------- 
 </pre>
 </div>
-                        
-
-
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-
-                        
-                        
-                        
-                        
-                        
-                        
-                        
 
 
 
 
-      <!--  TEXT PANE ---------------------------------------------------------
-      |    --------------
-      |
-      |  
-      |
-      -------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!--  HOME COL EDITOR PANE -----------------------------------------------
+                        |    -----------------------
+                        |
+                        |  
+                        |
+                        -------------------------------------------------------------------------- -->
+                        <div  v-if='selectedTab=="home_col"'  style="padding:15px;">
+                          Column Editor
+                          <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
+ -------------------------------------------------------------------- 
+|                                                                    |
+|                               DEBUG INFO                           |
+|                                                                    |
+ -------------------------------------------------------------------- 
+</pre>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!--  TEXT PANE ---------------------------------------------------------
+                        |    --------------
+                        |
+                        |  
+                        |
+                        -------------------------------------------------------------------------- -->
     <div  v-if='selectedTab=="text"'  style="padding:15px;">
         <pre style="height:60%;">{{sqlText}}
         </pre>
@@ -876,6 +894,19 @@ use_db("todo")
             },
             pane_home_drawTabulatorGrid:    async function  (  ) {
                 let mm = this
+                let headerMenu = function () {
+                    var menu = [];
+
+                    menu.push({
+                        label: "Edit column",
+                        action: async function (e) {
+                            await mm.switchTab({tabName: "home_col"})
+                        }
+                    });
+
+                    return menu;
+                };
+
                 if (mm.pane_home_tabulator == null ) {
                     let promise = new Promise(async function(returnfn) {
                         Vue.nextTick(function () {
