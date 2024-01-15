@@ -3339,8 +3339,8 @@ ${code}
                 }
             },
             chooseRight:                            function        (  ff  ) {
-
-                this.right_mode = ff
+                this.selected_pane  = ff
+                this.right_mode     = ff
             },
             getForms:                               function        (  ) {
                 let forms = []
