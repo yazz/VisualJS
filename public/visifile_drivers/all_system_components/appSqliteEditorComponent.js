@@ -731,6 +731,19 @@ use_db("todo")
                 //mm.pane_home_data_rows = sql("select id,name from items")
                 mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
             },
+            pane_home_deleteRow:            async function  (  ) {
+                let mm = this
+                debugger
+                var selectedData = mm.pane_home_tabulator.getSelectedData();
+                if (selectedData && (selectedData.length > 0)) {
+                    let rowId = selectedData[0].id
+                    await sqlRx(codeId, baseComponentId,
+                        "delete from " + mm.pane_home_selectedTable + " where  id = " + rowId)
+                    mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                    //mm.pane_home_data_rows = sql("select id,name from items")
+                    mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
+                }
+            },
             pane_home_moveTableDown:        async function  (  ) {
                 let mm = this
                 for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length - 1; tableIndex ++ ) {
