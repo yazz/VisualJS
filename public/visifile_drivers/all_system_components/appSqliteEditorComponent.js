@@ -737,6 +737,8 @@ use_db("todo")
                 var selectedData = mm.pane_home_tabulator.getSelectedData();
                 if (selectedData && (selectedData.length > 0)) {
                     let rowId = selectedData[0].id
+                    let codeId = await mm.getCurrentCommitId()
+                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                     await sqlRx(codeId, baseComponentId,
                         "delete from " + mm.pane_home_selectedTable + " where  id = " + rowId)
                     mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
