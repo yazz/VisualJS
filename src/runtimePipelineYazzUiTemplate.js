@@ -2098,7 +2098,7 @@ Pushlist
 
                 <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;" '
                      v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
-                     v-on:click='$event.stopPropagation();let s = (right_mode == "properties"?"project":"project");selected_pane = "project";chooseRight(s);'
+                     v-on:click='$event.stopPropagation();let s = (selected_pane == "project"?"properties":"project");chooseRight(s);'
                      >
 
                      Project explorer
