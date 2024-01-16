@@ -247,6 +247,14 @@ use_db("todo")
                           
                           <div>{{pane_home_col_id}}</div>
                           
+                          <div>
+                                <button  type=button class='btn btn-sm btn-primary'
+                                         style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
+                                         v-on:click='switchTab({tabName: "home"})' >Close</button>
+                            </div>
+
+
+
                           <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
