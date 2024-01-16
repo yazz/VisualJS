@@ -56,7 +56,8 @@ use_db("todo")
                 pane_home_data_rows:        [],
                 pane_home_selectedColumn:   null,
                 pane_home_editTableName:    false,
-                pane_home_newTableName:     ""
+                pane_home_newTableName:     "",
+                pane_home_col_id:           null,
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -242,7 +243,10 @@ use_db("todo")
                         |
                         -------------------------------------------------------------------------- -->
                         <div  v-if='selectedTab=="home_col"'  style="padding:15px;">
-                          Column Editor
+                          <div>Column Editor</div>
+                          
+                          <div>{{pane_home_col_id}}</div>
+                          
                           <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
  -------------------------------------------------------------------- 
 |                                                                    |
@@ -899,7 +903,10 @@ use_db("todo")
 
                     menu.push({
                         label: "Edit column",
-                        action: async function (e) {
+                        action: async function (e, column) {
+                            debugger
+                            let columnName = column.getField();
+                            mm.pane_home_col_id = columnName
                             await mm.switchTab({tabName: "home_col"})
                         }
                     });
