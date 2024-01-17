@@ -951,7 +951,6 @@ use_db("todo")
                 let mm              = this
                 let containingTable = null
                 let colToRename     = null
-                debugger
 
                 for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
                     if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
@@ -975,9 +974,26 @@ use_db("todo")
                     createNewTableSql += " );"
                 }
 
+                debugger
 
                 // copy data SQL
-                let copyDataSql = ""
+                let copyDataSql = "insert into " +  mm.pane_home_selectedTable + "_copy ( id"
+                for (let col of containingTable.cols) {
+                    if ( col.id == "id" ) {
+                    } else if (col.id == mm.pane_home_col_id) {
+                        createNewTableSql += ", " +  mm.pane_home_col_newColName
+                    } else {
+                        createNewTableSql += ", " +  col.id
+                    }
+                }
+                copyDataSql += " select id "
+                for (let col of containingTable.cols) {
+                    if ( col.id == "id" ) {
+                    } else {
+                        createNewTableSql += ", " +  col.id
+                    }
+                }
+                copyDataSql += "  from " + mm.pane_home_selectedTable;
 
                 mm.oldDatabaseDefn.push(
                     {
@@ -987,8 +1003,8 @@ use_db("todo")
                         up:
                             [
                                 createNewTableSql
-                                //,
-                                //copyDataSql
+                                ,
+                                copyDataSql
                                 ,
                                 "DROP TABLE " + mm.pane_home_selectedTable + ";"
                                 ,
