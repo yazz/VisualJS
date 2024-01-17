@@ -959,6 +959,7 @@ use_db("todo")
                     }
                 }
 
+                // create a new temp table
                 let createNewTableSql = ""
                 if (containingTable) {
                     createNewTableSql += "CREATE TABLE " + mm.pane_home_selectedTable + "_copy" + " ( id INTEGER PRIMARY KEY AUTOINCREMENT "
@@ -974,20 +975,34 @@ use_db("todo")
                     createNewTableSql += " );"
                 }
 
+
+                // copy data SQL
+                let copyDataSql = ""
+
                 mm.oldDatabaseDefn.push(
                     {
-                        name: "Rename table from " + mm.pane_home_selectedTable + " to " + mm.pane_home_newTableName
+                        name: "Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
+                            + " to " + mm.pane_home_col_newColName
                         ,
                         up:
                             [
                                 createNewTableSql
-                                ,
-                                "INSERT INTO " + mm.pane_home_newTableName + " SELECT * FROM " + mm.pane_home_selectedTable + ";"
+                                //,
+                                //copyDataSql
                                 ,
                                 "DROP TABLE " + mm.pane_home_selectedTable + ";"
+                                ,
+                                "ALTER TABLE " + mm.pane_home_selectedTable + "_copy" +
+                                    "  RENAME TO " + mm.pane_home_selectedTable + ";"
                             ]
                     })
-                mm.pane_home_selectedTable = mm.pane_home_newTableName
+
+                for (let col of containingTable.cols) {
+                    if (col.id == mm.pane_home_col_id) {
+                        col.id = mm.pane_home_col_newColName
+                    }
+                }
+
                 mm.pane_home_editTableName = false
                 await mm.schemaChanged()
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
