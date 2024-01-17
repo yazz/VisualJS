@@ -57,7 +57,10 @@ use_db("todo")
                 pane_home_selectedColumn:   null,
                 pane_home_editTableName:    false,
                 pane_home_newTableName:     "",
+
+                // home column sub pane
                 pane_home_col_id:           null,
+                pane_home_col_read_only:    null,
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -250,13 +253,13 @@ use_db("todo")
                           <div>
                                 <button  type=button class='btn btn-sm btn-primary'
                                          style=""
-                                         v-bind:disabled="read_only"
+                                         v-bind:disabled="pane_home_col_read_only"
                                          v-on:click="pane_home_col_startRenameColumn()" >Rename</button>
                                          
                                          
                                 <button  type=button class='btn btn-sm btn-primary'
                                          style=""
-                                         v-bind:disabled="read_only"
+                                         v-bind:disabled="pane_home_col_read_only"
                                          v-on:click="pane_home_col_startDeleteColumn()" >Delete</button>
 
 
@@ -422,16 +425,26 @@ use_db("todo")
                 //    init home pane
                 // ------------------------------------------------
                 if (tabName == "home") {
-                    if (  mm.listOfTables && (mm.listOfTables.length > 0)  )
-                    {
+                    if (mm.listOfTables && (mm.listOfTables.length > 0)) {
                         if (mm.pane_home_selectedTable == null) {
-                            await mm.pane_home_selectTable(  {  tableName:  mm.listOfTables[0].name  }  )
+                            await mm.pane_home_selectTable({tableName: mm.listOfTables[0].name})
                         } else {
                             await mm.pane_home_selectTable({tableName: mm.pane_home_selectedTable})
                         }
                     }
 
                     await mm.pane_home_drawTabulatorGrid()
+
+
+
+
+
+
+                } else if (tabName == "home_col") {
+                    mm.pane_home_col_read_only = mm.read_only
+
+
+
 
                 } else {
                     //document.getElementById("db_editor_grid_view").remove()
