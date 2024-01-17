@@ -429,7 +429,7 @@ use_db("todo")
         },
         methods:    {
             // main fns
-            switchTab:                      async function  (  {  tabName  }  ) {
+            switchTab:                          async function  (  {  tabName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -447,7 +447,6 @@ use_db("todo")
                 //    init home pane
                 // ------------------------------------------------
                 if (tabName == "home") {
-                    debugger
                     if (mm.listOfTables && (mm.listOfTables.length > 0)) {
                         if (mm.pane_home_selectedTable == null) {
                             await mm.pane_home_selectTable({tableName: mm.listOfTables[0].name})
@@ -487,7 +486,7 @@ use_db("todo")
                 if (tabName == "text") {
                 }
             },
-            createModelFromSrcCode:         async function  (  ) {
+            createModelFromSrcCode:             async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -584,14 +583,14 @@ use_db("todo")
                     await mm.schemaChanged()
                 }
             },
-            schemaChanged:                  async function  (  ) {
+            schemaChanged:                      async function  (  ) {
                 let mm = this
                 mm.$root.$emit(
                     'message', {
                         type: "pending"
                     })
             },
-            convertJsonModelToSrcCode:      async function  (  ) {
+            convertJsonModelToSrcCode:          async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -646,7 +645,7 @@ use_db("todo")
                 let oldSqlText =  JSON.stringify(  srcOldDatabaseEntry  ,  null  ,  2  )
                 mm.text = yz.helpers.insertCodeString(mm.text, "sqlite", srcOldDatabaseEntry , ")//sqlite")
             },
-            getText:                        async function  (  ) {
+            getText:                            async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -664,7 +663,7 @@ use_db("todo")
                 await mm.convertJsonModelToSrcCode()
                 return this.text
             },
-            setText:                        async function  (  textValue  ) {
+            setText:                            async function  (  textValue  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -687,7 +686,7 @@ use_db("todo")
                 await mm.switchTab({tabName: "home"})
 
             },
-            getTable:                       async function  (  { tableName  }  ) {
+            getTable:                           async function  (  { tableName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -707,7 +706,7 @@ use_db("todo")
                     }
                 }
             },
-            getCurrentCommitId:             async function  (  ) {
+            getCurrentCommitId:                 async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -724,7 +723,7 @@ use_db("todo")
             },
 
             // HOME pane
-            pane_home_addTable:             async function  (  ) {
+            pane_home_addTable:                 async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -763,7 +762,7 @@ use_db("todo")
                 await mm.schemaChanged()
                 await mm.pane_home_drawTabulatorGrid()
             },
-            pane_home_refreshData:          async function  (  ) {
+            pane_home_refreshData:              async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -782,7 +781,7 @@ use_db("todo")
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
-            pane_home_addColumn:            async function  (  ) {
+            pane_home_addColumn:                async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -823,7 +822,7 @@ use_db("todo")
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
-            pane_home_deleteTable:          async function  (  ) {
+            pane_home_deleteTable:              async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -848,7 +847,7 @@ use_db("todo")
                 await mm.schemaChanged()
                 await mm.pane_home_drawTabulatorGrid()
             },
-            pane_home_addRow:               async function  (  ) {
+            pane_home_addRow:                   async function  (  ) {
                 let mm = this
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
@@ -858,7 +857,7 @@ use_db("todo")
                 //mm.pane_home_data_rows = sql("select id,name from items")
                 mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
             },
-            pane_home_deleteRow:            async function  (  ) {
+            pane_home_deleteRow:                async function  (  ) {
                 let mm = this
 
                 var selectedData = mm.pane_home_tabulator.getSelectedData();
@@ -873,7 +872,7 @@ use_db("todo")
                     mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
                 }
             },
-            pane_home_moveTableDown:        async function  (  ) {
+            pane_home_moveTableDown:            async function  (  ) {
                 let mm = this
                 for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length - 1; tableIndex ++ ) {
                     if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
@@ -884,7 +883,7 @@ use_db("todo")
                     }
                 }
             },
-            pane_home_moveTableUp:          async function  (  ) {
+            pane_home_moveTableUp:              async function  (  ) {
                 let mm = this
                 for (let tableIndex = 1 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
                     if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
@@ -895,17 +894,17 @@ use_db("todo")
                     }
                 }
             },
-            pane_home_startRenameTable:     async function  (  ) {
+            pane_home_startRenameTable:         async function  (  ) {
                 let mm = this
                 mm.pane_home_editTableName = true
                 mm.pane_home_newTableName = mm.pane_home_selectedTable
             },
-            pane_home_col_startRenameColumn: async function  (  ) {
+            pane_home_col_startRenameColumn:    async function  (  ) {
                 let mm = this
                 mm.pane_home_col_editColName = true
                 mm.pane_home_col_newColName = mm.pane_home_col_id
             },
-            pane_home_renameTable:          async function  (  ) {
+            pane_home_renameTable:              async function  (  ) {
                 let mm = this
                 let tableToRename = null
 
@@ -948,7 +947,53 @@ use_db("todo")
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
-            pane_home_selectTable:          async function  (  {  tableName  }  ) {
+            pane_home_col_renameCol:            async function  (  ) {
+                let mm              = this
+                let containingTable = null
+                let colToRename     = null
+                debugger
+
+                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                        containingTable = mm.listOfTables[  tableIndex  ]
+                    }
+                }
+
+                let createNewTableSql = ""
+                if (containingTable) {
+                    createNewTableSql += "CREATE TABLE " + mm.pane_home_selectedTable + "_copy" + " ( id INTEGER PRIMARY KEY AUTOINCREMENT "
+                    for (let col of containingTable.cols) {
+                        if ( col.id == "id" ) {
+
+                        } else if (col.id == mm.pane_home_col_id) {
+                            createNewTableSql += ", " +  mm.pane_home_col_newColName + " " + col.type
+                        } else {
+                            createNewTableSql += ", " +  col.id + " " + col.type
+                        }
+                    }
+                    createNewTableSql += " );"
+                }
+
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Rename table from " + mm.pane_home_selectedTable + " to " + mm.pane_home_newTableName
+                        ,
+                        up:
+                            [
+                                createNewTableSql
+                                ,
+                                "INSERT INTO " + mm.pane_home_newTableName + " SELECT * FROM " + mm.pane_home_selectedTable + ";"
+                                ,
+                                "DROP TABLE " + mm.pane_home_selectedTable + ";"
+                            ]
+                    })
+                mm.pane_home_selectedTable = mm.pane_home_newTableName
+                mm.pane_home_editTableName = false
+                await mm.schemaChanged()
+                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
+                await mm.pane_home_drawTabulatorGrid()
+            },
+            pane_home_selectTable:              async function  (  {  tableName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
@@ -962,7 +1007,7 @@ use_db("todo")
                 let mm = this
                 mm.pane_home_selectedTable  = tableName
             },
-            pane_home_drawTabulatorGrid:    async function  (  ) {
+            pane_home_drawTabulatorGrid:        async function  (  ) {
                 let mm = this
                 let headerMenu = function () {
                     var menu = [];
