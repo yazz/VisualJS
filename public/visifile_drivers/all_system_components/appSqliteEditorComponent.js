@@ -248,6 +248,12 @@ use_db("todo")
                         <div  v-if='selectedTab=="home_col"'  style="padding:15px;">
                           <div>Column Editor</div>
                           
+                          <div  v-if="pane_home_col_id == 'id'"
+                                style="color:red;">
+                                The col ID is a system table and can not be changed
+                            </div>
+                                
+                          
                           <div>{{pane_home_col_id}}</div>
                           
                           <div>
@@ -442,7 +448,9 @@ use_db("todo")
 
                 } else if (tabName == "home_col") {
                     mm.pane_home_col_read_only = mm.read_only
-
+                    if (mm.pane_home_col_id == "id") {
+                        mm.pane_home_col_read_only = true
+                    }
 
 
 
