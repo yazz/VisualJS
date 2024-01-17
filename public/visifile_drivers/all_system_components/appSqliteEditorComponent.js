@@ -61,6 +61,8 @@ use_db("todo")
                 // home column sub pane
                 pane_home_col_id:           null,
                 pane_home_col_read_only:    null,
+                pane_home_col_editColName:  false,
+                pane_home_col_newColName:   null,
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -254,8 +256,16 @@ use_db("todo")
                             </div>
                                 
                           
-                          <div>{{pane_home_col_id}}</div>
+                          <div   v-if="(!pane_home_col_editColName)">
+                              {{pane_home_col_id}}
+                          </div>
                           
+                          <input
+                                v-if="(pane_home_col_editColName)"
+                                style="width:80%"
+                                v-model="pane_home_col_newColName"
+                          ></input>
+
                           <div>
                                 <button  type=button class='btn btn-sm btn-primary'
                                          style=""
@@ -447,7 +457,9 @@ use_db("todo")
 
 
                 } else if (tabName == "home_col") {
-                    mm.pane_home_col_read_only = mm.read_only
+                    mm.pane_home_col_read_only      = mm.read_only
+                    mm.pane_home_col_editColName    = false
+
                     if (mm.pane_home_col_id == "id") {
                         mm.pane_home_col_read_only = true
                     }
@@ -879,6 +891,11 @@ use_db("todo")
                 let mm = this
                 mm.pane_home_editTableName = true
                 mm.pane_home_newTableName = mm.pane_home_selectedTable
+            },
+            pane_home_col_startRenameColumn: async function  (  ) {
+                let mm = this
+                mm.pane_home_col_editColName = true
+                mm.pane_home_col_newColName = mm.pane_home_col_id
             },
             pane_home_renameTable:          async function  (  ) {
                 let mm = this
