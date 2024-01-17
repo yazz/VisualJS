@@ -447,6 +447,7 @@ use_db("todo")
                 //    init home pane
                 // ------------------------------------------------
                 if (tabName == "home") {
+                    debugger
                     if (mm.listOfTables && (mm.listOfTables.length > 0)) {
                         if (mm.pane_home_selectedTable == null) {
                             await mm.pane_home_selectTable({tableName: mm.listOfTables[0].name})
@@ -463,6 +464,7 @@ use_db("todo")
 
 
                 } else if (tabName == "home_col") {
+                    mm.pane_home_tabulator          = null
                     mm.pane_home_col_read_only      = mm.read_only
                     mm.pane_home_col_editColName    = false
 
@@ -858,7 +860,7 @@ use_db("todo")
             },
             pane_home_deleteRow:            async function  (  ) {
                 let mm = this
-                debugger
+
                 var selectedData = mm.pane_home_tabulator.getSelectedData();
                 if (selectedData && (selectedData.length > 0)) {
                     let rowId = selectedData[0].id
@@ -913,7 +915,7 @@ use_db("todo")
                         tableToRename.name = mm.pane_home_newTableName
                     }
                 }
-                debugger
+
                 let createNewTableSql = ""
                 if (tableToRename) {
                     createNewTableSql += "CREATE TABLE " + mm.pane_home_newTableName + " ( id INTEGER PRIMARY KEY AUTOINCREMENT "
@@ -968,7 +970,7 @@ use_db("todo")
                     menu.push({
                         label: "Edit column",
                         action: async function (e, column) {
-                            debugger
+
                             let columnName = column.getField();
                             mm.pane_home_col_id = columnName
                             await mm.switchTab({tabName: "home_col"})
@@ -1048,7 +1050,7 @@ use_db("todo")
                                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
                                 let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? " +
                                                 " where id = ?"
-                                debugger
+
                                 let ret = await sqlRx(codeId, baseComponentId, updateSql, [ newValue , rowData.id ])
                             });
                             window.dbEditorWindow = mm
