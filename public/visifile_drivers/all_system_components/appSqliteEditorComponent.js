@@ -950,14 +950,6 @@ use_db("todo")
             pane_home_col_renameCol:            async function  (  ) {
                 let mm              = this
                 let containingTable = null
-                let colToRename     = null
-
-                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
-                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
-                        containingTable = mm.listOfTables[  tableIndex  ]
-                    }
-                }
-
 
                 mm.oldDatabaseDefn.push(
                     {
@@ -970,6 +962,12 @@ use_db("todo")
                                     mm.pane_home_col_id + " TO " + mm.pane_home_col_newColName
                             ]
                     })
+
+                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                        containingTable = mm.listOfTables[  tableIndex  ]
+                    }
+                }
 
                 for (let col of containingTable.cols) {
                     if (col.id == mm.pane_home_col_id) {
