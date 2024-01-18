@@ -980,6 +980,91 @@ use_db("todo")
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
+            pane_home_col_changeColType:        async function  (  ) {
+                let mm              = this
+                let containingTable = null
+                let colToRename     = null
+
+                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                        containingTable = mm.listOfTables[  tableIndex  ]
+                    }
+                }
+
+                // create a new temp table
+                let createNewTableSql = ""
+                if (containingTable) {
+                    createNewTableSql += "CREATE TABLE " + mm.pane_home_selectedTable + "_copy" + " ( id INTEGER PRIMARY KEY AUTOINCREMENT "
+                    for (let col of containingTable.cols) {
+                        if ( col.id == "id" ) {
+
+                        } else if (col.id == mm.pane_home_col_id) {
+                            createNewTableSql += ", " +  mm.pane_home_col_newColName + " " + col.type
+                        } else {
+                            createNewTableSql += ", " +  col.id + " " + col.type
+                        }
+                    }
+                    createNewTableSql += " );"
+                }
+
+
+                // copy data SQL
+                let copyDataSql = "insert into " +  mm.pane_home_selectedTable + "_copy ( id"
+                for (let col of containingTable.cols) {
+                    if ( col.id == "id" ) {
+                    } else if (col.id == mm.pane_home_col_id) {
+                        copyDataSql += ", " +  mm.pane_home_col_newColName
+                    } else {
+                        copyDataSql += ", " +  col.id
+                    }
+                }
+                copyDataSql += " )  select id "
+                for (let col of containingTable.cols) {
+                    if ( col.id == "id" ) {
+                    } else {
+                        copyDataSql += ", " +  col.id
+                    }
+                }
+                copyDataSql += "  from " + mm.pane_home_selectedTable;
+                debugger
+
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Part1: Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
+                            + " to " + mm.pane_home_col_newColName
+                        ,
+                        up:
+                            [
+                                createNewTableSql
+                                ,
+                                copyDataSql
+                            ]
+                    })
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Part2: Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
+                            + " to " + mm.pane_home_col_newColName
+                        ,
+                        up:
+                            [
+                                "DROP TABLE " + mm.pane_home_selectedTable + ";"
+                                ,
+                                "ALTER TABLE " + mm.pane_home_selectedTable + "_copy" +
+                                "  RENAME TO " + mm.pane_home_selectedTable + ";"
+                            ]
+                    })
+
+                for (let col of containingTable.cols) {
+                    if (col.id == mm.pane_home_col_id) {
+                        col.id = mm.pane_home_col_newColName
+                    }
+                }
+
+                mm.pane_home_editTableName = false
+                await mm.schemaChanged()
+                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
+                await mm.pane_home_drawTabulatorGrid()
+            },
             pane_home_selectTable:              async function  (  {  tableName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
