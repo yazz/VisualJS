@@ -129,7 +129,7 @@ use_db("todo")
                         <div  v-if='selectedTab=="home"'  style="padding:15px;">
                             <div style="width: 100%;border: 1px solid blue; height:60%;">
                                 <div style="width: 20%;border: 1px solid blue;display: inline-block;height:100%;">
-                                    List of tables
+                                    <b>List of tables</b>
                                     <div v-for="(tableItem,i) in listOfTables">
                                         <div
                                             v-if="(!pane_home_editTableName) || (pane_home_selectedTable!=tableItem.name)"
@@ -248,7 +248,7 @@ use_db("todo")
                         |
                         -------------------------------------------------------------------------- -->
                         <div  v-if='selectedTab=="home_col"'  style="padding:15px;">
-                          <div>Column Editor</div>
+                          <div><b>Column Editor</b></div>
                           
                           <div  v-if="pane_home_col_id == 'id'"
                                 style="color:red;">
