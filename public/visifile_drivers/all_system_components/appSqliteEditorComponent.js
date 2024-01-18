@@ -281,7 +281,10 @@ use_db("todo")
                               style="width:80%"
                               v-model="pane_home_col_newColType"
                           ></input>
-
+                          <select  v-if="(pane_home_col_editColType)" v-model="pane_home_col_newColType"  @change="filterProductionRestApi();">
+                            <option value="INTEGER">Integer</option>
+                            <option value="TEXT">Text</option>
+                          </select>
 
 
                           <div style="margin-top: 50px;">
