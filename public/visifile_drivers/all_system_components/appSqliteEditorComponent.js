@@ -997,7 +997,7 @@ use_db("todo")
 
                 mm.oldDatabaseDefn.push(
                     {
-                        name: "Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
+                        name: "Part1: Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
                             + " to " + mm.pane_home_col_newColName
                         ,
                         up:
@@ -1005,11 +1005,19 @@ use_db("todo")
                                 createNewTableSql
                                 ,
                                 copyDataSql
-                                ,
+                            ]
+                    })
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Part2: Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
+                            + " to " + mm.pane_home_col_newColName
+                        ,
+                        up:
+                            [
                                 "DROP TABLE " + mm.pane_home_selectedTable + ";"
                                 ,
                                 "ALTER TABLE " + mm.pane_home_selectedTable + "_copy" +
-                                    "  RENAME TO " + mm.pane_home_selectedTable + ";"
+                                "  RENAME TO " + mm.pane_home_selectedTable + ";"
                             ]
                     })
 
