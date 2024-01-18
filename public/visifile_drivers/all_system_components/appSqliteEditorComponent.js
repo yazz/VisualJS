@@ -277,8 +277,13 @@ use_db("todo")
                                          style=""
                                          v-bind:disabled="pane_home_col_read_only"
                                          v-on:click="pane_home_col_startRenameColumn()" >Rename</button>
-                                         
-                                         
+
+                                <button  type=button class='btn btn-sm btn-primary'
+                                         style=""
+                                         v-bind:disabled="pane_home_col_read_only"
+                                         v-on:click="pane_home_col_startChangeType()" >Change type</button>
+    
+                                
                                 <button  type=button class='btn btn-sm btn-primary'
                                          style=""
                                          v-bind:disabled="pane_home_col_read_only"
@@ -899,11 +904,6 @@ use_db("todo")
                 mm.pane_home_editTableName = true
                 mm.pane_home_newTableName = mm.pane_home_selectedTable
             },
-            pane_home_col_startRenameColumn:    async function  (  ) {
-                let mm = this
-                mm.pane_home_col_editColName = true
-                mm.pane_home_col_newColName = mm.pane_home_col_id
-            },
             pane_home_renameTable:              async function  (  ) {
                 let mm = this
                 let tableToRename = null
@@ -942,39 +942,6 @@ use_db("todo")
                         ]
                     })
                 mm.pane_home_selectedTable = mm.pane_home_newTableName
-                mm.pane_home_editTableName = false
-                await mm.schemaChanged()
-                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
-                await mm.pane_home_drawTabulatorGrid()
-            },
-            pane_home_col_renameCol:            async function  (  ) {
-                let mm              = this
-                let containingTable = null
-
-                mm.oldDatabaseDefn.push(
-                    {
-                        name: "Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
-                            + " to " + mm.pane_home_col_newColName
-                        ,
-                        up:
-                            [
-                                "ALTER TABLE " + mm.pane_home_selectedTable + " RENAME COLUMN " +
-                                    mm.pane_home_col_id + " TO " + mm.pane_home_col_newColName
-                            ]
-                    })
-
-                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
-                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
-                        containingTable = mm.listOfTables[  tableIndex  ]
-                    }
-                }
-
-                for (let col of containingTable.cols) {
-                    if (col.id == mm.pane_home_col_id) {
-                        col.id = mm.pane_home_col_newColName
-                    }
-                }
-
                 mm.pane_home_editTableName = false
                 await mm.schemaChanged()
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
@@ -1202,7 +1169,57 @@ use_db("todo")
                         mm.pane_home_tabulator.scrollToColumn(mm.pane_home_selectedColumn)
                     }
                 },200)
-            }
+            },
+
+            // HOME (column editor) pane
+            pane_home_col_startRenameColumn:    async function  (  ) {
+                let mm = this
+                mm.pane_home_col_editColName = true
+                mm.pane_home_col_newColName = mm.pane_home_col_id
+            },
+            pane_home_col_renameCol:            async function  (  ) {
+                let mm              = this
+                let containingTable = null
+
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
+                            + " to " + mm.pane_home_col_newColName
+                        ,
+                        up:
+                            [
+                                "ALTER TABLE " + mm.pane_home_selectedTable + " RENAME COLUMN " +
+                                mm.pane_home_col_id + " TO " + mm.pane_home_col_newColName
+                            ]
+                    })
+
+                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                        containingTable = mm.listOfTables[  tableIndex  ]
+                    }
+                }
+
+                for (let col of containingTable.cols) {
+                    if (col.id == mm.pane_home_col_id) {
+                        col.id = mm.pane_home_col_newColName
+                    }
+                }
+
+                mm.pane_home_editTableName = false
+                await mm.schemaChanged()
+                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
+                await mm.pane_home_drawTabulatorGrid()
+            },
+            pane_home_col_startChangeType:      async function  (  ) {
+                let mm = this
+                mm.pane_home_col_editColName = true
+                mm.pane_home_col_newColName = mm.pane_home_col_id
+            },
+            pane_home_col_changeType:           async function  (  ) {
+                let mm = this
+                mm.pane_home_col_editColName = true
+                mm.pane_home_col_newColName = mm.pane_home_col_id
+            },
         }
     })
 }
