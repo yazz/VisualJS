@@ -250,16 +250,18 @@ use_db("todo")
                         |  
                         |
                         -------------------------------------------------------------------------- -->
-                        <div  v-if='selectedTab=="home_col"'  style="padding:15px;">
-                          <div><b>Column Editor</b></div>
+                        <div  v-if='selectedTab=="home_col"'  style="padding:15px;margin: 20px">
                           
                           <div  v-if="pane_home_col_id == 'id'"
-                                style="color:red;">
-                                The col ID is a system table and can not be changed
-                            </div>
-                                
+                                style="color:red;margin-bottom: 20px;">
+                            The column "id" is a system column and can not be changed
+                          </div>
+                          
+                          
+                          <div><b>Column Editor</b></div>
                           
                           <div   v-if="(!pane_home_col_editColName)">
+                              <div style="width: 80px;display:inline-block"><b>Name</b></div>
                               {{pane_home_col_id}}
                           </div>
                           <input
@@ -271,7 +273,8 @@ use_db("todo")
 
 
                           <div   v-if="(!pane_home_col_editColType)">
-                            Type: {{pane_home_col_type}}
+                            <div style="width: 80px;display:inline-block"><b>Type</b></div>
+                            {{pane_home_col_type}}
                           </div>
                           <input
                               v-if="(pane_home_col_editColType)"
@@ -281,7 +284,7 @@ use_db("todo")
 
 
 
-                          <div>
+                          <div style="margin-top: 50px;">
                               <button  type=button class='btn btn-sm btn-primary'
                                        v-if="(pane_home_col_editColName)"
                                        style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
