@@ -63,6 +63,9 @@ use_db("todo")
                 pane_home_col_read_only:    null,
                 pane_home_col_editColName:  false,
                 pane_home_col_newColName:   null,
+                pane_home_col_type:         null,
+                pane_home_col_editColType:  false,
+                pane_home_col_newColType:   null,
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -259,17 +262,34 @@ use_db("todo")
                           <div   v-if="(!pane_home_col_editColName)">
                               {{pane_home_col_id}}
                           </div>
-                          
                           <input
                                 v-if="(pane_home_col_editColName)"
                                 style="width:80%"
                                 v-model="pane_home_col_newColName"
                           ></input>
+
+
+
+                          <div   v-if="(!pane_home_col_editColType)">
+                            Type: {{pane_home_col_type}}
+                          </div>
+                          <input
+                              v-if="(pane_home_col_editColType)"
+                              style="width:80%"
+                              v-model="pane_home_col_newColType"
+                          ></input>
+
+
+
                           <div>
                               <button  type=button class='btn btn-sm btn-primary'
                                        v-if="(pane_home_col_editColName)"
                                        style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
                                        v-on:click="pane_home_col_renameCol()" >Save</button>
+                              <button  type=button class='btn btn-sm btn-primary'
+                                       v-if="(pane_home_col_editColType)"
+                                       style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
+                                       v-on:click="pane_home_col_changeColType()" >Save</button>
                           </div>
 
                           <div>
@@ -993,7 +1013,7 @@ use_db("todo")
                     }
                 }
                 copyDataSql += "  from " + mm.pane_home_selectedTable;
-                debugger
+                //debugger
 
                 mm.oldDatabaseDefn.push(
                     {
@@ -1057,6 +1077,25 @@ use_db("todo")
 
                             let columnName = column.getField();
                             mm.pane_home_col_id = columnName
+                            debugger
+                            //zzz
+                            let containingTable = null
+                            for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                                if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                                    containingTable = mm.listOfTables[  tableIndex  ]
+                                }
+                            }
+
+                            if (containingTable) {
+                                for (let col of containingTable.cols) {
+                                    if ( col.id == columnName ) {
+                                        mm.pane_home_col_type = col.type
+                                    }
+                                }
+                            }
+
+
+
                             await mm.switchTab({tabName: "home_col"})
                         }
                     });
@@ -1129,7 +1168,6 @@ use_db("todo")
 
                                 // You can now use the old and new values
                                 console.log('Cell edited. Old value:', oldValue, 'New value:', newValue);
-                                //zzz
                                 let codeId = await mm.getCurrentCommitId()
                                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
                                 let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? " +
@@ -1212,8 +1250,9 @@ use_db("todo")
             },
             pane_home_col_startChangeType:      async function  (  ) {
                 let mm = this
-                mm.pane_home_col_editColName = true
-                mm.pane_home_col_newColName = mm.pane_home_col_id
+                mm.pane_home_col_editColName = false
+                mm.pane_home_col_editColType = true
+                mm.pane_home_col_newColType = mm.pane_home_col_type
             },
             pane_home_col_changeType:           async function  (  ) {
                 let mm = this
