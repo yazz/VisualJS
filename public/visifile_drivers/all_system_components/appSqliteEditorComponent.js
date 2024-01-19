@@ -258,7 +258,7 @@ use_db("todo")
                           </div>
                           
                           
-                          <div><b>Column Editor</b></div>
+                          <div style="font-size: 20px; padding bottom:10px;"><b>Column Editor</b></div>
                           
                           <div  >
                               <div style="width: 80px;display:inline-block"><b>Name</b></div>
