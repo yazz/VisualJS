@@ -260,31 +260,26 @@ use_db("todo")
                           
                           <div><b>Column Editor</b></div>
                           
-                          <div   v-if="(!pane_home_col_editColName)">
+                          <div  >
                               <div style="width: 80px;display:inline-block"><b>Name</b></div>
-                              {{pane_home_col_id}}
+                              <span  v-if="(!pane_home_col_editColName)">{{pane_home_col_id}}</span>
+                              <input
+                                    v-if="(pane_home_col_editColName)"
+                                    style="width:80%"
+                                    v-model="pane_home_col_newColName"
+                              ></input>
                           </div>
-                          <input
-                                v-if="(pane_home_col_editColName)"
-                                style="width:80%"
-                                v-model="pane_home_col_newColName"
-                          ></input>
 
 
 
-                          <div   v-if="(!pane_home_col_editColType)">
-                            <div style="width: 80px;display:inline-block"><b>Type</b></div>
-                            {{pane_home_col_type}}
+                          <div  >
+                              <div style="width: 80px;display:inline-block"><b>Type</b></div>
+                              <span  v-if="(!pane_home_col_editColType)">{{pane_home_col_type}}</span>
+                              <select  v-if="(pane_home_col_editColType)" v-model="pane_home_col_newColType"  @change="filterProductionRestApi();">
+                                  <option value="INTEGER">Integer</option>
+                                  <option value="TEXT">Text</option>
+                              </select>
                           </div>
-                          <input
-                              v-if="(pane_home_col_editColType)"
-                              style="width:80%"
-                              v-model="pane_home_col_newColType"
-                          ></input>
-                          <select  v-if="(pane_home_col_editColType)" v-model="pane_home_col_newColType"  @change="filterProductionRestApi();">
-                            <option value="INTEGER">Integer</option>
-                            <option value="TEXT">Text</option>
-                          </select>
 
 
                           <div style="margin-top: 50px;">
