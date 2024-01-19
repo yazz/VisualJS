@@ -1244,7 +1244,7 @@ use_db("todo")
                 }
 
                 //
-                // copy data to a new table
+                // Create a new table (without the deleted row)
                 //
                 createNewTableSql += "CREATE TABLE " + mm.pane_home_selectedTable + "_copy ( id INTEGER PRIMARY KEY AUTOINCREMENT "
                 for (let col of containingTable.cols) {
@@ -1256,6 +1256,28 @@ use_db("todo")
                 }
                 createNewTableSql += " );"
 
+                //
+                // copy data from the old table to the new one
+                //
+                let copyDataSql = "insert into " +  mm.pane_home_selectedTable + "_copy ( id"
+                for (let col of containingTable.cols) {
+                    if ( col.id == "id" ) {
+                    } else if (col.id == mm.pane_home_col_id) {
+                    } else {
+                        createNewTableSql += ", " +  col.id
+                    }
+                }
+                copyDataSql += " select id "
+                for (let col of containingTable.cols) {
+                    if ( col.id == "id" ) {
+                    } else if (col.id == mm.pane_home_col_id) {
+                    } else {
+                        createNewTableSql += ", " +  col.id
+                    }
+                }
+                copyDataSql += "  from " + mm.pane_home_selectedTable;
+
+
 
                 mm.oldDatabaseDefn.push(
                     {
@@ -1264,7 +1286,9 @@ use_db("todo")
                         up:
                             [
                                 createNewTableSql
-                                //,
+                                ,
+                                copyDataSql
+
                                 //"INSERT INTO " + mm.pane_home_newTableName + " SELECT * FROM " + mm.pane_home_selectedTable + ";"
                                 //,
                                 //"DROP TABLE " + mm.pane_home_selectedTable + ";"
