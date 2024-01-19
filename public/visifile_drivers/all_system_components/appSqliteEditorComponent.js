@@ -1273,6 +1273,7 @@ use_db("todo")
 
                 mm.pane_home_col_id             = null
                 await mm.schemaChanged()
+                await mm.switchTab({tabName: "home"})
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
