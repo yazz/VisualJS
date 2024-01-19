@@ -317,7 +317,7 @@ use_db("todo")
                                 <button  type=button class='btn btn-sm btn-primary'
                                          style=""
                                          v-bind:disabled="pane_home_col_read_only"
-                                         v-on:click="pane_home_col_startDeleteColumn()" >Delete</button>
+                                         v-on:click="pane_home_col_deleteColumn()" >Delete</button>
 
 
                                 <button  type=button class='btn btn-sm btn-primary'
@@ -1229,6 +1229,39 @@ use_db("todo")
                 let mm = this
                 mm.pane_home_col_editColName = true
                 mm.pane_home_col_newColName = mm.pane_home_col_id
+            },
+            pane_home_col_deleteColumn:         async function  (  ) {
+                let mm              = this
+                let containingTable = null
+
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Delete column " + mm.pane_home_col_id + " from table "
+                        ,
+                        up:
+                            [
+                                "ALTER TABLE " + mm.pane_home_selectedTable + " RENAME COLUMN " +
+                                mm.pane_home_col_id + " TO " + mm.pane_home_col_newColName
+                            ]
+                    })
+
+                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                        containingTable = mm.listOfTables[  tableIndex  ]
+                    }
+                }
+
+                for (let col of containingTable.cols) {
+                    if (col.id == mm.pane_home_col_id) {
+                        col.id = mm.pane_home_col_newColName
+                    }
+                }
+
+                mm.pane_home_col_id             = null
+                mm.pane_home_col_editColName    = false
+                await mm.schemaChanged()
+                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
+                await mm.pane_home_drawTabulatorGrid()
             },
             pane_home_col_renameCol:            async function  (  ) {
                 let mm              = this
