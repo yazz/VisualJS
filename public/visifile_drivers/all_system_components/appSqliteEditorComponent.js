@@ -1234,7 +1234,6 @@ use_db("todo")
                 let mm              = this
                 let containingTable = null
                 let createNewTableSql = ""
-                debugger
 
 
                 for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
@@ -1264,18 +1263,20 @@ use_db("todo")
                     if ( col.id == "id" ) {
                     } else if (col.id == mm.pane_home_col_id) {
                     } else {
-                        createNewTableSql += ", " +  col.id
+                        copyDataSql += ", " +  col.id
                     }
                 }
+                copyDataSql += ") "
                 copyDataSql += " select id "
                 for (let col of containingTable.cols) {
                     if ( col.id == "id" ) {
                     } else if (col.id == mm.pane_home_col_id) {
                     } else {
-                        createNewTableSql += ", " +  col.id
+                        copyDataSql += ", " +  col.id
                     }
                 }
                 copyDataSql += "  from " + mm.pane_home_selectedTable;
+                debugger
 
 
 
