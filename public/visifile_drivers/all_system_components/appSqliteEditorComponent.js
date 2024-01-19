@@ -1258,7 +1258,8 @@ use_db("todo")
                     }
                 }
 
-                mm.pane_home_editTableName = false
+                mm.pane_home_col_id          = mm.pane_home_col_newColName
+                mm.pane_home_col_editColName    = false
                 await mm.schemaChanged()
             },
             pane_home_col_startChangeType:      async function  (  ) {
