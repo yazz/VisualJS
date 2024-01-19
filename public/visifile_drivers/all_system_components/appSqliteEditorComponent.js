@@ -275,7 +275,7 @@ use_db("todo")
                           <div  >
                               <div style="width: 80px;display:inline-block"><b>Type</b></div>
                               <span  v-if="(!pane_home_col_editColType)">{{pane_home_col_type}}</span>
-                              <select  v-if="(pane_home_col_editColType)" v-model="pane_home_col_newColType"  @change="filterProductionRestApi();">
+                              <select  v-if="(pane_home_col_editColType)" v-model="pane_home_col_newColType">
                                   <option value="INTEGER">Integer</option>
                                   <option value="TEXT">Text</option>
                               </select>
@@ -476,6 +476,10 @@ use_db("todo")
                 //------------------------------------------------------------------------/
                 let mm = this
                 mm.selectedTab = tabName
+
+                if (mm.selectedTab == "home_col") {
+                    //mm.pane_home_col_type
+                }
 
 
                 // ------------------------------------------------
@@ -1275,7 +1279,6 @@ use_db("todo")
                     }
                 }
                 copyDataSql += "  from " + mm.pane_home_selectedTable;
-                debugger
 
 
 
@@ -1349,18 +1352,56 @@ use_db("todo")
 
                 mm.pane_home_col_id          = mm.pane_home_col_newColName
                 mm.pane_home_col_editColName    = false
+                mm.pane_home_col_editColType    = false
                 await mm.schemaChanged()
             },
             pane_home_col_startChangeType:      async function  (  ) {
                 let mm = this
+
                 mm.pane_home_col_editColName = false
                 mm.pane_home_col_editColType = true
                 mm.pane_home_col_newColType = mm.pane_home_col_type
             },
             pane_home_col_changeType:           async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /     pane_home_col_changeType        /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This is used in the DB editor to change the type of a table column
+                //--------------------------------------------------------------------------/
+
                 let mm = this
-                mm.pane_home_col_editColName = true
-                mm.pane_home_col_newColName = mm.pane_home_col_id
+                let containingTable = null
+debugger
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Change column type in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_type
+                            + " to " + mm.pane_home_col_newColType
+                        ,
+                        up:
+                            [
+                                "UPDATE " + mm.pane_home_selectedTable + " SET " + mm.pane_home_col_id + " = CAST(" + mm.pane_home_col_id + " as " + mm.pane_home_col_newColType + ")"
+                            ]
+                    })
+
+                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
+                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
+                        containingTable = mm.listOfTables[  tableIndex  ]
+                    }
+                }
+
+                for (let col of containingTable.cols) {
+                    if (col.id == mm.pane_home_col_id) {
+                        col.type = mm.pane_home_col_newColType
+                    }
+                }
+
+                mm.pane_home_col_editColName    = false
+                mm.pane_home_col_editColType    = false
+                await mm.schemaChanged()
             },
         }
     })
