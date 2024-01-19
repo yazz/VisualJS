@@ -44,7 +44,7 @@ use_db("todo")
                 errors:                     null,
                 sqlText:                    "{}",
                 editor:                     null,
-                selectedTab:                "home",
+                selectedTab:                null,
                 listOfTables:               null,
                 nextTableId:                null,
                 oldDatabaseDefn:            [],
@@ -709,7 +709,9 @@ use_db("todo")
                 args.text                       = null
 
                 await mm.createModelFromSrcCode()
-                await mm.switchTab({tabName: "home"})
+                if (mm.selectedTab == null) {
+                    await mm.switchTab({tabName: "home"})
+                }
 
             },
             getTable:                           async function  (  { tableName  }  ) {
@@ -1246,8 +1248,6 @@ use_db("todo")
 
                 mm.pane_home_editTableName = false
                 await mm.schemaChanged()
-                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
-                await mm.pane_home_drawTabulatorGrid()
             },
             pane_home_col_startChangeType:      async function  (  ) {
                 let mm = this
