@@ -282,11 +282,20 @@ use_db("todo")
                           </div>
 
 
-                          <div style="margin-top: 50px;">
+                          <div style="margin-top: 5px;margin-bottom: 50px;">
+                              <button  type=button class='btn btn-sm btn-primary'
+                                       v-if="(pane_home_col_editColName)"
+                                       style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
+                                       v-on:click="pane_home_col_cancelChanges()" >Cancel</button>
                               <button  type=button class='btn btn-sm btn-primary'
                                        v-if="(pane_home_col_editColName)"
                                        style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
                                        v-on:click="pane_home_col_renameCol()" >Save</button>
+                                       
+                              <button  type=button class='btn btn-sm btn-primary'
+                                       v-if="(pane_home_col_editColType)"
+                                       style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
+                                       v-on:click="pane_home_col_cancelChanges()" >Cancel</button>
                               <button  type=button class='btn btn-sm btn-primary'
                                        v-if="(pane_home_col_editColType)"
                                        style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
@@ -970,10 +979,15 @@ use_db("todo")
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
+            pane_home_col_cancelChanges:        async function  (  ) {
+                let mm              = this
+                //zzz
+                mm.pane_home_col_editColName = false
+                mm.pane_home_col_editColType = false
+            },
             pane_home_col_changeColType:        async function  (  ) {
                 let mm              = this
                 let containingTable = null
-                let colToRename     = null
 
                 for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
                     if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
@@ -1080,8 +1094,6 @@ use_db("todo")
 
                             let columnName = column.getField();
                             mm.pane_home_col_id = columnName
-                            debugger
-                            //zzz
                             let containingTable = null
                             for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
                                 if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
