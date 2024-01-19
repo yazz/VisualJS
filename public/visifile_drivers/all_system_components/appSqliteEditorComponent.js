@@ -981,7 +981,6 @@ use_db("todo")
             },
             pane_home_col_cancelChanges:        async function  (  ) {
                 let mm              = this
-                //zzz
                 mm.pane_home_col_editColName = false
                 mm.pane_home_col_editColType = false
             },
@@ -1282,17 +1281,25 @@ use_db("todo")
 
                 mm.oldDatabaseDefn.push(
                     {
-                        name: "Create copy of table and copy data from " + mm.pane_home_selectedTable + " to " + mm.pane_home_selectedTable + "_copy"
+                        name: "Part 1: Create copy of table and copy data from " + mm.pane_home_selectedTable + " to " + mm.pane_home_selectedTable + "_copy"
                         ,
                         up:
                             [
                                 createNewTableSql
                                 ,
                                 copyDataSql
+                                ,
+                                "DROP TABLE " + mm.pane_home_selectedTable + ";"
+                            ]
+                    })
 
-                                //"INSERT INTO " + mm.pane_home_newTableName + " SELECT * FROM " + mm.pane_home_selectedTable + ";"
-                                //,
-                                //"DROP TABLE " + mm.pane_home_selectedTable + ";"
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Part 2: Create copy of table and copy data from " + mm.pane_home_selectedTable + " to " + mm.pane_home_selectedTable + "_copy"
+                        ,
+                        up:
+                            [
+                                "alter table " + mm.pane_home_selectedTable + "_copy RENAME to " + mm.pane_home_selectedTable
                             ]
                     })
 
