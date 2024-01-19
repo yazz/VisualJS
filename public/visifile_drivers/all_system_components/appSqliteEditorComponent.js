@@ -1303,6 +1303,16 @@ use_db("todo")
                             ]
                     })
 
+
+                for (let colIndex = 0; colIndex < containingTable.cols.length ; colIndex++) {
+                    let col = containingTable.cols[ colIndex ]
+                    if (col.id == mm.pane_home_col_id) {
+                        containingTable.cols.splice(colIndex,1)
+                        break
+                    }
+                }
+
+
                 mm.pane_home_col_id             = null
                 await mm.schemaChanged()
                 await mm.switchTab({tabName: "home"})
