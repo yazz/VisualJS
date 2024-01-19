@@ -1233,17 +1233,9 @@ use_db("todo")
             pane_home_col_deleteColumn:         async function  (  ) {
                 let mm              = this
                 let containingTable = null
+                let createNewTableSql = ""
+                debugger
 
-                mm.oldDatabaseDefn.push(
-                    {
-                        name: "Delete column " + mm.pane_home_col_id + " from table "
-                        ,
-                        up:
-                            [
-                                "ALTER TABLE " + mm.pane_home_selectedTable + " RENAME COLUMN " +
-                                mm.pane_home_col_id + " TO " + mm.pane_home_col_newColName
-                            ]
-                    })
 
                 for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
                     if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
@@ -1251,14 +1243,35 @@ use_db("todo")
                     }
                 }
 
+                //
+                // copy data to a new table
+                //
+                createNewTableSql += "CREATE TABLE " + mm.pane_home_selectedTable + "_copy ( id INTEGER PRIMARY KEY AUTOINCREMENT "
                 for (let col of containingTable.cols) {
-                    if (col.id == mm.pane_home_col_id) {
-                        col.id = mm.pane_home_col_newColName
+                    if ( col.id == "id" ) {
+                    } else if ( col.id == mm.pane_home_col_id ) {
+                    } else {
+                        createNewTableSql += ", " +  col.id + " " + col.type
                     }
                 }
+                createNewTableSql += " );"
+
+
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Create copy of table and copy data from " + mm.pane_home_selectedTable + " to " + mm.pane_home_selectedTable + "_copy"
+                        ,
+                        up:
+                            [
+                                createNewTableSql
+                                //,
+                                //"INSERT INTO " + mm.pane_home_newTableName + " SELECT * FROM " + mm.pane_home_selectedTable + ";"
+                                //,
+                                //"DROP TABLE " + mm.pane_home_selectedTable + ";"
+                            ]
+                    })
 
                 mm.pane_home_col_id             = null
-                mm.pane_home_col_editColName    = false
                 await mm.schemaChanged()
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
