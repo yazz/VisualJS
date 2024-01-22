@@ -363,6 +363,51 @@ use_db("todo")
 
 
 
+                        <!--  SQL PANE -----------------------------------------------
+                        |    -----------
+                        |
+                        |  
+                        |
+                        -------------------------------------------------------------------------- -->
+                        <div  v-if='selectedTab=="sql"'  style="padding:15px;margin: 20px">
+
+                          <div style="font-size: 20px; padding bottom:10px;"><b>Quick SQL Query</b></div>
+
+                          <div style="margin-top: 5px;margin-bottom: 50px;">
+                            <button  type=button class='btn btn-sm btn-primary'
+                                     style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
+                                     v-on:click="pane_sql_executeQuery()" >Run</button>
+                          </div>
+
+
+
+                          <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
+ -------------------------------------------------------------------- 
+|                                                                    |
+|                               DEBUG INFO                           |
+|                                                                    |
+ -------------------------------------------------------------------- 
+</pre>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                         <!--  TEXT PANE ---------------------------------------------------------
@@ -1320,6 +1365,10 @@ use_db("todo")
                 await mm.switchTab({tabName: "home"})
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
+            },
+            pane_sql_executeQuery:              async function  (  ) {
+                let mm = this
+                alert(1)
             },
             pane_home_col_renameCol:            async function  (  ) {
                 let mm              = this
