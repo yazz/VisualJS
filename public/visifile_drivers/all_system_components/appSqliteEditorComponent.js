@@ -68,7 +68,7 @@ use_db("todo")
                 pane_home_col_newColType:   null,
 
                 // SQL Query pane
-                pane_sql_queryResults:      "",
+                pane_sql_queryResults:      [],
                 pane_sql_query:             "select * from items",
                 pane_sql_tabulator:         null,
             }
@@ -386,7 +386,7 @@ use_db("todo")
                             ></textarea>
                           </div>
 
-                          <pre style="border: solid lightgray 1px; margin-top: 30px;padding: 10px;">{{pane_sql_queryResults}}</pre>
+                          <pre style="border: solid lightgray 1px; margin-top: 30px;padding: 10px;">{{JSON.stringify(pane_sql_queryResults, null,2)}}</pre>
 
                           <div style="margin-top: 5px;margin-bottom: 50px;">
                             <button  type=button class='btn btn-sm btn-primary'
@@ -1392,7 +1392,7 @@ use_db("todo")
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
-                mm.pane_sql_queryResults = JSON.stringify(results, null,2)
+                mm.pane_sql_queryResults = results
                 if (mm.pane_sql_queryResults.length > 0) {
                     await mm.pane_sql_drawTabulatorGrid()
                 }
@@ -1525,8 +1525,10 @@ debugger
                     setTimeout(async function ( ) {
                         debugger
 
+                        let fields = Object.keys(mm.pane_sql_queryResults[0])
+
                         mm.pane_sql_tabulator.setColumns( [ ] )
-                        for (let field of Object.keys(mm.pane_sql_queryResults[0])) {
+                        for (let field of fields) {
                             await mm.pane_sql_tabulator.addColumn({
                                 title:          field,
                                 field:          field,
