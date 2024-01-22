@@ -68,7 +68,7 @@ use_db("todo")
                 pane_home_col_newColType:   null,
 
                 // SQL Query pane
-                pane_sql_queryResults:      "jkjk",
+                pane_sql_queryResults:      "",
                 pane_sql_query:             "select * from items"
             }
         },
@@ -385,7 +385,7 @@ use_db("todo")
                             ></textarea>
                           </div>
 
-                          <pre>{{pane_sql_queryResults}}</pre>
+                          <pre style="border: solid lightgray 1px; margin-top: 30px;padding: 10px;">{{pane_sql_queryResults}}</pre>
 
                           <div style="margin-top: 5px;margin-bottom: 50px;">
                             <button  type=button class='btn btn-sm btn-primary'
@@ -1382,7 +1382,10 @@ use_db("todo")
             },
             pane_sql_executeQuery:              async function  (  ) {
                 let mm = this
-                alert(1)
+                let codeId = await mm.getCurrentCommitId()
+                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
+                mm.pane_sql_queryResults = JSON.stringify(results, null,2)
             },
             pane_home_col_renameCol:            async function  (  ) {
                 let mm              = this
