@@ -1524,13 +1524,12 @@ debugger
                     await promise
                     setTimeout(async function ( ) {
                         debugger
-                        let table                   = await mm.getTable( { tableName: mm.pane_home_selectedTable } )
 
                         mm.pane_sql_tabulator.setColumns( [ ] )
-                        for (let field of table.cols) {
+                        for (let field of Object.keys(mm.pane_sql_queryResults[0])) {
                             await mm.pane_sql_tabulator.addColumn({
-                                title:          field.id,
-                                field:          field.id,
+                                title:          field,
+                                field:          field,
                                 width:          150,
                                 headerFilter:   "input",
                                 editor:         "input"
@@ -1538,13 +1537,8 @@ debugger
                         }
                         let codeId          = await mm.getCurrentCommitId()
                         let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
-                        mm.pane_home_data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
-                        //mm.pane_home_data_rows      = sql("select id,name from items")
 
-                        mm.pane_sql_tabulator.setData(mm.pane_home_data_rows)
-                        if (mm.pane_home_selectedColumn) {
-                            mm.pane_sql_tabulator.scrollToColumn(mm.pane_home_selectedColumn)
-                        }
+                        mm.pane_sql_tabulator.setData(mm.pane_sql_queryResults)
                     },200)
 
                 }
