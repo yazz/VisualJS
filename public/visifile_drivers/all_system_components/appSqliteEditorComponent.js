@@ -66,6 +66,10 @@ use_db("todo")
                 pane_home_col_type:         null,
                 pane_home_col_editColType:  false,
                 pane_home_col_newColType:   null,
+
+                // SQL Query pane
+                pane_sql_queryResults:      "jkjk",
+                pane_sql_query:             "select * from items"
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -371,7 +375,17 @@ use_db("todo")
                         -------------------------------------------------------------------------- -->
                         <div  v-if='selectedTab=="sql"'  style="padding:15px;margin: 20px">
 
+
                           <div style="font-size: 20px; padding bottom:10px;"><b>Quick SQL Query</b></div>
+
+                          <div>
+                            <textarea
+                                style="width:80%"
+                                v-model="pane_sql_query"
+                            ></textarea>
+                          </div>
+
+                          <pre>{{pane_sql_queryResults}}</pre>
 
                           <div style="margin-top: 5px;margin-bottom: 50px;">
                             <button  type=button class='btn btn-sm btn-primary'
