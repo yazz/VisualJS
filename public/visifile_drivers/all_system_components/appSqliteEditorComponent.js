@@ -458,7 +458,6 @@ use_db("todo")
                  </div>`,
         mounted:    async function() {
             let mm = this
-            await useTabulatorJs()
             yz.mainVars.disableAutoSave     = false
             mm.pane_home_selectedTable      = null
         },
