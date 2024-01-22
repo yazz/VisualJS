@@ -386,9 +386,7 @@ use_db("todo")
                             ></textarea>
                           </div>
 
-                          <pre style="border: solid lightgray 1px; margin-top: 30px;padding: 10px;">{{JSON.stringify(pane_sql_queryResults, null,2)}}</pre>
-
-                          <div style="margin-top: 5px;margin-bottom: 50px;">
+                          <div style="margin-top: 5px;margin-bottom: 5px;">
                             <button  type=button class='btn btn-sm btn-primary'
                                      style="box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 20px;margin-top: 5px;margin-right: 0px;margin-left: 5px;width:70px;"
                                      v-on:click="pane_sql_executeQuery()" >Run</button>
@@ -1481,7 +1479,6 @@ debugger
             pane_sql_drawTabulatorGrid:        async function  (  ) {
                 let mm = this
 
-                if (mm.pane_sql_tabulator == null ) {
                     let promise = new Promise(async function(returnfn) {
                         Vue.nextTick(function () {
 
@@ -1543,7 +1540,6 @@ debugger
                         mm.pane_sql_tabulator.setData(mm.pane_sql_queryResults)
                     },200)
 
-                }
             }
         }
     })
