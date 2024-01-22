@@ -394,7 +394,8 @@ use_db("todo")
                                      v-on:click="pane_sql_executeQuery()" >Run</button>
                           </div>
 
-                          <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
+                          <div  style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;" 
+                                v-if="pane_sql_queryResults && (pane_sql_queryResults.length > 0)">
                             <div    id="pane_sql_db_editor_grid_view_parent" style="height: 500px;display: inline-block; width:85%;">
                             </div>
                           </div>
@@ -1392,7 +1393,9 @@ use_db("todo")
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
                 mm.pane_sql_queryResults = JSON.stringify(results, null,2)
-                await mm.pane_sql_drawTabulatorGrid()
+                if (mm.pane_sql_queryResults.length > 0) {
+                    await mm.pane_sql_drawTabulatorGrid()
+                }
             },
             pane_home_col_renameCol:            async function  (  ) {
                 let mm              = this
