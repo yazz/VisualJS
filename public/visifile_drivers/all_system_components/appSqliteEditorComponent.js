@@ -69,7 +69,8 @@ use_db("todo")
 
                 // SQL Query pane
                 pane_sql_queryResults:      "",
-                pane_sql_query:             "select * from items"
+                pane_sql_query:             "select * from items",
+                pane_sql_tabulator:         null,
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -190,7 +191,7 @@ use_db("todo")
                                 </div>
                               
                                 <div style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;">
-                                  <div    id="db_editor_grid_view_parent" style="height: 500px;display: inline-block; width:85%;">
+                                  <div    id="pane_home_db_editor_grid_view_parent" style="height: 500px;display: inline-block; width:85%;">
                                   </div>
                                   <div    id="" style="height: 500px;display: inline-block;vertical-align:top">
                                       <div style='margin-top:30px;'>
@@ -376,7 +377,7 @@ use_db("todo")
                         <div  v-if='selectedTab=="sql"'  style="padding:15px;margin: 20px">
 
 
-                          <div style="font-size: 20px; padding bottom:10px;"><b>Quick SQL Query</b></div>
+                          <div style="font-size: 20px; padding bottom:10px;"><b>Execute SQL</b></div>
 
                           <div>
                             <textarea
@@ -1186,7 +1187,7 @@ use_db("todo")
                             let elTab = document.createElement("div");
                             elTab.setAttribute("id", "db_editor_grid_view")
                             elTab.setAttribute("style", "height:100%;")
-                            let parentEl = document.getElementById("db_editor_grid_view_parent")
+                            let parentEl = document.getElementById("pane_home_db_editor_grid_view_parent")
                             parentEl.appendChild(elTab);
 
                             mm.pane_home_tabulator = new Tabulator("#db_editor_grid_view",
