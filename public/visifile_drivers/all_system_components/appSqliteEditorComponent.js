@@ -901,7 +901,7 @@ use_db("todo")
             pane_home_deleteRow:                async function  (  ) {
                 let mm = this
 
-                var selectedData = mm.pane_home_tabulator.getSelectedData();
+                let selectedData = mm.pane_home_tabulator.getSelectedData();
                 if (selectedData && (selectedData.length > 0)) {
                     let rowId = selectedData[0].id
                     let codeId = await mm.getCurrentCommitId()
@@ -1089,7 +1089,7 @@ use_db("todo")
             pane_home_drawTabulatorGrid:        async function  (  ) {
                 let mm = this
                 let headerMenu = function () {
-                    var menu = [];
+                    let menu = [];
 
                     menu.push({
                         label: "Edit column",
@@ -1125,7 +1125,7 @@ use_db("todo")
                     let promise = new Promise(async function(returnfn) {
                         Vue.nextTick(function () {
 
-                            var elTab = document.createElement("div");
+                            let elTab = document.createElement("div");
                             elTab.setAttribute("id", "db_editor_grid_view")
                             elTab.setAttribute("style", "height:100%;")
                             let parentEl = document.getElementById("db_editor_grid_view_parent")
@@ -1161,9 +1161,9 @@ use_db("todo")
                             mm.pane_home_tabulator.on("cellClick", function(e, cell){
                                 //e - the click event object
                                 //cell - cell component
-                                var data = cell.getData(); // get data for the row of the clicked cell
-                                var field = cell.getField(); // get field name of the clicked cell
-                                var value = cell.getValue(); // get value of the clicked cell
+                                let data = cell.getData(); // get data for the row of the clicked cell
+                                let field = cell.getField(); // get field name of the clicked cell
+                                let value = cell.getValue(); // get value of the clicked cell
 
                                 //debugger
                                 //cell.edit()
@@ -1171,7 +1171,7 @@ use_db("todo")
                             mm.pane_home_tabulator.on("rowClick", function(e, row) {
                                 // 'e' is the event object, and 'row' is the clicked row
                                 //debugger
-                                //var rowData = row.getData();
+                                //let rowData = row.getData();
                                 //row.getElement().classList.add("highlighted-row");
 
                                 // You now have access to the data of the clicked row
@@ -1179,10 +1179,10 @@ use_db("todo")
                             });
                             mm.pane_home_tabulator.on("cellEdited", async function(cell){
                                 // cell - cell component for the edited cell
-                                var oldValue = cell.getOldValue();
-                                var newValue = cell.getValue();
-                                var rowData = cell.getRow().getData();
-                                var fieldName = cell.getField();
+                                let oldValue = cell.getOldValue();
+                                let newValue = cell.getValue();
+                                let rowData = cell.getRow().getData();
+                                let fieldName = cell.getField();
 
                                 // You can now use the old and new values
                                 console.log('Cell edited. Old value:', oldValue, 'New value:', newValue);
