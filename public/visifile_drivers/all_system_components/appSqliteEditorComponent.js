@@ -361,12 +361,18 @@ use_db("todo")
                                      v-on:click="pane_sql_executeQuery()" >Run</button>
                           </div>
 
-                          <div  style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;" 
+                          <div  style="width: 78% ;border: 1px solid blue;display: inline-block;height:300px;vertical-align: top;" 
                                 v-if='pane_sql_queryResults && (pane_sql_queryResults.length > 0) && (selectedTab=="sql")'>
-                            <div    id="pane_sql_db_editor_grid_view_parent" style="height: 500px;display: inline-block; width:85%;">
+                            <div    id="pane_sql_db_editor_grid_view_parent" style="height: 300px;display: inline-block; width:100%;">
                             </div>
                           </div>
 
+                          <div  style="width: 78% ;border: 1px solid blue;display: inline-block;height:300px;vertical-align: top;padding: 10px;"
+                                v-if='pane_sql_queryResults && (pane_sql_queryResults.length == 0) && (selectedTab=="sql")'>
+                            <div    style="height: 300px;display: inline-block; width:100%;color: red">
+                              0 Records returned
+                            </div>
+                          </div>
 
 
                             <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
@@ -1388,6 +1394,14 @@ use_db("todo")
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
                 mm.pane_sql_queryResults = results
+                if (mm.pane_sql_tabulator != null) {
+                    mm.pane_sql_tabulator = null
+                    let parentEl = document.getElementById("pane_sql_db_editor_grid_view_parent")
+                    if (parentEl) {
+                        parentEl.innerHTML = '';
+                    }
+                }
+
                 if (mm.pane_sql_queryResults.length > 0) {
                     await mm.pane_sql_drawTabulatorGrid()
                 }
@@ -1395,66 +1409,70 @@ use_db("todo")
             pane_sql_drawTabulatorGrid:        async function  (  ) {
                 let mm = this
 
-                let promise = new Promise(async function(returnfn) {
-                    Vue.nextTick(function () {
 
-                        let elTab = document.createElement("div");
-                        elTab.setAttribute("id", "pane_sql_db_editor_grid_view")
-                        elTab.setAttribute("style", "height:100%;")
-                        let parentEl = document.getElementById("pane_sql_db_editor_grid_view_parent")
-                        parentEl.appendChild(elTab);
+                setTimeout(async function() {
 
-                        mm.pane_sql_tabulator = new Tabulator("#pane_sql_db_editor_grid_view",
-                            {
-                                //reactiveData:             true,
-                                width:                      "1700px",
-                                //height:                   "100px",
-                                rowHeight:                  30,
-                                tables:                     [],
-                                data:                       mm.pane_home_data_rows,
-                                layout:                     "fitColumns",
-                                //responsiveLayout:         "hide",
-                                responsiveLayout:           false,
-                                tooltips:                   true,
-                                addRowPos:                  "top",
-                                history:                    false,
-                                pagination:                 "local",
-                                paginationSize:             7,
-                                movableColumns:             true,
-                                resizableColumns:           true,
-                                resizableRows:              true,
-                                tableNames:                 [],
-                                initialSort:                [],
-                                columns:                    [],
-                                autoResize:                 true,
-                                selectable:                 1,
-                                selectableRollingSelection: true,
-                            });
-                        returnfn()
-                    })
+                    let promise = new Promise(async function(returnfn) {
+                        Vue.nextTick(function () {
 
-                })
-                await promise
-                setTimeout(async function ( ) {
-                    let fields = Object.keys(mm.pane_sql_queryResults[0])
+                            let elTab = document.createElement("div");
+                            elTab.setAttribute("id", "pane_sql_db_editor_grid_view")
+                            elTab.setAttribute("style", "height:100%;")
+                            let parentEl = document.getElementById("pane_sql_db_editor_grid_view_parent")
+                            parentEl.appendChild(elTab);
 
-                    mm.pane_sql_tabulator.setColumns( [ ] )
-                    for (let field of fields) {
-                        await mm.pane_sql_tabulator.addColumn({
-                            title:          field,
-                            field:          field,
-                            width:          150,
-                            headerFilter:   "input",
-                            editor:         "input"
+                            mm.pane_sql_tabulator = new Tabulator("#pane_sql_db_editor_grid_view",
+                                {
+                                    //reactiveData:             true,
+                                    width:                      "1700px",
+                                    //height:                   "100px",
+                                    rowHeight:                  30,
+                                    tables:                     [],
+                                    data:                       mm.pane_home_data_rows,
+                                    layout:                     "fitColumns",
+                                    //responsiveLayout:         "hide",
+                                    responsiveLayout:           false,
+                                    tooltips:                   true,
+                                    addRowPos:                  "top",
+                                    history:                    false,
+                                    pagination:                 "local",
+                                    paginationSize:             7,
+                                    movableColumns:             true,
+                                    resizableColumns:           true,
+                                    resizableRows:              true,
+                                    tableNames:                 [],
+                                    initialSort:                [],
+                                    columns:                    [],
+                                    autoResize:                 true,
+                                    selectable:                 1,
+                                    selectableRollingSelection: true,
+                                });
+                            returnfn()
                         })
-                    }
-                    let codeId          = await mm.getCurrentCommitId()
-                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
 
-                    mm.pane_sql_tabulator.setData(mm.pane_sql_queryResults)
-                },200)
+                    })
+                    await promise
+                    setTimeout(async function ( ) {
+                        let fields = Object.keys(mm.pane_sql_queryResults[0])
 
-            },
+                        mm.pane_sql_tabulator.setColumns( [ ] )
+                        for (let field of fields) {
+                            await mm.pane_sql_tabulator.addColumn({
+                                title:          field,
+                                field:          field,
+                                width:          150,
+                                headerFilter:   "input",
+                                editor:         "input"
+                            })
+                        }
+                        let codeId          = await mm.getCurrentCommitId()
+                        let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+
+                        mm.pane_sql_tabulator.setData(mm.pane_sql_queryResults)
+                    },200)
+                },100)
+
+            }
         }
     })
 }
