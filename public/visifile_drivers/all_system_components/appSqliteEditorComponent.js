@@ -40,6 +40,7 @@ use_db("todo")
                 pane_sql_queryResults:      [],
                 pane_sql_query:             "",
                 pane_sql_tabulator:         null,
+                pane_sql_message:           null
             }
         },
         template:   `<div style='background-color:white; ' >
@@ -361,6 +362,14 @@ use_db("todo")
                                      v-on:click="pane_sql_executeQuery()" >Run</button>
                           </div>
 
+                          <div  style="width: 78% ;border: 1px solid blue;display: inline-block;height:300px;vertical-align: top;padding: 10px;"
+                                v-if='pane_sql_message && (selectedTab=="sql")'>
+                            <div    style="height: 300px;display: inline-block; width:100%;color: red">
+                              {{ pane_sql_message }}
+                            </div>
+                          </div>
+
+
                           <div  style="width: 78% ;border: 1px solid blue;display: inline-block;height:300px;vertical-align: top;" 
                                 v-if='pane_sql_queryResults && (pane_sql_queryResults.length > 0) && (selectedTab=="sql")'>
                             <div    id="pane_sql_db_editor_grid_view_parent" style="height: 300px;display: inline-block; width:100%;">
@@ -373,6 +382,8 @@ use_db("todo")
                               0 Records returned
                             </div>
                           </div>
+
+                          
 
 
                             <pre v-if='$DEBUGUI == "true"'  style="margin-top: 500px;border: solid 1px blue;padding: 5px;">
@@ -1390,10 +1401,10 @@ use_db("todo")
             // SQL Pane
             pane_sql_executeQuery:              async function  (  ) {
                 let mm = this
+                mm.pane_sql_message = null
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
-                mm.pane_sql_queryResults = results
                 if (mm.pane_sql_tabulator != null) {
                     mm.pane_sql_tabulator = null
                     let parentEl = document.getElementById("pane_sql_db_editor_grid_view_parent")
@@ -1401,9 +1412,14 @@ use_db("todo")
                         parentEl.innerHTML = '';
                     }
                 }
+                if (typeof(results) == "undefined") {
+                    mm.pane_sql_message = "An error occurred"
+                } else {
+                    mm.pane_sql_queryResults = results
 
-                if (mm.pane_sql_queryResults.length > 0) {
-                    await mm.pane_sql_drawTabulatorGrid()
+                    if (mm.pane_sql_queryResults.length > 0) {
+                        await mm.pane_sql_drawTabulatorGrid()
+                    }
                 }
             },
             pane_sql_drawTabulatorGrid:        async function  (  ) {
