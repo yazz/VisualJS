@@ -508,6 +508,8 @@ use_db("todo")
                 //------------------------------------------------------------------------/
                 let mm = this
                 mm.selectedTab = tabName
+                mm.pane_home_tabulator = null
+                mm.pane_sql_tabulator = null
 
                 if (mm.selectedTab == "home_col") {
                     //mm.pane_home_col_type
@@ -563,7 +565,6 @@ use_db("todo")
 
                 } else {
                     //document.getElementById("db_editor_grid_view").remove()
-                    mm.pane_home_tabulator = null
                 }
 
 
