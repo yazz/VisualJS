@@ -5,37 +5,6 @@ component_type("SYSTEM")
 load_once_from_file(true)
 use_db("todo")
 */
-    let rowMenu = [
-        {
-            label: "<i class='fas fa-user'></i> Change Name",
-            action: function (e, row) {
-                row.update({name: "Steve Bobberson"});
-            }
-        },
-        {
-            label: "<i class='fas fa-check-square'></i> Select Row",
-            action: function (e, row) {
-                row.select();
-            }
-        },
-        {
-            separator: true
-        },
-        {
-            label: "Admin Functions",
-            menu: [
-                {
-                    label: "<i class='fas fa-trash'></i> Delete Row",
-                    action: function (e, row) {
-                        row.delete();
-                    }
-                },
-                {
-                    label: "<i class='fas fa-ban'></i> Disabled Option",
-                    disabled: true,
-                },
-            ]
-        }]
     Yazz.component( {
         data:       function () {
             return {
@@ -1215,7 +1184,6 @@ use_db("todo")
                                     resizableRows:              true,
                                     tableNames:                 [],
                                     initialSort:                [],
-                                    rowContextMenu:             rowMenu,
                                     columns:                    [],
                                     autoResize:                 true,
                                     selectable:                 1,
