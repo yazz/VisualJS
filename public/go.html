@@ -2078,17 +2078,37 @@
                 return ret
             }
             async function  getIpfsHash                         (   sometext   ) {
-                if (yz.mainVars.ipfs) {
-                    let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
-
-                    return ret.path
-                } else {
-                    let resulthash = await postToYazzReturnJson(
-                        "/http_post_extract_commit_hash_id_from_code",
-                        {text: sometext}
-                    )
-
-                    return resulthash.ipfsHash
+                let hashingAlgorithm = "IPFS"
+                let overrideHashingAlgorithm = yz.helpers.getValueOfCodeString(sometext, "hash_algorithm")
+                if (overrideHashingAlgorithm) {
+                    hashingAlgorithm = overrideHashingAlgorithm
+                }
+                if (overrideHashingAlgorithm) {
+                    hashingAlgorithm = overrideHashingAlgorithm
+                }
+                if (hashingAlgorithm == "IPFS") {
+                    if (yz.mainVars.ipfs) {
+                        let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
+                        return "IPFS_" + ret.path
+                    } else {
+                        let resulthash = await postToYazzReturnJson(
+                            "/http_post_extract_commit_hash_id_from_code",
+                            {text: sometext}
+                        )
+                        return resulthash.ipfsHash
+                    }
+                } else if (hashingAlgorithm == "SHA256") {
+                    debugger
+                    if (yz.mainVars.ipfs) {
+                        let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
+                        return "SHA256_" + ret.path
+                    } else {
+                        let resulthash = await postToYazzReturnJson(
+                            "/http_post_extract_commit_hash_id_from_code",
+                            {text: sometext}
+                        )
+                        return resulthash.ipfsHash
+                    }
                 }
             }
             async function  registerComponent                   (   vueComponentObject   ) {

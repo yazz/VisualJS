@@ -720,17 +720,17 @@ module.exports = {
                     //   LEVEL 0
                     //  This content may be moved into another Sqlite database eventually
                     //
-                    "CREATE TABLE IF NOT EXISTS level_0_ipfs_content                (ipfs_hash TEXT, ipfs_content TEXT,  UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_0_ipfs_content',1);",
-                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_0_ipfs_content (ipfs_hash);",
+                    "CREATE TABLE IF NOT EXISTS level_0_cached_content              (ipfs_hash TEXT, ipfs_content TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_0_cached_content',1);",
+                    "CREATE INDEX IF NOT EXISTS level_0_cached_content_idx          ON level_0_cached_content (ipfs_hash);",
 
 
                     //   LEVEL 1
                     //  This could be store in another Sqlite database, but it could also be derived from that data
                     //
-                    "CREATE TABLE IF NOT EXISTS level_1_ipfs_hash_metadata          (ipfs_hash TEXT  ,  status TEXT  ,  process_attempts INTEGER, content_type TEXT  ,  scope TEXT  ,  stored_in_ipfs INTEGER  ,  sent_to_master TEXT  ,  read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
-                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_ipfs_hash_metadata',1);",
-                    "CREATE INDEX IF NOT EXISTS ipfs_hashes_idx                     ON level_1_ipfs_hash_metadata (ipfs_hash);",
+                    "CREATE TABLE IF NOT EXISTS level_1_content_metadata            (ipfs_hash TEXT  ,  status TEXT  ,  process_attempts INTEGER, content_type TEXT  ,  scope TEXT  ,  stored_in_ipfs INTEGER  ,  sent_to_master TEXT  ,  read_from_local_ipfs INTEGER,  error TEXT , last_ipfs_ping_millis INTEGER,  temp_debug_content TEXT,  UNIQUE(ipfs_hash));",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_1_content_metadata',1);",
+                    "CREATE INDEX IF NOT EXISTS level_1_content_metadata_idx        ON level_1_content_metadata (ipfs_hash);",
 
 
                     //   LEVEL 2
@@ -864,7 +864,7 @@ module.exports = {
         let baseComponentIdOfItem   = yz.helpers.getValueOfCodeString(code,"base_component_id")
         let itemName                = yz.helpers.getValueOfCodeString(code,"display_name")
         let iconUrl                 = yz.helpers.getValueOfCodeString(code,"logo_url")
-        let ipfsHashId              = await OnlyIpfsHash.of(code)
+        let ipfsHashId              = await yz.getDistributedKey(code)
         let readWriteStatus         = ""
         let readOnly                = yz.helpers.getValueOfCodeString(code,"read_only")
 
@@ -924,7 +924,8 @@ module.exports = {
         }
     },
     getIpfsHash:                    async function  (  sometext  ) {
-        let ipfsHash = await OnlyIpfsHash.of(sometext)
+        let yz = this
+        let ipfsHash = await yz.getDistributedKey(sometext)
         return ipfsHash
     },
     saveCodeV3:                     async function  (  thisDb  ,  code  ,  options  ) {
@@ -982,7 +983,7 @@ module.exports = {
         let readWriteStatus                         = null
         let codeChangesStr                          = null
         let numCodeChanges                          = null
-        let sha1sum                                 = await OnlyIpfsHash.of(code)
+        let sha1sum                                 = await yz.getDistributedKey(code)
         let userId                                  = null
         let propertiesAsJsonString                  = null
         let existingCodeAlreadyInSystemCodeTable
@@ -1059,7 +1060,7 @@ module.exports = {
 
 
                     // ********** if the code has been changed then DO NOT SAVE IT! This is a basic tamper proof mechanism  **********
-                    let sha1sum2  = await OnlyIpfsHash.of(code)
+                    let sha1sum2  = await yz.getDistributedKey(code)
                     if (sha1sum2 != sha1sum) {
                         console.log("Code SHA do not match - code has been changed while saving")
                         throw "Code SHA do not match - code has been changed while saving"
@@ -1807,7 +1808,7 @@ module.exports = {
         //
         //
         try {
-            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_ipfs_content  where  ipfs_hash = ?",[ipfsHash])
+            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_cached_content  where  ipfs_hash = ?",[ipfsHash])
             if (contentRecord) {
                 let returnValue = contentRecord.ipfs_content
                 if (returnValue) {
@@ -1844,7 +1845,7 @@ module.exports = {
 
                             await mm.executeQuickSql(thisDb,
                                 `update 
-                                    level_1_ipfs_hash_metadata
+                                    level_1_content_metadata
                                 set 
                                     status = ?,
                                     process_attempts = process_attempts + 1 
@@ -1895,7 +1896,7 @@ module.exports = {
 
                                     await mm.executeQuickSql(thisDb,
                                         `update 
-                                            level_1_ipfs_hash_metadata
+                                            level_1_content_metadata
                                         set 
                                             status = ?,
                                             process_attempts = process_attempts + 1 
@@ -1909,7 +1910,7 @@ module.exports = {
                                     console.log("No corresponding code record available yet")
                                     await mm.executeQuickSql(thisDb,
                                         `update 
-                                            level_1_ipfs_hash_metadata
+                                            level_1_content_metadata
                                         set 
                                             process_attempts = process_attempts + 1 
                                         where
@@ -1948,7 +1949,7 @@ module.exports = {
 
                         await mm.executeQuickSql(thisDb,
                             `update 
-                                level_1_ipfs_hash_metadata
+                                level_1_content_metadata
                             set 
                                 status = ?,
                                 process_attempts = process_attempts + 1 
@@ -2090,8 +2091,20 @@ module.exports = {
         // Yazz we often need the IPFS hash of some content (via the getIpfsHash( ) fn)
         // just in case the front end IPFS server is not available
         //---------------------------------------------------------------------------
-        let ipfsHash = await OnlyIpfsHash.of(  content  )
-        return ipfsHash
+        let yz                          = this
+        let hashingAlgorithm            = "IPFS"
+        let overrideHashingAlgorithm = yz.helpers.getValueOfCodeString(content, "hash_algorithm")
+        if (overrideHashingAlgorithm) {
+            hashingAlgorithm = overrideHashingAlgorithm
+        }
+
+        if (hashingAlgorithm == "IPFS") {
+            let ipfsHash = await OnlyIpfsHash.of(content)
+            return "IPFS_" + ipfsHash
+        } else if (hashingAlgorithm == "SHA256") {
+            let ipfsHash = await OnlyIpfsHash.of(content)
+            return "SHA256_" + ipfsHash
+        }
     },
     getDistributedContent:          async function  (  {  thisDb  ,  ipfsHash  }  ) {
         //---------------------------------------------------------------------------
@@ -2122,8 +2135,8 @@ module.exports = {
 
 
         try {
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_content  where  ipfs_hash = ?", [  ipfsHash  ])
-            metadataStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_cached_content  where  ipfs_hash = ?", [  ipfsHash  ])
+            metadataStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_content_metadata  where  ipfs_hash = ?", [  ipfsHash  ])
 
             // if the content is stored in Sqlite then get the content from sqlite
             if (metadataStoredInSqlite && contentStoredInSqlite) {
@@ -2166,6 +2179,7 @@ module.exports = {
 
         // figure out the content options and scope
         let mm                          = this
+        let yz                          = this
         let contentValueToStore         = content
         let contentType                 = "STRING"
         let scope                       = "GLOBAL";
@@ -2193,12 +2207,12 @@ module.exports = {
             }
         }
 
-        justHash = await OnlyIpfsHash.of(contentValueToStore)
+        justHash = await yz.getDistributedKey(contentValueToStore)
 
         //
         try {
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_ipfs_content  where  ipfs_hash = ?", [  justHash  ])
-            metadataStoredInSqlite      = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_ipfs_hash_metadata  where  ipfs_hash = ?", [  justHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_cached_content  where  ipfs_hash = ?", [  justHash  ])
+            metadataStoredInSqlite      = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_content_metadata  where  ipfs_hash = ?", [  justHash  ])
 
             // if the content is stored in Sqlite then do nothing
             if (metadataStoredInSqlite && contentStoredInSqlite) {
@@ -2209,13 +2223,13 @@ module.exports = {
             } else {
                 await mm.executeQuickSql(
                     thisDb,
-                    "insert  into  level_0_ipfs_content  (ipfs_hash,ipfs_content) values (?,?)",
+                    "insert  into  level_0_cached_content  (ipfs_hash,ipfs_content) values (?,?)",
                     [justHash,contentValueToStore])
 
                 await mm.executeQuickSql(
                     thisDb,
                     `insert or replace into 
-                        level_1_ipfs_hash_metadata 
+                        level_1_content_metadata 
                         (
                             ipfs_hash, 
                             content_type, 
@@ -2321,7 +2335,7 @@ module.exports = {
                     res.on('end', async function () {
                         //console.log('end: ' );
                         await mm.executeQuickSql(thisDb,
-                            "update  level_1_ipfs_hash_metadata  set sent_to_master = 'TRUE'  where ipfs_hash = ?",
+                            "update  level_1_content_metadata  set sent_to_master = 'TRUE'  where ipfs_hash = ?",
                             [ipfs_hash] )
                         await mm.executeQuickSql(thisDb,
                             `update  
@@ -2347,6 +2361,7 @@ module.exports = {
         mm.inDistributeContentToPeer = false
     },
     saveItemToIpfs:                 async function  (  srcCode  ) {
+        let yz = this
         //---------------------------------------------------------------------------
         //
         //                           saveItemToIpfs( .. )
@@ -2359,7 +2374,7 @@ module.exports = {
         let promise = new Promise(async function(returnfn) {
             let justHash = null
             try {
-                justHash                = await OnlyIpfsHash.of(  srcCode  )
+                justHash                = await yz.getDistributedKey(  srcCode  )
                 let fullIpfsFilePath    = path.join(  fullIpfsFolderPath  ,  justHash  )
 
                 fs.writeFileSync(  fullIpfsFilePath  ,  srcCode  );
@@ -2464,7 +2479,7 @@ module.exports = {
                 `select  
                         ipfs_hash  
                     from  
-                        level_1_ipfs_hash_metadata  
+                        level_1_content_metadata  
                     where  
                         scope='GLOBAL' 
                             and 
@@ -2478,7 +2493,7 @@ module.exports = {
                 mm.createLevel2RecordFromContent({thisDb:thisDb,ipfsHash: nextUnprocessedCodeItem.ipfs_hash})
             }
         } catch (snedE) {
-            console.log("Err0r: " + snedE)
+            console.log("Error in processContentItems: " + snedE)
         }
 
         mm.processContentItemsLock = false
@@ -2500,6 +2515,7 @@ module.exports = {
         //
         //---------------------------------------------------------------------------
         let mm = this
+        let yz = this
         if (mm.synchonizeContentAmongPeersLock) {
             return
         }
@@ -2516,7 +2532,7 @@ module.exports = {
                     `select  
                         ipfs_hash  
                     from  
-                        level_1_ipfs_hash_metadata  
+                        level_1_content_metadata  
                     where  
                         scope='GLOBAL' and sent_to_master is null   
                     LIMIT 1`)
@@ -2525,7 +2541,7 @@ module.exports = {
 
                     await mm.executeQuickSql(thisDb,
                         `update  
-                            level_1_ipfs_hash_metadata  
+                            level_1_content_metadata  
                         set 
                             sent_to_master = ? 
                         where
@@ -2574,7 +2590,7 @@ module.exports = {
 
                 }
             } catch (snedE) {
-                console.log("Err0r: " + snedE)
+                console.log("Error in synchonizeContentAmongPeers: " + snedE)
             }
         }
 
@@ -2606,7 +2622,6 @@ module.exports = {
                                 thisDb: thisDb,
                                 ipfsHash: nextItemToSendInQueue.ipfs_hash
                             })
-
                             if (await mm.getIpfsHash(nextContent.value) == nextItemToSendInQueue.ipfs_hash) {
                                 await this.executeQuickSql(thisDb,
                                     `update  
@@ -2633,7 +2648,7 @@ module.exports = {
                     }
                 }
             } catch (snedE) {
-                console.log("Err0r: " + snedE)
+                console.log("Error in synchonizeContentAmongPeers (part 2): " + snedE)
             }
         }
 
@@ -2717,7 +2732,7 @@ module.exports = {
                             `select  
                                 ipfs_content  
                             from  
-                                level_0_ipfs_content  
+                                level_0_cached_content  
                             where  
                                 ipfs_hash = ?`,
                             [nextIpfsQueueRecord.ipfs_hash])
@@ -2779,7 +2794,7 @@ module.exports = {
                 `select 
                     ipfs_hash
                  from 
-                    level_1_ipfs_hash_metadata 
+                    level_1_content_metadata 
                 where 
                     status is null
                 order by
@@ -2860,7 +2875,7 @@ module.exports = {
     },
     oldsynchonizeContentAmongPeers: async function  (  thisDb  ) {
         //console.log("Sync")
-        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  level_1_ipfs_hash_metadata  where  sent_to_master != 'TRUE' limit 1", params)
+        let contentNotSentToPeer = await this.getQuickSql(thisDb, "select  ipfs_hash  from  level_1_content_metadata  where  sent_to_master != 'TRUE' limit 1", params)
         if (rows.length == 0) {
             return null
         }

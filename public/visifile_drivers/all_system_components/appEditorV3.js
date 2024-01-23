@@ -463,7 +463,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                         style='height:35px; margin-right: 0px;'
                         class='img-fluid'>
                     </img>
-                    Deliver
+                    Revisions
 
                   </a>
 
