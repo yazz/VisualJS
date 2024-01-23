@@ -1037,90 +1037,6 @@ use_db("todo")
                 mm.pane_home_col_editColName = false
                 mm.pane_home_col_editColType = false
             },
-            pane_home_col_changeColType:        async function  (  ) {
-                let mm              = this
-                let containingTable = null
-
-                for (let tableIndex = 0 ; tableIndex < mm.listOfTables.length; tableIndex ++ ) {
-                    if (mm.listOfTables[tableIndex].name == mm.pane_home_selectedTable) {
-                        containingTable = mm.listOfTables[  tableIndex  ]
-                    }
-                }
-
-                // create a new temp table
-                let createNewTableSql = ""
-                if (containingTable) {
-                    createNewTableSql += "CREATE TABLE " + mm.pane_home_selectedTable + "_copy" + " ( id INTEGER PRIMARY KEY AUTOINCREMENT "
-                    for (let col of containingTable.cols) {
-                        if ( col.id == "id" ) {
-
-                        } else if (col.id == mm.pane_home_col_id) {
-                            createNewTableSql += ", " +  mm.pane_home_col_newColName + " " + col.type
-                        } else {
-                            createNewTableSql += ", " +  col.id + " " + col.type
-                        }
-                    }
-                    createNewTableSql += " );"
-                }
-
-
-                // copy data SQL
-                let copyDataSql = "insert into " +  mm.pane_home_selectedTable + "_copy ( id"
-                for (let col of containingTable.cols) {
-                    if ( col.id == "id" ) {
-                    } else if (col.id == mm.pane_home_col_id) {
-                        copyDataSql += ", " +  mm.pane_home_col_newColName
-                    } else {
-                        copyDataSql += ", " +  col.id
-                    }
-                }
-                copyDataSql += " )  select id "
-                for (let col of containingTable.cols) {
-                    if ( col.id == "id" ) {
-                    } else {
-                        copyDataSql += ", " +  col.id
-                    }
-                }
-                copyDataSql += "  from " + mm.pane_home_selectedTable;
-                //debugger
-
-                mm.oldDatabaseDefn.push(
-                    {
-                        name: "Part1: Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
-                            + " to " + mm.pane_home_col_newColName
-                        ,
-                        up:
-                            [
-                                createNewTableSql
-                                ,
-                                copyDataSql
-                            ]
-                    })
-                mm.oldDatabaseDefn.push(
-                    {
-                        name: "Part2: Rename column in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_id
-                            + " to " + mm.pane_home_col_newColName
-                        ,
-                        up:
-                            [
-                                "DROP TABLE " + mm.pane_home_selectedTable + ";"
-                                ,
-                                "ALTER TABLE " + mm.pane_home_selectedTable + "_copy" +
-                                "  RENAME TO " + mm.pane_home_selectedTable + ";"
-                            ]
-                    })
-
-                for (let col of containingTable.cols) {
-                    if (col.id == mm.pane_home_col_id) {
-                        col.id = mm.pane_home_col_newColName
-                    }
-                }
-
-                mm.pane_home_editTableName = false
-                await mm.schemaChanged()
-                await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
-                await mm.pane_home_drawTabulatorGrid()
-            },
             pane_home_selectTable:              async function  (  {  tableName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
@@ -1332,7 +1248,7 @@ use_db("todo")
 
                 mm.oldDatabaseDefn.push(
                     {
-                        name: "Part 1: Create copy of table and copy data from " + mm.pane_home_selectedTable + " to " + mm.pane_home_selectedTable + "_copy"
+                        name: "Part 1: Delete col - Create copy of table and copy data from " + mm.pane_home_selectedTable + " to " + mm.pane_home_selectedTable + "_copy"
                         ,
                         up:
                             [
@@ -1346,7 +1262,7 @@ use_db("todo")
 
                 mm.oldDatabaseDefn.push(
                     {
-                        name: "Part 2: Create copy of table and copy data from " + mm.pane_home_selectedTable + " to " + mm.pane_home_selectedTable + "_copy"
+                        name: "Part 2: Delete col - Rename new table from " + mm.pane_home_selectedTable + "_copy" + " to " + mm.pane_home_selectedTable
                         ,
                         up:
                             [
@@ -1369,16 +1285,6 @@ use_db("todo")
                 await mm.switchTab({tabName: "home"})
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
-            },
-            pane_sql_executeQuery:              async function  (  ) {
-                let mm = this
-                let codeId = await mm.getCurrentCommitId()
-                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
-                mm.pane_sql_queryResults = results
-                if (mm.pane_sql_queryResults.length > 0) {
-                    await mm.pane_sql_drawTabulatorGrid()
-                }
             },
             pane_home_col_renameCol:            async function  (  ) {
                 let mm              = this
@@ -1433,7 +1339,6 @@ use_db("todo")
 
                 let mm = this
                 let containingTable = null
-debugger
                 mm.oldDatabaseDefn.push(
                     {
                         name: "Change column type in table " + mm.pane_home_selectedTable + " from " + mm.pane_home_col_type
@@ -1461,69 +1366,82 @@ debugger
                 mm.pane_home_col_editColType    = false
                 await mm.schemaChanged()
             },
+
+
+            // SQL Pane
+            pane_sql_executeQuery:              async function  (  ) {
+                let mm = this
+                let codeId = await mm.getCurrentCommitId()
+                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
+                mm.pane_sql_queryResults = results
+                if (mm.pane_sql_queryResults.length > 0) {
+                    await mm.pane_sql_drawTabulatorGrid()
+                }
+            },
             pane_sql_drawTabulatorGrid:        async function  (  ) {
                 let mm = this
 
-                    let promise = new Promise(async function(returnfn) {
-                        Vue.nextTick(function () {
+                let promise = new Promise(async function(returnfn) {
+                    Vue.nextTick(function () {
 
-                            let elTab = document.createElement("div");
-                            elTab.setAttribute("id", "pane_sql_db_editor_grid_view")
-                            elTab.setAttribute("style", "height:100%;")
-                            let parentEl = document.getElementById("pane_sql_db_editor_grid_view_parent")
-                            parentEl.appendChild(elTab);
+                        let elTab = document.createElement("div");
+                        elTab.setAttribute("id", "pane_sql_db_editor_grid_view")
+                        elTab.setAttribute("style", "height:100%;")
+                        let parentEl = document.getElementById("pane_sql_db_editor_grid_view_parent")
+                        parentEl.appendChild(elTab);
 
-                            mm.pane_sql_tabulator = new Tabulator("#pane_sql_db_editor_grid_view",
-                                {
-                                    //reactiveData:             true,
-                                    width:                      "1700px",
-                                    //height:                   "100px",
-                                    rowHeight:                  30,
-                                    tables:                     [],
-                                    data:                       mm.pane_home_data_rows,
-                                    layout:                     "fitColumns",
-                                    //responsiveLayout:         "hide",
-                                    responsiveLayout:           false,
-                                    tooltips:                   true,
-                                    addRowPos:                  "top",
-                                    history:                    false,
-                                    pagination:                 "local",
-                                    paginationSize:             7,
-                                    movableColumns:             true,
-                                    resizableColumns:           true,
-                                    resizableRows:              true,
-                                    tableNames:                 [],
-                                    initialSort:                [],
-                                    columns:                    [],
-                                    autoResize:                 true,
-                                    selectable:                 1,
-                                    selectableRollingSelection: true,
-                                });
-                            returnfn()
-                        })
-
+                        mm.pane_sql_tabulator = new Tabulator("#pane_sql_db_editor_grid_view",
+                            {
+                                //reactiveData:             true,
+                                width:                      "1700px",
+                                //height:                   "100px",
+                                rowHeight:                  30,
+                                tables:                     [],
+                                data:                       mm.pane_home_data_rows,
+                                layout:                     "fitColumns",
+                                //responsiveLayout:         "hide",
+                                responsiveLayout:           false,
+                                tooltips:                   true,
+                                addRowPos:                  "top",
+                                history:                    false,
+                                pagination:                 "local",
+                                paginationSize:             7,
+                                movableColumns:             true,
+                                resizableColumns:           true,
+                                resizableRows:              true,
+                                tableNames:                 [],
+                                initialSort:                [],
+                                columns:                    [],
+                                autoResize:                 true,
+                                selectable:                 1,
+                                selectableRollingSelection: true,
+                            });
+                        returnfn()
                     })
-                    await promise
-                    setTimeout(async function ( ) {
-                        let fields = Object.keys(mm.pane_sql_queryResults[0])
 
-                        mm.pane_sql_tabulator.setColumns( [ ] )
-                        for (let field of fields) {
-                            await mm.pane_sql_tabulator.addColumn({
-                                title:          field,
-                                field:          field,
-                                width:          150,
-                                headerFilter:   "input",
-                                editor:         "input"
-                            })
-                        }
-                        let codeId          = await mm.getCurrentCommitId()
-                        let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+                })
+                await promise
+                setTimeout(async function ( ) {
+                    let fields = Object.keys(mm.pane_sql_queryResults[0])
 
-                        mm.pane_sql_tabulator.setData(mm.pane_sql_queryResults)
-                    },200)
+                    mm.pane_sql_tabulator.setColumns( [ ] )
+                    for (let field of fields) {
+                        await mm.pane_sql_tabulator.addColumn({
+                            title:          field,
+                            field:          field,
+                            width:          150,
+                            headerFilter:   "input",
+                            editor:         "input"
+                        })
+                    }
+                    let codeId          = await mm.getCurrentCommitId()
+                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
 
-            }
+                    mm.pane_sql_tabulator.setData(mm.pane_sql_queryResults)
+                },200)
+
+            },
         }
     })
 }
