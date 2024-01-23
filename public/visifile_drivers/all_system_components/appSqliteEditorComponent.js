@@ -38,7 +38,7 @@ use_db("todo")
 
                 // SQL Query pane
                 pane_sql_queryResults:      [],
-                pane_sql_query:             "select * from items",
+                pane_sql_query:             "",
                 pane_sql_tabulator:         null,
             }
         },
@@ -515,7 +515,7 @@ use_db("todo")
 
 
                 // ------------------------------------------------
-                //    init home pane
+                //    HOME TAB (INITIAL TAB ON LOADING DB EDITOR)
                 // ------------------------------------------------
                 if (tabName == "home") {
                     if (mm.listOfTables && (mm.listOfTables.length > 0)) {
@@ -533,6 +533,9 @@ use_db("todo")
 
 
 
+                // ------------------------------------------------
+                //    HOME COL TAB
+                // ------------------------------------------------
                 } else if (tabName == "home_col") {
                     mm.pane_home_tabulator          = null
                     mm.pane_home_col_read_only      = mm.read_only
@@ -540,6 +543,20 @@ use_db("todo")
 
                     if (mm.pane_home_col_id == "id") {
                         mm.pane_home_col_read_only = true
+                    }
+
+
+
+
+                // ------------------------------------------------
+                //    SQL TAB
+                // ------------------------------------------------
+                } else if (tabName == "sql") {
+                    if ((mm.pane_sql_query == null)  || (mm.pane_sql_query.length ==0)) {
+                        mm.pane_sql_query = ""
+                        if (mm.listOfTables && (mm.listOfTables.length > 0)) {
+                            mm.pane_sql_query = "select * from " + mm.listOfTables[0].name
+                        }
                     }
 
 
@@ -1355,6 +1372,7 @@ use_db("todo")
             },
             pane_sql_executeQuery:              async function  (  ) {
                 let mm = this
+                debugger
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
@@ -1488,8 +1506,6 @@ debugger
                     })
                     await promise
                     setTimeout(async function ( ) {
-                        debugger
-
                         let fields = Object.keys(mm.pane_sql_queryResults[0])
 
                         mm.pane_sql_tabulator.setColumns( [ ] )
