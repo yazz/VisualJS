@@ -362,7 +362,7 @@ use_db("todo")
                           </div>
 
                           <div  style="width: 78% ;border: 1px solid blue;display: inline-block;height:100%;vertical-align: top;" 
-                                v-if="pane_sql_queryResults && (pane_sql_queryResults.length > 0)">
+                                v-if='pane_sql_queryResults && (pane_sql_queryResults.length > 0) && (selectedTab=="sql")'>
                             <div    id="pane_sql_db_editor_grid_view_parent" style="height: 500px;display: inline-block; width:85%;">
                             </div>
                           </div>
@@ -1372,7 +1372,6 @@ use_db("todo")
             },
             pane_sql_executeQuery:              async function  (  ) {
                 let mm = this
-                debugger
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
