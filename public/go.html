@@ -2098,18 +2098,33 @@
                         return resulthash.ipfsHash
                     }
                 } else if (hashingAlgorithm == "SHA256") {
-                    debugger
-                    if (yz.mainVars.ipfs) {
-                        let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
+                    if (typeof crypto.subtle !== 'undefined') {
+                        let ret = await sha256(sometext)
+                        debugger
                         return "SHA256_" + ret.path
                     } else {
                         let resulthash = await postToYazzReturnJson(
                             "/http_post_extract_commit_hash_id_from_code",
                             {text: sometext}
                         )
-                        return resulthash.ipfsHash
+                        return resulthash.sha256
                     }
                 }
+            }
+            async function sha256                               (message) {
+                // encode as UTF-8
+                const msgBuffer = new TextEncoder('utf-8').encode(message);
+
+                // hash the message
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+                // convert ArrayBuffer to Array
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+                // convert bytes to hex string
+                const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+                console.log(hashHex);
+                return hashHex;
             }
             async function  registerComponent                   (   vueComponentObject   ) {
                 /*

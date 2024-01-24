@@ -1,5 +1,7 @@
 const OnlyIpfsHash                              = require("ipfs-only-hash");
 const path                                      = require("path");
+const crypto                                    = require('crypto');
+
 let sqlite3
 if (process.versions.bun) {
     sqlite3 =  require("bun:sqlite");
@@ -2102,9 +2104,14 @@ module.exports = {
             let ipfsHash = await OnlyIpfsHash.of(content)
             return "IPFS_" + ipfsHash
         } else if (hashingAlgorithm == "SHA256") {
-            let ipfsHash = await OnlyIpfsHash.of(content)
-            return "SHA256_" + ipfsHash
+            let sha256Hash = await yz.calculateSHA256(content)
+            return "SHA256_" + sha256Hash
         }
+    },
+    calculateSHA256:                async function (text) {
+        const hash = crypto.createHash('sha256');
+        hash.update(text);
+        return hash.digest('hex'); // Returns the hash in hexadecimal format
     },
     getDistributedContent:          async function  (  {  thisDb  ,  ipfsHash  }  ) {
         //---------------------------------------------------------------------------
