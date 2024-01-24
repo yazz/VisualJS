@@ -3,7 +3,6 @@ async function(args) {
 base_component_id("todo")
 is_app(true)
 display_name("Todo App")
-hash_algorithm("SHA256")
 visibility("PUBLIC")
 component_type("APP")
 description("This will create a demo todo app")
