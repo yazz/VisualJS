@@ -2101,7 +2101,7 @@
                     if (typeof crypto.subtle !== 'undefined') {
                         let ret = await sha256(sometext)
                         debugger
-                        return "SHA256_" + ret.path
+                        return "SHA256_" + ret
                     } else {
                         let resulthash = await postToYazzReturnJson(
                             "/http_post_extract_commit_hash_id_from_code",
