@@ -2083,9 +2083,6 @@
                 if (overrideHashingAlgorithm) {
                     hashingAlgorithm = overrideHashingAlgorithm
                 }
-                if (overrideHashingAlgorithm) {
-                    hashingAlgorithm = overrideHashingAlgorithm
-                }
                 if (hashingAlgorithm == "IPFS") {
                     if (yz.mainVars.ipfs) {
                         let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
