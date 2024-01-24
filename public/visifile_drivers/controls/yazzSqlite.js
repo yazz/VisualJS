@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("yazz db")
 description("This will return the yazz sqlite control")
 base_component_id("yazz_sqlite_client_component")

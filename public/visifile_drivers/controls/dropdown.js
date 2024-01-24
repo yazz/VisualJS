@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Dropdown control")
 description("This will return the dropdown control")
 base_component_id("dropdown_control")

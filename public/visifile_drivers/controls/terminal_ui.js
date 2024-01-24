@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Terminal control")
 description("This will return the terminal control")
 base_component_id("terminal_control")

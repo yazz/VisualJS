@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Data Grid control")
 description("This will return the Red Hat Data grid control")
 base_component_id("rhdata_grid_control")

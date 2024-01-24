@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("postgres client control")
 description("This will return the postgres control")
 base_component_id("postgres_client_component")

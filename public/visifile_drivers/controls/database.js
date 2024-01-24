@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 framework("vue2")
 display_name("Data control")
 description("This will return the data control")

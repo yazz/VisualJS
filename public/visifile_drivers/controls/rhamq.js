@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Red Hat AMQ control")
 description("This will return the AMQ control")
 base_component_id("rhamq_control")

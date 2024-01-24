@@ -2,6 +2,7 @@ function() {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("REST API call control")
 description("This will return the REST API call control")
 base_component_id("rest_control")

@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("File list control")
 description("This will return the file list control")
 base_component_id("file_list_control")

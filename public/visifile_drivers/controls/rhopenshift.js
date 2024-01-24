@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Openshift control")
 description("This will return the Red Hat Openshift control")
 base_component_id("rhopenshift_control")

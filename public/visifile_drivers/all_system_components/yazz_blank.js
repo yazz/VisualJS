@@ -42,6 +42,7 @@ formEditor({
   }
 })//formEditor
 component_type("SYSTEM")
+hash_algorithm("SHA256")
 runtime_pipeline(["APP"])
 sub_components_v2([
   { base_component_id: "app_editor_3"           },

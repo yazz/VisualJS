@@ -3,6 +3,7 @@ function(args) {
 /Users/fquraish/yazz/a.accdb
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("msaccess client control")
 description("This will return the msaccess control")
 base_component_id("ms_access_control")

@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Fuse control")
 description("This will return the FUSE control")
 base_component_id("rhfuse_control")

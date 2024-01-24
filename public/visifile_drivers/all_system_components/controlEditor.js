@@ -2,6 +2,7 @@ function component( args ) {
 /*
 base_component_id("control_editor")
 component_type("SYSTEM")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 */
 

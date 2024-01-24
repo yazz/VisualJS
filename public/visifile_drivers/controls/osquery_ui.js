@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("OSQuery control")
 description("This will return the OSQuery control")
 base_component_id("osquery_control")

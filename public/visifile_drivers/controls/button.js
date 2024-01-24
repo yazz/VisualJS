@@ -1,6 +1,7 @@
 function() {
 /*
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Button control")
 description("This will return the button control")
 base_component_id("button_control")

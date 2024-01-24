@@ -4,6 +4,7 @@ This is a system editor component that is used to manage the release of the comp
 
 base_component_id("deliver_component_screen")
 component_type("SYSTEM")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 
 when was the change in a commit first made (each commit can have many changes)

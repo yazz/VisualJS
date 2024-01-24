@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Ace Editor component")
 description("This will return the Ace editor component")
 base_component_id("ace_editor")

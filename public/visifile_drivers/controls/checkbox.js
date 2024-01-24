@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Checkbox control")
 description("This will return the checkbox control")
 base_component_id("checkbox_control")

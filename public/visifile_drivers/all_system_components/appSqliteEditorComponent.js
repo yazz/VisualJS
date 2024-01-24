@@ -2,6 +2,7 @@ function component( args ) {
 /*
 base_component_id("sqlite_app_editor_component_v2")
 component_type("SYSTEM")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 use_db("todo")
 */

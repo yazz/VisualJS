@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Vertical scrollbar control")
 description("This will return the Vertical scrollbar control")
 base_component_id("vert_scroll_control")

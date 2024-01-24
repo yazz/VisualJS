@@ -2,6 +2,7 @@ async function component( args ) {
 /*
 base_component_id("vb_editor_component")
 component_type("SYSTEM")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 runtime_pipeline(["EDITOR_PLUG_IN"])
 */

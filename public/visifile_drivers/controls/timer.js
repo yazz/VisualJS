@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Timer control")
 description("This will return the timer control")
 base_component_id("timer_control")

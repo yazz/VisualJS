@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("3Scale control")
 description("This will return the 3Scale control")
 base_component_id("rh3scale_control")

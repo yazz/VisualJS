@@ -1,6 +1,7 @@
 function(args) {
 /*
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Meta control")
 description("This will return the metamask control")
 base_component_id("metamask_control")

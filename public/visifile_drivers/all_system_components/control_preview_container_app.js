@@ -131,6 +131,7 @@ formEditor({
   }
 })//formEditor
 component_type("SYSTEM")
+hash_algorithm("SHA256")
 runtime_pipeline(["APP"])
 visibility("PRIVATE")
 display_name("GUI App")

@@ -4,6 +4,7 @@ created_timestamp(-1)
 base_component_id("mobilehomepage")
 is_app(true)
 component_type("SYSTEM")
+hash_algorithm("SHA256")
 display_name("Homepage app")
 description('Homepage app')
 

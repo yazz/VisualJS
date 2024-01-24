@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Red Hat Decision Manager control")
 description("This will return the Decision Manager control")
 base_component_id("rhdm_control")

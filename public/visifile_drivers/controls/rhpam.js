@@ -2,6 +2,7 @@ function(args) {
 /*
 is_app(true)
 component_type("VB")
+hash_algorithm("SHA256")
 display_name("Red Hat PAM control")
 description("This will return the RH PAM control")
 base_component_id("rhpam_control")

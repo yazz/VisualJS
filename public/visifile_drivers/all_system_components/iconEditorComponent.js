@@ -4,6 +4,7 @@ This is an editor component that is used to edit a component icon
 
 base_component_id("icon_editor_component")
 component_type("SYSTEM")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 */
 
