@@ -4305,7 +4305,7 @@ ${code}
                 properties.push({   id:     "display_name",         name:   "Type Name",    type:   "String" , readonly: true   })
                 properties.push({   id:     "display_icon",         name:   "Icon",         type:   "String" , readonly: true   })
                 properties.push({   id:     "base_component_id",    name:   "Type",         type:   "String" , readonly: true   })
-                properties.push({   id:     "code_id",              name:   "Type IPFS",    type:   "String" , readonly: true   })
+                properties.push({   id:     "code_id",              name:   "Type Hash ID", type:   "String" , readonly: true   })
                 properties.push({   id:     "leftX",                name:   "X",            type:   "Number"    })
                 properties.push({   id:     "topY",                 name:   "Y",            type:   "Number"    })
 
