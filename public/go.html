@@ -3686,6 +3686,29 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
 
 
+                //
+                // add "await" to all function calls
+                //
+                estraverse.traverse(_b, {
+                    enter: function (node, parent) {
+                        //
+                        // add the line numbers
+                        //
+                        if (
+                            (node.type == "CallExpression")
+                        ) {
+                            debugger
+                        }
+                    },
+                    leave: function (node, parent) {
+                    },
+
+                    keys: {
+                        'AwaitExpression': ['argument']
+                    }
+                });
+
+
                 let debugCode = escodegen.generate(_b, {comment: false})
 
 
