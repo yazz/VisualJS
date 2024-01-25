@@ -889,7 +889,7 @@ logo_url("/driver_icons/builder.png")
                   mm.compileStatus   = "NONE"
 
 
-                  mm.properties.previous_ipfs_version =  mm.properties.ipfs_hash_id
+                  mm.properties.previous_version_content_hash =  mm.properties.ipfs_hash_id
                   //let  newComponentType = mm.compiledContractName + "_component"
                   //let  newComponentType = "sc_" + instance.options.address
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
@@ -944,7 +944,7 @@ logo_url("/driver_icons/builder.png")
                       vars_code:     mm.properties.varsCode
                       ,
                       default_property_values: {
-                           previous_ipfs_version:   mm.properties.ipfs_hash_id
+                           previous_version_content_hash:   mm.properties.ipfs_hash_id
                            ,
                            icon_image_data:              mm.properties.icon_image_data
                        }

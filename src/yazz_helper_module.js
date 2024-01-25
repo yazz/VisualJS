@@ -1836,7 +1836,7 @@ module.exports = {
                                 thisDb
                                 ,
                                 {
-                                    codeId:                 jsonComment.component_ipfs_hash,
+                                    codeId:                 jsonComment.component_hash_id,
                                     baseComponentId:        jsonComment.base_component_id,
                                     baseComponentIdVersion: jsonComment.base_component_id_version,
                                     newComment:             jsonComment.comment,
@@ -1855,7 +1855,7 @@ module.exports = {
                                     content_hash = ?
                                         `
                                 ,
-                                [  "PROCESSED"  ,  jsonComment.component_ipfs_hash  ]
+                                [  "PROCESSED"  ,  jsonComment.component_hash_id  ]
                             )
                         }
 
@@ -1867,8 +1867,8 @@ module.exports = {
                         let formatType = mm.helpers.getValueOfCodeString(returnValue, "format")
                         if (formatType == "JSON") {
                             let jsonRelease = JSON.parse(returnValue)
-                            if (jsonRelease.component_ipfs_hash) {
-                                let releaseId = await mm.releaseCode(thisDb, jsonRelease.component_ipfs_hash)
+                            if (jsonRelease.component_hash_id) {
+                                let releaseId = await mm.releaseCode(thisDb, jsonRelease.component_hash_id)
 
                                 if (releaseId.value != null) {
                                     await mm.executeQuickSql(
@@ -1985,7 +1985,7 @@ module.exports = {
                 db
                 ,
                 {
-                    component_ipfs_hash:        releaseRecord.content_hash,
+                    component_hash_id:        releaseRecord.content_hash,
                     type:                       "COMPONENT_RELEASE",
                     format:                     "JSON'",
                     type_:                      "component_type('COMPONENT_RELEASE')",
@@ -2046,7 +2046,7 @@ module.exports = {
                                 thisDb
                                 ,
                                 {
-                                    component_ipfs_hash:        args.codeId,
+                                    component_hash_id:        args.codeId,
                                     type:                       "COMPONENT_COMMENT",
                                     format:                     "JSON'",
                                     type_:                      "component_type('COMPONENT_COMMENT')",

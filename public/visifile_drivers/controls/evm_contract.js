@@ -50,7 +50,7 @@ properties(
         }
         ,
         {
-            id:     "previous_ipfs_version",
+            id:     "previous_version_content_hash",
             name:   "Previous IPFS Version",
             type:   "String",
             readonly: true
@@ -459,7 +459,7 @@ return sdf
                   }
 
 
-                  mm.properties.previous_ipfs_version =  mm.properties.ipfs_hash_id
+                  mm.properties.previous_version_content_hash =  mm.properties.ipfs_hash_id
                   //let  newComponentType = mm.compiledContractName + "_component"
                   //let  newComponentType = "sc_" + instance.options.address
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
@@ -476,7 +476,7 @@ return sdf
                            ,
                            code: mm.properties.code
                            ,
-                           previous_ipfs_version: mm.properties.ipfs_hash_id
+                           previous_version_content_hash: mm.properties.ipfs_hash_id
                            ,
                            contractAddress: mm.properties.contractAddress
                            ,
