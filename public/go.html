@@ -3694,10 +3694,16 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         //
                         // add the line numbers
                         //
+                        let nodeType = node?node.type:null
+                        debugger
                         if (
-                            (node.type == "CallExpression")
+                            (node.type == "ExpressionStatement")
                         ) {
-                            debugger
+                                return {
+                                    type: 'AwaitExpression',
+                                    argument: node
+                                };
+
                         }
                     },
                     leave: function (node, parent) {
