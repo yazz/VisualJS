@@ -3236,6 +3236,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 if (!window.SQL) {
                     console.log("Local SQLite only works for static Creator apps")
                 } else {
+                    if (params) {
+                        if (!Array.isArray(params)) {
+                            params = [params]
+                        }
+                    }
                     resOut = []
                     try {
                         let stmt = yz.mainVars.localSqliteDb.prepare(sql);
