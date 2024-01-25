@@ -2269,8 +2269,8 @@ async function  createCookieInDb                        (  cookie  ,  hostCookie
             returnfn()
         }
     })
-    let ipfsHash = await promise
-    return ipfsHash
+    let contentHash = await promise
+    return contentHash
     return ""
 }
 function        readCerts                               (  ) {
@@ -4550,9 +4550,9 @@ async function  startServices                           (  ) {
 
     });
     app.post(   "/http_post_commit_code" ,                                  async function (req, res) {
-        let ipfsHash = req.body.value.code_id;
-        let code        = await yz.getCodeForCommit(dbsearch, ipfsHash)
-        let previousSaves = await getSaveChain(ipfsHash)
+        let contentHash = req.body.value.code_id;
+        let code        = await yz.getCodeForCommit(dbsearch, contentHash)
+        let previousSaves = await getSaveChain(contentHash)
 
         //
         // Remove old COMMIT or RELEASE sections
@@ -4603,13 +4603,13 @@ async function  startServices                           (  ) {
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
-            ipfsHash:           ipfsHash,
+            contentHash:           contentHash,
             newCommitId:        newCommitId
         }))
     })
     app.post(   "/http_post_promote_to_environment" ,                                  async function (req, res) {
-        let ipfsHash = req.body.value.code_id;
-        let code        = await yz.getCodeForCommit(dbsearch, ipfsHash)
+        let contentHash = req.body.value.code_id;
+        let code        = await yz.getCodeForCommit(dbsearch, contentHash)
 
         //
         // Remove old COMMIT or RELEASE sections
@@ -4707,7 +4707,7 @@ async function  startServices                           (  ) {
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
-            ipfsHash:           ipfsHash,
+            contentHash:           contentHash,
             newCommitId:        newCommitId
         }))
     })
@@ -4715,20 +4715,20 @@ async function  startServices                           (  ) {
         //
         // get stuff
         //
-        let ipfsHash = req.body.value.code_id;
+        let contentHash = req.body.value.code_id;
         let version = req.body.value.version;
         let userId = req.body.value.user_id;
 
 
-        let code = await yz.getCodeForCommit(dbsearch, ipfsHash)
-        await yz.tagVersion(dbsearch, ipfsHash, code)
-        let releaseId = await yz.releaseCode( dbsearch, ipfsHash, {save_to_network: true})
+        let code = await yz.getCodeForCommit(dbsearch, contentHash)
+        await yz.tagVersion(dbsearch, contentHash, code)
+        let releaseId = await yz.releaseCode( dbsearch, contentHash, {save_to_network: true})
         await yz.createContentFromLevel2Record({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "GLOBAL"})
 
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
-            ipfsHash:   ipfsHash,
+            contentHash:   contentHash,
         }))
     })
     app.post(   '/http_post_add_or_update_app',                             async function (req, res) {
@@ -4737,8 +4737,8 @@ async function  startServices                           (  ) {
         console.log("/http_post_add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
         let srcCode = req.body.src_code
         console.log("/http_post_add_or_update_app:srcCode := " + srcCode.length)
-        let ipfsHash = req.body.content_hash
-        console.log("/http_post_add_or_update_app:ipfsHash := " + ipfsHash)
+        let contentHash = req.body.content_hash
+        console.log("/http_post_add_or_update_app:contentHash := " + contentHash)
 
         await yz.addOrUpdateDriver(
             dbsearch
@@ -4750,7 +4750,7 @@ async function  startServices                           (  ) {
                 username: "default",
                 reponame: baseComponentIdLocal,
                 version: "latest",
-                ipfsHashId: ipfsHash})
+                ipfsHashId: contentHash})
         console.log("/http_post_add_or_update_app:addOrUpdateDriver completed")
         res.status(200).send('Code registered');
     })
@@ -4766,7 +4766,7 @@ async function  startServices                           (  ) {
         //
         //---------------------------------------------------------------------------
 
-        let ipfsHash        = req.body.content_hash
+        let contentHash        = req.body.content_hash
         let ipfsContent     = req.body.yazz_content
         res.status(200).send('IPFS content registered');
         let contentDesc = yz.getContentDescription(ipfsContent)
@@ -4796,9 +4796,9 @@ async function  startServices                           (  ) {
     });
     app.get(    '/http_get_ipfs_content',                                   async function (req, res, next) {
         // this is called from the salver server to this master server
-        let ipfsHash     = req.query.content_hash
+        let contentHash     = req.query.content_hash
 
-        let nextContent = await yz.getDistributedContent(  {  thisDb: dbsearch  ,  ipfsHash:  ipfsHash }  )
+        let nextContent = await yz.getDistributedContent(  {  thisDb: dbsearch  ,  contentHash:  contentHash }  )
 
         let content = null
         let error = null
@@ -4811,7 +4811,7 @@ async function  startServices                           (  ) {
         }
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
-            {content_hash: ipfsHash, content: content, error: error}
+            {content_hash: contentHash, content: content, error: error}
         ));
     });
     app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
@@ -4998,7 +4998,7 @@ async function  startServices                           (  ) {
             let brje = properties[irte]
             if (brje) {
                 if (brje.id == "ipfs_hash_id") {
-                    brje.default = ""//ipfsHash
+                    brje.default = ""//contentHash
                 }
             }
         }
@@ -5032,7 +5032,7 @@ async function  startServices                           (  ) {
 
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
-            ipfsHash:   codeId,
+            contentHash:   codeId,
             return:     srcText
         }))
     });
@@ -5075,8 +5075,8 @@ async function  startServices                           (  ) {
                 // if the component has not been loaded then try to load it from the cache
                 //----------------------------------------------------------------------------
                 if (!resultsRow) {
-                    let gc = await yz.getDistributedContent( { thisDb: dbsearch, ipfsHash: componentItem.codeId })
-                    await yz.createLevel2RecordFromContent( {thisDb: thisDb, ipfsHash: ipfsHashFileName})
+                    let gc = await yz.getDistributedContent( { thisDb: dbsearch, contentHash: componentItem.codeId })
+                    await yz.createLevel2RecordFromContent( {thisDb: thisDb, contentHash: ipfsHashFileName})
 
                     resultsRow = await yz.getQuickSqlOneRow(
                         dbsearch
@@ -5170,10 +5170,10 @@ async function  startServices                           (  ) {
         //
         let code = req.body.text;
 
-        let ipfsHash = await yz.getDistributedKey(code)
+        let contentHash = await yz.getDistributedKey(code)
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(JSON.stringify({
-            ipfsHash: ipfsHash,
+            contentHash: contentHash,
         }))
     })
 

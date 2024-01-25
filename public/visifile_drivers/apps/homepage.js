@@ -1486,7 +1486,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                     return null
                 },
-                addToEditableAppsAndEdit:           async function  ( ipfsHash ) {
+                addToEditableAppsAndEdit:           async function  ( contentHash ) {
                     //----------------------------------------------------------------------------------
                     //
                     //                    /-------------------------------------/
@@ -1496,7 +1496,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     //----------------------------------------------------------------------------
                     // Given the commit ID of an app in the app store, download it and edit it
                     //
-                    //     ipfsHash
+                    //     contentHash
                     //     --------
                     //
                     // --------------------------------------------------------------------
@@ -1512,12 +1512,12 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         from  
                             level_2_system_code  
                         where 
-                            id = '${ipfsHash}'`))[0]
+                            id = '${contentHash}'`))[0]
 
 
                     await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
                         {
-                            sha1sum:            ipfsHash,
+                            sha1sum:            contentHash,
                             baseComponentId:    result.base_component_id
                         })
 
@@ -1526,7 +1526,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     setTimeout(async function() {
                         hideProgressBar()
                         mm.highlightEditableComponent(result.base_component_id)
-                        await mm.editApp(result.base_component_id , ipfsHash)
+                        await mm.editApp(result.base_component_id , contentHash)
                     },50)
                 },
                 copyAndEditApp:                     async function  ( compInfo ) {
@@ -1606,7 +1606,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         baseComponentId)
                     mm.refresh++
                 },
-                downloadAndRunApp:                  async function  ( ipfsHash ) {
+                downloadAndRunApp:                  async function  ( contentHash ) {
                     //----------------------------------------------------------------------------------
                     //
                     //                    /-------------------------------------/
@@ -1629,7 +1629,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         from  
                             level_2_system_code  
                         where 
-                            id = '${ipfsHash}'`))[0]
+                            id = '${contentHash}'`))[0]
 
                     let logoUrl = await mm.addLogoForApp(result.base_component_id)
 

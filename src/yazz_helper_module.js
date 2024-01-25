@@ -927,8 +927,8 @@ module.exports = {
     },
     getYazzContentHash:                    async function  (  sometext  ) {
         let yz = this
-        let ipfsHash = await yz.getDistributedKey(sometext)
-        return ipfsHash
+        let contentHash = await yz.getDistributedKey(sometext)
+        return contentHash
     },
     saveCodeV3:                     async function  (  thisDb  ,  code  ,  options  ) {
         /*
@@ -1804,13 +1804,13 @@ module.exports = {
             return {error: "Code record does not exist yet", value: null}
         }
     },
-    createLevel2RecordFromContent:  async function  (  {  thisDb  ,  ipfsHash  }  ) {
+    createLevel2RecordFromContent:  async function  (  {  thisDb  ,  contentHash  }  ) {
         let mm = this
         //
         //
         //
         try {
-            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  yazz_content  from  level_0_cached_content  where  content_hash = ?",[ipfsHash])
+            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  yazz_content  from  level_0_cached_content  where  content_hash = ?",[contentHash])
             if (contentRecord) {
                 let returnValue = contentRecord.yazz_content
                 if (returnValue) {
@@ -1881,7 +1881,7 @@ module.exports = {
                                         values  
                                             ( ? , ? , ? ) `
                                         ,
-                                        [  ipfsHash  ,  "RELEASE"  ,  releaseId.value.id  ]
+                                        [  contentHash  ,  "RELEASE"  ,  releaseId.value.id  ]
                                     )
                                     await mm.executeQuickSql(
                                         thisDb,
@@ -1893,7 +1893,7 @@ module.exports = {
                                             id = ? 
                                         `
                                         ,
-                                        [  ipfsHash  ,  releaseId.value.id  ]
+                                        [  contentHash  ,  releaseId.value.id  ]
                                     )
 
                                     await mm.executeQuickSql(thisDb,
@@ -1906,7 +1906,7 @@ module.exports = {
                                             content_hash = ?
                                         `
                                         ,
-                                        [  "PROCESSED"  ,  ipfsHash  ]
+                                        [  "PROCESSED"  ,  contentHash  ]
                                     )
                                 } else {
                                     console.log("No corresponding code record available yet")
@@ -1919,7 +1919,7 @@ module.exports = {
                                             content_hash = ?
                                         `
                                         ,
-                                        [  ipfsHash  ]
+                                        [  contentHash  ]
                                     )
                                 }
                             }
@@ -1943,7 +1943,7 @@ module.exports = {
                                 username:       "default",
                                 reponame:       baseComponentId,
                                 version:        "latest",
-                                ipfsHashId:     ipfsHash,
+                                ipfsHashId:     contentHash,
                                 allowChanges:   false,
                                 make_public:    makePublic,
                                 save_html:      saveHtml
@@ -1959,7 +1959,7 @@ module.exports = {
                                 content_hash = ?
                             `
                             ,
-                            [  "PROCESSED"  ,  ipfsHash  ]
+                            [  "PROCESSED"  ,  contentHash  ]
                         )
                     }
 
@@ -2101,8 +2101,8 @@ module.exports = {
         }
 
         if (hashingAlgorithm == "IPFS") {
-            let ipfsHash = await OnlyIpfsHash.of(content)
-            return "IPFS_" + ipfsHash
+            let contentHash = await OnlyIpfsHash.of(content)
+            return "IPFS_" + contentHash
         } else if (hashingAlgorithm == "SHA256") {
             let sha256Hash = await yz.calculateSHA256(content)
             return "SHA256_" + sha256Hash
@@ -2113,7 +2113,7 @@ module.exports = {
         hash.update(text);
         return hash.digest('hex'); // Returns the hash in hexadecimal format
     },
-    getDistributedContent:          async function  (  {  thisDb  ,  ipfsHash  }  ) {
+    getDistributedContent:          async function  (  {  thisDb  ,  contentHash  }  ) {
         //---------------------------------------------------------------------------
         //
         //                           getDistributedContent( )
@@ -2142,8 +2142,8 @@ module.exports = {
 
 
         try {
-            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_cached_content  where  content_hash = ?", [  ipfsHash  ])
-            metadataStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_content_metadata  where  content_hash = ?", [  ipfsHash  ])
+            contentStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_0_cached_content  where  content_hash = ?", [  contentHash  ])
+            metadataStoredInSqlite       = await mm.getQuickSqlOneRow(thisDb, "select  *  from  level_1_content_metadata  where  content_hash = ?", [  contentHash  ])
 
             // if the content is stored in Sqlite then get the content from sqlite
             if (metadataStoredInSqlite && contentStoredInSqlite) {
@@ -2163,9 +2163,9 @@ module.exports = {
         return {  value: returnValue  ,  error: null  }
 
     },
-    getContentFromMaster:           async function  (  thisDb  ,  ipfsHash  ,  options  ) {
+    getContentFromMaster:           async function  (  thisDb  ,  contentHash  ,  options  ) {
         let mm = this
-        let ret = await mm.sendQuickJsonGetRequest(  "http_get_ipfs_content"  ,  {  content_hash:  ipfsHash  }  )
+        let ret = await mm.sendQuickJsonGetRequest(  "http_get_ipfs_content"  ,  {  content_hash:  contentHash  }  )
         return { value: ret , error: null }
     },
     setDistributedContent:          async function  (  thisDb  ,  content  , options  ) {
@@ -2416,8 +2416,8 @@ module.exports = {
                 returnfn(justHash)
             }
         })
-        let ipfsHash = await promise
-        return ipfsHash
+        let contentHash = await promise
+        return contentHash
     },
     checkIfPeerAvailable:           async function  (  ) {
         //---------------------------------------------------------------------------
@@ -2497,7 +2497,7 @@ module.exports = {
             if (nextUnprocessedCodeItem) {
 
                 //debugger
-                mm.createLevel2RecordFromContent({thisDb:thisDb,ipfsHash: nextUnprocessedCodeItem.content_hash})
+                mm.createLevel2RecordFromContent({thisDb:thisDb,contentHash: nextUnprocessedCodeItem.content_hash})
             }
         } catch (snedE) {
             console.log("Error in processContentItems: " + snedE)
@@ -2627,7 +2627,7 @@ module.exports = {
                         if (nextItemToSendInQueue.content_hash != null) {
                             let nextContent = await mm.getDistributedContent({
                                 thisDb: thisDb,
-                                ipfsHash: nextItemToSendInQueue.content_hash
+                                contentHash: nextItemToSendInQueue.content_hash
                             })
                             if (await mm.getYazzContentHash(nextContent.value) == nextItemToSendInQueue.content_hash) {
                                 await this.executeQuickSql(thisDb,
@@ -2812,7 +2812,7 @@ module.exports = {
             if (nextIpfsRecordToProcess) {
                 await mm.createLevel2RecordFromContent({
                     thisDb:     thisDb,
-                    ipfsHash:   nextIpfsRecordToProcess.content_hash
+                    contentHash:   nextIpfsRecordToProcess.content_hash
                 })
             }
         } catch (error) {
@@ -2918,7 +2918,7 @@ module.exports = {
 
         let promise = new Promise(async function (returnfn) {
             try {
-                let fullIpfsFilePath    = path.join(mm.fullIpfsFolderPath, ipfsHash)
+                let fullIpfsFilePath    = path.join(mm.fullIpfsFolderPath, contentHash)
                 let srcCode             = fs.readFileSync(fullIpfsFilePath);
                 let baseComponentId     = yz.helpers.getValueOfCodeString(srcCode, "base_component_id")
 
@@ -2933,7 +2933,7 @@ module.exports = {
                         username:           "default",
                         reponame:           baseComponentId,
                         version:            "latest",
-                        ipfsHashId:         ipfsHash,
+                        ipfsHashId:         contentHash,
                         allowChanges:       false,
                         distributeToPeer:   false
                     })
@@ -2944,7 +2944,7 @@ module.exports = {
             } catch (error) {
                 try {
 
-                    ipfs.files.get(ipfsHash, function (err, files) {
+                    ipfs.files.get(contentHash, function (err, files) {
                         files.forEach(async function (file) {
                             console.log("....................................Loading component from IPFS: " + file.path)
                             //console.log(file.content.toString('utf8'))
@@ -2959,7 +2959,7 @@ module.exports = {
                             for (let irte = 0; irte < properties.length; irte++) {
                                 let brje = properties[irte]
                                 if (brje.id == "ipfs_hash_id") {
-                                    brje.default = ipfsHash
+                                    brje.default = contentHash
                                 }
                             }
 
@@ -2969,14 +2969,14 @@ module.exports = {
                                 ")//prope" + "rties")
 
 
-                            let fullIpfsFilePath = path.join(fullIpfsFolderPath, ipfsHash)
+                            let fullIpfsFilePath = path.join(fullIpfsFolderPath, contentHash)
                             fs.writeFileSync(fullIpfsFilePath, srcCode);
 
                             await addOrUpdateDriver(srcCode, {
                                 username: "default",
                                 reponame: baseComponentId,
                                 version: "latest",
-                                ipfsHashId: ipfsHash,
+                                ipfsHashId: contentHash,
                                 allowChanges: false
                             })
 

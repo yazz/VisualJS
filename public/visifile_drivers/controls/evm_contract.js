@@ -505,7 +505,7 @@ return sdf
                           {
                               componentName:          mm.properties.name,
                               propertyName:          "ipfs_hash_id",
-                              propertyValue:          responseJson.ipfsHash
+                              propertyValue:          responseJson.contentHash
                           })
 
                   })

@@ -2092,7 +2092,7 @@
                             "/http_post_extract_commit_hash_id_from_code",
                             {text: sometext}
                         )
-                        return resulthash.ipfsHash
+                        return resulthash.contentHash
                     }
                 } else if (hashingAlgorithm == "SHA256") {
                     if (typeof crypto.subtle !== 'undefined') {
@@ -2104,7 +2104,7 @@
                             "/http_post_extract_commit_hash_id_from_code",
                             {text: sometext}
                         )
-                        return resulthash.ipfsHash
+                        return resulthash.contentHash
                     }
                 }
             }
