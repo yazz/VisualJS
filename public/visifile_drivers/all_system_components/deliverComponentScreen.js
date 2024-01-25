@@ -692,7 +692,7 @@ pane_release_description:               {{pane_release_description}}
                 // ----------------------------------------------------------------------
                 let mm     = this
                 let retVal = null
-                retval     = await getIpfsHash( mm.text )
+                retval     = await getYazzContentHash( mm.text )
                 return retval
             },
 

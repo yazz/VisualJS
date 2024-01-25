@@ -420,7 +420,7 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
                 // ----------------------------------------------------------------------
                 let mm     = this
                 let retVal = null
-                retval     = await getIpfsHash( mm.text )
+                retval     = await getYazzContentHash( mm.text )
                 return retval
             },
 

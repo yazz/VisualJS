@@ -925,7 +925,7 @@ module.exports = {
             }
         }
     },
-    getIpfsHash:                    async function  (  sometext  ) {
+    getYazzContentHash:                    async function  (  sometext  ) {
         let yz = this
         let ipfsHash = await yz.getDistributedKey(sometext)
         return ipfsHash
@@ -2090,7 +2090,7 @@ module.exports = {
         // Given a piece of content, get the distributed key. This key will be
         // IPFS Multiformats compliant, so it should start with QM.... or Baf... or
         // something like that. This is actually needed because in the front end of
-        // Yazz we often need the IPFS hash of some content (via the getIpfsHash( ) fn)
+        // Yazz we often need the IPFS hash of some content (via the getYazzContentHash( ) fn)
         // just in case the front end IPFS server is not available
         //---------------------------------------------------------------------------
         let yz                          = this
@@ -2629,7 +2629,7 @@ module.exports = {
                                 thisDb: thisDb,
                                 ipfsHash: nextItemToSendInQueue.content_hash
                             })
-                            if (await mm.getIpfsHash(nextContent.value) == nextItemToSendInQueue.content_hash) {
+                            if (await mm.getYazzContentHash(nextContent.value) == nextItemToSendInQueue.content_hash) {
                                 await this.executeQuickSql(thisDb,
                                     `update  
                                         level_8_upload_content_queue 

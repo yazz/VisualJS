@@ -336,7 +336,7 @@ load_once_from_file(true)
              //debugger
              let mm = this
              let retVal = null
-             retval = await getIpfsHash( mm.text )
+             retval = await getYazzContentHash( mm.text )
              return retval
          }
          ,

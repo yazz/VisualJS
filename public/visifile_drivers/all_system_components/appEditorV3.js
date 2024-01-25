@@ -1789,7 +1789,7 @@ End of app preview menu
                         }
                     }
 
-                    mm.code_id  = await getIpfsHash(mm.editor_text)
+                    mm.code_id  = await getYazzContentHash(mm.editor_text)
                     GLOBALS.cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
                     yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
                     GLOBALS.pointBaseComponentIdAtCode(

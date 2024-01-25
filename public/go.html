@@ -1261,7 +1261,7 @@
                                     var sdf     = eval("(" + data.record + ")")
 
                                     for (var i=0; i< sdf.length; i++) {
-                                        let codeId = await getIpfsHash(  sdf[i].code  )
+                                        let codeId = await getYazzContentHash(  sdf[i].code  )
                                         if (isValidObject(yz.componentsAPI.vue.getVueComponentInfo({codeId: codeId})))
                                         {
                                             returnfn({})
@@ -2077,7 +2077,7 @@
                 let ret = await yz.mainVars.ipfs.add(sometext)
                 return ret
             }
-            async function  getIpfsHash                         (   sometext   ) {
+            async function  getYazzContentHash                         (   sometext   ) {
                 let hashingAlgorithm = "IPFS"
                 let overrideHashingAlgorithm = yz.helpers.getValueOfCodeString(sometext, "hash_algorithm")
                 if (overrideHashingAlgorithm) {
