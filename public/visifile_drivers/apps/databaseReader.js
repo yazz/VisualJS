@@ -4,6 +4,7 @@ is_app(true)
 display_name("Database reader")
 description('Database reader')
 base_component_id("database_reader")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 interfaces(["database_reader"])
 

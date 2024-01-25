@@ -2,6 +2,7 @@ async function(args) {
 /*
 created_timestamp(-1)
 base_component_id("todo_app_reader")
+hash_algorithm("SHA256")
 is_app(true)
 display_name("Todo app Reader")
 description("This will read another application's database")

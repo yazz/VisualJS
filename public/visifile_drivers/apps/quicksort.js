@@ -1,6 +1,7 @@
 function() {
 /*
 base_component_id("quicksort")
+hash_algorithm("SHA256")
 display_name("Quick sort")
 
 */
