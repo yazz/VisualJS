@@ -104,7 +104,7 @@ extraFns += "}"
                     function() {
                         dbsearch.all(
                             " select  " +
-                            "     base_component_id, code, ipfs_hash as id " +
+                            "     base_component_id, code, content_hash as id " +
                             " from " +
                             "     level_2_released_components " +
                             " where " +

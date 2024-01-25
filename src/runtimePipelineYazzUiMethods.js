@@ -12,7 +12,7 @@
                 let sql =
                     `select  
                         base_component_id,  
-                        ipfs_hash,
+                        content_hash,
                         logo_url
                     from  
                         level_2_released_components 
@@ -27,7 +27,7 @@
                 let itemsToLoad = []
                 for (let thiscc of mm.available_components) {
                     let cbase = thiscc.base_component_id
-                    let codeId = thiscc.ipfs_hash
+                    let codeId = thiscc.content_hash
                     //console.log("Component: " + JSON.stringify(cbase))
                     itemsToLoad.push({baseComponentId: cbase, codeId: codeId })
                 }

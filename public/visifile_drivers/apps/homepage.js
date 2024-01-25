@@ -49,7 +49,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 id:                   "demo_timer"
                 base_component_id:    "demo_timer"
                 logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
-                ipfs_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
+                content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
                 display_name:         "Timer demo"
             }
         ]
@@ -571,7 +571,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                     <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                             class='btn btn-sm'
                                             v-if="item.component_type == 'app' "
-                                            v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.ipfs_hash)})()'>
+                                            v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
                                       <img    src='/driver_icons/play.png'
                                               style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                                       >
@@ -582,7 +582,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                     
                                     <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                             class='btn  btn-sm'
-                                            v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.ipfs_hash)'>
+                                            v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.content_hash)'>
                                       <img    src='/driver_icons/edit.png'
                                               style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                                       >
@@ -869,7 +869,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 text.base_component_id,
                                 text.display_name,
                                 {
-                                    codeId:         text.ipfs_hash,
+                                    codeId:         text.content_hash,
                                     logoUrl:        text.logo_url,
                                     componentType: "app"
                                 })
@@ -1721,7 +1721,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                     responseJson[rt].base_component_id,
                                     responseJson[rt].display_name,
                                     {
-                                        codeId:         responseJson[rt].ipfs_hash,
+                                        codeId:         responseJson[rt].content_hash,
                                         logoUrl:        responseJson[rt].logo_url,
                                         componentType:  responseJson[rt].component_type
                                     })

@@ -2585,7 +2585,7 @@ function        function_call_requestPart2              (  msg  ) {
         dbsearch.serialize(
             function() {
                 let stmt = dbsearch.all(
-                    "SELECT  ipfs_hash as id  FROM  level_2_released_components  where  base_component_id = ?; ",
+                    "SELECT  content_hash as id  FROM  level_2_released_components  where  base_component_id = ?; ",
 
                     msg.find_component.base_component_id,
 
@@ -3569,7 +3569,7 @@ async function  copyAppshareApp                         (  args  ) {
             results = await yz.getQuickSql(
                 dbsearch
                 ,
-                "SELECT    ipfs_hash as id, code, component_name as display_name    FROM    level_2_released_components   where    " +
+                "SELECT    content_hash as id, code, component_name as display_name    FROM    level_2_released_components   where    " +
                 " base_component_id = ? ;  "
                 ,
                 [argsBaseComponentId])
@@ -3925,7 +3925,7 @@ async function  startServices                           (  ) {
                                                 {
                                                     base_component_id:  thisRow.base_component_id,
                                                     logo:               "",
-                                                    ipfs_hash:          thisRow.id,
+                                                    content_hash:          thisRow.id,
                                                     display_name:       thisRow.display_name,
                                                     logo_url:           thisRow.logo_url,
                                                     component_type:     componentType
@@ -3973,7 +3973,7 @@ async function  startServices                           (  ) {
                         `select  
                              distinct(level_2_released_components.id), 
                              component_name, 
-                             ipfs_hash, 
+                             content_hash, 
                              level_2_released_components.base_component_id,
                              component_type, 
                              logo_url
@@ -4002,7 +4002,7 @@ async function  startServices                           (  ) {
                                                     id:                 thisRow.base_component_id,
                                                     base_component_id:  thisRow.base_component_id,
                                                     logo:               thisRow.logo_url,
-                                                    ipfs_hash:          thisRow.ipfs_hash,
+                                                    content_hash:          thisRow.content_hash,
                                                     display_name:       thisRow.component_name,
                                                     component_type:     thisRow.component_type
                                                 })
@@ -4737,7 +4737,7 @@ async function  startServices                           (  ) {
         console.log("/http_post_add_or_update_app:baseComponentIdLocal := " + baseComponentIdLocal)
         let srcCode = req.body.src_code
         console.log("/http_post_add_or_update_app:srcCode := " + srcCode.length)
-        let ipfsHash = req.body.ipfs_hash
+        let ipfsHash = req.body.content_hash
         console.log("/http_post_add_or_update_app:ipfsHash := " + ipfsHash)
 
         await yz.addOrUpdateDriver(
@@ -4766,7 +4766,7 @@ async function  startServices                           (  ) {
         //
         //---------------------------------------------------------------------------
 
-        let ipfsHash        = req.body.ipfs_hash
+        let ipfsHash        = req.body.content_hash
         let ipfsContent     = req.body.ipfs_content
         res.status(200).send('IPFS content registered');
         let contentDesc = yz.getContentDescription(ipfsContent)
@@ -4796,7 +4796,7 @@ async function  startServices                           (  ) {
     });
     app.get(    '/http_get_ipfs_content',                                   async function (req, res, next) {
         // this is called from the salver server to this master server
-        let ipfsHash     = req.query.ipfs_hash
+        let ipfsHash     = req.query.content_hash
 
         let nextContent = await yz.getDistributedContent(  {  thisDb: dbsearch  ,  ipfsHash:  ipfsHash }  )
 
@@ -4811,7 +4811,7 @@ async function  startServices                           (  ) {
         }
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
-            {ipfs_hash: ipfsHash, content: content, error: error}
+            {content_hash: ipfsHash, content: content, error: error}
         ));
     });
     app.get(    '/http_get_copy_component',                                 async function (req, res, next) {
@@ -5108,7 +5108,7 @@ async function  startServices                           (  ) {
                     WHERE  
                         level_2_released_components.base_component_id = ?
                             and   
-                        level_2_released_components.ipfs_hash = level_2_system_code.id 
+                        level_2_released_components.content_hash = level_2_system_code.id 
                     `
                     ,
                     componentItem.baseComponentId)

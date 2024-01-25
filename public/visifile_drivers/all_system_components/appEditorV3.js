@@ -1600,7 +1600,7 @@ End of app preview menu
                                  where
                                         level_2_released_components.base_component_id = '${baseComponentId}'
                                            and
-                                        level_2_system_code.id = level_2_released_components.ipfs_hash `)
+                                        level_2_system_code.id = level_2_released_components.content_hash `)
                         if (!results || results.length == 0) {
                             results = await sqliteQuery(
                                 `select

@@ -87,18 +87,18 @@
                                             {
                                                 switchCursor($event,"grab","grabbing");
                                                 highlighted_control         = av.base_component_id;
-                                                highlighted_control_code_id = av.ipfs_hash;
+                                                highlighted_control_code_id = av.content_hash;
                                                 drag(   $event,
                                                         {
                                                             type:               "add_component",
                                                             base_component_id:  av.base_component_id,
-                                                            code_id:            av.ipfs_hash
+                                                            code_id:            av.content_hash
                                                         })
                                             } else {
                                                 event.preventDefault()
                                                 gotoDragDropEditor();
                                             }'
-                            v-on:click='highlighted_control = av.base_component_id;highlighted_control_code_id = av.ipfs_hash;gotoDragDropEditor();'
+                            v-on:click='highlighted_control = av.base_component_id;highlighted_control_code_id = av.content_hash;gotoDragDropEditor();'
                             v-bind:style='"display-old:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
                         <img    v-if='isValidObject(av)'
@@ -110,7 +110,7 @@
 
                   </div>
                     <div  style="width:100%; height:3px;background-color: lightgray"
-                          v-on:click="debug_component_bci=av.base_component_id;debug_component_code_id=av.ipfs_hash;"></div>
+                          v-on:click="debug_component_bci=av.base_component_id;debug_component_code_id=av.content_hash;"></div>
 
                   </div>
                 </div>
