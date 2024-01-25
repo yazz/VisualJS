@@ -29,6 +29,17 @@ properties(
         }
         ,
         {
+            id:         "testAsync",
+            pre_snippet: `await `,
+            snippet:    `testAsync()`,
+            name:       "testAsync",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>testAsync</b> function
+                         </div>`
+        }
+        ,
+        {
             id:         "setTextAsync",
             pre_snippet: `await `,
             snippet:    `setTextAsync("")`,
@@ -117,6 +128,7 @@ logo_url("/driver_icons/button_control.png")
                                     }
                                 },
         methods:    {
+                        testAsync: async function(){return 42},
                         event_callback: function        ( ) {
                             console.log("----- button_control, event_callback: function() = " + this.name)
                             //eval("(function(){" + this.properties.click_event + "})")()
