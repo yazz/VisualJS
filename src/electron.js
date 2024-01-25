@@ -4767,7 +4767,7 @@ async function  startServices                           (  ) {
         //---------------------------------------------------------------------------
 
         let ipfsHash        = req.body.content_hash
-        let ipfsContent     = req.body.ipfs_content
+        let ipfsContent     = req.body.yazz_content
         res.status(200).send('IPFS content registered');
         let contentDesc = yz.getContentDescription(ipfsContent)
         console.log("Received content from peer: " + contentDesc)

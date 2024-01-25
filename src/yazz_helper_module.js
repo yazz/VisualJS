@@ -722,7 +722,7 @@ module.exports = {
                     //   LEVEL 0
                     //  This content may be moved into another Sqlite database eventually
                     //
-                    "CREATE TABLE IF NOT EXISTS level_0_cached_content              (content_hash TEXT, ipfs_content TEXT,  UNIQUE(content_hash));",
+                    "CREATE TABLE IF NOT EXISTS level_0_cached_content              (content_hash TEXT, yazz_content TEXT,  UNIQUE(content_hash));",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_0_cached_content',1);",
                     "CREATE INDEX IF NOT EXISTS level_0_cached_content_idx          ON level_0_cached_content (content_hash);",
 
@@ -1810,9 +1810,9 @@ module.exports = {
         //
         //
         try {
-            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  ipfs_content  from  level_0_cached_content  where  content_hash = ?",[ipfsHash])
+            let contentRecord = await mm.getQuickSqlOneRow(thisDb,"select  yazz_content  from  level_0_cached_content  where  content_hash = ?",[ipfsHash])
             if (contentRecord) {
-                let returnValue = contentRecord.ipfs_content
+                let returnValue = contentRecord.yazz_content
                 if (returnValue) {
                     returnValue = returnValue.toString('utf8')
                     let baseComponentId = mm.helpers.getValueOfCodeString(returnValue, "base_component_id")
@@ -2147,7 +2147,7 @@ module.exports = {
 
             // if the content is stored in Sqlite then get the content from sqlite
             if (metadataStoredInSqlite && contentStoredInSqlite) {
-                contentOnDisk           = contentStoredInSqlite.ipfs_content.toString("utf8")
+                contentOnDisk           = contentStoredInSqlite.yazz_content.toString("utf8")
                 returnValue = contentOnDisk
 
 
@@ -2230,7 +2230,7 @@ module.exports = {
             } else {
                 await mm.executeQuickSql(
                     thisDb,
-                    "insert  into  level_0_cached_content  (content_hash,ipfs_content) values (?,?)",
+                    "insert  into  level_0_cached_content  (content_hash,yazz_content) values (?,?)",
                     [justHash,contentValueToStore])
 
                 await mm.executeQuickSql(
@@ -2313,7 +2313,7 @@ module.exports = {
                 const dataString = JSON.stringify(
                     {
                         content_hash:          content_hash,
-                        ipfs_content:       ipfsContent,
+                        yazz_content:       ipfsContent,
                         yazz_instance_id:   mm.yazzInstanceId
                     })
 
@@ -2737,7 +2737,7 @@ module.exports = {
                     if (nextIpfsQueueRecord) {
                         let contentAlreadyExists = await mm.getQuickSqlOneRow(thisDb,
                             `select  
-                                ipfs_content  
+                                yazz_content  
                             from  
                                 level_0_cached_content  
                             where  
@@ -2751,7 +2751,7 @@ module.exports = {
                             await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",nextIpfsQueueRecord.master_time_millis)
                         }
                         if (contentAlreadyExists) {
-                            debugContent = contentAlreadyExists.ipfs_content
+                            debugContent = contentAlreadyExists.yazz_content
                             await mm.executeQuickSql(
                                 thisDb,
                                 "update  level_8_download_content_queue  set status = ? , debug_content = ? where content_hash = ?",
