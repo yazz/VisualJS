@@ -1,6 +1,7 @@
 function demo_microservice(args) {
 /*
 base_component_id("demo_microservice")
+hash_algorithm("SHA256")
 display_name("Demo microservice")
 only_run_on_server(true)
 visibility("PRIVATE")

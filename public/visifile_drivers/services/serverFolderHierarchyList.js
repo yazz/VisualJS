@@ -2,6 +2,7 @@ async function serverFolderHierarchyList(args) {
 /*
 description("Get the list of available drives")
 base_component_id("server_folder_hierarchy_list")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */

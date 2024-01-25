@@ -66,6 +66,7 @@ formEditor({
 component_type("APP")
 runtime_pipeline(["APP"])
 base_component_id("demo_timer")
+hash_algorithm("SHA256")
 visibility("PUBLIC")
 display_name("Timer demo")
 created_timestamp(1669781806972)

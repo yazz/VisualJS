@@ -2,6 +2,7 @@ async function json_filter_service(args) {
 /*
 description("Server side function to filter JSON")
 base_component_id("json_filter_service")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */

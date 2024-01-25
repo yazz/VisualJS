@@ -2,6 +2,7 @@ function pwd(args, callbackFn) {
 /*
 description("pwd returns working directory")
 base_component_id("commandLine2")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */

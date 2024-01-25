@@ -2,6 +2,7 @@ async function serverFileList(args) {
 /*
 description("Get the list of available files")
 base_component_id("server_file_list")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */

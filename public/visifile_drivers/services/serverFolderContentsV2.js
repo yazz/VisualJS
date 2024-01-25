@@ -2,6 +2,7 @@ async function serverFolderContentsV2(args) {
 /*
 description("Get the folder contents")
 base_component_id("server_folder_contents")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */

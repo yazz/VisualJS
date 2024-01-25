@@ -1,6 +1,7 @@
 async function(args) {
 /*
 base_component_id("vue")
+hash_algorithm("SHA256")
 created_timestamp(1529939023323)
 is_app(true)
 display_name("VueJS test App")

@@ -2,6 +2,7 @@ async function serverDockerStuff(args) {
 /*
 description("The VB6 style docker control communicates with this")
 base_component_id("server_docker_stuff")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */

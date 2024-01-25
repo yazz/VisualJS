@@ -4,6 +4,7 @@ is_app(true)
 display_name("Bootstrap app")
 description('Bootstrap')
 base_component_id("bootstrap")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 logo_url("https://getbootstrap.com/docs/4.1/assets/img/bootstrap-stack.png")
 */

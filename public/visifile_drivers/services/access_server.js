@@ -2,6 +2,7 @@ async function access_sql(args) {
 /*
 description("`access db driver")
 base_component_id("access_server")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */

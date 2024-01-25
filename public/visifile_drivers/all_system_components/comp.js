@@ -2,6 +2,7 @@ function component(args) {
 /*
 description('Component')
 base_component_id("comp")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 */
 

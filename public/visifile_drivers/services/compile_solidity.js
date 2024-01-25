@@ -2,6 +2,7 @@ async function compile_solidity(args) {
 /*
 description("compile_solidity")
 base_component_id("compile_solidity")
+hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */
