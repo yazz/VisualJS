@@ -3691,27 +3691,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //
                 estraverse.replace(_b, {
                     leave: function (node, parent) {
-                        //return estraverse.VisitorOption.Skip;
-                        //
-                        // add the line numbers
-                        //
-                        let nodeType = node?node.type:null
-                        if (
-                            (node.type == "ExpressionStatement")
-                            //(node.type == "CallExpression")
-                        )
-                        {
-                            return
-                            let asyncH = node.expression.async
-                            let jsNode = node
-                            if (node && node.expression && node.expression.async) {
-                                return {
-                                    type:       'AwaitExpression',
-                                    argument:   node
-                                };
-                            };
-                        } else if (node.type === 'CallExpression') {
-                            //debugger
+                        if (node.type === 'CallExpression') {
+                            debugger
                             //if (node && node.expression && node.expression.async) {
                                 return {
                                     type:       'AwaitExpression',
