@@ -3689,30 +3689,43 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //
                 // add "await" to all function calls
                 //
-                estraverse.traverse(_b, {
-                    enter: function (node, parent) {
+                estraverse.replace(_b, {
+                    leave: function (node, parent) {
+                        //return estraverse.VisitorOption.Skip;
                         //
                         // add the line numbers
                         //
                         let nodeType = node?node.type:null
-                        debugger
                         if (
                             (node.type == "ExpressionStatement")
-                        ) {
+                            //(node.type == "CallExpression")
+                        )
+                        {
+                            return
+                            let asyncH = node.expression.async
+                            let jsNode = node
+                            if (node && node.expression && node.expression.async) {
                                 return {
-                                    type: 'AwaitExpression',
-                                    argument: node
+                                    type:       'AwaitExpression',
+                                    argument:   node
                                 };
-
+                            };
+                        } else if (node.type === 'CallExpression') {
+                            //debugger
+                            //if (node && node.expression && node.expression.async) {
+                                return {
+                                    type:       'AwaitExpression',
+                                    argument:   node
+                                };
+                            //};
                         }
-                    },
-                    leave: function (node, parent) {
                     },
 
                     keys: {
                         'AwaitExpression': ['argument']
                     }
                 });
+                debugger
 
 
                 let debugCode = escodegen.generate(_b, {comment: false})
