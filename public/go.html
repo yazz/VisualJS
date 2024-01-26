@@ -3515,9 +3515,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
             }
             function        getDebugCode                        (   blockName   ,   trcode2   ,   args   ) {
-                if (!uiDebuggerOn) {
-                    return trcode2
-                }
 
                 let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
                 let line = -1
@@ -3531,112 +3528,56 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 }
 
-                estraverse.traverse(_b, {
-                    enter: function (node, parent) {
-                        //
-                        // add the line numbers
-                        //
-                        if (
-                            (node.type == "ExpressionStatement")
-                            ||
-                            (node.type == "VariableDeclaration")
-                            ||
-                            (node.type == "AssignmentExpression")
-                        ) {
-                            if (parent) {
-                                if ((node.loc.start.line - numLinesToSkip) > line) {
-                                    line = (node.loc.start.line - numLinesToSkip)
+                if (uiDebuggerOn) {
+                    estraverse.traverse(_b, {
+                        enter: function (node, parent) {
+                            //
+                            // add the line numbers
+                            //
+                            if (
+                                (node.type == "ExpressionStatement")
+                                ||
+                                (node.type == "VariableDeclaration")
+                                ||
+                                (node.type == "AssignmentExpression")
+                            ) {
+                                if (parent) {
+                                    if ((node.loc.start.line - numLinesToSkip) > line) {
+                                        line = (node.loc.start.line - numLinesToSkip)
 
-                                    if (line > 0) {
-                                        let newLine = "logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
-                                        let newNode = esprima.parse(newLine)
+                                        if (line > 0) {
+                                            let newLine = "logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
+                                            let newNode = esprima.parse(newLine)
 
-                                        for (let rr = 0; rr < parent.body.length; rr++){
-                                            if (parent.body[rr] == node) {
-                                                parent.body.splice(rr, 0, newNode);
-                                                break
-                                            }
-                                        }
-
-
-
-
-
-                                        //
-                                        // vars
-                                        //
-                                        if (node.type == "VariableDeclaration") {
-                                            if (node.declarations[0].init) {
-                                                //alert(`let ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
-                                                let varNameToUse = node.declarations[0].id.name
-                                                if (node.kind == "var") {
-                                                    if (isValidObject(varNameToUse) && varNameToUse.indexOf("undefined")==-1){
-                                                        let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
-                                                            varNameToUse + "', " + varNameToUse + ");"
-                                                        let newNode = esprima.parse(newLine)
-                                                    }
-                                                }
-                                                varsToAdd[varNameToUse] = {}
-
-                                                let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line + ",'" +
-                                                    varNameToUse + "'," + varNameToUse + ");"
-                                                let newNodeAfter = esprima.parse(newLineAfter)
-
-                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
-                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
-
-                                                for (let rr = 0; rr < parent.body.length; rr++) {
-                                                    if (parent.body[rr] == node) {
-                                                        parent.body.splice(rr + 1, 0, logWatchVarsNode);
-                                                        parent.body.splice(rr + 1, 0, newNodeAfter);
-                                                        parent.body.splice(rr, 0, newNode);
-                                                        break;
-                                                    }
+                                            for (let rr = 0; rr < parent.body.length; rr++){
+                                                if (parent.body[rr] == node) {
+                                                    parent.body.splice(rr, 0, newNode);
+                                                    break
                                                 }
                                             }
-                                        }
-
-
-
-                                        if ((node.type == "ExpressionStatement") && node.expression) {
-                                            if (node.expression.type == "CallExpression") {
-                                                let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
-                                                let logWatchVarsNode = esprima.parse(logWatchVarsCode)
-
-                                                for (let rr=0; rr<parent.body.length; rr++){
-                                                    if (parent.body[rr] == node) {
-                                                        if (logWatchVarsNode){
-                                                            parent.body.splice(rr + 1, 0, logWatchVarsNode);
-                                                        }
-                                                        break;   }}}}
 
 
 
 
-                                        if ((node.type == "ExpressionStatement") && node.expression) {
-                                            if ((node.expression.type == "AssignmentExpression") &&
-                                                (node.expression.operator == "=")) {
-                                                let varName = node.expression.left.name
-                                                if (isValidObject(varName) && varName.indexOf("undefined") == -1) {
-                                                    if (!isValidObject(varName)) {
-                                                        if (node.expression.left.object.type == "ThisExpression") {
-                                                            varName = "this." + node.expression.left.property.name
-                                                        } else if (node.expression.left.type == "MemberExpression") {
-                                                            varName = node.expression.left.object.name
-                                                            if (node.expression.left.property.type == "Identifier") {
-                                                                varName += "." + node.expression.left.property.name
-                                                            }
+
+                                            //
+                                            // vars
+                                            //
+                                            if (node.type == "VariableDeclaration") {
+                                                if (node.declarations[0].init) {
+                                                    //alert(`let ${node.declarations[0].id.name} = ${node.declarations[0].init.value}`)
+                                                    let varNameToUse = node.declarations[0].id.name
+                                                    if (node.kind == "var") {
+                                                        if (isValidObject(varNameToUse) && varNameToUse.indexOf("undefined")==-1){
+                                                            let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                                varNameToUse + "', " + varNameToUse + ");"
+                                                            let newNode = esprima.parse(newLine)
                                                         }
                                                     }
-                                                    varsToAdd[varName] = {}
-
-
-                                                    let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
-                                                        varName + "', " + varName + ");"
-                                                    let newNode = esprima.parse(newLine)
+                                                    varsToAdd[varNameToUse] = {}
 
                                                     let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line + ",'" +
-                                                        varName + "', " + varName + ");"
+                                                        varNameToUse + "'," + varNameToUse + ");"
                                                     let newNodeAfter = esprima.parse(newLineAfter)
 
                                                     let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
@@ -3644,44 +3585,102 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                                                     for (let rr = 0; rr < parent.body.length; rr++) {
                                                         if (parent.body[rr] == node) {
-                                                            if (logWatchVarsNode) {
-                                                                parent.body.splice(rr + 1, 0, logWatchVarsNode);
-                                                            }
-                                                            if (newNodeAfter) {
-                                                                parent.body.splice(rr + 1, 0, newNodeAfter);
-                                                            }
+                                                            parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                                            parent.body.splice(rr + 1, 0, newNodeAfter);
                                                             parent.body.splice(rr, 0, newNode);
                                                             break;
                                                         }
                                                     }
                                                 }
                                             }
+
+
+
+                                            if ((node.type == "ExpressionStatement") && node.expression) {
+                                                if (node.expression.type == "CallExpression") {
+                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                    let logWatchVarsNode = esprima.parse(logWatchVarsCode)
+
+                                                    for (let rr=0; rr<parent.body.length; rr++){
+                                                        if (parent.body[rr] == node) {
+                                                            if (logWatchVarsNode){
+                                                                parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                                            }
+                                                            break;   }}}}
+
+
+
+
+                                            if ((node.type == "ExpressionStatement") && node.expression) {
+                                                if ((node.expression.type == "AssignmentExpression") &&
+                                                    (node.expression.operator == "=")) {
+                                                    let varName = node.expression.left.name
+                                                    if (isValidObject(varName) && varName.indexOf("undefined") == -1) {
+                                                        if (!isValidObject(varName)) {
+                                                            if (node.expression.left.object.type == "ThisExpression") {
+                                                                varName = "this." + node.expression.left.property.name
+                                                            } else if (node.expression.left.type == "MemberExpression") {
+                                                                varName = node.expression.left.object.name
+                                                                if (node.expression.left.property.type == "Identifier") {
+                                                                    varName += "." + node.expression.left.property.name
+                                                                }
+                                                            }
+                                                        }
+                                                        varsToAdd[varName] = {}
+
+
+                                                        let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                            varName + "', " + varName + ");"
+                                                        let newNode = esprima.parse(newLine)
+
+                                                        let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                            varName + "', " + varName + ");"
+                                                        let newNodeAfter = esprima.parse(newLineAfter)
+
+                                                        let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                        let logWatchVarsNode = esprima.parse(logWatchVarsCode)
+
+                                                        for (let rr = 0; rr < parent.body.length; rr++) {
+                                                            if (parent.body[rr] == node) {
+                                                                if (logWatchVarsNode) {
+                                                                    parent.body.splice(rr + 1, 0, logWatchVarsNode);
+                                                                }
+                                                                if (newNodeAfter) {
+                                                                    parent.body.splice(rr + 1, 0, newNodeAfter);
+                                                                }
+                                                                parent.body.splice(rr, 0, newNode);
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+
                                         }
-
-
                                     }
                                 }
                             }
+
+
+
+
+
+
+                        },
+                        leave: function (node, parent) {
+                        },
+
+                        keys: {
+                            'AwaitExpression': ['argument']
                         }
+                    });
 
-
-
-
-
-
-                    },
-                    leave: function (node, parent) {
-                    },
-
-                    keys: {
-                        'AwaitExpression': ['argument']
-                    }
-                });
-
-                for ( let fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
-                    let nnn = Object.keys(varsToAdd)[fds]
-                    globalWatchList[nnn]={
-                        viewer: ""
+                    for ( let fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
+                        let nnn = Object.keys(varsToAdd)[fds]
+                        globalWatchList[nnn]={
+                            viewer: ""
+                        }
                     }
                 }
 
@@ -3715,31 +3714,32 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-                executionCode[blockName] = {}
-                executionCode[blockName].debug_code = debugCode
-                if (numLinesToSkip > 0){
-                    let indexOfFirst = trcode2.indexOf("\n")
-                    if (indexOfFirst != -1) {
-                        trcode2 = trcode2.substring(indexOfFirst + numLinesToSkip)
+                if (uiDebuggerOn) {
+                    executionCode[blockName] = {}
+                    executionCode[blockName].debug_code = debugCode
+                    if (numLinesToSkip > 0) {
+                        let indexOfFirst = trcode2.indexOf("\n")
+                        if (indexOfFirst != -1) {
+                            trcode2 = trcode2.substring(indexOfFirst + numLinesToSkip)
+                        }
+
+                        let indexOfLast = trcode2.lastIndexOf("\n")
+                        if (indexOfLast != -1) {
+                            trcode2 = trcode2.substring(0, indexOfLast)
+                        }
                     }
 
-                    let indexOfLast = trcode2.lastIndexOf("\n")
-                    if (indexOfLast != -1) {
-                        trcode2 = trcode2.substring(0,indexOfLast)
-                    }
+                    trcode2 = trcode2.toString().replaceAll("await sqlRx[(][^,]*,[^,]*,", "sql(")
+                    trcode2 = trcode2.toString().replaceAll("await sqlRx1[(][^,]*,[^,]*,", "sql1(")
+                    trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol[(][^,]*,[^,]*,", "sqlFirstCol(")
+                    trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol1[(][^,]*,[^,]*,", "sqlFirstCol1(")
+
+                    executionCode[blockName].code = trcode2
+                    executionCode[blockName].start = startTimelineTop
+                    startTimelineTop += trcode2.length
                 }
 
-                trcode2 = trcode2.toString().replaceAll("await sqlRx[(][^,]*,[^,]*,","sql(")
-                trcode2 = trcode2.toString().replaceAll("await sqlRx1[(][^,]*,[^,]*,","sql1(" )
-                trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol[(][^,]*,[^,]*,","sqlFirstCol(" )
-                trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol1[(][^,]*,[^,]*,","sqlFirstCol1(" )
-
-                executionCode[blockName].code = trcode2
-                executionCode[blockName].start = startTimelineTop
-                startTimelineTop += trcode2.length
-
                 return debugCode
-
             }
 
             //simple helpers
