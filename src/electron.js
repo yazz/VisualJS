@@ -1549,6 +1549,7 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/controls/chart.js')
     await releaseComponentFromPath( '/controls/image.js')
     await releaseComponentFromPath( '/controls/label.js')
+    await releaseComponentFromPath( '/controls/yazzSqlite.js')
     await releaseComponentFromPath( '/controls/metamask.js')
     await releaseComponentFromPath( '/controls/evm_contract.js')
     await releaseComponentFromPath( '/controls/component_builder.js')
@@ -1680,7 +1681,6 @@ async function  setUpComponentsLocally                  (  ) {
     //database drivers
     await releaseComponentFromPath( '/controls/postgres.js')
     await releaseComponentFromPath( '/controls/sqlite.js')
-    await releaseComponentFromPath( '/controls/yazzSqlite.js')
     await releaseComponentFromPath( '/controls/mysql.js')
 
 

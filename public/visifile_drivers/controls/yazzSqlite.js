@@ -105,6 +105,14 @@ properties(
                             <b>connect</b> function
                          </div>`
         }
+        ,
+        {
+            id:         "has_details_ui",
+            name:       "Has details UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
 
 
     ]
