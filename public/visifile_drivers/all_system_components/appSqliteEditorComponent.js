@@ -1060,6 +1060,7 @@ use_db("todo")
                 mm.pane_home_selectedTable = mm.pane_home_newTableName
                 mm.pane_home_editTableName = false
                 await mm.schemaChanged()
+
                 await mm.pane_home_selectTable(  { tableName: mm.pane_home_selectedTable})
                 await mm.pane_home_drawTabulatorGrid()
             },
@@ -1210,16 +1211,26 @@ use_db("todo")
                             headerMenu:     headerMenu
                         })
                     }
-                    let codeId          = await mm.getCurrentCommitId()
+                    //
+                    await mm.loadSelectedTableData()
+
+                },200)
+            },
+            loadSelectedTableData:              async function  (  ) {
+                let mm = this
+                setTimeout(async function ( ) {
+                    debugger
+                    let codeId = await mm.getCurrentCommitId()
                     let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
-                    mm.pane_home_data_rows        = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                    mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                     //mm.pane_home_data_rows      = sql("select id,name from items")
 
                     mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
                     if (mm.pane_home_selectedColumn) {
                         mm.pane_home_tabulator.scrollToColumn(mm.pane_home_selectedColumn)
                     }
-                },200)
+
+                },800)
             },
 
             // HOME (column editor) pane
