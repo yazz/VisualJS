@@ -2198,8 +2198,8 @@ End of app preview menu
         mounted:        async function () {
             let mm = this
             await useIdeTools()
-            await useEstraverse()
-            await useEsCodeGen()
+            //await useEstraverse()
+            //await useEsCodeGen()
             await useVisJs()
             await useVisCss()
             await useDiffJs()
