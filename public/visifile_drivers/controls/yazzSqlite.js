@@ -128,10 +128,21 @@ logo_url("/driver_icons/sqlite.jpg")
                                     <div v-if="design_mode">
                                     sqlite:
                                                 {{design_time_text}}
+                                                <br/>
+                                    SQL: 
+                                    meta.sql: 
+                                    {{meta.sql}}
+
                                     </div>
                                     <div v-else>
                                     sqlite:
                                                 SQLITE LIVE
+                                                
+                                                <br/>
+                                    SQL: 
+                                    meta.sql: 
+                                    {{meta.sql}}
+
                                     </div>
                  </div>`
         ,

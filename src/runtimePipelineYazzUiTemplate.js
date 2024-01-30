@@ -333,7 +333,8 @@
                                 v-bind:refresh='refresh'
                                 design_mode='detail_editor'
 
-                                v-bind:meta='{form: active_form,name: model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"") ,getEditor: getEditor , lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                v-bind:meta='{sql: "SQLLL", form: active_form,name: model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"") ,getEditor: getEditor , lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                v-bind:sql='"SOME SQL"'
 
                                 v-bind:form="active_form"
                                 v-bind:delete_design_time_component='childDeleteComponent'
@@ -353,7 +354,8 @@
 
                                     <component  v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
                                                 v-bind:design_mode='design_mode'
-                                                v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                v-bind:meta='{sql: "SQLLL", form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                v-bind:sql='"SOME SQL"'
                                                 v-bind:form="active_form"
                                                 v-bind:refresh='refresh'
                                                 v-bind:style='"z-index:100000;position: relative; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
@@ -1991,7 +1993,8 @@ Pushlist
                                          v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;":"display:none;"'>
                                         <component  v-bind:id='formName + "_" + model.forms[formName].components[index].name + (design_mode?"_design":"")'
                                                     v-bind:refresh='refresh'
-                                                    v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                    v-bind:meta='{sql: "SQLLL", form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                    v-bind:sql='"SOME SQL"'
                                                     v-bind:form="formName"
                                                     v-bind:design_mode='design_mode'
                                                     v-bind:children='getChildren(item.name)'
@@ -2011,7 +2014,8 @@ Pushlist
                                                 <component  v-for='child_item  in  getChildren(item.name)'
                                                             v-bind:design_mode='design_mode'
                                                             v-bind:refresh='refresh'
-                                                            v-bind:meta='{form: formName,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                            v-bind:meta='{sql: "SQLLL", form: formName,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                            v-bind:sql='"SOME SQL"'
                                                             v-bind:form="formName"
                                                             v-bind:style='(formName==active_form)?"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;":"display:none;"'
                                                             v-bind:id='formName + "_" + model.forms[formName].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
