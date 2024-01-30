@@ -121,7 +121,7 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Yazz.component({
-        props: [  "sql"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
+        props: [  "sql_query"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
@@ -163,8 +163,8 @@ logo_url("/driver_icons/sqlite.jpg")
         mounted: async function() {
             let mm = this
             await registerComponent(this)
-            await mm.sql()
             debugger
+            await mm.sql_query()
 
             if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {

@@ -1415,9 +1415,10 @@
 
 
             // helper fns
-            runSql:                                 function        (  ) {
+            sqlQuery:                               async function  (  ) {
                 //zzz
                 let mm = this
+                console.log("Called sqlQuery:")
                 debugger
             },
 
