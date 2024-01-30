@@ -163,11 +163,12 @@ logo_url("/driver_icons/sqlite.jpg")
         mounted: async function() {
             let mm = this
             await registerComponent(this)
+            await mm.sql()
             debugger
 
             if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {
-                    debugger
+                    //debugger
                     this.properties.sqlite_file_path = $HOME + "/Yazz/node.visi"
                     await this.connect()
                 }
@@ -215,7 +216,7 @@ logo_url("/driver_icons/sqlite.jpg")
             }
             ,
             connect: async function() {
-                debugger
+                //debugger
                 try {
                     var result = await callComponent(
                                         {

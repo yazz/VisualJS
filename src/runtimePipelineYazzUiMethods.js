@@ -1415,6 +1415,13 @@
 
 
             // helper fns
+            runSql:                                 function        (  ) {
+                //zzz
+                let mm = this
+                debugger
+            },
+
+            // helper fns
             getEditor:                              function        (  ) {
                 /*
                 ________________________________________
