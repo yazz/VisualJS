@@ -130,8 +130,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                                 {{design_time_text}}
                                                 <br/>
                                     SQL: 
-                                    meta.sql: 
-                                    {{meta.sql}}
+                                    {{sql_query}}
 
                                     </div>
                                     <div v-else>
@@ -140,7 +139,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                                 
                                                 <br/>
                                     SQL: 
-                                    {{sql}}
+                                    {{sql_query}}
 
                                     </div>
                  </div>`
