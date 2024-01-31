@@ -1419,9 +1419,9 @@
                 //zzz
                 let mm = this
                 console.log("Called sqlQuery:")
-                debugger
                 //let codeId = window.code_id_of_loaded_app
                 let thisCode = await mm.getText()
+                debugger
                 //let thisCode = thisCode
                 let codeId = await getYazzContentHash( thisCode )
                 let baseComponentId = yz.helpers.getValueOfCodeString(thisCode,"base_component_id")
