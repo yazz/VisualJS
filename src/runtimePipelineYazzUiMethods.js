@@ -1422,8 +1422,7 @@
                 debugger
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                await sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
-                let rowsReturned = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                let rowsReturned = await sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
                 debugger
             },
 
