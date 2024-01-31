@@ -1421,7 +1421,9 @@
                 console.log("Called sqlQuery:")
                 debugger
                 let codeId = window.code_id_of_loaded_app
-                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                //let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                let baseComponentId =  window.base_component_id_of_loaded_app
+
                 let rowsReturned = await sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
                 return rowsReturned
             },
