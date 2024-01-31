@@ -121,7 +121,7 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Yazz.component({
-        props: [  "sql_query"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
+        props: [  "sql"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
@@ -130,7 +130,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                                 {{design_time_text}}
                                                 <br/>
                                     SQL: 
-                                    {{sql_query}}
+                                    {{sql}}
 
                                     </div>
                                     <div v-else>
@@ -139,7 +139,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                                 
                                                 <br/>
                                     SQL: 
-                                    {{sql_query}}
+                                    {{sql}}
 
                                     </div>
                  </div>`
@@ -163,8 +163,7 @@ logo_url("/driver_icons/sqlite.jpg")
             let mm = this
             await registerComponent(this)
             debugger
-            await mm.sql_query()
-            //await mm.sql("select * from me")
+            await mm.sql("select * from me")
 
             if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {
