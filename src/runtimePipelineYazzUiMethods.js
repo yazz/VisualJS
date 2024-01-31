@@ -1420,10 +1420,10 @@
                 let mm = this
                 console.log("Called sqlQuery:")
                 debugger
-                let codeId = await mm.getCurrentCommitId()
+                let codeId = window.code_id_of_loaded_app
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 let rowsReturned = await sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
-                debugger
+                return rowsReturned
             },
 
             // helper fns
@@ -4582,25 +4582,17 @@ return {}
                 }
             },
             getText:                                async function  (  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-
-                //console.log("2) VB: getText")
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /               getText               /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // gets the source code of this component
+                //
+                //-----------------------------------------------------------/
                 await this.generateCodeFromModel()
-                //debugger
                 return this.text
             },
             lockEditor:                             function        (  ) {

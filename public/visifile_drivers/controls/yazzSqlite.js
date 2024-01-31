@@ -130,7 +130,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                                 {{design_time_text}}
                                                 <br/>
                                     SQL: 
-                                    {{sql}}
+                                    {{rowReturned}}
 
                                     </div>
                                     <div v-else>
@@ -139,7 +139,7 @@ logo_url("/driver_icons/sqlite.jpg")
                                                 
                                                 <br/>
                                     SQL: 
-                                    {{sql}}
+                                    {{rowReturned}}
 
                                     </div>
                  </div>`
@@ -147,7 +147,8 @@ logo_url("/driver_icons/sqlite.jpg")
         data: function() {
             return {
                 design_time_text: "",
-                tables:             [ ]
+                tables:             [ ],
+                rowReturned:        [ ]
             }
         }
         ,
@@ -163,7 +164,7 @@ logo_url("/driver_icons/sqlite.jpg")
             let mm = this
             await registerComponent(this)
             //debugger
-            await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
+            mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
 
             if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {
