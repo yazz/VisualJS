@@ -1415,10 +1415,15 @@
 
 
             // helper fns
-            sqlQuery:                               async function  (  ) {
+            sqlQuery:                               async function  (  sql  ,  params  ) {
                 //zzz
                 let mm = this
                 console.log("Called sqlQuery:")
+                debugger
+                let codeId = await mm.getCurrentCommitId()
+                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                await sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
+                let rowsReturned = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                 debugger
             },
 

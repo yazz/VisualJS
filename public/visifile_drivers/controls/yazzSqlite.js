@@ -162,8 +162,8 @@ logo_url("/driver_icons/sqlite.jpg")
         mounted: async function() {
             let mm = this
             await registerComponent(this)
-            debugger
-            await mm.sql("select * from me")
+            //debugger
+            await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
 
             if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {
