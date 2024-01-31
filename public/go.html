@@ -8911,12 +8911,13 @@
 
 
 
-
-                        // Sqlite stuff
-                        trcode2 = trcode2.toString().replaceAll("sql[(]","await sqlRx(" + addP)
-                        trcode2 = trcode2.toString().replaceAll("sql1[(]","await sqlRx1(" + addP)
-                        trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await sqlRxFirstCol(" + addP)
-                        trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await sqlRxFirstCol1(" + addP)
+                        if (component_type != "VB") {
+                            // Sqlite stuff
+                            trcode2 = trcode2.toString().replaceAll("sql[(]","await sqlRx(" + addP)
+                            trcode2 = trcode2.toString().replaceAll("sql1[(]","await sqlRx1(" + addP)
+                            trcode2 = trcode2.toString().replaceAll("sqlFirstCol[(]","await sqlRxFirstCol(" + addP)
+                            trcode2 = trcode2.toString().replaceAll("sqlFirstCol1[(]","await sqlRxFirstCol1(" + addP)
+                        }
 
 
 

@@ -164,6 +164,7 @@ logo_url("/driver_icons/sqlite.jpg")
             await registerComponent(this)
             debugger
             await mm.sql_query()
+            //await mm.sql("select * from me")
 
             if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {
