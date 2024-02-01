@@ -6547,6 +6547,7 @@ return {}
                 componentType:                       null,
                 event_code:                          null,
                 text:                                texti,
+                codeId:                              codeIdi,
                 leftHandWidth:                       130,
                 right_mode:                          "project",
                 add_property:                        false,
