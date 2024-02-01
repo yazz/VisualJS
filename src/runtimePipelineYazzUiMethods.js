@@ -6034,8 +6034,10 @@ return {}
 
                     if (mm.text) {
                         json2                       = mm.getJsonModelFromCode(mm.text)
-                        mm.old_model                = JSON.parse(JSON.stringify(json2));
-                        mm.model                    = json2
+                        if (json2) {
+                            mm.old_model                = JSON.parse(JSON.stringify(json2));
+                            mm.model                    = json2
+                        }
                         mm.edited_app_component_id  = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
                         mm.edited_app_display_name  = yz.helpers.getValueOfCodeString(mm.text, "display_name")
                         mm.read_only                = yz.helpers.getValueOfCodeString(mm.text, "read_only")

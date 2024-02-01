@@ -8835,15 +8835,21 @@
                                             })
 
                                         let argsToPassToUiComponents = {}
-                                        //argsToPassToUiComponents.text = sdf[i].code
-                                        //argsToPassToUiComponents.codeId = codeId
-                                        await mm.addRuntimePipelinesAndRunCode(
-                                            {
-                                                codeId:             codeId,
-                                                baseComponentId:    sdf[i].base_component_id,
-                                                code:               sdf[i].code,
-                                                codeArgs:           argsToPassToUiComponents
-                                            })
+                                        argsToPassToUiComponents.text = sdf[i].code
+                                        argsToPassToUiComponents.codeId = codeId
+                                        //debugger
+                                        try {
+                                            await mm.addRuntimePipelinesAndRunCode(
+                                                {
+                                                    codeId:             codeId,
+                                                    baseComponentId:    sdf[i].base_component_id,
+                                                    code:               sdf[i].code,
+                                                    codeArgs:           argsToPassToUiComponents
+                                                })
+                                        } catch (loadComponentErr) {
+                                            console.log(loadComponentErr)
+                                        }
+                                        //debugger
                                     }
                                 };
 
