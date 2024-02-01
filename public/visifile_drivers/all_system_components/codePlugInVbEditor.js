@@ -15,7 +15,6 @@ runtime_pipeline(["EDITOR_PLUG_IN"])
     let texti               = null
     let codeIdi               = null
     if (args) {
-        debugger
         texti = args.text
         codeIdi = args.codeId
     }

@@ -5996,6 +5996,11 @@ return {}
                 // time or at runtime
 
                 let mm = this
+                if (args) {
+                    mm.text = args.text
+                    mm.codeId = args.codeId
+                }
+
                 let json2
                 try {
                     mm.unique_app_dom_element_id    = uuidv4()
