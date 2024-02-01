@@ -1664,7 +1664,7 @@ End of app preview menu
                             editorName = newEditor
                         }
 
-                        await GLOBALS.makeSureUiComponentLoadedV6( editorName, {text: code} )
+                        await GLOBALS.makeSureUiComponentLoadedV6( editorName )
                         mm.refresh++
 
                         mm.editor_loaded    = true
