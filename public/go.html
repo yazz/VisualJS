@@ -8696,8 +8696,9 @@
                     //
                     return code
                 },
-                makeSureUiComponentLoadedV6:    async function  (   argComponentsToLoad   ,   argsToPassToUiComponents   ) {
+                makeSureUiComponentLoadedV6:    async function  (   argComponentsToLoad  ) {
                     let mm = this
+
                     /*
                     Dynamically loads a component class into the currently running system. Should
                     have the ability to load components via IPFS as well
@@ -8747,6 +8748,9 @@
                                 }
                                 let codeForCommit   = this.getCodeForComponent({codeId: newDataCodeId })
 
+                                let argsToPassToUiComponents = {}
+                                //argsToPassToUiComponents.text = codeForCommit
+                                //argsToPassToUiComponents.codeId = newDataCodeId
                                 await this.addRuntimePipelinesAndRunCode({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                                 this.setComponentLoaded({codeId: newDataCodeId})
                                 loadedStatic = true
@@ -8774,6 +8778,9 @@
                             if (componentCodeId && this.getCodeForComponent({codeId: componentCodeId})) {
                                 let compCode        = this.getCodeForComponent({codeId: componentCodeId})
                                 if (compCode) {
+                                    let argsToPassToUiComponents = {}
+                                    //argsToPassToUiComponents.text = compCode
+                                    //argsToPassToUiComponents.codeId = componentCodeId
                                     await this.addRuntimePipelinesAndRunCode({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
@@ -8827,6 +8834,9 @@
                                                 codeId:             codeId
                                             })
 
+                                        let argsToPassToUiComponents = {}
+                                        //argsToPassToUiComponents.text = sdf[i].code
+                                        //argsToPassToUiComponents.codeId = codeId
                                         await mm.addRuntimePipelinesAndRunCode(
                                             {
                                                 codeId:             codeId,
