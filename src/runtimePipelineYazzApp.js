@@ -3,6 +3,11 @@
         //*** gen_start ***//
         {
             let texti       = null
+            if (args) {
+                debugger
+                texti = args.text
+            }
+
             let designMode  = false
             let runtimeMode = true
 
