@@ -2,14 +2,6 @@
     pipelineCode: async function() {
         //*** gen_start ***//
         {
-            let texti       = null
-            let codeIdi     = null
-            if (args) {
-                debugger
-                texti = args.text
-                codeIdi = args.codeId
-            }
-
             let designMode  = false
             let runtimeMode = true
 

@@ -5998,8 +5998,12 @@ return {}
                 let mm = this
                 if (args) {
                     debugger
-                    mm.text = args.text
-                    mm.codeId = args.codeId
+                    if (args.text) {
+                        mm.text = args.text
+                    }
+                    if (args.codeId) {
+                        mm.codeId = args.codeId
+                    }
                 }
 
                 let json2
@@ -6028,13 +6032,13 @@ return {}
                     // Get the base component ID of the code to edit/run
                     // Save it in "this.edited_app_component_id"
 
-                    if (texti) {
-                        json2                       = mm.getJsonModelFromCode(texti)
+                    if (mm.text) {
+                        json2                       = mm.getJsonModelFromCode(mm.text)
                         mm.old_model                = JSON.parse(JSON.stringify(json2));
                         mm.model                    = json2
-                        mm.edited_app_component_id  = yz.helpers.getValueOfCodeString(texti, "base_component_id")
-                        mm.edited_app_display_name  = yz.helpers.getValueOfCodeString(texti, "display_name")
-                        mm.read_only                = yz.helpers.getValueOfCodeString(texti, "read_only")
+                        mm.edited_app_component_id  = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+                        mm.edited_app_display_name  = yz.helpers.getValueOfCodeString(mm.text, "display_name")
+                        mm.read_only                = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                     }
                     mm.active_form = mm.model.default_form
 
@@ -6106,8 +6110,6 @@ return {}
                     mm.updateAllFormCaches()
                     mm.$forceUpdate();
                     mm.updatePropertySelector()
-
-                    texti = null
 
                     setTimeout(async function () {
                         for (let formName of mm.getFormNames()) {
@@ -6552,8 +6554,8 @@ return {}
                 edited_app_display_name:             null,
                 componentType:                       null,
                 event_code:                          null,
-                text:                                texti,
-                codeId:                              codeIdi,
+                text:                                null,
+                codeId:                              null,
                 leftHandWidth:                       130,
                 right_mode:                          "project",
                 add_property:                        false,
