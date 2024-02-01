@@ -8749,8 +8749,8 @@
                                 let codeForCommit   = this.getCodeForComponent({codeId: newDataCodeId })
 
                                 let argsToPassToUiComponents = {}
-                                //argsToPassToUiComponents.text = codeForCommit
-                                //argsToPassToUiComponents.codeId = newDataCodeId
+                                argsToPassToUiComponents.text = codeForCommit
+                                argsToPassToUiComponents.codeId = newDataCodeId
                                 await this.addRuntimePipelinesAndRunCode({codeId: newDataCodeId,   code: codeForCommit,   codeArgs: argsToPassToUiComponents})
                                 this.setComponentLoaded({codeId: newDataCodeId})
                                 loadedStatic = true
@@ -8779,8 +8779,8 @@
                                 let compCode        = this.getCodeForComponent({codeId: componentCodeId})
                                 if (compCode) {
                                     let argsToPassToUiComponents = {}
-                                    //argsToPassToUiComponents.text = compCode
-                                    //argsToPassToUiComponents.codeId = componentCodeId
+                                    argsToPassToUiComponents.text = compCode
+                                    argsToPassToUiComponents.codeId = componentCodeId
                                     await this.addRuntimePipelinesAndRunCode({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
@@ -8834,6 +8834,7 @@
                                                 codeId:             codeId
                                             })
 
+                                        debugger
                                         let argsToPassToUiComponents = {}
                                         //argsToPassToUiComponents.text = sdf[i].code
                                         //argsToPassToUiComponents.codeId = codeId
