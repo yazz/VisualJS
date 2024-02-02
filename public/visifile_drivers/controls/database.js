@@ -772,7 +772,7 @@ logo_url("/driver_icons/data_control.png")
          await registerComponent(this)
          let mm = this
 
-         debugger
+         //debugger
          //let listLL = await findComponentsImplementing(["runQuery","connect"])
          let listLL  = {values:
              [

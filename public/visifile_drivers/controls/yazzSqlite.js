@@ -170,7 +170,7 @@ logo_url("/driver_icons/sqlite.jpg")
             for (let row of mm.rowReturned) {
                 mm.tables.push(row.name)
             }
-            debugger
+            //debugger
 
             /*if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {
@@ -296,6 +296,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
 
             getSchema: async function() {
+                debugger
                 return null
             }
             ,
