@@ -1549,7 +1549,10 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/controls/chart.js')
     await releaseComponentFromPath( '/controls/image.js')
     await releaseComponentFromPath( '/controls/label.js')
+
     await releaseComponentFromPath( '/controls/yazzSqlite.js')
+    await releaseComponentFromPath( '/controls/database.js')
+
     await releaseComponentFromPath( '/controls/metamask.js')
     await releaseComponentFromPath( '/controls/evm_contract.js')
     await releaseComponentFromPath( '/controls/component_builder.js')
@@ -1574,7 +1577,6 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/controls/shapes.js')
     await releaseComponentFromPath( '/controls/line.js')
     await releaseComponentFromPath( '/controls/draw.js')
-    await releaseComponentFromPath( '/controls/database.js')
     await releaseComponentFromPath( '/controls/mixer.js')
     await releaseComponentFromPath( '/controls/ms_access.js')
     await releaseComponentFromPath( '/controls/ms_excel.js')
