@@ -39,7 +39,8 @@ properties(
             id:     "result",
             name:   "result",
             type:   "Array",
-            default:    []
+            default:    [],
+            types: {table_data: true}
         }
         ,
         {
@@ -163,12 +164,13 @@ logo_url("/driver_icons/sqlite.jpg")
         mounted: async function() {
             let mm = this
             await registerComponent(this)
-            //debugger
             mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
+            mm.result = mm.rowReturned
             mm.tables = []
             for (let row of mm.rowReturned) {
                 mm.tables.push(row.name)
             }
+            debugger
 
             /*if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {

@@ -1422,7 +1422,7 @@
                 //let codeId = window.code_id_of_loaded_app
                 //let thisCode = await mm.getText()
                 let thisCode = mm.text
-                debugger
+                //debugger
                 //let thisCode = thisCode
                 //let codeId = await getYazzContentHash( thisCode )
                 let codeId = mm.codeId
@@ -5999,7 +5999,7 @@ return {}
 
                 let mm = this
                 if (args) {
-                    debugger
+                    //debugger
                     if (args.text) {
                         mm.text = args.text
                     }
