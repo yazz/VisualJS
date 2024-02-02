@@ -129,8 +129,8 @@ logo_url("/driver_icons/sqlite.jpg")
                                     sqlite:
                                                 {{design_time_text}}
                                                 <br/>
-                                    SQL: 
-                                    {{rowReturned}}
+                                    Tables: 
+                                    {{tables}}
 
                                     </div>
                                     <div v-else>
@@ -138,8 +138,8 @@ logo_url("/driver_icons/sqlite.jpg")
                                                 SQLITE LIVE
                                                 
                                                 <br/>
-                                    SQL: 
-                                    {{rowReturned}}
+                                    Tables: 
+                                    {{tables}}
 
                                     </div>
                  </div>`
@@ -165,8 +165,12 @@ logo_url("/driver_icons/sqlite.jpg")
             await registerComponent(this)
             //debugger
             mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
+            mm.tables = []
+            for (let row of mm.rowReturned) {
+                mm.tables.push(row.name)
+            }
 
-            if (this.design_mode) {
+            /*if (this.design_mode) {
                 if (!this.properties.sqlite_file_path) {
                     //debugger
                     this.properties.sqlite_file_path = $HOME + "/Yazz/node.visi"
@@ -174,7 +178,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 }
             } else {
 
-            }
+            }*/
         }
         ,
         methods: {
