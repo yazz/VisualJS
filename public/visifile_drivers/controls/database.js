@@ -774,7 +774,10 @@ logo_url("/driver_icons/data_control.png")
 
          debugger
          //let listLL = await findComponentsImplementing(["runQuery","connect"])
-         let listLL  = {values: ["yazz_sqlite_client_component"]}
+         let listLL  = {values:
+             [
+                { base_component_id: "yazz_sqlite_client_component" , display_name: "Yazz SQLite Connector" }
+             ]}
          //aaa
          //alert(JSON.stringify(listLL,null,2))
          this.data_sources = listLL.values
