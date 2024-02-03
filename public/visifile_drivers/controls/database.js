@@ -887,25 +887,27 @@ logo_url("/driver_icons/data_control.png")
                 let mm = this
                 debugger
                 let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
-                let connected = await newcontrol.connect()
-                if (connected == false) {
-                    if (newcontrol &&
-                        newcontrol.result &&
-                        newcontrol.result.failed &&
-                        newcontrol.result.failed.routine) {
+                if (newcontrol) {
+                    let connected = await newcontrol.connect()
+                    if (connected == false) {
+                        if (newcontrol &&
+                            newcontrol.result &&
+                            newcontrol.result.failed &&
+                            newcontrol.result.failed.routine) {
                             mm.properties.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
 
 
-                     } else if (newcontrol && newcontrol.error) {
-                         mm.properties.connect_error = newcontrol.error
-                     }
-                     mm.properties.connect_status = "not_connected"
+                        } else if (newcontrol && newcontrol.error) {
+                            mm.properties.connect_error = newcontrol.error
+                        }
+                        mm.properties.connect_status = "not_connected"
 
-                 } else {
+                    } else {
                         mm.properties.connect_error = ""
                         mm.getTables()
                         mm.properties.connect_status = "connected"
-                 }
+                    }
+                }
             },
             disconnect:         async function  (  ) {
              let mm = this
