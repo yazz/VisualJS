@@ -143,7 +143,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
                                     </div>
                  </div>`,
-        data:       function() {
+        data:       function(  ) {
             return {
                 design_time_text: "",
                 tables:             [ ],
@@ -158,7 +158,7 @@ logo_url("/driver_icons/sqlite.jpg")
               }
           }
         },
-        mounted:    async function() {
+        mounted:    async function(  ) {
             let mm = this
             await registerComponent(this)
             mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
@@ -180,7 +180,7 @@ logo_url("/driver_icons/sqlite.jpg")
             }*/
         },
         methods:    {
-            getTables:  async function() {
+            getTables:  async function  (  ) {
               console.log("In getTables")
 
               if (this.design_mode) {
@@ -213,7 +213,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
                 //debugger
             },
-            connect:    async function() {
+            connect:    async function  (  ) {
                 //debugger
                 try {
                     var result = await callComponent(
@@ -238,7 +238,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 }
                 return false
             },
-            getColumns: async function() {
+            getColumns: async function  (  ) {
                 console.log("In getColumns")
                 //debugger
 
@@ -269,11 +269,11 @@ logo_url("/driver_icons/sqlite.jpg")
                    return this.args.columns
                 }
             },
-            getSchema:  async function() {
+            getSchema:  async function  (  ) {
                 debugger
                 return null
             },
-            runQuery:   async function() {
+            runQuery:   async function  (  ) {
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
@@ -299,7 +299,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 this.changedFn()
                 return {}
             },
-            changedFn:  function() {
+            changedFn:  function        (  ) {
                 if (isValidObject(this.args)) {
                     //this.args.text = this.text
                 }

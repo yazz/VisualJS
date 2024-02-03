@@ -340,10 +340,8 @@ logo_url("/driver_icons/data_control.png")
 */
 
     Yazz.component({
-      props: ["meta","name","properties","args","refresh","design_mode", "children", "properties"]
-      ,
-      template:
-`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
+        props: ["meta","name","properties","args","refresh","design_mode", "children", "properties"],
+        template: `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
         v-bind:refresh='refresh'>
 
 
@@ -733,11 +731,8 @@ logo_url("/driver_icons/data_control.png")
 
 
 
-</div>`
-      ,
-
-
-      data: function() {
+</div>`,
+        data: function(  ) {
        return {
          selected_index:      null
          ,
@@ -747,11 +742,8 @@ logo_url("/driver_icons/data_control.png")
          ,
          designDetailTab:     "connection"
        }
-     }
-     ,
-
-
-     watch: {
+     },
+        watch: {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
            //console.log("refresh: " + this.args.text)
@@ -760,14 +752,12 @@ logo_url("/driver_icons/data_control.png")
                //alert(JSON.stringify(this.tables,null,2))
            }
        }
-     }
-     ,
-
-     beforeDestroy: async function() {
+     },
+        beforeDestroy: async function(  ) {
          console.log('beforeDestroy');
          await this.minimizeChildren()
      },
-     mounted: async function() {
+        mounted: async function(  ) {
          console.log("mounted: async function() {")
          await registerComponent(this)
          let mm = this
@@ -847,12 +837,9 @@ logo_url("/driver_icons/data_control.png")
              //alert(JSON.stringify(results,null,2))
          }
 
-      }
-      ,
-
-
-      methods: {
-          chooseSource: async function(event) {
+      },
+        methods: {
+            chooseSource:       async function  (  event  ) {
               //debugger
               let mm = this
               let typeName = event.target.value
@@ -877,9 +864,31 @@ logo_url("/driver_icons/data_control.png")
               newcontrol.height = 700
 
 
-          }
-          ,
-          connect: async function() {
+          },
+            connect:            async function  (  ) {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /            functionName             /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This is used to run user written event code in the app, form, or control
+                // event handlers
+                //
+                //________
+                // PARAMS \______________________________________________________________/
+                //
+                //    componentSearchDetails    Some text
+                //    ----------------------    can go here
+                //                              and on the
+                //                              following lines
+                //
+                //    second param              Some text
+                //    ------------              can go here
+                //                              and on the
+                //                              following lines
+                //-----------------------------------------------------------/
              let mm = this
              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
              let connected = await newcontrol.connect()
@@ -905,14 +914,8 @@ logo_url("/driver_icons/data_control.png")
              }
 
 
-          }
-          ,
-
-
-
-
-
-          disconnect: async function() {
+          },
+            disconnect:         async function  (  ) {
              let mm = this
              mm.properties.connect_status = "not_connected"
              mm.properties.connect_error = ""
@@ -920,13 +923,8 @@ logo_url("/driver_icons/data_control.png")
              await this.meta.getEditor().deleteComponentByName(mm.properties.sourceControlName)
              mm.properties.sourceControlName == ""
              mm.properties.sourceComponentType = ""
-          }
-          ,
-
-
-
-
-            setSql: function() {
+          },
+            setSql:             function        (  ) {
                 var colSql = "*"
                 if (this.args.dataWindowColumns.length > 0) {
                     colSql = ""
@@ -944,37 +942,26 @@ logo_url("/driver_icons/data_control.png")
                 }
 
 
-            }
-            ,
-            changedFn: function() {
+            },
+            changedFn:          function        (  ) {
                 if (isValidObject(this.args)) {
                 }
-            }
-
-
-            ,
-            resetColumns: async function(data) {
+            },
+            resetColumns:       async function  (  data  ) {
                 this.table.setColumns([])
-            }
-            ,
-            addColumn: async function(colData) {
+            },
+            addColumn:          async function  (  colData  ) {
                 this.table.addColumn(colData, true, "name");
-            }
-            ,
-
-            runEventHandler: function() {
+            },
+            runEventHandler:    function        (  ) {
                 this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 control_name:        this.args.name,
                                                 sub_type:           "changed",
                                                 code:                this.args.changed_event
                                             })
-            }
-            ,
-
-
-
-            array_move: function (arr, old_index, new_index) {
+            },
+            array_move:         function        (  arr  ,  old_index  ,  new_index  ) {
                 if (new_index >= arr.length) {
                     var k = new_index - arr.length + 1;
                     while (k--) {
@@ -983,12 +970,8 @@ logo_url("/driver_icons/data_control.png")
                 }
                 arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
                 return arr; // for testing
-            }
-            ,
-
-
-
-            getTables: async function() {
+            },
+            getTables:          async function  (  ) {
                 console.log("In getTables")
                 //debugger
 
@@ -1014,20 +997,8 @@ logo_url("/driver_icons/data_control.png")
 
 
                 }
-            }
-            ,
-
-
-
-
-
-
-
-
-
-
-
-            generateColumns: async function() {
+            },
+            generateColumns:    async function  (  ) {
                 console.log("In generateColumns")
                 //debugger
 
@@ -1042,21 +1013,8 @@ logo_url("/driver_icons/data_control.png")
 
 
                 }
-            }
-            ,
-
-
-
-
-
-
-
-
-
-
-
-
-            runQuery: async function() {
+            },
+            runQuery:           async function  (  ) {
                 let mm = this
                 let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
                 newcontrol.sql = mm.properties.sql
@@ -1067,14 +1025,8 @@ logo_url("/driver_icons/data_control.png")
                 this.properties.result = result
                 this.properties.data = result
                 return this.properties.result
-            }
-
-
-
-
-
-            ,
-            visibilityChanged: function (isVisible, entry) {
+            },
+            visibilityChanged:  function        (  isVisible  ,  entry  ) {
                   //this.isVisible = isVisible
                   //console.log(Math.round(entry.intersectionRatio * 100) + '%')
                   console.log("isVisible: " + isVisible)
@@ -1083,9 +1035,8 @@ logo_url("/driver_icons/data_control.png")
                   } else {
                       this.minimizeChildren()
                   }
-            }
-            ,
-            minimizeChildren: async function() {
+            },
+            minimizeChildren:   async function  (  ) {
                 console.log('minimizeChildren');
                 let mm = this
                 if (mm.args.sourceControlName) {
@@ -1097,9 +1048,8 @@ logo_url("/driver_icons/data_control.png")
 
                 }
 
-            }
-            ,
-            maximizeChildren: async function() {
+            },
+            maximizeChildren:   async function  (  ) {
                 console.log('maximizeChildren');
                 let mm = this
                 if (mm.args.sourceControlName) {
@@ -1111,11 +1061,6 @@ logo_url("/driver_icons/data_control.png")
 
                 }
             }
-
-
-
-
         }
-
     })
 }
