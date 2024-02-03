@@ -840,14 +840,25 @@ logo_url("/driver_icons/data_control.png")
       },
         methods: {
             chooseSource:       async function  (  event  ) {
-              //debugger
-              let mm = this
-              let typeName = event.target.value
-              await GLOBALS.makeSureUiComponentLoadedV6([typeName])
-              mm.args.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
-              mm.properties.sourceComponentType = typeName
-              await this.meta.getEditor().addControl(
-                  {
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /            chooseSource             /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // When a driver is chosen from the drop down list of the database control
+                // then a new control is created for the database driver and placed under
+                // the database control
+                //--------------------------------------------------------------------------/
+                //debugger
+                let mm = this
+                let typeName = event.target.value
+                await GLOBALS.makeSureUiComponentLoadedV6([typeName])
+                mm.args.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
+                mm.properties.sourceComponentType = typeName
+                await this.meta.getEditor().addControl(
+                    {
                             "leftX": 10,
                             "topY": 10,
                             "name": mm.args.sourceControlName,
@@ -855,66 +866,47 @@ logo_url("/driver_icons/data_control.png")
                             parent_base_component_id: mm.args.base_component_id,
                             parent_name: mm.args.name
                           }
-
-              )
-              //debugger
+                )
+                //debugger
               //await mm.meta.getEditor().updateComponentMethods()
-              let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
-              newcontrol.width = 600
-              newcontrol.height = 700
-
-
-          },
+                let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                newcontrol.width = 600
+                newcontrol.height = 700
+            },
             connect:            async function  (  ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                    /-------------------------------------/
-                //                   /            functionName             /
+                //                   /                 connect             /
                 //                  /-------------------------------------/
                 //
                 //----------------------------------------------------------------------------/
-                // This is used to run user written event code in the app, form, or control
-                // event handlers
-                //
-                //________
-                // PARAMS \______________________________________________________________/
-                //
-                //    componentSearchDetails    Some text
-                //    ----------------------    can go here
-                //                              and on the
-                //                              following lines
-                //
-                //    second param              Some text
-                //    ------------              can go here
-                //                              and on the
-                //                              following lines
-                //-----------------------------------------------------------/
-             let mm = this
-             let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
-             let connected = await newcontrol.connect()
-             if (connected == false) {
-
-                 if (newcontrol &&
-                     newcontrol.result &&
-                     newcontrol.result.failed &&
-                     newcontrol.result.failed.routine) {
-
-                         mm.properties.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
+                // This is called when the database control tries to call out to a SQL
+                // driver
+                //--------------------------------------------------------------------------/
+                let mm = this
+                debugger
+                let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                let connected = await newcontrol.connect()
+                if (connected == false) {
+                    if (newcontrol &&
+                        newcontrol.result &&
+                        newcontrol.result.failed &&
+                        newcontrol.result.failed.routine) {
+                            mm.properties.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
 
 
-                 } else if (newcontrol && newcontrol.error) {
-                     mm.properties.connect_error = newcontrol.error
+                     } else if (newcontrol && newcontrol.error) {
+                         mm.properties.connect_error = newcontrol.error
+                     }
+                     mm.properties.connect_status = "not_connected"
+
+                 } else {
+                        mm.properties.connect_error = ""
+                        mm.getTables()
+                        mm.properties.connect_status = "connected"
                  }
-                 mm.properties.connect_status = "not_connected"
-
-             } else {
-                    mm.properties.connect_error = ""
-                    mm.getTables()
-                    mm.properties.connect_status = "connected"
-             }
-
-
-          },
+            },
             disconnect:         async function  (  ) {
              let mm = this
              mm.properties.connect_status = "not_connected"
