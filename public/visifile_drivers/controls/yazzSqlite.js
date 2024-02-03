@@ -122,9 +122,8 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Yazz.component({
-        props: [  "sql"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
-        ,
-        template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
+        props:      [  "sql"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ],
+        template:   `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
                                     <div v-if="design_mode">
                                     sqlite:
@@ -143,17 +142,15 @@ logo_url("/driver_icons/sqlite.jpg")
                                     {{tables}}
 
                                     </div>
-                 </div>`
-        ,
-        data: function() {
+                 </div>`,
+        data:       function() {
             return {
                 design_time_text: "",
                 tables:             [ ],
                 rowReturned:        [ ]
             }
-        }
-        ,
-        watch: {
+        },
+        watch:      {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
               if (isValidObject(this.args)) {
@@ -161,7 +158,7 @@ logo_url("/driver_icons/sqlite.jpg")
               }
           }
         },
-        mounted: async function() {
+        mounted:    async function() {
             let mm = this
             await registerComponent(this)
             mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
@@ -181,13 +178,9 @@ logo_url("/driver_icons/sqlite.jpg")
             } else {
 
             }*/
-        }
-        ,
-        methods: {
-
-
-
-            getTables: async function() {
+        },
+        methods:    {
+            getTables:  async function() {
               console.log("In getTables")
 
               if (this.design_mode) {
@@ -219,9 +212,8 @@ logo_url("/driver_icons/sqlite.jpg")
 
 
                 //debugger
-            }
-            ,
-            connect: async function() {
+            },
+            connect:    async function() {
                 //debugger
                 try {
                     var result = await callComponent(
@@ -245,14 +237,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
                 }
                 return false
-            }
-            ,
-
-
-
-
-
-
+            },
             getColumns: async function() {
                 console.log("In getColumns")
                 //debugger
@@ -283,31 +268,12 @@ logo_url("/driver_icons/sqlite.jpg")
 
                    return this.args.columns
                 }
-            }
-            ,
-
-
-
-
-
-
-
-
-
-
-            getSchema: async function() {
+            },
+            getSchema:  async function() {
                 debugger
                 return null
-            }
-            ,
-
-
-
-
-
-
-            
-            runQuery: async function() {
+            },
+            runQuery:   async function() {
                 if (!this.design_mode) {
                     var result = await callComponent(
                                         {
@@ -332,14 +298,12 @@ logo_url("/driver_icons/sqlite.jpg")
                 this.args.result = []
                 this.changedFn()
                 return {}
-            }
-            ,
-            changedFn: function() {
+            },
+            changedFn:  function() {
                 if (isValidObject(this.args)) {
                     //this.args.text = this.text
                 }
             }
-
         }
     })
 }
