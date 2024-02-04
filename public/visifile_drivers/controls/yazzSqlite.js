@@ -214,29 +214,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 //debugger
             },
             connect:    async function  (  ) {
-                debugger
-                try {
-                    var result = await callComponent(
-                                        {
-                                            base_component_id: "sqlite_server"
-                                        }
-                                            ,{
-                                                connect:         true,
-                                                path:            this.properties.sqlite_file_path
-                                             })
-
-
-                   //alert("runQuery: " + JSON.stringify(result,null,2))
-                   console.log(JSON.stringify(result,null,2))
-                   if (result.error) {
-                       return false
-                   } else {
-                       return true
-                   }
-                } catch (catchErr) {
-
-                }
-                return false
+                return true
             },
             getColumns: async function  (  ) {
                 console.log("In getColumns")
