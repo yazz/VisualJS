@@ -1560,26 +1560,37 @@
                 })
             },
             getControlNonAsyncMethod:               function        (  componentDetails  ,  isComponentInDesignMode  ,  methodId  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /   getControlNonAsyncMethod          /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This is ...
+                //
+                //________
+                // PARAMS \______________________________________________________________/
+                //
+                //    componentDetails
+                //    ----------------              can go here
+                //                                  and on the
+                //                                  following lines
+                //
+                //    isComponentInDesignMode
+                //    -----------------------       ds can go here
+                //
+                //    methodId
+                //    --------
+                //-----------------------------------------------------------/
                 return function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                     let me = componentDetails
+                    let mm = this
                     let parent = null
                     if (me.parent) {
-                        parent = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
+                        if (mm.runtimeFormsInfo) {
+                            parent = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
+                        }
                     }
 
                     let retv =  null

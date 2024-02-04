@@ -214,7 +214,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 //debugger
             },
             connect:    async function  (  ) {
-                //debugger
+                debugger
                 try {
                     var result = await callComponent(
                                         {
