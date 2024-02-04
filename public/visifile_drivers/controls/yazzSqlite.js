@@ -182,6 +182,15 @@ logo_url("/driver_icons/sqlite.jpg")
         methods:    {
             getTables:  async function  (  ) {
               console.log("In getTables")
+                let mm = this
+                debugger
+                let tables = [
+
+                ]
+                for (let tableName of mm.tables) {
+                    tables.push({name: tableName})
+                }
+                return tables
 
               if (this.design_mode) {
 
@@ -248,7 +257,6 @@ logo_url("/driver_icons/sqlite.jpg")
                 }
             },
             getSchema:  async function  (  ) {
-                debugger
                 return null
             },
             runQuery:   async function  (  ) {
