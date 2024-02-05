@@ -401,7 +401,7 @@ logo_url("/driver_icons/data_control.png")
 
                 <li class="nav-item" style="width:20%;">
                     <a    v-bind:class='"nav-link " + ((designDetailTab == "schema")?"active":"")'
-                          v-on:click="designDetailTab = 'schema';"
+                          v-on:click="switchTab('schema');"
                           href="#">Tables</a>
                 </li>
 
@@ -944,6 +944,14 @@ logo_url("/driver_icons/data_control.png")
         },
         methods:
         {
+            switchTab:          async function  (  tabName  ) {
+                let mm = this
+                if (tabName == "schema") {
+                    await mm.getTables()
+                }
+                mm.designDetailTab = tabName
+                //zzz
+            },
             chooseSource:       async function  (  event  ) {
                 //----------------------------------------------------------------------------------/
                 //
@@ -1015,7 +1023,7 @@ logo_url("/driver_icons/data_control.png")
 
                     } else {
                         mm.properties.connect_error = ""
-                        mm.getTables()
+                        await mm.getTables()
                         mm.properties.connect_status = "connected"
                         newcontrol.show_connected_ui = true
                     }
