@@ -997,6 +997,7 @@ logo_url("/driver_icons/data_control.png")
                 //debugger
               //await mm.meta.getEditor().updateComponentMethods()
                 let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
+                newcontrol.show_driver_ui = false
                 //newcontrol.width = 600
                 //newcontrol.height = 700
                 //zzz
@@ -1032,11 +1033,13 @@ logo_url("/driver_icons/data_control.png")
                             mm.properties.connect_error = newcontrol.error
                         }
                         mm.properties.connect_status = "not_connected"
+                        newcontrol.show_driver_ui = false
 
                     } else {
                         mm.properties.connect_error = ""
                         mm.getTables()
                         mm.properties.connect_status = "connected"
+                        newcontrol.show_driver_ui = true
                     }
                 }
             },
