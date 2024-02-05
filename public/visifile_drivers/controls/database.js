@@ -341,10 +341,42 @@ logo_url("/driver_icons/data_control.png")
 
     Yazz.component({
         props:                  [ "meta" , "name" , "properties" , "args" , "refresh" , "design_mode" , "children" , "properties" ],
-        template:               `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
+        template:               ` 
+<!-- ----------------------------------------------------------------
+|                                    |
+|    HTML FOR THE DATABASE CONTROL   |
+|                                    |
+|   --------------------------------
+|
+|  The Database control will try to ask for a connection to a 
+|  database driver first
+|
+--------------------------------------------------------------------- -->
+<div    v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
         v-bind:refresh='refresh'>
 
 
+
+
+    <!-- ----------------------------------------------------------------
+    |                                    |
+    |    HTML FOR THE PANES              |
+    |                                    |
+    |   --------------------------------
+    |
+    |  Since we have multiple panes in the database control we need the 
+    |  HTML for each pane here
+    |
+    --------------------------------------------------------------------- -->
+    
+    
+    
+    <!--  SELECT A PANE ---------------------------------------------------------
+    |   -----------------
+    |
+    | This is the buttons at the top of the details page for the database control
+    |
+    --------------------------------------------------------------------- -->
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
          v-if='design_mode == "detail_editor"'
           >
@@ -385,6 +417,15 @@ logo_url("/driver_icons/data_control.png")
                 </li>
             </ul>
 
+
+
+
+
+            <!--  CONNECTION PANE ---------------------------------------------------------
+            |   -------------------
+            |
+            |
+            --------------------------------------------------------------------- -->
             <div v-bind:style='((designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
                  v-bind:refresh='refresh'
                  v-observe-visibility="visibilityChanged">
