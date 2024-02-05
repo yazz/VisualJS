@@ -477,6 +477,7 @@ logo_url("/driver_icons/data_control.png")
 
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
+                                v-bind:disabled='properties.connect_status == "connected"'
                                 v-on:click="connect">
                           Connect
                     </button>
