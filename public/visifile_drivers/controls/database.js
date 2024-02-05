@@ -340,8 +340,8 @@ logo_url("/driver_icons/data_control.png")
 */
 
     Yazz.component({
-        props: ["meta","name","properties","args","refresh","design_mode", "children", "properties"],
-        template: `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
+        props:                  [ "meta" , "name" , "properties" , "args" , "refresh" , "design_mode" , "children" , "properties" ],
+        template:               `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
         v-bind:refresh='refresh'>
 
 
@@ -732,7 +732,7 @@ logo_url("/driver_icons/data_control.png")
 
 
 </div>`,
-        data: function(  ) {
+        data:                   function        (  )  {
        return {
          selected_index:      null
          ,
@@ -743,7 +743,7 @@ logo_url("/driver_icons/data_control.png")
          designDetailTab:     "connection"
        }
      },
-        watch: {
+        watch:                  {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
            //console.log("refresh: " + this.args.text)
@@ -753,11 +753,11 @@ logo_url("/driver_icons/data_control.png")
            }
        }
      },
-        beforeDestroy: async function(  ) {
+        beforeDestroy:          async function  (  ) {
          console.log('beforeDestroy');
          await this.minimizeChildren()
      },
-        mounted: async function(  ) {
+        mounted:                async function  (  ) {
          console.log("mounted: async function() {")
          await registerComponent(this)
          let mm = this
@@ -838,7 +838,8 @@ logo_url("/driver_icons/data_control.png")
          }
 
       },
-        methods: {
+        methods:
+        {
             chooseSource:       async function  (  event  ) {
                 //----------------------------------------------------------------------------------/
                 //
