@@ -997,8 +997,8 @@ logo_url("/driver_icons/data_control.png")
                 //debugger
               //await mm.meta.getEditor().updateComponentMethods()
                 let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
-                newcontrol.width = 600
-                newcontrol.height = 700
+                //newcontrol.width = 600
+                //newcontrol.height = 700
                 //zzz
                 //mm.$root.$emit('message', {
                 //    type:   "pending"
