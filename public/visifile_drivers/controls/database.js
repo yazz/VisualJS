@@ -371,6 +371,13 @@ logo_url("/driver_icons/data_control.png")
     
     
     
+    
+    
+    
+    
+    
+    
+    
     <!--  SELECT A PANE ---------------------------------------------------------
     |   -----------------
     |
@@ -421,6 +428,16 @@ logo_url("/driver_icons/data_control.png")
 
 
 
+
+
+
+
+
+
+
+
+
+
             <!--  CONNECTION PANE ---------------------------------------------------------
             |   -------------------
             |
@@ -458,12 +475,12 @@ logo_url("/driver_icons/data_control.png")
 
                 <div v-if='children && children[0]'>
 
-
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
                                 v-on:click="connect">
                           Connect
                     </button>
+                    
                     <button     class="btn btn-danger"
                                 style="margin-top: 5px;"
                                 v-on:click="disconnect">
@@ -477,27 +494,31 @@ logo_url("/driver_icons/data_control.png")
 
                     <div style='height:50px;'></div>
 
-
-
-                    <button    class="btn btn-primary"
-                            v-on:click="connect">
-                          Connect
-                    </button>
-                    <button    class="btn btn-danger"
-                               v-on:click="disconnect">
-                          Remove
-                    </button>
-
-
                 </div>
-
-
-
             </div>
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--  SCHEMA PANE ---------------------------------------------------------
+            |   ---------------
+            |
+            |
+            --------------------------------------------------------------------- -->
             <div v-if='designDetailTab == "schema"'  >
                Database tables for schema &#34;{{args.sourceComponentType}}&#34;
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
@@ -514,6 +535,30 @@ logo_url("/driver_icons/data_control.png")
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--  COLUMNS PANE ---------------------------------------------------------
+            |   ---------------
+            |
+            |
+            --------------------------------------------------------------------- -->
             <div v-if='designDetailTab == "columns"' >
                 Columns for table &#34;{{args.design_mode_table}}&#34;
                 <div>
@@ -671,6 +716,28 @@ logo_url("/driver_icons/data_control.png")
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--  WHERE CLAUSE PANE ---------------------------------------------------------
+            |   ---------------------
+            |
+            |
+            --------------------------------------------------------------------- -->
             <div v-if='designDetailTab == "where"'  >
 
                 <label for="col_input_width">Where Clause</label>
@@ -687,6 +754,28 @@ logo_url("/driver_icons/data_control.png")
             </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--  OPTIONS PANE ---------------------------------------------------------
+            |   ---------------
+            |
+            |
+            --------------------------------------------------------------------- -->
             <div v-if='designDetailTab == "options"'  >
                 Options tab
 
