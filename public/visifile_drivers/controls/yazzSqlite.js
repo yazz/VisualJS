@@ -122,6 +122,14 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:         "show_connected_ui",
+            name:       "Show Connected UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
 
 
     ]
@@ -135,11 +143,16 @@ logo_url("/driver_icons/sqlite.jpg")
 <div    v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
         "background-color: "+    args["background_color"]  +  ";"'>
         
-    <div  v-if='properties.show_driver_ui'>
+    <div  >
         <div v-if="design_mode">
-            Internal Yazz DB
+            <div  v-if='properties.show_driver_ui'>    
+                Internal Yazz DB
+            </div>
+            
             </br/>
-            {{tables.length}} tables
+            <div  v-if='properties.show_connected_ui'>
+                {{tables.length}} tables
+            </div>
         </div>
         <div v-else>
             Sqlite:

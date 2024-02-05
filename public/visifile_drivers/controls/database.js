@@ -986,19 +986,19 @@ logo_url("/driver_icons/data_control.png")
                 mm.properties.sourceComponentType = typeName
                 await this.meta.getEditor().addControl(
                     {
-                            "leftX": 10,
-                            "topY": 10,
-                            "name": mm.properties.sourceControlName,
-                            "base_component_id": typeName,
-                            parent_base_component_id: mm.properties.base_component_id,
-                            parent_name: mm.properties.name
+                            "leftX":                    10,
+                            "topY":                     10,
+                            width:                      "100%",
+                            show_connected_ui:          false,
+                            "name":                     mm.properties.sourceControlName,
+                            "base_component_id":        typeName,
+                            parent_base_component_id:   mm.properties.base_component_id,
+                            parent_name:                mm.properties.name
                           }
                 )
                 //debugger
               //await mm.meta.getEditor().updateComponentMethods()
                 let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
-                newcontrol.show_driver_ui = false
-                //newcontrol.width = 600
                 //newcontrol.height = 700
                 //zzz
                 //mm.$root.$emit('message', {
@@ -1033,13 +1033,13 @@ logo_url("/driver_icons/data_control.png")
                             mm.properties.connect_error = newcontrol.error
                         }
                         mm.properties.connect_status = "not_connected"
-                        newcontrol.show_driver_ui = false
+                        newcontrol.show_connected_ui = false
 
                     } else {
                         mm.properties.connect_error = ""
                         mm.getTables()
                         mm.properties.connect_status = "connected"
-                        newcontrol.show_driver_ui = true
+                        newcontrol.show_connected_ui = true
                     }
                 }
             },
