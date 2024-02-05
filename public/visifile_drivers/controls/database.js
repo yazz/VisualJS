@@ -458,15 +458,14 @@ logo_url("/driver_icons/data_control.png")
                 </div>
 
                 <select  @change='chooseSource($event)'
-                          style="margin-top: 5px;"
-                          v-if-old="  properties.sourceComponentType == ''  ">
+                          style="margin-top: 5px;">
 
                       <option   value=""
                               selected='true'>
                       </option>
                       <option   v-for='propVal in data_sources'
                                 v-bind:value="propVal.base_component_id"
-                                v-bind:selected='(propVal.base_component_id == properties.sourceControlName)'>
+                                v-bind:selected='(propVal.base_component_id == sourceComponentType)'>
 
                             {{propVal.display_name}}
 
@@ -520,12 +519,12 @@ logo_url("/driver_icons/data_control.png")
             |
             --------------------------------------------------------------------- -->
             <div v-if='designDetailTab == "schema"'  >
-               Database tables for schema &#34;{{args.sourceComponentType}}&#34;
+               Database tables for schema &#34;{{properties.sourceComponentType}}&#34;
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in properties.tables'
-                          v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;generateColumns();args.dataWindowColumns=[];"
-                          v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                          v-on:click="properties.sql = 'select * from ' + table; properties.design_mode_table = table;generateColumns();properties.dataWindowColumns=[];"
+                          v-bind:style='"padding: 5px; " + ((properties.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                          {{table}}
 
@@ -560,16 +559,16 @@ logo_url("/driver_icons/data_control.png")
             |
             --------------------------------------------------------------------- -->
             <div v-if='designDetailTab == "columns"' >
-                Columns for table &#34;{{args.design_mode_table}}&#34;
+                Columns for table &#34;{{properties.design_mode_table}}&#34;
                 <div>
 
 
                     <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top; border: 2px solid gray;">
 
 
-                        <div   v-for='column in args.tableColumnNames'
-                               v-on:click="args.selected_column = column;"
-                               v-bind:style='"padding: 5px; " + ((args.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                        <div   v-for='column in properties.tableColumnNames'
+                               v-on:click="properties.selected_column = column;"
+                               v-bind:style='"padding: 5px; " + ((properties.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                               {{column}}
 
@@ -578,16 +577,16 @@ logo_url("/driver_icons/data_control.png")
 
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <button    class="btn btn-primary"
-                                :disabled="(args.selected_column && args.selected_column.length > 0)?false:true"
-                                v-on:click="var newId = args.dataWindowColumnsMax++;args.dataWindowColumns.push({id:    newId, value: args.selected_column, name: args.selected_column});setSql();args.selected_data_window_column_index = newId;args.selected_data_window_column = args.dataWindowColumns[args.dataWindowColumns.length - 1];">
+                                :disabled="(properties.selected_column && properties.selected_column.length > 0)?false:true"
+                                v-on:click="var newId = properties.dataWindowColumnsMax++;properties.dataWindowColumns.push({id:    newId, value: properties.selected_column, name: properties.selected_column});setSql();properties.selected_data_window_column_index = newId;properties.selected_data_window_column = properties.dataWindowColumns[properties.dataWindowColumns.length - 1];">
 
                               Add >>
 
                         </button>
                         <button    class="btn btn-primary"
                                 style="margin-top:20px;"
-                                :disabled="(args.selected_data_window_column_index > -1)?false:true"
-                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql(); args.selected_data_window_column_index = -1;args.selected_data_window_column='';">
+                                :disabled="(properties.selected_data_window_column_index > -1)?false:true"
+                                v-on:click="properties.dataWindowColumns.splice(properties.selected_data_window_column_index,1);setSql(); properties.selected_data_window_column_index = -1;properties.selected_data_window_column='';">
 
                               << Remove
 
@@ -603,9 +602,9 @@ logo_url("/driver_icons/data_control.png")
                         <div style="height:100%;width:100%; overflow-y: scroll;vertical-align:top;">
 
 
-                            <div    v-for='(dwcolumn,index) in args.dataWindowColumns'
-                                    v-on:click="args.selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index;"
-                                    v-bind:style='"padding: 5px; " + ((args.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                            <div    v-for='(dwcolumn,index) in properties.dataWindowColumns'
+                                    v-on:click="properties.selected_data_window_column = dwcolumn;properties.selected_data_window_column_index = index;"
+                                    v-bind:style='"padding: 5px; " + ((properties.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                                   {{dwcolumn.value}}
 
@@ -615,18 +614,18 @@ logo_url("/driver_icons/data_control.png")
                         <div    class="btn-group">
 
                             <button     class="btn btn-primary"
-                                        :disabled="(args.selected_data_window_column_index > 0)?false:true"
+                                        :disabled="(properties.selected_data_window_column_index > 0)?false:true"
                                         style="margin-top:20px; margin-left: 0px;"
-                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
+                                        v-on:click="array_move(properties.dataWindowColumns,properties.selected_data_window_column_index,properties.selected_data_window_column_index-1);properties.selected_data_window_column_index --;">
 
                                   Move Up
 
                             </button>
 
                             <button class="btn btn-primary"
-                                    :disabled="((args.selected_data_window_column_index > -1) && (args.selected_data_window_column_index < (args.dataWindowColumns.length - 1)))?false:true"
+                                    :disabled="((properties.selected_data_window_column_index > -1) && (properties.selected_data_window_column_index < (properties.dataWindowColumns.length - 1)))?false:true"
                                     style="margin-top:20px; margin-left: 20px;"
-                                    v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;">
+                                    v-on:click="array_move(properties.dataWindowColumns,properties.selected_data_window_column_index,properties.selected_data_window_column_index + 1);properties.selected_data_window_column_index ++;">
 
                                   Move Down
 
@@ -637,7 +636,7 @@ logo_url("/driver_icons/data_control.png")
 
                         <div   style=" border: 1px solid lightgray;height:90%;width:100%; display:inline-block;margin-top:20px;overflow-y:scroll;">
 
-                            <div    v-if="args.selected_data_window_column"
+                            <div    v-if="properties.selected_data_window_column"
                                     style="height:100%;width:100%; overflow-y: none; padding: 10px;">
 
                                 <div class="form-group">
@@ -650,8 +649,8 @@ logo_url("/driver_icons/data_control.png")
                                           id=col_input_name
                                           name="col_input_name"
                                           required
-                                          v-bind:value='args.selected_data_window_column.name'
-                                          v-on:change="var qwe = document.getElementById('col_input_name').value;args.dataWindowColumns[args.selected_data_window_column_index].name=qwe;args.selected_data_window_column.name = qwe;"
+                                          v-bind:value='properties.selected_data_window_column.name'
+                                          v-on:change="var qwe = document.getElementById('col_input_name').value;properties.dataWindowColumns[properties.selected_data_window_column_index].name=qwe;properties.selected_data_window_column.name = qwe;"
                                           >
                                   </input>
 
@@ -665,9 +664,9 @@ logo_url("/driver_icons/data_control.png")
                                           style="margin-bottom: 30px;"
                                           name="col_input_value"
                                           required
-                                          v-bind:value='args.selected_data_window_column.value'
+                                          v-bind:value='properties.selected_data_window_column.value'
 
-                                          v-on:change="var qwe = document.getElementById('col_input_value').value;args.dataWindowColumns[args.selected_data_window_column_index].value=qwe;args.selected_data_window_column.value = qwe;"
+                                          v-on:change="var qwe = document.getElementById('col_input_value').value;properties.dataWindowColumns[properties.selected_data_window_column_index].value=qwe;properties.selected_data_window_column.value = qwe;"
                                           >
                                   </input>
 
@@ -683,9 +682,9 @@ logo_url("/driver_icons/data_control.png")
                                             class="form-control"
                                             id=col_input_width
                                             name="col_input_width"
-                                            v-bind:value='args.selected_data_window_column.width?args.selected_data_window_column.width:""'
+                                            v-bind:value='properties.selected_data_window_column.width?properties.selected_data_window_column.width:""'
 
-                                            v-on:change="var qwe = document.getElementById('col_input_width').value;args.selected_data_window_column.width = qwe;args.dataWindowColumns[args.selected_data_window_column_index].width=qwe;"
+                                            v-on:change="var qwe = document.getElementById('col_input_width').value;properties.selected_data_window_column.width = qwe;properties.dataWindowColumns[properties.selected_data_window_column_index].width=qwe;"
                                             >
                                     </input>
                               </div>
@@ -696,7 +695,7 @@ logo_url("/driver_icons/data_control.png")
                             </div>
 
 
-                            <div   v-if="!args.selected_data_window_column"  style="height:100%;width:100%; overflow-y: none;margin-top:0px;border: 1px solid lightgray;">
+                            <div   v-if="!properties.selected_data_window_column"  style="height:100%;width:100%; overflow-y: none;margin-top:0px;border: 1px solid lightgray;">
 
                             </div>
                         </div>
@@ -746,9 +745,9 @@ logo_url("/driver_icons/data_control.png")
                         class="form-control"
                         id=where_clause
                         name="where_clause"
-                        v-bind:value='(args.where_clause && (args.where_clause.length > 0))?args.where_clause:""'
+                        v-bind:value='(properties.where_clause && (properties.where_clause.length > 0))?properties.where_clause:""'
 
-                        v-on:change="args.where_clause = document.getElementById('where_clause').value;setSql()"
+                        v-on:change="properties.where_clause = document.getElementById('where_clause').value;setSql()"
                         >
                 </input>
             </div>
@@ -785,21 +784,21 @@ logo_url("/driver_icons/data_control.png")
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_col_resize"
-                                :checked='args.allow_col_resize' v-model='args.allow_col_resize'>
+                                :checked='properties.allow_col_resize' v-model='properties.allow_col_resize'>
                         <label class="form-check-label" for="allow_col_resize">Allow col resize</label>
                       </div>
 
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_col_move"
-                                :checked='args.allow_col_move' v-model='args.allow_col_move'>
+                                :checked='properties.allow_col_move' v-model='properties.allow_col_move'>
                         <label class="form-check-label" for="allow_col_move">Allow col move</label>
                       </div>
 
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_row_resize"
-                                :checked='args.allow_row_resize' v-model='args.allow_row_resize'>
+                                :checked='properties.allow_row_resize' v-model='properties.allow_row_resize'>
                         <label class="form-check-label" for="allow_row_resize">Allow row resize</label>
                       </div>
 
@@ -852,7 +851,7 @@ logo_url("/driver_icons/data_control.png")
 
 
                      <b>SQL:</b>
-                        {{args.sql}}
+                        {{properties.sql}}
          </div>
 
      </div>
@@ -863,26 +862,24 @@ logo_url("/driver_icons/data_control.png")
 
 </div>`,
         data:                   function        (  )  {
-       return {
-         selected_index:      null
-         ,
-         data_sources: []
-
-
-         ,
-         designDetailTab:     "connection"
-       }
-     },
-        watch:                  {
-       // This would be called anytime the value of the input changes
-       refresh: function(newValue, oldValue) {
-           //console.log("refresh: " + this.properties.text)
+            return {
+                selected_index:         null,
+                data_sources:           [],
+                sourceComponentType:    "",
+                designDetailTab:        "connection"
+            }
+        },
+        watch:
+        {
+            // This would be called anytime the value of the input changes
+            refresh: function(newValue, oldValue) {
+            //console.log("refresh: " + this.properties.text)
            if (isValidObject(this.properties)) {
                //this.getTables()
                //alert(JSON.stringify(this.tables,null,2))
            }
        }
-     },
+        },
         beforeDestroy:          async function  (  ) {
          console.log('beforeDestroy');
          await this.minimizeChildren()
@@ -988,7 +985,8 @@ logo_url("/driver_icons/data_control.png")
                 await GLOBALS.makeSureUiComponentLoadedV6([typeName])
                 mm.properties.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
                 mm.properties.sourceComponentType = typeName
-                await this.meta.getEditor().addControl(
+                mm.sourceComponentType = typeName
+                /*await this.meta.getEditor().addControl(
                     {
                             "leftX": 10,
                             "topY": 10,
@@ -1002,12 +1000,11 @@ logo_url("/driver_icons/data_control.png")
               //await mm.meta.getEditor().updateComponentMethods()
                 let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 newcontrol.width = 600
-                newcontrol.height = 700
+                newcontrol.height = 700*/
                 //zzz
-                mm.$root.$emit('message', {
-                    type:   "pending"
-                })
-
+                //mm.$root.$emit('message', {
+                //    type:   "pending"
+                //})
             },
             connect:            async function  (  ) {
                 //----------------------------------------------------------------------------------/
@@ -1046,14 +1043,15 @@ logo_url("/driver_icons/data_control.png")
                 }
             },
             disconnect:         async function  (  ) {
-             let mm = this
-             mm.properties.connect_status = "not_connected"
-             mm.properties.connect_error = ""
-             //let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
-             await this.meta.getEditor().deleteComponentByName(mm.properties.sourceControlName)
-             mm.properties.sourceControlName == ""
-             mm.properties.sourceComponentType = ""
-          },
+                let mm = this
+                mm.properties.connect_status = "not_connected"
+                mm.properties.connect_error = ""
+                //let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
+                await this.meta.getEditor().deleteComponentByName(mm.properties.sourceControlName)
+                mm.properties.sourceControlName == ""
+                mm.properties.sourceComponentType = ""
+                mm.sourceComponentType = ""
+            },
             setSql:             function        (  ) {
                 var colSql = "*"
                 if (this.properties.dataWindowColumns.length > 0) {
