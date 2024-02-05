@@ -310,6 +310,14 @@ properties(
             hidden: true,
             default:    ""
         }
+        ,
+        {
+            id:         "designDetailTab",
+            name:       "designDetailTab",
+            type:       "String",
+            hidden:     true,
+            default:    "connection"
+        }
 
         ,
 
@@ -392,34 +400,34 @@ logo_url("/driver_icons/data_control.png")
 
             <ul class="nav nav-pills" v-bind:style='"height:20%;width:100%; overflow: none;"'>
                 <li class="nav-item" style="width:20%;">
-                    <a  v-bind:class='"nav-link " + ((designDetailTab == "connection")?"active":"")'
-                        v-on:click="designDetailTab = 'connection';"
+                    <a  v-bind:class='"nav-link " + ((properties.designDetailTab == "connection")?"active":"")'
+                        v-on:click="properties.designDetailTab = 'connection';"
                         href="#">
                         Source
                     </a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
-                    <a    v-bind:class='"nav-link " + ((designDetailTab == "schema")?"active":"")'
+                    <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "schema")?"active":"")'
                           v-on:click="switchTab('schema');"
                           href="#">Tables</a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
-                    <a    v-bind:class='"nav-link " + ((designDetailTab == "columns")?"active":"")'
-                          v-on:click="designDetailTab = 'columns';"
+                    <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "columns")?"active":"")'
+                          v-on:click="properties.designDetailTab = 'columns';"
                           href="#">Columns</a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
-                    <a    v-bind:class='"nav-link " + ((designDetailTab == "where")?"active":"")'
-                          v-on:click="designDetailTab = 'where';"
+                    <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "where")?"active":"")'
+                          v-on:click="properties.designDetailTab = 'where';"
                           href="#">Where</a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
-                    <a    v-bind:class='"nav-link " + ((designDetailTab == "options")?"active":"")'
-                          v-on:click="designDetailTab = 'options';"
+                    <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "options")?"active":"")'
+                          v-on:click="properties.designDetailTab = 'options';"
                           href="#">Options</a>
                 </li>
             </ul>
@@ -443,7 +451,7 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-bind:style='((designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
+            <div v-bind:style='((properties.designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
                  v-bind:refresh='refresh'
                  v-observe-visibility="visibilityChanged">
 
@@ -518,12 +526,12 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-if='designDetailTab == "schema"'  >
+            <div v-if='properties.designDetailTab == "schema"'  >
                Database tables for schema &#34;{{properties.sourceComponentType}}&#34;
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in properties.tables'
-                          v-on:click="properties.sql = 'select * from ' + table; properties.design_mode_table = table;generateColumns();properties.dataWindowColumns=[];"
+                          v-on:click="properties.sql = 'select * from ' + table;"
                           v-bind:style='"padding: 5px; " + ((properties.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                          {{table}}
@@ -558,7 +566,7 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-if='designDetailTab == "columns"' >
+            <div v-if='properties.designDetailTab == "columns"' >
                 Columns for table &#34;{{properties.design_mode_table}}&#34;
                 <div>
 
@@ -737,7 +745,7 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-if='designDetailTab == "where"'  >
+            <div v-if='properties.designDetailTab == "where"'  >
 
                 <label for="col_input_width">Where Clause</label>
                 <input  type=text
@@ -775,7 +783,7 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-if='designDetailTab == "options"'  >
+            <div v-if='properties.designDetailTab == "options"'  >
                 Options tab
 
                 <form>
@@ -864,8 +872,7 @@ logo_url("/driver_icons/data_control.png")
         data:                   function        (  )  {
             return {
                 selected_index:         null,
-                data_sources:           [],
-                designDetailTab:        "connection"
+                data_sources:           []
             }
         },
         watch:
@@ -949,7 +956,7 @@ logo_url("/driver_icons/data_control.png")
                 if (tabName == "schema") {
                     await mm.getTables()
                 }
-                mm.designDetailTab = tabName
+                mm.properties.designDetailTab = tabName
                 //zzz
             },
             chooseSource:       async function  (  event  ) {
