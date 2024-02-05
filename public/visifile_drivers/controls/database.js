@@ -871,100 +871,77 @@ logo_url("/driver_icons/data_control.png")
         watch:
         {
             // This would be called anytime the value of the input changes
-            refresh: function(newValue, oldValue) {
-            //console.log("refresh: " + this.properties.text)
-           if (isValidObject(this.properties)) {
-               //this.getTables()
-               //alert(JSON.stringify(this.tables,null,2))
-           }
-       }
+            refresh: function(newValue, oldValue)
+            {
+                //console.log("refresh: " + this.properties.text)
+                if (isValidObject(this.properties)) {
+                    //this.getTables()
+                    //alert(JSON.stringify(this.tables,null,2))
+                }
+            }
         },
         beforeDestroy:          async function  (  ) {
-         console.log('beforeDestroy');
-         await this.minimizeChildren()
-     },
+            console.log('beforeDestroy');
+            await this.minimizeChildren()
+        },
         mounted:                async function  (  ) {
-         console.log("mounted: async function() {")
-         await registerComponent(this)
-         let mm = this
+            await registerComponent(this)
+            let mm = this
 
-         //debugger
-         //let listLL = await findComponentsImplementing(["runQuery","connect"])
-         let listLL  = {values:
-             [
-                 { base_component_id: "yazz_sqlite_client_component" , display_name: "Yazz SQLite Connector" },
-                 { base_component_id: "yazz_sqlite_file_client_component" , display_name: "SQLite File Connector" }
-             ]}
-         //aaa
-         //alert(JSON.stringify(listLL,null,2))
-         this.data_sources = listLL.values
+            //let listLL = await findComponentsImplementing(["runQuery","connect"])
+            let listLL  =
+            {
+                values:
+                 [
+                     { base_component_id: "yazz_sqlite_client_component" , display_name: "Yazz SQLite Connector" },
+                     { base_component_id: "yazz_sqlite_file_client_component" , display_name: "SQLite File Connector" }
+                 ]
+            }
+            this.data_sources = listLL.values
 
-         if (isValidObject(this.properties)) {
-         }
+            if (isValidObject(this.properties)) {
+            }
 
-         if (this.design_mode == "never") {
-             this.table = new Tabulator(this.$refs.exampletable, {
-                    width:                    this.properties.width
-                    ,
-                    height:                    this.properties.height
-                    ,
-                    tables:                    []
-                    ,
-                    data:                      this.properties.data
-                    ,
-                	layout:                    "fitColumns"
-                    ,
-                	responsiveLayout:          "hide"
-                    ,
-                	tooltips:                   true
-                    ,
-                	addRowPos:                 "top"
-                    ,
-                	history:                    true
-                    ,
-                	pagination:                "local"
-                    ,
-                	paginationSize:             7
-                    ,
-                	movableColumns:             true
-                    ,
-                    resizableColumns:           this.properties.allow_col_resize
-                    ,
-                	resizableRows:              this.properties.allow_row_resize
-                    ,
-                    movableColumns:            this.properties.allow_col_move
-                    ,
-                    layout:                    this.properties.layout
-                    ,
-                    tableNames:              []
-                    ,
-
-                	initialSort:                [
-                                            	]
-                    ,
-                    columns:                []
+            if (this.design_mode == "never") {
+                this.table = new Tabulator(this.$refs.exampletable,
+                {
+                    width:                      this.properties.width,
+                    height:                     this.properties.height,
+                    tables:                     [],
+                    data:                       this.properties.data,
+                	layout:                     "fitColumns",
+                	responsiveLayout:           "hide",
+                	tooltips:                   true,
+                	addRowPos:                  "top",
+                	history:                    true,
+                	pagination:                 "local",
+                	paginationSize:             7,
+                	movableColumns:             true,
+                    resizableColumns:           this.properties.allow_col_resize,
+                	resizableRows:              this.properties.allow_row_resize,
+                    movableColumns:             this.properties.allow_col_move,
+                    layout:                     this.properties.layout,
+                    tableNames:                 [],
+                	initialSort:                [],
+                    columns:                    []
                 });
+            }
+            if (this.design_mode) {
+                //await this.getTables()
+            }
 
-         }
-         if (this.design_mode) {
-             //await this.getTables()
-
-         }
-
-         if (!this.design_mode) {
-
-           //hack city!!!! This should not be done via timeout, but via some
-           // sort of callback. The reason a timeout is needed here is because
-           // other uninitialised (as of yet) controls on the same form are
-           // referenced
-           setTimeout(async function(){
-             await mm.connect()
-             await mm.runQuery()
-           },300)
-             //alert(JSON.stringify(results,null,2))
-         }
-
-      },
+            if (!this.design_mode) {
+                //hack city!!!! This should not be done via timeout, but via some
+                // sort of callback. The reason a timeout is needed here is because
+                // other uninitialised (as of yet) controls on the same form are
+                // referenced
+                setTimeout(async function(){
+                    await mm.connect()
+                    await mm.runQuery()
+                },300)
+                //alert(JSON.stringify(results,null,2))
+            }
+        },
         methods:
         {
             chooseSource:       async function  (  event  ) {
