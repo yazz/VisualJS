@@ -395,14 +395,14 @@ logo_url("/driver_icons/data_control.png")
                     <a  v-bind:class='"nav-link " + ((designDetailTab == "connection")?"active":"")'
                         v-on:click="designDetailTab = 'connection';"
                         href="#">
-                        Data source connection
+                        Source
                     </a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
                     <a    v-bind:class='"nav-link " + ((designDetailTab == "schema")?"active":"")'
                           v-on:click="designDetailTab = 'schema';"
-                          href="#">Schema and tables</a>
+                          href="#">Tables</a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
@@ -459,7 +459,7 @@ logo_url("/driver_icons/data_control.png")
 
                 <select  @change='chooseSource($event)'
                           style="margin-top: 5px;"
-                          v-if="  properties.sourceComponentType == ''  ">
+                          v-if-old="  properties.sourceComponentType == ''  ">
 
                       <option   value=""
                               selected='true'>
@@ -1047,6 +1047,7 @@ logo_url("/driver_icons/data_control.png")
              //let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
              await this.meta.getEditor().deleteComponentByName(mm.properties.sourceControlName)
              mm.properties.sourceControlName == ""
+                debugger
              mm.properties.sourceComponentType = ""
           },
             setSql:             function        (  ) {
@@ -1124,19 +1125,12 @@ logo_url("/driver_icons/data_control.png")
                 }
             },
             generateColumns:    async function  (  ) {
-                console.log("In generateColumns")
-                //debugger
-
                 if (this.design_mode) {
-                    //debugger
                     let mm = this
                     let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
                     newcontrol.design_mode_table = mm.properties.design_mode_table
                     let result = await newcontrol.getColumns()
                     this.properties.tableColumnNames = result
-
-
-
                 }
             },
             runQuery:           async function  (  ) {
