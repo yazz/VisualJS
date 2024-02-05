@@ -466,7 +466,7 @@ logo_url("/driver_icons/data_control.png")
                       </option>
                       <option   v-for='propVal in data_sources'
                                 v-bind:value="propVal.base_component_id"
-                                v-bind:selected2='(propVal.base_component_id == "postgres")'>
+                                v-bind:selected='(propVal.base_component_id == properties.sourceControlName)'>
 
                             {{propVal.display_name}}
 
@@ -876,8 +876,8 @@ logo_url("/driver_icons/data_control.png")
         watch:                  {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
-           //console.log("refresh: " + this.args.text)
-           if (isValidObject(this.args)) {
+           //console.log("refresh: " + this.properties.text)
+           if (isValidObject(this.properties)) {
                //this.getTables()
                //alert(JSON.stringify(this.tables,null,2))
            }
@@ -902,18 +902,18 @@ logo_url("/driver_icons/data_control.png")
          //alert(JSON.stringify(listLL,null,2))
          this.data_sources = listLL.values
 
-         if (isValidObject(this.args)) {
+         if (isValidObject(this.properties)) {
          }
 
          if (this.design_mode == "never") {
              this.table = new Tabulator(this.$refs.exampletable, {
-                    width:                    this.args.width
+                    width:                    this.properties.width
                     ,
-                    height:                    this.args.height
+                    height:                    this.properties.height
                     ,
                     tables:                    []
                     ,
-                    data:                      this.args.data
+                    data:                      this.properties.data
                     ,
                 	layout:                    "fitColumns"
                     ,
@@ -931,13 +931,13 @@ logo_url("/driver_icons/data_control.png")
                     ,
                 	movableColumns:             true
                     ,
-                    resizableColumns:           this.args.allow_col_resize
+                    resizableColumns:           this.properties.allow_col_resize
                     ,
-                	resizableRows:              this.args.allow_row_resize
+                	resizableRows:              this.properties.allow_row_resize
                     ,
-                    movableColumns:            this.args.allow_col_move
+                    movableColumns:            this.properties.allow_col_move
                     ,
-                    layout:                    this.args.layout
+                    layout:                    this.properties.layout
                     ,
                     tableNames:              []
                     ,
@@ -982,27 +982,32 @@ logo_url("/driver_icons/data_control.png")
                 // then a new control is created for the database driver and placed under
                 // the database control
                 //--------------------------------------------------------------------------/
-                //debugger
+                debugger
                 let mm = this
                 let typeName = event.target.value
                 await GLOBALS.makeSureUiComponentLoadedV6([typeName])
-                mm.args.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
+                mm.properties.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
                 mm.properties.sourceComponentType = typeName
                 await this.meta.getEditor().addControl(
                     {
                             "leftX": 10,
                             "topY": 10,
-                            "name": mm.args.sourceControlName,
+                            "name": mm.properties.sourceControlName,
                             "base_component_id": typeName,
-                            parent_base_component_id: mm.args.base_component_id,
-                            parent_name: mm.args.name
+                            parent_base_component_id: mm.properties.base_component_id,
+                            parent_name: mm.properties.name
                           }
                 )
                 //debugger
               //await mm.meta.getEditor().updateComponentMethods()
-                let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 newcontrol.width = 600
                 newcontrol.height = 700
+                //zzz
+                mm.$root.$emit('message', {
+                    type:   "pending"
+                })
+
             },
             connect:            async function  (  ) {
                 //----------------------------------------------------------------------------------/
@@ -1017,7 +1022,7 @@ logo_url("/driver_icons/data_control.png")
                 //--------------------------------------------------------------------------/
                 let mm = this
                 //debugger
-                let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 if (newcontrol) {
                     let connected = await newcontrol.connect()
                     if (connected == false) {
@@ -1047,30 +1052,29 @@ logo_url("/driver_icons/data_control.png")
              //let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
              await this.meta.getEditor().deleteComponentByName(mm.properties.sourceControlName)
              mm.properties.sourceControlName == ""
-                debugger
              mm.properties.sourceComponentType = ""
           },
             setSql:             function        (  ) {
                 var colSql = "*"
-                if (this.args.dataWindowColumns.length > 0) {
+                if (this.properties.dataWindowColumns.length > 0) {
                     colSql = ""
-                    for (var coli=0; coli < this.args.dataWindowColumns.length; coli ++) {
-                        colSql += this.args.dataWindowColumns[coli].value
-                        if (coli< (this.args.dataWindowColumns.length - 1)) {
+                    for (var coli=0; coli < this.properties.dataWindowColumns.length; coli ++) {
+                        colSql += this.properties.dataWindowColumns[coli].value
+                        if (coli< (this.properties.dataWindowColumns.length - 1)) {
                             colSql += ","
                         }
                     }
                 }
-                this.args.sql = "select " + colSql + " from " + this.args.design_mode_table
+                this.properties.sql = "select " + colSql + " from " + this.properties.design_mode_table
 
-                if (this.args.where_clause && (this.args.where_clause.length > 0)) {
-                    this.args.sql += " where " + this.args.where_clause
+                if (this.properties.where_clause && (this.properties.where_clause.length > 0)) {
+                    this.properties.sql += " where " + this.properties.where_clause
                 }
 
 
             },
             changedFn:          function        (  ) {
-                if (isValidObject(this.args)) {
+                if (isValidObject(this.properties)) {
                 }
             },
             resetColumns:       async function  (  data  ) {
@@ -1082,9 +1086,9 @@ logo_url("/driver_icons/data_control.png")
             runEventHandler:    function        (  ) {
                 this.$emit('send', {
                                                 type:               "subcomponent_event",
-                                                control_name:        this.args.name,
+                                                control_name:        this.properties.name,
                                                 sub_type:           "changed",
-                                                code:                this.args.changed_event
+                                                code:                this.properties.changed_event
                                             })
             },
             array_move:         function        (  arr  ,  old_index  ,  new_index  ) {
@@ -1098,36 +1102,25 @@ logo_url("/driver_icons/data_control.png")
                 return arr; // for testing
             },
             getTables:          async function  (  ) {
-                console.log("In getTables")
-                //debugger
-
                 if (this.design_mode) {
-                    //debugger
                     let mm = this
-                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                    let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     let result = await newcontrol.getTables()
 
-
-
-
-                   //alert("runQuery: " + JSON.stringify(result,null,2))
-                   console.log(JSON.stringify(result,null,2))
-                   if (result) {
+                    console.log(JSON.stringify(result,null,2))
+                    if (result) {
                        this.properties.tables = []
                        //alert(JSON.stringify(result,null,2))
                        for (var i=0;i<result.length;i++) {
                            this.properties.tables.push(result[i].name)
-
                        }
                    }
-
-
                 }
             },
             generateColumns:    async function  (  ) {
                 if (this.design_mode) {
                     let mm = this
-                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                    let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     newcontrol.design_mode_table = mm.properties.design_mode_table
                     let result = await newcontrol.getColumns()
                     this.properties.tableColumnNames = result
@@ -1135,7 +1128,7 @@ logo_url("/driver_icons/data_control.png")
             },
             runQuery:           async function  (  ) {
                 let mm = this
-                let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 newcontrol.sql = mm.properties.sql
                 newcontrol.select_columns = mm.properties.dataWindowColumns
                 newcontrol.select_table = mm.properties.design_mode_table
@@ -1158,8 +1151,8 @@ logo_url("/driver_icons/data_control.png")
             minimizeChildren:   async function  (  ) {
                 console.log('minimizeChildren');
                 let mm = this
-                if (mm.args.sourceControlName) {
-                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                if (mm.properties.sourceControlName) {
+                    let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     if (newcontrol) {
                         newcontrol.width = 10
                         newcontrol.height = 10
@@ -1171,8 +1164,8 @@ logo_url("/driver_icons/data_control.png")
             maximizeChildren:   async function  (  ) {
                 console.log('maximizeChildren');
                 let mm = this
-                if (mm.args.sourceControlName) {
-                    let newcontrol =  mm.meta.lookupComponent(mm.args.sourceControlName)
+                if (mm.properties.sourceControlName) {
+                    let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     if (newcontrol) {
                         newcontrol.width = 600
                         newcontrol.height = 600
