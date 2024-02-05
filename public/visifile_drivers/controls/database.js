@@ -1016,7 +1016,7 @@ logo_url("/driver_icons/data_control.png")
                 // driver
                 //--------------------------------------------------------------------------/
                 let mm = this
-                //debugger
+                debugger
                 let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 if (newcontrol) {
                     let connected = await newcontrol.connect()
@@ -1149,8 +1149,8 @@ logo_url("/driver_icons/data_control.png")
                 if (mm.properties.sourceControlName) {
                     let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     if (newcontrol) {
-                        newcontrol.width = 10
-                        newcontrol.height = 10
+                        //newcontrol.width = 10
+                        //newcontrol.height = 10
                     }
 
                 }
