@@ -1601,6 +1601,7 @@ async function  setUpComponentsLocally                  (  ) {
     //await releaseComponentFromPath( '/controls/rhpam.js')
     //await releaseComponentFromPath( '/controls/rhdata_grid.js')
     //await releaseComponentFromPath( '/controls/rhopenshift.js')
+    await releaseComponentFromPath( '/controls/yazzSqliteFile.js')
 
 
 
