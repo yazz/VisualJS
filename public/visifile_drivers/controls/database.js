@@ -472,7 +472,8 @@ logo_url("/driver_icons/data_control.png")
                       </option>
                 </select>
 
-                <div v-if='children && children[0]'>
+                <div    v-if='children && children[0]' 
+                        style="width:100%; height:100%;">
 
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
@@ -490,8 +491,6 @@ logo_url("/driver_icons/data_control.png")
 
                     <slot v-bind:refresh='refresh'>
                     </slot>
-
-                    <div style='height:50px;'></div>
 
                 </div>
             </div>

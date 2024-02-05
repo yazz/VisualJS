@@ -123,26 +123,22 @@ logo_url("/driver_icons/sqlite.jpg")
 
     Yazz.component({
         props:      [  "sql"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ],
-        template:   `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
-                                    <div v-if="design_mode">
-                                    sqlite:
-                                                {{design_time_text}}
-                                                <br/>
-                                    Tables: 
-                                    {{tables}}
-
-                                    </div>
-                                    <div v-else>
-                                    sqlite:
-                                                SQLITE LIVE
-                                                
-                                                <br/>
-                                    Tables: 
-                                    {{tables}}
-
-                                    </div>
-                 </div>`,
+        template:   ` 
+<div    v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
+        "background-color: "+    args["background_color"]  +  ";"'>
+    <div v-if="design_mode">
+        Internal Yazz DB
+        </br/>
+        {{tables.length}} tables
+    </div>
+    <div v-else>
+        Sqlite:
+        SQLITE LIVE
+        <br/>
+        Tables: 
+        {{tables}}
+    </div>
+</div>`,
         data:       function(  ) {
             return {
                 design_time_text: "",
