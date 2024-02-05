@@ -465,7 +465,7 @@ logo_url("/driver_icons/data_control.png")
                       </option>
                       <option   v-for='propVal in data_sources'
                                 v-bind:value="propVal.base_component_id"
-                                v-bind:selected='(propVal.base_component_id == sourceComponentType)'>
+                                v-bind:selected='(propVal.base_component_id == properties.sourceComponentType)'>
 
                             {{propVal.display_name}}
 
@@ -865,7 +865,6 @@ logo_url("/driver_icons/data_control.png")
             return {
                 selected_index:         null,
                 data_sources:           [],
-                sourceComponentType:    "",
                 designDetailTab:        "connection"
             }
         },
@@ -985,7 +984,6 @@ logo_url("/driver_icons/data_control.png")
                 await GLOBALS.makeSureUiComponentLoadedV6([typeName])
                 mm.properties.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
                 mm.properties.sourceComponentType = typeName
-                mm.sourceComponentType = typeName
                 /*await this.meta.getEditor().addControl(
                     {
                             "leftX": 10,
@@ -1050,7 +1048,6 @@ logo_url("/driver_icons/data_control.png")
                 await this.meta.getEditor().deleteComponentByName(mm.properties.sourceControlName)
                 mm.properties.sourceControlName == ""
                 mm.properties.sourceComponentType = ""
-                mm.sourceComponentType = ""
             },
             setSql:             function        (  ) {
                 var colSql = "*"
