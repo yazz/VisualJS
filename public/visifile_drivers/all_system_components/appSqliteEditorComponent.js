@@ -964,6 +964,15 @@ use_db("todo")
                         }
                     }
                 }
+                mm.oldDatabaseDefn.push(
+                    {
+                        name: "Delete table " + mm.pane_home_selectedTable
+                        ,
+                        up:
+                            [
+                                "DROP TABLE " + mm.pane_home_selectedTable + ";"
+                            ]
+                    })
                 await mm.pane_home_selectTable(  { tableName: null})
                 await mm.schemaChanged()
                 await mm.pane_home_drawTabulatorGrid()
