@@ -131,6 +131,14 @@ properties(
             default:    true,
             hidden:     true
         }
+        ,
+        {
+            id:         "standalone_ui",
+            name:       "Standalone UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
 
 
     ]
@@ -146,16 +154,22 @@ logo_url("/driver_icons/sqlite.jpg")
         
     <div  >
         <div v-if="design_mode">
-            <div  v-if='properties.show_driver_ui'>    
+            <div  v-if='properties.show_driver_ui && design_mode'>    
                 <span v-if="!properties.sqlite_file_path">Internal Yazz DB</div>
-                <span v-if="properties.sqlite_file_path">From file: {{properties.sqlite_file_path}}</div>
-                
-                
+                <span v-if="properties.sqlite_file_path">From file: {{properties.sqlite_file_path}}</div>           
             </div>
             
             </br/>
-            <div  v-if='properties.show_connected_ui'>
+            <div  v-if='properties.show_connected_ui && design_mode'>
                 {{tables.length}} tables
+            </div>
+            <div  v-if='properties.standalone_ui && design_mode'>
+                    <button     class="btn btn-primary"
+                                style="margin-top: 5px;"
+                                v-on:click="connect">
+                          Connect
+                    </button>
+
             </div>
         </div>
         <div v-else>

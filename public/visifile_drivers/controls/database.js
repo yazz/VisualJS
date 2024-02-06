@@ -988,7 +988,8 @@ logo_url("/driver_icons/data_control.png")
                             "name":                     mm.properties.sourceControlName,
                             "base_component_id":        typeName,
                             parent_base_component_id:   mm.properties.base_component_id,
-                            parent_name:                mm.properties.name
+                            parent_name:                mm.properties.name,
+                            standalone_ui:              false
                           }
                 )
                 //debugger
