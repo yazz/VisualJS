@@ -221,7 +221,7 @@ logo_url("/driver_icons/sqlite.jpg")
             getTables:  async function  (  ) {
                 let mm = this
                 //debugger
-                mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
+                mm.rowReturned = await mm.internalRunQuery("SELECT name FROM sqlite_master WHERE type='table';")
                 mm.result = mm.rowReturned
                 mm.tables = []
                 for (let row of mm.rowReturned) {
@@ -241,7 +241,6 @@ logo_url("/driver_icons/sqlite.jpg")
 
                 // if a Sqlite file is specified then ...
                 if (mm.properties.sqlite_file_path) {
-                    //zzz
                     var result = await callComponent(
                         {
                             base_component_id: "sqlite_server"
@@ -256,12 +255,14 @@ logo_url("/driver_icons/sqlite.jpg")
                         return false
                     }
                     mm.properties.info = "Connected"
+                    await mm.getTables()
                     return true
 
 
                 // otherwise use the internal Sqlite database
                 } else {
                     mm.properties.info = "Connected"
+                    await mm.getTables()
                     return true
                 }
             },
@@ -300,7 +301,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 return null
             },
             runQuery:   async function  (  ) {
-                if (!this.design_mode) {
+                if (mm.properties.sqlite_file_path) {
                     var result = await callComponent(
                                         {
                                             base_component_id: "sqlite_server"
@@ -320,10 +321,42 @@ logo_url("/driver_icons/sqlite.jpg")
                    }
 
 
-               }
+               } else {
+//zzz
+                    this.args.result = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
+                    return result
+                }
                 this.args.result = []
                 this.changedFn()
                 return {}
+            },
+            internalRunQuery:   async function  (  sql  ,  sqlArgs  ) {
+                let mm = this
+                if (mm.properties.sqlite_file_path) {
+                    var result = await callComponent(
+                        {
+                            base_component_id: "sqlite_server"
+                        }
+                        ,{
+                            sql:             sql,
+                            path:            this.properties.sqlite_file_path
+                        })
+
+
+                    //alert("runQuery: " + JSON.stringify(result,null,2))
+                    console.log(JSON.stringify(result,null,2))
+                    if (result) {
+                        this.args.result = result.result
+
+                        return result
+                    }
+
+
+                } else {
+//zzz
+                    this.args.result = await mm.sql(sql)
+                    return result
+                }
             },
             changedFn:  function        (  ) {
                 if (isValidObject(this.args)) {
