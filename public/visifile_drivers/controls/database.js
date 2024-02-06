@@ -43,7 +43,7 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    150,
+            default:    250,
             type:       "Number"
         }
         ,
@@ -57,7 +57,7 @@ properties(
         {
             id:         "height",
             name:       "Height",
-            default:    100,
+            default:    90,
             type:       "Number"
         }
         ,
@@ -857,6 +857,15 @@ logo_url("/driver_icons/data_control.png")
                             "background-color:white;color:black;"'
               v-else>
 
+                      <div   v-for='propVal in data_sources'>
+                            <b v-if='(propVal.base_component_id == properties.sourceComponentType)'>
+                                {{propVal.display_name}}
+                            </b>
+                      </div>
+                      <b v-if='!properties.sourceComponentType || (properties.sourceComponentType == "")'>
+                          No data source selected
+                      </b>
+                      <br/>
 
                      <b>SQL:</b>
                         {{properties.sql}}
