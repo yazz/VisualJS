@@ -34,6 +34,13 @@ properties(
         }
         ,
         {
+            id:     "info",
+            name:   "Info",
+            type:   "String",
+            default: ""
+        }
+        ,
+        {
             id:     "design_time_text",
             name:   "Design Time Text",
             type:   "String",
@@ -177,6 +184,7 @@ logo_url("/driver_icons/sqlite.jpg")
                           Connect
                     </button>
                     <div style="color:red;">{{properties.error}}</div>
+                    <div style="color:green;">{{properties.info}}</div>
 
             </div>
         </div>
@@ -228,6 +236,7 @@ logo_url("/driver_icons/sqlite.jpg")
             connect:    async function  (  ) {
                 let mm = this
                 mm.properties.error = ""
+                mm.properties.info = ""
                 debugger
 
                 // if a Sqlite file is specified then ...
@@ -237,20 +246,22 @@ logo_url("/driver_icons/sqlite.jpg")
                         {
                             base_component_id: "sqlite_server"
                         }
-                        ,{
+                        ,
+                        {
                             path:            mm.properties.sqlite_file_path,
-                            connect:         true,
-                            table:           this.args.design_mode_table
+                            connect:         true
                         })
                     if (result.error) {
                         mm.properties.error = result.error
                         return false
                     }
+                    mm.properties.info = "Connected"
                     return true
 
 
                 // otherwise use the internal Sqlite database
                 } else {
+                    mm.properties.info = "Connected"
                     return true
                 }
             },
