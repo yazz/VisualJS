@@ -251,7 +251,7 @@ logo_url("/driver_icons/sqlite.jpg")
                             path:            mm.properties.sqlite_file_path,
                             connect:         true
                         })
-                    if (result.error) {
+                    if (result.error && (result.error.length > 0)) {
                         mm.properties.error = result.error
                         return false
                     }
