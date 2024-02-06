@@ -905,7 +905,7 @@ logo_url("/driver_icons/data_control.png")
                 values:
                  [
                      { base_component_id: "yazz_sqlite_client_component" , display_name: "Yazz SQLite Connector" },
-                     { base_component_id: "yazz_sqlite_file_client_component" , display_name: "SQLite File Connector" }
+                     { base_component_id: "mysql_client_component" , display_name: "MySQL Client" }
                  ]
             }
             this.data_sources = listLL.values
