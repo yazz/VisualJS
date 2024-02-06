@@ -12,10 +12,11 @@ read_only(true)
 properties(
     [
         {
-            id:     "sqlite_file_path",
-            name:   "Sqlite file path",
-            //type:   "File",
-            type:   "String"
+            id:         "sqlite_file_path",
+            name:       "Sqlite file path",
+            //type:     "File",
+            type:       "String",
+            default:    null
         }
         ,
         {
@@ -146,7 +147,10 @@ logo_url("/driver_icons/sqlite.jpg")
     <div  >
         <div v-if="design_mode">
             <div  v-if='properties.show_driver_ui'>    
-                Internal Yazz DB
+                <span v-if="!properties.sqlite_file_path">Internal Yazz DB</div>
+                <span v-if="properties.sqlite_file_path">From file: {{properties.sqlite_file_path}}</div>
+                
+                
             </div>
             
             </br/>
