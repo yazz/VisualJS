@@ -333,11 +333,12 @@ logo_url("/driver_icons/sqlite.jpg")
             internalRunQuery:   async function  (  sql  ,  sqlArgs  ) {
                 let mm = this
                 if (mm.properties.sqlite_file_path) {
-                    var result = await callComponent(
+                    let result = await callComponent(
                         {
                             base_component_id: "sqlite_server"
                         }
-                        ,{
+                        ,
+                        {
                             sql:             sql,
                             path:            this.properties.sqlite_file_path
                         })

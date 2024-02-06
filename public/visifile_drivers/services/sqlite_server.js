@@ -1,4 +1,4 @@
-async function sqlite_sql(args) {
+async function (  args  ) {
 /*
 description("`sqlite db driver")
 base_component_id("sqlite_server")
@@ -110,7 +110,7 @@ only_run_on_server(true)
                         ,
                         function(err, results2)
                         {
-                            returnFn(results2)
+                            returnFn({values: results2})
                         }
                     )}, sqlite3.OPEN_READONLY)
 
@@ -126,8 +126,7 @@ only_run_on_server(true)
 
     try {
         var ret = await promise
-        let tables =  ret
-        return  tables
+        return  ret
     } catch( err) {
         returnFn({error: err})
     }

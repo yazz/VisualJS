@@ -3109,7 +3109,7 @@ async function  executeSqliteForApp                     (  args  ) {
     let getSqlResults = new Promise(returnResult => {
         //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         //console.log("args: " + JSON.stringify(args,null,2))
-        console.log("SQL: " + JSON.stringify(args.sql,null,2))
+        //console.log("SQL: " + JSON.stringify(args.sql,null,2))
         let appDb = null
         if (appDbs[args.base_component_id]) {
             appDb = appDbs[args.base_component_id]
@@ -5042,7 +5042,7 @@ async function  startServices                           (  ) {
 
     //------------------------- LOAD COMPONENT HELPERS -------------------------
     app.post(   '/http_post_load_ui_components_v3',                         async function (req, res) {
-        console.log("CAlled /http_post_load_ui_components_v3")
+        //console.log("CAlled /http_post_load_ui_components_v3")
         // Loads a bunch of components
         let inputComponentsToLoad       = req.body.find_components.items
         let outputComponents            = []
