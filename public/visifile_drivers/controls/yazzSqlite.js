@@ -221,7 +221,6 @@ logo_url("/driver_icons/sqlite.jpg")
             getTables:  async function  (  ) {
                 let mm = this
                 mm.rowReturned = await mm.internalRunQuery("SELECT name FROM sqlite_master WHERE type='table';")
-                debugger
                 mm.result = mm.rowReturned
                 mm.tables = []
                 for (let row of mm.rowReturned) {
@@ -237,11 +236,10 @@ logo_url("/driver_icons/sqlite.jpg")
                 let mm = this
                 mm.properties.error = ""
                 mm.properties.info = ""
-                debugger
 
                 // if a Sqlite file is specified then ...
                 if (mm.properties.sqlite_file_path) {
-                    var result = await callComponent(
+                    let result = await callComponent(
                         {
                             base_component_id: "sqlite_server"
                         }
@@ -267,11 +265,12 @@ logo_url("/driver_icons/sqlite.jpg")
                 }
             },
             getColumns: async function  (  ) {
+                let mm = this
                 console.log("In getColumns")
                 //debugger
 
                 if (this.design_mode) {
-                    var result = await callComponent(
+                    let result = await callComponent(
                                         {
                                             base_component_id: "sqlite_server"
                                         }
@@ -288,9 +287,8 @@ logo_url("/driver_icons/sqlite.jpg")
                    if (result) {
                        this.args.columns = []
                        //alert(JSON.stringify(result,null,2))
-                       for (var i=0;i<result.length;i++) {
+                       for (let i=0;i<result.length;i++) {
                            this.args.columns.push(result[i].name)
-
                        }
                    }
 
@@ -298,9 +296,11 @@ logo_url("/driver_icons/sqlite.jpg")
                 }
             },
             getSchema:  async function  (  ) {
+                let mm = this
                 return null
             },
             runQuery:   async function  (  ) {
+                let mm = this
                 if (mm.properties.sqlite_file_path) {
                     this.args.result = await callComponent(
                                         {
@@ -360,6 +360,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 }
             },
             changedFn:  function        (  ) {
+                let mm = this
                 if (isValidObject(this.args)) {
                     //this.args.text = this.text
                 }

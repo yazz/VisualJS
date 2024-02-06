@@ -586,7 +586,7 @@ logo_url("/driver_icons/data_control.png")
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <button    class="btn btn-primary"
                                 :disabled="(properties.selected_column && properties.selected_column.length > 0)?false:true"
-                                v-on:click="var newId = properties.dataWindowColumnsMax++;properties.dataWindowColumns.push({id:    newId, value: properties.selected_column, name: properties.selected_column});setSql();properties.selected_data_window_column_index = newId;properties.selected_data_window_column = properties.dataWindowColumns[properties.dataWindowColumns.length - 1];">
+                                v-on:click="let newId = properties.dataWindowColumnsMax++;properties.dataWindowColumns.push({id:    newId, value: properties.selected_column, name: properties.selected_column});setSql();properties.selected_data_window_column_index = newId;properties.selected_data_window_column = properties.dataWindowColumns[properties.dataWindowColumns.length - 1];">
 
                               Add >>
 
@@ -658,7 +658,7 @@ logo_url("/driver_icons/data_control.png")
                                           name="col_input_name"
                                           required
                                           v-bind:value='properties.selected_data_window_column.name'
-                                          v-on:change="var qwe = document.getElementById('col_input_name').value;properties.dataWindowColumns[properties.selected_data_window_column_index].name=qwe;properties.selected_data_window_column.name = qwe;"
+                                          v-on:change="let qwe = document.getElementById('col_input_name').value;properties.dataWindowColumns[properties.selected_data_window_column_index].name=qwe;properties.selected_data_window_column.name = qwe;"
                                           >
                                   </input>
 
@@ -674,7 +674,7 @@ logo_url("/driver_icons/data_control.png")
                                           required
                                           v-bind:value='properties.selected_data_window_column.value'
 
-                                          v-on:change="var qwe = document.getElementById('col_input_value').value;properties.dataWindowColumns[properties.selected_data_window_column_index].value=qwe;properties.selected_data_window_column.value = qwe;"
+                                          v-on:change="let qwe = document.getElementById('col_input_value').value;properties.dataWindowColumns[properties.selected_data_window_column_index].value=qwe;properties.selected_data_window_column.value = qwe;"
                                           >
                                   </input>
 
@@ -692,7 +692,7 @@ logo_url("/driver_icons/data_control.png")
                                             name="col_input_width"
                                             v-bind:value='properties.selected_data_window_column.width?properties.selected_data_window_column.width:""'
 
-                                            v-on:change="var qwe = document.getElementById('col_input_width').value;properties.selected_data_window_column.width = qwe;properties.dataWindowColumns[properties.selected_data_window_column_index].width=qwe;"
+                                            v-on:change="let qwe = document.getElementById('col_input_width').value;properties.selected_data_window_column.width = qwe;properties.dataWindowColumns[properties.selected_data_window_column_index].width=qwe;"
                                             >
                                     </input>
                               </div>
@@ -901,9 +901,8 @@ logo_url("/driver_icons/data_control.png")
             await this.minimizeChildren()
         },
         mounted:                async function  (  ) {
-            await registerComponent(this)
             let mm = this
-            debugger
+            await registerComponent(this)
             if (mm.design_mode == "detail_editor") {
                 mm.switchTab( mm.properties.designDetailTab )
             }
@@ -916,13 +915,13 @@ logo_url("/driver_icons/data_control.png")
                      { base_component_id: "mysql_client_component" , display_name: "MySQL Client" }
                  ]
             }
-            this.data_sources = listLL.values
+            mm.data_sources = listLL.values
 
-            if (isValidObject(this.properties)) {
+            if (isValidObject(mm.properties)) {
             }
 
-            if (this.design_mode == "never") {
-                this.table = new Tabulator(this.$refs.exampletable,
+            if (mm.design_mode == "never") {
+                mm.table = new Tabulator(mm.$refs.exampletable,
                 {
                     width:                      this.properties.width,
                     height:                     this.properties.height,
@@ -945,11 +944,11 @@ logo_url("/driver_icons/data_control.png")
                     columns:                    []
                 });
             }
-            if (this.design_mode) {
+            if (mm.design_mode) {
                 //await this.getTables()
             }
 
-            if (!this.design_mode) {
+            if (!mm.design_mode) {
                 //hack city!!!! This should not be done via timeout, but via some
                 // sort of callback. The reason a timeout is needed here is because
                 // other uninitialised (as of yet) controls on the same form are
@@ -1060,10 +1059,11 @@ logo_url("/driver_icons/data_control.png")
                 mm.properties.sourceComponentType = ""
             },
             setSql:             function        (  ) {
-                var colSql = "*"
+                let mm = this
+                let colSql = "*"
                 if (this.properties.dataWindowColumns.length > 0) {
                     colSql = ""
-                    for (var coli=0; coli < this.properties.dataWindowColumns.length; coli ++) {
+                    for (let coli=0; coli < this.properties.dataWindowColumns.length; coli ++) {
                         colSql += this.properties.dataWindowColumns[coli].value
                         if (coli< (this.properties.dataWindowColumns.length - 1)) {
                             colSql += ","
@@ -1079,16 +1079,20 @@ logo_url("/driver_icons/data_control.png")
 
             },
             changedFn:          function        (  ) {
+                let mm = this
                 if (isValidObject(this.properties)) {
                 }
             },
             resetColumns:       async function  (  data  ) {
+                let mm = this
                 this.table.setColumns([])
             },
             addColumn:          async function  (  colData  ) {
+                let mm = this
                 this.table.addColumn(colData, true, "name");
             },
             runEventHandler:    function        (  ) {
+                let mm = this
                 this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 control_name:        this.properties.name,
@@ -1097,8 +1101,9 @@ logo_url("/driver_icons/data_control.png")
                                             })
             },
             array_move:         function        (  arr  ,  old_index  ,  new_index  ) {
+                let mm = this
                 if (new_index >= arr.length) {
-                    var k = new_index - arr.length + 1;
+                    let k = new_index - arr.length + 1;
                     while (k--) {
                         arr.push(undefined);
                     }
@@ -1107,8 +1112,8 @@ logo_url("/driver_icons/data_control.png")
                 return arr; // for testing
             },
             getTables:          async function  (  ) {
+                let mm = this
                 if (this.design_mode) {
-                    let mm = this
                     let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     if (newcontrol) {
                         let result = await newcontrol.getTables()
@@ -1117,7 +1122,7 @@ logo_url("/driver_icons/data_control.png")
                         if (result) {
                             this.properties.tables = []
                             //alert(JSON.stringify(result,null,2))
-                            for (var i=0;i<result.length;i++) {
+                            for (let i=0;i<result.length;i++) {
                                 this.properties.tables.push(result[i].name)
                             }
                         }
@@ -1125,8 +1130,8 @@ logo_url("/driver_icons/data_control.png")
                 }
             },
             generateColumns:    async function  (  ) {
+                let mm = this
                 if (this.design_mode) {
-                    let mm = this
                     let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     newcontrol.design_mode_table = mm.properties.design_mode_table
                     let result = await newcontrol.getColumns()
@@ -1146,17 +1151,17 @@ logo_url("/driver_icons/data_control.png")
                 return this.properties.result
             },
             visibilityChanged:  function        (  isVisible  ,  entry  ) {
-                  //this.isVisible = isVisible
-                  //console.log(Math.round(entry.intersectionRatio * 100) + '%')
-                  console.log("isVisible: " + isVisible)
-                  if (isVisible) {
-                      this.maximizeChildren()
-                  } else {
-                      this.minimizeChildren()
-                  }
+                let mm = this
+                //this.isVisible = isVisible
+                //console.log(Math.round(entry.intersectionRatio * 100) + '%')
+                console.log("isVisible: " + isVisible)
+                if (isVisible) {
+                    this.maximizeChildren()
+                } else {
+                    this.minimizeChildren()
+                }
             },
             minimizeChildren:   async function  (  ) {
-                console.log('minimizeChildren');
                 let mm = this
                 if (mm.properties.sourceControlName) {
                     let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
@@ -1164,12 +1169,9 @@ logo_url("/driver_icons/data_control.png")
                         //newcontrol.width = 10
                         //newcontrol.height = 10
                     }
-
                 }
-
             },
             maximizeChildren:   async function  (  ) {
-                console.log('maximizeChildren');
                 let mm = this
                 if (mm.properties.sourceControlName) {
                     let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
@@ -1177,7 +1179,6 @@ logo_url("/driver_icons/data_control.png")
                         newcontrol.width = 600
                         newcontrol.height = 600
                     }
-
                 }
             }
         }
