@@ -957,9 +957,9 @@ logo_url("/driver_icons/data_control.png")
                 let mm = this
                 if (tabName == "schema") {
                     await mm.getTables()
-                    //await this.meta.getEditor().select
                 } else if (tabName == "connection") {
                     await mm.getTables()
+                    await this.meta.getEditor().selectComponentByName(mm.properties.sourceControlName)
                 } else {
                     await mm.getTables()
                 }
