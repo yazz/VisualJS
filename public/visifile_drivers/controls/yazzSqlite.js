@@ -302,7 +302,7 @@ logo_url("/driver_icons/sqlite.jpg")
             },
             runQuery:   async function  (  ) {
                 if (mm.properties.sqlite_file_path) {
-                    var result = await callComponent(
+                    this.args.result = await callComponent(
                                         {
                                             base_component_id: "sqlite_server"
                                         }
@@ -356,7 +356,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 } else {
 //zzz
                     this.args.result = await mm.sql(sql)
-                    return result
+                    return this.args.result
                 }
             },
             changedFn:  function        (  ) {
