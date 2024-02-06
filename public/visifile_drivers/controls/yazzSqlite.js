@@ -66,7 +66,6 @@ properties(
         ,
         {
             id:         "runQuery",
-            pre_snippet: `await `,
             snippet:    `runQuery()`,
             name:       "runQuery",
             type:       "Action",
@@ -300,35 +299,12 @@ logo_url("/driver_icons/sqlite.jpg")
                 return null
             },
             runQuery:   async function  (  ) {
+                debugger
                 let mm = this
-                if (mm.properties.sqlite_file_path) {
-                    this.args.result = await callComponent(
-                                        {
-                                            base_component_id: "sqlite_server"
-                                        }
-                                            ,{
-                                                sql:             this.args.sql,
-                                                path:            this.properties.sqlite_file_path
-                                             })
-
-
-                   //alert("runQuery: " + JSON.stringify(result,null,2))
-                   console.log(JSON.stringify(result,null,2))
-                   if (result) {
-                        this.args.result = result.result
-
-                        return result
-                   }
-
-
-               } else {
-//zzz
-                    this.args.result = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
-                    return result
-                }
-                this.args.result = []
-                this.changedFn()
-                return {}
+                mm.rowReturned = await mm.internalRunQuery(mm.properties.sql)
+                mm.args.result = mm.rowReturned
+                mm.changedFn()
+                return mm.args.result
             },
             internalRunQuery:   async function  (  sql  ,  sqlArgs  ) {
                 let mm = this
