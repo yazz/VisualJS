@@ -220,8 +220,8 @@ logo_url("/driver_icons/sqlite.jpg")
         methods:    {
             getTables:  async function  (  ) {
                 let mm = this
-                //debugger
                 mm.rowReturned = await mm.internalRunQuery("SELECT name FROM sqlite_master WHERE type='table';")
+                debugger
                 mm.result = mm.rowReturned
                 mm.tables = []
                 for (let row of mm.rowReturned) {
@@ -347,9 +347,9 @@ logo_url("/driver_icons/sqlite.jpg")
                     //alert("runQuery: " + JSON.stringify(result,null,2))
                     console.log(JSON.stringify(result,null,2))
                     if (result) {
-                        this.args.result = result.result
+                        this.args.result = result.value
 
-                        return result
+                        return this.args.result
                     }
 
 

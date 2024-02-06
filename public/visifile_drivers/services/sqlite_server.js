@@ -110,7 +110,7 @@ only_run_on_server(true)
                         ,
                         function(err, results2)
                         {
-                            returnFn({values: results2})
+                            returnFn({value: results2})
                         }
                     )}, sqlite3.OPEN_READONLY)
 
