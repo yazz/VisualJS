@@ -186,6 +186,7 @@ logo_url("/driver_icons/sqlite.jpg")
         methods:    {
             getTables:  async function  (  ) {
                 let mm = this
+                debugger
                 mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
                 mm.result = mm.rowReturned
                 mm.tables = []
