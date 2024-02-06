@@ -896,8 +896,7 @@ logo_url("/driver_icons/data_control.png")
             let mm = this
             debugger
             if (mm.design_mode == "detail_editor") {
-                //zzz
-                await mm.getTables()
+                mm.switchTab( mm.properties.designDetailTab )
             }
             //let listLL = await findComponentsImplementing(["runQuery","connect"])
             let listLL  =
@@ -953,11 +952,15 @@ logo_url("/driver_icons/data_control.png")
                 //alert(JSON.stringify(results,null,2))
             }
         },
-        methods:
-        {
+        methods:                {
             switchTab:          async function  (  tabName  ) {
                 let mm = this
                 if (tabName == "schema") {
+                    await mm.getTables()
+                    //await this.meta.getEditor().select
+                } else if (tabName == "connection") {
+                    await mm.getTables()
+                } else {
                     await mm.getTables()
                 }
                 mm.properties.designDetailTab = tabName
