@@ -2316,7 +2316,7 @@ End of app preview menu
                         mm.autosaveTimer = null
                     }
                 }
-            }, 1000)
+            }, 100)
 
 
 
