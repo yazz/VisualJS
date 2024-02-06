@@ -27,6 +27,13 @@ properties(
         }
         ,
         {
+            id:     "error",
+            name:   "Error",
+            type:   "String",
+            default: ""
+        }
+        ,
+        {
             id:     "design_time_text",
             name:   "Design Time Text",
             type:   "String",
@@ -166,9 +173,10 @@ logo_url("/driver_icons/sqlite.jpg")
             <div  v-if='properties.standalone_ui && design_mode'>
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
-                                v-on:click="connect">
+                                v-on:click="connect()">
                           Connect
                     </button>
+                    <div style="color:red;">{{properties.error}}</div>
 
             </div>
         </div>
@@ -204,7 +212,7 @@ logo_url("/driver_icons/sqlite.jpg")
         methods:    {
             getTables:  async function  (  ) {
                 let mm = this
-                debugger
+                //debugger
                 mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
                 mm.result = mm.rowReturned
                 mm.tables = []
@@ -218,7 +226,33 @@ logo_url("/driver_icons/sqlite.jpg")
                 return tables
             },
             connect:    async function  (  ) {
-                return true
+                let mm = this
+                mm.properties.error = ""
+                debugger
+
+                // if a Sqlite file is specified then ...
+                if (mm.properties.sqlite_file_path) {
+                    //zzz
+                    var result = await callComponent(
+                        {
+                            base_component_id: "sqlite_server"
+                        }
+                        ,{
+                            path:            mm.properties.sqlite_file_path,
+                            connect:         true,
+                            table:           this.args.design_mode_table
+                        })
+                    if (result.error) {
+                        mm.properties.error = result.error
+                        return false
+                    }
+                    return true
+
+
+                // otherwise use the internal Sqlite database
+                } else {
+                    return true
+                }
             },
             getColumns: async function  (  ) {
                 console.log("In getColumns")
