@@ -894,7 +894,11 @@ logo_url("/driver_icons/data_control.png")
         mounted:                async function  (  ) {
             await registerComponent(this)
             let mm = this
-
+            debugger
+            if (mm.design_mode == "detail_editor") {
+                //zzz
+                await mm.getTables()
+            }
             //let listLL = await findComponentsImplementing(["runQuery","connect"])
             let listLL  =
             {
@@ -957,7 +961,6 @@ logo_url("/driver_icons/data_control.png")
                     await mm.getTables()
                 }
                 mm.properties.designDetailTab = tabName
-                //zzz
             },
             chooseSource:       async function  (  event  ) {
                 //----------------------------------------------------------------------------------/
@@ -971,7 +974,6 @@ logo_url("/driver_icons/data_control.png")
                 // then a new control is created for the database driver and placed under
                 // the database control
                 //--------------------------------------------------------------------------/
-                debugger
                 let mm = this
                 let typeName = event.target.value
                 await GLOBALS.makeSureUiComponentLoadedV6([typeName])
@@ -1010,7 +1012,6 @@ logo_url("/driver_icons/data_control.png")
                 // driver
                 //--------------------------------------------------------------------------/
                 let mm = this
-                debugger
                 let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 if (newcontrol) {
                     let connected = await newcontrol.connect()
@@ -1096,16 +1097,18 @@ logo_url("/driver_icons/data_control.png")
                 if (this.design_mode) {
                     let mm = this
                     let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
-                    let result = await newcontrol.getTables()
+                    if (newcontrol) {
+                        let result = await newcontrol.getTables()
 
-                    console.log(JSON.stringify(result,null,2))
-                    if (result) {
-                       this.properties.tables = []
-                       //alert(JSON.stringify(result,null,2))
-                       for (var i=0;i<result.length;i++) {
-                           this.properties.tables.push(result[i].name)
-                       }
-                   }
+                        console.log(JSON.stringify(result,null,2))
+                        if (result) {
+                            this.properties.tables = []
+                            //alert(JSON.stringify(result,null,2))
+                            for (var i=0;i<result.length;i++) {
+                                this.properties.tables.push(result[i].name)
+                            }
+                        }
+                    }
                 }
             },
             generateColumns:    async function  (  ) {

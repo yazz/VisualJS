@@ -181,66 +181,22 @@ logo_url("/driver_icons/sqlite.jpg")
         mounted:    async function(  ) {
             let mm = this
             await registerComponent(this)
-            mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
-            mm.result = mm.rowReturned
-            mm.tables = []
-            for (let row of mm.rowReturned) {
-                mm.tables.push(row.name)
-            }
-            //debugger
-
-            /*if (this.design_mode) {
-                if (!this.properties.sqlite_file_path) {
-                    //debugger
-                    this.properties.sqlite_file_path = $HOME + "/Yazz/node.visi"
-                    await this.connect()
-                }
-            } else {
-
-            }*/
+            await mm.getTables()
         },
         methods:    {
             getTables:  async function  (  ) {
-              console.log("In getTables")
                 let mm = this
-                debugger
-                let tables = [
-
-                ]
+                mm.rowReturned = await mm.sql("SELECT name FROM sqlite_master WHERE type='table';")
+                mm.result = mm.rowReturned
+                mm.tables = []
+                for (let row of mm.rowReturned) {
+                    mm.tables.push(row.name)
+                }
+                let tables = [ ]
                 for (let tableName of mm.tables) {
                     tables.push({name: tableName})
                 }
                 return tables
-
-              if (this.design_mode) {
-
-                  var result = await callComponent(
-                                      {
-                                          base_component_id: "sqlite_server"
-                                      }
-                                          ,{
-                                              get_tables:      true,
-                                              path:            this.properties.sqlite_file_path
-                                           })
-
-
-                 //alert("runQuery: " + JSON.stringify(result,null,2))
-                 console.log(JSON.stringify(result,null,2))
-                 if (result) {
-                     this.tables = []
-                     //alert(JSON.stringify(result,null,2))
-                     for (var i=0;i<result.length;i++) {
-                         this.tables.push(result[i].name)
-
-                     }
-                 }
-                 return result
-
-
-              }
-
-
-                //debugger
             },
             connect:    async function  (  ) {
                 return true
