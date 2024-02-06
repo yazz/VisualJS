@@ -884,8 +884,7 @@ logo_url("/driver_icons/data_control.png")
                 data_sources:           []
             }
         },
-        watch:
-        {
+        watch:                  {
             // This would be called anytime the value of the input changes
             refresh: function(newValue, oldValue)
             {
