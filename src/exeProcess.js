@@ -126,15 +126,15 @@ function processMessagesFromMainProcess() {
             if (err) {
                 console.error(err.message);
             } else {
-                console.log("1) Connected to the " +  dbPath + " database.");
+                //console.log("1) Connected to the " +  dbPath + " database.");
 
                 // Set PRAGMA journal_mode to WAL
                 dbsearch.run("PRAGMA journal_mode=WAL;", function(err) {
                     if (err) {
                         console.error(err.message);
                     } else {
-                        console.log("2) Journal mode set to WAL.");
-                        console.log("3)  DB path: " + dbPath)
+                        //console.log("2) Journal mode set to WAL.");
+                        //console.log("3)  DB path: " + dbPath)
 
                         process.send({  message_type:       "database_setup_in_child" ,
                             child_process_name:  childProcessName
