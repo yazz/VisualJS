@@ -12,6 +12,7 @@ only_run_on_server(true)
         var dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
         //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         var appDb = new sqlite3.Database(dbPath);
+        appDb.run("PRAGMA journal_mode=WAL;")
 
         appDb.serialize(
             function() {
