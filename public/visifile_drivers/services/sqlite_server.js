@@ -6,11 +6,8 @@ hash_algorithm("SHA256")
 load_once_from_file(true)
 only_run_on_server(true)
 */
-    console.log("args.path: " + args.path)
     let dbsearch = new sqlite3.Database(args.path.trim());
-    console.log("dbsearch: " + JSON.stringify(dbsearch, null,2))
     dbsearch.run("PRAGMA journal_mode=WAL;")
-    console.log("sqlite table name: " + args.table)
     let promise = new Promise(async function(returnFn) {
 
         //
@@ -96,7 +93,7 @@ only_run_on_server(true)
             dbsearch.serialize(
                 async function() {
                     dbsearch.run("begin exclusive transaction");
-                    let stmt = dbsearch.all(
+                    dbsearch.all(
                         args.sql,
                         [],
                         async function(err, results2)
