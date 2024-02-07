@@ -3146,12 +3146,9 @@ async function  executeSqliteForApp                     (  args  ) {
             appDb.serialize(
                 function() {
                     appDb.all(
-                        args.sql
-                        ,
-                        args.params
-                        ,
-
-                        function(err, results)
+                        args.sql,
+                        args.params,
+                        async function(err, results)
                         {
                             returnResult(results)
                         })
@@ -3160,10 +3157,13 @@ async function  executeSqliteForApp                     (  args  ) {
             appDb.serialize(
                 function() {
                     appDb.run("begin deferred transaction");
-                    appDb.run(args.sql, args.params)
+                    appDb.all(args.sql, args.params,
+                        async function(err, results)
+                        {
+                            returnResult(results)
+                        })
                     appDb.run("commit");
                     appDb.run("PRAGMA wal_checkpoint;")
-                    returnResult([])
                 })
         }
     })
