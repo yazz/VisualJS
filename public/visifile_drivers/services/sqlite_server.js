@@ -95,14 +95,16 @@ only_run_on_server(true)
         } else {
             dbsearch.serialize(
                 async function() {
+                    dbsearch.run("begin exclusive transaction");
                     let stmt = dbsearch.all(
                         args.sql,
                         [],
                         async function(err, results2)
                         {
+                            dbsearch.run("commit");
                             returnFn({value: results2})
                         }
-                    )}, sqlite3.OPEN_READONLY)
+                    )})
         }
     })
 

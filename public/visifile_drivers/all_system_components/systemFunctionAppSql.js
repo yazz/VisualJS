@@ -15,17 +15,13 @@ only_run_on_server(true)
         appDb.run("PRAGMA journal_mode=WAL;")
 
         appDb.serialize(
-            function() {
+            async function() {
                 appDb.run("begin exclusive transaction");
                 appDb.all(
-                    args.sql
-                    ,
-                    args.params
-                    ,
-
-                    function(err, results)
+                    args.sql,
+                    args.params,
+                    async function(err, results)
                     {
-                    //console.log("Results: " + JSON.stringify(results,null,2))
                         appDb.run("commit");
                         returnResult(results)
                     })
