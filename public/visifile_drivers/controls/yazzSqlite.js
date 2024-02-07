@@ -265,7 +265,6 @@ logo_url("/driver_icons/sqlite.jpg")
             },
             getColumns: async function  (  ) {
                 let mm = this
-                debugger
 
                 if (this.design_mode) {
                     let result = null
@@ -284,6 +283,7 @@ logo_url("/driver_icons/sqlite.jpg")
                             result = retValCols.value
                         }
                     } else {
+                        debugger
                         result = await mm.sql( `PRAGMA table_info(  ${mm.args.design_mode_table}  )` )
                     }
 

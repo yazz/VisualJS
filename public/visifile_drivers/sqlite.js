@@ -245,7 +245,9 @@
             //console.log('drivers[sqlite][get]');
             // execute a query on our database
             connection.connection = new sqlite3.Database(connection.database);
-            //console.log('    Loaded DB');
+			connection.connection.run("PRAGMA journal_mode=WAL;")
+
+			//console.log('    Loaded DB');
 
             connection.connection.serialize(function() {
                 connection.connection.all(sql, function(err, rows) {

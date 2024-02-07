@@ -410,7 +410,7 @@ module.exports = {
                             }
                             let dbPath = path.join(mm.userData, 'app_dbs/' + baseComponentId + '.visi')
                             let appDb = new sqlite3.Database(dbPath);
-                            //appDb.run("PRAGMA journal_mode=WAL;")
+                            appDb.run("PRAGMA journal_mode=WAL;")
 
                             appDb.serialize(
                                 function() {
