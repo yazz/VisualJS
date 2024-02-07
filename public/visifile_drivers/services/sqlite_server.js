@@ -16,24 +16,23 @@ only_run_on_server(true)
         //
         // get tables
         //
-        if (args.get_tables) {
+        if (  args.get_tables  ) {
             dbsearch.serialize(
-                function() {
-                    let stmt = dbsearch.all(
-                        "SELECT " +
-                        "     name " +
-                        "FROM " +
-                        "    sqlite_master " +
-                        "WHERE " +
-                        "    type ='table' AND " +
-                        "    name NOT LIKE 'sqlite_%';"
-                        ,
-                        []
-                        ,
-                        function(err, results2)
+                async function(  ) {
+                    dbsearch.all(
+                        `SELECT
+                             name 
+                        FROM 
+                            sqlite_master 
+                        WHERE 
+                            type ='table' 
+                                AND 
+                            name NOT LIKE 'sqlite_%';`,
+                        [],
+                        async function(err, results2)
                         {
                             console.log("err: " + err)
-                            returnFn(results2)
+                            returnFn(  results2  )
                         }
                     )}, sqlite3.OPEN_READONLY)
 
@@ -45,7 +44,7 @@ only_run_on_server(true)
         } else if (args.get_columns) {
             dbsearch.serialize(
                 async function() {
-                    let stmt = dbsearch.all(
+                    dbsearch.all(
                         `PRAGMA table_info(  ${args.table}  )`,
                         [],
                         async function(err, results2) {
@@ -64,11 +63,9 @@ only_run_on_server(true)
             try {
                 dbsearch.serialize(
                     function() {
-                        let stmt = dbsearch.all(
-                            "pragma schema_version;"
-                            ,
-                            []
-                            ,
+                        dbsearch.all(
+                            `pragma schema_version;`,
+                            [],
                             function(err, results2)
                             {
                                 console.log("err: " + err)
@@ -97,21 +94,16 @@ only_run_on_server(true)
         //
         } else {
             dbsearch.serialize(
-                function() {
+                async function() {
                     let stmt = dbsearch.all(
-                        args.sql
-                        ,
-                        []
-                        ,
-                        function(err, results2)
+                        args.sql,
+                        [],
+                        async function(err, results2)
                         {
                             returnFn({value: results2})
                         }
                     )}, sqlite3.OPEN_READONLY)
-
         }
-
-
     })
 
     try {

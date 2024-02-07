@@ -416,7 +416,7 @@ logo_url("/driver_icons/data_control.png")
                 <li class="nav-item" style="width:20%;">
                     <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "columns")?"active":"")'
                           v-on:click="properties.designDetailTab = 'columns';"
-                          href="#">Columns</a>
+                          href="#">Cols</a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
