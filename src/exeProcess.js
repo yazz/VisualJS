@@ -135,8 +135,6 @@ function processMessagesFromMainProcess() {
                     } else {
                         console.log("2) Journal mode set to WAL.");
                         console.log("3)  DB path: " + dbPath)
-                        dbsearch.run("PRAGMA journal_mode=WAL;")
-                        //console.log('exeProcess.js process: ' + msg.child_process_name + " calls 'database_setup_in_child'");
 
                         process.send({  message_type:       "database_setup_in_child" ,
                             child_process_name:  childProcessName
