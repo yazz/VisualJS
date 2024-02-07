@@ -3106,20 +3106,40 @@ async function  executeSqliteForApp                     (  args  ) {
     if (!args.sql) {
         return []
     }
-    let getSqlResults = new Promise(returnResult => {
+    let appDb = null
+    let getAppDbPromise = new Promise(returnResult => {
+        let appDbFound = null
         //console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         //console.log("args: " + JSON.stringify(args,null,2))
         //console.log("SQL: " + JSON.stringify(args.sql,null,2))
-        let appDb = null
         if (appDbs[args.base_component_id]) {
-            appDb = appDbs[args.base_component_id]
+            appDbFound = appDbs[args.base_component_id]
             //console.log("Using cached db " + args.base_component_id)
+            returnResult(appDbFound)
         } else {
             let dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
-            appDb = new sqlite3.Database(dbPath);
-            appDb.run("PRAGMA journal_mode=WAL;")
-            appDbs[args.base_component_id] = appDb
+            appDbFound = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
+                if (err) {
+                    console.error(err.message);
+                } else {
+                    console.log('1) Connected to the myDatabase.db database.');
+
+                    // Set PRAGMA journal_mode to WAL
+                    appDbFound.run("PRAGMA journal_mode=WAL;", function (err) {
+                        if (err) {
+                            console.error(err.message);
+                        } else {
+                            console.log("2) Journal mode set to WAL.");
+                            appDbs[args.base_component_id] = appDbFound
+                            returnResult(appDbFound)
+                        }
+                    });
+                }
+            });
         }
+    })
+    appDb = await getAppDbPromise
+    let getSqlResults = new Promise(returnResult => {
 
         if (args.sql.toLocaleLowerCase().trim().startsWith("select")) {
             //console.log("Read only query " + args.sql)
