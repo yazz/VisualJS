@@ -10840,10 +10840,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             async function  sqlRx                               (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
                 if (localAppshareApp) {
-                    var results = localSql(sqlcode,params)
+                    let results = localSql(sqlcode,params)
                     return results
                 } else {
-                    var results = await callComponent(
+                    let results = await callComponent(
                         {
                             base_component_id:    "systemFunctionAppSql"
                         }
@@ -10860,7 +10860,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
             }
             async function  sqlRx1                              (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await sqlRx(code_id,base_component_id,sqlcode, params)
+                let x = await sqlRx(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
                     return x[0]
                 } else {
@@ -10868,11 +10868,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
             }
             async function  sqlRxFirstCol                       (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await sqlRx(code_id,base_component_id,sqlcode, params)
+                let x = await sqlRx(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
-                    var colName = Object.keys(x[0])[0]
-                    var ff = []
-                    for (var tt=0; tt < x.length; tt++) {
+                    let colName = Object.keys(x[0])[0]
+                    let ff = []
+                    for (let tt=0; tt < x.length; tt++) {
                         ff.push(x[tt][colName])
                     }
                     return ff
@@ -10881,7 +10881,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
             }
             async function  sqlRxFirstCol1                      (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
-                var x = await sqlRxFirstCol(code_id,base_component_id,sqlcode, params)
+                let x = await sqlRxFirstCol(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
                     return x[0]
                 } else {
