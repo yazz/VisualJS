@@ -299,7 +299,6 @@ logo_url("/driver_icons/sqlite.jpg")
                 return null
             },
             runQuery:   async function  (  ) {
-                debugger
                 let mm = this
                 mm.rowReturned = await mm.internalRunQuery(mm.properties.sql)
                 mm.args.result = mm.rowReturned

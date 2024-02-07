@@ -527,7 +527,7 @@ logo_url("/driver_icons/data_control.png")
             |
             --------------------------------------------------------------------- -->
             <div v-if='properties.designDetailTab == "schema"'  >
-               &#34;{{properties.sourceComponentType}}&#34; Database Tables
+               Database Tables: &#34;{{properties.sourceComponentType}}&#34; 
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in properties.tables'
@@ -567,12 +567,10 @@ logo_url("/driver_icons/data_control.png")
             |
             --------------------------------------------------------------------- -->
             <div v-if='properties.designDetailTab == "columns"' >
-                Columns for table &#34;{{properties.design_mode_table}}&#34;
+                Table Columns: &#34;{{properties.design_mode_table}}&#34;
                 <div>
 
-
                     <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top; border: 2px solid gray;">
-
 
                         <div   v-for='column in properties.tableColumnNames'
                                v-on:click="properties.selected_column = column;"
@@ -1182,7 +1180,10 @@ logo_url("/driver_icons/data_control.png")
             },
             selectTable:        async function  (  table  ) {
                 let mm = this
+                mm.properties.design_mode_table = table
                 mm.properties.sql = 'select * from ' + table;
+                debugger
+                await mm.generateColumns(  )
             }
         }
     })
