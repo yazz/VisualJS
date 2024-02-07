@@ -122,17 +122,32 @@ function processMessagesFromMainProcess() {
 
 
         //console.log("  DB path: " + dbPath)
-        dbsearch = new sqlite3.Database(dbPath);
-        dbsearch.run("PRAGMA journal_mode=WAL;")
-        //console.log('exeProcess.js process: ' + msg.child_process_name + " calls 'database_setup_in_child'");
+        dbsearch = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
+            if (err) {
+                console.error(err.message);
+            } else {
+                console.log("1) Connected to the " +  dbPath + " database.");
 
-        process.send({  message_type:       "database_setup_in_child" ,
-                        child_process_name:  childProcessName
+                // Set PRAGMA journal_mode to WAL
+                dbsearch.run("PRAGMA journal_mode=WAL;", function(err) {
+                    if (err) {
+                        console.error(err.message);
+                    } else {
+                        console.log("2) Journal mode set to WAL.");
+                        console.log("3)  DB path: " + dbPath)
+                        dbsearch.run("PRAGMA journal_mode=WAL;")
+                        //console.log('exeProcess.js process: ' + msg.child_process_name + " calls 'database_setup_in_child'");
+
+                        process.send({  message_type:       "database_setup_in_child" ,
+                            child_process_name:  childProcessName
                         });
 
+                        setInterval(announceFree, 1000)
+                    }
+                });
+            }
+        });
 
-
-        setInterval(announceFree, 1000)
 
 
 
