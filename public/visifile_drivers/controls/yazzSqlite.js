@@ -265,33 +265,37 @@ logo_url("/driver_icons/sqlite.jpg")
             },
             getColumns: async function  (  ) {
                 let mm = this
-                console.log("In getColumns")
-                //debugger
+                debugger
 
                 if (this.design_mode) {
-                    let result = await callComponent(
-                                        {
-                                            base_component_id: "sqlite_server"
-                                        }
-                                            ,{
-                                                path:            this.properties.sqlite_file_path,
-                                                get_columns:      true,
-                                                table:           this.args.design_mode_table
-                                             })
+                    let result = null
+                    if (mm.properties.sqlite_file_path) {
+                        let retValCols = await callComponent(
+                            {
+                                base_component_id: "sqlite_server"
+                            }
+                            ,
+                            {
+                                path:            mm.properties.sqlite_file_path,
+                                get_columns:     true,
+                                table:           mm.args.design_mode_table
+                            })
+                        if (retValCols) {
+                            result = retValCols.value
+                        }
+                    } else {
+                        result = await mm.sql( `PRAGMA table_info(  ${mm.args.design_mode_table}  )` )
+                    }
 
 
-
-                   //alert("runQuery: " + JSON.stringify(result,null,2))
-                   console.log(JSON.stringify(result,null,2))
                    if (result) {
                        this.args.columns = []
-                       //alert(JSON.stringify(result,null,2))
                        for (let i=0;i<result.length;i++) {
                            this.args.columns.push(result[i].name)
                        }
                    }
 
-                   return this.args.columns
+                   return mm.args.columns
                 }
             },
             getSchema:  async function  (  ) {
@@ -329,8 +333,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
 
                 } else {
-//zzz
-                    this.args.result = await mm.sql(sql)
+                    this.args.result = await mm.sql(  sql  )
                     return this.args.result
                 }
             },

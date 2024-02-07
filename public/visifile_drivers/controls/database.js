@@ -1182,7 +1182,6 @@ logo_url("/driver_icons/data_control.png")
                 let mm = this
                 mm.properties.design_mode_table = table
                 mm.properties.sql = 'select * from ' + table;
-                debugger
                 await mm.generateColumns(  )
             }
         }

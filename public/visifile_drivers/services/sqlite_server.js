@@ -11,7 +11,7 @@ only_run_on_server(true)
     console.log("dbsearch: " + JSON.stringify(dbsearch, null,2))
     dbsearch.run("PRAGMA journal_mode=WAL;")
     console.log("sqlite table name: " + args.table)
-    var promise = new Promise(async function(returnFn) {
+    let promise = new Promise(async function(returnFn) {
 
         //
         // get tables
@@ -19,7 +19,7 @@ only_run_on_server(true)
         if (args.get_tables) {
             dbsearch.serialize(
                 function() {
-                    var stmt = dbsearch.all(
+                    let stmt = dbsearch.all(
                         "SELECT " +
                         "     name " +
                         "FROM " +
@@ -44,17 +44,12 @@ only_run_on_server(true)
         //
         } else if (args.get_columns) {
             dbsearch.serialize(
-                function() {
-                    var stmt = dbsearch.all(
-                        "PRAGMA table_info(" +
-                            args.table +
-                        ")"
-                        ,
-                        []
-                        ,
-                        function(err, results2)
-                        {
-                            returnFn(results2)
+                async function() {
+                    let stmt = dbsearch.all(
+                        `PRAGMA table_info(  ${args.table}  )`,
+                        [],
+                        async function(err, results2) {
+                            returnFn(  {  value:  results2  }  )
                         }
                     )}, sqlite3.OPEN_READONLY)
 
@@ -69,7 +64,7 @@ only_run_on_server(true)
             try {
                 dbsearch.serialize(
                     function() {
-                        var stmt = dbsearch.all(
+                        let stmt = dbsearch.all(
                             "pragma schema_version;"
                             ,
                             []
@@ -103,7 +98,7 @@ only_run_on_server(true)
         } else {
             dbsearch.serialize(
                 function() {
-                    var stmt = dbsearch.all(
+                    let stmt = dbsearch.all(
                         args.sql
                         ,
                         []
@@ -117,15 +112,10 @@ only_run_on_server(true)
         }
 
 
-
-
-
-
-
     })
 
     try {
-        var ret = await promise
+        let ret = await promise
         return  ret
     } catch( err) {
         returnFn({error: err})

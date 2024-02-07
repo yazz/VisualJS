@@ -1228,7 +1228,6 @@ use_db("todo")
             loadSelectedTableData:              async function  (  ) {
                 let mm = this
                 setTimeout(async function ( ) {
-                    debugger
                     let codeId = await mm.getCurrentCommitId()
                     let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
                     mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
