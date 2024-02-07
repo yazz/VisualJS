@@ -137,7 +137,7 @@ properties(
             id:     "sql",
             name:   "SQL",
             type:   "String",
-            default: "SELECT * FROM pg_catalog.pg_tables;"
+            default: ""
         }
         ,
 
