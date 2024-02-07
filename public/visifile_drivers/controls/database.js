@@ -527,11 +527,11 @@ logo_url("/driver_icons/data_control.png")
             |
             --------------------------------------------------------------------- -->
             <div v-if='properties.designDetailTab == "schema"'  >
-               Database tables for schema &#34;{{properties.sourceComponentType}}&#34;
+               &#34;{{properties.sourceComponentType}}&#34; Database Tables
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in properties.tables'
-                          v-on:click="properties.sql = 'select * from ' + table;"
+                          v-on:click="selectTable( table )"
                           v-bind:style='"padding: 5px; " + ((properties.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                          {{table}}
@@ -1179,6 +1179,10 @@ logo_url("/driver_icons/data_control.png")
                         newcontrol.height = 600
                     }
                 }
+            },
+            selectTable:        async function  (  table  ) {
+                let mm = this
+                mm.properties.sql = 'select * from ' + table;
             }
         }
     })
