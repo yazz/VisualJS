@@ -1612,7 +1612,6 @@ async function  setUpComponentsLocally                  (  ) {
     //await releaseComponentFromPath( '/all_system_components/system.js')
     await releaseComponentFromPath( '/all_system_components/system2.js')
     //await releaseComponentFromPath( '/all_system_components/system3.js')
-    await releaseComponentFromPath( '/all_system_components/systemFunctionAppSql.js')
 
     //
     // UI components
