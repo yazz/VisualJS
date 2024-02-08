@@ -75,6 +75,13 @@ properties(
         }
         ,
         {
+            id:         "width",
+            name:       "Width",
+            default:    330,
+            type:       "Number"
+        }
+        ,
+        {
             id:         "height",
             name:       "Height",
             default:    160,
