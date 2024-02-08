@@ -1,4 +1,4 @@
-function(args) {
+function(  args  ) {
 /*
 is_app(true)
 component_type("VB")
@@ -79,136 +79,102 @@ logo_url("/driver_icons/table.png")
 */
 
     Yazz.component({
-      props: ["meta","form", "name", "args","refresh","design_mode"]
-      ,
-      template:
-`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
+        props:      [  "meta"  ,  "form"  ,  "name"  ,  "args"  ,  "refresh"  ,  "design_mode"  ,  "properties"  ],
+        template:   `
+<div    v-bind:style='"width:100%;overflow-y:auto;height:100%"
         v-bind:refresh='refresh'>
 
 
-    <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
-         v-if='design_mode == "detail_editor"'>
+    <div    v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
+            v-if='design_mode == "detail_editor"'>
 
-         Details for table grid
+        Details for table grid
     </div>
 
 
      <div    v-else
              ref="exampletable"></div>
 
+</div>`,
+        data:       function() {
+                        return {
+                            value:              null,
+                            selected_index:     null,
+                            new_value:          "",
+                            new_text:           "",
+                            columnDefinitions:  [  ],
+                            data:               [  ],
+                            table:              null
+                        }
+        },
+        watch:      {
+            refresh: function(newValue, oldValue) {
+                // This would be called anytime the value of the input changes
 
-</div>`
-      ,
-      data: function() {
-       return {
-         value:             null
-         ,
-         selected_index:    null
-         ,
-         new_value:         ""
-         ,
-         new_text:          ""
-         ,
-         columnDefinitions: [ ]
-         ,
-         data:              [ ]
-         ,
-         table:   null
-       }
-     }
-     ,
-     watch: {
-       // This would be called anytime the value of the input changes
-       refresh: function(newValue, oldValue) {
-           //console.log("refresh: " + this.args.text)
-           if (isValidObject(this.args)) {
-               this.value = this.args.value
+                //console.log("refresh: " + this.args.text)
+                if (isValidObject(this.args)) {
+                    this.value = this.args.value
 
-               var ttt = jsondiffpatch2.diff(this.data,this.args.data)
-               if (ttt) {
-                   this.data = this.args.data
-                   this.setData(this.data)
-               }
-           }
-       }
-     }
-     ,
-     mounted: async function() {
-        await registerComponent(this)
-        await useTabulatorJs()
+                    let ttt = jsondiffpatch2.diff(this.data,this.args.data)
+                    if (ttt) {
+                        this.data = this.args.data
+                        this.setData(this.data)
+                    }
+                }
+            }
+        },
+        mounted:    async function() {
+            await registerComponent(this)
+            await useTabulatorJs()
 
-         if (isValidObject(this.args)) {
-             this.data = this.args.data
-             if (isValidObject(this.args.value)) {
-                this.value = this.args.value
+             if (isValidObject(this.args)) {
+                 this.data = this.args.data
+                 if (isValidObject(this.args.value)) {
+                    this.value = this.args.value
+                 }
              }
-         }
 
          if (this.args.design_mode != "detail_editor") {
              this.table = new Tabulator(this.$refs.exampletable, {
-                    width:                    this.args.width
-                    ,
-                    height:                    this.args.height
-                    ,
-                	data:                       this.data
-                    ,
-                	layout:                    "fitColumns"
-                    ,
-                	responsiveLayout:          "hide"
-                    ,
-                	tooltips:                   true
-                    ,
-                	addRowPos:                 "top"
-                    ,
-                	history:                    true
-                    ,
-                	pagination:                "local"
-                    ,
-                	paginationSize:             7
-                    ,
-                	movableColumns:             true
-                    ,
-                	resizableRows:              true
-                    ,
-
-                	initialSort:                [
-                                            	]
-                    ,
-
+                    width:                      this.args.width,
+                    height:                     this.args.height,
+                	data:                       this.data,
+                	layout:                     "fitColumns",
+                	responsiveLayout:           "hide",
+                	tooltips:                   true,
+                	addRowPos:                  "top",
+                	history:                    true,
+                	pagination:                 "local",
+                	paginationSize:             7,
+                	movableColumns:             true,
+                	resizableRows:              true,
+                	initialSort:                [  ],
                 	columns:                    this.columnDefinitions
                 });
             }
-
-
-      }
-      ,
-      methods: {
-            changedFn: function() {
+        },
+        methods:    {
+            changedFn:          function        (  ) {
                 if (isValidObject(this.args)) {
                     this.args.value = this.value
                     this.args.data = this.data
                 }
-            }
-            ,
-
-            runEventHandler: function() {
+            },
+            runEventHandler:    function        (  ) {
                 this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 control_name:        this.args.name,
                                                 sub_type:           "changed",
                                                 code:                this.args.changed_event
                                             })
-            }
-            ,
-            setText: async function(newtext) {
+            },
+            setText:            async function  (  newtext  ) {
 
-            }
-            ,
-            resetColumns: async function(data) {
+            },
+            resetColumns:       async function  (  data  ) {
                 this.table.setColumns([])
-            }
-            ,
-            setData: async function(data) {
+            },
+            setData:            async function  (  data  ) {
                 let mm = this
                 if (mm.args) {
                     mm.args.data = data
@@ -229,16 +195,13 @@ logo_url("/driver_icons/table.png")
                         mm.addColumn({title:dfg2[qq2], field:dfg2[qq2]})
                     }
                 }
-            }
-            ,
-            addColumn: async function(colData) {
-                var col = this.table.getColumn(colData.title)
+            },
+            addColumn:          async function  (  colData  ) {
+                let col = this.table.getColumn(colData.title)
                 if (!col) {
                     this.table.addColumn(colData, true, "name");
                 }
             }
-
       }
-
     })
 }
