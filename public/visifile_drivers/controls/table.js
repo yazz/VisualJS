@@ -73,6 +73,13 @@ properties(
             name:   "Changed event",
             type:   "Event"
         }
+        ,
+        {
+            id:         "height",
+            name:       "Height",
+            default:    160,
+            type:       "Number"
+        }
     ]
 )//properties
 logo_url("/driver_icons/table.png")
