@@ -1655,21 +1655,29 @@
                 }
             },
             getControlMethod:                       function        (  componentDefn  ,  componentDetails  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /          getControlMethod           /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This is used to run user written event code in the control
+                // event handlers
+                //
+                //________
+                // PARAMS \______________________________________________________________/
+                //
+                //    componentDefn
+                //    -------------         The details of the method being called. This
+                //                          is possibly very BADLY named variable as it
+                //                          maybe is more related to the function being
+                //                          called than the component
+                //
+                //    componentDetails
+                //    ----------------      The details of the component being called
+                //
+                //-----------------------------------------------------------/
                 let mm                      = this
                 let methodId                = componentDefn.id
                 let methodFn                = componentDefn.fn
@@ -1677,11 +1685,11 @@
                 let isComponentInDesignMode = mm.design_mode
 
 
-
+                // find out if the method call should be asynchronous
                 if (!isValidObject(methodFn)) {
                     let allProps = GLOBALS.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
                     if (allProps) {
-                        for (let i=0;i<allProps.length;i++) {
+                        for (  let i = 0  ;  i < allProps.length  ;  i++  ) {
                             let thisProp = allProps[i]
                             if (thisProp.id == methodId) {
                                 if (thisProp.async) {
@@ -1694,18 +1702,14 @@
                     }
                 }
 
-                //   async
+                // return an "async" method
                 if (isAsync || isValidObject(methodFn)){
+                    return mm.getControlAsyncMethod(  componentDetails  ,  isComponentInDesignMode  ,   methodId  )
 
-                    return mm.getControlAsyncMethod(componentDetails, isComponentInDesignMode, methodId)
-
-                    //   NOT async
+                // return a normal "NOT async" method
                 } else {
-
-                    return mm.getControlNonAsyncMethod(componentDetails, isComponentInDesignMode, methodId)
-
+                    return mm.getControlNonAsyncMethod(  componentDetails  ,  isComponentInDesignMode  ,  methodId  )
                 }
-
             },
             getFormMethod:                          function        (  formName  ,  formprop  ) {
                 //----------------------------------------------------------------------------------
