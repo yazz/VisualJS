@@ -87,7 +87,7 @@ logo_url("/driver_icons/button_control.png")
 
     Yazz.component(
     {
-        props:      [ "meta",  "name",  "refresh",  "design_mode"   ,"properties" ],
+        props:      [  "sql"  ,  "meta"  ,  "name"  ,  "refresh"  ,  "design_mode"   ,  "properties"  ],
         template:   `<button  type=button
                       v-bind:class='"btn btn-info " + (((properties.button_size=="large") || (!properties.button_size))?"btn-lg ":"")  + (properties.button_size=="small"?"btn-sm ":"") '
                       v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    properties["background_color"]  +  ";"+ "color: "+    (properties["color"]?properties["color"]:"black")  +  ";" + (properties.padding?"padding: " + properties.padding + ";": "")'

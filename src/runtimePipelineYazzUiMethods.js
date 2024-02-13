@@ -3257,6 +3257,14 @@ ${innerMethodSrcCode}
 
 
 
+                        //-------------------------------------------------------------------
+                        // sql( ... ) function
+                        // Used to access the application database
+                        //-------------------------------------------------------------------
+                        argsToUserCode["sql"] = mm.sqlQuery
+
+
+
                         let fcc =
 `(async function(${argsToUserCodeStringV2}){
 ${code}
