@@ -1608,49 +1608,57 @@
                 }
             },
             getControlAsyncMethod:                  function        (  componentDetails  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /        getControlAsyncMethod        /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // Gets the method for a component
+                //
+                //________
+                // PARAMS \______________________________________________________________/
+                //
+                //    componentDetails
+                //    ----------------    Details of component
+                //
+                //-----------------------------------------------------------/
                 return async function (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
-                    let me = componentDetails
-                    let parent = null
+                    let me              = componentDetails
+                    let parent          = null
+                    let fnDetails       = null
+                    let controlDetails  = null
+                    let retv            = null
+
+                    // hmmm, why do we have this as we never seem to access the parent?
                     if (me.parent) {
                         parent = this.runtimeFormsInfo[mm.active_form].component_lookup_by_name[me.parent]
                     }
 
-                    let fnDetails = null
+                    // create the method if the method is described in a property
                     if (isValidObject(methodFn)) {
                         let thecode =
                             `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
-                    ${methodFn}
-                    })`
+                                ${methodFn}
+                            })`
+                        fnDetails = eval(  thecode  )
 
-                        fnDetails = eval(thecode)
-
+                    // otherwise return the actual method defined in code
                     } else {
-                        let controlDetails = null
                         if (isComponentInDesignMode) {
-                            controlDetails = yz.componentsAPI.vue.getDesignModeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
+                            controlDetails = yz.componentsAPI.vue.getDesignModeUiControlNameReturnsVueInstance(
+                                {  controlName: componentDetails.name  })
+
                         } else {
-                            controlDetails = yz.componentsAPI.vue.getRuntimeUiControlNameReturnsVueInstance({controlName: componentDetails.name})
+                            controlDetails = yz.componentsAPI.vue.getRuntimeUiControlNameReturnsVueInstance(
+                                {  controlName: componentDetails.name  })
                         }
                         fnDetails = controlDetails[methodId]
                     }
-                    let retv = await fnDetails(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 
-
+                    // return the wrapped method
+                    retv = await fnDetails(  arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10  )
                     return retv
                 }
             },
