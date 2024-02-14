@@ -1774,7 +1774,8 @@ ${formprop.fn}
                         for (  let  aForm  of  mm.getForms() ) {
                             argsToUserCodeStringV2 = argsToUserCodeStringV2 + aForm.name + ", "
                         }
-                        argsToUserCodeStringV2 = argsToUserCodeStringV2 + "arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10 , app, me }"
+                        debugger
+                        argsToUserCodeStringV2 = argsToUserCodeStringV2 + "arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10 , app, me , sql}"
 
 
                         let innerMethodSrcCode = mm.model[appMethodId]
@@ -1793,6 +1794,7 @@ ${innerMethodSrcCode}
     let argsToUserCode= {arg1: arg1, arg2: arg2,arg3: arg3,arg4: arg4,arg5: arg5,arg6: arg6,arg7: arg7,arg8: arg8,arg9: arg9,arg10: arg10}
     argsToUserCode["me"] = await mm.getRuntimeAppProperties()
     argsToUserCode["app"] = argsToUserCode["me"]
+    argsToUserCode["sql"] = mm.sqlQuery
     mm.fillInAllFormsToScopeObject(  argsToUserCode  )
     let innerf = ${debugFcc}
     let retv = innerf(argsToUserCode)
