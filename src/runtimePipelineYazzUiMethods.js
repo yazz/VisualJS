@@ -3253,8 +3253,6 @@ ${innerMethodSrcCode}
                         //-------------------------------------------------------------------
                         argsToUserCode["app"] = await mm.getRuntimeAppProperties()
 
-                        let argsToUserCodeStringV2 = mm.getObjectsInScopeSignatureFromObjects(argsToUserCode)
-
 
 
                         //-------------------------------------------------------------------
@@ -3263,6 +3261,12 @@ ${innerMethodSrcCode}
                         //-------------------------------------------------------------------
                         argsToUserCode["sql"] = mm.sqlQuery
 
+
+
+                        //-------------------------------------------------------------------
+                        // Finally generate a fn signature string from the paramters
+                        //-------------------------------------------------------------------
+                        let argsToUserCodeStringV2 = mm.getObjectsInScopeSignatureFromObjects(argsToUserCode)
 
 
                         let fcc =
