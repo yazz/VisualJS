@@ -238,11 +238,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
                 // if a Sqlite file is specified then ...
                 if (mm.properties.sqlite_file_path) {
-                    let result = await callComponent(
-                        {
-                            base_component_id: "sqlite_server"
-                        }
-                        ,
+                    let result = await querySqlite(
                         {
                             path:            mm.properties.sqlite_file_path,
                             connect:         true
@@ -269,11 +265,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 if (this.design_mode) {
                     let result = null
                     if (mm.properties.sqlite_file_path) {
-                        let retValCols = await callComponent(
-                            {
-                                base_component_id: "sqlite_server"
-                            }
-                            ,
+                        let retValCols = await querySqlite(
                             {
                                 path:            mm.properties.sqlite_file_path,
                                 get_columns:     true,
@@ -312,11 +304,7 @@ logo_url("/driver_icons/sqlite.jpg")
             internalRunQuery:   async function  (  sql  ,  sqlArgs  ) {
                 let mm = this
                 if (mm.properties.sqlite_file_path) {
-                    let result = await callComponent(
-                        {
-                            base_component_id: "sqlite_server"
-                        }
-                        ,
+                    let result = await querySqlite(
                         {
                             sql:             sql,
                             path:            this.properties.sqlite_file_path

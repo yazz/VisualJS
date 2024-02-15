@@ -160,14 +160,11 @@ logo_url("/driver_icons/sqlite.jpg")
 
               if (this.design_mode) {
 
-                  var result = await callComponent(
-                                      {
-                                          base_component_id: "sqlite_server"
-                                      }
-                                          ,{
+                  var result = await querySqlite(
+                                          {
                                               get_tables:      true,
                                               path:            this.properties.sqlite_file_path
-                                           })
+                                          })
 
 
                  //alert("runQuery: " + JSON.stringify(result,null,2))
@@ -192,14 +189,11 @@ logo_url("/driver_icons/sqlite.jpg")
             connect: async function() {
                 debugger
                 try {
-                    var result = await callComponent(
-                                        {
-                                            base_component_id: "sqlite_server"
-                                        }
-                                            ,{
+                    var result = await querySqlite(
+                                            {
                                                 connect:         true,
                                                 path:            this.properties.sqlite_file_path
-                                             })
+                                            })
 
 
                    //alert("runQuery: " + JSON.stringify(result,null,2))
@@ -226,15 +220,12 @@ logo_url("/driver_icons/sqlite.jpg")
                 //debugger
 
                 if (this.design_mode) {
-                    var result = await callComponent(
+                    var result = await querySqlite(
                                         {
-                                            base_component_id: "sqlite_server"
-                                        }
-                                            ,{
                                                 path:            this.properties.sqlite_file_path,
                                                 get_columns:      true,
                                                 table:           this.args.design_mode_table
-                                             })
+                                        })
 
 
 
@@ -276,14 +267,11 @@ logo_url("/driver_icons/sqlite.jpg")
             
             runQuery: async function() {
                 if (!this.design_mode) {
-                    var result = await callComponent(
+                    var result = await querySqlite(
                                         {
-                                            base_component_id: "sqlite_server"
-                                        }
-                                            ,{
                                                 sql:             this.args.sql,
                                                 path:            this.properties.sqlite_file_path
-                                             })
+                                        })
 
 
                    //alert("runQuery: " + JSON.stringify(result,null,2))
