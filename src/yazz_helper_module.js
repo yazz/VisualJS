@@ -339,13 +339,6 @@ module.exports = {
         return ret
     },
     querySqlite:                    async function  (  args  )  {
-        /*
-        description("`sqlite db driver")
-        base_component_id("sqlite_server")
-        hash_algorithm("SHA256")
-        load_once_from_file(true)
-        only_run_on_server(true)
-        */
         let dbsearch = new sqlite3.Database(args.path.trim());
         dbsearch.run("PRAGMA journal_mode=WAL;")
         let promise = new Promise(async function(returnFn) {

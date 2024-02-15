@@ -10812,6 +10812,29 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
 
 
+            async function  querySqlite                         (  args  ) {
+                let promise = new Promise(async function (returnfn) {
+                    let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+                        location.port + "/http_post_submit_comment" + "/" +
+                        "?"
+
+                    callAjaxPost(newrestUrl
+                        ,
+                        {
+                            args:          args
+                        }
+                        ,
+                        function(response) {
+                            debugger
+                            let resp = JSON.parse(response)
+                            returnfn(response)
+                        })
+
+                })
+                let ret = await promise
+                return ret
+            }
+
             // Embedded Sqlite helpers
             function        localSql                            (   sql   ,  params   ) {
                 if (!window.SQL) {

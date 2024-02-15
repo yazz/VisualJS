@@ -1528,7 +1528,6 @@ async function  setUpComponentsLocally                  (  ) {
 
 
     await releaseComponentFromPath( '/services/postgres_server.js')
-    await releaseComponentFromPath( '/services/sqlite_server.js')
     await releaseComponentFromPath( '/services/access_server.js')
     await releaseComponentFromPath( '/services/excel_server.js')
 
@@ -4101,6 +4100,19 @@ async function  startServices                           (  ) {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
             topApps
+        ));
+    });
+    app.post(   '/http_post_query_sqlite',                                  async function (req, res) {
+        console.log("app.post('/http_post_query_sqlite'): ")
+        console.log("    req.cookies: " + JSON.stringify(req.cookies,null,2))
+
+        let args         = req.body.value.args
+
+        let sqliteResult = await yz.querySqlite(   args  )
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            sqliteResult
         ));
     });
     app.post(   '/http_post_load_comments_for_component',                   async function (req, res) {
