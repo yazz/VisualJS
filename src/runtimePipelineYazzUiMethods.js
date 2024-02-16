@@ -55,7 +55,7 @@
 
                         if (GLOBALS.isComponentTypeCached(componentId)) {
                             let cachedComponentPropertiesDefinition = mm.getControlProperties(mm.model.forms[formName].components[compenentInFormIndex].base_component_id)
-                            if (isValidObject(cachedComponentPropertiesDefinition)) {
+                            if (window.isValidObject(cachedComponentPropertiesDefinition)) {
                                 for (let cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
                                     let prop = cachedComponentPropertiesDefinition[cpp].id
                                     let compId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
@@ -65,7 +65,7 @@
                                             mm.getControlMethod(cachedComponentPropertiesDefinition[cpp],
                                                 mm.model.forms[formName].components[compenentInFormIndex])
 
-                                    } else if (!isValidObject(mm.model.forms[formName].components[compenentInFormIndex][prop])){
+                                    } else if (!window.isValidObject(mm.model.forms[formName].components[compenentInFormIndex][prop])){
                                         mm.model.forms[formName].components[compenentInFormIndex][prop] = ""
                                     }
                                 }
@@ -125,13 +125,13 @@
                 let form        = mm.model.forms[formName]
                 let components  = form.components
 
-                if (!isValidObject(mm.runtimeFormsInfo[formName])) {
+                if (!window.isValidObject(mm.runtimeFormsInfo[formName])) {
                     mm.runtimeFormsInfo[formName] = new Object()
                 }
                 mm.runtimeFormsInfo[formName].component_lookup_by_name     = {}
 
                 for (let  cc  of  components) {
-                    if (isValidObject(cc)) {
+                    if (window.isValidObject(cc)) {
                         mm.runtimeFormsInfo[formName].component_lookup_by_name[cc.name] = cc
                     }
                     if (!cc.uuid) {
@@ -431,18 +431,18 @@
                     //    newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
 
                     //    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
-                    //if (isValidObject(compEvaled1)) {
+                    //if (window.isValidObject(compEvaled1)) {
                     //newItem.code_id = compEvaled1.code_id
                     //let compEvaled = compEvaled1.properties
                     let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
-                    if (isValidObject(compEvaled)) {
+                    if (window.isValidObject(compEvaled)) {
                         for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
                             let prop = compEvaled[cpp].id
 
-                            if (!isValidObject(newItem[prop])){
-                                if (isValidObject(compEvaled[cpp].default)) {
+                            if (!window.isValidObject(newItem[prop])){
+                                if (window.isValidObject(compEvaled[cpp].default)) {
                                     newItem[prop] = JSON.parse(JSON.stringify(compEvaled[cpp].default))
-                                } else if (isValidObject(compEvaled[cpp].default_expression)){
+                                } else if (window.isValidObject(compEvaled[cpp].default_expression)){
                                     newItem[prop]  = eval("(" + compEvaled[cpp].default_expression + ")")
                                 } else {
                                     newItem[prop] = ""
@@ -463,10 +463,10 @@
 
 
 
-                    if (!isValidObject(newItem.width)) {
+                    if (!window.isValidObject(newItem.width)) {
                         newItem.width = 100
                     }
-                    if (!isValidObject(newItem.height)) {
+                    if (!window.isValidObject(newItem.height)) {
                         newItem.height = 100
                     }
 
@@ -480,7 +480,7 @@
                     }
 
 
-                    if (isValidObject(   defProps   )) {
+                    if (window.isValidObject(   defProps   )) {
                         let oo = Object.keys(defProps)
                         for (  let ee = 0  ;  ee < oo.length ;  ee++  ) {
                             let propName = oo[ee]
@@ -495,7 +495,7 @@
 
                     let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id})
                     let childrenCode  = yz.helpers.getValueOfCodeString(compCode, "children",")//children")
-                    if (isValidObject(childrenCode)) {
+                    if (window.isValidObject(childrenCode)) {
                         for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
                             let childBaseId = childrenCode[ee].base_component_id
                             let childDefProps = childrenCode[ee].properties
@@ -518,10 +518,10 @@
                     mm.updateAllFormCaches()
                     let selectParent = false
                     let parentItemIndex = null
-                    if (isValidObject(newItem.parent)) {
+                    if (window.isValidObject(newItem.parent)) {
                         let parentItem = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[newItem.parent]
 
-                        if (isValidObject(parentItem.select_parent_when_child_added) &&
+                        if (window.isValidObject(parentItem.select_parent_when_child_added) &&
                             (parentItem.select_parent_when_child_added == true)) {
 
                             selectParent = true
@@ -679,7 +679,7 @@
                             let ccode = ""
 
                             // application code (THIS MUST BE FIST IN THE IF STATEMENT)
-                            if (property_id && mm.model[property_id] && isValidObject(mm.model[property_id].fn)) {
+                            if (property_id && mm.model[property_id] && window.isValidObject(mm.model[property_id].fn)) {
                                 ccode = mm.model[property_id].fn
                             } else if (mm.app_selected) {
                                 ccode = mm.model[property_id]
@@ -696,7 +696,7 @@
 
 
 
-                            if (!isValidObject(ccode)) {
+                            if (!window.isValidObject(ccode)) {
                                 ccode = ""
                             }
 
@@ -743,7 +743,7 @@
 
 
 
-                                if (property_id && mm.model[property_id] && isValidObject(mm.model[property_id].fn)) {
+                                if (property_id && mm.model[property_id] && window.isValidObject(mm.model[property_id].fn)) {
                                     mm.model[property_id].fn = newC
                                 } else if (app_selected) {
                                     mm.model[property_id] = newC
@@ -753,7 +753,7 @@
                                 } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
                                     mm.model.forms[mm.active_form].components[mm.active_component_index][property_id] = newC
                                 }
-                                mm.$root.$emit('message', {
+                                 window.globalEventBus.emit('message', {
                                     type:   "pending"
                                 })
                             })
@@ -1319,7 +1319,7 @@
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                this.$root.$emit('message', {
+                 window.globalEventBus.emit('message', {
                     type:             "delete_design_time_component",
                     component_index:   index
                 })
@@ -1341,7 +1341,7 @@
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                this.$root.$emit('message', {
+                 window.globalEventBus.emit('message', {
                     type:             "select_design_time_component",
                     component_index:   index
                 })
@@ -1414,7 +1414,7 @@
             },
 
 
-            // helper fns
+            // SQL helper fns
             sqlQuery:                               async function  (  sql  ,  params  ) {
                 let mm = this
                 console.log("Called sqlQuery:")
@@ -1433,6 +1433,12 @@
             },
 
             // helper fns
+            GLOBALS:                                function        (  ) {
+                return window.GLOBALS
+            },
+            isValidObject:                          function        ( ) {
+                return window.isValidObject
+            },
             getEditor:                              function        (  ) {
                 /*
                 ________________________________________
@@ -1554,7 +1560,7 @@
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                this.$root.$emit('message', {
+                 window.globalEventBus.emit('message', {
                     type:   "pending"
                 })
             },
@@ -1637,7 +1643,7 @@
                     }
 
                     // create the method if the method is described in a property
-                    if (isValidObject(methodFn)) {
+                    if (window.isValidObject(methodFn)) {
                         let thecode =
                             `(async function(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10) {
                                 ${methodFn}
@@ -1694,7 +1700,7 @@
 
 
                 // find out if the method call should be asynchronous
-                if (!isValidObject(methodFn)) {
+                if (!window.isValidObject(methodFn)) {
                     let allProps = GLOBALS.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
                     if (allProps) {
                         for (  let i = 0  ;  i < allProps.length  ;  i++  ) {
@@ -1711,7 +1717,7 @@
                 }
 
                 // return an "async" method
-                if (isAsync || isValidObject(methodFn)){
+                if (isAsync || window.isValidObject(methodFn)){
                     return mm.getControlAsyncMethod(  componentDetails  ,  isComponentInDesignMode  ,   methodId  )
 
                 // return a normal "NOT async" method
@@ -1967,7 +1973,7 @@ ${innerMethodSrcCode}
             hasMoreDetailsUi:                       function        (  formName  ,  componentIndex  ) {
                 let mm = this
                 let component = mm.model.forms[formName].components[componentIndex]
-                if (isValidObject(component.parent)) {
+                if (window.isValidObject(component.parent)) {
                     let ccc = mm.model.forms[formName].components
                     for (let ytr = 0;ytr < ccc.length;ytr++) {
                         if (component.parent == ccc[ytr].name) {
@@ -1996,7 +2002,7 @@ ${innerMethodSrcCode}
                     return false
                 }
 
-                if (isValidObject(component.parent)) {
+                if (window.isValidObject(component.parent)) {
                     let ccc = mm.model.forms[formName].components
                     for (let ytr = 0;ytr < ccc.length;ytr++) {
                         if (ccc[ytr]) {
@@ -2035,7 +2041,7 @@ ${innerMethodSrcCode}
                 }
                 let left = component.leftX
 
-                if (isValidObject(component.parent)) {
+                if (window.isValidObject(component.parent)) {
                     let ccc = mm.model.forms[formName].components
                     for (let ytr = 0;ytr < ccc.length;ytr++){
                         if (component.parent == ccc[ytr].name) {
@@ -2070,7 +2076,7 @@ ${innerMethodSrcCode}
                     return 0
                 }
                 let top = component.topY
-                if (isValidObject(component.parent)) {
+                if (window.isValidObject(component.parent)) {
                     let ccc = mm.model.forms[formName].components
                     for (let ytr = 0;ytr < ccc.length;ytr++){
                         if (component.parent == ccc[ytr].name) {
@@ -2463,10 +2469,10 @@ ${innerMethodSrcCode}
                                 if (mm.design_mode_pane.app_selected) {
                                     isApp = true
 
-                                } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
+                                } else if (window.isValidObject(mm.design_mode_pane.active_component_index)) {
                                     componentId = mm.model.forms[mm.active_form].components[ mm.design_mode_pane.active_component_index ].base_component_id
 
-                                } else if (isValidObject(mm.design_mode_pane.active_form)) {
+                                } else if (window.isValidObject(mm.design_mode_pane.active_form)) {
                                     formName = mm.active_form
                                 }
 
@@ -2478,13 +2484,13 @@ ${innerMethodSrcCode}
 
                                 if (mm.design_mode_pane.app_selected) {
 
-                                } else if (isValidObject(mm.design_mode_pane.active_component_index)) {
+                                } else if (window.isValidObject(mm.design_mode_pane.active_component_index)) {
                                     let parentId = mm.model.forms[mm.active_form].components[ mm.design_mode_pane.active_component_index ].parent
-                                    if (isValidObject(parentId)) {
+                                    if (window.isValidObject(parentId)) {
                                         componentId = mm.runtimeFormsInfo[mm.active_form].component_lookup_by_name[parentId].base_component_id
                                     }
 
-                                } else if (isValidObject(mm.design_mode_pane.active_form)) {
+                                } else if (window.isValidObject(mm.design_mode_pane.active_form)) {
                                 }
 
                             } else if (textBeforeFirstDot == "app") {
@@ -2529,10 +2535,10 @@ ${innerMethodSrcCode}
                                     let comm = controlProperties[fg]
                                     let propName = textBeforeFirstDot + "." + comm.id
                                     let meta = "Property"
-                                    if (isValidObject(comm.snippet)) {
+                                    if (window.isValidObject(comm.snippet)) {
                                         propName = textBeforeFirstDot + "." + comm.snippet
                                     }
-                                    if (isValidObject(comm.pre_snippet)) {
+                                    if (window.isValidObject(comm.pre_snippet)) {
                                         propName = comm.pre_snippet + propName
                                     }
                                     if (comm.type == "Action") {
@@ -2572,10 +2578,10 @@ ${innerMethodSrcCode}
                                         let propName    = textBeforeFirstDot + "." + propDetails.id
                                         let meta        = "Property"
 
-                                        if (isValidObject(propDetails.snippet)) {
+                                        if (window.isValidObject(propDetails.snippet)) {
                                             propName = textBeforeFirstDot + "." + propDetails.snippet
                                         }
-                                        if (isValidObject(propDetails.pre_snippet)) {
+                                        if (window.isValidObject(propDetails.pre_snippet)) {
                                             propName = propDetails.pre_snippet + propName
                                         }
                                         if (propDetails.type == "Action") {
@@ -2618,10 +2624,10 @@ ${innerMethodSrcCode}
                                                 let comm = controlProperties[fg]
                                                 let propName = textBeforeSecondDot + "." + comm.id
                                                 let meta = "Property"
-                                                if (isValidObject(comm.snippet)) {
+                                                if (window.isValidObject(comm.snippet)) {
                                                     propName = textBeforeSecondDot + "." + comm.snippet
                                                 }
-                                                if (isValidObject(comm.pre_snippet)) {
+                                                if (window.isValidObject(comm.pre_snippet)) {
                                                     propName = comm.pre_snippet + propName
                                                 }
                                                 if (comm.type == "Action") {
@@ -2667,10 +2673,10 @@ ${innerMethodSrcCode}
                                     let propName    = textBeforeFirstDot + "." + propDetails.id
                                     let meta        = "Property"
 
-                                    if (isValidObject(propDetails.snippet)) {
+                                    if (window.isValidObject(propDetails.snippet)) {
                                         propName = textBeforeFirstDot + "." + propDetails.snippet
                                     }
-                                    if (isValidObject(propDetails.pre_snippet)) {
+                                    if (window.isValidObject(propDetails.pre_snippet)) {
                                         propName = propDetails.pre_snippet + propName
                                     }
 
@@ -2760,7 +2766,7 @@ ${innerMethodSrcCode}
 
 
                     // if we selected the app or a form
-                    if (mm.app_selected || (!isValidObject(mm.active_component_index))) {
+                    if (mm.app_selected || (!window.isValidObject(mm.active_component_index))) {
 
                         if (mm.edited_app_component_id) {
                             objectListForSelector.push(
@@ -2823,7 +2829,7 @@ ${innerMethodSrcCode}
                         //
                         // if we selected a component
                         //
-                    } else if (isValidObject(mm.active_component_index)) {
+                    } else if (window.isValidObject(mm.active_component_index)) {
 
                         if (mm.edited_app_component_id) {
                             objectListForSelector.push(
@@ -2895,7 +2901,7 @@ ${innerMethodSrcCode}
                         }
 
 
-                    } else if (  isValidObject(mm.active_component_index)  ) {
+                    } else if (  window.isValidObject(mm.active_component_index)  ) {
                         let ccc        = mm.model.forms[mm.active_form].components[mm.active_component_index]
                         let properties = mm.getComponentProperties(  ccc.base_component_id  )
 
@@ -2997,7 +3003,7 @@ ${innerMethodSrcCode}
 
 
                         // get the actions for the forms
-                    } else if (  isValidObject(mm.active_form)  ) {
+                    } else if (  window.isValidObject(mm.active_form)  ) {
                         let ccc        = mm.model.forms[mm.active_form]
 
                         methodListForSelector.push(
@@ -3212,9 +3218,9 @@ ${innerMethodSrcCode}
                         let thisControl
                         if (type == "subcomponent_event") {
                             thisControl = mm.runtimeFormsInfo[this.active_form].component_lookup_by_name[control_name]
-                            if (isValidObject(thisControl)) {
+                            if (window.isValidObject(thisControl)) {
 
-                                if (isValidObject(thisControl.parent)) {
+                                if (window.isValidObject(thisControl.parent)) {
                                     argsToUserCode["parent"] = mm.runtimeFormsInfo[this.active_form].component_lookup_by_name[thisControl.parent];
                                 }
                             }
@@ -3226,7 +3232,7 @@ ${innerMethodSrcCode}
 
                         `
                         let listOfArgs = []
-                        if (isValidObject(args)) {
+                        if (window.isValidObject(args)) {
                             listOfArgs = Object.keys(args)
                             for (let rtt=0;rtt<listOfArgs.length;rtt++) {
                                 argsToUserCode[listOfArgs[rtt]] = JSON.stringify(args[listOfArgs[rtt]])
@@ -3490,7 +3496,7 @@ ${code}
     |________________________________________________________________________ */
 //qqq
                 let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: componentType})
-                if (isValidObject(compEvaled)) {
+                if (window.isValidObject(compEvaled)) {
                     return compEvaled
                 }
                 return []
@@ -3506,7 +3512,7 @@ ${code}
 
                 if (  mm.model.forms[  formId  ].on_form_show && (!mm.design_mode)) {
 
-                    if (!isValidObject(this.args)) {
+                    if (!window.isValidObject(this.args)) {
                         //TODO
                         // WHY does this ever get called? remove it when you can!!!!
                         mm.args = mm.model
@@ -3523,7 +3529,7 @@ ${code}
                     mm.processControlEvent(formEvent)
                 }
                 mm.updatePropertySelector()
-                if (isValidObject(showProps) && showProps) {
+                if (window.isValidObject(showProps) && showProps) {
                     this.selected_pane = "properties";
                     this.chooseRight("properties");
                 }
@@ -3623,7 +3629,7 @@ ${code}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                this.$root.$emit('message', {
+                 window.globalEventBus.emit('message', {
                     type:   "set_info_text",
                     text:    text
                 })
@@ -3670,7 +3676,7 @@ ${code}
                 message.offsetX = (ev.clientX - rrr.left )
                 message.offsetY = (ev.clientY - rrr.top )
 
-                if (!isValidObject(ev.dataTransfer)) {
+                if (!window.isValidObject(ev.dataTransfer)) {
                     return
                 }
                 ev.dataTransfer.setData("message",
@@ -3678,7 +3684,7 @@ ${code}
             },
             switchEditor:                           async function  (  editorComponentName  ) {
                 let mm = this
-                mm.$root.$emit(
+                 window.globalEventBus.emit(
                     'message', {
                         type:          "switch_editor",
                         editorName:     editorComponentName,
@@ -4149,7 +4155,7 @@ ${code}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                if (!isValidObject(data)) {
+                if (!window.isValidObject(data)) {
                     return "<div></div>"
                 }
 
@@ -4185,7 +4191,7 @@ ${code}
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                if (!isValidObject(data)) {
+                if (!window.isValidObject(data)) {
                     return "<div></div>"
                 }
 
@@ -4236,7 +4242,7 @@ ${code}
                 let indexProp       = 0
                 let selectedItem    = null
 
-                if (mm.app_selected || (!isValidObject(mm.active_component_index))) {
+                if (mm.app_selected || (!window.isValidObject(mm.active_component_index))) {
 
                     if (mm.edited_app_component_id) {
                         sdata.push(
@@ -4270,7 +4276,7 @@ ${code}
                         indexProp++
                     }
 
-                } else if (isValidObject(mm.active_component_index)) {
+                } else if (window.isValidObject(mm.active_component_index)) {
 
                     if (mm.edited_app_component_id) {
                         sdata.push(
@@ -4529,7 +4535,7 @@ return {}
                 this.properties = this.getControlProperties(this.model.forms[this.active_form].components[index].base_component_id)
 
                 this.updatePropertySelector()
-                if (isValidObject(showProps) && showProps) {
+                if (window.isValidObject(showProps) && showProps) {
                     this.selected_pane = "properties";
                     this.chooseRight("properties");
                 }
@@ -6052,13 +6058,19 @@ return {}
                     mm.local_app                    = localAppshareApp
                     mm.in_change_model              = true
 
+                    //debugger
+
                     if (mm.properties && mm.args) {
                         mm.args = {...mm.args, ...mm.properties}
                         mm.properties = mm.args
                     } else if (mm.properties) {
-                        mm.args = mm.properties
+                        if (Vue.version.startsWith("2")) {
+                            mm.args = mm.properties
+                        }
                     } else {
-                        mm.properties = mm.args
+                        if (Vue.version.startsWith("2")) {
+                            mm.properties = mm.args
+                        }
                     }
 
                     if (mm.design_mode) {
@@ -6098,7 +6110,7 @@ return {}
                                 formDef[formprop.id] =
                                     mm.getFormMethod(formName, formprop)
 
-                            } else if (!isValidObject(formprop)) {
+                            } else if (!window.isValidObject(formprop)) {
                                 formDef[formprop.id] = ""
                             }
                         }
@@ -6127,10 +6139,10 @@ return {}
                                 if (!mm.design_mode) {
                                     mm.model[propDetails.id] = mm.getAppMethod(propDetails.id)
                                 }
-                            } else if (!isValidObject(mm.model[propDetails.id])) {
-                                if (isValidObject(propDetails.default)) {
+                            } else if (!window.isValidObject(mm.model[propDetails.id])) {
+                                if (window.isValidObject(propDetails.default)) {
                                     mm.model[propDetails.id] = propDetails.default
-                                } else if (isValidObject(propDetails.default_expression)) {
+                                } else if (window.isValidObject(propDetails.default_expression)) {
                                     mm.model[propDetails.id] = eval("(" + propDetails.default_expression + ")")
                                 }
                             }
@@ -6171,7 +6183,7 @@ return {}
                     }, 500)
 
 
-                    mm.$root.$on('message', async function (text) {
+                    window.globalEventBus.on('message', async function (text) {
                         if (text.type == "delete_design_time_component") {
                             if (mm.design_mode != false) {
                                 mm.model.forms[mm.active_form].components.splice(text.component_index, 1);
@@ -6390,7 +6402,7 @@ return {}
                                         }
                                         if (ttt) {
                                             mm.old_model = JSON.parse(JSON.stringify(mm.model));
-                                            mm.$root.$emit('message', {
+                                             window.globalEventBus.emit('message', {
                                                 type:   "pending"
                                             })
                                         }
@@ -6418,7 +6430,7 @@ return {}
                                     //
                                     // find  out what components have changed in the current form
                                     //
-                                    if (isValidObject(ttt.forms)) {
+                                    if (window.isValidObject(ttt.forms)) {
                                         if (ttt.forms[this.active_form]) {
                                             let allComps = Object.keys(ttt.forms[this.active_form].components)
                                             let numComp = allComps.length

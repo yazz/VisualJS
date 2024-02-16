@@ -178,8 +178,8 @@ use_db("todo")
                                             
                                           <img      src='/driver_icons/reload.png'
                                                     style='height:40px; margin-right: 0px;'
-                                                    class='img-fluid'>
-                                          </img>
+                                                    class='img-fluid' />
+                                          
                                       </button>
                     
                     
@@ -468,8 +468,8 @@ use_db("todo")
                               <img
                                   src='/driver_icons/database.png'
                                   style='height:35px; margin-right: 0px;'
-                                  class='img-fluid'>
-                              </img>
+                                  class='img-fluid' />
+                              
                               Old DB Editor
                             </a>
                           </div>
@@ -509,7 +509,7 @@ use_db("todo")
                  </div>`,
         mounted:    async function() {
             let mm = this
-            yz.mainVars.disableAutoSave     = false
+            window.yz.mainVars.disableAutoSave     = false
             mm.pane_home_selectedTable      = null
         },
         methods:    {
@@ -624,7 +624,7 @@ use_db("todo")
 
 
 
-                let oldParsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
+                let oldParsedDatabaseEntry = window.yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
                 if (!isValidObject(oldParsedDatabaseEntry) || (oldParsedDatabaseEntry.migrations == null)) {
                     oldParsedDatabaseEntry =
                         {
@@ -638,7 +638,7 @@ use_db("todo")
 
 
 
-                let parsedDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
+                let parsedDatabaseEntry = window.yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                 if (!isValidObject(parsedDatabaseEntry)) {
                     parsedDatabaseEntry =
                         {
@@ -688,7 +688,7 @@ use_db("todo")
                 }
 
                 if (isValidObject(mm.text)) {
-                    mm.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
+                    mm.read_only = window.yz.helpers.getValueOfCodeString(mm.text, "read_only")
                 }
 
                 if (parsedDatabaseEntry && parsedDatabaseEntry.next_table_id) {
@@ -704,7 +704,7 @@ use_db("todo")
             },
             schemaChanged:                      async function  (  ) {
                 let mm = this
-                mm.$root.$emit(
+                 window.globalEventBus.emit(
                     'message', {
                         type: "pending"
                     })
@@ -721,9 +721,9 @@ use_db("todo")
                 // in the source code
                 //------------------------------------------------------------------------/
                 let mm = this
-                let srcDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
+                let srcDatabaseEntry = window.yz.helpers.getValueOfCodeString(mm.text, "database", ")//database")
                 if (isValidObject(srcDatabaseEntry)) {
-                    mm.text = yz.helpers.deleteCodeString(mm.text, "database", ")//database")
+                    mm.text = window.yz.helpers.deleteCodeString(mm.text, "database", ")//database")
                 }
 
                 let newDatabaseEntry =
@@ -740,7 +740,7 @@ use_db("todo")
                     }
 
                 mm.sqlText =  JSON.stringify(  newDatabaseEntry  ,  null  ,  2  )
-                mm.text = yz.helpers.insertCodeString(mm.text, "database", newDatabaseEntry , ")//database")
+                mm.text = window.yz.helpers.insertCodeString(mm.text, "database", newDatabaseEntry , ")//database")
 
 
 
@@ -749,20 +749,20 @@ use_db("todo")
                 //
                 // old DB defn
                 //
-                let srcOldDatabaseEntry = yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
+                let srcOldDatabaseEntry = window.yz.helpers.getValueOfCodeString(mm.text, "sqlite", ")//sqlite")
                 if ((srcOldDatabaseEntry == null) || (srcOldDatabaseEntry.migrations == null)) {
                     srcOldDatabaseEntry = {
                         migrations: []
                     }
                 }
                 if (isValidObject(srcOldDatabaseEntry)) {
-                    mm.text = yz.helpers.deleteCodeString(mm.text, "sqlite", ")//sqlite")
+                    mm.text = window.yz.helpers.deleteCodeString(mm.text, "sqlite", ")//sqlite")
                 }
 
                 srcOldDatabaseEntry.migrations = mm.oldDatabaseDefn
 
                 let oldSqlText =  JSON.stringify(  srcOldDatabaseEntry  ,  null  ,  2  )
-                mm.text = yz.helpers.insertCodeString(mm.text, "sqlite", srcOldDatabaseEntry , ")//sqlite")
+                mm.text = window.yz.helpers.insertCodeString(mm.text, "sqlite", srcOldDatabaseEntry , ")//sqlite")
             },
             getText:                            async function  (  ) {
                 //----------------------------------------------------------------------------------/
@@ -980,7 +980,7 @@ use_db("todo")
             pane_home_addRow:                   async function  (  ) {
                 let mm = this
                 let codeId = await mm.getCurrentCommitId()
-                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                let baseComponentId = window.yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 await sqlRx(codeId, baseComponentId,
                     "insert into " + mm.pane_home_selectedTable + " DEFAULT VALUES")
                 mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
@@ -994,7 +994,7 @@ use_db("todo")
                 if (selectedData && (selectedData.length > 0)) {
                     let rowId = selectedData[0].id
                     let codeId = await mm.getCurrentCommitId()
-                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                    let baseComponentId = window.yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                     await sqlRx(codeId, baseComponentId,
                         "delete from " + mm.pane_home_selectedTable + " where  id = " + rowId)
                     mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
@@ -1192,7 +1192,7 @@ use_db("todo")
                                 // You can now use the old and new values
                                 console.log('Cell edited. Old value:', oldValue, 'New value:', newValue);
                                 let codeId = await mm.getCurrentCommitId()
-                                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+                                let baseComponentId = window.yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
                                 let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? " +
                                                 " where id = ?"
 
@@ -1229,7 +1229,7 @@ use_db("todo")
                 let mm = this
                 setTimeout(async function ( ) {
                     let codeId = await mm.getCurrentCommitId()
-                    let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+                    let baseComponentId = window.yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
                     mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                     //mm.pane_home_data_rows      = sql("select id,name from items")
 
@@ -1423,7 +1423,7 @@ use_db("todo")
                 let mm = this
                 mm.pane_sql_message = null
                 let codeId = await mm.getCurrentCommitId()
-                let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
+                let baseComponentId = window.yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
                 let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
                 if (mm.pane_sql_tabulator != null) {
                     mm.pane_sql_tabulator = null
@@ -1502,7 +1502,7 @@ use_db("todo")
                             })
                         }
                         let codeId          = await mm.getCurrentCommitId()
-                        let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
+                        let baseComponentId = window.yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
 
                         mm.pane_sql_tabulator.setData(mm.pane_sql_queryResults)
                     },200)

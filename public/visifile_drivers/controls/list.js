@@ -205,7 +205,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
             ,
 
             runEventHandler: function() {
-                this.$emit('send', {
+                 window.globalEventBus.emit('send', {
                                                 type:               "subcomponent_event",
                                                 control_name:        this.args.name,
                                                 sub_type:           "changed",

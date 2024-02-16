@@ -985,7 +985,7 @@ logo_url("/driver_icons/mixer.png")
             ,
 
             runEventHandler: function() {
-                this.$emit('send', {
+                 window.globalEventBus.emit('send', {
                                                 type:               "subcomponent_event",
                                                 control_name:        this.args.name,
                                                 sub_type:           "changed",

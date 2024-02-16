@@ -261,7 +261,7 @@ logo_url("/driver_icons/threedee_control.png")
                     console.log("----- 3d text, event_callback: function() = " + this.name)
                     //eval("(function(){" + this.args.click_event + "})")()
 
-                    this.$emit('send', {
+                     window.globalEventBus.emit('send', {
                                                     type:               "subcomponent_event",
                                                     form_name:           this.meta.form,
                                                     control_name:        this.meta.name,

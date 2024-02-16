@@ -492,7 +492,7 @@ return sdf
                   ,
                   async function(response){
                     let responseJson = JSON.parse(response)
-                    mm.$root.$emit('message', {
+                     window.globalEventBus.emit('message', {
                                                     type:             "load_controls",
                                                 })
                       mm.meta.getEditor().changeComponentBaseId(

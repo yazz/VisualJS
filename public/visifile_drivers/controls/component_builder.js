@@ -956,7 +956,7 @@ logo_url("/driver_icons/builder.png")
                   ,
                   async function(response){
                     let responseJson = JSON.parse(response)
-                    mm.$root.$emit('message', {
+                     window.globalEventBus.emit('message', {
                                                     type:             "load_controls",
                                                 })
                       mm.meta.getEditor().changeComponentBaseId(

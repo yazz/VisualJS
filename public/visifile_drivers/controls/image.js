@@ -46,8 +46,8 @@ logo_url("/driver_icons/image.png")
       template: `<img   v-bind:width='args.width + "px"'
                         v-bind:refresh='refresh'
                         alt='No image set'
-                        v-bind:src='"" + args.image_data'>
-                 </img>`
+                        v-bind:src='"" + args.image_data' />
+                `
       ,
       data: function() {
        return {
@@ -59,7 +59,7 @@ logo_url("/driver_icons/image.png")
         console.log("----- image_control, event_callback: function() = " + this.name)
             //eval("(function(){" + this.args.click_event + "})")()
 
-            this.$emit('send', {
+             window.globalEventBus.emit('send', {
                                             type:               "subcomponent_event",
                                             control_name:        this.name,
                                             sub_type:           "click",

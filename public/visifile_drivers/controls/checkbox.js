@@ -85,7 +85,7 @@ logo_url("/driver_icons/checkbox_control.png")
               } else {
                   this.args.checked="False"
               }
-              this.$emit('send', {
+               window.globalEventBus.emit('send', {
                                               type:               "subcomponent_event",
                                               form_name:           this.meta.form,
                                               control_name:        this.meta.name,

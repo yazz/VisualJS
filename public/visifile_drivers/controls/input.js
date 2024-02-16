@@ -166,7 +166,7 @@ logo_url("/driver_icons/input_box.png")
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
 
-                this.$emit('send', {
+                 window.globalEventBus.emit('send', {
                                                 type:               "subcomponent_event",
                                                 form_name:           this.meta.form,
                                                 control_name:        this.meta.name,
@@ -183,7 +183,7 @@ logo_url("/driver_icons/input_box.png")
                 console.log("mykeypressed: "+ mykeypressed)
 
                 this.args.last_keypressed = mykeypressed
-                this.$emit('send', {
+                 window.globalEventBus.emit('send', {
                                                 type:               "subcomponent_event",
                                                 form_name:           this.meta.form,
                                                 control_name:        this.meta.name,
@@ -196,7 +196,7 @@ logo_url("/driver_icons/input_box.png")
             focus_event_callback: function() {
                 console.log("----- button_control, focus_event_callback: function() = " + this.name)
 
-                this.$emit('send', {
+                 window.globalEventBus.emit('send', {
                                                 type:               "subcomponent_event",
                                                 form_name:           this.meta.form,
                                                 control_name:        this.meta.name,

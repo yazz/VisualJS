@@ -85,12 +85,12 @@ load_once_from_file(true)
             setText:                            async function (  textValue  ) {
                 let mm     =  this
                 this.text  = textValue
-                this.icon_image_data = yz.helpers.getValueOfCodeString(this.text, "logo_url")
+                this.icon_image_data = window.yz.helpers.getValueOfCodeString(this.text, "logo_url")
                 if (!isValidObject(this.text)) {
                     return
                 }
 
-                this.baseComponentId        = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
+                this.baseComponentId        = window.yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.loadImageToCanvas()
             },
             drawNow: function(event) {
@@ -136,9 +136,9 @@ load_once_from_file(true)
             },
             save: function() {
                 let mm = this
-                this.text = yz.helpers.deleteCodeString(this.text, "logo_url")
-                this.text = yz.helpers.insertCodeString(this.text, "logo_url", this.icon_image_data)
-                mm.$root.$emit('message', {
+                this.text = window.yz.helpers.deleteCodeString(this.text, "logo_url")
+                this.text = window.yz.helpers.insertCodeString(this.text, "logo_url", this.icon_image_data)
+                 window.globalEventBus.emit('message', {
                     type:   "pending"
                 })
             },

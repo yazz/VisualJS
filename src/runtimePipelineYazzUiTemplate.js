@@ -2,10 +2,10 @@
     
     templateDefinition:
         //*** gen_start ***//
-        `<div   v-bind:id='unique_app_dom_element_id'
+        `
+<div    v-bind:id='unique_app_dom_element_id'
         v-if='unique_app_dom_element_id != null'
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
-
 
     <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;padding-bottom: 10px;' v-if='design_mode' >
 
@@ -13,30 +13,29 @@
         </slot>
         
         <div  v-if="debug_component_bci"
-              style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;"
-        >
-          <div  v-if="debug_component_bci"
-                style="background-color: blue;padding: 12px;color:white;"
-                v-on:click="debug_component_bci = null;debug_component_code_id = null;"
-          >
-            <b>Component type: </b>{{ debug_component_bci }}
-            <button  type=button class=' btn btn-danger btn-sm'
-                     style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                     v-on:click='debug_component_bci = null;debug_component_code_id=null' >x</button>
-          </div> 
-          <br>
-          <div>
+              style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;">
+              
+            <div  v-if="debug_component_bci"
+                  style="background-color: blue;padding: 12px;color:white;"
+                  v-on:click="debug_component_bci = null;debug_component_code_id = null;">
+                <b>Component type: </b>{{ debug_component_bci }}
+                <button  type=button class=' btn btn-danger btn-sm'
+                         style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                         v-on:click='debug_component_bci = null;debug_component_code_id=null' >x</button>
+            </div> 
+            <br />
+            <div>
 
             IPFS: {{debug_component_code_id?debug_component_code_id:"Error: No Commit ID"}}
-          </div>
-          <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{debug_component_code_id?GLOBALS.getCodeForComponent({codeId: debug_component_code_id}):""}}
-          </pre>
-          
         </div>
+        
+        <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
+            {{debug_component_code_id?GLOBALS().getCodeForComponent({codeId: debug_component_code_id}):""}}
+        </pre>
+          
+    </div>
 
 
-     </div>
 
 
     <div    v-bind:id='vb_editor_element_id'
@@ -73,8 +72,8 @@
                             v-bind:style='"display:flex;cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
                         <img    src='/driver_icons/cursor.png'
                                 style='width: 100%;'
-                                class='img-fluid'>
-                        </img>
+                                class='img-fluid' />
+                        
                     </div>
 
                   <div    v-for='av in available_components'>
@@ -104,8 +103,8 @@
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
                                 style='width: 100%;'
-                                class='img-fluid'>
-                        </img>
+                                class='img-fluid' />
+                        
 
 
                   </div>
@@ -198,8 +197,8 @@
 
                                             <img    src='/driver_icons/cancel.svg'
                                                     style='position:relative;max-width: 40px; bottom:0px; left: 0px;max-height: 16px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                                    >
-                                            </img>
+                                                    />
+                                            
 
                                         Cancel
                                     </button>
@@ -341,7 +340,7 @@
                                 v-bind:select_design_time_component='childSelectComponent'
                                 v-bind:children='getChildren( model.forms[active_form].components[active_component_detail_index].name)'
                                 v-on:send="processControlEvent"
-                                v-bind:is='model.forms[active_form].components[active_component_detail_index].code_id?model.forms[active_form].components[active_component_detail_index].code_id:GLOBALS.baseComponentIdReturnsCommitId[model.forms[active_form].components[active_component_detail_index].base_component_id]'
+                                v-bind:is='model.forms[active_form].components[active_component_detail_index].code_id?model.forms[active_form].components[active_component_detail_index].code_id:GLOBALS().baseComponentIdReturnsCommitId[model.forms[active_form].components[active_component_detail_index].base_component_id]'
                                 v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
                                 v-bind:props='model.forms[active_form].components[active_component_detail_index]'
                                 v-if='model.forms[active_form].components[active_component_detail_index]'
@@ -350,10 +349,10 @@
 
                                 <template       slot-scope="child_components"
                                                 v-bind:refresh='refresh'
-                                                style='position:relative;'>
-
-                                    <component  v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
-                                                v-bind:design_mode='design_mode'
+                                                style='position:relative;'
+                                                v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'>
+                                                
+                                    <component  v-bind:design_mode='design_mode'
                                                 v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
                                                 v-bind:sql='sqlQuery'
                                                 v-bind:form="active_form"
@@ -361,13 +360,14 @@
                                                 v-bind:style='"z-index:100000;position: relative; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                                 v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                 v-on:send="processControlEvent"
-                                                v-bind:is='child_item.code_id?child_item.code_id:GLOBALS.baseComponentIdReturnsCommitId[child_item.base_component_id]'
+                                                v-bind:is='child_item.code_id?child_item.code_id:GLOBALS().baseComponentIdReturnsCommitId[child_item.base_component_id]'
                                                 v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                 v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                 v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                 v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
                                                 v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                     </component>
+                               
 
                                 </template>
                      </component>
@@ -447,7 +447,8 @@
     <td    style="width:20%;font-weight:bold;"></td>
 </tr>
 
-<tr v-for='currentWatch in watchList'
+<template v-for='currentWatch in watchList'> 
+<tr 
 v-if="model.forms[active_form].components[active_component_links_index] && (currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'incoming')">
 
@@ -474,9 +475,11 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
         </div>
     </td>
 </tr>
+</template>
 
 
-<tr v-for='currentPush in watchList'
+<template v-for='currentPush in watchList'>
+<tr 
 v-if="model.forms[active_form].components[active_component_links_index] && (currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'outgoing')">
 
@@ -510,7 +513,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 </tr>
-
+</template>
 
 
 
@@ -1646,8 +1649,8 @@ Pushlist
                     <img
                         src='/driver_icons/form.png'
                         style='width: 20px; margin-right: 10px;'
-                        class='img-fluid'>
-                     </img>
+                        class='img-fluid' />
+                     
                      {{active_form}} (Form)
                 </div>
                 <div style=''></div>
@@ -1927,8 +1930,8 @@ Pushlist
                                       src='/driver_icons/builder.png'
                                       style='margin: auto;'
                                       zzz=""
-                                      class='img-fluid'>
-                                  </img>
+                                      class='img-fluid' />
+                                  
                             </div>
 
 
@@ -1952,8 +1955,8 @@ Pushlist
                             <img
                                 src='/driver_icons/plus.png'
                                 style='margin: auto;'
-                                class='img-fluid'>
-                            </img>
+                                class='img-fluid' />
+                            
                           </div>
 
 
@@ -1981,7 +1984,8 @@ Pushlist
 
                             <div    v-bind:refresh='refresh'
                                     v-for='( formName,formindex ) in getFormNames( )'
-                                    v-bind:style=''>
+                                    style=''>
+                                    
                                 <div    v-bind:refresh='refresh'
                                         v-for='(item,index) in getFormComponents({formName: formName})'
                                         ondrop="return false;"
@@ -1999,7 +2003,7 @@ Pushlist
                                                     v-bind:design_mode='design_mode'
                                                     v-bind:children='getChildren(item.name)'
                                                     v-on:send="processControlEvent"
-                                                    v-bind:is='item.code_id?item.code_id:GLOBALS.baseComponentIdReturnsCommitId[item.base_component_id]'
+                                                    v-bind:is='item.code_id?item.code_id:GLOBALS().baseComponentIdReturnsCommitId[item.base_component_id]'
                                                     v-if='!item.parent && model.forms[formName].components[index]'
                                                     v-bind:name='item.name + "_design_mode_" + design_mode'
                                                     v-bind:properties='model.forms[formName].components[index]'
@@ -2009,10 +2013,10 @@ Pushlist
     
                                             <template       slot-scope="child_components"
                                                             v-bind:refresh='refresh'
-                                                            v-bind:style='(formName==active_form)?"position:relative;":"display:none;"'>
+                                                            v-bind:style='(formName==active_form)?"position:relative;":"display:none;"'
+                                                            v-for='child_item  in  getChildren(item.name)'>
     
-                                                <component  v-for='child_item  in  getChildren(item.name)'
-                                                            v-bind:design_mode='design_mode'
+                                                <component v-bind:design_mode='design_mode'
                                                             v-bind:refresh='refresh'
                                                             v-bind:meta='{form: formName,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
                                                             v-bind:sql='sqlQuery'
@@ -2020,7 +2024,7 @@ Pushlist
                                                             v-bind:style='(formName==active_form)?"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;":"display:none;"'
                                                             v-bind:id='formName + "_" + model.forms[formName].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                             v-on:send="processControlEvent"
-                                                            v-bind:is='child_item.code_id?child_item.code_id:GLOBALS.baseComponentIdReturnsCommitId[child_item.base_component_id]'
+                                                            v-bind:is='child_item.code_id?child_item.code_id:GLOBALS().baseComponentIdReturnsCommitId[child_item.base_component_id]'
                                                             v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                             v-bind:properties='model.forms[formName].components[child_item.index_in_parent_array]'
                                                             v-if='model.forms[formName].components[child_item.index_in_parent_array]'
@@ -2122,7 +2126,7 @@ Pushlist
 
                         <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"/></button>
                                     <b   v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>App - {{edited_app_display_name}}</b>
                         </div>
 
@@ -2130,41 +2134,43 @@ Pushlist
                             <div>
                                 <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;position:relative;"'>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
                                      <img
                                             src='/driver_icons/form.png'
                                             style='width: 20px; margin-right: 10px;'
-                                            class='img-fluid'>
-                                     </img>
+                                            class='img-fluid' />
+                                     
 
                                       <span v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>{{form.name}} ({{form.components.length}})</span>
                                 </div>
 
-                                <div    v-if='form.name == active_form'
-                                        v-for='(av,index) in getActiveFormComponents()'>
-
-                                    <div  v-bind:style='(((index == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
-                                          v-if='(av.parent == null)'>
-                                      <div  style='width:100%;position:relative;'>
-
-                                              <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
-                                              <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'>{{av.name}}</span>
-                                              
-                                              <div    v-if='form.name == active_form'
-                                                      v-for='(av2,index2) in getActiveFormComponents()'>
-
-                                                  <div  v-bind:style='(((index2 == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;width:90%;"'
-                                                        v-if='(av2.parent == av.name)'>
-                                                    <div  style='width:100%;position: relative;'>
-
-                                                            <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
-                                                            <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'>{{av2.name}}</span>
-                                                    </div>
+                                <template v-if='form.name == active_form'>
+                                    <div    v-for='(av,index) in getActiveFormComponents()'>
+    
+                                        <div  v-bind:style='(((index == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
+                                              v-if='(av.parent == null)'>
+                                          <div  style='width:100%;position:relative;'>
+    
+                                                  <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
+                                                  <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'>{{av.name}}</span>
+                                                  
+                                                  <template v-if='form.name == active_form'>
+                                                  <div    v-for='(av2,index2) in getActiveFormComponents()'>
+    
+                                                      <div  v-bind:style='(((index2 == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;width:90%;"'
+                                                            v-if='(av2.parent == av.name)'>
+                                                        <div  style='width:100%;position: relative;'>
+    
+                                                                <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
+                                                                <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'>{{av2.name}}</span>
+                                                        </div>
+                                                      </div>
                                                   </div>
-                                              </div>
-                                      </div>
+                                                  </template>
+                                          </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -2186,8 +2192,8 @@ Pushlist
 
                 <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                        v-on:click='if (selected_pane == "properties") {chooseRight("project")} else {chooseRight("properties")}'>
-                    Properties - {{isValidObject(active_component_index)?model.forms[active_form].components[active_component_index].name + " (Component)" : (app_selected?"App":active_form + " (Form)")}}
+                        v-on:click='chooseRight(selected_pane == "properties"?"project":"properties")'>
+                    Properties - {{isValidObject(active_component_index) && model.forms[active_form].components[active_component_index]?model.forms[active_form].components[active_component_index].name + " (Component)" : (app_selected?"App":active_form + " (Form)")}}
                 </div>
 
 
@@ -2218,7 +2224,7 @@ Pushlist
                                                             
                                                       // if only a BCI
                                                       } else {
-                                                            debug_component_code_id=GLOBALS.getCommitIdForBaseComponentId( model.forms[active_form].components[active_component_index].base_component_id);
+                                                            debug_component_code_id=GLOBALS().getCommitIdForBaseComponentId( model.forms[active_form].components[active_component_index].base_component_id);
                                                       }'
                                                       > ..
                                   </div>
@@ -2255,8 +2261,8 @@ Pushlist
                                                     @change='setVBEditorProperty( {  property: property  ,  value: $event.target.value  } )'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     v-bind:type='property.password?"password":""'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
-                                            </input>
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;' />
+                                            
                                             <textarea
                                                     v-if="(property.textarea != null) && (property.textarea != '')"
                                                     rows=10
@@ -2274,8 +2280,8 @@ Pushlist
                                         <div    v-if="(property.type  == 'FilePath') ">
                                             <img    src='/driver_icons/fileopen.png'
                                                     style='height: 16px;'
-                                                    class='img-fluid'>
-                                            </img>
+                                                    class='img-fluid' />
+                                            
 
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();selectFilePath({
@@ -2311,14 +2317,14 @@ Pushlist
                                         <div    v-if="(property.type  == 'Image') ">
                                             <input type="file"
                                                    id="image_file"
-                                                   @change="previewUpload(property)">
-                                            </input>
+                                                   @change="previewUpload(property)" />
+                                            
                                         </div>
                                         <div    v-if="(property.type  == 'File') ">
                                             <input type="file"
                                                    id="upload_file"
-                                                   @change="previewFileUpload(property)">
-                                            </input>
+                                                   @change="previewFileUpload(property)" />
+                                            
                                         </div>
 
 
@@ -2354,7 +2360,7 @@ Pushlist
                                                 style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
                                                 class='col-md-12 small'>
 
-                                            {{GLOBALS.getTypeDisplayName(
+                                            {{GLOBALS().getTypeDisplayName(
                                                 {
                                                     baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
                                                     codeId:             model.forms[active_form].components[active_component_index].code_id
@@ -2366,15 +2372,15 @@ Pushlist
                                                 style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
                                                 class='col-md-12 small'>
 
-                                            <img    v-bind:src='GLOBALS.getTypeDisplayIcon(
+                                            <img    v-bind:src='GLOBALS().getTypeDisplayIcon(
                                                                     {
                                                                         baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
                                                                         codeId:             model.forms[active_form].components[active_component_index].code_id
                                                                     })
                                                                 '
                                                     style='height: 20px;'
-                                                    class='img-fluid'>
-                                            </img>
+                                                    class='img-fluid' />
+                                            
                                             
 
                                         </div>       
@@ -2387,7 +2393,7 @@ Pushlist
 
                                         </div>
 
-                                        <div v-if='(active_component_index == null) && (active_form != null) && (app_selected == false)' class='col-md-12 small'   v-model='model.forms[active_form][property.id]'>
+                                        <div v-if='(active_component_index == null) && (active_form != null) && (app_selected == false)' class='col-md-12 small'>
                                         </div>
 
                                         <div    v-if='app_selected'
@@ -2466,8 +2472,7 @@ Pushlist
                                             <input
                                                     v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    v-model='new_property_id'>
-                                            </input>
+                                                    v-model='new_property_id' />
                                         </div></div></div></div></div>
                         
 
@@ -2491,8 +2496,8 @@ Pushlist
                                                     v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
                                                     v-model='new_property_name'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    >
-                                            </input>
+                                                    />
+                                          
                                         </div></div></div></div></div>
 
 
@@ -2554,8 +2559,8 @@ Pushlist
                                                     readonly
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     value="await "
-                                                    >
-                                            </input>
+                                                    />
+                                            
                                         </div></div></div></div></div>                        
                         
                         
@@ -2582,8 +2587,8 @@ Pushlist
                                                     placeholder='doAction(...)'
                                                     v-model='new_snippet'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    >
-                                            </input>
+                                                    />
+                                            
                                                                               
                                         </div></div></div></div></div>
                                         
@@ -2715,8 +2720,8 @@ Pushlist
                                                     v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
                                                     v-model='edit_property_name'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    >
-                                            </input>
+                                                    />
+                                            
                                         </div></div></div></div></div>
 
 
@@ -2778,8 +2783,8 @@ Pushlist
                                                     readonly
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     value="await "
-                                                    >
-                                            </input>
+                                                    />
+                                            
                                         </div></div></div></div></div>                        
                         
                         
@@ -2806,8 +2811,8 @@ Pushlist
                                                     placeholder='doAction(...)'
                                                     v-model='edit_property_snippet'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    >
-                                            </input>
+                                                    />
+                                            
                                                                               
                                         </div></div></div></div></div>
                                         

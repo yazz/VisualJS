@@ -11,7 +11,11 @@
         <script     src="/js_libs/dropzone5.4.0.js">                                                                                                                                                                    </script>
         <script     src="https://cdn.socket.io/4.5.3/socket.io.min.js"                              integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi"     crossorigin="anonymous">    </script>
         <scriptold  src="/js_libs/socketio4.4.1.js"                                                 crossorigin="anonymous">                                                                                            </scriptold>
-        <script     src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js">                                                                                                                                 </script>
+        <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
+
+        <scriptcom src="https://unpkg.com/@vue/compat@3.1"></scriptcom>
+        <scriptnew src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.19/vue.global.prod.min.js"></scriptnew>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
         <scriptold  src="/js_libs/vue2.6.11.js">                                                                                                                                                                        </scriptold>
         <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
         <scriptold  src="/js_libs/alasql.js">                                                                                                                                                                           </scriptold>
@@ -7860,6 +7864,7 @@
         </script>
 
         <script>
+            var mainVueAppVm
             var yz
             yz                              = {
                 mainVars:                   {
@@ -8057,6 +8062,7 @@
                     }
                 }
             }
+            window.yz = yz
             var GLOBALS                         = {
 
                 //
@@ -9119,9 +9125,16 @@
                             }
                         }
 
+                        let vueComponentCreation = null
+                        if (Vue.version.startsWith("2")) {
+                            vueComponentCreation = "Vue"
+                        } else if (Vue.version.startsWith("3")) {
+                            vueComponentCreation = "yz.mainVars.mainVueApp"
+                        }
+
                         let codeIdVueObjectCode = trcode2.toString().replaceAll(
                             "Yazz.component[(]",
-                            "Vue.component(" + "\"" + codeId + "\", "
+                            vueComponentCreation + ".component(" + "\"" + codeId + "\", "
                         )
 
                         let fnfn = eval( codeIdVueObjectCode  )
@@ -9134,20 +9147,27 @@
                                 })
                         }
 
-                        if (codeIdVueObjectCode.indexOf("async ")  == -1) {
-                            fnfn(codeArgs)
-                        } else {
-                            await fnfn(codeArgs)
+
+                        //
+                        // if the Vue object doesn't exist then create it
+                        //
+                        if (!yz.componentsAPI.vue.getVueComponentInfo({codeId: codeId})) {
+                            if (codeIdVueObjectCode.indexOf("async ")  == -1) {
+                                fnfn(codeArgs)
+                            } else {
+                                await fnfn(codeArgs)
+                            }
+                            yz.componentsAPI.vue.setVueComponentInfo({
+                                codeId:     codeId,
+                                vueInfo:    {
+                                    component_type:     component_type,
+                                    base_component_id:  baseComponentId
+                                }
+                            })
                         }
 
 
-                        yz.componentsAPI.vue.setVueComponentInfo({
-                            codeId:     codeId,
-                            vueInfo:    {
-                                            component_type:     component_type,
-                                            base_component_id:  baseComponentId
-                                        }
-                        })
+
 
                     } catch (runtimeError) {
                         console.log("runtime err: " + runtimeError)
@@ -9163,6 +9183,7 @@
                 //
                 isStaticHtmlPageApp: false
             }
+            window.GLOBALS = GLOBALS
             var networkIntranetIpAddress        = null
             var file_upload_uuid                = null
             var base_component_id_of_loaded_app = null
@@ -9183,7 +9204,8 @@
             var useProtocol                     = location.protocol
             var useHostname                     = null
             var usePort                         = null
-            var globalEventBus                  = new Vue();
+            var globalEventBus                  = mitt()
+            window.globalEventBus               = globalEventBus
             let newAppArgs                      = []
             var socket                          = null;
             var staticAppSocket
@@ -9816,7 +9838,7 @@
                         if (isValidObject(usePropVar.load) && isValidObject(vueComponentObject.meta) ) {
 
                             setTimeout(function() {
-                                vueComponentObject.$emit('send', {
+                                window.globalEventBus.emit('send', {
                                     type:               "subcomponent_event",
                                     form_name:           vueComponentObject.meta.form,
                                     control_name:        vueComponentObject.meta.name,
@@ -9863,19 +9885,44 @@
 
                     await setupAlaSqlDatabase()
 
+                    let vueAppStructure =
+                    {
+                        data: function() {
+                            return {
+                                count:                  1,
+                                console_output:         "",
+                                selected_card:          -1,
+                                cards:                  [],
+                                show_loader:            false,
+                                is_static:              false,
+                                local_app:              false
+                            }
+                        }
+                        ,
+                        mounted: async function(){
+                            this.local_app = localAppshareApp
+                        }
+                    }
+                    if (Vue.version.startsWith("2")) {
+                        vueAppStructure.el = "#infinite-list"
+                        yz.mainVars.mainVueApp = new Vue(vueAppStructure);
+                    } else if (Vue.version.startsWith("3")) {
+                        yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
+                    }
 
 
-                    Vue.component('card_component', {
+
+                    let cardComponentStructure = {
                         props: [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ]
                         ,
                         mounted: async function() {
                             let mm = this
 
-                            globalEventBus.$on('hide_settings',
+                            globalEventBus.on('hide_settings',
                                 async function() {
                                     mm.showSettings = false
                                 });
-                            globalEventBus.$on('show_settings',
+                            globalEventBus.on('show_settings',
                                 async function() {
                                     mm.showSettings = true
                                 });
@@ -10091,178 +10138,170 @@
                         }
                         ,
 
-                        template:
-                            `<span   v-bind:id='element_id'
-                                     v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                                     v-on:click='click_card(item.id)'
-                                     v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
+                        template: `
+<span   v-bind:id='element_id'
+        v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+        v-on:click='click_card(item.id)'
+        v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
 
-                                <div
-                                    v-if="showSettings"
-                                    style='background-color:navy;height:5vh;width: 100vw;color:white;'>
-
-
-
-                                    <!-- ------------------------------------------------
-                                    The top menu items for the info pane
-                                    ------------------------------------------------ -->
-                                    <span
-                                        v-on:click=' openInfo("login")'
-                                        v-on:touchstart=' openInfo("login")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        >
-                                        {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
-                                    </span>
-
-
-                                    <span
-                                        style='margin-left: 30px;'
-                                        v-on:click=' openInfo("comments")'
-                                        v-on:touchstart=' openInfo("comments")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        >
-                                        Comments
-                                    </span>
-
-
-                                    <span
-                                        style='margin-left: 30px;'
-                                        v-on:click=' openInfo("debug")'
-                                        v-on:touchstart=' openInfo("debug")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                    >
-                                        Debug
-
-                                    </span>
-
-
-                                    <span
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        v-if='show_page_info'
-                                        v-on:click='show_page_info=false;tab=""'
-                                        v-on:touchstart='show_page_info=false;'
-                                    >
-                                        Close
-                                    </span>
-                                </div>
+    <div    v-if="showSettings"
+            style='background-color:navy;height:5vh;width: 100vw;color:white;'>
 
 
 
-                                <div    v-if='show_page_info'
-                                        style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
-
-                                    <!-- ------------------------------------------------
-                                    LOGIN pane
-                                    ------------------------------------------------ -->
-                                    <div v-if='tab=="login"'>
-
-                                    <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
-                                    <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
-                                    requested to authorise the login</div>
-
-                                    <div style='color:red' id='login_error'>{{login_error_message}}</div>
-
-                                    <button type=button
-                                        class='btn btn-primary'
-                                        style='margin-left: 10px;width:40vw;height:15vh;'
-                                        v-on:click='logInWithMetamask()'>
-
-                                        <img    src="/driver_icons/metamaskfox.svg"
-                                                style="height:100%;width:100%"
-                                        />
-                                    </button>
-
-                                </div>
+        <!-- ------------------------------------------------
+        The top menu items for the info pane
+        ------------------------------------------------ -->
+        <span   v-on:click=' openInfo("login")'
+                v-on:touchstart=' openInfo("login")'
+                style='height:100%;margin-left:20px;vertical-align:middle;'
+                >
+            {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
+        </span>
 
 
+        <span v-on:click=' openInfo("comments")'
+              v-on:touchstart=' openInfo("comments")'
+              style='height:100%;margin-left:20px;vertical-align:middle;'
+        >
+          Comments
+        </span>
 
-                                <!-- ------------------------------------------------
 
-                                Comments pane
+        <span   v-on:click=' openInfo("debug")'
+                v-on:touchstart=' openInfo("debug")'
+                style='height:100%;margin-left:20px;vertical-align:middle;'
+                >
+            Debug
+        </span>
 
-                                ------------------------------------------------ -->
-
-                                <div v-if='tab=="comments"'>
-
-                                    <div style=";height:40vh">
-
-                                        Add comment
-                                        <br>
-                                        <textarea   style='display: inline-block;'
-                                                    id='new_comment'
-                                                    v-model='new_comment'>
-                                        </textarea>
-                                        <br><br>
-
-                                        Rating (1-5, 5 is best):<br>
-                                        <input  id="new_rating"
-                                        v-model="new_rating"
-                                        type="range"
-                                        min="0"
-                                        max="5"
-                                        value="0">
-                                        </input>{{new_rating}}
-                                        <br>
-                                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
-                                        Submit comment
-                                        </button>
-                                        <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
-                                        <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
-
-                                    </div>
+        <span   style='height:100%;margin-left:20px;vertical-align:middle;'
+                v-if='show_page_info'
+                v-on:click='show_page_info=false;tab=""'
+                v-on:touchstart='show_page_info=false;'
+                >
+            Close
+        </span>
+    </div>
 
 
 
-                                    <div style="overflow: scroll;height:40vh">
-                                        <b>Previous comments:</b>
-                                        <li v-for='comment in comments'
-                                        style='color:white;background-color:navy;'>
-                                        {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+    <div    v-if='show_page_info'
+            style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
 
-                                        </li>
-                                    </div>
+        <!-- ------------------------------------------------
+        LOGIN pane
+        ------------------------------------------------ -->
+        <div v-if='tab=="login"'>
 
-                                </div>
+            <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
+            <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
+            requested to authorise the login</div>
+
+            <div style='color:red' id='login_error'>{{login_error_message}}</div>
+
+            <button type=button
+                    class='btn btn-primary'
+                    style='margin-left: 10px;width:40vw;height:15vh;'
+                    v-on:click='logInWithMetamask()'>
+
+                <img    src="/driver_icons/metamaskfox.svg"
+                        style="height:100%;width:100%"
+                />
+            </button>
+
+        </div>
+
+
+
+        <!-- ------------------------------------------------
+
+        Comments pane
+
+        ------------------------------------------------ -->
+
+        <div v-if='tab=="comments"'>
+
+            <div style=";height:40vh">
+
+                Add comment
+                <br/>
+                <textarea   style='display: inline-block;'
+                            id='new_comment'
+                            v-model='new_comment'>
+                </textarea>
+                <br/><br/>
+
+                Rating (1-5, 5 is best):<br/>
+                <input  id="new_rating"
+                        v-model="new_rating"
+                        type="range"
+                        min="0"
+                        max="5"
+                        />
+                  {{new_rating}}
+                <br/>
+
+                <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
+                    Submit comment
+                </button>
+
+                <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
+                <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
+
+            </div>
+
+
+
+            <div style="overflow: scroll;height:40vh">
+                <b>Previous comments:</b>
+                <li v-for='comment in comments'
+                    style='color:white;background-color:navy;'>
+
+                    {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+                </li>
+            </div>
+
+        </div>
 
 
 
 
 
 
-                                <!-- -------------------------------------------------
-                                 |                                                   |
-                                 |                    DEBUG pane                     |
-                                 |                                                   |
-                                 -------------------------------------------------- -->
+        <!-- -------------------------------------------------
+        |                                                   |
+        |                    DEBUG pane                     |
+        |                                                   |
+        -------------------------------------------------- -->
 
-                                <div v-if='tab=="debug"'>
-
-
-                        <button style="margin: 20px;"
-                              class='btn btn-lg btn-danger'
-                              v-on:click='debugView="debug_view_vue"'>
-                              Show Loaded Vue objects
-                        </button>
-
-                        <button style="margin: 20px;"
-                              class='btn btn-lg btn-danger'
-                              v-on:click='debugView = "debug_view_ui_control_uuids"'>
-                                  Runtime UI control UUIDs
-                        </button>
+        <div v-if='tab=="debug"'>
 
 
+            <button style="margin: 20px;"
+                    class='btn btn-lg btn-danger'
+                    v-on:click='debugView="debug_view_vue"'>
+                    Show Loaded Vue objects
+            </button>
 
-                        <button style="margin: 20px;"
-                              class='btn btn-lg info'
-                              v-on:click='debugView="debug_view_metamask"'>
-                              Metamask
-                        </button>
+            <button style="margin: 20px;"
+                    class='btn btn-lg btn-danger'
+                    v-on:click='debugView = "debug_view_ui_control_uuids"'>
+                    Runtime UI control UUIDs
+            </button>
 
 
-                        <div v-if="debugView=='debug_view_vue'">
-                            <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
-                          <pre style="color: white; overflow: scroll; height: 50%;">
 
+            <button style="margin: 20px;"
+                    class='btn btn-lg info'
+                    v-on:click='debugView="debug_view_metamask"'>
+                    Metamask
+            </button>
+
+
+            <div v-if="debugView=='debug_view_vue'">
+                <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
+                <pre style="color: white; overflow: scroll; height: 50%;">
 
 Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
 <div v-for="loadedComponentCodeId  in  Object.keys(yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())">
@@ -10273,90 +10312,79 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 ...
 </div>
 
-                          </pre>
-                        </div>
+</pre>
+            </div>
 
-                        <div v-if="debugView=='debug_view_metamask'">
+            <div v-if="debugView=='debug_view_metamask'">
 
-                                    <div v-if='!accountNumber'>
-                                        You are not signed into Metamask. Please login first
-                                    </div>
+                <div v-if='!accountNumber'>
+                    You are not signed into Metamask. Please login first
+                </div>
 
-                                    <textarea id="test_transaction_text"
-                                              value="">
-                                    </textarea>
+                <textarea id="test_transaction_text"
+                          value="">
+                </textarea>
 
-                                    <button type=button
-                                            class='btn btn-primary'
-                                            v-bind:disabled='accountNumber?false:true'
-                                            style='margin-left: 10px;width:40vw;height:15vh;'
-                                            v-on:click='signMetamaskTransaction()'>
+                <button type=button
+                        class='btn btn-primary'
+                        v-bind:disabled='accountNumber?false:true'
+                        style='margin-left: 10px;width:40vw;height:15vh;'
+                        v-on:click='signMetamaskTransaction()'>
 
-                                        Sign transaction
-                                    </button>
-
-
-                                    <div>
-                                        {{debug_sign_tx_out}}
-                                    </div>
-                                </div>
-
-                        <div v-if='debugView=="debug_view_ui_control_uuids"' style="color: white;">
-    <div style="font-size:60px;font-weight: bold;color: white;">UI Control UUIDs</div>
-                          <pre style="color: white;">
-(runtimeComponentsInfo)
-{{ runtimeComponentsInfo }}
-                  </pre>
-                        </div>
+                    Sign transaction
+                </button>
 
 
+                <div>
+                    {{debug_sign_tx_out}}
+                </div>
+            </div>
+
+            <div v-if='debugView=="debug_view_ui_control_uuids"' style="color: white;">
+                <div style="font-size:60px;font-weight: bold;color: white;">UI Control UUIDs</div>
+                <pre style="color: white;">
+                    (runtimeComponentsInfo)
+                    {{ runtimeComponentsInfo }}
+                </pre>
+            </div>
 
 
-
-
-                                </div>
-                            </div>
+        </div>
+    </div>
 
 
 
-                              <div
-                                  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
+    <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
 
-                                        <div    v-if='full_screen && (item.card.type == "app")'>
+        <div    v-if='full_screen && (item.card.type == "app")'>
+            <div    v-bind:id='"app_container_"+ item.id'  >
+                <div v-bind:id='"app_"+ item.id' >
+                </div>
+            </div>
+        </div>
 
-                                            <div    v-bind:id='"app_container_"+ item.id'  >
-                                                <div v-bind:id='"app_"+ item.id' >
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style='height: 2em;'></div>
+        <div style="height: 2em;">
+        </div>
+    </div>
+</span>
+`
+                    }
 
-                                </div>
-                            </div>`
-                    })
+                    if (Vue.version.startsWith("2")) {
+                        Vue.component('card_component', cardComponentStructure)
+                        mainVueAppVm = yz.mainVars.mainVueApp
+                    } else if (Vue.version.startsWith("3")) {
+                        yz.mainVars.mainVueApp.component('card_component', cardComponentStructure)
+                        yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'preserve';
+                        mainVueAppVm = yz.mainVars.mainVueApp.mount("#infinite-list")
+                    }
 
 
 
 
-                    yz.mainVars.mainVueApp = new Vue({
-                        el: "#infinite-list"
-                        ,
-                        data: function() {
-                            return {
-                                count:                  1,
-                                console_output:         "",
-                                selected_card:          -1,
-                                cards:                  [],
-                                show_loader:            false,
-                                is_static:              false,
-                                local_app:              false
-                            }
-                        }
-                        ,
-                        mounted: async function(){
-                            this.local_app = localAppshareApp
-                        }
-                    });
+
+
+
 
 
 
@@ -10368,7 +10396,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     if (GLOBALS.isStaticHtmlPageApp) {
                         let nid = yz.mainVars.nextGlobalAppId++;
                         let ccy = document.getElementById('wrapper').scrollTop
-                        yz.mainVars.mainVueApp.cards.push(
+                        //debugger
+                        mainVueAppVm.cards.push(
                             {
                                 id: nid,
                                 card: {
@@ -10383,7 +10412,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             document.getElementById('wrapper').scrollTop = ccy
                         },100)
 
-                        yz.mainVars.mainVueApp.show_loader = false
+                        mainVueAppVm.show_loader = false
                         yz.mainVars.autoScroll = false
                         setTimeout(async function() {
                             await select_card(nid)
@@ -10404,17 +10433,17 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     if (yz.mainVars.webpageParams.goto) {
                         yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.goto.replaceAll("%20"," ").toLowerCase()
                         yz.mainVars.autoScroll = false;
-                        yz.mainVars.mainVueApp.show_loader = true
+                        mainVueAppVm.show_loader = true
                     } else if (yz.mainVars.webpageParams.embed) {
                         yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
                         yz.mainVars.autoScroll = false;
-                        yz.mainVars.mainVueApp.show_loader = true
+                        mainVueAppVm.show_loader = true
                     } else if (!GLOBALS.isStaticHtmlPageApp) {
                         setTimeout(async function() {
                             await select_card(1)
                         },200)
                     } else if (GLOBALS.isStaticHtmlPageApp) {
-                        yz.mainVars.mainVueApp.is_static = true
+                        mainVueAppVm.is_static = true
                     }
 
 
@@ -10482,7 +10511,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 socket.on('uploaded_app_as_file_from_server',async function(data) {
                     if (data.client_file_upload_id == file_upload_uuid) {
-                        globalEventBus.$emit('new-appshare-app-uploaded',
+                        globalEventBus.emit('new-appshare-app-uploaded',
                             {
                                 baseComponentId:    data.base_component_id,
                                 displayName:        data.display_name,
@@ -10930,7 +10959,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 base_component_id_of_loaded_app = bbase_component_id
 
                 let rootElement = "app_" + id
-                if ((yz.mainVars.mainVueApp.cards[id - 1].card.base_component_id != base_component_id_of_loaded_app) ||
+                if ((mainVueAppVm.cards[id - 1].card.base_component_id != base_component_id_of_loaded_app) ||
                     (!newAppArgs[id]))
                 {
                     newAppArgs[id] = args
@@ -10940,7 +10969,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 // loadAppIntoElement
                 //
                 await GLOBALS.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
-                if (yz.mainVars.mainVueApp.cards[id - 1].card.base_component_id == base_component_id_of_loaded_app) {
+                if (mainVueAppVm.cards[id - 1].card.base_component_id == base_component_id_of_loaded_app) {
 
                     if (!document.getElementById(rootElement)) {
                         let newRootId = rootElement.substring(4)
@@ -10951,33 +10980,43 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     let codeIdOfComponent = GLOBALS.baseComponentIdReturnsCommitId[base_component_id_of_loaded_app]
                     code_id_of_loaded_app = codeIdOfComponent
 
-                    new Vue(
-                        {
-                            template:   `<${codeIdOfComponent}  v-bind:card_index='1'></${codeIdOfComponent}>`,
-                            el:         "#" + rootElement
-                        })
+                    if (Vue.version.startsWith("2")) {
+                        let rootApp = new Vue(
+                            {
+                                el:         "#" + rootElement,
+                                template:   `<${codeIdOfComponent}  v-bind:card_index='1'></${codeIdOfComponent}>`
+                            })
+
+
+                    } else if (Vue.version.startsWith("3")) {
+                        let rootApp = Vue.createApp(
+                            {
+                                template:   `<${codeIdOfComponent}  v-bind:card_index='1'></${codeIdOfComponent}>`
+                            })
+                        rootApp.mount("#" + rootElement)
+                    }
                 }
             }
             async function  select_card                         (   id   ) {
-                if (yz.mainVars.mainVueApp.selected_card == id) {
+                if (mainVueAppVm.selected_card == id) {
                     return;
                 }
-                if (yz.mainVars.mainVueApp.selected_card != -1) {
+                if (mainVueAppVm.selected_card != -1) {
                     if (id != -1) {
-                        document.querySelector('#card_' + yz.mainVars.mainVueApp.selected_card).classList.remove("expand");
+                        document.querySelector('#card_' + mainVueAppVm.selected_card).classList.remove("expand");
                     }
-                    document.querySelector('#card_' + yz.mainVars.mainVueApp.selected_card).classList.add('contract');
+                    document.querySelector('#card_' + mainVueAppVm.selected_card).classList.add('contract');
                 }
 
                 if (id != -1) {
                     let elmnt = document.querySelector('#card_' + id);
                     if (elmnt) {
                         if (GLOBALS.isStaticHtmlPageApp) {
-                            yz.mainVars.mainVueApp.selected_card = id;
+                            mainVueAppVm.selected_card = id;
                             setTimeout(async function() {
-                                let thisApp = yz.mainVars.mainVueApp.cards[id - 1]
-                                if (yz.mainVars.mainVueApp.cards[id - 1].card.fn) {
-                                    setTimeout( yz.mainVars.mainVueApp.cards[id - 1].card.fn, 3000)
+                                let thisApp = mainVueAppVm.cards[id - 1]
+                                if (mainVueAppVm.cards[id - 1].card.fn) {
+                                    setTimeout( mainVueAppVm.cards[id - 1].card.fn, 3000)
                                 }
                                 if (thisApp.card.base_component_id) {
                                     await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -10988,11 +11027,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             document.querySelector('#card_' + id).classList.add('expand');
                             setTimeout(function()
                             {
-                                yz.mainVars.mainVueApp.selected_card = id;
+                                mainVueAppVm.selected_card = id;
                                 setTimeout(async function() {
-                                    let thisApp = yz.mainVars.mainVueApp.cards[id - 1]
-                                    if (yz.mainVars.mainVueApp.cards[id - 1].card.fn) {
-                                        setTimeout( yz.mainVars.mainVueApp.cards[id - 1].card.fn, 3000)
+                                    let thisApp = mainVueAppVm.cards[id - 1]
+                                    if (mainVueAppVm.cards[id - 1].card.fn) {
+                                        setTimeout( mainVueAppVm.cards[id - 1].card.fn, 3000)
                                     }
                                     if (thisApp.card.base_component_id) {
                                         await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -11020,7 +11059,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 yz.mainVars.mousedown = false
             };
             function        refresh                             (   ) {
-                yz.mainVars.mainVueApp.count += 1;
+                mainVueAppVm.count += 1;
             }
             function        getPosition                         (   el   ) {
                 let xPos = 0;
@@ -11048,10 +11087,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 };
             }
             function        showProgressBar                     (   ) {
-                yz.mainVars.mainVueApp.show_loader = true
+                mainVueAppVm.show_loader = true
             }
+            window.showProgressBar = showProgressBar
             function        hideProgressBar                     (   ) {
-                yz.mainVars.mainVueApp.show_loader = false
+                mainVueAppVm.show_loader = false
             }
 
             //debug helpers
@@ -11633,6 +11673,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
                 return false
             }
+            window.isValidObject = isValidObject
             function        uuidv4                              (   ) {
                 return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -11649,6 +11690,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
                 return networkHostName
             }
+            window.getNetworkHostName = getNetworkHostName
             async function  scriptTag                           (   src   ,   callback   ) {
 
                 var s = document.createElement('script');
