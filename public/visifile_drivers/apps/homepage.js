@@ -912,7 +912,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name               = ""
                             mm.open_file_path               = "/"
                             saveCodeToFile                  = null
-                            globalEventBus.$emit('show_settings', {});
+                            globalEventBus.emit('show_settings', {});
                             mm.refresh++
                         }
 
@@ -935,7 +935,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name                   = ""
                             mm.open_file_path                   = "/"
                             saveCodeToFile                      = null
-                            globalEventBus.$emit('show_settings', {});
+                            globalEventBus.emit('show_settings', {});
 
                             setTimeout(async function() {
                                 let bci = text.base_component_id
@@ -969,7 +969,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
                             saveCodeToFile              = null
-                            globalEventBus.$emit('show_settings', {});
+                            globalEventBus.emit('show_settings', {});
 
                             setTimeout(function() {
                                 let bci = text.base_component_id
@@ -1008,7 +1008,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name               = ""
                             mm.open_file_path               = "/"
                             saveCodeToFile                  = null
-                            globalEventBus.$emit('show_settings', {});
+                            globalEventBus.emit('show_settings', {});
 
                             setTimeout(async function() {
                                 let bci = text.base_component_id
@@ -1041,7 +1041,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
                             saveCodeToFile              = null
-                            globalEventBus.$emit('show_settings', {});
+                            globalEventBus.emit('show_settings', {});
 
                             setTimeout(function() {
                                 let bci = text.base_component_id
@@ -1069,7 +1069,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                              | When we try to drag drop an app
                                              | into the Yazz editor
                                              |__________________________________ */
-                    globalEventBus.$on('new-appshare-app-uploaded',
+                    globalEventBus.on('new-appshare-app-uploaded',
                         async function({baseComponentId, codeId, logoUrl, displayName}) {
 
                             await mm.addEditableComponentToHomepage(
@@ -1551,7 +1551,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     let baseComponentId   = compInfo.base_component_id
                     let codeId            = compInfo.code_id
 
-                    globalEventBus.$emit('hide_settings', {});
+                    globalEventBus.emit('hide_settings', {});
 
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
@@ -1669,7 +1669,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     //--------------------------------------------------------------------
                     let mm = this
 
-                    globalEventBus.$emit('hide_settings', {});
+                    globalEventBus.emit('hide_settings', {});
 
                     await GLOBALS.makeSureUiComponentLoadedV6([{baseComponentId: "app_editor_3"}])
 

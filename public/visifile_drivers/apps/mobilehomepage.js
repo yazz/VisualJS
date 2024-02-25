@@ -312,7 +312,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             })
 
 
-            globalEventBus.$on('new-appshare-app-uploaded',
+            globalEventBus.on('new-appshare-app-uploaded',
                 async function(data) {
                     await mm.addLogoForApp(data)
                     await mm.addApp(data)

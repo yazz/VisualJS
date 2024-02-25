@@ -9212,7 +9212,8 @@
             var useProtocol                     = location.protocol
             var useHostname                     = null
             var usePort                         = null
-            var globalEventBus                  = new Vue();
+            //var globalEventBus                  = new Vue();
+            var globalEventBus                  = mitt()
             window.globalEventBus               = globalEventBus
             let newAppArgs                      = []
             var socket                          = null;
@@ -9901,11 +9902,11 @@
                         mounted: async function() {
                             let mm = this
 
-                            globalEventBus.$on('hide_settings',
+                            globalEventBus.on('hide_settings',
                                 async function() {
                                     mm.showSettings = false
                                 });
-                            globalEventBus.$on('show_settings',
+                            globalEventBus.on('show_settings',
                                 async function() {
                                     mm.showSettings = true
                                 });
@@ -10512,7 +10513,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 socket.on('uploaded_app_as_file_from_server',async function(data) {
                     if (data.client_file_upload_id == file_upload_uuid) {
-                        globalEventBus.$emit('new-appshare-app-uploaded',
+                        globalEventBus.emit('new-appshare-app-uploaded',
                             {
                                 baseComponentId:    data.base_component_id,
                                 displayName:        data.display_name,
