@@ -4,64 +4,255 @@
     <meta name="viewport"               Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta charset="UTF-8"                                                                                                                                                                                           />
 
-    <script src="https://unpkg.com/@vue/compat@3.1"></script>
+
+    <link       rel="stylesheet"                                                                href="https://cdn.usebootstrap.com/bootstrap/4.1.3/css/bootstrap.min.css">                                          </link>
+    <link       rel="stylesheet"                                                                href="/js_libs/tabulator.min.css">                                                                                 </link>
+    <script     src="/js_libs/dropzone5.4.0.js">                                                                                                                                                                    </script>
+    <script     src="https://cdn.socket.io/4.5.3/socket.io.min.js"                              integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi"     crossorigin="anonymous">    </script>
+    <script     src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js">                                                                                                                                 </script>
+    <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
 
 
 
+
+
+
+
+    <scriptold     src="/js_libs/tabulator.js">                                                                                                                                                                    </scriptold>
     <body>
-        <div>
-            Standard HTML and JS below
-            <br>
-            <b>HI THERE!</b>
-        </div>
 
-        <div style="margin-top:200px">
-            Inside VueJS 2 below
-            <div id="rootel"></div>
-        </div>
+
+        Standard HTML and JS
+        <div id="example-table" style="margin-bottom: 50px"></div>
+
+
+        Inside VueJS 2
+        <div id="example-table-parent" ></div>
+
+
+
     </body>
-
-
-
-    <script>
-
-        let vueApp = Vue.createApp(
+<script>
+    var rowMenu = [
+        {
+            label:"<i class='fas fa-user'></i> Change Name",
+            action:function(e, row){
+                row.update({name:"Steve Bobberson"});
+            }
+        },
+        {
+            label:"<i class='fas fa-check-square'></i> Select Row",
+            action:function(e, row){
+                row.select();
+            }
+        },
+        {
+            separator:true,
+        },
+        {
+            label:"Admin Functions",
+            menu:[
                 {
-                    el: "#rootel",
-                    template:   `
-                        <div style="">
-                            <br>
-                                WE ARE IN THE MATRIX {{refresh}}...
-                                <br>
-                                <b><component :is='"UserList"'></component></b>
-                        </div>`,
-                    data: function() {
-                        return {
-                            refresh: 0
-                        }
-                    },
-                    mounted:    async function() {
+                    label:"<i class='fas fa-trash'></i> Delete Row",
+                    action:function(e, row){
+                        row.delete();
+                    }
+                },
+                {
+                    label:"<i class='fas fa-ban'></i> Disabled Option",
+                    disabled:true,
+                },
+            ]
+        }]
+    var headerMenu = function(){
+        var menu = [];
+        var columns = this.getColumns();
+
+        for(let column of columns){
+
+            //create checkbox element using font awesome icons
+            let icon = document.createElement("i");
+            icon.classList.add("fas");
+            icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
+
+            //build label
+            let label = document.createElement("span");
+            let title = document.createElement("span");
+
+            title.textContent = " " + column.getDefinition().title;
+
+            label.appendChild(icon);
+            label.appendChild(title);
+
+            //create menu item
+            menu.push({
+                label:label,
+                action:function(e){
+                    //prevent menu closing
+                    e.stopPropagation();
+
+                    //toggle current column visibility
+                    column.toggle();
+
+                    //change menu item icon
+                    if(column.isVisible()){
+                        icon.classList.remove("fa-square");
+                        icon.classList.add("fa-check-square");
+                    }else{
+                        icon.classList.remove("fa-check-square");
+                        icon.classList.add("fa-square");
+                    }
+                }
+            });
+        }
+
+        return menu;
+    };
+    async function  useTabulatorJs                      (   ) {
+        return
+            let promise = new Promise(returnfn => {
+                let loadTabulatorJsLibScript = document.createElement('script');
+                loadTabulatorJsLibScript.src = "/js_libs/tabulator.js";
+
+                document.head.appendChild(loadTabulatorJsLibScript);
+                loadTabulatorJsLibScript.onload = function () {
+                    //debugger
+                    try {
+
+
+                    } catch (error) {
+
+                    }
+                    returnfn()
+                };
+
+            })
+
+
+            let ret = await promise
+
+    }
+
+
+     useTabulatorJs()
+
+    setTimeout(
+        function(){
+
+    var table = new Tabulator("#example-table", {
+                reactiveData:true,
+                width:              "100px",
+                //height:           "70px",
+                rowHeight:          30,
+                tables:             [],
+                data:               [
+                    {id:1, name:"Oli Bob", age:"12", col:"red", dob:""},
+                    {id:2, name:"Mary May", age:"1", col:"blue", dob:"14/05/1982"},
+                    {id:3, name:"Christine Lobowski", age:"42", col:"green", dob:"22/05/1982"},
+                    {id:4, name:"Brendon Philips", age:"125", col:"orange", dob:"01/08/1980"},
+                    {id:5, name:"Margret Marmajuke", age:"16", col:"yellow", dob:"31/01/1999"},
+                ],
+                layout:             "fitColumns",
+                responsiveLayout:   "hide",
+                tooltips:           true,
+                addRowPos:          "top",
+                history:            true,
+                pagination:         "local",
+                paginationSize:     7,
+                movableColumns:     true,
+                resizableColumns:   true,
+                resizableRows:      true,
+                movableColumns:     true,
+                layout:             [
+                    {display: "Fit Columns",    value: "fitColumns"},
+                    {display: "Fit Data",       value: "fitData"},
+                    {display: "Fit Data Fill",  value: "fitDataFill"}
+                ],
+                tableNames:         [],
+                initialSort:        [],
+                rowContextMenu: rowMenu,
+                columns:            [
+                    {title:"Name",              field:"name",   width:150                               , headerMenu: headerMenu},
+                    {title:"Age",               field:"age",    hozAlign:"left", formatter:"progress"   , headerMenu: headerMenu},
+                    {title:"Favourite Color",   field:"col"                                             , headerMenu: headerMenu},
+                    {title:"Date Of Birth",     field:"dob",    sorter:"date", hozAlign:"center"        , headerMenu: headerMenu},
+                    {title:"Name2", field:"name2", width:200, headerMenu: headerMenu,editor: true},
+                ]
+            });
+
+
+
+            new Vue(
+                {
+                    template:   `<div style="margin-top: 70px;">Inside VueJS 2
+                    </div>`,
+                    el:         "#rootel",
+                    mounted: async function() {
+                        var elTab =  document.createElement("div");
+                        elTab.setAttribute("id", "example-table2")
+                        //elTab.setAttribute("style", "height:100%;")
+                        let parentEl = document.getElementById("example-table-parent")
+                        parentEl.appendChild(elTab);
+
+                        Vue.nextTick(function () {
+
+                            var table = new Tabulator("#example-table2", {
+                                reactiveData: true,
+                                width: "100px",
+                                //height:           "70px",
+                                rowHeight: 30,
+                                tables: [],
+                                data: [
+                                    {id: 1, name: "Oli Bob", age: "12", col: "red", dob: ""},
+                                    {id: 2, name: "Mary May", age: "1", col: "blue", dob: "14/05/1982"},
+                                    {id: 3, name: "Christine Lobowski", age: "42", col: "green", dob: "22/05/1982"},
+                                    {id: 4, name: "Brendon Philips", age: "125", col: "orange", dob: "01/08/1980"},
+                                    {id: 5, name: "Margret Marmajuke", age: "16", col: "yellow", dob: "31/01/1999"},
+                                ],
+                                layout: "fitColumns",
+                                responsiveLayout: "hide",
+                                tooltips: true,
+                                addRowPos: "top",
+                                history: true,
+                                pagination: "local",
+                                paginationSize: 7,
+                                movableColumns: true,
+                                resizableColumns: true,
+                                resizableRows: true,
+                                movableColumns: true,
+                                layout: [
+                                    {display: "Fit Columns", value: "fitColumns"},
+                                    {display: "Fit Data", value: "fitData"},
+                                    {display: "Fit Data Fill", value: "fitDataFill"}
+                                ],
+                                tableNames: [],
+                                initialSort: [],
+                                rowContextMenu: rowMenu,
+                                columns: [
+                                    {title: "Name", field: "name", width: 150, headerMenu: headerMenu},
+                                    {
+                                        title: "Age",
+                                        field: "age",
+                                        hozAlign: "left",
+                                        formatter: "progress",
+                                        headerMenu: headerMenu
+                                    },
+                                    {title: "Favourite Color", field: "col", headerMenu: headerMenu},
+                                    {
+                                        title: "Date Of Birth",
+                                        field: "dob",
+                                        sorter: "date",
+                                        hozAlign: "center",
+                                        headerMenu: headerMenu
+                                    },
+                                    {title: "Name2", field: "name2", width: 200, headerMenu: headerMenu, editor: true},
+                                ]
+                            });
+                        })
+
                     }
                 })
-        vueApp.component("UserList",
-            {
-                name: "UserList",
-                template:   `
-                        <div style="margin-top: 70px;">
-                            <br>
-                                I am a component 5...
-                        </div>`,
-                mounted:    function() {
-                    vueApp.refresh ++
-                }
-            })
-        setTimeout(async function() {
-            //let vm = Vue.getCurrentInstance()
-            //debugger
-            //vueApp.refresh = 8
-            vueApp.mount("#rootel")
-
-        },100)
-
-    </script>
+        },200
+    )
+</script>
 </html>

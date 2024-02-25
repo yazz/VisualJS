@@ -259,7 +259,7 @@ load_once_from_file(true)
     //
     // ----------------------------------------------------------------------
      mounted: async function() {
-         //window.yz.mainVars.disableAutoSave     = true
+         //yz.mainVars.disableAutoSave     = true
 
      },
      methods: {
@@ -304,7 +304,7 @@ load_once_from_file(true)
 
 
 
-             this.baseComponentId = window.yz.helpers.getValueOfCodeString(this.text, "base_component_id")
+             this.baseComponentId = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
 
              //debugger
              this.currentCommithashId = await this.getCurrentCommitId()
@@ -847,7 +847,7 @@ load_once_from_file(true)
              let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
              mm.text = responseJson.code
 
-              window.globalEventBus.emit(
+             mm.$root.$emit(
                  'message', {
                      type:   "force_raw_load",
                      commitId: mm.lockedSelectedCommit

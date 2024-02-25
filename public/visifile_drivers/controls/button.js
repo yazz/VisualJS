@@ -111,7 +111,7 @@ logo_url("/driver_icons/button_control.png")
                             //eval("(function(){" + this.properties.click_event + "})")()
                             console.log("     design mode = " + this.design_mode)
 
-                             window.globalEventBus.emit('send', {
+                            this.$emit('send', {
                                                     type:               "subcomponent_event",
                                                     form_name:           this.meta.form,
                                                     control_name:        this.meta.name,

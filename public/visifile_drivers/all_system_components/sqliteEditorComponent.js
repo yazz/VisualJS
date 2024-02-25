@@ -48,7 +48,7 @@ load_once_from_file(true)
          let thisVueInstance = this
          let mm = this
          args.text           = null
-         window.yz.mainVars.disableAutoSave     = true
+         yz.mainVars.disableAutoSave     = true
 
          ace.config.set('basePath', '/');
          mm.editor = ace.edit(           mm.editorDomId, {
@@ -78,7 +78,7 @@ load_once_from_file(true)
          document.getElementById(mm.editorDomId).style.height="65vh"
          if (isValidObject(thisVueInstance.text)) {
              mm.editor.getSession().setValue(thisVueInstance.sqlText);
-             this.read_only = window.yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+             this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
          }
 
          mm.editor.getSession().setUseWorker(false);
@@ -147,8 +147,8 @@ load_once_from_file(true)
                 return null
             }
 
-            this.text = window.yz.helpers.deleteCodeString(this.text, "sqlite", ")//sqlite")
-            this.text = window.yz.helpers.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
+            this.text = yz.helpers.deleteCodeString(this.text, "sqlite", ")//sqlite")
+            this.text = yz.helpers.insertCodeString(this.text, "sqlite", JSON.parse(this.sqlText) ,")//sqlite")
 
             return this.text
         }
@@ -177,7 +177,7 @@ load_once_from_file(true)
             //
 
 
-            this.read_only = window.yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+            this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
                this.editor.setReadOnly(true)
             }
@@ -190,7 +190,7 @@ load_once_from_file(true)
             // If a database definition has been given then read it
             //
 
-            let llsqlText = window.yz.helpers.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
+            let llsqlText = yz.helpers.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
             if (isValidObject(llsqlText)) {
                 this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
             } else {

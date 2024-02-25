@@ -66,7 +66,7 @@ logo_url("/driver_icons/timer.png")
 
                         <img v-if="design_mode"
                              v-bind:style='"max-width:" + args.width + "px;max-height: " + args.height + "px;"'
-                             src="/driver_icons/timer.png" />
+                             src="/driver_icons/timer.png"></img>
                  </div>`
       ,
       data: function() {
@@ -85,7 +85,7 @@ logo_url("/driver_icons/timer.png")
                 appSetInterval(function() {
                     mm.args.counter ++
                     if (isValidObject(mm.args.tick_event)) {
-                         window.globalEventBus.emit('send', {
+                        mm.$emit('send', {
                                             type:               "subcomponent_event",
                                             control_name:        mm.args.name,
                                             sub_type:           "tick",

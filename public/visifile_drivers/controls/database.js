@@ -893,8 +893,8 @@ logo_url("/driver_icons/data_control.png")
                 }
             }
         },
-        beforeUnmount:          async function  (  ) {
-            console.log('beforeUnmount');
+        beforeDestroy:          async function  (  ) {
+            console.log('beforeDestroy');
             await this.minimizeChildren()
         },
         mounted:                async function  (  ) {
@@ -1004,8 +1004,8 @@ logo_url("/driver_icons/data_control.png")
               //await mm.meta.getEditor().updateComponentMethods()
                 let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 //newcontrol.height = 700
-
-                // window.globalEventBus.emit('message', {
+                //zzz
+                //mm.$root.$emit('message', {
                 //    type:   "pending"
                 //})
             },
@@ -1090,7 +1090,7 @@ logo_url("/driver_icons/data_control.png")
             },
             runEventHandler:    function        (  ) {
                 let mm = this
-                 window.globalEventBus.emit('send', {
+                this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 control_name:        this.properties.name,
                                                 sub_type:           "changed",

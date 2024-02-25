@@ -539,7 +539,7 @@ logo_url("/driver_icons/threedee_item.png")
           ,
           keyPressEventHandler: function(keyCode) {
               this.args.lastKeyPressed = String.fromCharCode(keyCode)
-               window.globalEventBus.emit('send', {
+              this.$emit('send', {
                                               type:               "subcomponent_event",
                                               control_name:        this.args.name,
                                               sub_type:           "keypressed",
@@ -554,7 +554,7 @@ logo_url("/driver_icons/threedee_item.png")
             ,
             keyDownEventHandler: function(keyCode) {
                 this.args.lastKeyDown = String.fromCharCode(keyCode)
-                 window.globalEventBus.emit('send', {
+                this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 control_name:        this.args.name,
                                                 sub_type:           "keydown",
@@ -566,7 +566,7 @@ logo_url("/driver_icons/threedee_item.png")
                                             })
 
                 if (keyCode == 8) {
-                     window.globalEventBus.emit('send', {
+                    this.$emit('send', {
                                                     type:               "subcomponent_event",
                                                     control_name:        this.args.name,
                                                     sub_type:           "backspace",
@@ -574,7 +574,7 @@ logo_url("/driver_icons/threedee_item.png")
                                                 })
                 }
                 if (keyCode == 46) {
-                     window.globalEventBus.emit('send', {
+                    this.$emit('send', {
                                                     type:               "subcomponent_event",
                                                     control_name:        this.args.name,
                                                     sub_type:           "delete",
@@ -582,7 +582,7 @@ logo_url("/driver_icons/threedee_item.png")
                                                 })
                 }
                 if (keyCode == 13) {
-                     window.globalEventBus.emit('send', {
+                    this.$emit('send', {
                                                     type:               "subcomponent_event",
                                                     control_name:        this.args.name,
                                                     sub_type:           "enter",

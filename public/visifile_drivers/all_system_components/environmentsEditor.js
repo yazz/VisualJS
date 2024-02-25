@@ -350,14 +350,14 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
                 //    init environments pane
                 // ------------------------------------------------
                 if (tabName == "environments") {
-                    let release =  window.yz.helpers.getValueOfCodeString(this.text, "release")
+                    let release =  yz.helpers.getValueOfCodeString(this.text, "release")
                     if (release) {
                         mm.pane_environments_in_dev_mode = false
                     } else {
                         mm.pane_environments_in_dev_mode = true
                     }
 
-                    let environments =  window.yz.helpers.getValueOfCodeString(this.text, "environments")
+                    let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
                     if (environments) {
                         mm.pane_environments_env_list = environments.list_of_environments
                         if (environments.last_env_is_live) {
@@ -399,9 +399,9 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
 
                 let mm                  =  this
                 this.text               = textValue
-                this.baseComponentId    = window.yz.helpers.getValueOfCodeString(this.text, "base_component_id")
+                this.baseComponentId    = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.codeId             = await this.getCurrentCommitId()
-                let readOnly            = window.yz.helpers.getValueOfCodeString(this.text, "read_only")
+                let readOnly            = yz.helpers.getValueOfCodeString(this.text, "read_only")
                 mm.pane_environments_writable = true
                 if (readOnly && (readOnly == true)) {
                     mm.pane_environments_writable = false
@@ -718,15 +718,15 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
                 //--------------------------------------------------------------------
                 try {
                     let mm = this
-                    this.text = window.yz.helpers.deleteCodeString(this.text, "environments")
-                    this.text = window.yz.helpers.insertCodeString(this.text, "environments",
+                    this.text = yz.helpers.deleteCodeString(this.text, "environments")
+                    this.text = yz.helpers.insertCodeString(this.text, "environments",
                         {
                             list_of_environments:   mm.pane_environments_env_list,
                             last_env_is_live:       mm.pane_environments_last_env_is_live
                         }
 
                     )
-                     window.globalEventBus.emit('message', {
+                    mm.$root.$emit('message', {
                         type: "pending"
                     })
                 } catch (e) {

@@ -164,8 +164,8 @@ ___________
         <img
             src='/driver_icons/project.png'
             style='width: 20px; margin-right: 10px;'
-            class='img-fluid' />
-        
+            class='img-fluid'>
+        </img>
 
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
             {{component_display_name?"" + component_display_name.substring(0,30):""}}{{(component_display_name && ((component_display_name.length > 50))?"...":"")}} 
@@ -176,7 +176,7 @@ ___________
                   v-bind:style='"display: inline-block;" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")' 
                   v-if='edit_name'
                   v-on:focusout='(async function(){await rename(component_display_name)})()'
-                  v-model='component_display_name' />
+                  v-model='component_display_name'></input>
 
 
 
@@ -207,7 +207,7 @@ ___________
                 <button type=button
                         v-bind:refresh='refresh'
                         v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
-                        v-on:click='chooseProfiler()' >Profiler</button>
+                        v-on:click='if (mode != "profiler"){chooseProfiler()}' >Profiler</button>
             </div>
 
 
@@ -239,15 +239,15 @@ ___________
 
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();yz().editor.saveControlChanges=true;closeEditor()' >
-                  <span v-if="!yz().editor.lastEditingAppCodeId">Close</span>
-                  <span v-if="yz().editor.lastEditingAppCodeId">Update app</span>
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();yz.editor.saveControlChanges=true;closeEditor()' >
+                  <span v-if="!yz.editor.lastEditingAppCodeId">Close</span>
+                  <span v-if="yz.editor.lastEditingAppCodeId">Update app</span>
                 </button>
             </div>
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
-                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();yz().editor.saveControlChanges=false;closeEditor()'
-                         v-if="yz().editor.lastEditingAppCodeId">
-                  <span v-if="yz().editor.lastEditingAppCodeId">Cancel</span>
+                <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();yz.editor.saveControlChanges=false;closeEditor()'
+                         v-if="yz.editor.lastEditingAppCodeId">
+                  <span v-if="yz.editor.lastEditingAppCodeId">Cancel</span>
                 </button>
             </div>
 
@@ -288,17 +288,11 @@ $refs.editor_component_ref.runtimeComponentsInfo:
   
   
 <div v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
-
-    Form runtime info
-    
-    <div    v-bind:refresh='refresh'
-            v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
-            
-        <div    v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'>
-                
-                [  "{{form.name}}"  ]
-        </div>
-    </div>
+Form runtime info
+<div v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'
+v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
+[  "{{form.name}}"  ]
+</div>
 </div>
 
   
@@ -322,7 +316,7 @@ $refs.editor_component_ref.runtimeComponentsInfo:
     <div v-if='mode == "edit"'>
         <div    id=editor_id
                 v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
-            <component  v-bind:is='GLOBALS().baseComponentIdReturnsCommitId[editor_component]'
+            <component  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[editor_component]'
                         v-if="editor_loaded"
                         ref="editor_component_ref">
 
@@ -345,8 +339,8 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     <img
                         src='/driver_icons/icon.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
+                        class='img-fluid'>
+                    </img>
                     Icon
 
                   </a>
@@ -359,7 +353,7 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                   ---------------------------------------------- -->
                   <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                        href="#"
-                       v-bind:href='window().location.protocol + "//" + window().location.hostname + ":" + window().location.port + "/app/yazz_" + yz().editor.editingAppBaseComponentId + ".yazz"'
+                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
                        download
                        v-if="show_download_save"
                        v-on:mouseenter='setInfo("Download the source code for this app / component")'
@@ -369,8 +363,8 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     <img
                         src='/driver_icons/download.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
+                        class='img-fluid'>
+                    </img>
                     Src
 
                   </a>
@@ -387,8 +381,8 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     <img
                         src='/driver_icons/database.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
+                        class='img-fluid'>
+                    </img>
                     DB
 
                   </a>
@@ -413,8 +407,8 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     <img
                         src='/driver_icons/undo_icon.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
+                        class='img-fluid'>
+                    </img>
                     Undo
 
                   </a>
@@ -438,8 +432,8 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     <img
                         src='/driver_icons/redo_icon.png'
                         style='height:35px; margin-right: 3px;'
-                        class='img-fluid' />
-                    
+                        class='img-fluid'>
+                    </img>
                     Redo
 
                   </a>
@@ -468,8 +462,8 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     <img
                         src='/driver_icons/deliver.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
+                        class='img-fluid'>
+                    </img>
                     Revisions
 
                   </a>
@@ -497,6 +491,7 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                     x="0px"
                                     width="35px"
+                                    viewBox="0 0 210.107 210.107"
                                     height="35px"
                                     y="0px"
                                   	viewBox="0 0 492 492"
@@ -521,14 +516,13 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                             v-on:mouseleave='setInfo(null)'
                             v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
                             type="button" class="btn  btn-primary"
-                            v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz().editor.lastEditingAppCodeId == null))'>
+                            v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
 
                     <img
                         src='/driver_icons/remix.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                        
-                        Remix
+                        class='img-fluid'>
+                    </img>Remix
 
                   </button>
 
@@ -540,15 +534,14 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
                               type="button" class="btn  btn-warning"
-                              v-if="(((!hideImportButtons) || yz().mainVars.disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
+                              v-if="(((!hideImportButtons) || yz.mainVars.disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
                               >
 
                               <img
                                   src='/driver_icons/save.png'
                                   style='height:35px; margin-right: 0px;'
-                                  class='img-fluid' />
-                                  
-                                {{saveCodeToFile?"Save":"Save"}}
+                                  class='img-fluid'>
+                              </img>{{saveCodeToFile?"Save":"Save"}}
 
                     </button>
 
@@ -564,7 +557,7 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     </span>
                   
                   <span
-                      v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!yz().mainVars.disableAutoSave)"
+                      v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!yz.mainVars.disableAutoSave)"
                   >
                           Unsaved...
                     </span>
@@ -595,11 +588,11 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     <div  style='display: inline-block;'>
                         <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
 
-                              v-on:click='let win = window().open(window().location.protocol + "//" + window().getNetworkHostName() + ":" + window().location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                              v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
 
                               v-if="code_shown && (!app_shown)">
 
-                              {{window().location.protocol + "//" + window().getNetworkHostName() + ":" + window().location.port + "/app/" + base_component_id + ".html"}}
+                              {{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"}}
                         </a>
 
 
@@ -650,8 +643,8 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                         src='/driver_icons/reload.png'
                         style='height:25px; margin-right: 0px;'
                         class='img-fluid'
-                        />
-                    
+                        >
+                    </img>
                 </button>
     
 
@@ -662,8 +655,9 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                     readonly
                     v-if='preview_type=="app"'
                     style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                    v-on:click='let win = window().open(window().location.protocol + "//" + window().getNetworkHostName() + ":" + window().location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                    v-bind:value='window().location.protocol + "//" + window().getNetworkHostName() + ":" + window().location.port + "/app/" + base_component_id + ".html"' />
+                    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                    v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
+                </input>
 
                 <span
                     v-if='preview_type!="app"'
@@ -693,12 +687,12 @@ $refs.editor_component_ref.runtimeComponentsInfo:
                         v-bind:disabled='sqlite_data_saved_in_html?false:""'
                         style="height: 25px;; margin: 0px;"
                         class='img-fluid'
-                        />
-                    
+                        >
+                    </img>
                 </a>
                 
                 <a          
-                    v-bind:href='window().location.protocol + "//" + window().location.hostname + ":" + window().location.port + "/app/yazz_" + yz().editor.editingAppBaseComponentId + ".html"'
+                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".html"'
                     v-if="(preview_type=='app')"
                     download
                     id="saveHTMLButton"
@@ -727,8 +721,8 @@ Embed button
                 <img
                     src='/driver_icons/embed.png'
                     style='height:25px; margin-right: 0px;'
-                    class='img-fluid' />
-                
+                    class='img-fluid'>
+                </img>
               </a>
               
             </div>
@@ -753,7 +747,7 @@ End of app preview menu
                               ref="control_preview_component"
                               v-if='app_loaded  &&  (preview_type=="control")'
                               style='background-color: white;height:92%;'
-                              v-bind:is='GLOBALS().baseComponentIdReturnsCommitId["control_preview_container_app"]'
+                              v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["control_preview_container_app"]'
                               v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
                               >
                   </component>
@@ -838,7 +832,8 @@ End of app preview menu
                          <input  style=''
                                  type="range" min="1" max="20"
                                  v-bind:onchange='timelineRefresh(false)'
-                                 v-model="execution_horiz_scale" />
+                                 v-model="execution_horiz_scale">
+                         </input>
                      </span>
 
 
@@ -926,7 +921,7 @@ End of app preview menu
 
             <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: hidden; background-color: white;padding:0;margin-left:20px;'
                     >
-                <div    v-bind:class='(debugger_right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")'
+                <div    v-bind:class='(debugger_right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")''
                         v-bind:refresh='refresh'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
@@ -1147,11 +1142,11 @@ End of app preview menu
                //
                // Sets the info message bar at the bottom of the editor pane
                // ---------------------------------------------------------------
-                window.globalEventBus.emit('message', {
+               this.$root.$emit('message', {
                    type:   "set_info_text",
                    text:    text
                })
-            },
+           },
             closeEditor:                    async function  (  event,item  ) {
                // ---------------------------------------------------------------
                //                         closeEditor
@@ -1160,35 +1155,35 @@ End of app preview menu
                // with all the apps)
                // ---------------------------------------------------------------
                let mm = this
-               if (window.yz.editor.subEditorAction == "FORK_CONTROL") {
-                   window.yz.editor.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
-                   window.yz.editor.finalCodeIdOfEditedUiControl = mm.code_id
-                   window.globalEventBus.emit("message", {
+               if (yz.editor.subEditorAction == "FORK_CONTROL") {
+                   yz.editor.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
+                   yz.editor.finalCodeIdOfEditedUiControl = mm.code_id
+                   this.$root.$emit("message", {
                        type: "return_from_fork_component",
-                       base_component_id: window.yz.editor.lastEditingAppBaseComponentId,
-                       code_id: window.yz.editor.lastEditingAppCodeId
+                       base_component_id: yz.editor.lastEditingAppBaseComponentId,
+                       code_id: yz.editor.lastEditingAppCodeId
                    })
 
-               } else if (window.yz.editor.subEditorAction == "EDIT_CONTROL") {
-                       window.yz.editor.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
-                       window.yz.editor.finalCodeIdOfEditedUiControl            = mm.code_id
-                        window.globalEventBus.emit("message", {    type:               "return_from_edit_component",
-                           base_component_id:   window.yz.editor.lastEditingAppBaseComponentId,
-                           code_id:             window.yz.editor.lastEditingAppCodeId
+               } else if (yz.editor.subEditorAction == "EDIT_CONTROL") {
+                       yz.editor.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
+                       yz.editor.finalCodeIdOfEditedUiControl            = mm.code_id
+                       this.$root.$emit("message", {    type:               "return_from_edit_component",
+                           base_component_id:   yz.editor.lastEditingAppBaseComponentId,
+                           code_id:             yz.editor.lastEditingAppCodeId
                        })
 
-               } else if (window.yz.editor.lastEditingAppBaseComponentId) {
+               } else if (yz.editor.lastEditingAppBaseComponentId) {
                    debugger // where does "model" come from?
-                    window.globalEventBus.emit("message", { type:  "edit_component", base_component_id:   window.yz.editor.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
+                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   yz.editor.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
 
                } else {
-                    window.globalEventBus.emit('message', {
+                   this.$root.$emit('message', {
                        type:        "close_app"
                    })
                }
-               window.yz.editor.lastEditingAppBaseComponentId    = null;
-               window.yz.editor.lastEditingAppCodeId             = null;
-               window.yz.editor.inEditor                         = false
+               yz.editor.lastEditingAppBaseComponentId    = null;
+               yz.editor.lastEditingAppCodeId             = null;
+               yz.editor.inEditor                         = false
            },
             chooseApp:                      async function  (  ) {
                 // ---------------------------------------------------------------
@@ -1291,10 +1286,6 @@ End of app preview menu
                 // can see the app debug view
                 // ---------------------------------------------------------------
                 let mm = this
-                if (mm.mode == "profiler") {
-                    return
-                }
-
                 this.code_width = "0%"
                 this.code_shown = false
 
@@ -1334,15 +1325,15 @@ End of app preview menu
 
                 this.editor_text = await this.$refs.editor_component_ref.getText()
 
-                this.editor_text = window.yz.helpers.deleteCodeString(this.editor_text, "display_name")
-                this.editor_text = window.yz.helpers.insertCodeString(this.editor_text, "display_name",nn)
+                this.editor_text = yz.helpers.deleteCodeString(this.editor_text, "display_name")
+                this.editor_text = yz.helpers.insertCodeString(this.editor_text, "display_name",nn)
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
 
                 await mm.loadComponentIntoEditor({newApp: true, codeId:  this.code_id } )
 
 
-                 window.globalEventBus.emit('message', {
+                mm.$root.$emit('message', {
                     type:               "update_editable_components_on_homepage",
                     base_component_id:   mm.base_component_id,
                     display_name:        mm.component_display_name
@@ -1364,10 +1355,10 @@ End of app preview menu
 
                 this.editor_text = await this.$refs.editor_component_ref.getText()
 
-                let eds = window.yz.helpers.getValueOfCodeString(this.editor_text, "editors")
+                let eds = yz.helpers.getValueOfCodeString(this.editor_text, "editors")
                 if (eds) {
-                    this.editor_text = window.yz.helpers.deleteCodeString(this.editor_text, "editors")
-                    this.editor_text = window.yz.helpers.insertCodeString(this.editor_text, "editors_old",eds)
+                    this.editor_text = yz.helpers.deleteCodeString(this.editor_text, "editors")
+                    this.editor_text = yz.helpers.insertCodeString(this.editor_text, "editors_old",eds)
                 }
 
                 await mm.save(   this.base_component_id,   this.code_id,   this.editor_text   )
@@ -1433,8 +1424,8 @@ End of app preview menu
                 }
 
                 let result = await getFromYazzReturnJson("/http_get_copy_component",copyArgs)
-                if (window.isValidObject(result)) {
-                     window.globalEventBus.emit('message', {
+                if (isValidObject(result)) {
+                    mm.$root.$emit('message', {
                         type:               "insert_editable_component_on_homepage",
                         base_component_id:   result.base_component_id,
                         display_name:        result.new_display_name,
@@ -1548,7 +1539,7 @@ End of app preview menu
                                 let editors2 = results[0].editors
                                 mm.base_component_id = results[0].base_component_id
 
-                                if (window.isValidObject(editors2) && (mm.override_app_editor == null)) {
+                                if (isValidObject(editors2) && (mm.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
                                 }
@@ -1557,16 +1548,16 @@ End of app preview menu
                                 code        = results[0].code
                                 codeId      = results[0].id
                                 mm.code_id  = codeId
-                                mm.GLOBALS().cacheThisComponentCode({codeId: codeId,    code: code})
-                                window.yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
-                                mm.GLOBALS().pointBaseComponentIdAtCode(
+                                GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
+                                GLOBALS.pointBaseComponentIdAtCode(
                                     {
                                         baseComponentId:    mm.base_component_id,
                                         codeId:             codeId
                                     })
 
-                                this.component_display_name = window.yz.helpers.getValueOfCodeString(code.toString(),"display_name")
-                                await mm.GLOBALS().makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
+                                this.component_display_name = yz.helpers.getValueOfCodeString(code.toString(),"display_name")
+                                await GLOBALS.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
                             }
                         }
 
@@ -1579,16 +1570,16 @@ End of app preview menu
                     // load app from source code
                     //
                     } else if (code) {
-                        let bci = window.yz.helpers.getValueOfCodeString(code.toString(),"base_component_id")
+                        let bci = yz.helpers.getValueOfCodeString(code.toString(),"base_component_id")
 
-                        mm.GLOBALS().cacheThisComponentCode({codeId: codeId,    code: code})
-                        window.yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
-                        mm.GLOBALS().pointBaseComponentIdAtCode(
+                        GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                        yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
+                        GLOBALS.pointBaseComponentIdAtCode(
                             {
                                 baseComponentId:    bci,
                                 codeId:             codeId
                             })
-                        await mm.GLOBALS().makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
+                        await GLOBALS.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
 
 
 
@@ -1626,7 +1617,7 @@ End of app preview menu
 
                                 // ****** find the editor *******
                                 let editors2 = results[0].editors
-                                if (window.isValidObject(editors2) && (mm.override_app_editor == null)) {
+                                if (isValidObject(editors2) && (mm.override_app_editor == null)) {
                                     let edd = eval("(" + editors2 + ")")
                                     newEditor = edd[0]
                                 }
@@ -1635,10 +1626,10 @@ End of app preview menu
                                 code                        = results[0].code
                                 codeId                      = results[0].id
                                 mm.code_id                  = codeId
-                                this.component_display_name = window.yz.helpers.getValueOfCodeString(code.toString(),"display_name")
-                                mm.GLOBALS().cacheThisComponentCode({codeId: codeId,    code: code})
-                                window.yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
-                                mm.GLOBALS().pointBaseComponentIdAtCode(
+                                this.component_display_name = yz.helpers.getValueOfCodeString(code.toString(),"display_name")
+                                GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
+                                GLOBALS.pointBaseComponentIdAtCode(
                                     {
                                         baseComponentId:    baseComponentId,
                                         codeId:             codeId
@@ -1673,7 +1664,7 @@ End of app preview menu
                             editorName = newEditor
                         }
 
-                        await mm.GLOBALS().makeSureUiComponentLoadedV6( editorName )
+                        await GLOBALS.makeSureUiComponentLoadedV6( editorName )
                         mm.refresh++
 
                         mm.editor_loaded    = true
@@ -1687,7 +1678,7 @@ End of app preview menu
                     //
                     // should we run this app?
                     //
-                    if ((window.isValidObject(runThisApp))   && (!runThisApp)) {
+                    if ((isValidObject(runThisApp))   && (!runThisApp)) {
                         //do nothing if we set "runthisapp" to false
                     } else {
                         this.resetDebugger()
@@ -1713,7 +1704,7 @@ End of app preview menu
                 // container around them, since they can not live independantly without
                 // an app
                 //
-                if (code && (window.yz.helpers.getValueOfCodeString(code,"component_type") == "VB")) {
+                if (code && (yz.helpers.getValueOfCodeString(code,"component_type") == "VB")) {
                     mm.preview_type = "control"
                 } else {
                     mm.preview_type = "app"
@@ -1722,9 +1713,9 @@ End of app preview menu
                 //
                 // set other vars based on the code
                 //
-                mm.component_display_name = window.yz.helpers.getValueOfCodeString(code,"display_name")
+                mm.component_display_name = yz.helpers.getValueOfCodeString(code,"display_name")
                 // ****** set readonly *******
-                this.read_only = window.yz.helpers.getValueOfCodeString(code, "read_only")
+                this.read_only = yz.helpers.getValueOfCodeString(code, "read_only")
 
 
                 //
@@ -1779,10 +1770,10 @@ End of app preview menu
                     }
 
                     if (!allowAppToWorkOffline) {
-                        this.editor_text = mm.GLOBALS().enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
+                        this.editor_text = GLOBALS.enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
                     }
-                    let baseCompIdFromSrcCode = window.yz.helpers.getValueOfCodeString(this.editor_text,"base_component_id")
-                    await window.yz.savingCode.saveCodeViaWebWorker(
+                    let baseCompIdFromSrcCode = yz.helpers.getValueOfCodeString(this.editor_text,"base_component_id")
+                    await yz.savingCode.saveCodeViaWebWorker(
                         this.editor_text
                         ,
                         {
@@ -1799,9 +1790,9 @@ End of app preview menu
                     }
 
                     mm.code_id  = await getYazzContentHash(mm.editor_text)
-                    mm.GLOBALS().cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
-                    window.yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
-                    mm.GLOBALS().pointBaseComponentIdAtCode(
+                    GLOBALS.cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
+                    yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
+                    GLOBALS.pointBaseComponentIdAtCode(
                         {
                             baseComponentId:    baseCompIdFromSrcCode,
                             codeId:             mm.code_id
@@ -1824,7 +1815,7 @@ End of app preview menu
                     mm.inSave = false
                     mm.editor_shell_locked = false
 
-                     window.globalEventBus.emit('message', {
+                    mm.$root.$emit('message', {
                         type:               "update_editable_components_on_homepage",
                         base_component_id:   baseCompIdFromSrcCode,
                         code_id:             mm.code_id
@@ -1858,12 +1849,12 @@ End of app preview menu
                 //-----------------------------------------------------------/
                 let mm = this
 
-                let parentHash = window.yz.helpers.getValueOfCodeString(this.editor_text, "parent_hash")
+                let parentHash = yz.helpers.getValueOfCodeString(this.editor_text, "parent_hash")
                 if (parentHash) {
                     mm.undo_list.push(mm.code_id)
                     mm.code_id = parentHash
                     await mm.closeSubEditor()
-                     window.globalEventBus.emit(
+                    mm.$root.$emit(
                         'message'
                         ,
                         {
@@ -1890,7 +1881,7 @@ End of app preview menu
                     let codeId = mm.undo_list.pop(  )
                     await mm.closeSubEditor()
                     if (codeId) {
-                         window.globalEventBus.emit(
+                        mm.$root.$emit(
                             'message'
                             ,
                             {
@@ -1925,22 +1916,13 @@ End of app preview menu
                return returnVal
 
            },
-            yz:                             function        (  ) {
-                return window.yz
-            },
-            GLOBALS:                        function        (  ) {
-                return window.GLOBALS
-            },
-            window:                         function        (  ) {
-                return window
-            },
             getVarAsBarChart:               function        (  value  ) {
                 // ---------------------------------------------------------------
                 //                         getVarAsBarChart
                 //
                 // This views program variables in the debugger
                 // ---------------------------------------------------------------
-                if (!window.isValidObject(value)) {
+                if (!isValidObject(value)) {
                     return "<div></div>"
                 }
                 let html = "<div> "
@@ -2063,7 +2045,7 @@ End of app preview menu
                                                         (this.current_execution_step_y_line + this.execution_code[x.code_block_name].start)
                                                                 ) - elementTimeline.scrollTop
 
-                        if (window.isValidObject(args) && args.allowScroll) {
+                        if (isValidObject(args) && args.allowScroll) {
                             if (this.timeline_x_cursor > elementTimeline.offsetWidth) {
                                 elementTimeline.scrollLeft += elementTimeline.offsetWidth
                                 this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
@@ -2223,7 +2205,6 @@ End of app preview menu
             await useDiffJs()
             await useTabulatorJs()
 
-
             uiDebuggerOn = true
             if ($HIDEIMPORTBUTTONS == 'false') {
                 mm.hideImportButtons = false
@@ -2237,20 +2218,19 @@ End of app preview menu
 
 
 
+
             //
             // make sure we load the component that is being edited by this app
             //
             // ******* if we have the code ID *********
-            console.log("loadComponentIntoEditor " +  window.yz.editor.editingAppCodeId)
-            console.log("loadComponentIntoEditor " + mm.arg_edit_base_component_id)
             if (mm.arg_edit_code_id) {
-                window.yz.editor.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
-                window.yz.editor.editingAppCodeId                            = mm.arg_edit_code_id
-                window.yz.editor.inEditor                                    = true
-                await mm.loadComponentIntoEditor({codeId: window.yz.editor.editingAppCodeId})
+                yz.editor.editingAppBaseComponentId                   = mm.arg_edit_base_component_id
+                yz.editor.editingAppCodeId                            = mm.arg_edit_code_id
+                yz.editor.inEditor                                    = true
+                await mm.loadComponentIntoEditor({codeId: yz.editor.editingAppCodeId})
             // ******* if we only have the BCI *********
             } else if (mm.arg_edit_base_component_id) {
-                window.yz.editor.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
+                yz.editor.editingAppBaseComponentId                     = mm.arg_edit_base_component_id
                 await mm.loadComponentIntoEditor({baseComponentId: this.arg_edit_base_component_id})
             }
 
@@ -2261,7 +2241,7 @@ End of app preview menu
             //
             // some helper callbacks so outsiders can changed the state of the editor
             //
-            window.globalEventBus.on('message', async function(message) {
+            this.$root.$on('message', async function(message) {
                 if (message.type == "set_info_text") {
                     mm.info_text = message.text
                 } else if (message.type == "saving") {
@@ -2288,7 +2268,7 @@ End of app preview menu
                             runThisApp: true
                         })
 
-                     window.globalEventBus.emit('message', {
+                    mm.$root.$emit('message', {
                         type:               "update_editable_components_on_homepage",
                         base_component_id:   mm.arg_edit_base_component_id,
                         code_id:             message.commitId
@@ -2324,7 +2304,7 @@ End of app preview menu
                 // ******** if a change has been made **************
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
                     // ******** if AUTOSAVE is on then save the code ************
-                    if (!window.yz.mainVars.disableAutoSave) {
+                    if (!yz.mainVars.disableAutoSave) {
                         console.log("     saved: " + mm.code_id)
                         appClearIntervals();
                         await mm.save(mm.base_component_id, mm.code_id, null)
@@ -2347,7 +2327,7 @@ End of app preview menu
             //
             mm.refresh ++
         },
-        beforeUnmount() {
+        beforeDestroy() {
             this.deleteAutosaveTimer = true
         }
 

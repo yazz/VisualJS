@@ -577,9 +577,9 @@ pane_release_description:               {{pane_release_description}}
                 //    init release pane
                 // ------------------------------------------------
                 if (tabName == "release") {
-                    let release =  window.yz.helpers.getValueOfCodeString(this.text, "release")
-                    let commit  =  window.yz.helpers.getValueOfCodeString(this.text, "commit")
-                    let envs    =  window.yz.helpers.getValueOfCodeString(this.text, "environments")
+                    let release =  yz.helpers.getValueOfCodeString(this.text, "release")
+                    let commit  =  yz.helpers.getValueOfCodeString(this.text, "commit")
+                    let envs    =  yz.helpers.getValueOfCodeString(this.text, "environments")
 
                     if (commit) {
                         mm.pane_release_in_dev_mode         = false
@@ -612,7 +612,7 @@ pane_release_description:               {{pane_release_description}}
                         mm.pane_release_next_env_id         = null
                     }
 
-                    let environments =  window.yz.helpers.getValueOfCodeString(this.text, "environments")
+                    let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
                     if (environments) {
                         mm.pane_release_env_list = environments.list_of_environments
                         if (environments.last_env_is_live) {
@@ -627,14 +627,14 @@ pane_release_description:               {{pane_release_description}}
                 //    init environments pane
                 // ------------------------------------------------
                 if (tabName == "environments") {
-                    let release =  window.yz.helpers.getValueOfCodeString(this.text, "release")
+                    let release =  yz.helpers.getValueOfCodeString(this.text, "release")
                     if (release) {
                         mm.pane_environments_in_dev_mode = false
                     } else {
                         mm.pane_environments_in_dev_mode = true
                     }
 
-                    let environments =  window.yz.helpers.getValueOfCodeString(this.text, "environments")
+                    let environments =  yz.helpers.getValueOfCodeString(this.text, "environments")
                     if (environments) {
                         mm.pane_environments_env_list = environments.list_of_environments
                         if (environments.last_env_is_live) {
@@ -676,7 +676,7 @@ pane_release_description:               {{pane_release_description}}
 
                 let mm                  =  this
                 this.text               = textValue
-                this.baseComponentId    = window.yz.helpers.getValueOfCodeString(this.text, "base_component_id")
+                this.baseComponentId    = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.codeId             = await this.getCurrentCommitId()
 
                 await mm.switchTab( {tabName: mm.selectedTab} )
@@ -725,7 +725,7 @@ pane_release_description:               {{pane_release_description}}
 
                         hideProgressBar()
                         if (responseJson && responseJson.newCommitId) {
-                             window.globalEventBus.emit(
+                            mm.$root.$emit(
                                 'message'
                                 ,
                                 {
@@ -1270,7 +1270,7 @@ pane_release_description:               {{pane_release_description}}
                 window.timelineEnd      = mm.timelineEnd
                 window.keepTimeline     = true
 
-                 window.globalEventBus.emit(
+                mm.$root.$emit(
                     'message'
                     ,
                     {
@@ -1319,7 +1319,7 @@ pane_release_description:               {{pane_release_description}}
 
                         hideProgressBar()
                         if (responseJson && responseJson.newCommitId) {
-                             window.globalEventBus.emit(
+                            mm.$root.$emit(
                                 'message'
                                 ,
                                 {
@@ -1669,15 +1669,15 @@ pane_release_description:               {{pane_release_description}}
                 //--------------------------------------------------------------------
                 try {
                     let mm = this
-                    this.text = window.yz.helpers.deleteCodeString(this.text, "environments")
-                    this.text = window.yz.helpers.insertCodeString(this.text, "environments",
+                    this.text = yz.helpers.deleteCodeString(this.text, "environments")
+                    this.text = yz.helpers.insertCodeString(this.text, "environments",
                         {
                             list_of_environments:   mm.pane_environments_env_list,
                             last_env_is_live:       mm.pane_environments_last_env_is_live
                         }
 
                     )
-                     window.globalEventBus.emit('message', {
+                    mm.$root.$emit('message', {
                         type: "pending"
                     })
                 } catch (e) {
