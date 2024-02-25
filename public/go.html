@@ -12,7 +12,13 @@
         <script     src="https://cdn.socket.io/4.5.3/socket.io.min.js"                              integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi"     crossorigin="anonymous">    </script>
         <scriptold  src="/js_libs/socketio4.4.1.js"                                                 crossorigin="anonymous">                                                                                            </scriptold>
         <script     src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js">                                                                                                                                 </script>
-        <scriptold  src="/js_libs/vue2.6.11.js">                                                                                                                                                                        </scriptold>
+        <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
+
+        <scriptcom src="https://unpkg.com/@vue/compat@3.1"></scriptcom>
+        <scriptnew src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.19/vue.global.prod.min.js"></scriptnew>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
+
+
         <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
         <scriptold  src="/js_libs/alasql.js">                                                                                                                                                                           </scriptold>
 
@@ -7861,6 +7867,7 @@
 
         <script>
             var yz
+            var mainVueAppVm
             yz                              = {
                 mainVars:                   {
                     mainVueApp:                 null,
@@ -8057,6 +8064,7 @@
                     }
                 }
             }
+            window.yz = yz
             var GLOBALS                         = {
 
                 //
@@ -9119,9 +9127,16 @@
                             }
                         }
 
+                        let vueComponentCreation = null
+                        if (Vue.version.startsWith("2")) {
+                            vueComponentCreation = "Vue"
+                        } else if (Vue.version.startsWith("3")) {
+                            vueComponentCreation = "yz.mainVars.mainVueApp"
+                        }
+
                         let codeIdVueObjectCode = trcode2.toString().replaceAll(
                             "Yazz.component[(]",
-                            "Vue.component(" + "\"" + codeId + "\", "
+                            vueComponentCreation + ".component(" + "\"" + codeId + "\", "
                         )
 
                         let fnfn = eval( codeIdVueObjectCode  )
@@ -9134,11 +9149,24 @@
                                 })
                         }
 
-                        if (codeIdVueObjectCode.indexOf("async ")  == -1) {
-                            fnfn(codeArgs)
-                        } else {
-                            await fnfn(codeArgs)
+                        //
+                        // if the Vue object doesn't exist then create it
+                        //
+                        if (!yz.componentsAPI.vue.getVueComponentInfo({codeId: codeId})) {
+                            if (codeIdVueObjectCode.indexOf("async ")  == -1) {
+                                fnfn(codeArgs)
+                            } else {
+                                await fnfn(codeArgs)
+                            }
+                            yz.componentsAPI.vue.setVueComponentInfo({
+                                codeId:     codeId,
+                                vueInfo:    {
+                                    component_type:     component_type,
+                                    base_component_id:  baseComponentId
+                                }
+                            })
                         }
+
 
 
                         yz.componentsAPI.vue.setVueComponentInfo({
@@ -9163,6 +9191,7 @@
                 //
                 isStaticHtmlPageApp: false
             }
+            window.GLOBALS = GLOBALS
             var networkIntranetIpAddress        = null
             var file_upload_uuid                = null
             var base_component_id_of_loaded_app = null
@@ -9184,6 +9213,7 @@
             var useHostname                     = null
             var usePort                         = null
             var globalEventBus                  = new Vue();
+            window.globalEventBus               = globalEventBus
             let newAppArgs                      = []
             var socket                          = null;
             var staticAppSocket
