@@ -91,7 +91,7 @@ logo_url("/driver_icons/button_control.png")
         template:   `<button  type=button
                       v-bind:class='"btn btn-info " + (((properties.button_size=="large") || (!properties.button_size))?"btn-lg ":"")  + (properties.button_size=="small"?"btn-sm ":"") '
                       v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    properties["background_color"]  +  ";"+ "color: "+    (properties["color"]?properties["color"]:"black")  +  ";" + (properties.padding?"padding: " + properties.padding + ";": "")'
-                      v-on:click='event_callback()'
+                      v-on:click='buttonClicked()'
                     >
                     
                         {{properties.text}}
@@ -106,8 +106,8 @@ logo_url("/driver_icons/button_control.png")
                                     }
                                 },
         methods:    {
-                        event_callback: function        ( ) {
-                            console.log("----- button_control, event_callback: function() = " + this.name)
+                        buttonClicked: function        ( ) {
+                            console.log("----- button_control, buttonClicked: function() = " + this.name)
                             //eval("(function(){" + this.properties.click_event + "})")()
                             console.log("     design mode = " + this.design_mode)
 
