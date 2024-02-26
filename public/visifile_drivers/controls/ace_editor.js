@@ -334,36 +334,6 @@ logo_url("/driver_icons/ace_editor.jpeg")
                  var column =  (this.editorElement).getCursorPosition();
                  return column.column + addNum
             }
-            ,
-            keypress_event_callback: function(mykeypressed) {
-                //console.log("----- button_control, keypress_event_callback: function() = " + this.name)
-                //eval("(function(){" + this.args.click_event + "})")()
-                //this.args.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
-                console.log("mykeypressed: "+ mykeypressed)
-
-                this.args.last_keypressed = mykeypressed
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                form_name:           this.meta.form,
-                                                control_name:        this.meta.name,
-                                                sub_type:           "keypress",
-                                                code:                this.args.keypress_event
-                                            })
-
-            }
-            ,
-            focus_event_callback: function() {
-                console.log("----- button_control, focus_event_callback: function() = " + this.name)
-
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                form_name:           this.meta.form,
-                                                control_name:        this.meta.name,
-                                                sub_type:           "focus",
-                                                code:                this.args.focus_event
-                                            })
-
-            }
        }
     })
 }
