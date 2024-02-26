@@ -77,15 +77,15 @@ logo_url("/driver_icons/timer.png")
      ,
     mounted: async function() {
         await registerComponent(this)
-        var mm = this
+        let mm = this
         if (!mm.design_mode) {
-            var interval = parseInt(mm.args.timer_interval)
+            let interval = parseInt(mm.args.timer_interval)
 
             if (isValidObject(mm.args.timer_interval) && ( interval > 0)) {
                 appSetInterval(async function() {
                     mm.args.counter ++
                     if (isValidObject(mm.args.tick_event)) {
-                        await this.runEvent({ display: "tick",   code: this.args.tick_event })
+                        await mm.runEvent({ display: "tick",   code: mm.args.tick_event })
                      }
 
                  },interval)
