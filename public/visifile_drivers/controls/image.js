@@ -59,14 +59,6 @@ logo_url("/driver_icons/image.png")
         console.log("----- image_control, event_callback: function() = " + this.name)
             //eval("(function(){" + this.args.click_event + "})")()
             await this.runEvent({ display: "click",   code: this.args.click_event })
-
-            this.$emit('send', {
-                                            type:               "subcomponent_event",
-                                            control_name:        this.name,
-                                            sub_type:           "click",
-                                            code:                this.args.click_event
-                                        })
-
         }
      }
 
