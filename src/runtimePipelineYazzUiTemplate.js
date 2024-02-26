@@ -1997,7 +1997,7 @@ Pushlist
                                                     v-bind:refresh='refresh'
                                                     v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
                                                     v-bind:sql='sqlQuery'
-                                                    v-bind:runEvent='(async function(a){"//zzz";await runEvent({type: "subcomponent_event",form_name: formName,control_name: item.name,sub_type: a.display,code: a.code})})'
+                                                    v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: item.name,sub_type: a.display,code: a.code})})'
                                                     v-bind:form="formName"
                                                     v-bind:design_mode='design_mode'
                                                     v-bind:children='getChildren(item.name)'
@@ -2019,7 +2019,7 @@ Pushlist
                                                             v-bind:refresh='refresh'
                                                             v-bind:meta='{form: formName,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
                                                             v-bind:sql='sqlQuery'
-                                                            v-bind:runEvent='(async function(args){await runEvent(args)})'
+                                                            v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: child_item.name,sub_type: a.display,code: a.code})})'
                                                             v-bind:form="formName"
                                                             v-bind:style='(formName==active_form)?"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;":"display:none;"'
                                                             v-bind:id='formName + "_" + model.forms[formName].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
