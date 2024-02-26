@@ -166,14 +166,6 @@ logo_url("/driver_icons/input_box.png")
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
                 await this.runEvent({ display: "click",   code: this.args.click_event })
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                form_name:           this.meta.form,
-                                                control_name:        this.meta.name,
-                                                sub_type:           "click",
-                                                code:                this.args.click_event
-                                            })
-
             }
             ,
             keypress_event_callback: async function(mykeypressed) {

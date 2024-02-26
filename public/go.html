@@ -9847,6 +9847,7 @@
                         if (isValidObject(usePropVar.load) && isValidObject(vueComponentObject.meta) ) {
 
                             setTimeout(function() {
+                                debugger
                                 vueComponentObject.$emit('send', {
                                     type:               "subcomponent_event",
                                     form_name:           vueComponentObject.meta.form,
