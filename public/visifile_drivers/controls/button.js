@@ -107,15 +107,7 @@ logo_url("/driver_icons/button_control.png")
                                 },
         methods:    {
                         buttonClicked:      async function  ( ) {
-                            console.log("----- button_control, buttonClicked: function() = " + this.name)
-                            //eval("(function(){" + this.properties.click_event + "})")()
-                            console.log("     design mode = " + this.design_mode)
-
-                            await this.runEvent({
-                                    display: "click_event",
-                                    code: this.properties.click_event
-                                }
-                            )
+                            await this.runEvent({display: "click_event",code: this.properties.click_event})
                         },
                         setText:            async function  ( newtext ) {
                                             this.text = newtext
