@@ -1997,7 +1997,7 @@ Pushlist
                                                     v-bind:refresh='refresh'
                                                     v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
                                                     v-bind:sql='sqlQuery'
-                                                    v-bind:runEvent='(async function(aa){"//zzz";await runEvent(aa)})'
+                                                    v-bind:runEvent='(async function(a){"//zzz";await runEvent({type: "subcomponent_event",form_name: formName,control_name: item.name,sub_type: a.sub_type,code: a.code})})'
                                                     v-bind:form="formName"
                                                     v-bind:design_mode='design_mode'
                                                     v-bind:children='getChildren(item.name)'
