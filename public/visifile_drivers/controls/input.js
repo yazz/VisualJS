@@ -177,7 +177,7 @@ logo_url("/driver_icons/input_box.png")
             }
             ,
             keypress_event_callback: async function(mykeypressed) {
-                //console.log("----- button_control, click_event_callback: function() = " + this.name)
+                //console.log("----- button_control, keypress_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
                 //this.args.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
                 console.log("mykeypressed: "+ mykeypressed)

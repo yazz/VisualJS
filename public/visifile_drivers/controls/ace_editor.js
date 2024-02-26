@@ -335,22 +335,8 @@ logo_url("/driver_icons/ace_editor.jpeg")
                  return column.column + addNum
             }
             ,
-            click_event_callback: function() {
-                //console.log("----- button_control, click_event_callback: function() = " + this.name)
-                //eval("(function(){" + this.args.click_event + "})")()
-
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                form_name:           this.meta.form,
-                                                control_name:        this.meta.name,
-                                                sub_type:           "click",
-                                                code:                this.args.click_event
-                                            })
-
-            }
-            ,
             keypress_event_callback: function(mykeypressed) {
-                //console.log("----- button_control, click_event_callback: function() = " + this.name)
+                //console.log("----- button_control, keypress_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
                 //this.args.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
                 console.log("mykeypressed: "+ mykeypressed)
