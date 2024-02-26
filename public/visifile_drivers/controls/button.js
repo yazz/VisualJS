@@ -106,26 +106,25 @@ logo_url("/driver_icons/button_control.png")
                                     }
                                 },
         methods:    {
-                        buttonClicked: function        ( ) {
+                        buttonClicked:      async function  ( ) {
                             console.log("----- button_control, buttonClicked: function() = " + this.name)
                             //eval("(function(){" + this.properties.click_event + "})")()
                             console.log("     design mode = " + this.design_mode)
 
-                            debugger
-                            this.runEvent({})
-                            this.$emit('send', {
-                                                    type:               "subcomponent_event",
-                                                    form_name:           this.meta.form,
-                                                    control_name:        this.meta.name,
-                                                    sub_type:           "click_event",
-                                                    code:                this.properties.click_event
-                                                })
+                            await this.runEvent({
+                                    type: "subcomponent_event",
+                                    form_name: this.meta.form,
+                                    control_name: this.meta.name,
+                                    sub_type: "click_event",
+                                    code: this.properties.click_event
+                                }
+                            )
                         },
-                        setText:        async function  ( newtext ) {
+                        setText:            async function  ( newtext ) {
                                             this.text = newtext
                                             this.changedFn()
                                         },
-                        changedFn:      function        ( ) {
+                        changedFn:          function        ( ) {
                                             if (isValidObject(this.properties)) {
                                                 this.properties.text = this.text
                                             }

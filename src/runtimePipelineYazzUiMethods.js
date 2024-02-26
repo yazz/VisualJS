@@ -1432,8 +1432,21 @@
                 return rowsReturned
             },
             runEvent:                               async function  (  args  ) {
+                //zzz
+                let mm = this
                 debugger
                 console.log(args)
+                await mm.processControlEvent(
+                    {
+                        design_time_only_events:    args.design_time_only_events,
+                        type:                       args.type,
+                        code:                       args.code,
+                        control_name:               args.control_name,
+                        args:                       args.args,
+                        sub_type:                   args.sub_type,
+                        form_name:                  args.form_name
+                    }
+                )
             },
 
             // helper fns

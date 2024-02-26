@@ -1004,7 +1004,7 @@ logo_url("/driver_icons/data_control.png")
               //await mm.meta.getEditor().updateComponentMethods()
                 let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 //newcontrol.height = 700
-                //zzz
+
                 //mm.$root.$emit('message', {
                 //    type:   "pending"
                 //})
