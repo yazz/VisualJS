@@ -1431,6 +1431,10 @@
                 let rowsReturned = await sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
                 return rowsReturned
             },
+            runEvent:                               async function  (  args  ) {
+                debugger
+                console.log(args)
+            },
 
             // helper fns
             getEditor:                              function        (  ) {
