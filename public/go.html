@@ -9848,12 +9848,20 @@
 
                             setTimeout(function() {
                                 debugger
-                                vueComponentObject.$emit('send', {
-                                    type:               "subcomponent_event",
-                                    form_name:           vueComponentObject.meta.form,
-                                    control_name:        vueComponentObject.meta.name,
-                                    code:                usePropVar.load
-                                })
+                                if (vueComponentObject && vueComponentObject.meta) {
+                                    if (!vueComponentObject.design_mode) {
+                                        if (vueComponentObject.meta.getEditor) {
+                                            vueComponentObject.meta.getEditor().processControlEvent(
+                                                {
+                                                    type: "subcomponent_event",
+                                                    form_name: vueComponentObject.meta.form,
+                                                    control_name: vueComponentObject.meta.name,
+                                                    sub_type: "load",
+                                                    code: usePropVar.load
+                                                })
+                                        }
+                                    }
+                                }
                             },350)
 
                         }
