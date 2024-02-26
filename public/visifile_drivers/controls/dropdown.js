@@ -58,7 +58,7 @@ logo_url("/driver_icons/dropdown.png")
 */
 
     Yazz.component({
-      props: ["args","refresh","design_mode"]
+      props: ["args","refresh","design_mode",  "runEvent"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
@@ -207,13 +207,9 @@ logo_url("/driver_icons/dropdown.png")
             }
             ,
 
-            runEventHandler: function() {
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                control_name:        this.args.name,
-                                                sub_type:           "changed",
-                                                code:                this.args.changed_event
-                                            })
+            runEventHandler: async function() {
+                await this.runEvent({ display: "changed",   code: this.args.changed_event })
+
             }
       }
 

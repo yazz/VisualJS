@@ -52,7 +52,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
 */
 
     Yazz.component({
-      props: ["args","refresh","design_mode"]
+      props: ["args","refresh","design_mode",  "runEvent"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
@@ -147,7 +147,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
          v-else>
 
         <select
-            v-on:change='changedFn();runEventHandler()'
+            v-on:change='runEventHandler()'
             size="5"
             v-model='value'>
 
@@ -204,13 +204,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
             }
             ,
 
-            runEventHandler: function() {
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                control_name:        this.args.name,
-                                                sub_type:           "changed",
-                                                code:                this.args.changed_event
-                                            })
+            runEventHandler: async function() {
+                changedFn();
+                await this.runEvent({ display: "changed",   code: this.args.changed_event })
             }
       }
 

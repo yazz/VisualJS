@@ -205,7 +205,7 @@ logo_url("/driver_icons/threedee_item.png")
 */
 
     Yazz.component({
-      props: ["args","design_mode", "refresh", "children","delete_design_time_component","select_design_time_component"]
+      props: ["args","design_mode", "refresh", "children","delete_design_time_component","select_design_time_component", "runEvent"]
       ,
       template:
 
@@ -368,7 +368,7 @@ logo_url("/driver_icons/threedee_item.png")
                              } else if(kevent.which){ // Netscape/Firefox/Opera
                                keynum = kevent.which;
                              }
-                             mm.keyPressEventHandler(keynum)
+                             await mm.keyPressEventHandler(keynum)
                         }
                     });
                 }
@@ -384,7 +384,7 @@ logo_url("/driver_icons/threedee_item.png")
                              } else if(kevent.which){ // Netscape/Firefox/Opera
                                keynum = kevent.which;
                              }
-                             mm.keyDownEventHandler(keynum)
+                             await mm.keyDownEventHandler(keynum)
                         }
                     });
                 }
@@ -537,65 +537,33 @@ logo_url("/driver_icons/threedee_item.png")
           }
 
           ,
-          keyPressEventHandler: function(keyCode) {
+          keyPressEventHandler: async function(keyCode) {
               this.args.lastKeyPressed = String.fromCharCode(keyCode)
-              this.$emit('send', {
-                                              type:               "subcomponent_event",
-                                              control_name:        this.args.name,
-                                              sub_type:           "keypressed",
-                                              args: {
-                                                  key_pressed:         String.fromCharCode(keyCode),
-                                                  key_code:            keyCode
-                                              },
-                                              code:                this.args.keypress_event
-                                          })
+              await this.runEvent({ display: "keypressed",   code: this.args.keypress_event,  args:  {
+                      key_pressed:         String.fromCharCode(keyCode),
+                      key_code:            keyCode
+                  } })
           }
 
             ,
-            keyDownEventHandler: function(keyCode) {
+            keyDownEventHandler: async function(keyCode) {
                 this.args.lastKeyDown = String.fromCharCode(keyCode)
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                control_name:        this.args.name,
-                                                sub_type:           "keydown",
-                                                args: {
-                                                    key_down:         String.fromCharCode(keyCode),
-                                                    key_code:         keyCode
-                                                },
-                                                code:                this.args.keydown_event
-                                            })
+                await this.runEvent({ display: "keydown",   code: this.args.keydown_event ,  args: {
+                        key_down:         String.fromCharCode(keyCode),
+                        key_code:         keyCode
+                    })
 
                 if (keyCode == 8) {
-                    this.$emit('send', {
-                                                    type:               "subcomponent_event",
-                                                    control_name:        this.args.name,
-                                                    sub_type:           "backspace",
-                                                    code:                this.args.backspace_event
-                                                })
+                    await this.runEvent({ display: "backspace",   code: this.args.backspace_event })
                 }
                 if (keyCode == 46) {
-                    this.$emit('send', {
-                                                    type:               "subcomponent_event",
-                                                    control_name:        this.args.name,
-                                                    sub_type:           "delete",
-                                                    code:                this.args.delete_event
-                                                })
+                    await this.runEvent({ display: "delete",   code: this.args.this.args.delete_event })
                 }
                 if (keyCode == 13) {
-                    this.$emit('send', {
-                                                    type:               "subcomponent_event",
-                                                    control_name:        this.args.name,
-                                                    sub_type:           "enter",
-                                                    code:                this.args.enter_event
-                                                })
+                    await this.runEvent({ display: "enter",   code: this.args.enter_event })
                 }
 
-
-
-
-
-
             }
-      }
+        }
     })
 }

@@ -219,7 +219,7 @@ logo_url("/driver_icons/threedee_control.png")
 */
 
     Yazz.component({
-        props: [  "meta", "args"  ,  "design_mode"  ,  "refresh"  ,  "name"  ]
+        props: [  "meta", "args"  ,  "design_mode"  ,  "refresh"  ,  "name"  ,  "runEvent"]
 
         ,
 
@@ -257,17 +257,10 @@ logo_url("/driver_icons/threedee_control.png")
             }
             ,
             methods: {
-                event_callback: function() {
+                event_callback: async function() {
                     console.log("----- 3d text, event_callback: function() = " + this.name)
                     //eval("(function(){" + this.args.click_event + "})")()
-
-                    this.$emit('send', {
-                                                    type:               "subcomponent_event",
-                                                    form_name:           this.meta.form,
-                                                    control_name:        this.meta.name,
-                                                    sub_type:           "click",
-                                                    code:                this.args.click_event
-                                                })
+                    await this.runEvent({ display: "click",   code: this.args.click_event  })
                 }
                 ,
                 moveRight: async function(amount, duration, bounce) {

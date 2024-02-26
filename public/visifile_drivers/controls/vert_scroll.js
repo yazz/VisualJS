@@ -86,7 +86,6 @@ function(args) {
             }
         },
         mounted:        async function() {
-            debugger
             await registerComponent(this)
             if (isValidObject(this.args)) {
                 this.items = this.args.items
@@ -102,7 +101,6 @@ function(args) {
                 }
             },
             runEventHandler:  async function() {
-                debugger
                 this.changedFn();
                 await this.runEvent({ display: "changed",   code: this.args.changed_event })
             }

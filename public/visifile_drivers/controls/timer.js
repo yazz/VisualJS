@@ -57,7 +57,7 @@ logo_url("/driver_icons/timer.png")
     Yazz.component(
     {
 
-      props: ["meta", "args","design_mode","refresh"]
+      props: ["meta", "args","design_mode","refresh",  "runEvent"]
 
       ,
 
@@ -82,15 +82,10 @@ logo_url("/driver_icons/timer.png")
             var interval = parseInt(mm.args.timer_interval)
 
             if (isValidObject(mm.args.timer_interval) && ( interval > 0)) {
-                appSetInterval(function() {
+                appSetInterval(async function() {
                     mm.args.counter ++
                     if (isValidObject(mm.args.tick_event)) {
-                        mm.$emit('send', {
-                                            type:               "subcomponent_event",
-                                            control_name:        mm.args.name,
-                                            sub_type:           "tick",
-                                            code:                mm.args.tick_event
-                                         })
+                        await this.runEvent({ display: "tick",   code: this.args.tick_event })
                      }
 
                  },interval)

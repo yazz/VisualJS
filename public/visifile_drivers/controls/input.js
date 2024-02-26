@@ -123,7 +123,7 @@ logo_url("/driver_icons/input_box.png")
 */
 
     Yazz.component({
-      props: [ "meta", "form",  "name", "args", "refresh"]
+      props: [ "meta", "form",  "name", "args", "refresh",  "runEvent"]
       ,
       template: `<div>
                     <label v-if='args.label'>{{args.label}}</label>
@@ -162,10 +162,10 @@ logo_url("/driver_icons/input_box.png")
 
       methods: {
 
-            click_event_callback: function() {
+            click_event_callback: async function() {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
-
+                await this.runEvent({ display: "click",   code: this.args.click_event })
                 this.$emit('send', {
                                                 type:               "subcomponent_event",
                                                 form_name:           this.meta.form,
@@ -176,34 +176,19 @@ logo_url("/driver_icons/input_box.png")
 
             }
             ,
-            keypress_event_callback: function(mykeypressed) {
+            keypress_event_callback: async function(mykeypressed) {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.args.click_event + "})")()
                 //this.args.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
                 console.log("mykeypressed: "+ mykeypressed)
 
                 this.args.last_keypressed = mykeypressed
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                form_name:           this.meta.form,
-                                                control_name:        this.meta.name,
-                                                sub_type:           "keypress",
-                                                code:                this.args.keypress_event
-                                            })
-
+                await this.runEvent({ display: "keypress",   code: this.args.keypress_event  })
             }
             ,
-            focus_event_callback: function() {
+            focus_event_callback: async function() {
                 console.log("----- button_control, focus_event_callback: function() = " + this.name)
-
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                form_name:           this.meta.form,
-                                                control_name:        this.meta.name,
-                                                sub_type:           "focus",
-                                                code:                this.args.focus_event
-                                            })
-
+                await this.runEvent({ display: "focus",   code: this.args.focus_event })
             }
        }
     })

@@ -48,7 +48,7 @@ logo_url("/driver_icons/drive_list.png")
 */
 
     Yazz.component({
-      props: ["args","design_mode"]
+      props: ["args","design_mode",  "runEvent"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
                                     "background-color: "+    args["background_color"]  +  ";"'>
@@ -113,13 +113,8 @@ logo_url("/driver_icons/drive_list.png")
                }
                ,
 
-               runEventHandler: function() {
-                   this.$emit('send', {
-                                                   type:               "subcomponent_event",
-                                                   control_name:        this.args.name,
-                                                   sub_type:           "changed",
-                                                   code:                this.args.changed_event
-                                               })
+               runEventHandler: async function() {
+                   await this.runEvent({ display: "changed",   code: this.args.changed_event })
                }
          }
 

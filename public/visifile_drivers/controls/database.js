@@ -348,7 +348,7 @@ logo_url("/driver_icons/data_control.png")
 */
 
     Yazz.component({
-        props:                  [ "meta" , "name" , "properties" , "args" , "refresh" , "design_mode" , "children" , "properties" ],
+        props:                  [ "meta" , "name" , "properties" , "args" , "refresh" , "design_mode" , "children" , "properties",  "runEvent" ],
         template:               ` 
 <!-- ----------------------------------------------------------------
 |                                    |
@@ -1088,14 +1088,9 @@ logo_url("/driver_icons/data_control.png")
                 let mm = this
                 this.table.addColumn(colData, true, "name");
             },
-            runEventHandler:    function        (  ) {
+            runEventHandler:   async function        (  ) {
                 let mm = this
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                control_name:        this.properties.name,
-                                                sub_type:           "changed",
-                                                code:                this.properties.changed_event
-                                            })
+                await this.runEvent({ display: "changed",   code: this.args.changed_event })
             },
             array_move:         function        (  arr  ,  old_index  ,  new_index  ) {
                 let mm = this

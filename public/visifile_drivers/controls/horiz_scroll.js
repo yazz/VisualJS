@@ -56,7 +56,7 @@ logo_url("/driver_icons/horiz_scroll.png")
 */
 
     Yazz.component({
-        props: ["args","refresh"]
+        props: ["args","refresh",  "runEvent"]
         ,
 
 
@@ -109,20 +109,16 @@ logo_url("/driver_icons/horiz_scroll.png")
         }
         ,
         methods: {
-              changedFn: function() {
+              changedFn: async function() {
                   if (isValidObject(this.args)) {
                       this.args.value = this.value
                   }
               }
               ,
 
-              runEventHandler: function() {
-                  this.$emit('send', {
-                                                  type:               "subcomponent_event",
-                                                  control_name:        this.args.name,
-                                                  sub_type:           "changed",
-                                                  code:                this.args.changed_event
-                                              })
+              runEventHandler: async function() {
+                  await this.runEvent({ display: "changed",   code: this.args.changed_event })
+
               }
         }
 

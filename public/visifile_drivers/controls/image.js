@@ -41,7 +41,7 @@ logo_url("/driver_icons/image.png")
 */
 
     Yazz.component({
-      props: ["args", "name","refresh"]
+      props: ["args", "name","refresh",  "runEvent"]
       ,
       template: `<img   v-bind:width='args.width + "px"'
                         v-bind:refresh='refresh'
@@ -55,9 +55,10 @@ logo_url("/driver_icons/image.png")
          }
      },
      methods: {
-        event_callback: function() {
+        event_callback: async function() {
         console.log("----- image_control, event_callback: function() = " + this.name)
             //eval("(function(){" + this.args.click_event + "})")()
+            await this.runEvent({ display: "click",   code: this.args.click_event })
 
             this.$emit('send', {
                                             type:               "subcomponent_event",

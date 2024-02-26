@@ -296,7 +296,7 @@ logo_url("/driver_icons/data_window.png")
 */
 
     Yazz.component({
-        props:      ["meta","name","args","refresh","design_mode"],
+        props:      ["meta","name","args","refresh","design_mode",  "runEvent"],
         template:   `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
         v-bind:refresh='refresh'>
 
@@ -719,13 +719,8 @@ logo_url("/driver_icons/data_window.png")
             addColumn:          async function(  colData  ) {
                 this.table.addColumn(colData, true, "name");
             },
-            runEventHandler:    function      (  ) {
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                control_name:        this.args.name,
-                                                sub_type:           "changed",
-                                                code:                this.args.changed_event
-                                            })
+            runEventHandler:    async function      (  ) {
+                await this.runEvent({ display: "changed",   code: this.args.changed_event })
             },
             setData:            async function(  data  ) {
                 this.args.data = data

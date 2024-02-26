@@ -93,7 +93,7 @@ logo_url("/driver_icons/table.png")
 */
 
     Yazz.component({
-        props:      [  "meta"  ,  "form"  ,  "name"  ,  "args"  ,  "refresh"  ,  "design_mode"  ,  "properties"  ],
+        props:      [  "meta"  ,  "form"  ,  "name"  ,  "args"  ,  "refresh"  ,  "design_mode"  ,  "properties"  ,  "runEvent"],
         template:   `
 <div    v-bind:style='"width:100%;overflow-y:auto;height:100%"
         v-bind:refresh='refresh'>
@@ -174,13 +174,8 @@ logo_url("/driver_icons/table.png")
                     this.args.data = this.data
                 }
             },
-            runEventHandler:    function        (  ) {
-                this.$emit('send', {
-                                                type:               "subcomponent_event",
-                                                control_name:        this.args.name,
-                                                sub_type:           "changed",
-                                                code:                this.args.changed_event
-                                            })
+            runEventHandler:    async function        (  ) {
+                await this.runEvent({ display: "changed",   code: this.args.changed_event })
             },
             setText:            async function  (  newtext  ) {
 
