@@ -2241,18 +2241,12 @@ End of app preview menu
             // some helper callbacks so outsiders can changed the state of the editor
             //
             this.$root.$on('message', async function(message) {
-                if (message.type == "saving") {
-                    mm.save_state = "saving"
-                    mm.file_save_state = ""
-                } else if (message.type == "pending") {
+                if (message.type == "pending") {
                     mm.save_state = "pending"
                     mm.file_save_state = (saveCodeToFile?saveCodeToFile:"")
                 } else if (message.type == "saved") {
                     mm.save_state = "saved"
                     mm.checkSavedFile()
-                } else if (message.type == "force_save") {
-                    //mm.save_state = "saved"
-                    //mm.checkSavedFile()
                 } else if (message.type == "switch_editor") {
                     mm.switchEditor(message.editorName)
                     if (message.previewType) {
