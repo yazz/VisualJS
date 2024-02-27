@@ -492,9 +492,8 @@ return sdf
                   ,
                   async function(response){
                     let responseJson = JSON.parse(response)
-                    mm.$root.$emit('message', {
-                                                    type:             "load_controls",
-                                                })
+                    await mm.meta.getEditor().loadControlPalette()
+
                       mm.meta.getEditor().changeComponentBaseId(
                           {
                               componentName:        mm.properties.name,

@@ -955,10 +955,8 @@ logo_url("/driver_icons/builder.png")
                   }
                   ,
                   async function(response){
-                    let responseJson = JSON.parse(response)
-                    mm.$root.$emit('message', {
-                                                    type:             "load_controls",
-                                                })
+                      let responseJson = JSON.parse(response)
+                      await mm.meta.getEditor().loadControlPalette()
                       mm.meta.getEditor().changeComponentBaseId(
                           {
                               componentName:        mm.properties.name,

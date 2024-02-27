@@ -9,6 +9,9 @@
                 // This loads the controls for the control palette, which allows the user
                 // to add buttons, labels, and other controls to their app
                 let mm  = this
+                if (!mm.design_mode) {
+                    return
+                }
                 let sql =
                     `select  
                         base_component_id,  
@@ -6174,10 +6177,6 @@ return {}
                         } else if (text.type == "select_design_time_component") {
                             if (mm.design_mode != false) {
                                 await mm.selectComponent(text.component_index, true);
-                            }
-                        } else if (text.type == "load_controls") {
-                            if (mm.design_mode != false) {
-                                await mm.loadControlPalette();
                             }
                         }
                     })
