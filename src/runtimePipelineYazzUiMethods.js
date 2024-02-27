@@ -1432,7 +1432,6 @@
                 return rowsReturned
             },
             runEvent:                               async function  (  args  ) {
-                //zzz
                 let mm = this
                 debugger
                 console.log(args)
@@ -3623,27 +3622,6 @@ ${code}
                     this.active_component_index = null
                     mm.refresh ++
                 }
-            },
-            setInfo:                                function        (  text  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                this.$root.$emit('message', {
-                    type:   "set_info_text",
-                    text:    text
-                })
             },
             allowDrop:                              function        (  ev  ) {
                 /*

@@ -1142,10 +1142,9 @@ End of app preview menu
                //
                // Sets the info message bar at the bottom of the editor pane
                // ---------------------------------------------------------------
-               this.$root.$emit('message', {
-                   type:   "set_info_text",
-                   text:    text
-               })
+                debugger
+                let mm = this
+                mm.info_text = text
            },
             closeEditor:                    async function  (  event,item  ) {
                // ---------------------------------------------------------------
@@ -2242,9 +2241,7 @@ End of app preview menu
             // some helper callbacks so outsiders can changed the state of the editor
             //
             this.$root.$on('message', async function(message) {
-                if (message.type == "set_info_text") {
-                    mm.info_text = message.text
-                } else if (message.type == "saving") {
+                if (message.type == "saving") {
                     mm.save_state = "saving"
                     mm.file_save_state = ""
                 } else if (message.type == "pending") {
