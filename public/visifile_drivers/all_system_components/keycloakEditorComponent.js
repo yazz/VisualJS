@@ -10,7 +10,7 @@ load_once_from_file(true)
 
 
     Yazz.component( {
-      data: function () {
+        data:       function () {
         return {
             text:           args.text,
             read_only:      false,
@@ -20,7 +20,7 @@ load_once_from_file(true)
             editor:         null
         }
       },
-      template: `<div style='background-color:white; ' >
+        template:   `<div style='background-color:white; ' >
                       <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
                           <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
                           </slot>
@@ -41,10 +41,9 @@ load_once_from_file(true)
 
                     </div>
                     <hr></hr>
-                 </div>`
-     ,
-
-     mounted: function() {
+                 </div>`,
+        props:      [  "editor_fns"  ],
+        mounted:    function() {
          let thisVueInstance = this
          let mm = this
          args.text           = null
@@ -108,10 +107,7 @@ load_once_from_file(true)
                      if (thisVueInstance.errors.length == 0) {
                          thisVueInstance.errors = null
                          if (haveIChangedtext) {
-                             thisVueInstance.$root.$emit(
-                                 'message', {
-                                     type:   "pending"
-                                 })
+                             thisVueInstance.editor_fns.pending()
                          }
                      } else {
                          thisVueInstance.errors = thisVueInstance.errors[0]
@@ -126,81 +122,69 @@ load_once_from_file(true)
          thisVueInstance.editor.resize(true);
          thisVueInstance.editor.focus();
      },
-     methods: {
-        gotoLine: function(line) {
+        methods:    {
+            gotoLine:   function(line) {
             this.editor.gotoLine(line , 10, true);
-        }
-        ,
-
-
-
-        // -----------------------------------------------------
-        //                      getText
-        //
-        // This is called to get the SQL definitions
-        //
-        //
-        //
-        // -----------------------------------------------------
-        getText: async function() {
-            if (!isValidObject(this.text)) {
-                return null
-            }
-
-            this.text = yz.helpers.deleteCodeString(this.text, "keycloak", ")//keycloak")
-            this.text = yz.helpers.insertCodeString(this.text, "keycloak", JSON.parse(this.sqlText) ,")//keycloak")
-
-            return this.text
-        }
-        ,
-
-
-
-        // -----------------------------------------------------
-        //                      setText
-        //
-        // This is called to set the SQL
-        //
-        //
-        //
-        // -----------------------------------------------------
-        setText: function(textValue) {
-            let thisVueInstance = this
-            this.text           =  textValue
-
-            if (!isValidObject(this.text)) {
-                return
-            }
-
+        },
+            // -----------------------------------------------------
+            //                      getText
             //
-            // set the editor to read only if in read only mode
+            // This is called to get the SQL definitions
             //
-
-
-            this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
-            if (this.read_only) {
-               this.editor.setReadOnly(true)
-            }
-
-
-
-
-
             //
-            // If a database definition has been given then read it
             //
+            // -----------------------------------------------------
+            getText:    async function() {
+                if (!isValidObject(this.text)) {
+                    return null
+                }
 
-            let llsqlText = yz.helpers.getValueOfCodeString(textValue, "keycloak", ")//keycloak")
-            if (isValidObject(llsqlText)) {
-                this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
-            } else {
-                this.editor.getSession().setValue(  JSON.stringify(  {} , null , 2  ));
+                this.text = yz.helpers.deleteCodeString(this.text, "keycloak", ")//keycloak")
+                this.text = yz.helpers.insertCodeString(this.text, "keycloak", JSON.parse(this.sqlText) ,")//keycloak")
+
+                return this.text
+            },
+            // -----------------------------------------------------
+            //                      setText
+            //
+            // This is called to set the SQL
+            //
+            //
+            //
+            // -----------------------------------------------------
+            setText:    function(textValue) {
+                let thisVueInstance = this
+                this.text           =  textValue
+
+                if (!isValidObject(this.text)) {
+                    return
+                }
+
+                //
+                // set the editor to read only if in read only mode
+                //
+
+
+                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+                if (this.read_only) {
+                   this.editor.setReadOnly(true)
+                }
+
+
+
+
+
+                //
+                // If a database definition has been given then read it
+                //
+
+                let llsqlText = yz.helpers.getValueOfCodeString(textValue, "keycloak", ")//keycloak")
+                if (isValidObject(llsqlText)) {
+                    this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
+                } else {
+                    this.editor.getSession().setValue(  JSON.stringify(  {} , null , 2  ));
+                }
             }
         }
-
-     }
-
-
     })
-
 }

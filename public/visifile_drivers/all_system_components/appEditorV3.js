@@ -319,7 +319,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                 
             <component  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[editor_component]'
                         v-if="editor_loaded"
-                        v-bind:edtior_fns='{pending: pendingFn,saved: savedFn , switch_editor: switch_editorFn  , force_raw_load: force_raw_loadFn}'
+                        v-bind:editor_fns='{pending: pendingFn,saved: savedFn , switch_editor: switch_editorFn  , force_raw_load: force_raw_loadFn}'
                         ref="editor_component_ref">
 
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
@@ -1144,7 +1144,6 @@ End of app preview menu
                //
                // Sets the info message bar at the bottom of the editor pane
                // ---------------------------------------------------------------
-                debugger
                 let mm = this
                 mm.info_text = text
            },

@@ -73,6 +73,7 @@ load_once_from_file(true)
                             </button>
                           </div>
                       </div>`,
+        props:      [  "editor_fns"  ],
         mounted:    async function() {
         },
         methods:    {
@@ -138,9 +139,8 @@ load_once_from_file(true)
                 let mm = this
                 this.text = yz.helpers.deleteCodeString(this.text, "logo_url")
                 this.text = yz.helpers.insertCodeString(this.text, "logo_url", this.icon_image_data)
-                mm.$root.$emit('message', {
-                    type:   "pending"
-                })
+                debugger
+                mm.editor_fns.pending()
             },
             clear: function() {
                 let mm = this
