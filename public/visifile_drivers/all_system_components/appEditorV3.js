@@ -316,8 +316,10 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
     <div v-if='mode == "edit"'>
         <div    id=editor_id
                 v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+                
             <component  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[editor_component]'
                         v-if="editor_loaded"
+                        v-bind:zzz='"yep im here"'
                         ref="editor_component_ref">
 
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
