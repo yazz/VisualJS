@@ -59,10 +59,9 @@ logo_url("/driver_icons/group_control.png")
 */
 
     Yazz.component({
-      props: ["args", "design_mode","refresh", "children","delete_design_time_component"]
-      ,
-      template:
-`<div v-bind:style='"width:100%;overflow-y:auto;height:100%"'>
+        props:      ["args", "design_mode","refresh", "children","delete_design_time_component", "form_helper_fns"],
+        template:   `
+<div v-bind:style='"width:100%;overflow-y:auto;height:100%"'>
     <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
             v-bind:refresh='refresh'
             v-if='design_mode == "detail_editor"'>
@@ -100,9 +99,13 @@ logo_url("/driver_icons/group_control.png")
             </div>
         </div>
     </div>
-</div>`
-      ,
-      data: function() {
+</div>`,
+        mounted:    async function() {
+            let mm = this
+            await registerComponent(mm)
+            debugger
+        },
+        data:       function() {
        return {
          msg: "..."
      }
