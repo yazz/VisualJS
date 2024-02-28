@@ -863,7 +863,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                              | Add some events which update the
                                              | apps on the homepage
                                              |__________________________________ */
-                    mm.$root.$on('message', async function(text) {
+                    window.globalEventBus.on('message', async function(text) {
                         if (text.type == "insert_editable_component_on_homepage") {
                             await mm.addEditableComponentToHomepage(
                                 text.base_component_id,

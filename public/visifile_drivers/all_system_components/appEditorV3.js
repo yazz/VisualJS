@@ -1159,7 +1159,7 @@ End of app preview menu
                if (yz.editor.subEditorAction == "FORK_CONTROL") {
                    yz.editor.finalBaseComponentIdOfEditedUiControl = mm.base_component_id
                    yz.editor.finalCodeIdOfEditedUiControl = mm.code_id
-                   this.$root.$emit("message", {
+                   window.globalEventBus.emit("message", {
                        type: "return_from_fork_component",
                        base_component_id: yz.editor.lastEditingAppBaseComponentId,
                        code_id: yz.editor.lastEditingAppCodeId
@@ -1168,17 +1168,17 @@ End of app preview menu
                } else if (yz.editor.subEditorAction == "EDIT_CONTROL") {
                        yz.editor.finalBaseComponentIdOfEditedUiControl   = mm.base_component_id
                        yz.editor.finalCodeIdOfEditedUiControl            = mm.code_id
-                       this.$root.$emit("message", {    type:               "return_from_edit_component",
+                       window.globalEventBus.emit("message", {    type:               "return_from_edit_component",
                            base_component_id:   yz.editor.lastEditingAppBaseComponentId,
                            code_id:             yz.editor.lastEditingAppCodeId
                        })
 
                } else if (yz.editor.lastEditingAppBaseComponentId) {
                    debugger // where does "model" come from?
-                   this.$root.$emit("message", { type:  "edit_component", base_component_id:   yz.editor.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
+                   window.globalEventBus.emit("message", { type:  "edit_component", base_component_id:   yz.editor.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
 
                } else {
-                   this.$root.$emit('message', {
+                   window.globalEventBus.emit('message', {
                        type:        "close_app"
                    })
                }
@@ -1334,7 +1334,7 @@ End of app preview menu
                 await mm.loadComponentIntoEditor({newApp: true, codeId:  this.code_id } )
 
 
-                mm.$root.$emit('message', {
+                window.globalEventBus.emit('message', {
                     type:               "update_editable_components_on_homepage",
                     base_component_id:   mm.base_component_id,
                     display_name:        mm.component_display_name
@@ -1426,7 +1426,7 @@ End of app preview menu
 
                 let result = await getFromYazzReturnJson("/http_get_copy_component",copyArgs)
                 if (isValidObject(result)) {
-                    mm.$root.$emit('message', {
+                    window.globalEventBus.emit('message', {
                         type:               "insert_editable_component_on_homepage",
                         base_component_id:   result.base_component_id,
                         display_name:        result.new_display_name,
@@ -1816,7 +1816,7 @@ End of app preview menu
                     mm.inSave = false
                     mm.editor_shell_locked = false
 
-                    mm.$root.$emit('message', {
+                    window.globalEventBus.emit('message', {
                         type:               "update_editable_components_on_homepage",
                         base_component_id:   baseCompIdFromSrcCode,
                         code_id:             mm.code_id
@@ -2261,7 +2261,7 @@ End of app preview menu
                             runThisApp: true
                         })
 
-                    mm.$root.$emit('message', {
+                    window.globalEventBus.emit('message', {
                         type:               "update_editable_components_on_homepage",
                         base_component_id:   mm.arg_edit_base_component_id,
                         code_id:             message.commitId
