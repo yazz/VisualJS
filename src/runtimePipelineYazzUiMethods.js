@@ -5985,6 +5985,18 @@ return {}
                 }
 
             },
+            delete_design_time_component:           async function  (  args  ) {
+                let mm = this
+                if (mm.design_mode != false) {
+                    mm.model.forms[mm.active_form].components.splice(  args.component_index  ,  1  );
+                }
+            },
+            select_design_time_component:           async function  (  args  ) {
+                let mm = this
+                if (mm.design_mode != false) {
+                    await mm.selectComponent(  args.component_index  ,  true  );
+                }
+            },
             showComponentLinks:                     async function  (  index  ,  diretionOfLinks  ) {
                 /*
                 ________________________________________
@@ -6044,6 +6056,11 @@ return {}
 
                 let json2
                 try {
+                    mm.form_helper_fns =
+                        {
+                            delete_design_time_component:     mm.delete_design_time_component,
+                            select_design_time_component:     mm.select_design_time_component
+                        }
                     mm.unique_app_dom_element_id    = uuidv4()
                     mm.vb_grid_element_id           = "vb_grid_" + uuidv4()
                     mm.vb_editor_element_id         = "vb_editor_" + uuidv4()
@@ -6536,6 +6553,7 @@ return {}
         data:       function () {
             return {
                 //*** copy_data_start ***//
+                form_helper_fns:                     {},
                 code_changes:                        [],
                 app_selected:                        false,
                 showFilePicker:                      false,
