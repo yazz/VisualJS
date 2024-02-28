@@ -463,7 +463,7 @@ use_db("todo")
                           <div>
                             <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;' "
                                  href="#"
-                                 v-on:click='setTimeout(async function(){$root.$emit("message", {type:          "switch_editor",editorName: "sqlite_editor_component"})},100)'
+                                 v-on:click='setTimeout(async function(){editor_fns.switch_editorFn({editorName: "sqlite_editor_component"})},100)'
                                  type="button" class="btn btn-light ">
                               <img
                                   src='/driver_icons/database.png'
@@ -507,6 +507,7 @@ use_db("todo")
                       </div>
                     <hr></hr>
                  </div>`,
+        props:      [  "editor_fns"  ],
         mounted:    async function() {
             let mm = this
             yz.mainVars.disableAutoSave     = false
@@ -704,10 +705,7 @@ use_db("todo")
             },
             schemaChanged:                      async function  (  ) {
                 let mm = this
-                mm.$root.$emit(
-                    'message', {
-                        type: "pending"
-                    })
+                mm.editor_fns.pending()
             },
             convertJsonModelToSrcCode:          async function  (  ) {
                 //----------------------------------------------------------------------------------/
