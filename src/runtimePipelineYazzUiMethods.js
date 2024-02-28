@@ -1306,51 +1306,6 @@
                 let ret = await promise
                 return ret
             },
-            childDeleteComponent:                   function        (  index  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                this.$root.$emit('message', {
-                    type:             "delete_design_time_component",
-                    component_index:   index
-                })
-
-            },
-            childSelectComponent:                   function        (  index  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
-
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
-                this.$root.$emit('message', {
-                    type:             "select_design_time_component",
-                    component_index:   index
-                })
-
-
-            },
             addForm:                                function        (  ) {
                 /*
                 ________________________________________

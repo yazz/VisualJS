@@ -340,8 +340,6 @@
                                 v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: model.forms[active_form].components[active_component_detail_index].name,sub_type: a.display,code: a.code, args: a.args})})'
 
                                 v-bind:form="active_form"
-                                v-bind:delete_design_time_component='childDeleteComponent'
-                                v-bind:select_design_time_component='childSelectComponent'
                                 v-bind:children='getChildren( model.forms[active_form].components[active_component_detail_index].name)'
                                 
                                 v-bind:is='model.forms[active_form].components[active_component_detail_index].code_id?model.forms[active_form].components[active_component_detail_index].code_id:GLOBALS.baseComponentIdReturnsCommitId[model.forms[active_form].components[active_component_detail_index].base_component_id]'
