@@ -205,11 +205,9 @@ logo_url("/driver_icons/threedee_item.png")
 */
 
     Yazz.component({
-      props: ["args","design_mode", "refresh", "children","delete_design_time_component","select_design_time_component", "runEvent"]
-      ,
-      template:
-
-`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"'
+        props:            [  "args"  ,  "design_mode", "refresh", "children", "runEvent"  ,  "form_helper_fns"  ],
+        template:         `
+<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"'
         v-bind:refresh='refresh'>
 
     <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
@@ -220,7 +218,7 @@ logo_url("/driver_icons/threedee_item.png")
 
         <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
                 v-bind:refresh='refresh'
-                v-on:click='$event.stopPropagation();selected_index=index;select_design_time_component(child_item.index_in_parent_array)'
+                v-on:click='select_design_time_component(child_item.index_in_parent_array)'
                 v-for='(child_item,index)  in  children'>
 
             <div    v-if='child_item'
@@ -235,7 +233,7 @@ logo_url("/driver_icons/threedee_item.png")
                         v-if='child_item'
                         v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                         "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                        v-on:click='$event.stopPropagation();delete_design_time_component(child_item.index_in_parent_array)'>
+                        v-on:click='delete_design_time_component(child_item.index_in_parent_array)'>
 
                         X
 
@@ -314,12 +312,7 @@ logo_url("/driver_icons/threedee_item.png")
         </a-scene>
     </div>
 
-</div>`
-         ,
-
-
-
-
+</div>`,
         mounted: async function() {
             let mm = this
             await registerComponent(this)
@@ -396,73 +389,64 @@ logo_url("/driver_icons/threedee_item.png")
             }
 
 
-        }
-      ,
-      data: function() {
+        },
+        data: function() {
           return {
               selected_index:           null,
               headsetConnected:         false,
               keyboardEnabled:          false,
               inVRMode:                 false
           }
-      }
-      ,
-      methods: {
-          cameraRight: async function(amount, duration, bounce) {
+      },
+        methods: {
+            cameraRight:            async function(amount, duration, bounce) {
               await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   x:          this.args.x + amount
               })
 
-          }
-          ,
-          cameraLeft: async function(amount, duration, bounce) {
+          },
+            cameraLeft:             async function(amount, duration, bounce) {
               await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   x:          this.args.x - amount
               })
 
-          }
-          ,
-          cameraUp: async function(amount, duration, bounce) {
+          },
+            cameraUp:               async function(amount, duration, bounce) {
               await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   y:          this.args.y + amount
               })
 
-          }
-          ,
-          cameraDown: async function(amount, duration, bounce) {
+          },
+            cameraDown:             async function(amount, duration, bounce) {
               await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   y:          this.args.y - amount
               })
 
-          }
-          ,
-          cameraBack: async function(amount, duration, bounce) {
+          },
+            cameraBack:             async function(amount, duration, bounce) {
               await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   z:     this.args.z + amount
               })
-          }
-          ,
-          cameraForward: async function(amount, duration, bounce) {
+          },
+            cameraForward:          async function(amount, duration, bounce) {
               await this.cameraTo({
                   duration:   isValidObject(duration)?duration:2000,
                   bounce:     isValidObject(bounce)?bounce:false,
                   z:     this.args.z - amount
               })
 
-          }
-
-          ,
-          cameraTo: async function(opts) {
+          },
+            cameraTo:               async function(opts) {
 
               let mm          = this
               let dd          =  document.querySelector("#camera_rig_3d" )
@@ -520,33 +504,26 @@ logo_url("/driver_icons/threedee_item.png")
               return {}
 
 
-          }
-          ,
-          enterVR: async function() {
+          },
+            enterVR:                async function() {
             let scene = document.querySelector('#scene');
             scene.enterVR()
-          }
-          ,
-          exitVR: async function() {
+          },
+            exitVR:                 async function() {
               let scene = document.querySelector('#scene');
               scene.exitVR()
-          }
-          ,
-          getVRMode: async function() {
+          },
+            getVRMode:              async function() {
               return this.inVRMode
-          }
-
-          ,
-          keyPressEventHandler: async function(keyCode) {
+          },
+            keyPressEventHandler:           async function(keyCode) {
               this.args.lastKeyPressed = String.fromCharCode(keyCode)
               await this.runEvent({ display: "keypressed",   code: this.args.keypress_event,  args:  {
                       key_pressed:         String.fromCharCode(keyCode),
                       key_code:            keyCode
                   } })
-          }
-
-            ,
-            keyDownEventHandler: async function(keyCode) {
+          },
+            keyDownEventHandler:            async function(keyCode) {
                 this.args.lastKeyDown = String.fromCharCode(keyCode)
                 await this.runEvent({ display: "keydown",   code: this.args.keydown_event ,  args: {
                         key_down:         String.fromCharCode(keyCode),
@@ -564,6 +541,17 @@ logo_url("/driver_icons/threedee_item.png")
                 }
 
             }
-        }
+        },
+            select_design_time_component:   async function(  event  ,  i  ) {
+                let mm = this
+                mm.selected_index=i;
+                event.stopPropagation();
+                await mm.form_helper_fns.select_design_time_component(  {  component_index:  i  }  )
+            },
+            delete_design_time_component:   async function(  event  ,  i  ) {
+                let mm = this
+                event.stopPropagation();
+                await mm.form_helper_fns.delete_design_time_component(  {  component_index:  i  }  )
+            }
     })
 }
