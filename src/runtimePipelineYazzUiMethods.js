@@ -6140,19 +6140,6 @@ return {}
                         mm.selectForm(mm.model.default_form)
                     }, 500)
 
-
-                    mm.$root.$on('message', async function (text) {
-                        if (text.type == "delete_design_time_component") {
-                            if (mm.design_mode != false) {
-                                mm.model.forms[mm.active_form].components.splice(text.component_index, 1);
-                            }
-                        } else if (text.type == "select_design_time_component") {
-                            if (mm.design_mode != false) {
-                                await mm.selectComponent(text.component_index, true);
-                            }
-                        }
-                    })
-
                     hideProgressBar()
                     mm.in_change_model = false
                     mm.old_model = JSON.parse(JSON.stringify(mm.model));
