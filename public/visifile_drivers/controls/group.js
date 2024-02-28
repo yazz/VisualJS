@@ -108,7 +108,7 @@ logo_url("/driver_icons/group_control.png")
             deleteItem:     async function(  event  ,  i  ) {
                 let mm = this
                 event.stopPropagation();
-                await mm.form_helper_fns.delete_design_time_component(  i  )
+                await mm.form_helper_fns.delete_design_time_component(  {  component_index:  i  }  )
             }
         },
         data:       function() {
