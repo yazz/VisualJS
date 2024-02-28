@@ -1855,14 +1855,7 @@ End of app preview menu
                     mm.undo_list.push(mm.code_id)
                     mm.code_id = parentHash
                     await mm.closeSubEditor()
-                    mm.$root.$emit(
-                        'message'
-                        ,
-                        {
-                            type:            "force_raw_load",
-                            commitId:        parentHash
-                        })
-
+                    await mm.force_raw_loadFn({commitId:        parentHash})
                 }
             },
             redo:                           async function  (  ) {
@@ -1882,14 +1875,7 @@ End of app preview menu
                     let codeId = mm.undo_list.pop(  )
                     await mm.closeSubEditor()
                     if (codeId) {
-                        mm.$root.$emit(
-                            'message'
-                            ,
-                            {
-                                type:            "force_raw_load",
-                                commitId:        codeId
-                            }
-                        )
+                        await mm.force_raw_loadFn({commitId:        codeId})
                     }
                 }
             },
