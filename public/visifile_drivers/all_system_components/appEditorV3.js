@@ -2196,15 +2196,37 @@ End of app preview menu
             },
             pendingFn:                      function        (  ) {
                 let mm = this
+                mm.save_state = "pending"
+                mm.file_save_state = (saveCodeToFile?saveCodeToFile:"")
             },
             savedFn:                        function        (  ) {
                 let mm = this
+                mm.save_state = "saved"
+                mm.checkSavedFile()
             },
-            switch_editorFn:                function        (  ) {
+            switch_editorFn:                async function  (  {  editorName  ,  previewType  }  ) {
                 let mm = this
+                await mm.switchEditor(  editorName  )
+                if (previewType) {
+                    mm.preview_type = previewType
+                }
             },
-            force_raw_loadFn:               function        (  ) {
+            force_raw_loadFn:               async function  (  commitId ) {
                 let mm = this
+                await mm.loadComponentIntoEditor(
+                    {
+                        codeId:     commitId ,
+                        runThisApp: true
+                    })
+
+                window.globalEventBus.emit('message', {
+                    type:               "update_editable_components_on_homepage",
+                    base_component_id:   mm.arg_edit_base_component_id,
+                    code_id:             commitId
+                })
+                setTimeout(function(){
+                    mm.refresh ++
+                },500)
             }
         },
         mounted:        async function () {
