@@ -319,7 +319,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                 
             <component  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[editor_component]'
                         v-if="editor_loaded"
-                        v-bind:zzz='"yep im here"'
+                        v-bind:edtior_fns='{pending: pendingFn,saved: savedFn , switch_editor: switch_editorFn  , force_raw_load: force_raw_loadFn}'
                         ref="editor_component_ref">
 
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
@@ -2193,7 +2193,18 @@ End of app preview menu
                     this.current_execution_step_y_line = x.line
                 }
                 this.updateTimeline()
-
+            },
+            pendingFn:                      function        (  ) {
+                let mm = this
+            },
+            savedFn:                        function        (  ) {
+                let mm = this
+            },
+            switch_editorFn:                function        (  ) {
+                let mm = this
+            },
+            force_raw_loadFn:               function        (  ) {
+                let mm = this
             }
         },
         mounted:        async function () {
