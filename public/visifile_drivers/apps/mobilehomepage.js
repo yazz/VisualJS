@@ -289,7 +289,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-            mm.$root.$on('message', async function(text) {
+            window.globalEventBus.on('message', async function(text) {
                 if (text.type == "insert_editable_component_on_homepage") {
                     //debugger
                     await mm.addLogoForApp(text.base_component_id)
