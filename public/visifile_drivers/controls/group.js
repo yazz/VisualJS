@@ -59,7 +59,7 @@ logo_url("/driver_icons/group_control.png")
 */
 
     Yazz.component({
-        props:      ["args", "design_mode","refresh", "children","delete_design_time_component", "form_helper_fns"],
+        props:      [  "args"  ,  "design_mode"  ,  "refresh"  ,  "children"  ,  "form_helper_fns"  ],
         template:   `
 <div v-bind:style='"width:100%;overflow-y:auto;height:100%"'>
     <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
@@ -77,7 +77,7 @@ logo_url("/driver_icons/group_control.png")
                          v-if='child_item'
                          v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                        "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'
-                         v-on:click='$event.stopPropagation();delete_design_time_component(child_item.index_in_parent_array)'>
+                         v-on:click='deleteItem(  $event  ,  child_item.index_in_parent_array  )'>
 
                       X
 
@@ -103,18 +103,18 @@ logo_url("/driver_icons/group_control.png")
         mounted:    async function() {
             let mm = this
             await registerComponent(mm)
-            debugger
+        },
+        methods: {
+            deleteItem:     async function(  event  ,  i  ) {
+                let mm = this
+                event.stopPropagation();
+                await mm.form_helper_fns.delete_design_time_component(  i  )
+            }
         },
         data:       function() {
-       return {
-         msg: "..."
-     }
+            return {
+                msg: "..."
+            }
       }
-    }
-
-
-
-
-
-)
+    })
 }
