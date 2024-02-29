@@ -756,10 +756,7 @@
                                 } else if ((mm.active_component_index != null) && (mm.active_form != null)) {
                                     mm.model.forms[mm.active_form].components[mm.active_component_index][property_id] = newC
                                 }
-                                mm.$root.$emit('message', {
-                                    type:   "pending"
-                                })
-                                debugger
+                                mm.editor_fns.pending()
                             })
 
                             mm.updateAllFormCaches()
@@ -1529,10 +1526,7 @@
                 |
                 |     NONE
                 |________________________________________________________________________ */
-                this.$root.$emit('message', {
-                    type:   "pending"
-                })
-                debugger
+                mm.editor_fns.pending()
             },
             getControlNonAsyncMethod:               function        (  componentDetails  ,  isComponentInDesignMode  ,  methodId  ) {
                 //----------------------------------------------------------------------------------/
@@ -3633,13 +3627,7 @@ ${code}
             },
             switchEditor:                           async function  (  editorComponentName  ) {
                 let mm = this
-                mm.$root.$emit(
-                    'message', {
-                        type:          "switch_editor",
-                        editorName:     editorComponentName,
-                        previewType:   "control"
-                    })
-                debugger
+                await mm.editor_fns.switch_editor( {  editorName: editorComponentName  ,  previewType: "control" } )
             },
             showComponentDetailedDesignUi:          async function  (  index  ) {
                 /*
@@ -6346,10 +6334,7 @@ return {}
                                         }
                                         if (ttt) {
                                             mm.old_model = JSON.parse(JSON.stringify(mm.model));
-                                            mm.$root.$emit('message', {
-                                                type:   "pending"
-                                            })
-                                            //debugger
+                                            mm.editor_fns.pending()
                                         }
                                         mm.in_change_model = false
 

@@ -16,7 +16,7 @@ runtime_pipeline(["EDITOR_PLUG_IN"])
     Yazz.component(
     {
         //*** COPY_START ***//
-        props:          [ "args"],
+        props:          [  "args"  ,  "editor_fns"  ],
         template:       /* ** *** insert_ui_template_start *** ** */
                         /* ** *** insert_ui_template_end *** ** */,
         mounted:        //*** paste_mounted_start ***//

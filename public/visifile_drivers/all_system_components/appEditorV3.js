@@ -2258,23 +2258,6 @@ End of app preview menu
 
 
             //
-            // some helper callbacks so outsiders can changed the state of the editor
-            //
-            this.$root.$on('message', async function(message) {
-                if (message.type == "pending") {
-                    mm.save_state = "pending"
-                    mm.file_save_state = (saveCodeToFile?saveCodeToFile:"")
-                } else if (message.type == "switch_editor") {
-                    mm.switchEditor(message.editorName)
-                    if (message.previewType) {
-                        mm.preview_type = message.previewType
-                    }
-                }
-            })
-
-
-
-            //
             // Load miscalaneous components
             //
             await GLOBALS.makeSureUiComponentLoadedV6(["yazz_blank"])
