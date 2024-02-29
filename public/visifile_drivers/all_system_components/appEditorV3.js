@@ -2196,7 +2196,7 @@ End of app preview menu
                     mm.preview_type = previewType
                 }
             },
-            force_raw_loadFn:               async function  (  commitId ) {
+            force_raw_loadFn:               async function  (  {  commitId }  ) {
                 let mm = this
                 await mm.loadComponentIntoEditor(
                     {
