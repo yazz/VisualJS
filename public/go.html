@@ -15,8 +15,8 @@
         <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
 
         <scriptlatest src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.19/vue.global.prod.min.js"></scriptlatest>
-        <script src="https://unpkg.com/@vue/compat@3.1"></script>
-        <script2 src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script2>
+        <script3 src="https://unpkg.com/@vue/compat@3.1"></script3>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
 
 
         <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
@@ -9904,7 +9904,8 @@
 
 
 
-                    Vue.component('card_component', {
+                    let cardComponentStructure =
+                    {
                         props: [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ]
                         ,
                         mounted: async function() {
@@ -10372,7 +10373,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                                 </div>
                             </div>`
-                    })
+                    }
 
 
 
@@ -10394,6 +10395,16 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             this.local_app = localAppshareApp
                         }
                     }
+
+                    if (Vue.version.startsWith("2")) {
+                        Vue.component('card_component', cardComponentStructure);
+
+                    } else if (Vue.version.startsWith("3")) {
+                        yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
+                    }
+                    //zzz
+
+
                     if (Vue.version.startsWith("2")) {
                         vueAppStructure.el = "#infinite-list"
                         yz.mainVars.mainVueApp = new Vue(vueAppStructure);
@@ -10487,8 +10498,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     });
                     myDropzone.on("complete", function(file) {
                         myDropzone.removeFile(file);
-                    });
-
+                    })
 
 
                 },100)
