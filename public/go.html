@@ -14,8 +14,8 @@
         <script     src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js">                                                                                                                                 </script>
         <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
 
-        <scriptcom src="https://unpkg.com/@vue/compat@3.1"></scriptcom>
-        <scriptnew src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.19/vue.global.prod.min.js"></scriptnew>
+        <scriptlatest src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.19/vue.global.prod.min.js"></scriptlatest>
+        <script3 src="https://unpkg.com/@vue/compat@3.1"></script3>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
 
 
@@ -10376,10 +10376,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-
-                    yz.mainVars.mainVueApp = new Vue({
-                        el: "#infinite-list"
-                        ,
+//zzz
+                    let vueAppStructure = {
                         data: function() {
                             return {
                                 count:                  1,
@@ -10395,7 +10393,15 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         mounted: async function(){
                             this.local_app = localAppshareApp
                         }
-                    });
+                    }
+                    if (Vue.version.startsWith("2")) {
+                        vueAppStructure.el = "#infinite-list"
+                        yz.mainVars.mainVueApp = new Vue(vueAppStructure);
+
+                    } else if (Vue.version.startsWith("3")) {
+                        yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
+                    }
+                    vueComponentCreation = "yz.mainVars.mainVueApp"
 
 
 
