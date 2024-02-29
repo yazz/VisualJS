@@ -337,6 +337,7 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
 -------------------------------------------------------------------------- -->
     </div>
 </div>`,
+        props:      [  "editor_fns"  ],
         mounted:    async function() {
         },
         methods:    {
@@ -726,9 +727,7 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
                         }
 
                     )
-                    mm.$root.$emit('message', {
-                        type: "pending"
-                    })
+                    mm.editor_fns.pending()
                 } catch (e) {
                     
                 }

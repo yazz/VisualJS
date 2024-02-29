@@ -726,14 +726,7 @@ pane_release_description:               {{pane_release_description}}
 
                         hideProgressBar()
                         if (responseJson && responseJson.newCommitId) {
-                            mm.$root.$emit(
-                                'message'
-                                ,
-                                {
-                                    type:            "force_raw_load",
-                                    commitId:         responseJson.newCommitId
-                                }
-                            )
+                            await mm.editor_fns.force_raw_load({commitId:         responseJson.newCommitId})
                         }
                         await mm.pane_changes_clearAll()
                         mm.commitMessage = "Commit successful"
@@ -1271,14 +1264,7 @@ pane_release_description:               {{pane_release_description}}
                 window.timelineEnd      = mm.timelineEnd
                 window.keepTimeline     = true
 
-                mm.$root.$emit(
-                    'message'
-                    ,
-                    {
-                        type:            "force_raw_load",
-                        commitId:        mm.selectedCommitId
-                    }
-                )
+                await mm.editor_fns.force_raw_load({commitId:  mm.selectedCommitId  })
 
                 let responseJson2 = await getFromYazzReturnJson(
                     "/http_get_point_edit_marker_at_commit"
@@ -1320,14 +1306,7 @@ pane_release_description:               {{pane_release_description}}
 
                         hideProgressBar()
                         if (responseJson && responseJson.newCommitId) {
-                            mm.$root.$emit(
-                                'message'
-                                ,
-                                {
-                                    type:            "force_raw_load",
-                                    commitId:         responseJson.newCommitId
-                                }
-                            )
+                            await mm.editor_fns.force_raw_load({commitId: responseJson.newCommitId  })
                         }
                         await mm.pane_release_clearAll()
                         mm.pane_release_info_message = "Release successful"
