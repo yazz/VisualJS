@@ -1392,7 +1392,7 @@
             },
             runEvent:                               async function  (  args  ) {
                 let mm = this
-                debugger
+                //debugger
                 console.log(args)
                 await mm.processControlEvent(
                     {
