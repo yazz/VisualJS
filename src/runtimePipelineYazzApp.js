@@ -6,7 +6,7 @@
             let runtimeMode = true
 
             Yazz.component( {
-                props:      [ "args"],
+                props:      [ "args"  ,  "app_services"  ],
                 template:   /* ** *** insert_ui_template_start *** ** */
                             /* ** *** insert_ui_template_end *** ** */,
                 mounted:    //*** paste_mounted_start ***//

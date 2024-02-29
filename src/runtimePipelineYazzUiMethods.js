@@ -759,6 +759,7 @@
                                 mm.$root.$emit('message', {
                                     type:   "pending"
                                 })
+                                debugger
                             })
 
                             mm.updateAllFormCaches()
@@ -1531,6 +1532,7 @@
                 this.$root.$emit('message', {
                     type:   "pending"
                 })
+                debugger
             },
             getControlNonAsyncMethod:               function        (  componentDetails  ,  isComponentInDesignMode  ,  methodId  ) {
                 //----------------------------------------------------------------------------------/
@@ -3637,6 +3639,7 @@ ${code}
                         editorName:     editorComponentName,
                         previewType:   "control"
                     })
+                debugger
             },
             showComponentDetailedDesignUi:          async function  (  index  ) {
                 /*
@@ -6346,6 +6349,7 @@ return {}
                                             mm.$root.$emit('message', {
                                                 type:   "pending"
                                             })
+                                            debugger
                                         }
                                         mm.in_change_model = false
 

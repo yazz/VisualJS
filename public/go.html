@@ -10992,7 +10992,13 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                     new Vue(
                         {
-                            template:   `<${codeIdOfComponent}  v-bind:card_index='1'></${codeIdOfComponent}>`,
+                            template:   `
+<${codeIdOfComponent}
+        v-bind:card_index='1'
+        v-bind:app_services='{yo: "Zubair"}'
+        >
+</${codeIdOfComponent}>
+`,
                             el:         "#" + rootElement
                         })
                 }
