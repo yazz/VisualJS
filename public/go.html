@@ -10436,7 +10436,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             document.getElementById('wrapper').scrollTop = ccy
                         },100)
 
-                        //yz.mainVars.mainVueApp.show_loader = false
                         mainVueAppVm.show_loader = false
                         yz.mainVars.autoScroll = false
                         setTimeout(async function() {
@@ -10458,17 +10457,17 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     if (yz.mainVars.webpageParams.goto) {
                         yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.goto.replaceAll("%20"," ").toLowerCase()
                         yz.mainVars.autoScroll = false;
-                        yz.mainVars.mainVueApp.show_loader = true
+                        mainVueAppVm.show_loader = true
                     } else if (yz.mainVars.webpageParams.embed) {
                         yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
                         yz.mainVars.autoScroll = false;
-                        yz.mainVars.mainVueApp.show_loader = true
+                        mainVueAppVm.show_loader = true
                     } else if (!GLOBALS.isStaticHtmlPageApp) {
                         setTimeout(async function() {
                             await select_card(1)
                         },200)
                     } else if (GLOBALS.isStaticHtmlPageApp) {
-                        yz.mainVars.mainVueApp.is_static = true
+                        mainVueAppVm.is_static = true
                     }
 
 
@@ -10983,7 +10982,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 base_component_id_of_loaded_app = bbase_component_id
 
                 let rootElement = "app_" + id
-                if ((yz.mainVars.mainVueApp.cards[id - 1].card.base_component_id != base_component_id_of_loaded_app) ||
+                if ((mainVueAppVm.cards[id - 1].card.base_component_id != base_component_id_of_loaded_app) ||
                     (!newAppArgs[id]))
                 {
                     newAppArgs[id] = args
@@ -10993,7 +10992,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 // loadAppIntoElement
                 //
                 await GLOBALS.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
-                if (yz.mainVars.mainVueApp.cards[id - 1].card.base_component_id == base_component_id_of_loaded_app) {
+                if (mainVueAppVm.cards[id - 1].card.base_component_id == base_component_id_of_loaded_app) {
 
                     if (!document.getElementById(rootElement)) {
                         let newRootId = rootElement.substring(4)
@@ -11017,25 +11016,25 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
             }
             async function  select_card                         (   id   ) {
-                if (yz.mainVars.mainVueApp.selected_card == id) {
+                if (mainVueAppVm.selected_card == id) {
                     return;
                 }
-                if (yz.mainVars.mainVueApp.selected_card != -1) {
+                if (mainVueAppVm.selected_card != -1) {
                     if (id != -1) {
-                        document.querySelector('#card_' + yz.mainVars.mainVueApp.selected_card).classList.remove("expand");
+                        document.querySelector('#card_' + mainVueAppVm.selected_card).classList.remove("expand");
                     }
-                    document.querySelector('#card_' + yz.mainVars.mainVueApp.selected_card).classList.add('contract');
+                    document.querySelector('#card_' + mainVueAppVm.selected_card).classList.add('contract');
                 }
 
                 if (id != -1) {
                     let elmnt = document.querySelector('#card_' + id);
                     if (elmnt) {
                         if (GLOBALS.isStaticHtmlPageApp) {
-                            yz.mainVars.mainVueApp.selected_card = id;
+                            mainVueAppVm.selected_card = id;
                             setTimeout(async function() {
-                                let thisApp = yz.mainVars.mainVueApp.cards[id - 1]
-                                if (yz.mainVars.mainVueApp.cards[id - 1].card.fn) {
-                                    setTimeout( yz.mainVars.mainVueApp.cards[id - 1].card.fn, 3000)
+                                let thisApp = mainVueAppVm.cards[id - 1]
+                                if (mainVueAppVm.cards[id - 1].card.fn) {
+                                    setTimeout( mainVueAppVm.cards[id - 1].card.fn, 3000)
                                 }
                                 if (thisApp.card.base_component_id) {
                                     await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -11046,11 +11045,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             document.querySelector('#card_' + id).classList.add('expand');
                             setTimeout(function()
                             {
-                                yz.mainVars.mainVueApp.selected_card = id;
+                                mainVueAppVm.selected_card = id;
                                 setTimeout(async function() {
-                                    let thisApp = yz.mainVars.mainVueApp.cards[id - 1]
-                                    if (yz.mainVars.mainVueApp.cards[id - 1].card.fn) {
-                                        setTimeout( yz.mainVars.mainVueApp.cards[id - 1].card.fn, 3000)
+                                    let thisApp = mainVueAppVm.cards[id - 1]
+                                    if (mainVueAppVm.cards[id - 1].card.fn) {
+                                        setTimeout( mainVueAppVm.cards[id - 1].card.fn, 3000)
                                     }
                                     if (thisApp.card.base_component_id) {
                                         await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -11078,7 +11077,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 yz.mainVars.mousedown = false
             };
             function        refresh                             (   ) {
-                yz.mainVars.mainVueApp.count += 1;
+                mainVueAppVm.count += 1;
             }
             function        getPosition                         (   el   ) {
                 let xPos = 0;
@@ -11106,10 +11105,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 };
             }
             function        showProgressBar                     (   ) {
-                yz.mainVars.mainVueApp.show_loader = true
+                mainVueAppVm.show_loader = true
             }
             function        hideProgressBar                     (   ) {
-                yz.mainVars.mainVueApp.show_loader = false
+                mainVueAppVm.show_loader = false
             }
 
             //debug helpers
