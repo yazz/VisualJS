@@ -10397,22 +10397,18 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
 
                     if (Vue.version.startsWith("2")) {
-                        Vue.component('card_component', cardComponentStructure);
-
-                    } else if (Vue.version.startsWith("3")) {
-                        yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
-                    }
-                    //zzz
-
-
-                    if (Vue.version.startsWith("2")) {
                         vueAppStructure.el = "#infinite-list"
                         yz.mainVars.mainVueApp = new Vue(vueAppStructure);
+                        Vue.component('card_component', cardComponentStructure);
+                        mainVueAppVm = yz.mainVars.mainVueApp
 
                     } else if (Vue.version.startsWith("3")) {
                         yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
-                        yz.mainVars.mainVueApp.mount('#infinite-list')
+                        yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
+                        yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'preserve';
+                        mainVueAppVm = yz.mainVars.mainVueApp.mount("#infinite-list")
                     }
+                    //zzz
 
 
 
