@@ -847,11 +847,7 @@ load_once_from_file(true)
              let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
              mm.text = responseJson.code
 
-             mm.$root.$emit(
-                 'message', {
-                     type:   "force_raw_load",
-                     commitId: mm.lockedSelectedCommit
-                 })
+             await mm.meta.getEditor().force_raw_loadFn({commitId: mm.lockedSelectedCommit})
 
              let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
                 {

@@ -552,6 +552,7 @@ pane_release_description:               {{pane_release_description}}
 -------------------------------------------------------------------------- -->
     </div>
 </div>`,
+        props:      [  "editor_fns"  ],
         mounted:    async function() {
         },
         methods:    {
@@ -1677,9 +1678,7 @@ pane_release_description:               {{pane_release_description}}
                         }
 
                     )
-                    mm.$root.$emit('message', {
-                        type: "pending"
-                    })
+                    mm.editor_fns.pending()
                 } catch (e) {
                     
                 }
