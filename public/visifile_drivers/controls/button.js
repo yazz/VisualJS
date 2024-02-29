@@ -108,7 +108,7 @@ logo_url("/driver_icons/button_control.png")
         methods:    {
                         buttonClicked:      async function  ( ) {
                             let mm = this
-                            debugger
+                            //debugger
                             await mm.runEvent({display: "click_event",code: mm.properties.click_event})
                         },
                         setText:            async function  ( newtext ) {
