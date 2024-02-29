@@ -2264,31 +2264,11 @@ End of app preview menu
                 if (message.type == "pending") {
                     mm.save_state = "pending"
                     mm.file_save_state = (saveCodeToFile?saveCodeToFile:"")
-                } else if (message.type == "saved") {
-                    debugger
-                    mm.save_state = "saved"
-                    mm.checkSavedFile()
                 } else if (message.type == "switch_editor") {
                     mm.switchEditor(message.editorName)
                     if (message.previewType) {
                         mm.preview_type = message.previewType
                     }
-                } else if (message.type == "force_raw_load") {
-                    debugger
-                    await mm.loadComponentIntoEditor(
-                        {
-                            codeId:     message.commitId ,
-                            runThisApp: true
-                        })
-
-                    window.globalEventBus.emit('message', {
-                        type:               "update_editable_components_on_homepage",
-                        base_component_id:   mm.arg_edit_base_component_id,
-                        code_id:             message.commitId
-                    })
-                    setTimeout(function(){
-                        mm.refresh ++
-                    },500)
                 }
             })
 
