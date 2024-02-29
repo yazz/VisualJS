@@ -10418,9 +10418,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
                     if (GLOBALS.isStaticHtmlPageApp) {
+                        debugger
                         let nid = yz.mainVars.nextGlobalAppId++;
                         let ccy = document.getElementById('wrapper').scrollTop
-                        yz.mainVars.mainVueApp.cards.push(
+                        mainVueAppVm.cards.push(
                             {
                                 id: nid,
                                 card: {
@@ -10435,7 +10436,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             document.getElementById('wrapper').scrollTop = ccy
                         },100)
 
-                        yz.mainVars.mainVueApp.show_loader = false
+                        //yz.mainVars.mainVueApp.show_loader = false
+                        mainVueAppVm.show_loader = false
                         yz.mainVars.autoScroll = false
                         setTimeout(async function() {
                             await select_card(nid)
