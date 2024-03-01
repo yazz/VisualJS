@@ -163,15 +163,15 @@ logo_url("/driver_icons/rh3scale.png")
     <div v-if="design_mode && (design_mode == 'detail_editor')" style="margin: 10px;">
         <div style="padding:10px;">
             3Scale Admin Host
-            <input v-model="args.host" size=60 @change="changeHost()"></input>
+            <input v-model="args.host" size=60 @change="changeHost()" />
         </div>
         <div style="padding:10px;">
             Admin Service Token
-            <input v-model="args.serviceToken" size=60 @change="changeServiceToken()"></input>
+            <input v-model="args.serviceToken" size=60 @change="changeServiceToken()" />
         </div>
         <div style="padding:10px;">
             API Key
-            <input v-model="args.apiKey" size=60 @change="changeAPIKey()"></input>
+            <input v-model="args.apiKey" size=60 @change="changeAPIKey()" />
         </div>
 
         <div v-bind:style='"background-color: " + (args.is3ScaleAvailable=="True"?"green":"red" ) +";color: white;padding:10px;"'

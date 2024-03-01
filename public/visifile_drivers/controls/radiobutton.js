@@ -60,9 +60,9 @@ logo_url("/driver_icons/radio.png")
                         type="radio"
                         style="width:100%;"
                         v-model="args.checked"
-                        v-bind:value='args.text'>{{args.text}}<br>
+                        v-bind:value='args.text' />{{args.text}}<br>
 
-                 </input>
+        
                  </div>`
       ,
       data: function() {

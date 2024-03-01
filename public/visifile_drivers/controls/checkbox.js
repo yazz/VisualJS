@@ -64,9 +64,7 @@ logo_url("/driver_icons/checkbox_control.png")
                         type="checkbox"
                         v-on:change='valChanged(event)'
                         v-bind:checked='(args.checked=="True")?"True":""'
-                        >
-
-                 </input>
+                         />
                  </div>`
       ,
       data: function() {

@@ -200,12 +200,12 @@ logo_url("/driver_icons/rhdm.png")
     <div v-if="design_mode && (design_mode == 'detail_editor')" style="margin: 10px;">
         <div style="padding:10px;">
             Decision Manager Admin Host
-            <input v-model="args.host" size=60 @change="changeConnection()"></input>
+            <input v-model="args.host" size=60 @change="changeConnection()" />
         </div>
 
         <div style="padding:10px;">
             Username
-            <input v-model="args.username"  size=60 @change="changeConnection()"></input>
+            <input v-model="args.username"  size=60 @change="changeConnection()" />
         </div>
 
         <div style="padding:10px;">
@@ -213,8 +213,7 @@ logo_url("/driver_icons/rhdm.png")
             <input  v-model="args.password"
                     size=60
                     type="password"
-                    @change="changeConnection()">
-            </input>
+                    @change="changeConnection()" />
         </div>
 
 

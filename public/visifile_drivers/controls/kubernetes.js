@@ -191,11 +191,11 @@ logo_url("/driver_icons/kubernetes.png")
     <div v-if="design_mode && (design_mode == 'detail_editor')" style="margin: 10px;">
         <div style="padding:10px;">
             3Scale Admin Host
-            <input v-model="args.host" size=60 @change="changeHost()"></input>
+            <input v-model="args.host" size=60 @change="changeHost()" />
         </div>
         <div style="padding:10px;">
             k8s Authentication Token
-            <input v-model="args.k8sAuthenticationToken" size=60 @change="changeK8sAuthenticationToken()"></input>
+            <input v-model="args.k8sAuthenticationToken" size=60 @change="changeK8sAuthenticationToken()" />
         </div>
 
 

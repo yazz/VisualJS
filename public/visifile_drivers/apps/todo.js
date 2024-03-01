@@ -20,7 +20,7 @@ Yazz.component({
     <div>
       Todo List<br>
       <div style='color:red'>{{info_message}}</div>
-      <input id=add v-model="new_item"></input>
+      <input id=add v-model="new_item" />
       <button v-on:click='add_item(new_item)'>Add</button>
       <div style="overflow: auto; height: 70%;" >
 

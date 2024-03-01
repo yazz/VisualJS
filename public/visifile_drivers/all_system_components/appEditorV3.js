@@ -176,7 +176,7 @@ ___________
                   v-bind:style='"display: inline-block;" + (editor_shell_locked?"pointer-events: none;opacity: 0.4;":"")' 
                   v-if='edit_name'
                   v-on:focusout='(async function(){await rename(component_display_name)})()'
-                  v-model='component_display_name'></input>
+                  v-model='component_display_name' />
 
 
 
@@ -658,8 +658,7 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                     v-if='preview_type=="app"'
                     style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                     v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                    v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"'>
-                </input>
+                    v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"' />
 
                 <span
                     v-if='preview_type!="app"'
@@ -834,8 +833,7 @@ End of app preview menu
                          <input  style=''
                                  type="range" min="1" max="20"
                                  v-bind:onchange='timelineRefresh(false)'
-                                 v-model="execution_horiz_scale">
-                         </input>
+                                 v-model="execution_horiz_scale" />
                      </span>
 
 

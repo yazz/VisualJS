@@ -49,7 +49,7 @@
 '' +
  '       <div class="form-group">' +
   '        <label for="ID" class=" col-form-label">Connection name</label>' +
-   '       <input  type="text" class="form-control" v-model="connection_name"></input>' +
+   '       <input  type="text" class="form-control" v-model="connection_name" />' +
     '    </div>' +
 '' +
  '       <div class="form-group">' +
@@ -61,27 +61,27 @@
 '' +
  '       <div class="form-group">' +
   '          <label for="Database" class="col-form-label">Database name</label>' +
-   '         <input  type="text" class="form-control" v-model="database"></input>' +
+   '         <input  type="text" class="form-control" v-model="database" />' +
     '    </div>' +
 '' +
  '       <div class="form-group">' +
   '          <label for="Host" class="col-form-label">Host</label>' +
-   '         <input  type="text" class="form-control" v-model="host"></input>' +
+   '         <input  type="text" class="form-control" v-model="host" />' +
     '    </div>' +
 '' +
  '       <div class="form-group">' +
   '          <label for="Port" class=" col-form-label">Port</label>' +
-   '         <input  type="text" class="form-control" v-model="port"></input>' +
+   '         <input  type="text" class="form-control" v-model="port" />' +
     '    </div>' +
 '' +
  '       <div class="form-group">' +
   '          <label for="Username" class="col-form-label">User name</label>' +
-   '         <input  type="text" class="form-control" v-model="connection_username"></input>' +
+   '         <input  type="text" class="form-control" v-model="connection_username" />' +
     '    </div>' +
 '' +
  '       <div class="form-group ">' +
   '          <label for="Password" class=" col-form-label">Password</label>' +
-   '         <input  class="form-control" type=password v-model="connection_password"></input>' +
+   '         <input  class="form-control" type=password v-model="connection_password" />' +
     '    </div>' +
 '' +
  '       <div class="form-group row">' +
@@ -152,11 +152,11 @@
 						'    <div class="input-group">' +
 						'        <div class="form-group">' +
 						'            <label for="ID" class=" col-form-label">Query name</label>' +
-						'            <input  type="text" class="form-control" v-model="query_name"></input>' +
+						'            <input  type="text" class="form-control" v-model="query_name" />' +
 						'        </div>' +
 						'        <div class="form-group">' +
 						'            <label for="SQL" class="col-form-label">SQL</label>' +
-						'            <input  type="text" class="form-control" v-model="sql" ></input>' +
+						'            <input  type="text" class="form-control" v-model="sql"  />' +
 						'        </div>' +
 						'        <div class="form-group row">' +
 						'            <span class="input-group-btn">' +

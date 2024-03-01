@@ -46,12 +46,12 @@
 '        <div class="input-group">' +
 '            <div class="form-group">' +
 '                <label for="ID" class=" col-form-label">Connection name</label>' +
-'                <input  type="text" class="form-control" v-model="connection_name"></input>' +
+'                <input  type="text" class="form-control" v-model="connection_name" />' +
 '            </div>' +
 '' +
 '            <div class="form-group">' +
 '                <label for="FileItem" class="col-form-label">File name</label>' +
-'                <input id="FileItem"  type="text"  class="form-control"  v-model="file"></input>' +
+'                <input id="FileItem"  type="text"  class="form-control"  v-model="file" />' +
 '            </div>' +
 '' +
 '            <div class="form-group row">' +
@@ -121,7 +121,7 @@
 						'    <div class="input-group">' +
 						'        <div class="form-group">' +
 						'            <label for="ID" class=" col-form-label">Query name</label>' +
-						'            <input  type="text" class="form-control" v-model="query_name"></input>' +
+						'            <input  type="text" class="form-control" v-model="query_name" />' +
 						'        </div>' +
 						'        <div class="form-group row">' +
 						'            <span class="input-group-btn">' +

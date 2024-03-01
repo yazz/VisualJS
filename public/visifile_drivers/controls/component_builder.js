@@ -441,8 +441,7 @@ logo_url("/driver_icons/builder.png")
                                placeholder=''
                                style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                                v-model='propertySelectedId'
-                               v-on:change='updateCustomProperties()'>
-                       </input>
+                               v-on:change='updateCustomProperties()' />
                   </div>
                  
                
@@ -456,8 +455,7 @@ logo_url("/driver_icons/builder.png")
                            placeholder=''
                            style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                            v-model='propertySelectedName'
-                           v-on:change='updateCustomProperties()'>
-                      </input>
+                           v-on:change='updateCustomProperties()' />
                   </div>
 
 
@@ -471,8 +469,7 @@ logo_url("/driver_icons/builder.png")
                               placeholder=''
                               style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                               v-model='propertySelectedType'
-                              v-on:change='updateCustomProperties()'>
-                      </input>
+                              v-on:change='updateCustomProperties()' />
                   </div>
 
                   <div v-if='(propertySelected)' class='row'>
@@ -485,8 +482,7 @@ logo_url("/driver_icons/builder.png")
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                              v-model='propertySelectedDefaultValue'
-                             v-on:change='updateCustomProperties()'>
-                     </input>
+                             v-on:change='updateCustomProperties()' />
                   </div>
 
                </div>
@@ -544,8 +540,7 @@ logo_url("/driver_icons/builder.png")
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                              v-model='methodSelectedId'
-                             v-on:change='updateCustomMethods()'>
-                     </input>
+                             v-on:change='updateCustomMethods()' />
                    </div>
 
 
@@ -559,8 +554,7 @@ logo_url("/driver_icons/builder.png")
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                              v-model='methodSelectedName'
-                             v-on:change='updateCustomMethods()'>
-                     </input>
+                             v-on:change='updateCustomMethods()' />
                    </div>
 
 
@@ -574,8 +568,7 @@ logo_url("/driver_icons/builder.png")
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                              v-model='methodSelectedType'
-                             v-on:change='updateCustomMethods()'>
-                     </input>
+                             v-on:change='updateCustomMethods()' />
                    </div>
 
                    <div v-if='(methodSelected)' class='row'>

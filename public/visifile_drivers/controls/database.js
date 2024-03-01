@@ -657,8 +657,7 @@ logo_url("/driver_icons/data_control.png")
                                           required
                                           v-bind:value='properties.selected_data_window_column.name'
                                           v-on:change="let qwe = document.getElementById('col_input_name').value;properties.dataWindowColumns[properties.selected_data_window_column_index].name=qwe;properties.selected_data_window_column.name = qwe;"
-                                          >
-                                  </input>
+                                           />
 
 
 
@@ -673,8 +672,7 @@ logo_url("/driver_icons/data_control.png")
                                           v-bind:value='properties.selected_data_window_column.value'
 
                                           v-on:change="let qwe = document.getElementById('col_input_value').value;properties.dataWindowColumns[properties.selected_data_window_column_index].value=qwe;properties.selected_data_window_column.value = qwe;"
-                                          >
-                                  </input>
+                                           />
 
 
 
@@ -691,8 +689,7 @@ logo_url("/driver_icons/data_control.png")
                                             v-bind:value='properties.selected_data_window_column.width?properties.selected_data_window_column.width:""'
 
                                             v-on:change="let qwe = document.getElementById('col_input_width').value;properties.selected_data_window_column.width = qwe;properties.dataWindowColumns[properties.selected_data_window_column_index].width=qwe;"
-                                            >
-                                    </input>
+                                             />
                               </div>
 
 

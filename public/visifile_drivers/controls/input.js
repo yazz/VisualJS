@@ -136,7 +136,7 @@ logo_url("/driver_icons/input_box.png")
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+  args.background_color  +  ";"'
 
-                            v-model='args.value'>  </input>
+                            v-model='args.value' />
 
 
                     <textarea

@@ -65,7 +65,7 @@
 			' '+
 			'        <div class="form-group">'+
 			'          <label for="ID" class=" col-form-label">Connection name</label>'+
-			'          <input  type="text" class="form-control" v-model="connection_name"></input>'+
+			'          <input  type="text" class="form-control" v-model="connection_name" />'+
 			'        </div>'+
 			''+
 			'        <div class="form-group">'+
@@ -77,17 +77,17 @@
 			''+
 			'        <div class="form-group">'+
 			'            <label for="Database" class="col-form-label">Connection String</label>'+
-			'            <input  type="text" class="form-control" v-model="connectString"></input>'+
+			'            <input  type="text" class="form-control" v-model="connectString" />'+
 			'        </div>'+
 			''+
 			 '       <div class="form-group">'+
 			'            <label for="Username" class="col-form-label">User name</label>'+
-			'            <input  type="text" class="form-control" v-model="connection_username"></input>'+
+			'            <input  type="text" class="form-control" v-model="connection_username" />'+
 			'        </div>'+
 			''+
 			'        <div class="form-group ">'+
 			'            <label for="Password" class=" col-form-label">Password</label>'+
-			'            <input  class="form-control" type=password v-model="connection_password"></input>'+
+			'            <input  class="form-control" type=password v-model="connection_password" />'+
 			'        </div>'+
 			''+
 			'        <div class="form-group row">'+
@@ -151,7 +151,7 @@
 						'    <div class="input-group">' +
 						'        <div class="form-group">' +
 						'            <label for="ID" class=" col-form-label">Query name</label>' +
-						'            <input  type="text" class="form-control" v-model="query_name"></input>' +
+						'            <input  type="text" class="form-control" v-model="query_name" />' +
 						'        </div>' +
 						'        <div class="form-group">' +
 						'            <label for="SQL" class="col-form-label">SQL</label>' +

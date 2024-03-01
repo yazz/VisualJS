@@ -74,8 +74,7 @@ logo_url("/driver_icons/horiz_scroll.png")
             max="100"
             value="50"
             step="1"
-            v-bind:style='"width:" + args.width'>
-    </input>
+            v-bind:style='"width:" + args.width' />
 
 </div>`
         ,

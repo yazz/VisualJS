@@ -282,8 +282,7 @@ logo_url("/driver_icons/excel.png")
                                                     Use headers as col names
                                                     <input  type="checkbox"
                                                             v-on:change='headersAsColNamesChanged(event)'
-                                                            v-bind:checked='(args.headersAsColNames=="True")?"True":""'>
-                                                    </input>
+                                                            v-bind:checked='(args.headersAsColNames=="True")?"True":""' />
                                                 </span>
 
                                                 <table>

@@ -189,8 +189,7 @@ logo_url("/driver_icons/postgres.jpg")
                                                   required
                                                   v-model:value='args.host'
                                                   v-on:change="args.host = document.getElementById('col_input_host').value;"
-                                                  >
-                                          </input>
+                                                   />
                                      </div>
 
 
@@ -203,8 +202,7 @@ logo_url("/driver_icons/postgres.jpg")
                                                   required
                                                   v-model:value='args.port'
                                                   v-on:change="args.port = document.getElementById('col_input_port').value;"
-                                                  >
-                                          </input>
+                                                   />
                                       </div>
 
 

@@ -71,7 +71,7 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
 
           </a-scene>
           Session ID: {{session_id}}<br>
-      Your name<input   id=your_name v-model="your_name" ></input><br>
+      Your name<input   id=your_name v-model="your_name"  /><br>
           Players: <pre>{{players}}</pre><br>
 
       <br><br>
@@ -79,7 +79,7 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
       <li v-for='item in items'>
           <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
       </li>
-      <input id=add v-model="new_item"></input>
+      <input id=add v-model="new_item" />
       <button v-on:click='add_item(new_item)'>Add</button>
 </div>
  `

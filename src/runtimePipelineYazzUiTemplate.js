@@ -2265,8 +2265,7 @@ Pushlist
                                                     @change='setVBEditorProperty( {  property: property  ,  value: $event.target.value  } )'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     v-bind:type='property.password?"password":""'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
-                                            </input>
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;' />
                                             <textarea
                                                     v-if="(property.textarea != null) && (property.textarea != '')"
                                                     rows=10
@@ -2321,14 +2320,12 @@ Pushlist
                                         <div    v-if="(property.type  == 'Image') ">
                                             <input type="file"
                                                    id="image_file"
-                                                   @change="previewUpload(property)">
-                                            </input>
+                                                   @change="previewUpload(property)" />
                                         </div>
                                         <div    v-if="(property.type  == 'File') ">
                                             <input type="file"
                                                    id="upload_file"
-                                                   @change="previewFileUpload(property)">
-                                            </input>
+                                                   @change="previewFileUpload(property)" />
                                         </div>
 
 
@@ -2476,8 +2473,7 @@ Pushlist
                                             <input
                                                     v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    v-model='new_property_id'>
-                                            </input>
+                                                    v-model='new_property_id' />
                                         </div></div></div></div></div>
                         
 
@@ -2501,8 +2497,7 @@ Pushlist
                                                     v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
                                                     v-model='new_property_name'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    >
-                                            </input>
+                                                     />
                                         </div></div></div></div></div>
 
 
@@ -2564,8 +2559,7 @@ Pushlist
                                                     readonly
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     value="await "
-                                                    >
-                                            </input>
+                                                     />
                                         </div></div></div></div></div>                        
                         
                         
@@ -2592,8 +2586,7 @@ Pushlist
                                                     placeholder='doAction(...)'
                                                     v-model='new_snippet'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    >
-                                            </input>
+                                                     />
                                                                               
                                         </div></div></div></div></div>
                                         
@@ -2725,8 +2718,7 @@ Pushlist
                                                     v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
                                                     v-model='edit_property_name'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    >
-                                            </input>
+                                                     />
                                         </div></div></div></div></div>
 
 

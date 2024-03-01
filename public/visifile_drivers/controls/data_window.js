@@ -468,8 +468,7 @@ logo_url("/driver_icons/data_window.png")
                                           required
                                           v-bind:value='args.selected_data_window_column.name'
                                           v-on:change="var qwe = document.getElementById('col_input_name').value;args.dataWindowColumns[args.selected_data_window_column_index].name=qwe;args.selected_data_window_column.name = qwe;"
-                                          >
-                                  </input>
+                                           />
 
 
 
@@ -484,8 +483,7 @@ logo_url("/driver_icons/data_window.png")
                                           v-bind:value='args.selected_data_window_column.value'
 
                                           v-on:change="var qwe = document.getElementById('col_input_value').value;args.dataWindowColumns[args.selected_data_window_column_index].value=qwe;args.selected_data_window_column.value = qwe;"
-                                          >
-                                  </input>
+                                           />
 
 
 
