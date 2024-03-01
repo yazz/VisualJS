@@ -162,8 +162,7 @@ when was the change in a commit first made (each commit can have many changes)
                       v-on:keydown="pane_changes_clearMessages()"
                       placeholder="Summary (Required)"
                       v-model='changes_pane_header'
-                      value=''>
-                  </input>
+                      value='' />
                 </div>
         
                 <!-- ----------------------------------------------
@@ -440,8 +439,7 @@ listOfAllCommits:                       {{listOfAllCommits}}
                     v-on:keydown="pane_release_clearMessages()"
                     placeholder="Summary (Required)"
                     v-model='pane_release_header'
-                    value=''>
-                </input>
+                    value='' />
             </div>
 
             <!-- ----------------------------------------------

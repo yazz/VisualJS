@@ -2780,8 +2780,7 @@ Pushlist
                                                     readonly
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
                                                     value="await "
-                                                    >
-                                            </input>
+                                                    />
                                         </div></div></div></div></div>                        
                         
                         
@@ -2808,8 +2807,7 @@ Pushlist
                                                     placeholder='doAction(...)'
                                                     v-model='edit_property_snippet'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    >
-                                            </input>
+                                                    />
                                                                               
                                         </div></div></div></div></div>
                                         

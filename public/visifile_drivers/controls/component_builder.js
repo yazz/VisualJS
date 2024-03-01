@@ -581,8 +581,7 @@ logo_url("/driver_icons/builder.png")
                              placeholder=''
                              style='border:0px;font-family:verdana,helvetica;font-size: 13px;'
                              v-model='methodSelectedDefaultValue'
-                             v-on:change='updateCustomMethods()'>
-                     </input>
+                             v-on:change='updateCustomMethods()' />
                    </div>
 
 

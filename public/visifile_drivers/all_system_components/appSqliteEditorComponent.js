@@ -119,7 +119,7 @@ use_db("todo")
                                             v-if="(pane_home_editTableName) && (pane_home_selectedTable==tableItem.name)"
                                             style="width:80%"
                                             v-model="pane_home_newTableName"
-                                        ></input>
+                                        />
                                         <div>
                                             <button  type=button class='btn btn-sm btn-primary'
                                                      v-if="(pane_home_editTableName) && (pane_home_selectedTable==tableItem.name)"
@@ -243,7 +243,7 @@ use_db("todo")
                                     v-if="(pane_home_col_editColName)"
                                     style="width:80%"
                                     v-model="pane_home_col_newColName"
-                              ></input>
+                              />
                           </div>
 
 

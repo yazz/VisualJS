@@ -500,8 +500,7 @@ logo_url("/driver_icons/data_window.png")
                                             v-bind:value='args.selected_data_window_column.width?args.selected_data_window_column.width:""'
 
                                             v-on:change="var qwe = document.getElementById('col_input_width').value;args.selected_data_window_column.width = qwe;args.dataWindowColumns[args.selected_data_window_column_index].width=qwe;"
-                                            >
-                                    </input>
+                                            />
                               </div>
 
 
@@ -541,8 +540,7 @@ logo_url("/driver_icons/data_window.png")
                         v-bind:value='(args.where_clause && (args.where_clause.length > 0))?args.where_clause:""'
 
                         v-on:change="args.where_clause = document.getElementById('where_clause').value;setSql()"
-                        >
-                </input>
+                        />
             </div>
 
 

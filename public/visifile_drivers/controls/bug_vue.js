@@ -321,7 +321,7 @@ logo_url("https://images.unsplash.com/photo-1526773357673-2d4e8116d497?ixlib=rb-
 
 
         <div style="height:100%;width:600px; border: 0px;color:black;padding: 10px;overflow:scroll;">
-            <input v-model="args.URL" size=60 @change="changeURL()"></input>
+            <input v-model="args.URL" size=60 @change="changeURL()" />
             <div/>
 
 

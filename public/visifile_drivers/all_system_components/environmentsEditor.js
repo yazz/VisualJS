@@ -210,8 +210,7 @@ when was the change in a commit first made (each commit can have many changes)
                             v-on:keydown="pane_changes_clearMessages()"
                             placeholder="environment_id_with_underscores (Required)"
                             v-model='pane_environments_env_id'
-                            value=''>
-                    </input>
+                            value='' />
                 </div>
               
               
@@ -227,8 +226,7 @@ when was the change in a commit first made (each commit can have many changes)
                            v-on:keydown="pane_changes_clearMessages()"
                            placeholder="Environment name (Required)"
                            v-model='pane_environments_env_name'
-                           value=''>
-                    </input>
+                           value='' />
                 </div>
         
                 <!-- ----------------------------------------------

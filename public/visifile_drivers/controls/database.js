@@ -751,8 +751,7 @@ logo_url("/driver_icons/data_control.png")
                         v-bind:value='(properties.where_clause && (properties.where_clause.length > 0))?properties.where_clause:""'
 
                         v-on:change="properties.where_clause = document.getElementById('where_clause').value;setSql()"
-                        >
-                </input>
+                        />
             </div>
 
 

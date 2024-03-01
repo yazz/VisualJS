@@ -216,8 +216,7 @@ logo_url("/driver_icons/postgres.jpg")
                                                     required
                                                     v-model:value='args.database'
                                                     v-on:change="args.database = document.getElementById('col_input_database').value;"
-                                                    >
-                                            </input>
+                                                    />
                                         </div>
 
 
@@ -231,8 +230,7 @@ logo_url("/driver_icons/postgres.jpg")
                                                   required
                                                   v-model:value='args.user'
                                                   v-on:change="args.user = document.getElementById('col_input_user_name').value;"
-                                                  >
-                                          </input>
+                                                  />
                                         </div>
 
 
@@ -245,8 +243,7 @@ logo_url("/driver_icons/postgres.jpg")
                                                   required
                                                   v-model:value='args.password'
                                                   v-on:change="args.password = document.getElementById('col_input_password').value;"
-                                                  >
-                                          </input>
+                                                  />
                                         </div>
 
 
