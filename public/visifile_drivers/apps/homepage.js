@@ -81,35 +81,28 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     Yazz.component(
         {
             template:
-                `<div   v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
+                `
+<div   v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
+
+<!--   ----------------------------------------    Show the debug mode    ---------------------------------------- -->
+<!-- 
+
+-->
+<!--   ----------------------------------------------------------------------------------------------------------- -->
+    <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
+        <button style="margin: 20px;"
+                class='btn btn-lg btn-danger'
+                v-on:click='homepageDebugViewName = "homepage_vars"'>
                 
-                    <!--   ----------------------------------------    Show the debug mode    ---------------------------------------- -->
-                    <!-- 
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     -->
-                    <!--   ----------------------------------------------------------------------------------------------------------- -->
-                    <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
-                        <button style="margin: 20px;"
-                                class='btn btn-lg btn-danger'
-                                v-on:click='homepageDebugViewName = "homepage_vars"'>
-                                  Show homepage vars
-                        </button>
+            Show homepage vars
+            
+        </button>
 
-
-
-
-                      <!--   --------------------------------------  Homepage vars  ------------------------------------>
-                      <!--                                                                                               -->
-
-                        <div v-if='homepageDebugViewName=="homepage_vars"' style="">
-                      <pre>
-    <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
+<!--   --------------------------------------  Homepage vars  ------------------------------------>
+<!--                                                                                               -->
+<div v-if='homepageDebugViewName=="homepage_vars"' style="">
+<pre>
+<div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
 lastEditedBaseComponentId:              {{ lastEditedBaseComponentId }}
 lastEditedCodeId:                       {{ lastEditedCodeId }}
 editingBaseComponentId:                 {{ editingBaseComponentId }}
@@ -119,8 +112,7 @@ lastHighlightedEditableCodeId           {{ lastHighlightedEditableCodeId }}
 
 editable_app_list:
 {{ editable_app_list }}
-
-                        
+      
 currentlyHighlightedAppstoreBCI:        {{ currentlyHighlightedAppstoreBCI }}
 appstore_apps:                         
 {{ appstore_apps }}
@@ -135,73 +127,163 @@ open_file_path:                         {{ open_file_path }}
 open_file_list:                         {{ open_file_list }}
 open_file_name:                         {{ open_file_name }}
 disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
-
-                      </pre>
-                    </div>
-
-
+</pre>
+</div>
+    </div>
 
 
 
-  
-  
-  
-                        </div>
+
+
+
+
+
+
+
+
+
+ 
+    <!--   --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
+    <!--                                                                                               -->
+                     
+                  
+    <!--   ----------------------------------------------------------------------------------------------------------- -->
+    <template    v-for="(item, index) in editable_app_list">
+        <div    v-bind:refresh='refresh'
+                v-if="(editingBaseComponentId == item.base_component_id)"
+                v-on:mouseenter="currentlyHighlightedEditableCodeId = item.code_id;"
+                v-on:mouseleave="currentlyHighlightedEditableCodeId = null;"
+                style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
+                class='app_card'>
+          
+                <!--   -----------------------------------
+                |                                      |
+                |    Show the list of editable apps    |
+                |                                      |
+                --------------------------------------
+                
+                Iterate through the apps in "editable_app_list"
+                
+                --------
+                | Params |
+                ------------------------------------------------------------------
+                |
+                |     editable_app_list: [
+                |     ----------------      base_component_id:  The "baseComponentId" or Type of the
+                |                           ------------------  app
+                |
+                |                           code_id:            The commit ID of the app. Sometimes the app
+                |                           --------            is not the latest version of the app, which
+                |                                               is why this is needed
+                |                         ]
+                |
+                ------------------------------------------------------------------------------ -->
+
+            <div    v-if="(editingBaseComponentId == item.base_component_id)"
+                    v-bind:refresh='refresh'
+                    style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+            
+                <component  id="editor_component2"
+                            v-if='isValidObject(item)'
+                            :is='GLOBALS.baseComponentIdReturnsCommitId["app_editor_3"]'
+                            v-bind:arg_edit_base_component_id='item.base_component_id'
+                            v-bind:arg_edit_code_id='item.code_id'>
+                </component>
+            </div>
+        </div>
+    </template>
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+    <!-- -------------------------------------  Show the Yazz logo and top tabs   ------------------------------------------------ -->
+    <!-- 
+     
+    
+     -->
+    <!--   ----------------------------------------------------------------------------------------------------------- -->
+    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
+            v-if="(!editingBaseComponentId)"
+            v-bind:refresh='refresh'>
+    
+        <div    v-bind:refresh='refresh'
+                style="display: inline-block;border:0px; padding: 0px; margin: 0px;padding-left:15px;width:36px;height:36px;;position:relative;">
+    
+            <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:0px;top:0px;background-color:red;"></div>
+        
+            <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:20px;top:0px;background-color:red;"></div>
+
+            <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:10px;top:10px;background-color:red;"></div>
+
+            <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:0px;top:20px;background-color:red;"></div>
+                
+        </div>
+            
+                
+        <div    v-bind:refresh='refresh'
+                style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 9px;line-height: 1;display: inline-block;top:-10px;position:relative;left:-20px;">
+                
+            <div    v-bind:refresh='refresh'
+                    style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 16px;line-height: 1;display: inline-block;top:0px;left:-20px;">
+                    
+                <a      href="https://yazz.com"
+                        target=new
+                        v-bind:refresh='refresh'
+                        style='font-size:2rem;color:white;'>
                       
-                      <!--   --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
-                    <!--                                                                                               -->
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                    <!--   ----------------------------------------------------------------------------------------------------------- -->
-                    <template    v-for="(item, index) in editable_app_list">
-                    <div    v-bind:refresh='refresh'
-                            v-if="(editingBaseComponentId == item.base_component_id)"
-                            v-on:mouseenter="currentlyHighlightedEditableCodeId = item.code_id;"
-                            v-on:mouseleave="currentlyHighlightedEditableCodeId = null;"
-                            style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
-                            class='app_card'>
+                    Yazz
+                
+                </a>
+            </div>
+        </div>
+                
+                
+        <span>
+            <a      href="https://yazzapps.com"
+                  target=new
+                  v-bind:refresh='refresh'
+                  style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
+                  
+                Company
+            </a>
+        </span>
+        
                       
-                            <!--   -----------------------------------
-                            |                                      |
-                            |    Show the list of editable apps    |
-                            |                                      |
-                            --------------------------------------
-                            
-                            Iterate through the apps in "editable_app_list"
-                            
-                            --------
-                            | Params |
-                            ------------------------------------------------------------------
-                            |
-                            |     editable_app_list: [
-                            |     ----------------      base_component_id:  The "baseComponentId" or Type of the
-                            |                           ------------------  app
-                            |
-                            |                           code_id:            The commit ID of the app. Sometimes the app
-                            |                           --------            is not the latest version of the app, which
-                            |                                               is why this is needed
-                            |                         ]
-                            |
-                            ------------------------------------------------------------------------------ -->
+        <span>
+            <a      href="https://discord.gg/7cauwRN9QB"
+                  target=new
+                  v-bind:refresh='refresh'
+                  style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
+                  
+                Discord
                 
-                        <div    v-if="(editingBaseComponentId == item.base_component_id)"
-                                v-bind:refresh='refresh'
-                                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+            </a>
+        </span>
                 
-                                <component  id="editor_component2"
-                                            v-if='isValidObject(item)'
-                                            :is='GLOBALS.baseComponentIdReturnsCommitId["app_editor_3"]'
-                                            v-bind:arg_edit_base_component_id='item.base_component_id'
-                                            v-bind:arg_edit_code_id='item.code_id'>
-                                </component>
-                        </div>
-                    </div>
-                    </template>
+                
+        <span>
+              <iframe src="https://ghbtns.com/github-btn.html?user=yazz&repo=yazz&type=star&count=true"
+                      frameborder="0" scrolling="0" width="150" height="25" title="GitHub"
+                      style="margin-left:40px"></iframe>
+            
+        </span>
+    </div>
 
                     
                     
@@ -214,556 +296,394 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     
                     
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <!-- -------------------------------------  Show the Yazz logo and top tabs   ------------------------------------------------ -->
-                    <!-- 
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     -->
-                    <!--   ----------------------------------------------------------------------------------------------------------- -->
-                    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
-                            v-if="(!editingBaseComponentId)"
-                            v-bind:refresh='refresh'>
-                
-                            <div    v-bind:refresh='refresh'
-                                    style="display: inline-block;border:0px; padding: 0px; margin: 0px;padding-left:15px;width:36px;height:36px;;position:relative;">
-                
-                                    <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:0px;top:0px;background-color:red;"></div>
-                
-                                    <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:20px;top:0px;background-color:red;"></div>
-                
-                                    <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:10px;top:10px;background-color:red;"></div>
-                
-                                    <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:0px;top:20px;background-color:red;"></div>
-                
-                            </div>
-                
-                
-                              <div    v-bind:refresh='refresh'
-                                      style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 9px;line-height: 1;display: inline-block;top:-10px;position:relative;left:-20px;">
-                                <div    v-bind:refresh='refresh'
-                                        style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 16px;line-height: 1;display: inline-block;top:0px;left:-20px;">
-                                  <a      href="https://yazz.com"
-                                          target=new
-                                          v-bind:refresh='refresh'
-                                          style='font-size:2rem;color:white;'>
-                                    Yazz
-                        
-                                  </a>
-                                </div>
-                              </div>
-                
-                
-                          <span>
-                              <a      href="https://yazzapps.com"
-                                      target=new
-                                      v-bind:refresh='refresh'
-                                      style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
-                                Company
-                        
-                              </a>
-                          </span>
-                
-                      
-                        <span>
-                          <a      href="https://discord.gg/7cauwRN9QB"
-                                  target=new
-                                  v-bind:refresh='refresh'
-                                  style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
-                            Discord
-                        
-                          </a>
-                        </span>
-                
-                
-                      <span>
-                              <iframe src="https://ghbtns.com/github-btn.html?user=yazz&repo=yazz&type=star&count=true"
-                                      frameborder="0" scrolling="0" width="150" height="25" title="GitHub"
-                                      style="margin-left:40px"></iframe>
-                            
-                      </span>
-                    </div>
+    
+    
+    
+    <!-- ------------------------------------   Show the top buttons, New App, etc    -->
+    <!-- 
+     
 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <!-- ------------------------------------   Show the top buttons, New App, etc    -->
-                    <!-- 
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     -->
-                    <!--   ----------------------------------------------------------------------------------------------------------- -->
-                    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
-                            v-if="(!editingBaseComponentId)"
-                            v-bind:refresh='refresh'>
+     -->
+    <!--   ----------------------------------------------------------------------------------------------------------- -->
+    <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
+            v-if="(!editingBaseComponentId)"
+            v-bind:refresh='refresh'>
+            
+        <h1 style='width:100%;vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'></h1>
+
+                
+                
+                
+        <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-top:30;
+                margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
+                class='btn btn-lg'
+                v-if="hideImportButtons"
+                v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
+                
+            <img    src='/driver_icons/blocks.png'
+                    style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
+             />
                             
-                        <h1 style='width:100%;vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'>
+                New App
+        </button>
+                
+ 
+        <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
+                class='btn btn-lg'
+                v-if="!hideImportButtons"
+                v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
+                
+            <img    src='/driver_icons/blocks.png'
+                    style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;' />
+                                    
+                New App
+        </button>
                 
                 
+  
+        <form       id="uploadfilefromhomepageform"
+                    method="POST"
+                    style="display:none;"
+                    enctype="multipart/form-data"
+                    action="/http_post_file_upload_single"  >
+        
+            <input  type="file"
+                    id="uploadfilefromhomepage"
+                    name="uploadfilefromhomepage"
+                    multiple
+                    style="display:none;"
+                    v-on:change="submitFormAjax();"
+                    />
+        </form>
                 
                 
-                          <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-top:30;
-                          margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
-                                  class='btn btn-lg'
-                                  v-if="hideImportButtons"
-                                  v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
-                            <img    src='/driver_icons/blocks.png'
-                                    style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
+        <form       id="openfilefromhomepageform"
+                    method="POST"
+                    style="display:none;"
+                    enctype="multipart/form-data"
+                    action="/http_post_file_open_single"  >
+
+            <input  type="file"
+                    id="openfilefromhomepage"
+                    name="openfilefromhomepage"
+                    multiple
+                    style="display:none;"
+                    v-on:change="openFileChange();"
+                    />
+        </form>
+                
+        <div    v-if="showFilePicker"
+                style="position: fixed;left:10vw;top:5vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;font-size: 20px;">
+    
+            <div    style="font-size: 40px;">
+                    Choose a .yazz file
+            </div>
+                
+            <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
+                <button     class="btn btn"
+                            style='margin:2px;margin-right:50px;background-color: darkgray;'
+                            v-on:click="chosenFolderUp();">
+                    
+                    Up  
+                </button>
+                    
+                {{open_file_path}}
+            </div>
+                    
+            <div    style="width:80vw;height:50vh; background-color: white; overflow:scroll;"
+                    class="text-left">
+        
+                <div    v-for="(file_or_folder_item, index) in open_file_list"
+                        v-bind:refresh='refresh'
+                        v-bind:style='"background-color: " + (file_or_folder_item.type == "folder"?"darkgray":"lightgray") + "; margin:0px;height:auto;"'
+                        v-on:click='selectOpenFileOrFolder(file_or_folder_item)'
+                        class="text-left"
+                        >
+                            {{file_or_folder_item.name}}
+                </div>
+            </div>
+            
+                    
+                    
+            <div>        
+                <button     class="btn btn-danger btn-lg"
+                            style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                            v-on:click="showFilePicker=false">
+    
+                    <img    src='/driver_icons/cancel.svg'
+                            style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
                              />
-                            
-                            New App
-                          </button>
+                                                
+                    
+                        Cancel
+                </button>
+            </div>
+                    
+
                 
-                
-                
-                
-                
-                            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
-                                    class='btn btn-lg'
-                                    v-if="!hideImportButtons"
-                                    v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
-                                    <img    src='/driver_icons/blocks.png'
-                                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                             />
-                                    
-                                New App
-                            </button>
-                
-                
-                
-                
-                
-                            <form       id="uploadfilefromhomepageform"
-                                        method="POST"
-                                        style="display:none;"
-                                        enctype="multipart/form-data"
-                                        action="/http_post_file_upload_single"  >
-                
-                                <input  type="file"
-                                        id="uploadfilefromhomepage"
-                                        name="uploadfilefromhomepage"
-                                        multiple
-                                        style="display:none;"
-                                        v-on:change="submitFormAjax();"
-                                        />
-                            </form>
-                
-                
-                            <form       id="openfilefromhomepageform"
-                                        method="POST"
-                                        style="display:none;"
-                                        enctype="multipart/form-data"
-                                        action="/http_post_file_open_single"  >
-                
-                                <input  type="file"
-                                        id="openfilefromhomepage"
-                                        name="openfilefromhomepage"
-                                        multiple
-                                        style="display:none;"
-                                        v-on:change="openFileChange();"
-                                        />
-                            </form>
-                
-                            <div    v-if="showFilePicker"
-                                    style="position: fixed;left:10vw;top:5vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;font-size: 20px;">
-                
-                                    <div    style="font-size: 40px;"
-                                            >
-                                            Choose a .yazz file
-                                    </div>
-                
-                                <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
-                                    <button     class="btn btn"
-                                                style='margin:2px;margin-right:50px;background-color: darkgray;'
-                                                v-on:click="chosenFolderUp();"
-                                           >
-                
-                                        Up
-                                    </button>
-                
-                                    {{open_file_path}}
-                                </div>
-                
-                                <div    style="width:80vw;height:50vh; background-color: white; overflow:scroll;"
-                                        class="text-left">
-                
-                                    <div    v-for="(file_or_folder_item, index) in open_file_list"
-                                            v-bind:refresh='refresh'
-                                            v-bind:style='"background-color: " + (file_or_folder_item.type == "folder"?"darkgray":"lightgray") + "; margin:0px;height:auto;"'
-                                            v-on:click='selectOpenFileOrFolder(file_or_folder_item)'
-                                            class="text-left"
-                                            >
-                                                {{file_or_folder_item.name}}
-                                    </div>
-                                </div>
-                
-                
-                
-                                <div>
-                
-                
-                
-                                    <button
-                
-                                            class="btn btn-danger btn-lg"
-                                           style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                                           v-on:click="showFilePicker=false"
-                                           >
-                
-                                            <img    src='/driver_icons/cancel.svg'
-                                                    style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                                     />
-                                            
-                
-                                        Cancel
-                                    </button>
-                                </div>
-                
-                
+                        
+            <button class="btn btn-danger btn-lg"
+                    style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
+                    v-on:click="importApp();"
+                    v-if="!hideImportButtons"
+                    >
+                    
+                <img    src='/driver_icons/import.svg'
+                        style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                         />                            
+                Import
+            </button>
+                        
+                        
+            <button class="btn btn-danger btn-lg"
+                    style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
+                    v-on:click="openFile();"
+                    v-if="!hideImportButtons">
+                        
+                <img    src='/driver_icons/fileopen.png'
+                        style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                         />
+                      
+                Open file
+            </button>                  
+        </div>
+    </div>
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+    
+    
+    <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
+    <!-- 
+     
+
+     -->
+    <!--   ----------------------------------------------------------------------------------------------------------- -->
+    <div    class=""
+            v-bind:refresh='refresh'
+            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
+            
+        <div  v-bind:refresh='refresh'
+              class='force_scrollbars'
+              style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;margin-bottom:80px;'>
+              
+            <div    v-for="(item, index) in appstore_apps"
+                    v-bind:refresh='refresh'
+                    v-on:mouseenter=" currentlyHighlightedAppstoreBCI = item.base_component_id;"
+                    v-on:mouseleave=" currentlyHighlightedAppstoreBCI = null;"
+                    style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
+                    class='app_card'>
+                    
+                <div    v-bind:refresh='refresh'
+                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.id) )?"background-color:white;":"background-color:black;")'>
+    
+                    <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)'
+                            v-bind:refresh='refresh'
+                            style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
+                 
+                        <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
+                                v-bind:refresh='refresh'
+                                v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
+                                v-on:click="$event.stopPropagation();$event.preventDefault();"
+                                v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
+                                v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
+                                style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
+                        
+                            <div style="padding: 10px;">
+                                {{item.display_name}}
                             </div>
-                
-                
-                            <button
-                                   class="btn btn-danger btn-lg"
-                                   style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
-                                   v-on:click="importApp();"
-                                   v-if="!hideImportButtons"
-                                   >
-                
-                                    <img    src='/driver_icons/import.svg'
-                                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                             />
+                        
+                            <img    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
+                                    v-bind:src='app_store_component_logos_by_BCI[item.base_component_id]'
+                                    style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
+                                    v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
+                                    v-on:click='$event.stopPropagation();editApp(item.base_component_id)' />
+                            
+                        
+                        
+                            <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                    class='btn btn-sm'
+                                    v-if="item.component_type == 'app' "
+                                    v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
                                     
-                
-                                Import
+                                <img    src='/driver_icons/play.png'
+                                      style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                />
+                                          
+                                Play
                             </button>
-                
-                
-                            <button
-                                   class="btn btn-danger btn-lg"
-                                   style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
-                                   v-on:click="openFile();"
-                                   v-if="!hideImportButtons"
-                                   >
-                
-                                    <img    src='/driver_icons/fileopen.png'
-                                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                             />
-                                    
-                
-                                Open file
+                                        
+                                        
+                            <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                    class='btn  btn-sm'
+                                    v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.content_hash)'>
+                                                
+                                <img    src='/driver_icons/edit.png'
+                                      style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                />
+                                          
+                                    Edit
                             </button>
-                          
-                        </h1>
+                                          
+                        </div>
+                    </div>
+                </div>
+
+                    
+                    
+    
+    
+                <div v-if="currentlyHighlightedAppstoreBCI != item.id"
+                     style='border-radius: 0px;padding:0px; margin:0;'
+                     v-on:click='$event.stopPropagation();editApp(item.id)'>
+                     
+                    <img    v-if='(app_store_component_logos_by_BCI[item.id] && (app_store_component_logos_by_BCI[item.id] != ""))'
+                            v-bind:src='app_store_component_logos_by_BCI[item.id]'
+                            style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
+                            v-bind:alt='app_store_component_logos_by_BCI[item.id]'
+                            v-on:click='$event.stopPropagation();editApp(item.id)'
+                    />
+                                  
+                    <a  v-on:click='$event.stopPropagation();editApp(item.id)'
+                        class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
+                    
+                        {{item.display_name}}
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- -----------------------------------    Show the "Editable" apps ------------------------------------------------ -->
+    <!-- 
+                   
+                                         
+    -->
+    <!--   ----------------------------------------------------------------------------------------------------------- -->
+    <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
+    
+        <span style="font-size: 60px; color: white;">Editable Apps</span>
+
+        <!-- ---------------------------  Loop through the "Editable apps" and show clickable icons ------------------------------------------------ -->
+        <div v-bind:refresh='refresh'
+             class='force_scrollbars'
+             id="downloaded_apps"
+             style='offsetleft:200;position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
+
+            <div      v-for="(item, index) in editable_app_list"
+                      v-bind:refresh='refresh'
+                      v-bind:id='"appid_" + item.code_id'
+                      v-on:mouseenter="if (!disableHighlightEditableApp) {currentlyHighlightedEditableCodeId = item.code_id;}"
+                      v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedEditableCodeId == item.code_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'>
+
+                <div    v-bind:refresh='refresh'
+                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
+
+                    <div    v-if='(currentlyHighlightedEditableCodeId == item.code_id) && (!editingCodeId)'
+                            v-bind:refresh='refresh'
+                            style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
+
+                        <div    v-if='(currentlyHighlightedEditableCodeId == item.code_id) '
+                                v-bind:refresh='refresh'
+                                v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
+                                v-on:click="$event.stopPropagation();$event.preventDefault();"
+                                v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
+                                v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
+                                style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
+
+                            <div style="padding: 10px;">
+                                {{item.displayName}} {{(item.visibility?" - "+item.visibility:"")}}
+                            </div>
+                            
+                            <div    v-if="item.code_id"
+                                    style="padding: 10px;">
+                            
+                                {{item.code_id.substring(0,5)}}...
+                            </div>
+
+                            <img      v-if='(currentlyHighlightedEditableCodeId == item.code_id)'
+                                      v-bind:src='item.logo_url'
+                                      style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
+                                      v-bind:alt='item.base_component_id'
+                                      v-on:click='$event.stopPropagation();editApp(item.base_component_id, item.code_id)' />
+                                  
+
+                            <button   style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                      class='btn btn-sm'
+                                      v-if="item.component_type=='app'"
+                                      v-on:click='runAppInNewBrowserTab(item.base_component_id);'>
+
+                                <img    src='/driver_icons/play.png'
+                                        style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
+                                
+                                    Play
+                            </button>
+                            
+                            <button   style='position:absolute;top:250px;left:140px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                      class='btn btn-sm'
+                                      v-on:click='showProgressBar();$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
+    
+                                <img    src='/driver_icons/edit.png'
+                                        style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
+                                
+                                    Edit
+                            </button>
+                        </div>
                     </div>
 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
-                    <!-- 
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     -->
-                    <!--   ----------------------------------------------------------------------------------------------------------- -->
-                    <div    class=""
-                            v-bind:refresh='refresh'
-                            style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
-                        <div  v-bind:refresh='refresh'
-                              class='force_scrollbars'
-                              style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;margin-bottom:80px;'>
-                            <div    v-for="(item, index) in appstore_apps"
-                                    v-bind:refresh='refresh'
-                                    v-on:mouseenter=" currentlyHighlightedAppstoreBCI = item.base_component_id;"
-                                    v-on:mouseleave=" currentlyHighlightedAppstoreBCI = null;"
-                                    style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
-                                    class='app_card'>
-                                <div    v-bind:refresh='refresh'
-                                      v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.id) )?"background-color:white;":"background-color:black;")'>
-                    
-                                <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)'
-                                        v-bind:refresh='refresh'
-                                        style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
-                    
-                    
-                    
-                                  <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
-                                          v-bind:refresh='refresh'
-                                          v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
-                                          v-on:click="$event.stopPropagation();$event.preventDefault();"
-                                          v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
-                                          v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
-                                          style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
-                    
-                                    <div style="padding: 10px;">
-                                      {{item.display_name}}
-                                    </div>
-                    
-                                    <img    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
-                                            v-bind:src='app_store_component_logos_by_BCI[item.base_component_id]'
-                                            style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
-                                            v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
-                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id)' />
-                                    
-                    
-                    
-                                    <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
-                                            class='btn btn-sm'
-                                            v-if="item.component_type == 'app' "
-                                            v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
-                                      <img    src='/driver_icons/play.png'
-                                              style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                       />
-                                      
-                                      Play
-                                    </button>
-                                    
-                                    
-                                    <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
-                                            class='btn  btn-sm'
-                                            v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.content_hash)'>
-                                      <img    src='/driver_icons/edit.png'
-                                              style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                       />
-                                      
-                                      Edit
-                                    </button>
-                    
-                    
-                    
-                    
-                    
-                                  </div>
-                                </div>
-                    
-                    
-                    
-                    
-                    
-                                <div v-if="currentlyHighlightedAppstoreBCI != item.id"
-                                     style='border-radius: 0px;padding:0px; margin:0;'
-                                     v-on:click='$event.stopPropagation();editApp(item.id)'>
-                                  <img    v-if='(app_store_component_logos_by_BCI[item.id] && (app_store_component_logos_by_BCI[item.id] != ""))'
-                                          v-bind:src='app_store_component_logos_by_BCI[item.id]'
-                                          style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
-                                          v-bind:alt='app_store_component_logos_by_BCI[item.id]'
-                                          v-on:click='$event.stopPropagation();editApp(item.id)'
-                                   />
-                                  
-                    
-                                  <a  v-on:click='$event.stopPropagation();editApp(item.id)'
-                                      class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
-                    
-                                    {{item.display_name}}
-                                  </a>
-                    
-                                </div>
-                              </div>
-                            </div>
-                        </div>
 
+                    <div    v-if="currentlyHighlightedEditableCodeId != item.code_id"
+                            style='border-radius: 0px;padding:0px; margin:0;'
+                            v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
 
-
-
-
-
-
-
-
-
-                      <!-- -----------------------------------    Show the "Editable" apps ------------------------------------------------ -->
-                      <!-- 
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       -->
-                      <!--   ----------------------------------------------------------------------------------------------------------- -->
-                      <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
-                        <span style="font-size: 60px; color: white;">Editable Apps</span>
-
-                        <!-- ---------------------------  Loop through the "Editable apps" and show clickable icons ------------------------------------------------ -->
-                        <div v-bind:refresh='refresh'
-                             class='force_scrollbars'
-                             id="downloaded_apps"
-                             style='offsetleft:200;position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
-
-                          <div    v-for="(item, index) in editable_app_list"
-                                  v-bind:refresh='refresh'
-                                  v-bind:id='"appid_" + item.code_id'
-                                  v-on:mouseenter="if (!disableHighlightEditableApp) {currentlyHighlightedEditableCodeId = item.code_id;}"
-                                  v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedEditableCodeId == item.code_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'>
-
-                            <div    v-bind:refresh='refresh'
-                                    v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
-
-                              <div    v-if='(currentlyHighlightedEditableCodeId == item.code_id) && (!editingCodeId)'
-                                      v-bind:refresh='refresh'
-                                      style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
-
-                                <div    v-if='(currentlyHighlightedEditableCodeId == item.code_id) '
-                                        v-bind:refresh='refresh'
-                                        v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
-                                        v-on:click="$event.stopPropagation();$event.preventDefault();"
-                                        v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
-                                        v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
-                                        style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
-
-                                  <div style="padding: 10px;">
-                                    {{item.displayName}} {{(item.visibility?" - "+item.visibility:"")}}
-                                  </div>
-                                  <div  v-if="item.code_id"
-                                        style="padding: 10px;">
-
-                                    {{item.code_id.substring(0,5)}}...
-                                  </div>
-
-                                  <img    v-if='(currentlyHighlightedEditableCodeId == item.code_id) '
-                                          v-bind:src='item.logo_url'
-                                          style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
-                                          v-bind:alt='item.base_component_id'
-                                          v-on:click='$event.stopPropagation();editApp(item.base_component_id, item.code_id)' />
-                                  
-
-                                  <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
-                                          class='btn btn-sm'
-                                          v-if="item.component_type=='app'"
-                                          v-on:click='runAppInNewBrowserTab(item.base_component_id);'>
-
-                                    <img    src='/driver_icons/play.png'
-                                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
-                                    
-                                    Play
-                                  </button>
-
-                                  <button style='position:absolute;top:250px;left:140px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
-                                          class='btn btn-sm'
-                                          v-on:click='showProgressBar();$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
-
-                                    <img    src='/driver_icons/edit.png'
-                                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
-                                    
-                                    Edit
-                                  </button>
-                                </div>
-                              </div>
-
-
-                              <div  v-if="currentlyHighlightedEditableCodeId != item.code_id"
-                                    style='border-radius: 0px;padding:0px; margin:0;'
-                                    v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
-
-                                <img  v-if='item.logo_url'
-                                      v-bind:src='item.logo_url'
-                                      style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
-                                      v-bind:alt='item.displayName'
-                                      v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)' />
+                        <img  v-if='item.logo_url'
+                              v-bind:src='item.logo_url'
+                              style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
+                              v-bind:alt='item.displayName'
+                              v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)' />
                                 
 
-                                <a  v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'
-                                    class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
+                        <a  v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'
+                            class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
-                                  {{item.displayName}}
-                                </a>
-
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            {{item.displayName}}
+                        </a>
 
                     </div>
                 </div>
-            </div>`,
+            </div>
+        </div>
+    </div>
+</div>`,
             data:       function() {
                 // data for the Vue object - see top of file for more info
                 return {
