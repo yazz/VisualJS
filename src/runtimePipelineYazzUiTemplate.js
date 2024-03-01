@@ -73,8 +73,7 @@
                             v-bind:style='"display:flex;cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
                         <img    src='/driver_icons/cursor.png'
                                 style='width: 100%;'
-                                class='img-fluid'>
-                        </img>
+                                class='img-fluid' />
                     </div>
 
                   <div    v-for='av in available_components'>
@@ -104,8 +103,8 @@
                         <img    v-if='isValidObject(av)'
                                 v-bind:src='av.logo_url'
                                 style='width: 100%;'
-                                class='img-fluid'>
-                        </img>
+                                class='img-fluid' />
+                        
 
 
                   </div>
@@ -198,8 +197,8 @@
 
                                             <img    src='/driver_icons/cancel.svg'
                                                     style='position:relative;max-width: 40px; bottom:0px; left: 0px;max-height: 16px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                                    >
-                                            </img>
+                                                     />
+                                           
 
                                         Cancel
                                     </button>
@@ -1650,8 +1649,8 @@ Pushlist
                     <img
                         src='/driver_icons/form.png'
                         style='width: 20px; margin-right: 10px;'
-                        class='img-fluid'>
-                     </img>
+                        class='img-fluid' />
+                     
                      {{active_form}} (Form)
                 </div>
                 <div style=''></div>
@@ -1931,8 +1930,8 @@ Pushlist
                                       src='/driver_icons/builder.png'
                                       style='margin: auto;'
                                       zzz=""
-                                      class='img-fluid'>
-                                  </img>
+                                      class='img-fluid' />
+                                  
                             </div>
 
 
@@ -1956,8 +1955,8 @@ Pushlist
                             <img
                                 src='/driver_icons/plus.png'
                                 style='margin: auto;'
-                                class='img-fluid'>
-                            </img>
+                                class='img-fluid' />
+                            
                           </div>
 
 
@@ -2132,7 +2131,7 @@ Pushlist
 
                         <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
                                     <b   v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>App - {{edited_app_display_name}}</b>
                         </div>
 
@@ -2140,12 +2139,12 @@ Pushlist
                             <div>
                                 <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;position:relative;"'>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
+                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
                                      <img
                                             src='/driver_icons/form.png'
                                             style='width: 20px; margin-right: 10px;'
-                                            class='img-fluid'>
-                                     </img>
+                                            class='img-fluid' />
+                                     
 
                                       <span v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>{{form.name}} ({{form.components.length}})</span>
                                 </div>
@@ -2157,7 +2156,7 @@ Pushlist
                                           v-if='(av.parent == null)'>
                                       <div  style='width:100%;position:relative;'>
 
-                                              <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
+                                              <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
                                               <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'>{{av.name}}</span>
                                               
                                               <div    v-if='form.name == active_form'
@@ -2167,7 +2166,7 @@ Pushlist
                                                         v-if='(av2.parent == av.name)'>
                                                     <div  style='width:100%;position: relative;'>
 
-                                                            <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;"></img></button>
+                                                            <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
                                                             <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'>{{av2.name}}</span>
                                                     </div>
                                                   </div>
@@ -2283,8 +2282,8 @@ Pushlist
                                         <div    v-if="(property.type  == 'FilePath') ">
                                             <img    src='/driver_icons/fileopen.png'
                                                     style='height: 16px;'
-                                                    class='img-fluid'>
-                                            </img>
+                                                    class='img-fluid' />
+                                            
 
                                             <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                         v-on:click='$event.stopPropagation();selectFilePath({
@@ -2380,8 +2379,8 @@ Pushlist
                                                                     })
                                                                 '
                                                     style='height: 20px;'
-                                                    class='img-fluid'>
-                                            </img>
+                                                    class='img-fluid' />
+                                            
                                             
 
                                         </div>       

@@ -178,8 +178,8 @@ use_db("todo")
                                             
                                           <img      src='/driver_icons/reload.png'
                                                     style='height:40px; margin-right: 0px;'
-                                                    class='img-fluid'>
-                                          </img>
+                                                    class='img-fluid' />
+                                          
                                       </button>
                     
                     
@@ -468,8 +468,8 @@ use_db("todo")
                               <img
                                   src='/driver_icons/database.png'
                                   style='height:35px; margin-right: 0px;'
-                                  class='img-fluid'>
-                              </img>
+                                  class='img-fluid' />
+                              
                               Old DB Editor
                             </a>
                           </div>

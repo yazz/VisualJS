@@ -66,7 +66,7 @@ logo_url("/driver_icons/timer.png")
 
                         <img v-if="design_mode"
                              v-bind:style='"max-width:" + args.width + "px;max-height: " + args.height + "px;"'
-                             src="/driver_icons/timer.png"></img>
+                             src="/driver_icons/timer.png" />
                  </div>`
       ,
       data: function() {

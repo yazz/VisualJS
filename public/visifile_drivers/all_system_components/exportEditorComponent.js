@@ -40,12 +40,12 @@ load_once_from_file(true)
         <div style="height:100%;">
 
             <div style="height:200px;margin-top:40px;">
-                <img src="/driver_icons/ducker.png"  style="width:100px;"></img>
+                <img src="/driver_icons/ducker.png"  style="width:100px;" />
                 <a href="#export_as_docker">A) Export App as Docker Container</a>
             </div>
 
             <div style="height:200px;">
-                <img src="/driver_icons/openshift.png"  style="width:100px;"></img>
+                <img src="/driver_icons/openshift.png"  style="width:100px;" />
                 <a href="#export_as_openshift">B) Export App for OpenShift</a>
             </div>
 
@@ -56,7 +56,7 @@ load_once_from_file(true)
 
 
             <div id="export_as_docker"  style="height:950px;padding-top:50px;">
-                <img src="/driver_icons/ducker.png"  style="width:100px;"></img>
+                <img src="/driver_icons/ducker.png"  style="width:100px;" />
 
 
                 <h4 style="font-weight:bold;">A) Export App as Docker Container</h4>
@@ -157,7 +157,7 @@ load_once_from_file(true)
 
 
             <div id="export_as_openshift"  style="height:950px;padding-top:50px;">
-                <img src="/driver_icons/openshift.png"  style="width:100px;"></img>
+                <img src="/driver_icons/openshift.png"  style="width:100px;" />
 
 
                 <h4 style="font-weight:bold;">B) Export App for OpenShift</h4>

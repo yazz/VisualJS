@@ -46,8 +46,8 @@ logo_url("/driver_icons/image.png")
       template: `<img   v-bind:width='args.width + "px"'
                         v-bind:refresh='refresh'
                         alt='No image set'
-                        v-bind:src='"" + args.image_data'>
-                 </img>`
+                        v-bind:src='"" + args.image_data' />
+                 `
       ,
       data: function() {
        return {

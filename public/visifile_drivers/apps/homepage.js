@@ -337,8 +337,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                   v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
                             <img    src='/driver_icons/blocks.png'
                                     style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
-                            >
-                            </img>
+                             />
+                            
                             New App
                           </button>
                 
@@ -352,8 +352,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                     v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
                                     <img    src='/driver_icons/blocks.png'
                                             style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                            >
-                                    </img>
+                                             />
+                                    
                                 New App
                             </button>
                 
@@ -440,8 +440,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 
                                             <img    src='/driver_icons/cancel.svg'
                                                     style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                                    >
-                                            </img>
+                                                     />
+                                            
                 
                                         Cancel
                                     </button>
@@ -460,8 +460,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 
                                     <img    src='/driver_icons/import.svg'
                                             style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                            >
-                                    </img>
+                                             />
+                                    
                 
                                 Import
                             </button>
@@ -476,8 +476,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 
                                     <img    src='/driver_icons/fileopen.png'
                                             style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                            >
-                                    </img>
+                                             />
+                                    
                 
                                 Open file
                             </button>
@@ -565,8 +565,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                             v-bind:src='app_store_component_logos_by_BCI[item.base_component_id]'
                                             style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                             v-bind:alt='app_store_component_logos_by_BCI[item.base_component_id]'
-                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id)'>
-                                    </img>
+                                            v-on:click='$event.stopPropagation();editApp(item.base_component_id)' />
+                                    
                     
                     
                                     <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
@@ -575,8 +575,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                             v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
                                       <img    src='/driver_icons/play.png'
                                               style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                      >
-                                      </img>
+                                       />
+                                      
                                       Play
                                     </button>
                                     
@@ -586,8 +586,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                             v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.content_hash)'>
                                       <img    src='/driver_icons/edit.png'
                                               style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                      >
-                                      </img>
+                                       />
+                                      
                                       Edit
                                     </button>
                     
@@ -610,8 +610,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                           style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                           v-bind:alt='app_store_component_logos_by_BCI[item.id]'
                                           v-on:click='$event.stopPropagation();editApp(item.id)'
-                                  >
-                                  </img>
+                                   />
+                                  
                     
                                   <a  v-on:click='$event.stopPropagation();editApp(item.id)'
                                       class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
@@ -687,8 +687,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                           v-bind:src='item.logo_url'
                                           style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                           v-bind:alt='item.base_component_id'
-                                          v-on:click='$event.stopPropagation();editApp(item.base_component_id, item.code_id)'>
-                                  </img>
+                                          v-on:click='$event.stopPropagation();editApp(item.base_component_id, item.code_id)' />
+                                  
 
                                   <button style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                           class='btn btn-sm'
@@ -696,8 +696,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                           v-on:click='runAppInNewBrowserTab(item.base_component_id);'>
 
                                     <img    src='/driver_icons/play.png'
-                                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'>
-                                    </img>
+                                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
+                                    
                                     Play
                                   </button>
 
@@ -706,8 +706,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                           v-on:click='showProgressBar();$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
 
                                     <img    src='/driver_icons/edit.png'
-                                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'>
-                                    </img>
+                                            style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
+                                    
                                     Edit
                                   </button>
                                 </div>
@@ -722,8 +722,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                       v-bind:src='item.logo_url'
                                       style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                       v-bind:alt='item.displayName'
-                                      v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
-                                </img>
+                                      v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)' />
+                                
 
                                 <a  v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'
                                     class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">

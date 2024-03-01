@@ -164,8 +164,8 @@ ___________
         <img
             src='/driver_icons/project.png'
             style='width: 20px; margin-right: 10px;'
-            class='img-fluid'>
-        </img>
+            class='img-fluid' />
+        
 
         <h5  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>
             {{component_display_name?"" + component_display_name.substring(0,30):""}}{{(component_display_name && ((component_display_name.length > 50))?"...":"")}} 
@@ -341,8 +341,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                     <img
                         src='/driver_icons/icon.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid'>
-                    </img>
+                        class='img-fluid' />
+                    
                     Icon
 
                   </a>
@@ -365,8 +365,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                     <img
                         src='/driver_icons/download.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid'>
-                    </img>
+                        class='img-fluid' />
+                    
                     Src
 
                   </a>
@@ -383,8 +383,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                     <img
                         src='/driver_icons/database.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid'>
-                    </img>
+                        class='img-fluid' />
+                    
                     DB
 
                   </a>
@@ -409,8 +409,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                     <img
                         src='/driver_icons/undo_icon.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid'>
-                    </img>
+                        class='img-fluid' />
+                    
                     Undo
 
                   </a>
@@ -434,8 +434,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                     <img
                         src='/driver_icons/redo_icon.png'
                         style='height:35px; margin-right: 3px;'
-                        class='img-fluid'>
-                    </img>
+                        class='img-fluid' />
+                    
                     Redo
 
                   </a>
@@ -464,8 +464,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                     <img
                         src='/driver_icons/deliver.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid'>
-                    </img>
+                        class='img-fluid' />
+                    
                     Revisions
 
                   </a>
@@ -523,8 +523,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                     <img
                         src='/driver_icons/remix.png'
                         style='height:35px; margin-right: 0px;'
-                        class='img-fluid'>
-                    </img>Remix
+                        class='img-fluid' />
+                    Remix
 
                   </button>
 
@@ -542,8 +542,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                               <img
                                   src='/driver_icons/save.png'
                                   style='height:35px; margin-right: 0px;'
-                                  class='img-fluid'>
-                              </img>{{saveCodeToFile?"Save":"Save"}}
+                                  class='img-fluid' />
+                              {{saveCodeToFile?"Save":"Save"}}
 
                     </button>
 
@@ -645,8 +645,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                         src='/driver_icons/reload.png'
                         style='height:25px; margin-right: 0px;'
                         class='img-fluid'
-                        >
-                    </img>
+                         />
+                    
                 </button>
     
 
@@ -688,8 +688,8 @@ v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms
                         v-bind:disabled='sqlite_data_saved_in_html?false:""'
                         style="height: 25px;; margin: 0px;"
                         class='img-fluid'
-                        >
-                    </img>
+                         />
+                    
                 </a>
                 
                 <a          
@@ -722,8 +722,8 @@ Embed button
                 <img
                     src='/driver_icons/embed.png'
                     style='height:25px; margin-right: 0px;'
-                    class='img-fluid'>
-                </img>
+                    class='img-fluid' />
+                
               </a>
               
             </div>

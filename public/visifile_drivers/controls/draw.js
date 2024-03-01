@@ -115,10 +115,10 @@ logo_url("/driver_icons/draw.png")
                                               v-bind:width='args.width + "px"'
                                               v-bind:refresh='refresh'
                                               alt='No image set'
-                                              v-bind:src='"" + args.image_data'>
+                                              v-bind:src='"" + args.image_data' />
 
 
-                                    </img>
+                                    
                  </div>`
       ,
       data: function() {
