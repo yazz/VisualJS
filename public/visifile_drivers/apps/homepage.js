@@ -83,7 +83,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             template:
                 `<div   v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
                 
-                    <!  ----------------------------------------    Show the debug mode    ---------------------------------------- -->
+                    <!--   ----------------------------------------    Show the debug mode    ---------------------------------------- -->
                     <!-- 
                      
                      
@@ -93,7 +93,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                      
                      
                      -->
-                    <!  ----------------------------------------------------------------------------------------------------------- -->
+                    <!--   ----------------------------------------------------------------------------------------------------------- -->
                     <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
                         <button style="margin: 20px;"
                                 class='btn btn-lg btn-danger'
@@ -104,7 +104,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                      <!  --------------------------------------  Homepage vars  ------------------------------------>
+                      <!--   --------------------------------------  Homepage vars  ------------------------------------>
                       <!--                                                                                               -->
 
                         <div v-if='homepageDebugViewName=="homepage_vars"' style="">
@@ -148,7 +148,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
   
                         </div>
                       
-                      <!  --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
+                      <!--   --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
                     <!--                                                                                               -->
                      
                      
@@ -157,7 +157,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                      
                      
                      
-                    <!  ----------------------------------------------------------------------------------------------------------- -->
+                    <!--   ----------------------------------------------------------------------------------------------------------- -->
                     <div    v-for="(item, index) in editable_app_list"
                             v-bind:refresh='refresh'
                             v-if="(editingBaseComponentId == item.base_component_id)"
@@ -166,7 +166,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
                             class='app_card'>
                       
-                            <!  -----------------------------------
+                            <!--   -----------------------------------
                             |                                      |
                             |    Show the list of editable apps    |
                             |                                      |
@@ -231,7 +231,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                      
                      
                      -->
-                    <!  ----------------------------------------------------------------------------------------------------------- -->
+                    <!--   ----------------------------------------------------------------------------------------------------------- -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
                             v-bind:refresh='refresh'>
@@ -319,7 +319,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                      
                      
                      -->
-                    <!  ----------------------------------------------------------------------------------------------------------- -->
+                    <!--   ----------------------------------------------------------------------------------------------------------- -->
                     <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
                             v-if="(!editingBaseComponentId)"
                             v-bind:refresh='refresh'>
@@ -526,7 +526,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                      
                      
                      -->
-                    <!  ----------------------------------------------------------------------------------------------------------- -->
+                    <!--   ----------------------------------------------------------------------------------------------------------- -->
                     <div    class=""
                             v-bind:refresh='refresh'
                             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
@@ -642,7 +642,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                        
                        
                        -->
-                      <!  ----------------------------------------------------------------------------------------------------------- -->
+                      <!--   ----------------------------------------------------------------------------------------------------------- -->
                       <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
                         <span style="font-size: 60px; color: white;">Editable Apps</span>
 
