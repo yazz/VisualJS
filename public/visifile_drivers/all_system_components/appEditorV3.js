@@ -289,10 +289,11 @@ $refs.editor_component_ref.runtimeComponentsInfo:
   
 <div v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
 Form runtime info
-<div v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'
-v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
-[  "{{form.name}}"  ]
-</div>
+<template v-if="$refs.editor_component_ref.model && $refs.editor_component_ref.model.forms">
+    <div    v-for='form in $refs.editor_component_ref.model.forms' v-bind:refresh='refresh'>
+            [  "{{form.name}}"  ]
+    </div>
+</template>
 </div>
 
   
