@@ -7867,6 +7867,7 @@
 
         <script>
             var yz
+            var injected_var = "oozy"
             var mainVueAppVm
             yz                              = {
                 mainVars:                   {
@@ -10390,7 +10391,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         }
                         ,
                         provide: function() {
-                            return {"injected_var": "zz"}
+                            return {"injected_var": injected_var}
                         },
                         mounted: async function(){
                             this.local_app = localAppshareApp
@@ -11024,7 +11025,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                     </${codeIdOfComponent}>
                                 `,
                             provide: function() {
-                                return {"injected_var": "zz"}
+                                return {"injected_var": injected_var}
                             }
 
                         })

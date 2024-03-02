@@ -744,7 +744,11 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 let mm = this
 
 debugger
-                mm.injected_var = Vue.inject('injected_var')
+                if (Vue.version.startsWith("2")) {
+                    mm.injected_var = injected_var
+                } else if (Vue.version.startsWith("3")) {
+                    mm.injected_var = Vue.inject('injected_var')
+                }
 
                 /*
                 ____________________________________________________________
