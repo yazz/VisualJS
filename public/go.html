@@ -10389,6 +10389,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             }
                         }
                         ,
+                        provide: function() {
+                            return {"injected_var": "zz"}
+                        },
                         mounted: async function(){
                             this.local_app = localAppshareApp
                         }
