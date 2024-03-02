@@ -11019,7 +11019,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                             v-bind:card_index='1'
                                             >
                                     </${codeIdOfComponent}>
-                                `
+                                `,
+                            provide: function() {
+                                return {"injected_var": "zz"}
+                            }
+
                         })
                         componentAppvue.config.compilerOptions.whitespace = 'preserve';
                         componentAppvue.mount( "#" + rootElement )

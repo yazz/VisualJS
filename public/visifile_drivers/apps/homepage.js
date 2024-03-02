@@ -721,6 +721,12 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             homepageDebugViewName:                  null
                         }
             },
+            setup:      function() {
+                //let mm = this
+                //debugger
+                //let injected_var = Vue.inject('injected_var')
+                //debugger
+            },
             mounted:    async function() {
                 /* mounted - when the homepage Vue component is first loaded
                 ________________________________________
@@ -737,7 +743,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 |________________________________________________________________________ */
                 let mm = this
 
-
+debugger
+                mm.injected_var = Vue.inject('injected_var')
 
                 /*
                 ____________________________________________________________
