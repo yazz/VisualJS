@@ -745,9 +745,13 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
 debugger
                 if (Vue.version.startsWith("2")) {
-                    mm.injected_var = injected_var
+                    mm.GLOBALS          = GLOBALS
+                    mm.isValidObject    = isValidObject,
+                    mm.yz               = yz
                 } else if (Vue.version.startsWith("3")) {
-                    mm.injected_var = Vue.inject('injected_var')
+                    mm.GLOBALS          = Vue.inject('GLOBALS')
+                    mm.isValidObject    = Vue.inject('isValidObject')
+                    mm.yz               = Vue.inject('yz')
                 }
 
                 /*

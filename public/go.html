@@ -7866,8 +7866,14 @@
         </script>
 
         <script>
+            function        isValidObject                       (   variable   ){
+                if ((typeof variable !== 'undefined') && (variable != null)) {
+                    return true
+                }
+                return false
+            }
+
             var yz
-            var injected_var = "oozy"
             var mainVueAppVm
             yz                              = {
                 mainVars:                   {
@@ -9192,6 +9198,12 @@
                 //
                 isStaticHtmlPageApp: false
             }
+            var injectedVars = {
+                GLOBALS:            GLOBALS,
+                isValidObject:      isValidObject,
+                yz:                 yz
+            }
+
             window.GLOBALS = GLOBALS
             var networkIntranetIpAddress        = null
             var file_upload_uuid                = null
@@ -10391,7 +10403,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         }
                         ,
                         provide: function() {
-                            return {"injected_var": injected_var}
+                            return injectedVars
                         },
                         mounted: async function(){
                             this.local_app = localAppshareApp
@@ -11025,7 +11037,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                     </${codeIdOfComponent}>
                                 `,
                             provide: function() {
-                                return {"injected_var": injected_var}
+                                return injectedVars
                             }
 
                         })
@@ -11704,12 +11716,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     value: value
                 })
                 xhr.send(payload);
-            }
-            function        isValidObject                       (   variable   ){
-                if ((typeof variable !== 'undefined') && (variable != null)) {
-                    return true
-                }
-                return false
             }
             function        uuidv4                              (   ) {
                 return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
