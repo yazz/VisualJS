@@ -494,7 +494,7 @@ Form runtime info
                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                     x="0px"
                                     width="35px"
-                                    viewBox="0 0 210.107 210.107"
+                                    viewBoxdup="0 0 210.107 210.107"
                                     height="35px"
                                     y="0px"
                                   	viewBox="0 0 492 492"
@@ -920,9 +920,8 @@ End of app preview menu
 
 
 
-            <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: hidden; background-color: white;padding:0;margin-left:20px;'
-                    >
-                <div    v-bind:class='(debugger_right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")''
+            <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: hidden; background-color: white;padding:0;margin-left:20px;' >
+                <div    v-bind:class='(debugger_right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")'
                         v-bind:refresh='refresh'
                         v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 

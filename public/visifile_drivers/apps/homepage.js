@@ -743,7 +743,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 |________________________________________________________________________ */
                 let mm = this
 
-debugger
+//debugger
                 if (Vue.version.startsWith("2")) {
                     mm.GLOBALS          = GLOBALS
                     mm.isValidObject    = isValidObject,
