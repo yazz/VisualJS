@@ -207,7 +207,7 @@ ___________
                 <button type=button
                         v-bind:refresh='refresh'
                         v-bind:class='"btn btn-sm " + (mode == "profiler"?"btn-secondary":"btn-light")'
-                        v-on:click='if (mode != "profiler"){chooseProfiler()}' >Profiler</button>
+                        v-on:click='chooseProfiler()' >Profiler</button>
             </div>
 
 
@@ -1284,6 +1284,9 @@ End of app preview menu
                 // can see the app debug view
                 // ---------------------------------------------------------------
                 let mm = this
+                if (mm.mode == "profiler") {
+                    return
+                }
                 this.code_width = "0%"
                 this.code_shown = false
 
