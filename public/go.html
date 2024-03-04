@@ -7872,6 +7872,16 @@
                 }
                 return false
             }
+            function        getNetworkHostName                  (   ) {
+                let networkHostName = location.hostname
+                if (networkHostName == "127.0.0.1") {
+                    networkHostName = networkIntranetIpAddress
+                }
+                if (networkHostName == "0.0.0.0") {
+                    networkHostName = networkIntranetIpAddress
+                }
+                return networkHostName
+            }
             function        showProgressBar                     (   ) {
                 mainVueAppVm.show_loader = true
             }
@@ -9208,7 +9218,9 @@
                 isValidObject:      isValidObject,
                 yz:                 yz,
                 showProgressBar:    showProgressBar,
-                hideProgressBar:    hideProgressBar
+                hideProgressBar:    hideProgressBar,
+                location:           location,
+                getNetworkHostName: getNetworkHostName
             }
 
             window.GLOBALS = GLOBALS
@@ -11725,16 +11737,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return v.toString(16);
                 });
             }
-            function        getNetworkHostName                  (   ) {
-                let networkHostName = location.hostname
-                if (networkHostName == "127.0.0.1") {
-                    networkHostName = networkIntranetIpAddress
-                }
-                if (networkHostName == "0.0.0.0") {
-                    networkHostName = networkIntranetIpAddress
-                }
-                return networkHostName
-            }
+
             async function  scriptTag                           (   src   ,   callback   ) {
 
                 var s = document.createElement('script');

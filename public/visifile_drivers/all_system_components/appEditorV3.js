@@ -2233,12 +2233,16 @@ End of app preview menu
                 mm.yz               = yz
                 mm.showProgressBar  = showProgressBar
                 mm.hideProgressBar  = hideProgressBar
+                mm.location             = location
+                mm.getNetworkHostName   = getNetworkHostName
             } else if (Vue.version.startsWith("3")) {
                 mm.GLOBALS          = Vue.inject('GLOBALS')
                 mm.isValidObject    = Vue.inject('isValidObject')
                 mm.yz               = Vue.inject('yz')
                 mm.showProgressBar  = Vue.inject('showProgressBar')
                 mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                mm.location          = Vue.inject('location')
+                mm.getNetworkHostName = Vue.inject('getNetworkHostName')
             }
 
             await useIdeTools()
