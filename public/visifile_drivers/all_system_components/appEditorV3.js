@@ -2219,16 +2219,16 @@ End of app preview menu
             }
         },
         setup:      function() {
-            if (Vue.version.startsWith("3")) {
-                Vue.inject('GLOBALS')
-                Vue.inject('isValidObject')
-                Vue.inject('yz')
-                Vue.inject('showProgressBar')
-                Vue.inject('hideProgressBar')
-            }
         },
         mounted:            async function () {
             let mm = this
+            if (Vue.version.startsWith("3")) {
+                mm.GLOBALS          = Vue.inject('GLOBALS')
+                mm.isValidObject    = Vue.inject('isValidObject')
+                mm.yz               = Vue.inject('yz')
+                mm.showProgressBar  = Vue.inject('showProgressBar')
+                mm.hideProgressBar  = Vue.inject('hideProgressBar')
+            }
 
             await useIdeTools()
             //await useEstraverse()
