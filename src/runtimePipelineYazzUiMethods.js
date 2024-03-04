@@ -5983,13 +5983,6 @@ return {}
 
             //*** gen_end ***//
         },
-        setup: async function() {
-            if (Vue.version.startsWith("3")) {
-                Vue.inject('GLOBALS')
-                Vue.inject('isValidObject')
-                Vue.inject('yz')
-            }
-        },
         mounted:
             //*** copy_mounted_start ***//
             async function() {

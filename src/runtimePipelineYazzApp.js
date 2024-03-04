@@ -9,6 +9,15 @@
                 props:      [ "args"  ],
                 template:   /* ** *** insert_ui_template_start *** ** */
                             /* ** *** insert_ui_template_end *** ** */,
+                setup: async function() {
+                    if (Vue.version.startsWith("3")) {
+                        Vue.inject('GLOBALS')
+                        Vue.inject('isValidObject')
+                        Vue.inject('yz')
+                        Vue.inject('showProgressBar')
+                        Vue.inject('hideProgressBar')
+                    }
+                },
                 mounted:    //*** paste_mounted_start ***//
                             //*** paste_mounted_end ***//
                             ,
