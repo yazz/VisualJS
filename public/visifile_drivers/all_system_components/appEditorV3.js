@@ -2218,14 +2218,15 @@ End of app preview menu
                 this.deleteAutosaveTimer = true
             }
         },
-        mounted:            async function () {
-            let mm = this
-
+        setup:      function() {
             if (Vue.version.startsWith("3")) {
                 Vue.inject('GLOBALS')
                 Vue.inject('isValidObject')
                 Vue.inject('yz')
             }
+        },
+        mounted:            async function () {
+            let mm = this
 
             await useIdeTools()
             //await useEstraverse()

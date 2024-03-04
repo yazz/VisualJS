@@ -722,10 +722,11 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         }
             },
             setup:      function() {
-                //let mm = this
-                //debugger
-                //let injected_var = Vue.inject('injected_var')
-                //debugger
+                if (Vue.version.startsWith("3")) {
+                    Vue.inject('GLOBALS')
+                    Vue.inject('isValidObject')
+                    Vue.inject('yz')
+                }
             },
             mounted:    async function() {
                 /* mounted - when the homepage Vue component is first loaded
@@ -743,11 +744,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 |________________________________________________________________________ */
                 let mm = this
 
-                if (Vue.version.startsWith("3")) {
-                    Vue.inject('GLOBALS')
-                    Vue.inject('isValidObject')
-                    Vue.inject('yz')
-                }
 
                 /*
                 ____________________________________________________________
