@@ -155,7 +155,7 @@ ___________
 |________________________________________________________________________ */
     // Hack city!!! Turn off the component cache so that we can enable hot reloading of components
     GLOBALS.isStaticHtmlPageApp = false
-    Yazz.component(
+    let yazzCompStruct =
     {
         props:              ['arg_edit_base_component_id', 'arg_edit_code_id'],
         template:           `
@@ -2307,11 +2307,18 @@ End of app preview menu
             // Refresh the editor
             //
             mm.refresh ++
-        },
-        beforeDestroy:      async function() {
-            await this.beforeDestroyFn()
         }
-    })
+    }
+    if (Vue.version.startsWith("2")) {
+        yazzCompStruct.beforeDestroy = (async function() {
+            await this.beforeDestroyFn()
+        })
+    } else if (Vue.version.startsWith("3")) {
+        yazzCompStruct.beforeUnmount = (async function() {
+            await this.beforeDestroyFn()
+        })
+    }
+    Yazz.component(yazzCompStruct)
 }
 
 
