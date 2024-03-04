@@ -2223,6 +2223,8 @@ End of app preview menu
                 Vue.inject('GLOBALS')
                 Vue.inject('isValidObject')
                 Vue.inject('yz')
+                Vue.inject('showProgressBar')
+                Vue.inject('hideProgressBar')
             }
         },
         mounted:            async function () {
