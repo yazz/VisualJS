@@ -5990,7 +5990,13 @@ return {}
                 // time or at runtime
 
                 let mm = this
-                if (Vue.version.startsWith("3")) {
+                if (Vue.version.startsWith("2")) {
+                    mm.GLOBALS          = GLOBALS
+                    mm.isValidObject    = isValidObject
+                    mm.yz               = yz
+                    mm.showProgressBar  = showProgressBar
+                    mm.hideProgressBar  = hideProgressBar
+                } else if (Vue.version.startsWith("3")) {
                     mm.GLOBALS          = Vue.inject('GLOBALS')
                     mm.isValidObject    = Vue.inject('isValidObject')
                     mm.yz               = Vue.inject('yz')

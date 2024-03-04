@@ -240,14 +240,14 @@ ___________
 
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();yz.editor.saveControlChanges=true;closeEditor()' >
-                  <span v-if="!yz.editor.lastEditingAppCodeId">Close</span>
-                  <span v-if="yz.editor.lastEditingAppCodeId">Update app</span>
+                  <span v-if="yz && (!yz.editor.lastEditingAppCodeId)">Close</span>
+                  <span v-if="yz && (yz.editor.lastEditingAppCodeId)">Update app</span>
                 </button>
             </div>
             <div class='btn-group' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);' role=group >
                 <button  type=button class=' btn btn-danger btn-sm'   v-on:click='$event.stopPropagation();yz.editor.saveControlChanges=false;closeEditor()'
-                         v-if="yz.editor.lastEditingAppCodeId">
-                  <span v-if="yz.editor.lastEditingAppCodeId">Cancel</span>
+                         v-if="yz && yz.editor.lastEditingAppCodeId">
+                  <span v-if="yz && yz.editor.lastEditingAppCodeId">Cancel</span>
                 </button>
             </div>
 
@@ -519,7 +519,7 @@ Form runtime info
                             v-on:mouseleave='setInfo(null)'
                             v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
                             type="button" class="btn  btn-primary"
-                            v-if='(mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
+                            v-if='yz && (mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
 
                     <img
                         src='/driver_icons/remix.png'
@@ -1034,6 +1034,11 @@ End of app preview menu
 `,
         data:               function() {
            return {
+               GLOBALS:                         null,
+               isValidObject:                   null,
+               yz:                              null,
+               showProgressBar:                 null,
+               hideProgressBar:                 null,
                undo_list:                       [],
                sqlite_data_saved_in_html:       false,
                file_save_state:                 (saveCodeToFile?saveCodeToFile:""),
@@ -2222,7 +2227,13 @@ End of app preview menu
         },
         mounted:            async function () {
             let mm = this
-            if (Vue.version.startsWith("3")) {
+            if (Vue.version.startsWith("2")) {
+                mm.GLOBALS          = GLOBALS
+                mm.isValidObject    = isValidObject
+                mm.yz               = yz
+                mm.showProgressBar  = showProgressBar
+                mm.hideProgressBar  = hideProgressBar
+            } else if (Vue.version.startsWith("3")) {
                 mm.GLOBALS          = Vue.inject('GLOBALS')
                 mm.isValidObject    = Vue.inject('isValidObject')
                 mm.yz               = Vue.inject('yz')
