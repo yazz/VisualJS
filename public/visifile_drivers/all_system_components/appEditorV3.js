@@ -157,8 +157,8 @@ ___________
     GLOBALS.isStaticHtmlPageApp = false
     Yazz.component(
     {
-        props:          ['arg_edit_base_component_id', 'arg_edit_code_id'],
-        template:       `
+        props:              ['arg_edit_base_component_id', 'arg_edit_code_id'],
+        template:           `
 <div style="height: 100%; width:100%;padding:0; margin:0; border: 5px solid lightgray;position:relative;">
     <div style='box-shadow: 2px 2px 10px lightgray;background-image: linear-gradient(to right,  #000099, lightblue); color: white;padding: 7px; padding-left: 15px;display: block;overflow: auto;'>
         <img
@@ -1032,7 +1032,7 @@ End of app preview menu
     </div>
 </div>
 `,
-        data:           function() {
+        data:               function() {
            return {
                undo_list:                       [],
                sqlite_data_saved_in_html:       false,
@@ -1087,7 +1087,7 @@ End of app preview menu
                save_state:                      "saved"
            }
        },
-        methods:        {
+        methods:            {
             // editor actions
             closeSubEditor:                 async function  (  ) {
                // ---------------------------------------------------------------
@@ -2213,9 +2213,13 @@ End of app preview menu
                 setTimeout(function(){
                     mm.refresh ++
                 },500)
+            },
+            beforeDestroyFn:                async function  (  ) {
+                debugger
+                this.deleteAutosaveTimer = true
             }
         },
-        mounted:        async function () {
+        mounted:            async function () {
             let mm = this
             await useIdeTools()
             //await useEstraverse()
@@ -2304,10 +2308,9 @@ End of app preview menu
             //
             mm.refresh ++
         },
-        beforeDestroy() {
-            this.deleteAutosaveTimer = true
+        beforeDestroy:      async function() {
+            await this.beforeDestroyFn()
         }
-
     })
 }
 
