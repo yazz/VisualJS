@@ -907,641 +907,582 @@
 
                             <table style="width:100%;border: 3px solid black;" class="table">
 
-                            <tr style=''
-                                v-if="(design_mode_pane.direction == 'incoming')">
-
-                                <td    style='vertical-align: top; width: 50%;'>
-
-                                    <!--
-                                    ------------------------------------------------------------------------------------------------
-                                    INCOMING
-                                    ------------------------------------------------------------------------------------------------
-                                    -->
-
-                                    <!--
-                                    --------------------------------------------
-                                    CREATE NEW COMPONENT LINKS
-                                    Incoming form link "to" selected component
-                                    (part 1 - where is the link coming from?)
-                                    
-                                    --------------------------------------------
-                                    -->
-
-                                    <!--
-                                    ----------------
-                                    COMPONENT TYPES FOR AVAILABLE COMPONENTS TO CREATE
-                                    ----------------
-                                    -->
-
-                                    <div  style="margin:5px;height:150px;">
-                                        <div    style="width:40%;font-weight:bold;margin:7px;">From (New Component)</div>
-                                    
-                                        <select   @change='setWatchComponentType($event); '
-                                                  v-if='!selectedWatchComponentUuid'
-                                                  v-bind:refresh='refresh'
-                                                  style='margin:7px;'>
-                                
-                                            <option   value=""
-                                                      selected="true">
-                                            </option>
-                                
-                                            <option     v-for="watchComp   in   incoming_link_component_types"
-                                                        v-bind:value="watchComp"
-                                                        v-bind:selected="selectedWatchComponentType == watchComp">
-                                                  {{watchComp}}
-                                            </option>
-                                        </select>
-
-                                        <div   v-if='selectedWatchComponentUuid' >
-                                            {{runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[selectedWatchComponentUuid].name}}
-                                        </div>
-
-
-
+                                <tr style=''
+                                    v-if="(design_mode_pane.direction == 'incoming')">
+    
+                                    <td    style='vertical-align: top; width: 50%;'>
+    
+                                        <!--
+                                        ------------------------------------------------------------------------------------------------
+                                        INCOMING
+                                        ------------------------------------------------------------------------------------------------
+                                        -->
+    
+                                        <!--
+                                        --------------------------------------------
+                                        CREATE NEW COMPONENT LINKS
+                                        Incoming form link "to" selected component
+                                        (part 1 - where is the link coming from?)
+                                        
+                                        --------------------------------------------
+                                        -->
+    
                                         <!--
                                         ----------------
-                                        PROPERTIES FOR SELECTED COMPONENT TO CREATE
+                                        COMPONENT TYPES FOR AVAILABLE COMPONENTS TO CREATE
                                         ----------------
                                         -->
-
-                                        <select    @change='setWatchFromProperty($event);addNewComponentWatch();'
-                                                   v-if="!selectedWatchFromProperty"
-                                                   style='margin:7px;'>
-                                                   
-                                            <option value=""
-                                                    selected="true">
-                                            </option>
-                          
-                                            <option     v-for="watchFromProp in selectedWatchFromProperties"
-                                                        v-bind:value="watchFromProp"
-                                                        v-bind:selected="selectedWatchFromProperty == watchFromProp">
-                                                {{watchFromProp}}
-                                            </option>
-                                        </select>
-
-
-                                        <div    v-if="selectedWatchFromProperty"
-                                                style='margin:7px;'>
-                                            {{selectedWatchFromProperty}}
+    
+                                        <div  style="margin:5px;height:150px;">
+                                            <div    style="width:40%;font-weight:bold;margin:7px;">From (New Component)</div>
+                                        
+                                            <select   @change='setWatchComponentType($event); '
+                                                      v-if='!selectedWatchComponentUuid'
+                                                      v-bind:refresh='refresh'
+                                                      style='margin:7px;'>
+                                    
+                                                <option   value=""
+                                                          selected="true">
+                                                </option>
+                                    
+                                                <option     v-for="watchComp   in   incoming_link_component_types"
+                                                            v-bind:value="watchComp"
+                                                            v-bind:selected="selectedWatchComponentType == watchComp">
+                                                      {{watchComp}}
+                                                </option>
+                                            </select>
+    
+                                            <div   v-if='selectedWatchComponentUuid' >
+                                                {{runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[selectedWatchComponentUuid].name}}
+                                            </div>
+    
+    
+    
+                                            <!--
+                                            ----------------
+                                            PROPERTIES FOR SELECTED COMPONENT TO CREATE
+                                            ----------------
+                                            -->
+    
+                                            <select    @change='setWatchFromProperty($event);addNewComponentWatch();'
+                                                       v-if="!selectedWatchFromProperty"
+                                                       style='margin:7px;'>
+                                                       
+                                                <option value=""
+                                                        selected="true">
+                                                </option>
+                              
+                                                <option     v-for="watchFromProp in selectedWatchFromProperties"
+                                                            v-bind:value="watchFromProp"
+                                                            v-bind:selected="selectedWatchFromProperty == watchFromProp">
+                                                    {{watchFromProp}}
+                                                </option>
+                                            </select>
+    
+    
+                                            <div    v-if="selectedWatchFromProperty"
+                                                    style='margin:7px;'>
+                                                {{selectedWatchFromProperty}}
+                                            </div>
+    
                                         </div>
-
-                                    </div>
-                                </td>
-
+                                    </td>
+    
+                                    
+                                    <!--
+                                    --------------------------------------------
+                                    CREATE NEW COMPONENT  LINKS
+                                    Incoming form link "to" selected component
+                                    (part 2 - which property on the selected component to send the link to)
+                                    --------------------------------------------
+                                    -->
+                                    
+                                    <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
+                                        <div    style="width:50%;">
+                    
+                                            <!-- --------------------------------------------
+                                            Show the selected component name
+                                            --------------------------------------------  -->
+                    
+                                            <div    style="margin:7px;font-weight:bold;">To</div>
+                    
+                                            <div style='margin:7px;'>
+                                                {{model.forms[active_form].components[active_component_links_index].name}}
+                                            </div>
+                    
+                                            <!-- --------------------------------------------
+                                            Allow the user to choose the selected component property                                        
+                                            --------------------------------------------  -->
+                                            
+                                            <select @change='setWatchToProperty($event);'
+                                                    v-if='(linkSideSelected == "none") || fromLinkPropertySelected'
+                                                    style='margin:7px;'>
+                                            
+                                                <option value=""
+                                                        selected="true">
+                                                </option>
+                                            
+                                                <option     v-for="watchToProp in selectedWatchToProperties"
+                                                            v-bind:value="watchToProp"
+                                                            v-bind:selected="selectedWatchToProperty == watchToProp">
+                                                    {{watchToProp}}
+                                                </option>
+                                            </select>
+                                            
+                                            <div    style='margin:7px;'
+                                                    v-if='linkSideSelected == "to"'>
+                                                {{selectedWatchToProperty}}
+                                            </div>
+                                        </div>        
+                                    </td>
+                                </tr>
+                                
+                                <tr style=''
+                                    v-if="(design_mode_pane.direction == 'incoming')">
+    
+                                    <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
+    
+    
+                                        <div v-if="(show_advanced_transform == true)">
+                                            <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
+                                            <b>Transform function</b>
+                                            <textarea   rows=7
+                                                        @change='setWatchTransformFn($event)'
+                                                        v-bind:value='selectedWatchTransformFn'
+                                                        style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
+                                            </textarea>
+                                        </div>
+                                        <div v-if="(show_advanced_transform != true)">
+                                            <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
+                                        </div>
+        
+        
+                                        <!--
+                                        ----------------
+                                        Add a watch link
+                                        ----------------
+                                        -->
+        
+                                        <button type=button class='btn btn-sm btn-info'
+                                                v-bind:style='""'
+                                                v-on:click='$event.stopPropagation(); addNewComponentWatch();'  >
+                                            Add
+                                        </button>
+        
+        
+                                        <!--
+                                        ----------------
+                                        Clear the link fields
+                                        ----------------
+                                        -->
+        
+                                        <button type=button class='btn btn-sm btn-warning'
+                                                v-bind:style='""'
+                                                v-on:click='$event.stopPropagation(); clearAllControlPropertyLinkFields();'  >
+                                            Clear
+                                        </button>
+                                    </td>
+                                </tr>
+    
+    
+    
+                                <!--
+                                ------------------------------------------------------------------------------------------------
+                                OUTGOING
+                                ------------------------------------------------------------------------------------------------
+                                -->
+                                
                                 
                                 <!--
                                 --------------------------------------------
                                 CREATE NEW COMPONENT  LINKS
-                                Incoming form link "to" selected component
-                                (part 2 - which property on the selected component to send the link to)
+                                
+                                Outgoing CREATE NEW COMPONENT  link "from" selected component
                                 --------------------------------------------
                                 -->
+    
+                                <tr style=''
+                                    v-if="(design_mode_pane.direction == 'outgoing')">
+                                    
+                                    <td style='vertical-align: top; width: 50%;'>
+                                        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
                                 
-                                <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
-                                    <div    style="width:50%;">
-                
-                                        <!-- --------------------------------------------
-                                        Show the selected component name
-                                        --------------------------------------------  -->
-                
-                                        <div    style="margin:7px;font-weight:bold;">To</div>
-                
-                                        <div style='margin:7px;'>
-                                            {{model.forms[active_form].components[active_component_links_index].name}}
-                                        </div>
-                
-                                        <!-- --------------------------------------------
-                                        Allow the user to choose the selected component property                                        
-                                        --------------------------------------------  -->
-                                        
-                                        <select @change='setWatchToProperty($event);'
-                                                v-if='(linkSideSelected == "none") || fromLinkPropertySelected'
-                                                style='margin:7px;'>
-                                        
-                                            <option value=""
-                                                    selected="true">
-                                            </option>
-                                        
-                                            <option     v-for="watchToProp in selectedWatchToProperties"
-                                                        v-bind:value="watchToProp"
-                                                        v-bind:selected="selectedWatchToProperty == watchToProp">
-                                                {{watchToProp}}
-                                            </option>
-                                        </select>
-                                        
-                                        <div    style='margin:7px;'
-                                                v-if='linkSideSelected == "to"'>
-                                            {{selectedWatchToProperty}}
-                                        </div>
-                                    </div>        
-                                </td>
-                            </tr>
-                            
-                            <tr style=''
-                                v-if="(design_mode_pane.direction == 'incoming')">
-
-                                <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
-
-
-                                    <div v-if="(show_advanced_transform == true)">
-                                        <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
-                                        <b>Transform function</b>
-                                        <textarea   rows=7
-                                                    @change='setWatchTransformFn($event)'
-                                                    v-bind:value='selectedWatchTransformFn'
-                                                    style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
-                                        </textarea>
-                                    </div>
-                                    <div v-if="(show_advanced_transform != true)">
-                                        <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
-                                    </div>
-    
-    
-                                    <!--
-                                    ----------------
-                                    Add a watch link
-                                    ----------------
-                                    -->
-    
-                                    <button type=button class='btn btn-sm btn-info'
-                                            v-bind:style='""'
-                                            v-on:click='$event.stopPropagation(); addNewComponentWatch();'  >
-                                        Add
-                                    </button>
-    
-    
-                                    <!--
-                                    ----------------
-                                    Clear the link fields
-                                    ----------------
-                                    -->
-    
-                                    <button type=button class='btn btn-sm btn-warning'
-                                            v-bind:style='""'
-                                            v-on:click='$event.stopPropagation(); clearAllControlPropertyLinkFields();'  >
-                                        Clear
-                                    </button>
-                                </td>
-                            </tr>
-
-
-
-                            <!--
-                            ------------------------------------------------------------------------------------------------
-                            OUTGOING
-                            ------------------------------------------------------------------------------------------------
-                            -->
-                            
-                            
-                            <!--
-                            --------------------------------------------
-                            CREATE NEW COMPONENT  LINKS
-                            
-                            Outgoing CREATE NEW COMPONENT  link "from" selected component
-                            --------------------------------------------
-                            -->
-
-                            <tr style=''
-                                v-if="(design_mode_pane.direction == 'outgoing')">
                                 
-                                <td style='vertical-align: top; width: 50%;'>
-                                    <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
-                            
-                            
+                                            <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
+                                    
+                                            <!-- --------------------------------------------
+                                            Show the selected component name
+                                            --------------------------------------------  -->
+                                    
+                                            <div    style="width:40%;margin:7px;">
+                                                {{model.forms[active_form].components[active_component_links_index].name}}
+                                            </div>
+                                    
+                                    
+                                    
+                                            <!-- --------------------------------------------
+                                            Allow the user to choose the selected component property
+                                            --------------------------------------------  -->
+                                            <select @change='setPushFromProperty($event)'
+                                                    style='margin:7px;'>
+                                                <option value=""
+                                                        selected="true">
+                                                </option>
+                                                
+                                                <option     v-for="pushFromProp in selectedPushFromProperties"
+                                                            v-bind:value="pushFromProp"
+                                                            v-bind:selected="selectedPushFromProperty == pushFromProp">
+                                                    {{pushFromProp}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    
+                                    <td style='vertical-align: top; width: 50%;'>
+                                
+                                        <!--
+                                        --------------------------------------------
+                                        Outgoing CREATE NEW COMPONENT  link "to" another component (part 2)
+                                        --------------------------------------------
+                                        -->
+                                        
+                                
+                                        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
+                                            <div    style="margin:7px;width:40%;font-weight:bold;">To (New Component)</div>
+                                
+                                            <select  @change='setPushComponentType($event)'    style='margin:7px;'>
+                                                <option     value=""
+                                                            selected="true">
+                                                </option>
+                                                
+                                                <option     v-for="pushComp  in  outgoing_link_component_types"
+                                                            v-bind:value="pushComp"
+                                                            v-bind:selected="selectedPushComponentType == pushComp">
+                                                    {{pushComp}}
+                                                </option>
+                                            </select>
+                                
+                                
+                                
+                                            <select     @change='setPushToProperty($event);addNewComponentPush();'
+                                                        style='margin:7px;'>
+                                            
+                                                <option value=""
+                                                        selected="true">
+                                                </option>
+                                            
+                                                <option     v-for="pushToProp in selectedPushToProperties"
+                                                            v-bind:value="pushToProp"
+                                                            v-bind:selected="selectedPushToProperty == pushToProp">
+                                                    {{pushToProp}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+    
+    
+    
+    
+    
+                                <!--
+                                ------------------------------------------------------------------------------------------------
+                                setPushToProperty OUTGOING LINKS TRANSFORM
+                                ------------------------------------------------------------------------------------------------
+                                -->
+                                <tr style=''
+                                    v-if="(design_mode_pane.direction == 'outgoing')">
+                                
+                                    <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
+                                
+                                        <div v-if="(show_advanced_transform == true)">
+                                            <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
+                                            <b>Transform function</b>
+                                            <textarea   rows=7
+                                                        @change='setPushTransformFn($event)'
+                                                        v-bind:value='selectedPushTransformFn'
+                                                        style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
+                                            </textarea>
+                                        </div>
+                                        
+                                        <div v-if="(show_advanced_transform != true)">
+                                            <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
+                                        </div>
+                                
+                                
+                                        <!--
+                                        ----------------
+                                        Add a watch link
+                                        ----------------
+                                        -->
+                                        <button type=button class='btn btn-sm btn-info'
+                                                v-bind:style='""'
+                                                v-on:click='$event.stopPropagation(); addNewComponentPush();'  >
+                                            Add
+                                        </button>
+                                
+                                        <!--
+                                        ----------------
+                                        Clear the link fields
+                                        ----------------
+                                        -->
+                                        <button type=button class='btn btn-sm btn-warning'
+                                                v-bind:style='""'
+                                                v-on:click='$event.stopPropagation(); clearAllControlPropertyLinkFields();'  >
+                                            Clear
+                                        </button>
+                                    </td>
+                                </tr>    
+                            </table>
+                        </div>
+
+
+                        <!--
+                        ------------------------------------------------------------------------------------------------
+                        CREATE NEW COMPONENT LINKS END HERE
+                        ------------------------------------------------------------------------------------------------
+                        -->
+                        
+
+
+
+
+
+
+
+
+                        <!--
+                        MANUAL LINKS START HERE
+                        -->
+                        <div    class="tab-pane fade show active"
+                                id="home" role="tabpanel" aria-labelledby="links-form-tab"
+                                v-if='design_mode_pane.links_type == "manual"'>
+                                
+                            <table style="width:100%;border: 3px solid black;" class="table">
+                                <tr style=''
+                                    v-if="(design_mode_pane.direction == 'incoming')">
+                                
+                                
+                                    <td style='vertical-align: top; width: 50%;'>
+                                        <div    style="margin:5px;height:150px;">
+                                            <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
+                                            <select  @change='setWatchComponent({controlUuid: $event.target.value})'  style='margin:7px;'>
+                                                <option     value=""
+                                                            selected="true">
+                                                </option>
+                                                
+                                                <option     v-for="watchComp in model.forms[active_form].components"
+                                                            v-bind:value="watchComp.uuid"
+                                                            v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
+                                                    {{watchComp.name}}
+                                                </option>
+                                            </select>
+                                
+                                
+                                            <select @change='setWatchFromProperty($event)'  style='margin:7px;'>
+                                                <option value=""
+                                                        selected="true">
+                                                </option>
+                                                
+                                                <option     v-for="watchFromProp in selectedWatchFromProperties"
+                                                            v-bind:value="watchFromProp"
+                                                            v-bind:selected="selectedWatchFromProperty == watchFromProp">
+                                                    {{watchFromProp}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                
+                                
+                                    <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
+                                        <div    style="width:50%;">
+                                            <div    style="margin:7px;font-weight:bold;">To</div>
+                                            <div style='margin:7px;'>
+                                                {{model.forms[active_form].components[active_component_links_index].name}}
+                                            </div>
+                                    
+                                            <select @change='setWatchToProperty($event)'  style='margin:7px;'>
+                                                <option value=""
+                                                        selected="true">
+                                                </option>
+                                                
+                                                <option     v-for="watchToProp in selectedWatchToProperties"
+                                                            v-bind:value="watchToProp"
+                                                            v-bind:selected="selectedWatchToProperty == watchToProp">
+                                                    {{watchToProp}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+
+                                <tr style=''
+                                    v-if="(design_mode_pane.direction == 'incoming')">
+                                
+                                    <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
+                                
+                                        <div v-if="(show_advanced_transform == true)">
+                                            <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
+                                            <b>Transform function</b>
+                                            
+                                            <textarea   rows=7
+                                                        @change='setWatchTransformFn($event)'
+                                                        v-bind:value='selectedWatchTransformFn'
+                                                        style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
+                                            </textarea>
+                                        </div>
+                                        
+                                        <div v-if="(show_advanced_transform != true)">
+                                            <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
+                                        </div>
+                                
+                                        <button type=button class='btn btn-sm btn-info'
+                                                v-bind:style='""'
+                                                v-on:click='$event.stopPropagation(); addWatch();'  >
+                                           Add
+                                        </button>
+                                    </td>
+                                </tr>
+
+
+                                
+                                <tr style=''
+                                    v-if="(design_mode_pane.direction == 'outgoing')">
+                                    
+                                    <td style='vertical-align: top; width: 50%;'>
+                                        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
+                                
                                         <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
                                 
-                                        <!-- --------------------------------------------
-                                        Show the selected component name
-                                        --------------------------------------------  -->
+                                            <div    style="width:40%;margin:7px;">
+                                                {{model.forms[active_form].components[active_component_links_index].name}}
+                                            </div>
                                 
-                                        <div    style="width:40%;margin:7px;">
-                                            {{model.forms[active_form].components[active_component_links_index].name}}
-                                        </div>
-                                
-                                
-                                
-                                        <!-- --------------------------------------------
-                                        Allow the user to choose the selected component property
-                                        --------------------------------------------  -->
-                                        <select @change='setPushFromProperty($event)'
-                                                style='margin:7px;'>
-                                            <option value=""
-                                                    selected="true">
-                                            </option>
-                                            
-                                            <option     v-for="pushFromProp in selectedPushFromProperties"
-                                                        v-bind:value="pushFromProp"
-                                                        v-bind:selected="selectedPushFromProperty == pushFromProp">
-                                                {{pushFromProp}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </td>
-                                
-                                <td style='vertical-align: top; width: 50%;'>
-                            
-                                    <!--
-                                    --------------------------------------------
-                                    Outgoing CREATE NEW COMPONENT  link "to" another component (part 2)
-                                    --------------------------------------------
-                                    -->
-                                    
-                            
-                                    <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
-                                        <div    style="margin:7px;width:40%;font-weight:bold;">To (New Component)</div>
-                            
-                                        <select  @change='setPushComponentType($event)'    style='margin:7px;'>
-                                            <option     value=""
+                                            <select @change='setPushFromProperty($event)' style='margin:7px;'>
+                                                <option value=""
                                                         selected="true">
-                                            </option>
-                                            
-                                            <option     v-for="pushComp  in  outgoing_link_component_types"
-                                                        v-bind:value="pushComp"
-                                                        v-bind:selected="selectedPushComponentType == pushComp">
-                                                {{pushComp}}
-                                            </option>
-                                        </select>
-                            
-                            
-                            
-                                        <select     @change='setPushToProperty($event);addNewComponentPush();'
-                                                    style='margin:7px;'>
+                                                </option>
+                                                
+                                                <option     v-for="pushFromProp in selectedPushFromProperties"
+                                                            v-bind:value="pushFromProp"
+                                                            v-bind:selected="selectedPushFromProperty == pushFromProp">
+                                                    {{pushFromProp}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    
+                                    
+                                    <td style='vertical-align: top; width: 50%;'>
+                                        <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
+                                            <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
+                                
+                                            <select  @change='setPushComponent($event)'    style='margin:7px;'>
+                                                <option     value=""
+                                                            selected="true">
+                                                </option>
+                                                
+                                                <option     v-for="pushComp in model.forms[active_form].components"
+                                                            v-bind:value="pushComp.uuid"
+                                                            v-bind:selected="selectedPushComponentUuid == pushComp.uuid">
+                                                    {{pushComp.name}}
+                                                </option>
+                                            </select>
+                                
+                                
+                                            <select @change='setPushToProperty($event)'     style='margin:7px;'>
+                                                <option value=""
+                                                        selected="true">
+                                                </option>
+                                                
+                                                <option     v-for="pushToProp in selectedPushToProperties"
+                                                            v-bind:value="pushToProp"
+                                                            v-bind:selected="selectedPushToProperty == pushToProp">
+                                                    {{pushToProp}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+                                <tr style=''
+                                    v-if="(design_mode_pane.direction == 'outgoing')">
+                                
+                                    <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
+                                
+                                        <div v-if="(show_advanced_transform == true)">
+                                            <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
+                                            <b>Transform function</b>
+                                            <textarea   rows=7
+                                                        @change='setPushTransformFn($event)'
+                                                        v-bind:value='selectedPushTransformFn'
+                                                        style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
+                                            </textarea>
+                                        </div>
                                         
-                                            <option value=""
-                                                    selected="true">
-                                            </option>
-                                        
-                                            <option     v-for="pushToProp in selectedPushToProperties"
-                                                        v-bind:value="pushToProp"
-                                                        v-bind:selected="selectedPushToProperty == pushToProp">
-                                                {{pushToProp}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-
-
-
-
-
- <!--
- ------------------------------------------------------------------------------------------------
-      setPushToProperty OUTGOING LINKS TRANSFORM
- ------------------------------------------------------------------------------------------------
- -->
-          <tr style=''
-              v-if="(design_mode_pane.direction == 'outgoing')">
-
-              <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
-
-                  <div v-if="(show_advanced_transform == true)">
-                      <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
-                      <b>Transform function</b>
-                      <textarea    rows=7
-                                  @change='setPushTransformFn($event)'
-                                  v-bind:value='selectedPushTransformFn'
-                                  style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
-                      </textarea>
-                  </div>
-                  <div v-if="(show_advanced_transform != true)">
-                      <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
-                  </div>
-
-
-                  <!--
-                  ----------------
-                           Add a watch link
-                  ----------------
-                  -->
-
-                  <button type=button class='btn btn-sm btn-info'
-                          v-bind:style='""'
-                          v-on:click='$event.stopPropagation(); addNewComponentPush();'  >
-
-                       Add
-
-                  </button>
-
-                  <!--
-                  ----------------
-                           Clear the link fields
-                  ----------------
-                  -->
-
-                   <button type=button class='btn btn-sm btn-warning'
-                           v-bind:style='""'
-                           v-on:click='$event.stopPropagation(); clearAllControlPropertyLinkFields();'  >
-                        Clear
-                   </button>
-
-
-              </td>
-          </tr>
-
-
-
-
-          </table>
-
-      </div>
-
-
-
-
-  <!--
-  ------------------------------------------------------------------------------------------------
-          CREATE NEW COMPONENT LINKS END HERE
-  ------------------------------------------------------------------------------------------------
-  -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-
-        MANUAL LINKS START HERE
-
- -->
-  <div  class="tab-pane fade show active"
-        id="home" role="tabpanel" aria-labelledby="links-form-tab"
-        v-if='design_mode_pane.links_type == "manual"'>
-      <table style="width:100%;border: 3px solid black;" class="table">
-      <tr style=''
-          v-if="(design_mode_pane.direction == 'incoming')">
-
-
-
-          <td style='vertical-align: top; width: 50%;'>
-              <div    style="margin:5px;height:150px;">
-                  <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
-                  <select  @change='setWatchComponent({controlUuid: $event.target.value})'  style='margin:7px;'>
-                      <option     value=""
-                                  selected="true">
-                      </option>
-                      <option     v-for="watchComp in model.forms[active_form].components"
-                                  v-bind:value="watchComp.uuid"
-                                  v-bind:selected="selectedWatchComponentUuid == watchComp.uuid">
-                                      {{watchComp.name}}
-                      </option>
-                  </select>
-
-
-
-                  <select @change='setWatchFromProperty($event)'  style='margin:7px;'>
-                      <option value=""
-                              selected="true">
-                      </option>
-                      <option     v-for="watchFromProp in selectedWatchFromProperties"
-                                  v-bind:value="watchFromProp"
-                                  v-bind:selected="selectedWatchFromProperty == watchFromProp">
-                                      {{watchFromProp}}
-                      </option>
-                  </select>
-
-
-              </div>
-          </td>
-
-
-          <td style='vertical-align: top;border: 1px solid lightgray;margin:5px;'>
-              <div    style="width:50%;">
-                  <div    style="margin:7px;font-weight:bold;">To</div>
-                  <div style='margin:7px;'>
-                      {{model.forms[active_form].components[active_component_links_index].name}}
-                  </div>
-
-
-
-
-
-                  <select @change='setWatchToProperty($event)'  style='margin:7px;'>
-                      <option value=""
-                              selected="true">
-                      </option>
-                      <option     v-for="watchToProp in selectedWatchToProperties"
-                                  v-bind:value="watchToProp"
-                                  v-bind:selected="selectedWatchToProperty == watchToProp">
-                                      {{watchToProp}}
-                      </option>
-                  </select>
-              </div>
-          </td>
-      </tr>
-      <tr style=''
-          v-if="(design_mode_pane.direction == 'incoming')">
-
-          <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
-
-
-              <div v-if="(show_advanced_transform == true)">
-                  <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
-                  <b>Transform function</b>
-                  <textarea    rows=7
-                              @change='setWatchTransformFn($event)'
-                              v-bind:value='selectedWatchTransformFn'
-                              style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
-                  </textarea>
-              </div>
-              <div v-if="(show_advanced_transform != true)">
-                  <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
-              </div>
-
-              <button type=button class='btn btn-sm btn-info'
-                      v-bind:style='""'
-                      v-on:click='$event.stopPropagation(); addWatch();'  >
-                   Add
-              </button>
-
-
-          </td>
-      </tr>
-
-
-
-
-
-
-
-
-      <tr style=''
-          v-if="(design_mode_pane.direction == 'outgoing')">
-          <td style='vertical-align: top; width: 50%;'>
-              <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
-
-
-                  <div    style="width:40%;font-weight:bold;margin:7px;">From</div>
-
-
-                  <div    style="width:40%;margin:7px;">
-                      {{model.forms[active_form].components[active_component_links_index].name}}
-                  </div>
-
-
-
-                  <select @change='setPushFromProperty($event)' style='margin:7px;'>
-                      <option value=""
-                              selected="true">
-                      </option>
-                      <option     v-for="pushFromProp in selectedPushFromProperties"
-                                  v-bind:value="pushFromProp"
-                                  v-bind:selected="selectedPushFromProperty == pushFromProp">
-                                      {{pushFromProp}}
-                      </option>
-                  </select>
-
-
-              </div>
-          </td>
-          <td style='vertical-align: top; width: 50%;'>
-              <div    style="border: 1px solid lightgray;margin:5px;height:150px;">
-                  <div    style="margin:7px;width:40%;font-weight:bold;">To</div>
-
-                  <select  @change='setPushComponent($event)'    style='margin:7px;'>
-                      <option     value=""
-                                  selected="true">
-                      </option>
-                      <option     v-for="pushComp in model.forms[active_form].components"
-                                  v-bind:value="pushComp.uuid"
-                                  v-bind:selected="selectedPushComponentUuid == pushComp.uuid">
-                                      {{pushComp.name}}
-                      </option>
-                  </select>
-
-
-
-              <select @change='setPushToProperty($event)'     style='margin:7px;'>
-                  <option value=""
-                          selected="true">
-                  </option>
-                  <option     v-for="pushToProp in selectedPushToProperties"
-                              v-bind:value="pushToProp"
-                              v-bind:selected="selectedPushToProperty == pushToProp">
-                                  {{pushToProp}}
-                  </option>
-              </select>
-
-
-              </div>
-          </td>
-      </tr>
-
-
-      <tr style=''
-          v-if="(design_mode_pane.direction == 'outgoing')">
-
-          <td  style='margin: 7px;vertical-align: bottom;' colspan="2">
-
-              <div v-if="(show_advanced_transform == true)">
-                  <div><a href="#" v-on:click="show_advanced_transform=false;">Hide advanced</a></div>
-                  <b>Transform function</b>
-                  <textarea    rows=7
-                              @change='setPushTransformFn($event)'
-                              v-bind:value='selectedPushTransformFn'
-                              style='width: 100%;border: 1px solid black;font-family:verdana,helvetica;font-size: 13px;margin:7px;'>
-                  </textarea>
-              </div>
-              <div v-if="(show_advanced_transform != true)">
-                  <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
-              </div>
-
-
-              <button type=button class='btn btn-sm btn-info'
-                      v-bind:style='""'
-                      v-on:click='$event.stopPropagation(); addPush();'  >
-
-                   Add
-
-              </button>
-
-          </td>
-      </tr>
-
-
-
-
-      </table>
-
-  </div>
-  <!--
-
-          MANUAL LINKS END HERE
-
-   -->
-
-
-
-
-
-
-
-
-
-
-
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="create-new-component-tab">...</div>
-  <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-links-tab">...</div>
-</div>
-
-
-
-
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-Watchlist
-<div v-for='currentWatch in watchList'>
-<pre    v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
-{{JSON.stringify(  currentWatch  ,  null  ,  2  )}}
-
-</pre>
-</div>
-
-
-<br/><br/><br/><br/><br/>
-Pushlist
-<div v-for='currentPush in watchList'>
-<pre v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
-{{JSON.stringify(  currentPush  ,  null  ,  2  )}}
-
-</pre>
-</div>
-
-
-
-
-                  </div>
-              </div>
-
-
-
-
-
-
-
-
-            <!--
-
-                    The drag drop UI editor.
-
-                    but...
-
-                    Also the main view of the App
-
-            -->
+                                        <div v-if="(show_advanced_transform != true)">
+                                            <a href="#"  v-on:click="show_advanced_transform=true;">Show advanced</a>
+                                        </div>
+                                    
+                                    
+                                        <button type=button class='btn btn-sm btn-info'
+                                                v-bind:style='""'
+                                                v-on:click='$event.stopPropagation(); addPush();'  >
+                                            Add
+                                        </button>
+                                    </td>
+                                </tr>    
+                            </table>        
+                        </div>
+                        <!--
+                        MANUAL LINKS END HERE
+                        -->
+
+                    
+                    
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="create-new-component-tab">...</div>
+                    <div class="tab-pane fade" id="manual" role="tabpanel" aria-labelledby="manual-links-tab">...</div>
+                </div>
+
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                Watchlist
+                <div v-for='currentWatch in watchList'>
+                    <pre    v-if="(currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+                        {{JSON.stringify(  currentWatch  ,  null  ,  2  )}}
+                    </pre>
+                </div>
+                
+                
+                <br/><br/><br/><br/><br/>
+                Pushlist
+                <div v-for='currentPush in watchList'>
+                    <pre v-if="(currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid)">
+                        {{JSON.stringify(  currentPush  ,  null  ,  2  )}}
+                
+                    </pre>
+                </div>
+            </div>
+        </div>
+                
+
+
+
+
+
+
+
+        <!--
+        
+        The drag drop UI editor.
+        
+        but...
+        
+        Also the main view of the App
+        
+        -->
 
             <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
                     v-bind:style='(design_mode?"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + "margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) + "overflow:auto;"'>
