@@ -1526,6 +1526,7 @@
                 |
                 |     NONE
                 |________________________________________________________________________ */
+                let mm = this
                 mm.editor_fns.pending()
             },
             getControlNonAsyncMethod:               function        (  componentDetails  ,  isComponentInDesignMode  ,  methodId  ) {
