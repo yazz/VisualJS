@@ -350,9 +350,10 @@
 
                                 <template       slot-scope="child_components"
                                                 v-bind:refresh='refresh'
+                                                v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
                                                 style='position:relative;'>
 
-                                    <component  v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
+                                    <component  
                                                 v-bind:design_mode='design_mode'
                                                 v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
                                                 v-bind:sql='sqlQuery'
@@ -450,7 +451,8 @@
     <td    style="width:20%;font-weight:bold;"></td>
 </tr>
 
-<tr v-for='currentWatch in watchList'
+<template v-for='currentWatch in watchList'>
+<tr 
 v-if="model.forms[active_form].components[active_component_links_index] && (currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'incoming')">
 
@@ -477,9 +479,10 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
         </div>
     </td>
 </tr>
+</template>
 
-
-<tr v-for='currentPush in watchList'
+<template v-for='currentPush in watchList'>
+<tr 
 v-if="model.forms[active_form].components[active_component_links_index] && (currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
       (design_mode_pane.direction == 'outgoing')">
 
@@ -513,6 +516,7 @@ v-if="model.forms[active_form].components[active_component_links_index] && (curr
 
 
 </tr>
+</template>
 
 
 
@@ -2015,9 +2019,10 @@ Pushlist
     
                                             <template       slot-scope="child_components"
                                                             v-bind:refresh='refresh'
+                                                            v-for='child_item  in  getChildren(item.name)'
                                                             v-bind:style='(formName==active_form)?"position:relative;":"display:none;"'>
     
-                                                <component  v-for='child_item  in  getChildren(item.name)'
+                                                <component  
                                                             v-bind:design_mode='design_mode'
                                                             v-bind:refresh='refresh'
                                                             v-bind:meta='{form: formName,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
@@ -2149,8 +2154,8 @@ Pushlist
                                       <span v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>{{form.name}} ({{form.components.length}})</span>
                                 </div>
 
-                                <div    v-if='form.name == active_form'
-                                        v-for='(av,index) in getActiveFormComponents()'>
+                                <template    v-if='form.name == active_form'>
+                                <div    v-for='(av,index) in getActiveFormComponents()'>
 
                                     <div  v-bind:style='(((index == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
                                           v-if='(av.parent == null)'>
@@ -2159,8 +2164,9 @@ Pushlist
                                               <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
                                               <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'>{{av.name}}</span>
                                               
+                                              <template   v-for='(av2,index2) in getActiveFormComponents()'>
                                               <div    v-if='form.name == active_form'
-                                                      v-for='(av2,index2) in getActiveFormComponents()'>
+                                                      >
 
                                                   <div  v-bind:style='(((index2 == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;width:90%;"'
                                                         v-if='(av2.parent == av.name)'>
@@ -2171,9 +2177,11 @@ Pushlist
                                                     </div>
                                                   </div>
                                               </div>
+                                              </template>
                                       </div>
                                     </div>
                                 </div>
+                                </template>
                             </div>
                         </div>
                     </div>
