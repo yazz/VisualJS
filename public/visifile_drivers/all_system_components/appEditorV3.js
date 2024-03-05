@@ -257,8 +257,7 @@ ___________
 
 
     <div  v-if='yazz_debug_mode'
-          style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;"
-    >
+          style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;">
 
         <button style="margin: 20px;"
                 class='btn btn-lg btn-danger'
@@ -298,662 +297,661 @@ ___________
             </pre>
 
 
-            </div>
         </div>
+    </div>
 
 
 
 
-        <div    id="status bar"
-                ref="status bar"
-                style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 0px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;text-align: center;height: 30px; font-size:16px;vertical-align: middle;line-height: 30px; '>
+    <div    id="status bar"
+            ref="status bar"
+            style='position:absolute;bottom:-5px;width:100%;box-shadow: 2px 2px 10px lightgray; color: black;padding: 0px; padding-left: 15px;display: block;overflow: auto;background-color: lightgray;z-index:21474836;text-align: center;height: 30px; font-size:16px;vertical-align: middle;line-height: 30px; '>
+            
+        {{((info_text != null)?info_text:"")}}
+    </div>
+
+
+    <div v-if='mode == "edit"'>
+        <div    id=editor_id
+                v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
                 
-            {{((info_text != null)?info_text:"")}}
-        </div>
-    
+            <component  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[editor_component]'
+                        v-if="editor_loaded"
+                        v-bind:editor_fns='{pending: pendingFn,saved: savedFn , switch_editor: switch_editorFn  , force_raw_load: force_raw_loadFn}'
+                        ref="editor_component_ref">
 
-        <div v-if='mode == "edit"'>
-            <div    id=editor_id
-                    v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
-                    
-                <component  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[editor_component]'
-                            v-if="editor_loaded"
-                            v-bind:editor_fns='{pending: pendingFn,saved: savedFn , switch_editor: switch_editorFn  , force_raw_load: force_raw_loadFn}'
-                            ref="editor_component_ref">
-    
-                    <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
-    
-    
-                        <!-- ----------------------------------------------
-                                 Icon editor
-                            ---------------------------------------------- -->
-                        <a  v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                            href="#"
-                            v-on:click='setTimeout(async function(){await switchEditor("icon_editor_component")},100)'
-                            v-if="show_download_save"
-                            v-on:mouseenter='setInfo("Create a new icon for this app / component")'
-                            v-on:mouseleave='setInfo(null)'
-                            type="button" class="btn btn-light ">
-    
-                            <img    src='/driver_icons/icon.png'
-                                    style='height:35px; margin-right: 0px;'
-                                    class='img-fluid' />
-                                Icon
-                        </a>
-                      
-                      
-                        <!-- ----------------------------------------------
-                        Download
+                <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
+
+
+                    <!-- ----------------------------------------------
+                             Icon editor
                         ---------------------------------------------- -->
-                        <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                               href="#"
-                               v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
-                               download
-                               v-if="show_download_save"
-                               v-on:mouseenter='setInfo("Download the source code for this app / component")'
-                               v-on:mouseleave='setInfo(null)'
-                               type="button" class="btn btn-light ">
-    
-                            <img
-                                src='/driver_icons/download.png'
+                    <a  v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                        href="#"
+                        v-on:click='setTimeout(async function(){await switchEditor("icon_editor_component")},100)'
+                        v-if="show_download_save"
+                        v-on:mouseenter='setInfo("Create a new icon for this app / component")'
+                        v-on:mouseleave='setInfo(null)'
+                        type="button" class="btn btn-light ">
+
+                        <img    src='/driver_icons/icon.png'
                                 style='height:35px; margin-right: 0px;'
                                 class='img-fluid' />
-                            Src
-                        </a>
-                      
-                      
-                        <a  v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                            href="#"
-                            v-on:click='setTimeout(async function(){await switchEditor("sqlite_app_editor_component_v2")},100)'
-                            v-if="show_download_save"
-                            v-on:mouseenter='setInfo("Edit the database for this app / component")'
-                            v-on:mouseleave='setInfo(null)'
-                            type="button" class="btn btn-light ">
-    
-                            <img
-                                src='/driver_icons/database.png'
-                                style='height:35px; margin-right: 0px;'
-                                class='img-fluid' />
-                            DB
-                        </a>
-    
-    
-    
-                        <!-- ----------------------------------------------  
-                              UNDO BUTTON
-                        ---------------------------------------------- -->
-                        <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                               href="#"
-                               v-if="show_download_save"
-                               v-on:mouseenter='setInfo("Undo last change")'
-                               v-on:mouseleave='setInfo(null)'
-                               v-on:click='setTimeout(async function(){await undo()},100)'
-                               type="button" class="btn btn-light ">
-    
-                            <img
-                                src='/driver_icons/undo_icon.png'
-                                style='height:35px; margin-right: 0px;'
-                                class='img-fluid' />
-                            Undo
-                        </a>
-    
-    
-                        <!-- ----------------------------------------------                    
-                                REDO BUTTON
-                        ---------------------------------------------- -->
-                        <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                               href="#"
-                               v-if="show_download_save"
-                               v-on:mouseenter='setInfo("Redo last change")'
-                               v-on:mouseleave='setInfo(null)'
-                               v-on:click='setTimeout(async function(){await redo()},100)'
-                               type="button" class="btn btn-light ">
-    
-                            <img
-                                src='/driver_icons/redo_icon.png'
-                                style='height:35px; margin-right: 3px;'
-                                class='img-fluid' />
-                            Redo
-                        </a>
-    
-    
-    
-                        <!-- ----------------------------------------------
-                          Commit / Release code
-                          
-                          This can be thought of as tagging a commit in
-                          git, or adding a version number to the code
-                          
-                        ---------------------------------------------- -->
-                        <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                               href="#"
-                               v-on:click='setTimeout(async function(){await switchEditor("deliver_component_screen")},100)'
-                               v-if="show_download_save"
-                               v-on:mouseenter='setInfo("Save changes, view history, and publish apps / components")'
-                               v-on:mouseleave='setInfo(null)'
-                               type="button" class="btn btn-light ">
-    
-                            <img
-                                src='/driver_icons/deliver.png'
-                                style='height:35px; margin-right: 0px;'
-                                class='img-fluid' />
-                            Revisions
-                        </a>
-    
-    
-    
-    
-                        <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                                  v-on:click='setTimeout(function(){closeSubEditor()},100)'
-                                  v-if="editor_overloaded"
-                                  v-on:mouseenter='setInfo("Back to editor")'
-                                  v-on:mouseleave='setInfo(null)'
-                                  type="button" class="btn btn-light ">
-    
-    
-                            <svg    version="1.1"
-                                    id="Layer_1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    x="0px"
-                                    width="35px"
-                                    viewBoxdup="0 0 210.107 210.107"
-                                    height="35px"
-                                    y="0px"
-                                    viewBox="0 0 492 492"
-                                    style="enable-background:new 0 0 492 492;margin-right:10px;"
-                                    xml:space="preserve">
-                                        <g>
-                                            <path   d="M464.344,207.418l0.768,0.168H135.888l103.496-103.724c5.068-5.064,7.848-11.924,7.848-19.124
-                                                    c0-7.2-2.78-14.012-7.848-19.088L223.28,49.538c-5.064-5.064-11.812-7.864-19.008-7.864c-7.2,0-13.952,2.78-19.016,7.844
-                                                    L7.844,226.914C2.76,231.998-0.02,238.77,0,245.974c-0.02,7.244,2.76,14.02,7.844,19.096l177.412,177.412
-                                                    c5.064,5.06,11.812,7.844,19.016,7.844c7.196,0,13.944-2.788,19.008-7.844l16.104-16.112c5.068-5.056,7.848-11.808,7.848-19.008
-                                                    c0-7.196-2.78-13.592-7.848-18.652L134.72,284.406h329.992c14.828,0,27.288-12.78,27.288-27.6v-22.788
-                                                    C492,219.198,479.172,207.418,464.344,207.418z"/>
-                                        </g>
-    
-                            </svg>Back to editor
-                        </button>
-    
-    
-                        <button     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                                    v-on:mouseenter='setInfo("Make a copy of this app / component")'
-                                    v-on:mouseleave='setInfo(null)'
-                                    v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
-                                    type="button" class="btn  btn-primary"
-                                    v-if='yz && (mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
-        
-                            <img
-                                src='/driver_icons/remix.png'
-                                style='height:35px; margin-right: 0px;'
-                                class='img-fluid' />
-                            Remix
-        
-                        </button>
-    
-    
-    
-                        <button   v-bind:disabled='read_only?"":false'
-                                  v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
-                                  v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
-                                  v-on:mouseleave='setInfo(null)'
-                                  v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
-                                  type="button" class="btn  btn-warning"
-                                  v-if="(((!hideImportButtons) || yz.mainVars.disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
-                                  >
-    
-                            <img
-                                      src='/driver_icons/save.png'
-                                      style='height:35px; margin-right: 0px;'
-                                      class='img-fluid' />
-                                      
-                            {{saveCodeToFile?"Save":"Save"}}
-                        </button>
-    
-    
-    
-                        <span  v-if='read_only && hideImportButtons'>
-                            {{read_only?"Read only":""}}
-                        </span>
-                      
-                        <span  v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!yz.mainVars.disableAutoSave)">
-                            Unsaved...
-                        </span>
-    
-                        <span  v-if="!read_only && (save_state == 'saved') && hideImportButtons">
-                            Saved
-                        </span>
-                        <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
-                                v-bind:disabled='read_only?"":false'
-                                v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
-                        >
-                            {{saveCodeToFile?"Save":"App preview up to date"}}
-                        </div>
-    
-                        <div    v-if="!read_only && (save_state == 'saving')"
-                                v-bind:disabled='read_only?"":false'
-                                v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
-                        >
-                            saving ...
-                        </div>
-                      
-                      
-                   
-                        <div  style='display: inline-block;'>
-                            <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                 v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                                 v-if="code_shown && (!app_shown)">
-    
-                                {{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"}}
-                            </a>
-    
-                            <div>
-                                {{file_save_state}}
-                            </div>
-                        </div>
-                    </div>
-    
-                </component>
-            </div>
-    
-    
-    
-            <div v-bind:style="'margin-left:10px;margin-top:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: rgb(242,242,242);height: 80vh; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-                <div    v-if='app_loaded'
-                        v-bind:style="'display:flex;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
-    
-        
-    
+                            Icon
+                    </a>
+                  
                   
                     <!-- ----------------------------------------------
-                    Refresh button 
+                    Download
                     ---------------------------------------------- -->
-                    <button   
-                        v-on:click='setTimeout(async function(){appClearIntervals();await loadComponentIntoEditor({codeId: code_id, runThisApp: true})},100)'
-                        type="button"
-                        v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
-                        class="btn"
-                        >
-                        <img
-                            src='/driver_icons/reload.png'
-                            style='height:25px; margin-right: 0px;'
-                            class='img-fluid'
-                             />
-                        
-                    </button>
-        
-    
-                    <!-- ----------------------------------------------
-                    App Preview Address Bar 
-                    ---------------------------------------------- -->
-                    <input
-                        readonly
-                        v-if='preview_type=="app"'
-                        style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                        v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-                        v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"' />
-    
-                    <span
-                        v-if='preview_type!="app"'
-                        style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;margin-top:2px;'>
-                            {{ "Previewing '" + base_component_id + "'" }}
-                    </span>
-    
-    
-    
-    
-    
-                  <!-- ----------------------------------------------
-                  "Save As HTML" button
-                  ---------------------------------------------- -->
-                    <a        
-                        v-on:click='if ((preview_type=="app") && (!sqlite_data_saved_in_html)) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{allowAppToWorkOffline: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
-                        v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
-                        v-if="(preview_type=='app')"
-                        v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
-                        v-on:mouseleave='setInfo(null)'
-                        v-bind:disabled='sqlite_data_saved_in_html?false:""'
-                        type="button"
-                        class="btn btn-light"
-                        >
-                        <img  
-                            src="/driver_icons/html.png"
-                            v-bind:disabled='sqlite_data_saved_in_html?false:""'
-                            style="height: 25px;; margin: 0px;"
-                            class='img-fluid'
-                             />
-                        
-                    </a>
-                    
-                    <a          
-                        v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".html"'
-                        v-if="(preview_type=='app')"
-                        download
-                        id="saveHTMLButton"
-                        type="button"
-                        style="width: 1px; height: 1px;padding:0px;margin:0px"
-                        class="btn btn-light"
-                        >
-                    </a>
-
-
-
-                    <!-- ----------------------------------------------
-                    
-                    Embed button
-                    
-                    ---------------------------------------------- -->
-                    <a     v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
-                           v-if="show_download_save && (preview_type=='app')"
-                           v-on:click='setTimeout(async function(){await switchEditor("embed_app_component", {})},100)'
-                           v-on:mouseenter='setInfo("Download the JS .yazz file for this app")'
+                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                           href="#"
+                           v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
+                           download
+                           v-if="show_download_save"
+                           v-on:mouseenter='setInfo("Download the source code for this app / component")'
                            v-on:mouseleave='setInfo(null)'
                            type="button" class="btn btn-light ">
-                
+
                         <img
-                            src='/driver_icons/embed.png'
-                            style='height:25px; margin-right: 0px;'
+                            src='/driver_icons/download.png'
+                            style='height:35px; margin-right: 0px;'
                             class='img-fluid' />
+                        Src
                     </a>
-              
-                </div>
-                <!-- ----------------------------------------------
-                End of app preview menu
-                ---------------------------------------------- -->
+                  
+                  
+                    <a  v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                        href="#"
+                        v-on:click='setTimeout(async function(){await switchEditor("sqlite_app_editor_component_v2")},100)'
+                        v-if="show_download_save"
+                        v-on:mouseenter='setInfo("Edit the database for this app / component")'
+                        v-on:mouseleave='setInfo(null)'
+                        type="button" class="btn btn-light ">
+
+                        <img
+                            src='/driver_icons/database.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        DB
+                    </a>
+
+
+
+                    <!-- ----------------------------------------------  
+                          UNDO BUTTON
+                    ---------------------------------------------- -->
+                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                           href="#"
+                           v-if="show_download_save"
+                           v-on:mouseenter='setInfo("Undo last change")'
+                           v-on:mouseleave='setInfo(null)'
+                           v-on:click='setTimeout(async function(){await undo()},100)'
+                           type="button" class="btn btn-light ">
+
+                        <img
+                            src='/driver_icons/undo_icon.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        Undo
+                    </a>
+
+
+                    <!-- ----------------------------------------------                    
+                            REDO BUTTON
+                    ---------------------------------------------- -->
+                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                           href="#"
+                           v-if="show_download_save"
+                           v-on:mouseenter='setInfo("Redo last change")'
+                           v-on:mouseleave='setInfo(null)'
+                           v-on:click='setTimeout(async function(){await redo()},100)'
+                           type="button" class="btn btn-light ">
+
+                        <img
+                            src='/driver_icons/redo_icon.png'
+                            style='height:35px; margin-right: 3px;'
+                            class='img-fluid' />
+                        Redo
+                    </a>
+
+
+
+                    <!-- ----------------------------------------------
+                      Commit / Release code
+                      
+                      This can be thought of as tagging a commit in
+                      git, or adding a version number to the code
+                      
+                    ---------------------------------------------- -->
+                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                           href="#"
+                           v-on:click='setTimeout(async function(){await switchEditor("deliver_component_screen")},100)'
+                           v-if="show_download_save"
+                           v-on:mouseenter='setInfo("Save changes, view history, and publish apps / components")'
+                           v-on:mouseleave='setInfo(null)'
+                           type="button" class="btn btn-light ">
+
+                        <img
+                            src='/driver_icons/deliver.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        Revisions
+                    </a>
 
 
 
 
+                    <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                              v-on:click='setTimeout(function(){closeSubEditor()},100)'
+                              v-if="editor_overloaded"
+                              v-on:mouseenter='setInfo("Back to editor")'
+                              v-on:mouseleave='setInfo(null)'
+                              type="button" class="btn btn-light ">
 
 
-                <!-- ----------------------------------------------
-                Preview a component
-                ---------------------------------------------- -->
-                <div  v-if='app_loaded  &&  (preview_type=="control")'>
-                    <component    id="control_preview_component"
-                                  ref="control_preview_component"
-                                  v-if='app_loaded  &&  (preview_type=="control")'
-                                  style='background-color: white;height:92%;'
-                                  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["control_preview_container_app"]'
-                                  v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
-                                  >
-                    </component>
-                </div>
+                        <svg    version="1.1"
+                                id="Layer_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                x="0px"
+                                width="35px"
+                                viewBoxdup="0 0 210.107 210.107"
+                                height="35px"
+                                y="0px"
+                                viewBox="0 0 492 492"
+                                style="enable-background:new 0 0 492 492;margin-right:10px;"
+                                xml:space="preserve">
+                                    <g>
+                                        <path   d="M464.344,207.418l0.768,0.168H135.888l103.496-103.724c5.068-5.064,7.848-11.924,7.848-19.124
+                                                c0-7.2-2.78-14.012-7.848-19.088L223.28,49.538c-5.064-5.064-11.812-7.864-19.008-7.864c-7.2,0-13.952,2.78-19.016,7.844
+                                                L7.844,226.914C2.76,231.998-0.02,238.77,0,245.974c-0.02,7.244,2.76,14.02,7.844,19.096l177.412,177.412
+                                                c5.064,5.06,11.812,7.844,19.016,7.844c7.196,0,13.944-2.788,19.008-7.844l16.104-16.112c5.068-5.056,7.848-11.808,7.848-19.008
+                                                c0-7.196-2.78-13.592-7.848-18.652L134.72,284.406h329.992c14.828,0,27.288-12.78,27.288-27.6v-22.788
+                                                C492,219.198,479.172,207.418,464.344,207.418z"/>
+                                    </g>
+
+                        </svg>Back to editor
+                    </button>
+
+
+                    <button     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                                v-on:mouseenter='setInfo("Make a copy of this app / component")'
+                                v-on:mouseleave='setInfo(null)'
+                                v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
+                                type="button" class="btn  btn-primary"
+                                v-if='yz && (mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
+    
+                        <img
+                            src='/driver_icons/remix.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        Remix
+    
+                    </button>
 
 
 
+                    <button   v-bind:disabled='read_only?"":false'
+                              v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                              v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
+                              v-on:mouseleave='setInfo(null)'
+                              v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
+                              type="button" class="btn  btn-warning"
+                              v-if="(((!hideImportButtons) || yz.mainVars.disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
+                              >
 
-                <!-- ----------------------------------------------
-                Preview an app 
-                ---------------------------------------------- -->
-                <div  v-if='app_loaded  &&  (preview_type=="app")'>
-                    <component  id="app_preview_component"
-                                ref="app_preview_component"
-                                v-if='app_loaded  &&  (preview_type=="app")'
-                                style='background-color: white; height: 92%;'
-                                v-bind:is="code_id"
+                        <img
+                                  src='/driver_icons/save.png'
+                                  style='height:35px; margin-right: 0px;'
+                                  class='img-fluid' />
+                                  
+                        {{saveCodeToFile?"Save":"Save"}}
+                    </button>
+
+
+
+                    <span  v-if='read_only && hideImportButtons'>
+                        {{read_only?"Read only":""}}
+                    </span>
+                  
+                    <span  v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!yz.mainVars.disableAutoSave)">
+                        Unsaved...
+                    </span>
+
+                    <span  v-if="!read_only && (save_state == 'saved') && hideImportButtons">
+                        Saved
+                    </span>
+                    <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
+                            v-bind:disabled='read_only?"":false'
+                            v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
-                    </component>
+                        {{saveCodeToFile?"Save":"App preview up to date"}}
+                    </div>
+
+                    <div    v-if="!read_only && (save_state == 'saving')"
+                            v-bind:disabled='read_only?"":false'
+                            v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                    >
+                        saving ...
+                    </div>
+                  
+                  
+               
+                    <div  style='display: inline-block;'>
+                        <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                             v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                             v-if="code_shown && (!app_shown)">
+
+                            {{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"}}
+                        </a>
+
+                        <div>
+                            {{file_save_state}}
+                        </div>
+                    </div>
                 </div>
+
+            </component>
+        </div>
+
+
+
+        <div v-bind:style="'margin-left:10px;margin-top:10px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: rgb(242,242,242);height: 80vh; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 4px solid lightsteelblue;border-radius: 10px;'">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div    v-if='app_loaded'
+                    v-bind:style="'display:flex;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;'">
+
+    
+
+              
+                <!-- ----------------------------------------------
+                Refresh button 
+                ---------------------------------------------- -->
+                <button   
+                    v-on:click='setTimeout(async function(){appClearIntervals();await loadComponentIntoEditor({codeId: code_id, runThisApp: true})},100)'
+                    type="button"
+                    v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
+                    class="btn"
+                    >
+                    <img
+                        src='/driver_icons/reload.png'
+                        style='height:25px; margin-right: 0px;'
+                        class='img-fluid'
+                         />
+                    
+                </button>
+    
+
+                <!-- ----------------------------------------------
+                App Preview Address Bar 
+                ---------------------------------------------- -->
+                <input
+                    readonly
+                    v-if='preview_type=="app"'
+                    style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                    v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"' />
+
+                <span
+                    v-if='preview_type!="app"'
+                    style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;margin-top:2px;'>
+                        {{ "Previewing '" + base_component_id + "'" }}
+                </span>
+
+
+
+
+
+              <!-- ----------------------------------------------
+              "Save As HTML" button
+              ---------------------------------------------- -->
+                <a        
+                    v-on:click='if ((preview_type=="app") && (!sqlite_data_saved_in_html)) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{allowAppToWorkOffline: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
+                    v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
+                    v-if="(preview_type=='app')"
+                    v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
+                    v-on:mouseleave='setInfo(null)'
+                    v-bind:disabled='sqlite_data_saved_in_html?false:""'
+                    type="button"
+                    class="btn btn-light"
+                    >
+                    <img  
+                        src="/driver_icons/html.png"
+                        v-bind:disabled='sqlite_data_saved_in_html?false:""'
+                        style="height: 25px;; margin: 0px;"
+                        class='img-fluid'
+                         />
+                    
+                </a>
+                
+                <a          
+                    v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".html"'
+                    v-if="(preview_type=='app')"
+                    download
+                    id="saveHTMLButton"
+                    type="button"
+                    style="width: 1px; height: 1px;padding:0px;margin:0px"
+                    class="btn btn-light"
+                    >
+                </a>
+
+
+
+                <!-- ----------------------------------------------
+                
+                Embed button
+                
+                ---------------------------------------------- -->
+                <a     v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
+                       v-if="show_download_save && (preview_type=='app')"
+                       v-on:click='setTimeout(async function(){await switchEditor("embed_app_component", {})},100)'
+                       v-on:mouseenter='setInfo("Download the JS .yazz file for this app")'
+                       v-on:mouseleave='setInfo(null)'
+                       type="button" class="btn btn-light ">
             
+                    <img
+                        src='/driver_icons/embed.png'
+                        style='height:25px; margin-right: 0px;'
+                        class='img-fluid' />
+                </a>
+          
             </div>
+            <!-- ----------------------------------------------
+            End of app preview menu
+            ---------------------------------------------- -->
+
+
+
+
+
+
+            <!-- ----------------------------------------------
+            Preview a component
+            ---------------------------------------------- -->
+            <div  v-if='app_loaded  &&  (preview_type=="control")'>
+                <component    id="control_preview_component"
+                              ref="control_preview_component"
+                              v-if='app_loaded  &&  (preview_type=="control")'
+                              style='background-color: white;height:92%;'
+                              v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["control_preview_container_app"]'
+                              v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
+                              >
+                </component>
+            </div>
+
+
+
+
+            <!-- ----------------------------------------------
+            Preview an app 
+            ---------------------------------------------- -->
+            <div  v-if='app_loaded  &&  (preview_type=="app")'>
+                <component  id="app_preview_component"
+                            ref="app_preview_component"
+                            v-if='app_loaded  &&  (preview_type=="app")'
+                            style='background-color: white; height: 92%;'
+                            v-bind:is="code_id"
+                >
+                </component>
+            </div>
+        
+        </div>
+    </div>
+
+
+
+    <div v-if='mode == "profiler" && (executionTimeline.length == 0) ' style='width:100%;'>
+        <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;padding:0;margin:0;">
+            <h4 style="border:0px; padding: 5px; margin: 0px;margin-top: 20vh; padding-left:15px;font-family: Helvetica;color: black; text-align: center;">
+                No code to profile
+            </h4>
+
+            <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica; text-align: center;">
+                Please do something in your app
+            </h6>
+
+            <div style='text-align: center;margin-top: 4vh;padding-bottom: 40vh;'>
+                <button     type=button 
+                            class=' btn btn-info btn-lg'        
+                            v-on:click='chooseBoth()' >Return to code</button>
+            </div>
+        </div>
+    </div>
+
+    <div v-if='mode == "profiler" && (executionTimeline.length > 0)' style='width:100%;'>
+
+        <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
+
         </div>
 
 
+        <div style='margin:0px'>
+            <div    style='position: absolute;width:35%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: hidden;padding:0px;margin-left:15px;border-radius: 5px;margin-top: 15px;'>
+                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; padding:4px; margin:0;border-bottom: 0px;padding-left:10px;'>
 
-        <div v-if='mode == "profiler" && (executionTimeline.length == 0) ' style='width:100%;'>
-            <div    style="position: sticky; left:0px; top:0px; width: 100vw ;z-index: 2;padding:0;margin:0;">
-                <h4 style="border:0px; padding: 5px; margin: 0px;margin-top: 20vh; padding-left:15px;font-family: Helvetica;color: black; text-align: center;">
-                    No code to profile
-                </h4>
+                     Debugging: {{highlighted_block_name}}
+                </div>
 
-                <h6 style="color: lightgray;border:0px;padding: 2px; margin: 0px;padding-left:15px;font-family: Helvetica; text-align: center;">
-                    Please do something in your app
-                </h6>
-
-                <div style='text-align: center;margin-top: 4vh;padding-bottom: 40vh;'>
-                    <button     type=button 
-                                class=' btn btn-info btn-lg'        
-                                v-on:click='chooseBoth()' >Return to code</button>
+                <div id='timeline_editor' style='height: 100%;' >
                 </div>
             </div>
-        </div>
 
-        <div v-if='mode == "profiler" && (executionTimeline.length > 0)' style='width:100%;'>
 
-            <div class='container' style='max-width:100%;width:100%;padding:10; margin:0; border: 0; background-color:lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);'>
+            <div    style='position: absolute;left: 37%; width:30%;display:inline-block;border:5px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: lightgray; position: relative;padding:0px;margin-left:15px;margin-top:0px;border-radius: 5px;'>
+
+                <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 5px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);padding:4px; margin:0;border-bottom: 3px solid lightgray;padding-left:10px;'>
+                     Stepper
+
+                     <span class='col-md-3'>
+                         <input  style=''
+                                 type="range" min="1" max="20"
+                                 v-bind:onchange='timelineRefresh(false)'
+                                 v-model="execution_horiz_scale" />
+                     </span>
+
+
+
+                     <span class='btn-group col-md-3' role=group >
+                         <button type=button class='btn btn-light' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
+                         <button type=button class='btn btn-light' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
+                     </span>
+                </div>
+
+
+
+                <div style='position:relative;background-color: white;'>
+
+
+
+
+
+
+                    <div
+                        v-if="( timeline_x_cursor >= 0 )"
+                        v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
+                    </div>
+
+                    <div v-if='(timeline_x_cursor <= 200) && ( timeline_x_cursor >= 0 )'
+                         v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-family:verdana,helvetica;font-size: 13px;" '>
+                            {{current_execution_step + 1}} / {{executionTimeline.length}}
+                    </div>
+
+                    <div v-if='(timeline_x_cursor > 200) && ( timeline_x_cursor >= 0 )'
+                         v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-family:verdana,helvetica;font-size: 13px; text-align:right;" '>
+                            {{current_execution_step + 1}} / {{executionTimeline.length}}
+                    </div>
+
+                    <div
+                        v-if="( timeline_x_cursor >= 0 )"
+                        v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
+                    </div>
+
+
+
+
+
+                    <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:90%; width:100%;left:0;top:0'
+                            id='timeline_el'
+                            v-on:scroll='inTimelineScroll()'
+                            @mousemove="mouseMoveTimeline($event)"
+                            @click="mouseClickTimeline($event)"
+                            @mouseenter="mouseEnterTimeline($event)">
+
+
+                        <div    v-for='block_name in execution_block_list'
+                                v-bind:style='  "color: black; " +
+                                                "position: absolute; pointer-events: none;" +
+                                                "top:" + (execution_code[block_name].start) + ";" +
+                                                "left: 0px ;" +
+                                                "height:100%; " +
+                                                "width: 100%;pointer-events: none;" '>
+
+
+
+                        </div>
+
+                        <div    v-for='exePoint in executionTimeline'
+
+                                v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
+                                                "position: absolute; pointer-events: none;" +
+                                                "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
+                                                "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
+                                                "border: 1px solid " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
+                                                "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
+                                                "height: " + ((current_execution_step == exePoint.time)?"10":"7") + "px; " +
+                                                "background-color: " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
+                                                ""'>
+                        </div>
+                    </div>
+
+
+                </div>
 
             </div>
 
 
-            <div style='margin:0px'>
-                <div    style='position: absolute;width:35%;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;overflow: hidden;padding:0px;margin-left:15px;border-radius: 5px;margin-top: 15px;'>
-                    <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; padding:4px; margin:0;border-bottom: 0px;padding-left:10px;'>
-    
-                         Debugging: {{highlighted_block_name}}
+
+
+            <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: hidden; background-color: white;padding:0;margin-left:20px;' >
+                <div    v-bind:class='(debugger_right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")'
+                        v-bind:refresh='refresh'
+                        v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
+
+                    <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;" '
+                         v-bind:class='(debugger_selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
+                         v-on:click='$event.stopPropagation();debugger_selected_pane = "watches";chooseRightDebugPane("watches");'>
+                        Watch vars
                     </div>
-    
-                    <div id='timeline_editor' style='height: 100%;' >
-                    </div>
-                </div>
-    
-    
-                <div    style='position: absolute;left: 37%; width:30%;display:inline-block;border:5px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: lightgray; position: relative;padding:0px;margin-left:15px;margin-top:0px;border-radius: 5px;'>
-    
-                    <div    style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 5px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);padding:4px; margin:0;border-bottom: 3px solid lightgray;padding-left:10px;'>
-                         Stepper
-    
-                         <span class='col-md-3'>
-                             <input  style=''
-                                     type="range" min="1" max="20"
-                                     v-bind:onchange='timelineRefresh(false)'
-                                     v-model="execution_horiz_scale" />
-                         </span>
-    
-    
-    
-                         <span class='btn-group col-md-3' role=group >
-                             <button type=button class='btn btn-light' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepBack()'>&lt;--</button>
-                             <button type=button class='btn btn-light' style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 1px;padding:2px;'  v-on:click='stepForward()'>--&gt;</button>
-                         </span>
-                    </div>
-    
-    
-    
-                    <div style='position:relative;background-color: white;'>
-    
-    
-    
-    
-    
-    
-                        <div
-                            v-if="( timeline_x_cursor >= 0 )"
-                            v-bind:style='  "position: absolute;pointer-events: none;width: 1px;border: 1px solid gray; top: 0; height:100%;" +"left: " + (timeline_x_cursor + 5)  + "px;" '>
-                        </div>
-    
-                        <div v-if='(timeline_x_cursor <= 200) && ( timeline_x_cursor >= 0 )'
-                             v-bind:style='  "position: absolute;pointer-events: none;width: 100%;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor + 10)  + "px; font-family:verdana,helvetica;font-size: 13px;" '>
-                                {{current_execution_step + 1}} / {{executionTimeline.length}}
-                        </div>
-    
-                        <div v-if='(timeline_x_cursor > 200) && ( timeline_x_cursor >= 0 )'
-                             v-bind:style='  "position: absolute;pointer-events: none;width: 100px;border: 0px solid gray; bottom: 0; " +"left: " + (timeline_x_cursor - 100)  + "px; font-family:verdana,helvetica;font-size: 13px; text-align:right;" '>
-                                {{current_execution_step + 1}} / {{executionTimeline.length}}
-                        </div>
-    
-                        <div
-                            v-if="( timeline_x_cursor >= 0 )"
-                            v-bind:style='  "position: absolute;pointer-events: none;height: 1px;border: 1px solid lightgray; left: 0; width:100%;" +"top: " + (timeline_y_cursor + 5)  + "px;" '>
-                        </div>
-    
-    
-    
-    
-    
-                        <div    style='position:relative;overflow: scroll; border: 0px solid blue; padding:0; height:90%; width:100%;left:0;top:0'
-                                id='timeline_el'
-                                v-on:scroll='inTimelineScroll()'
-                                @mousemove="mouseMoveTimeline($event)"
-                                @click="mouseClickTimeline($event)"
-                                @mouseenter="mouseEnterTimeline($event)">
-    
-    
-                            <div    v-for='block_name in execution_block_list'
-                                    v-bind:style='  "color: black; " +
-                                                    "position: absolute; pointer-events: none;" +
-                                                    "top:" + (execution_code[block_name].start) + ";" +
-                                                    "left: 0px ;" +
-                                                    "height:100%; " +
-                                                    "width: 100%;pointer-events: none;" '>
-    
-    
-    
-                            </div>
-    
-                            <div    v-for='exePoint in executionTimeline'
-    
-                                    v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
-                                                    "position: absolute; pointer-events: none;" +
-                                                    "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
-                                                    "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
-                                                    "border: 1px solid " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
-                                                    "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
-                                                    "height: " + ((current_execution_step == exePoint.time)?"10":"7") + "px; " +
-                                                    "background-color: " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
-                                                    ""'>
-                            </div>
-                        </div>
-    
-    
-                    </div>
-    
-                </div>
-    
-    
-    
-    
-                <div    style='width:30%;right:20px;position: absolute;display:inline-block;border:4px solid lightgray; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height: 75vh;background-color: white;overflow: hidden; background-color: white;padding:0;margin-left:20px;' >
-                    <div    v-bind:class='(debugger_right_mode == "watches"?"right_project_pane_expanded":"right_project_pane_collapsed")'
-                            v-bind:refresh='refresh'
-                            v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
-    
-                        <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;" '
-                             v-bind:class='(debugger_selected_pane == "watches"?"selected_pane_title":"unselected_pane_title") '
-                             v-on:click='$event.stopPropagation();debugger_selected_pane = "watches";chooseRightDebugPane("watches");'>
-                            Watch vars
-                        </div>
-                        <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (debugger_right_mode == "watches"?"":"display:none;")'>
-                            <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
-                                <div class='container' style="padding:0;margin:0">
-                                    <div v-if='executionTimeline[current_execution_step]'>
-    
-                                        <div style='margin:0;padding:0;border:2px solid lightgray; min-height:50px;'>
-    
-                                            <div v-for="varWatchName in execution_watch_list">
-    
-                                                <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
-                                                     v-if='globalWatchList[varWatchName][current_execution_step]'>
-    
-                                                    <b>{{varWatchName}}:</b>
-    
-                                                    <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
-    
-                                                    <div>
-                                                        <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
-                                                                v-on:click='deleteWatch(varWatchName)'>
-    
-                                                            Delete
-                                                        </button>
-    
-                                                        <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; '
-                                                                v-on:click='keepWatch(varWatchName)'>
-    
-                                                            Keep
-                                                        </button>
-    
-                                                        <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
-    
-                                                            <select v-model="globalWatchList[varWatchName].viewer">
-                                                                <option value="text">View as text</option>
-                                                                <option value="graph">Graph</option>
-                                                            </select>
-                                                        </div>
-    
+                    <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (debugger_right_mode == "watches"?"":"display:none;")'>
+                        <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                            <div class='container' style="padding:0;margin:0">
+                                <div v-if='executionTimeline[current_execution_step]'>
+
+                                    <div style='margin:0;padding:0;border:2px solid lightgray; min-height:50px;'>
+
+                                        <div v-for="varWatchName in execution_watch_list">
+
+                                            <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
+                                                 v-if='globalWatchList[varWatchName][current_execution_step]'>
+
+                                                <b>{{varWatchName}}:</b>
+
+                                                <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
+
+                                                <div>
+                                                    <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
+                                                            v-on:click='deleteWatch(varWatchName)'>
+
+                                                        Delete
+                                                    </button>
+
+                                                    <button type=button class='btn btn-primary' style='margin: 0px;padding:0px; '
+                                                            v-on:click='keepWatch(varWatchName)'>
+
+                                                        Keep
+                                                    </button>
+
+                                                    <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
+
+                                                        <select v-model="globalWatchList[varWatchName].viewer">
+                                                            <option value="text">View as text</option>
+                                                            <option value="graph">Graph</option>
+                                                        </select>
                                                     </div>
-    
+
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-    
-    
                             </div>
+
+
                         </div>
                     </div>
-    
-    
-    
-                    <div    v-bind:class='(debugger_right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
-                            v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
-    
-                        <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;"'
-                                v-bind:class='(debugger_selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                                v-on:click='debugger_selected_pane = "scope";chooseRightDebugPane("scope");'>
-                            Current scope
-                        </div>
-                        <div style='margin:0;padding:0; min-height:350px; background-color: white;'>
-    
-    
-                            <div v-for="varV in execution_var_list" style='padding: 2px;'>
-                                <div v-bind:v-if='executionTimeline[current_execution_step].vars[varV]'>
-                                    <div>
-                                        <b>{{varV}}</b>
-                                    </div>
-    
-                                    <div v-bind:v-if='isValidObject(executionTimeline[current_execution_step].vars[varV])'>
-                                        <div style='margin-left:20px; margin-bottom: 15px;'>
-                                            <b>Before</b>:
-                                            {{JSON.stringify(executionTimeline[current_execution_step].vars[varV].before,null,2)}}
-                                        </div>
-                                    </div>
-    
-                                    <div v-bind:v-if='executionTimeline[current_execution_step].vars[varV]'>
-                                        <div style='padding-left:20px;'>
-                                            <b>After</b>:
-                                            {{JSON.stringify(executionTimeline[current_execution_step].vars[varV].after,null,2)}}
-    
-                                        </div>
-                                    </div>
-    
+                </div>
+
+
+
+                <div    v-bind:class='(debugger_right_mode == "scope"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
+                        v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
+
+                    <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;padding-left:10px;"'
+                            v-bind:class='(debugger_selected_pane == "scope"?"selected_pane_title_slower":"unselected_pane_title_slower") '
+                            v-on:click='debugger_selected_pane = "scope";chooseRightDebugPane("scope");'>
+                        Current scope
+                    </div>
+                    <div style='margin:0;padding:0; min-height:350px; background-color: white;'>
+
+
+                        <div v-for="varV in execution_var_list" style='padding: 2px;'>
+                            <div v-bind:v-if='executionTimeline[current_execution_step].vars[varV]'>
+                                <div>
+                                    <b>{{varV}}</b>
                                 </div>
+
+                                <div v-bind:v-if='isValidObject(executionTimeline[current_execution_step].vars[varV])'>
+                                    <div style='margin-left:20px; margin-bottom: 15px;'>
+                                        <b>Before</b>:
+                                        {{JSON.stringify(executionTimeline[current_execution_step].vars[varV].before,null,2)}}
+                                    </div>
+                                </div>
+
+                                <div v-bind:v-if='executionTimeline[current_execution_step].vars[varV]'>
+                                    <div style='padding-left:20px;'>
+                                        <b>After</b>:
+                                        {{JSON.stringify(executionTimeline[current_execution_step].vars[varV].after,null,2)}}
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
-    
-    
-    
-    
-    
-    
-                    <div  style="left:0px; z-index: 200; width:100%; height:100%;">
-    
-                    </div>
+                </div>
+
+
+
+
+
+
+                <div  style="left:0px; z-index: 200; width:100%; height:100%;">
+
                 </div>
             </div>
         </div>
