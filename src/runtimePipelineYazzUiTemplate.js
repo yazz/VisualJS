@@ -1475,7 +1475,7 @@
 
 
         <!--
-        
+
         The drag drop UI editor.
         
         but...
@@ -1484,332 +1484,318 @@
         
         -->
 
-            <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
-                    v-bind:style='(design_mode?"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + "margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) + "overflow:auto;"'>
+        <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
+                v-bind:style='(design_mode?"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + "margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) + "overflow:auto;"'>
 
-                <div    v-if='design_mode'
-                        style='display:inline-block;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;width:100%;'>
+            <div    v-if='design_mode'
+                    style='display:inline-block;font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;width:100%;'>
 
-                    <img
-                        src='/driver_icons/form.png'
+                <img    src='/driver_icons/form.png'
                         style='width: 20px; margin-right: 10px;'
                         class='img-fluid' />
-                     
-                     {{active_form}} (Form)
+                 
+                    {{active_form}} (Form)
+            </div>
+            
+            <div style=''></div>
+
+
+
+            <div  id="grid_container"
+                  drop-target=false
+                  style='width:100%;background-color:white;height: 100%;position:relative;'>
+
+                <!-- INACTIVE FORM RESIZERS -->
+                <div    v-if='design_mode && (!isValidObject(active_component_index))'
+                        v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:2px;"'>
                 </div>
-                <div style=''></div>
+                <div    v-if='design_mode && (!isValidObject(active_component_index))'
+                        v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 + (model.forms[active_form].width/2)) +  "px;top:2px;"'>
+                </div>
+                <div    v-if='design_mode && (!isValidObject(active_component_index))'
+                        v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:2px;"'>
+                </div>
+                <div    v-if='design_mode && (!isValidObject(active_component_index))'
+                        v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (7 + (model.forms[active_form].height/2)) +  "px;"'>
+                </div>
+                <div    v-if='design_mode && (!isValidObject(active_component_index))'
+                        v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (15 + model.forms[active_form].height) +  "px;"'>
+                </div>
+
+                <!-- ACTIVE FORM RESIZERS -->
+                <!-- bottom right -->
+                <div    v-if='design_mode && (!isValidObject(active_component_index))'
+                        v-on:dragend='$event.stopPropagation();deleteCursor();'
+                        v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:" + (15 + (model.forms[active_form].height)) +  "px;"'
+                        v-bind:draggable='true'
+                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
+                           type:        "resize_form_bottom_right",
+                           form_name:    active_form
+                        })'
+                        >
+                </div>
+                
+                <!-- right -->
+                <div    v-if='design_mode && (!isValidObject(active_component_index))'
+                        v-bind:style='"cursor: ew-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:" + (7 + (model.forms[active_form].height/2)) +  "px;"'
+                        v-bind:draggable='true'
+                        v-on:dragend='$event.stopPropagation();deleteCursor();'
+                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
+                           type:        "resize_form_right",
+                           form_name:    active_form
+                        })'
+                        >
+                </div>
+                
+                <!-- bottom -->
+                <div    v-if='design_mode && (!isValidObject(active_component_index))'
+                        v-bind:style='"cursor: ns-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[active_form].width/2) +  "px;top:" + (15 + (model.forms[active_form].height)) +  "px;"'
+                        v-bind:draggable='true'
+                        v-on:dragend='$event.stopPropagation();deleteCursor()'
+                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
+                           type:        "resize_form_bottom",
+                           form_name:    active_form
+                        })'
+                        >
+                </div>
+
+                <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
+                                v-on:drop="drop($event)"
+                                v-bind:refresh='refresh'
+                                v-on:ondragover="$event.stopPropagation();allowDrop($event)"
+                                v-bind:class='(design_mode?"dotted":"" )'
+                                v-on:click='clickOnMainGrid($event)'
+                                v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
 
 
+                    <div    v-bind:refresh='refresh'
+                            style='position:absolute;left:0px;top:0px;z-index:1000000;opacity:1;'>
+    
+                        <!-- ACTIVE CONTROL RESIZERS -->
+                        <!-- top left -->
+                        <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                v-bind:style='"cursor: nwse-resize;z-index:10000000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    (getLeft(active_form,active_component_index) - 15) +  "px;top:" +
+                                    ((getTop(active_form,active_component_index)) - 15) +  "px;"'
+                                v-on:dragend='$event.stopPropagation();deleteCursor();'
+                                v-bind:draggable='true'
+    
+                                v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
+                                   type:   "resize_top_left",
+                                   base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
+                                   index:   active_component_index
+                                })'>
+                        </div>
 
-                <div  id="grid_container"
-                      drop-target=false
-                      style='width:100%;background-color:white;height: 100%;position:relative;'>
-
-                    <!-- INACTIVE FORM RESIZERS -->
-                    <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:2px;"'>
-                    </div>
-                    <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 + (model.forms[active_form].width/2)) +  "px;top:2px;"'>
-                    </div>
-                    <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:2px;"'>
-                    </div>
-                    <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (7 + (model.forms[active_form].height/2)) +  "px;"'>
-                    </div>
-                    <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"display:inline-block;background-color: white; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:2px;top:" + (15 + model.forms[active_form].height) +  "px;"'>
-                    </div>
-
-                    <!-- ACTIVE FORM RESIZERS -->
-                    <!-- bottom right -->
-                    <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-on:dragend='$event.stopPropagation();deleteCursor();'
-                            v-bind:style='"cursor: nwse-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:" + (15 + (model.forms[active_form].height)) +  "px;"'
-                            v-bind:draggable='true'
-                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
-                               type:        "resize_form_bottom_right",
-                               form_name:    active_form
-                            })'
-                            >
-                    </div>
-                    <!-- right -->
-                    <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"cursor: ew-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (15 +model.forms[active_form].width) +  "px;top:" + (7 + (model.forms[active_form].height/2)) +  "px;"'
-                            v-bind:draggable='true'
-                            v-on:dragend='$event.stopPropagation();deleteCursor();'
-                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");drag($event,{
-                               type:        "resize_form_right",
-                               form_name:    active_form
-                            })'
-                            >
-                    </div>
-                    <!-- bottom -->
-                    <div    v-if='design_mode && (!isValidObject(active_component_index))'
-                            v-bind:style='"cursor: ns-resize;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" + (7 +model.forms[active_form].width/2) +  "px;top:" + (15 + (model.forms[active_form].height)) +  "px;"'
-                            v-bind:draggable='true'
-                            v-on:dragend='$event.stopPropagation();deleteCursor()'
-                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");drag($event,{
-                               type:        "resize_form_bottom",
-                               form_name:    active_form
-                            })'
-                            >
-                    </div>
-
-
-
-
-                    <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
-                                    v-on:drop="drop($event)"
-                                    v-bind:refresh='refresh'
-                                    v-on:ondragover="$event.stopPropagation();allowDrop($event)"
-                                    v-bind:class='(design_mode?"dotted":"" )'
-                                    v-on:click='clickOnMainGrid($event)'
-                                    v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
-
-
-                        <div    v-bind:refresh='refresh'
-                                style='position:absolute;left:0px;top:0px;z-index:1000000;opacity:1;'>
-
-                            <!-- ACTIVE CONTROL RESIZERS -->
-                            <!-- top left -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                    v-bind:style='"cursor: nwse-resize;z-index:10000000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        (getLeft(active_form,active_component_index) - 15) +  "px;top:" +
-                                        ((getTop(active_form,active_component_index)) - 15) +  "px;"'
-                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
-                                    v-bind:draggable='true'
-
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");drag($event,{
-                                       type:   "resize_top_left",
-                                       base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
-                                       index:   active_component_index
-                                    })'>
-                            </div>
-
-                            <!-- top middle -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                    v-bind:style='"cursor: ns-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width/2) - 7) +  "px;top:" +
-                                        ((getTop(active_form,active_component_index)) - 15) +  "px;"'
-                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
-                                    v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");
-                                                    //debugger
-                                                    drag($event,{
-                                                                type:   "resize_top",
-                                                                base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
-                                                                index:   active_component_index
-                                                             })'>
-                            </div>
-                            <!-- top right -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                    v-bind:style='"cursor: nesw-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) ) +  "px;top:" +
-                                        ((getTop(active_form,active_component_index)) - 15) +  "px;"'
-                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
-                                        v-bind:draggable='true'
-                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");
-                                                        //debugger
-                                                        drag($event,{
-                                                           type:                   "resize_top_right",
-                                                           base_component_id:       model.forms[active_form].components[active_component_index].base_component_id,
-                                                           index:                   active_component_index
-                                                           })'>
-                            </div>
-
-                            <!-- middle left -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                    v-bind:style='"cursor: ew-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(active_form,active_component_index)) - 15) +  "px;top:" +
-                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
-                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
-                                    v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");
-                                                    drag($event,{
-                                                                type:              "resize_left",
-                                                                base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
-                                                                index:              active_component_index
-                                                             })'>
-                            </div>
-                            <!-- middle right -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                    v-bind:style='"cursor: ew-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width)) +  "px;top:" +
-                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
+                        <!-- top middle -->
+                        <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                v-bind:style='"cursor: ns-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width/2) - 7) +  "px;top:" +
+                                    ((getTop(active_form,active_component_index)) - 15) +  "px;"'
+                                v-on:dragend='$event.stopPropagation();deleteCursor();'
+                                v-bind:draggable='true'
+                                v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");
+                                                //debugger
+                                                drag($event,{
+                                                            type:   "resize_top",
+                                                            base_component_id:    model.forms[active_form].components[active_component_index].base_component_id,
+                                                            index:   active_component_index
+                                                         })'>
+                        </div>
+                        
+                        <!-- top right -->
+                        <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                v-bind:style='"cursor: nesw-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) ) +  "px;top:" +
+                                    ((getTop(active_form,active_component_index)) - 15) +  "px;"'
                                 v-on:dragend='$event.stopPropagation();deleteCursor();'
                                     v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");
-                                                                //debugger
-                                                                drag(   $event
-                                                                        ,
-                                                                        {
-                                                                            type:              "resize_right",
-                                                                            base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
-                                                                            index:              active_component_index
-                                                                        })'>
-                            </div>
-                            <!-- bottom left -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                    v-bind:style='"cursor: nesw-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(active_form,active_component_index)) - 15) +  "px;top:" +
-                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
-                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
-                                        v-bind:draggable='true'
-                                        v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");
-                                                        drag($event,{
-                                                                    type:              "resize_bottom_left",
-                                                                    base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
-                                                                    index:              active_component_index
-                                                                 })'>
-                            </div>
-                            <!-- bottom middle -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                    v-bind:style='"cursor: ns-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width/2) - 7) +  "px;top:" +
-                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
-                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
-                                    v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");
                                                     //debugger
                                                     drag($event,{
-                                                                type:              "resize_bottom",
+                                                       type:                   "resize_top_right",
+                                                       base_component_id:       model.forms[active_form].components[active_component_index].base_component_id,
+                                                       index:                   active_component_index
+                                                       })'>
+                        </div>
+
+                        <!-- middle left -->
+                        <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                v-bind:style='"cursor: ew-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    ((getLeft(active_form,active_component_index)) - 15) +  "px;top:" +
+                                    ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
+                                v-on:dragend='$event.stopPropagation();deleteCursor();'
+                                v-bind:draggable='true'
+                                v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");
+                                                drag($event,{
+                                                            type:              "resize_left",
+                                                            base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
+                                                            index:              active_component_index
+                                                         })'>
+                        </div>
+                        
+                        <!-- middle right -->
+                        <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                v-bind:style='"cursor: ew-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width)) +  "px;top:" +
+                                    ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height / 2)) - 7) +  "px;"'
+                            v-on:dragend='$event.stopPropagation();deleteCursor();'
+                            v-bind:draggable='true'
+                            v-on:dragstart='$event.stopPropagation();switchCursor($event,"ew-resize","col-resize");
+                                                        //debugger
+                                                        drag(   $event
+                                                                ,
+                                                                {
+                                                                    type:              "resize_right",
+                                                                    base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
+                                                                    index:              active_component_index
+                                                                })'>
+                        </div>
+                        
+                        <!-- bottom left -->
+                        <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                v-bind:style='"cursor: nesw-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    ((getLeft(active_form,active_component_index)) - 15) +  "px;top:" +
+                                    ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
+                                v-on:dragend='$event.stopPropagation();deleteCursor();'
+                                    v-bind:draggable='true'
+                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nesw-resize","crosshair");
+                                                    drag($event,{
+                                                                type:              "resize_bottom_left",
                                                                 base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
                                                                 index:              active_component_index
                                                              })'>
-                            </div>
+                        </div>
+                        
+                        <!-- bottom middle -->
+                        <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                v-bind:style='"cursor: ns-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width/2) - 7) +  "px;top:" +
+                                    ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
+                                v-on:dragend='$event.stopPropagation();deleteCursor();'
+                                v-bind:draggable='true'
+                                v-on:dragstart='$event.stopPropagation();switchCursor($event,"ns-resize","row-resize");
+                                                //debugger
+                                                drag($event,{
+                                                            type:              "resize_bottom",
+                                                            base_component_id:  model.forms[active_form].components[active_component_index].base_component_id,
+                                                            index:              active_component_index
+                                                         })'>
+                        </div>
 
-                            <!-- bottom right -->
-                            <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                    v-bind:style='"cursor: nwse-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
-                                        ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) ) +  "px;top:" +
-                                        ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
-                                    v-on:dragend='$event.stopPropagation();deleteCursor();'
-                                    v-bind:draggable='true'
-                                    v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");
-                                                    //debugger
-                                                    drag($event,{
-                                                                   type:               "resize_bottom_right",
-                                                                   base_component_id:   model.forms[active_form].components[active_component_index].base_component_id,
-                                                                   index:               active_component_index
-                                                                        })'>
-                            </div>
-
-
-
-
-
-                            <!-- DELETE -->
-                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                     v-bind:refresh='refresh'
-                                     class='btn btn-danger'
-                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) - 70) + "px;" +
-                                        "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
-                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='$event.stopPropagation();deleteComponent(active_component_index)'>
-
-                                    X
-
-                            </div>
+                        <!-- bottom right -->
+                        <div    v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                v-bind:style='"cursor: nwse-resize;z-index:1000;display:inline-block;background-color: gray; border: 3px solid gray; margin:0;width:12px;height:12px;position:absolute;left:" +
+                                    ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) ) +  "px;top:" +
+                                    ((getTop(active_form,active_component_index)) + ((model.forms[active_form].components[active_component_index].height)) + 2) +  "px;"'
+                                v-on:dragend='$event.stopPropagation();deleteCursor();'
+                                v-bind:draggable='true'
+                                v-on:dragstart='$event.stopPropagation();switchCursor($event,"nwse-resize","crosshair");
+                                                //debugger
+                                                drag($event,{
+                                                               type:               "resize_bottom_right",
+                                                               base_component_id:   model.forms[active_form].components[active_component_index].base_component_id,
+                                                               index:               active_component_index
+                                                                    })'>
+                        </div>
 
 
-
-
-
-                            <!-- LINKS IN -->
-                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                     v-bind:refresh='refresh'
-                                     class='btn btn-light'
-                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) - 70) + "px;" +
-                                        "top:  " + ((getTop(active_form,active_component_index)) +
-                                        (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
-                                        "width: 50px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index,"incoming")'>
-
-                                    -&gt;
-
-                                    <span   class="badge badge-primary"
-                                            v-html='(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
-                                    </span>
-                            </div>
-
-
-                            <!-- LINKS OUT -->
-                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                     v-bind:refresh='refresh'
-                                     class='btn btn-light'
-                                     v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
-                                        "top:  " + ((getTop(active_form,active_component_index)) +
-                                        (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
-                                        "width: 50px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='$event.stopPropagation();showComponentLinks(active_component_index,"outgoing")'>
-
-                                    -&gt;
-
-                                    <span   class="badge badge-primary"
-                                            v-html='(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
-                                    </span>
-                            </div>
+                        <!-- DELETE -->
+                        <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                 v-bind:refresh='refresh'
+                                 class='btn btn-danger'
+                                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                    "left: " + ((getLeft(active_form,active_component_index)) - 70) + "px;" +
+                                    "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
+                                    "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                 v-on:click='$event.stopPropagation();deleteComponent(active_component_index)'>
+                            X
+                        </div>
 
 
 
+                        <!-- LINKS IN -->
+                        <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                 v-bind:refresh='refresh'
+                                 class='btn btn-light'
+                                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                    "left: " + ((getLeft(active_form,active_component_index)) - 70) + "px;" +
+                                    "top:  " + ((getTop(active_form,active_component_index)) +
+                                    (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
+                                    "width: 50px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                 v-on:click='$event.stopPropagation();showComponentLinks(active_component_index,"incoming")'>
 
-                            <!-- Builder ... button -->
-                            <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
-                                     v-bind:refresh='refresh'
-                                     class='btn btn-info'
-                                     v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
-                                        "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width / 2) - 15) + "px;" +
-                                        "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
-                                        "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                     v-on:click='yz.editor.subEditorAction = "EDIT_CONTROL"; yz.editor.lastEditingAppBaseComponentId = yz.editor.editingAppBaseComponentId; yz.editor.lastEditingAppCodeId = yz.editor.editingAppCodeId;$event.stopPropagation();window.globalEventBus.emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, code_id:   model.forms[active_form].components[active_component_index].code_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
-                          >
+                            -&gt;
+                            
+                            <span   class="badge badge-primary"
+                                    v-html='(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
+                            </span>
+                        </div>
 
 
-                                  <img
-                                      src='/driver_icons/builder.png'
-                                      style='margin: auto;'
-                                      zzz=""
-                                      class='img-fluid' />
-                                  
-                            </div>
+                        <!-- LINKS OUT -->
+                        <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                 v-bind:refresh='refresh'
+                                 class='btn btn-light'
+                                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                    "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
+                                    "top:  " + ((getTop(active_form,active_component_index)) +
+                                    (model.forms[active_form].components[active_component_index].height / 2) - 18) +  "px;" +
+                                    "width: 50px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                 v-on:click='$event.stopPropagation();showComponentLinks(active_component_index,"outgoing")'>
+
+                            -&gt;
+
+                            <span   class="badge badge-primary"
+                                    v-html='(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
+                            </span>
+                        </div>
 
 
 
 
+                        <!-- Builder ... button -->
+                        <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+                                 v-bind:refresh='refresh'
+                                 class='btn btn-info'
+                                 v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
+                                    "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width / 2) - 15) + "px;" +
+                                    "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
+                                    "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                 v-on:click='yz.editor.subEditorAction = "EDIT_CONTROL"; yz.editor.lastEditingAppBaseComponentId = yz.editor.editingAppBaseComponentId; yz.editor.lastEditingAppCodeId = yz.editor.editingAppCodeId;$event.stopPropagation();window.globalEventBus.emit("message", { type:  "edit_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, code_id:   model.forms[active_form].components[active_component_index].code_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
+                        >
+                            <img    src='/driver_icons/builder.png'
+                                    style='margin: auto;'
+                                    class='img-fluid' />
+                        </div>
 
 
-                          <!-- Fork component ... button -->
-                          <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
+
+
+
+
+                        <!-- Fork component ... button -->
+                        <div       v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index)'
                                    v-bind:refresh='refresh'
                                    class='btn btn-info'
                                    v-bind:style='"background: white;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
                                         "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
                                         "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                   zzz=""
                                    v-on:click='yz.editor.subEditorAction = "FORK_CONTROL"; yz.editor.lastEditingAppBaseComponentId = yz.editor.editingAppBaseComponentId; yz.editor.lastEditingAppCodeId = yz.editor.editingAppCodeId;$event.stopPropagation();window.globalEventBus.emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, code_id:   model.forms[active_form].components[active_component_index].code_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
-                          >
+                        >
 
 
-                            <img
-                                src='/driver_icons/plus.png'
-                                style='margin: auto;'
-                                class='img-fluid' />
-                            
-                          </div>
+                            <img    src='/driver_icons/plus.png'
+                                    style='margin: auto;'
+                                    class='img-fluid' />
+                        </div>
 
 
 
-                          
 
-
-                          <!-- Advanced details ... button -->
-                          <div     v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index) && hasMoreDetailsUi(active_form,active_component_index)'
+                        <!-- Advanced details ... button -->
+                        <div       v-if='design_mode && isValidObject(active_component_index) && isVisible(active_form,active_component_index) && hasMoreDetailsUi(active_form,active_component_index)'
                                    v-bind:refresh='refresh'
                                    class='btn btn-info'
                                    v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;position: absolute; "  +
@@ -1817,53 +1803,50 @@
                                         "top:  " + ((getTop(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].height) + 15) +  "px;" +
                                         "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
                                    v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(active_component_index)'>
-
                             ...
-
-                          </div>
-
+                        </div>
 
 
 
 
+
+                        <div    v-bind:refresh='refresh'
+                                v-for='( formName,formindex ) in getFormNames( )'
+                                v-bind:style=''>
                             <div    v-bind:refresh='refresh'
-                                    v-for='( formName,formindex ) in getFormNames( )'
-                                    v-bind:style=''>
-                                <div    v-bind:refresh='refresh'
-                                        v-for='(item,index) in getFormComponents({formName: formName})'
-                                        ondrop="return false;"
-                                        v-on:click='if ( isVisible(formName,index)){ $event.stopPropagation();selectComponent(index,true); }'
-                                        v-bind:style='(formName==active_form)?(((design_mode && isVisible(formName,index))?"border: 1px solid black;background: white;":"") +
-                                                        "position: absolute;top: " + getTop(formName,index) + ";left:" + getLeft(formName,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"):"display:none;"'>
+                                    v-for='(item,index) in getFormComponents({formName: formName})'
+                                    ondrop="return false;"
+                                    v-on:click='if ( isVisible(formName,index)){ $event.stopPropagation();selectComponent(index,true); }'
+                                    v-bind:style='(formName==active_form)?(((design_mode && isVisible(formName,index))?"border: 1px solid black;background: white;":"") +
+                                                    "position: absolute;top: " + getTop(formName,index) + ";left:" + getLeft(formName,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"):"display:none;"'>
+
+                                <div ondrop="return false;"
+                                     v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;":"display:none;"'>
+                                    <component  v-bind:id='formName + "_" + model.forms[formName].components[index].name + (design_mode?"_design":"")'
+                                                v-bind:refresh='refresh'
+                                                v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                v-bind:sql='sqlQuery'
+                                                v-bind:app_helper_fns='{}'
+                                                v-bind:form_helper_fns='form_helper_fns'
+                                                v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: item.name,sub_type: a.display,code: a.code, args: a.args})})'
+                                                v-bind:form="formName"
+                                                v-bind:design_mode='design_mode'
+                                                v-bind:children='getChildren(item.name)'
+                                                
+                                                v-bind:is='item.code_id?item.code_id:GLOBALS.baseComponentIdReturnsCommitId[item.base_component_id]'
+                                                v-if='!item.parent && model.forms[formName].components[index]'
+                                                v-bind:name='item.name + "_design_mode_" + design_mode'
+                                                v-bind:properties='model.forms[formName].components[index]'
+                                                v-bind:props='model.forms[formName].components[index]'
+                                                v-bind:style='(formName==active_form)?"":"display:none;"'
+                                                v-bind:args='model.forms[formName].components[index]'>
     
-                                    <div ondrop="return false;"
-                                         v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;":"display:none;"'>
-                                        <component  v-bind:id='formName + "_" + model.forms[formName].components[index].name + (design_mode?"_design":"")'
-                                                    v-bind:refresh='refresh'
-                                                    v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
-                                                    v-bind:sql='sqlQuery'
-                                                    v-bind:app_helper_fns='{}'
-                                                    v-bind:form_helper_fns='form_helper_fns'
-                                                    v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: item.name,sub_type: a.display,code: a.code, args: a.args})})'
-                                                    v-bind:form="formName"
-                                                    v-bind:design_mode='design_mode'
-                                                    v-bind:children='getChildren(item.name)'
-                                                    
-                                                    v-bind:is='item.code_id?item.code_id:GLOBALS.baseComponentIdReturnsCommitId[item.base_component_id]'
-                                                    v-if='!item.parent && model.forms[formName].components[index]'
-                                                    v-bind:name='item.name + "_design_mode_" + design_mode'
-                                                    v-bind:properties='model.forms[formName].components[index]'
-                                                    v-bind:props='model.forms[formName].components[index]'
-                                                    v-bind:style='(formName==active_form)?"":"display:none;"'
-                                                    v-bind:args='model.forms[formName].components[index]'>
-    
-                                            <template       slot-scope="child_components"
+                                        <template           slot-scope="child_components"
                                                             v-bind:refresh='refresh'
                                                             v-for='child_item  in  getChildren(item.name)'
                                                             v-bind:style='(formName==active_form)?"position:relative;":"display:none;"'>
     
-                                                <component  
-                                                            v-bind:design_mode='design_mode'
+                                            <component      v-bind:design_mode='design_mode'
                                                             v-bind:refresh='refresh'
                                                             v-bind:meta='{form: formName,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
                                                             v-bind:sql='sqlQuery'
@@ -1880,50 +1863,37 @@
                                                             v-if='model.forms[formName].components[child_item.index_in_parent_array]'
                                                             v-bind:props='model.forms[formName].components[child_item.index_in_parent_array]'
                                                             v-bind:args='model.forms[formName].components[child_item.index_in_parent_array]'>
-                                                </component>
+                                            </component>
+                                        </template>
+                                    </component>
+                                </div>
     
-                                            </template>
+                                <div    v-bind:style='(formName==active_form)?"cursor: move;position: absolute; top: 0px; left: 0px;z-index: " + (item.is_container?"1":"10000000") + ";width: 100%;height: 100%;border: 1px solid black;":"display:none;"'
+                                        v-bind:draggable='design_mode'
+                                        v-if='design_mode && isVisible(formName,index)'
+                                        ondrop="return false;"
+                                        v-on:dragstart='$event.stopPropagation();
+                                                        //debugger
+                                                        drag($event,{
+                                                           type:               "move_component",
+                                                           base_component_id:   item.base_component_id,
+                                                           index:               index
+                                                        })'>
     
-                                        </component>
-                                    </div>
-    
-                                    <div    v-bind:style='(formName==active_form)?"cursor: move;position: absolute; top: 0px; left: 0px;z-index: " + (item.is_container?"1":"10000000") + ";width: 100%;height: 100%;border: 1px solid black;":"display:none;"'
-                                            v-bind:draggable='design_mode'
-                                            v-if='design_mode && isVisible(formName,index)'
+                                    <div    v-if='design_mode && isVisible(formName,index)'
                                             ondrop="return false;"
-                                            v-on:dragstart='$event.stopPropagation();
-                                                            //debugger
-                                                            drag($event,{
-                                                               type:               "move_component",
-                                                               base_component_id:   item.base_component_id,
-                                                               index:               index
-                                                            })'>
-    
-                                        <div    v-if='design_mode && isVisible(formName,index)'
-                                                ondrop="return false;"
-                                                v-bind:refresh='refresh'
-                                                v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
-                                                                ((index == active_component_index)?"opacity: 0;":"opacity: .6;"):"display:none;" '>
-    
-                                        </div>
+                                            v-bind:refresh='refresh'
+                                            v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
+                                                            ((index == active_component_index)?"opacity: 0;":"opacity: .6;"):"display:none;" '>
                                     </div>
-    
-    
-    
-    
-    
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
+    </div>
 
 
 
@@ -1932,13 +1902,13 @@
 
 
 
-        <!--
-            ****************************************************************
-            *                                                              *
-            *             The right section of the UI editor               *
-            *                                                              *
-            ****************************************************************
-        -->
+    <!--
+    ****************************************************************
+    *                                                              *
+    *             The right section of the UI editor               *
+    *                                                              *
+    ****************************************************************
+    -->
 
         <div    v-if='design_mode'
                 v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " float:right;top:0px;right:0px;width: 400px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:75vmin;background-color: lightgray; "'
