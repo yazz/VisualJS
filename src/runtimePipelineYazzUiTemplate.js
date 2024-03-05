@@ -2,41 +2,43 @@
     
     templateDefinition:
         //*** gen_start ***//
-        `<div   v-bind:id='unique_app_dom_element_id'
+        `
+<div    v-bind:id='unique_app_dom_element_id'
         v-if='unique_app_dom_element_id != null'
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
-
     <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px; padding-left: 15px;padding-bottom: 10px;' v-if='design_mode' >
 
-        <slot style='display: inline-block;float: left;' v-if='text'>
+        <slot   style='display: inline-block;float: left;' 
+                v-if='text'>
         </slot>
         
         <div  v-if="debug_component_bci"
-              style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;"
-        >
-          <div  v-if="debug_component_bci"
-                style="background-color: blue;padding: 12px;color:white;"
-                v-on:click="debug_component_bci = null;debug_component_code_id = null;"
-          >
-            <b>Component type: </b>{{ debug_component_bci }}
-            <button  type=button class=' btn btn-danger btn-sm'
-                     style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
-                     v-on:click='debug_component_bci = null;debug_component_code_id=null' >x</button>
-          </div> 
-          <br>
-          <div>
+              style="position:fixed; left:2vw;top:2vh;width:96vw;height:95%;background-color: white;z-index:100000000; border: black solid 2px;">
+              
+            <div    v-if="debug_component_bci"
+                    style="background-color: blue;padding: 12px;color:white;"
+                    v-on:click="debug_component_bci = null;debug_component_code_id = null;">
+                    
+                <b>Component type: </b>{{ debug_component_bci }}
+                
+                <button  type=button class=' btn btn-danger btn-sm'
+                         style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 2px;"
+                         v-on:click='debug_component_bci = null;debug_component_code_id=null' >x</button>
+            </div> 
+            <br />
+        <div>
 
             IPFS: {{debug_component_code_id?debug_component_code_id:"Error: No Commit ID"}}
-          </div>
-          <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{debug_component_code_id?GLOBALS.getCodeForComponent({codeId: debug_component_code_id}):""}}
-          </pre>
-          
         </div>
+        
+        <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
+            {{debug_component_code_id?GLOBALS.getCodeForComponent({codeId: debug_component_code_id}):""}}
+        </pre>
+          
+    </div>
 
 
-     </div>
 
 
     <div    v-bind:id='vb_editor_element_id'
