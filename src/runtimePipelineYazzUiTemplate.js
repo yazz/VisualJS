@@ -1910,93 +1910,85 @@
     ****************************************************************
     -->
 
-        <div    v-if='design_mode'
-                v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " float:right;top:0px;right:0px;width: 400px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:75vmin;background-color: lightgray; "'
-                v-bind:refresh='refresh'>
+    <div    v-if='design_mode'
+            v-bind:style='(design_mode?"border: 4px solid lightgray;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + " float:right;top:0px;right:0px;width: 400px;height: 75vmin; display: inline-block;overflow-x: none;overflow: hidden;vertical-align: top;padding:0px;height:75vmin;background-color: lightgray; "'
+            v-bind:refresh='refresh'>
 
 
+        <div    id='right_project_pane'
+                v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")'
+                v-bind:refresh='refresh'
+                v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
 
-
-
-
-            <div    id='right_project_pane'
-                    v-bind:class='(right_mode == "project"?"right_project_pane_expanded":"right_project_pane_collapsed")'
-                    v-bind:refresh='refresh'
-                    v-bind:style='"padding:0px; border: 4px solid lightgray;white-space:nowrap"'>
-
-                <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;" '
-                     v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
-                     v-on:click='$event.stopPropagation();let s = (selected_pane == "project"?"properties":"project");chooseRight(s);'
-                     >
+            <div v-bind:style='"border-radius: 3px;  padding: 4px;overflow-x:none;height: 40px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);font-family:verdana,helvetica;font-size: 13px;" '
+                 v-bind:class='(selected_pane == "project"?"selected_pane_title":"unselected_pane_title") '
+                 v-on:click='$event.stopPropagation();let s = (selected_pane == "project"?"properties":"project");chooseRight(s);'
+                 >
 
                      Project explorer
 
-                    <button type=button class='btn btn-sm btn-warning'
-                            v-bind:style='"position: absolute; right: 13px;" + (right_mode == "project"?"":"display:;font-family:verdana,helvetica;font-size: 13px;")'
-                            v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
+                <button type=button class='btn btn-sm btn-warning'
+                        v-bind:style='"position: absolute; right: 13px;" + (right_mode == "project"?"":"display:;font-family:verdana,helvetica;font-size: 13px;")'
+                        v-on:click='$event.stopPropagation();selected_pane = "project"; chooseRight("project");addForm()'  >
+                
+                    Add form
+                </button>
+            </div>
 
-                         Add form
 
-                    </button>
-                </div>
+            <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
+                <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
+                    <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'>
+                        <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
+                        <b   v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>App - {{edited_app_display_name}}</b>
+                    </div>
 
-                <div  v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:80%;background-color:lightgray;"  + (right_mode == "project"?"":"display:none;")'>
-                    <div    style="align-items: stretch;border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                    <div v-for='form in getForms()' v-bind:refresh='refresh'>
+                        <div>
+                            <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;position:relative;"'>
 
-                        <div    v-bind:style='"border-radius: 0px;padding:4px;margin:0px;margin-top: 5px;" + (app_selected?"background-color:gray;color:white;":"background-color:white;color:black;")'>
+                                <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
+                                <img    src='/driver_icons/form.png'
+                                        style='width: 20px; margin-right: 10px;'
+                                        class='img-fluid' />
+                                    <span v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>{{form.name}} ({{form.components.length}})</span>
+                            </div>
 
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='app_selected' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
-                                    <b   v-on:click='$event.stopPropagation();selected_pane = "project";select_app()'>App - {{edited_app_display_name}}</b>
-                        </div>
-
-                        <div v-for='form in getForms()' v-bind:refresh='refresh'>
-                            <div>
-                                <div  v-bind:style='(((form.name == active_form) && (active_component_index == null) && (!app_selected)) ?"border: 0px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;border-radius: 3px;position:relative;"'>
-
-                                    <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((form.name == active_form) && (active_component_index == null) && (!app_selected))' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
-                                     <img
-                                            src='/driver_icons/form.png'
-                                            style='width: 20px; margin-right: 10px;'
-                                            class='img-fluid' />
-                                     
-
-                                      <span v-on:click='$event.stopPropagation();selected_pane = "project";selectForm(form.name)'>{{form.name}} ({{form.components.length}})</span>
-                                </div>
-
-                                <template    v-if='form.name == active_form'>
+                            <template    v-if='form.name == active_form'>
                                 <div    v-for='(av,index) in getActiveFormComponents()'>
 
-                                    <div  v-bind:style='(((index == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
-                                          v-if='(av.parent == null)'>
-                                      <div  style='width:100%;position:relative;'>
+                                    <div    v-bind:style='(((index == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:80px; padding:2px;border-radius: 3px;width:90%;"'
+                                            v-if='(av.parent == null)'>
+                                            
+                                        <div  style='width:100%;position:relative;'>
 
-                                              <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
-                                              <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'>{{av.name}}</span>
-                                              
-                                              <template   v-for='(av2,index2) in getActiveFormComponents()'>
-                                              <div    v-if='form.name == active_form'
-                                                      >
+                                            <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='(index == active_component_index) && design_mode' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
+                                            <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index)'>{{av.name}}</span>
+                                          
+                                            <template   v-for='(av2,index2) in getActiveFormComponents()'>
+                                                <div    v-if='form.name == active_form'>
 
-                                                  <div  v-bind:style='(((index2 == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;width:90%;"'
-                                                        v-if='(av2.parent == av.name)'>
-                                                    <div  style='width:100%;position: relative;'>
+                                                    <div    v-bind:style='(((index2 == active_component_index) && design_mode)?"border: 0px solid red;background-color: gray;color: white;":"") + "margin-left:20px; padding:2px;border-radius: 3px;width:90%;"'
+                                                            v-if='(av2.parent == av.name)'>
+                                                            
+                                                        <div  style='width:100%;position: relative;'>
 
                                                             <button v-on:click='selected_pane = "properties";chooseRight("properties");' v-if='((index2 == active_component_index) && design_mode)' type=button class='btn btn-sm btn-light' style="margin-right:5px;padding:3px;position:absolute;left:-24px;"><img src='/driver_icons/up_arrow.png' style="height:12px;" /></button>
                                                             <span v-on:click='$event.stopPropagation();selected_pane = "project";selectComponent(index2)'>{{av2.name}}</span>
+                                                        </div>
                                                     </div>
-                                                  </div>
-                                              </div>
-                                              </template>
-                                      </div>
+                                                </div>
+                                            </template>
+                                        </div>
                                     </div>
                                 </div>
-                                </template>
-                            </div>
+                            </template>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 
