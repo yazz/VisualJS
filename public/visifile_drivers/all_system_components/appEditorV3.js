@@ -326,161 +326,126 @@ Form runtime info
                 <div      slot-scope="editor_component" style='display: inline-block;width:100%;'>
 
 
-                  <!-- ----------------------------------------------
-
+                    <!-- ----------------------------------------------
                              Icon editor
-                        
                         ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                       href="#"
-                       v-on:click='setTimeout(async function(){await switchEditor("icon_editor_component")},100)'
-                       v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Create a new icon for this app / component")'
-                       v-on:mouseleave='setInfo(null)'
-                       type="button" class="btn btn-light ">
+                    <a  v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                        href="#"
+                        v-on:click='setTimeout(async function(){await switchEditor("icon_editor_component")},100)'
+                        v-if="show_download_save"
+                        v-on:mouseenter='setInfo("Create a new icon for this app / component")'
+                        v-on:mouseleave='setInfo(null)'
+                        type="button" class="btn btn-light ">
 
-                    <img
-                        src='/driver_icons/icon.png'
-                        style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
-                    Icon
-
-                  </a>
+                        <img    src='/driver_icons/icon.png'
+                                style='height:35px; margin-right: 0px;'
+                                class='img-fluid' />
+                            Icon
+                    </a>
                   
                   
-                  <!-- ----------------------------------------------
-                  
-                       Download
-                  
-                  ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                       href="#"
-                       v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
-                       download
-                       v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Download the source code for this app / component")'
-                       v-on:mouseleave='setInfo(null)'
-                       type="button" class="btn btn-light ">
+                    <!-- ----------------------------------------------
+                    Download
+                    ---------------------------------------------- -->
+                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                           href="#"
+                           v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
+                           download
+                           v-if="show_download_save"
+                           v-on:mouseenter='setInfo("Download the source code for this app / component")'
+                           v-on:mouseleave='setInfo(null)'
+                           type="button" class="btn btn-light ">
 
-                    <img
-                        src='/driver_icons/download.png'
-                        style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
-                    Src
-
-                  </a>
+                        <img
+                            src='/driver_icons/download.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        Src
+                    </a>
                   
                   
-                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                       href="#"
-                       v-on:click='setTimeout(async function(){await switchEditor("sqlite_app_editor_component_v2")},100)'
-                       v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Edit the database for this app / component")'
-                       v-on:mouseleave='setInfo(null)'
-                       type="button" class="btn btn-light ">
+                    <a  v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                        href="#"
+                        v-on:click='setTimeout(async function(){await switchEditor("sqlite_app_editor_component_v2")},100)'
+                        v-if="show_download_save"
+                        v-on:mouseenter='setInfo("Edit the database for this app / component")'
+                        v-on:mouseleave='setInfo(null)'
+                        type="button" class="btn btn-light ">
 
-                    <img
-                        src='/driver_icons/database.png'
-                        style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
-                    DB
-
-                  </a>
+                        <img
+                            src='/driver_icons/database.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        DB
+                    </a>
 
 
 
-
-
-                  <!-- ----------------------------------------------
-  
+                    <!-- ----------------------------------------------  
                           UNDO BUTTON
-                      
-                        ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                       href="#"
-                       v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Undo last change")'
-                       v-on:mouseleave='setInfo(null)'
-                       v-on:click='setTimeout(async function(){await undo()},100)'
-                       type="button" class="btn btn-light ">
+                    ---------------------------------------------- -->
+                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                           href="#"
+                           v-if="show_download_save"
+                           v-on:mouseenter='setInfo("Undo last change")'
+                           v-on:mouseleave='setInfo(null)'
+                           v-on:click='setTimeout(async function(){await undo()},100)'
+                           type="button" class="btn btn-light ">
 
-                    <img
-                        src='/driver_icons/undo_icon.png'
-                        style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
-                    Undo
-
-                  </a>
+                        <img
+                            src='/driver_icons/undo_icon.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        Undo
+                    </a>
 
 
+                    <!-- ----------------------------------------------                    
+                            REDO BUTTON
+                    ---------------------------------------------- -->
+                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                           href="#"
+                           v-if="show_download_save"
+                           v-on:mouseenter='setInfo("Redo last change")'
+                           v-on:mouseleave='setInfo(null)'
+                           v-on:click='setTimeout(async function(){await redo()},100)'
+                           type="button" class="btn btn-light ">
 
-
-                  <!-- ----------------------------------------------
-                    
-                        REDO BUTTON
-                    
-                      ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                       href="#"
-                       v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Redo last change")'
-                       v-on:mouseleave='setInfo(null)'
-                       v-on:click='setTimeout(async function(){await redo()},100)'
-                       type="button" class="btn btn-light ">
-
-                    <img
-                        src='/driver_icons/redo_icon.png'
-                        style='height:35px; margin-right: 3px;'
-                        class='img-fluid' />
-                    
-                    Redo
-
-                  </a>
+                        <img
+                            src='/driver_icons/redo_icon.png'
+                            style='height:35px; margin-right: 3px;'
+                            class='img-fluid' />
+                        Redo
+                    </a>
 
 
 
-
-
-
-                  <!-- ----------------------------------------------
-                  
+                    <!-- ----------------------------------------------
                       Commit / Release code
                       
                       This can be thought of as tagging a commit in
                       git, or adding a version number to the code
                       
-                  ---------------------------------------------- -->
-                  <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                       href="#"
-                       v-on:click='setTimeout(async function(){await switchEditor("deliver_component_screen")},100)'
-                       v-if="show_download_save"
-                       v-on:mouseenter='setInfo("Save changes, view history, and publish apps / components")'
-                       v-on:mouseleave='setInfo(null)'
-                       type="button" class="btn btn-light ">
+                    ---------------------------------------------- -->
+                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                           href="#"
+                           v-on:click='setTimeout(async function(){await switchEditor("deliver_component_screen")},100)'
+                           v-if="show_download_save"
+                           v-on:mouseenter='setInfo("Save changes, view history, and publish apps / components")'
+                           v-on:mouseleave='setInfo(null)'
+                           type="button" class="btn btn-light ">
 
-                    <img
-                        src='/driver_icons/deliver.png'
-                        style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    
-                    Revisions
-
-                  </a>
+                        <img
+                            src='/driver_icons/deliver.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        Revisions
+                    </a>
 
 
 
 
-
-
-
-
-
-
-                  <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='setTimeout(function(){closeSubEditor()},100)'
                               v-if="editor_overloaded"
                               v-on:mouseenter='setInfo("Back to editor")'
@@ -488,46 +453,45 @@ Form runtime info
                               type="button" class="btn btn-light ">
 
 
-                              <svg  version="1.1"
-                                    id="Layer_1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    x="0px"
-                                    width="35px"
-                                    viewBoxdup="0 0 210.107 210.107"
-                                    height="35px"
-                                    y="0px"
-                                  	viewBox="0 0 492 492"
-                                    style="enable-background:new 0 0 492 492;margin-right:10px;"
-                                    xml:space="preserve">
-                              	<g>
-                              		<path d="M464.344,207.418l0.768,0.168H135.888l103.496-103.724c5.068-5.064,7.848-11.924,7.848-19.124
-                              			c0-7.2-2.78-14.012-7.848-19.088L223.28,49.538c-5.064-5.064-11.812-7.864-19.008-7.864c-7.2,0-13.952,2.78-19.016,7.844
-                              			L7.844,226.914C2.76,231.998-0.02,238.77,0,245.974c-0.02,7.244,2.76,14.02,7.844,19.096l177.412,177.412
-                              			c5.064,5.06,11.812,7.844,19.016,7.844c7.196,0,13.944-2.788,19.008-7.844l16.104-16.112c5.068-5.056,7.848-11.808,7.848-19.008
-                              			c0-7.196-2.78-13.592-7.848-18.652L134.72,284.406h329.992c14.828,0,27.288-12.78,27.288-27.6v-22.788
-                              			C492,219.198,479.172,207.418,464.344,207.418z"/>
-                              	</g>
+                        <svg    version="1.1"
+                                id="Layer_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                x="0px"
+                                width="35px"
+                                viewBoxdup="0 0 210.107 210.107"
+                                height="35px"
+                                y="0px"
+                                viewBox="0 0 492 492"
+                                style="enable-background:new 0 0 492 492;margin-right:10px;"
+                                xml:space="preserve">
+                                	<g>
+                              	    	<path   d="M464.344,207.418l0.768,0.168H135.888l103.496-103.724c5.068-5.064,7.848-11.924,7.848-19.124
+                                                c0-7.2-2.78-14.012-7.848-19.088L223.28,49.538c-5.064-5.064-11.812-7.864-19.008-7.864c-7.2,0-13.952,2.78-19.016,7.844
+                                                L7.844,226.914C2.76,231.998-0.02,238.77,0,245.974c-0.02,7.244,2.76,14.02,7.844,19.096l177.412,177.412
+                                                c5.064,5.06,11.812,7.844,19.016,7.844c7.196,0,13.944-2.788,19.008-7.844l16.104-16.112c5.068-5.056,7.848-11.808,7.848-19.008
+                                                c0-7.196-2.78-13.592-7.848-18.652L134.72,284.406h329.992c14.828,0,27.288-12.78,27.288-27.6v-22.788
+                                                C492,219.198,479.172,207.418,464.344,207.418z"/>
+                                  	</g>
 
-                              </svg>Back to editor
-
+                        </svg>Back to editor
                     </button>
 
 
-                  <button   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                            v-on:mouseenter='setInfo("Make a copy of this app / component")'
-                            v-on:mouseleave='setInfo(null)'
-                            v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
-                            type="button" class="btn  btn-primary"
-                            v-if='yz && (mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
-
-                    <img
-                        src='/driver_icons/remix.png'
-                        style='height:35px; margin-right: 0px;'
-                        class='img-fluid' />
-                    Remix
-
-                  </button>
+                    <button     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                                v-on:mouseenter='setInfo("Make a copy of this app / component")'
+                                v-on:mouseleave='setInfo(null)'
+                                v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
+                                type="button" class="btn  btn-primary"
+                                v-if='yz && (mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
+    
+                        <img
+                            src='/driver_icons/remix.png'
+                            style='height:35px; margin-right: 0px;'
+                            class='img-fluid' />
+                        Remix
+    
+                    </button>
 
 
 
@@ -540,71 +504,55 @@ Form runtime info
                               v-if="(((!hideImportButtons) || yz.mainVars.disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
                               >
 
-                              <img
+                        <img
                                   src='/driver_icons/save.png'
                                   style='height:35px; margin-right: 0px;'
                                   class='img-fluid' />
-                              {{saveCodeToFile?"Save":"Save"}}
-
+                                  
+                        {{saveCodeToFile?"Save":"Save"}}
                     </button>
 
 
 
-
-                  
-                  
-                  <span
-                      v-if='read_only && hideImportButtons'
-                  >
-                      {{read_only?"Read only":""}}
+                    <span  v-if='read_only && hideImportButtons'>
+                        {{read_only?"Read only":""}}
                     </span>
                   
-                  <span
-                      v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!yz.mainVars.disableAutoSave)"
-                  >
-                          Unsaved...
+                    <span  v-if="!read_only && (save_state == 'pending') && hideImportButtons && (!yz.mainVars.disableAutoSave)">
+                        Unsaved...
                     </span>
 
-                  <span
-                      v-if="!read_only && (save_state == 'saved') && hideImportButtons"
-                  >
-                      Saved
+                    <span  v-if="!read_only && (save_state == 'saved') && hideImportButtons">
+                        Saved
                     </span>
-                  <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
-                          v-bind:disabled='read_only?"":false'
-                          v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
-                  >
-                    {{saveCodeToFile?"Save":"App preview up to date"}}
-                  </div>
-
-                  <div    v-if="!read_only && (save_state == 'saving')"
-                          v-bind:disabled='read_only?"":false'
-                          v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
-                  >
-                    saving ...
-                  </div>
-                  
-                  
-                  
-                  
-
-                    <div  style='display: inline-block;'>
-                        <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-
-                              v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
-
-                              v-if="code_shown && (!app_shown)">
-
-                              {{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"}}
-                        </a>
-
-
-                        <div>
-                        {{file_save_state}}
-                        </div>
+                    <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
+                            v-bind:disabled='read_only?"":false'
+                            v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                    >
+                        {{saveCodeToFile?"Save":"App preview up to date"}}
                     </div>
 
+                    <div    v-if="!read_only && (save_state == 'saving')"
+                            v-bind:disabled='read_only?"":false'
+                            v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                    >
+                        saving ...
+                    </div>
+                  
+                  
+               
+                    <div  style='display: inline-block;'>
+                        <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
+                             v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                             v-if="code_shown && (!app_shown)">
 
+                            {{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"}}
+                        </a>
+
+                        <div>
+                            {{file_save_state}}
+                        </div>
+                    </div>
                 </div>
 
             </component>
