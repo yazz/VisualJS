@@ -27,15 +27,17 @@
                          v-on:click='debug_component_bci = null;debug_component_code_id=null' >x</button>
             </div> 
             <br />
-        <div>
-
-            IPFS: {{debug_component_code_id?debug_component_code_id:"Error: No Commit ID"}}
+            
+            <div>
+    
+                IPFS: {{debug_component_code_id?debug_component_code_id:"Error: No Commit ID"}}
+            </div>
+            
+            <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
+                {{debug_component_code_id?GLOBALS.getCodeForComponent({codeId: debug_component_code_id}):""}}
+            </pre>
+              
         </div>
-        
-        <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-            {{debug_component_code_id?GLOBALS.getCodeForComponent({codeId: debug_component_code_id}):""}}
-        </pre>
-          
     </div>
 
 
