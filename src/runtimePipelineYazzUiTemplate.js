@@ -62,8 +62,8 @@
                 -----------------------------------------
         -->
         <div    v-if='design_mode'
-            v-on:click='selected_pane = "blocks";'
-            v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " max-width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: hidden;overflow-y: hidden;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;;flex-grow: 0;flex-shrink: 0;"'>
+                v-on:click='selected_pane = "blocks";'
+                v-bind:style='(design_mode?"border: 4px solid lightgray;":"") + " max-width: " + leftHandWidth + "px;height: 75vmin; display: inline-block;overflow-x: hidden;overflow-y: hidden;vertical-align: top; background-color: lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);float:left;;flex-grow: 0;flex-shrink: 0;"'>
 
             <div    v-bind:style='"font-family:verdana,helvetica;font-size: 13px;border-radius: 3px;padding: 4px; margin-bottom: 10px;box-shadow: 2px 2px 10px lightgray;"'
                     v-bind:class='(selected_pane == "blocks"?"selected_pane_title":"unselected_pane_title") '>
@@ -72,50 +72,53 @@
 
             <div class='' >
                 <div class='' style='display:flex;overflow-y:scroll;flex-flow: row wrap;height:65vh;'>
+                
                     <div    class='flex'
                             v-on:click='highlighted_control = null;highlighted_control_code_id = null;'
                             v-bind:style='"display:flex;cursor: grab;border-radius: 3px;width:50px;height:50px; margin: 0px;border: 0px;padding:4px;overflow-x:hidden;overflow-y:hidden;background-color: " + ((!highlighted_control)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
+                            
                         <img    src='/driver_icons/cursor.png'
                                 style='width: 100%;'
                                 class='img-fluid' />
                     </div>
 
-                  <div    v-for='av in available_components'>
-                    <div    draggable="true"
-                            class=''
-                            v-on:dragend='$event.stopPropagation();deleteCursor();'
-                            v-on:dragstart='//alert(JSON.stringify(av,null,2));
-                                            $event.stopPropagation();
-                                            if (design_mode_pane.type == "drag_drop") 
-                                            {
-                                                switchCursor($event,"grab","grabbing");
-                                                highlighted_control         = av.base_component_id;
-                                                highlighted_control_code_id = av.content_hash;
-                                                drag(   $event,
-                                                        {
-                                                            type:               "add_component",
-                                                            base_component_id:  av.base_component_id,
-                                                            code_id:            av.content_hash
-                                                        })
-                                            } else {
-                                                event.preventDefault()
-                                                gotoDragDropEditor();
-                                            }'
-                            v-on:click='highlighted_control = av.base_component_id;highlighted_control_code_id = av.content_hash;gotoDragDropEditor();'
-                            v-bind:style='"display-old:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
+                    <div    v-for='av in available_components'>
+                        <div    draggable="true"
+                                class=''
+                                v-on:dragend='$event.stopPropagation();deleteCursor();'
+                                v-on:dragstart='//alert(JSON.stringify(av,null,2));
+                                                $event.stopPropagation();
+                                                if (design_mode_pane.type == "drag_drop") 
+                                                {
+                                                    switchCursor($event,"grab","grabbing");
+                                                    highlighted_control         = av.base_component_id;
+                                                    highlighted_control_code_id = av.content_hash;
+                                                    drag(   $event,
+                                                            {
+                                                                type:               "add_component",
+                                                                base_component_id:  av.base_component_id,
+                                                                code_id:            av.content_hash
+                                                            })
+                                                } else {
+                                                    event.preventDefault()
+                                                    gotoDragDropEditor();
+                                                }'
+                                v-on:click='highlighted_control = av.base_component_id;highlighted_control_code_id = av.content_hash;gotoDragDropEditor();'
+                                v-bind:style='"display-old:flex;cursor: grab;margin: 2px;border-radius: 3px;width:50px;;height: 50px; margin: 0px;border: 0px;padding:10px;overflow-x:auto;overflow-y:hidden;background-color: " + ((highlighted_control == av.base_component_id)?"#E8E8E8;border-left: 2px solid gray;border-top: 2px solid gray;":"lightgray;")'>
 
-                        <img    v-if='isValidObject(av)'
-                                v-bind:src='av.logo_url'
-                                style='width: 100%;'
-                                class='img-fluid' />
+                            <img    v-if='isValidObject(av)'
+                                    v-bind:src='av.logo_url'
+                                    style='width: 100%;'
+                                    class='img-fluid' />
                         
 
 
-                  </div>
-                    <div  style="width:100%; height:3px;background-color: lightgray"
-                          v-on:click="debug_component_bci=av.base_component_id;debug_component_code_id=av.content_hash;"></div>
+                        </div>
+                        
+                        <div  style="width:100%; height:3px;background-color: lightgray"
+                              v-on:click="debug_component_bci=av.base_component_id;debug_component_code_id=av.content_hash;"></div>
 
-                  </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,24 +128,19 @@
 
 
         <!--
-
                 The main center section of the UI editor
-
         -->
         <div v-bind:style='"display: flex;width:100%;" + (design_mode?"background-color: darkgray;":"background-color: white;")'>
 
 
-
             <!--
-
                     File path selector 
-
             -->
 
 
             <div    v-if='(design_mode && (design_mode_pane.type=="file_path_selector"))'
-            v-bind:refresh='refresh'
-            v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
+                    v-bind:refresh='refresh'
+                    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
                 <div    style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
