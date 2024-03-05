@@ -190,27 +190,17 @@
 
                                 <div>
 
-                                    <button
+                                    <button class="btn btn-danger btn-lg"
+                                            style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:5px;font-size:16px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                                            v-on:click="gotoDragDropEditor();">
 
-                                            class="btn btn-danger btn-lg"
-                                           style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:5px;font-size:16px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
-                                           v-on:click="gotoDragDropEditor();"
-                                           >
-
-                                            <img    src='/driver_icons/cancel.svg'
-                                                    style='position:relative;max-width: 40px; bottom:0px; left: 0px;max-height: 16px;margin-left: auto;margin-right: auto;display: inline-block;'
-                                                     />
-                                           
-
-                                        Cancel
+                                        <img    src='/driver_icons/cancel.svg'
+                                                style='position:relative;max-width: 40px; bottom:0px; left: 0px;max-height: 16px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                                 />
+                                            Cancel
                                     </button>
                                 </div>
                             </div>
-
-
-
-
-
                         </div>
                     </div>
                 </div>
@@ -230,9 +220,7 @@
 
 
             <!--
-
                     The code editor for events
-
             -->
 
 
@@ -325,7 +313,6 @@
                                  v-on:click='gotoDragDropEditor()' >x</button>
                     </div>
 
-
                 </div>
 
                 <div  v-bind:style='"padding:7px;border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; "'>
@@ -350,37 +337,35 @@
                                 v-bind:properties='model.forms[active_form].components[active_component_detail_index]'
                                 v-bind:args='model.forms[active_form].components[active_component_detail_index]'>
 
-                                <template       slot-scope="child_components"
-                                                v-bind:refresh='refresh'
-                                                v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
-                                                style='position:relative;'>
-
-                                    <component  
-                                                v-bind:design_mode='design_mode'
-                                                v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
-                                                v-bind:sql='sqlQuery'
-                                                v-bind:app_helper_fns='{}'
-                                                v-bind:form_helper_fns='form_helper_fns'
-                                                v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: child_item.name,sub_type: a.display,code: a.code, args: a.args})})'
-                                                v-bind:form="active_form"
-                                                v-bind:refresh='refresh'
-                                                v-bind:style='"z-index:100000;position: relative; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
-                                                v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
-                                                
-                                                v-bind:is='child_item.code_id?child_item.code_id:GLOBALS.baseComponentIdReturnsCommitId[child_item.base_component_id]'
-                                                v-bind:name='child_item.name + "_design_mode_" + design_mode'
-                                                v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
-                                                v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
-                                                v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
-                                                v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
-                                    </component>
-
-                                </template>
-                     </component>
-                 </div>
-             </div>
-
-
+                        <template       slot-scope="child_components"
+                                        v-bind:refresh='refresh'
+                                        v-for='child_item  in  getChildren(model.forms[active_form].components[active_component_detail_index].name)'
+                                        style='position:relative;'>
+    
+                            <component  
+                                        v-bind:design_mode='design_mode'
+                                        v-bind:meta='{form: active_form,name: child_item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                        v-bind:sql='sqlQuery'
+                                        v-bind:app_helper_fns='{}'
+                                        v-bind:form_helper_fns='form_helper_fns'
+                                        v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: child_item.name,sub_type: a.display,code: a.code, args: a.args})})'
+                                        v-bind:form="active_form"
+                                        v-bind:refresh='refresh'
+                                        v-bind:style='"z-index:100000;position: relative; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
+                                        v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
+                                        
+                                        v-bind:is='child_item.code_id?child_item.code_id:GLOBALS.baseComponentIdReturnsCommitId[child_item.base_component_id]'
+                                        v-bind:name='child_item.name + "_design_mode_" + design_mode'
+                                        v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                        v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                        v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                        v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
+                            </component>
+    
+                        </template>
+                    </component>
+                </div>
+            </div>
 
 
 
@@ -391,192 +376,158 @@
 
 
 
+            <!--
+                 The control links editor
+            -->
 
 
+            <div    v-if='(design_mode && (design_mode_pane.type=="control_links_editor"))'
+                    v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
 
-             <!--
+                <div    v-if='design_mode'
+                        style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
 
-                     The control links editor
-
-             -->
-
-
-             <div    v-if='(design_mode && (design_mode_pane.type=="control_links_editor"))'
-                     v-bind:style='"box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin: 2px; display: inline-block; vertical-align: top; width: 100%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 15px;":"margin: 0px;" ) '>
-
-                 <div    v-if='design_mode'
-                         style='font-family:verdana,helvetica;font-size: 13px;font-weight:bold;border-radius: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-image: linear-gradient(to right,  #000099, lightblue); color: white; border: 4px solid lightgray; padding:4px; margin:0;border-bottom: 0px;'>
-
-                     <div    style='height: 30px;' >
-
-                             <span   class="badge badge-primary"
-                                     style='font-size: 20px;'
-                                     v-html='(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
-                             </span>
-
-                             <span    style='font-size: 20px;'>-&gt;</span>
-
-                             <span   class="badge badge-primary"
-                                     style='font-size: 20px; margin-right: 10px;'
-                                     v-html='(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
-                             </span>
+                    <div    style='height: 30px;' >
+                        <span   class="badge badge-primary"
+                                style='font-size: 20px;'
+                                v-html='(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentIncomingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
+                        </span>
+                        
+                        <span    style='font-size: 20px;'>-&gt;</span>
+                        
+                        <span   class="badge badge-primary"
+                                style='font-size: 20px; margin-right: 10px;'
+                                v-html='(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid])?(runtimeComponentsInfo.componentOutgoingCountByUUID[model.forms[active_form].components[active_component_index].uuid]):0'>
+                        </span>
 
                          Property linked changes
                          <button  type=button class=' btn btn-danger btn-sm'
                                   style="float: right;box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;margin-bottom: 4px;"
                                   v-on:click='gotoDragDropEditor()' >x</button>
-                     </div>
+                    </div>
+                </div>
+
+                <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; padding:10px;"'>
+
+                    <div    style="width:40%;font-weight:bold;"
+                            v-bind:class='((design_mode_pane.direction=="incoming")?"badge badge-primary":"badge")'
+                            v-on:click='design_mode_pane.direction="incoming";refresh++;'
+                            >Incoming Links:</div>
+
+                    <div    style="width:40%;font-weight:bold;"
+                            v-bind:class='((design_mode_pane.direction=="outgoing")?"badge badge-primary":"badge")'
+                            v-on:click='design_mode_pane.direction="outgoing";refresh++;'
+                            >Outgoing Links:</div>
 
 
-                 </div>
+                    <br/>
+                    <br/>
+                    
+                    <table style="width:100%;" class="table">
+                        <tr style="width:100%;">
+                        
+                            <td    style="width:40%;font-weight:bold;padding:10px;">From</td>
+                            <td    style="width:40%;font-weight:bold;padding:10px;">Transform</td>
+                            <td    style="width:40%;font-weight:bold;padding:10px;">To</td>
+                            <td    style="width:20%;font-weight:bold;"></td>
+                        </tr>
 
-                 <div  v-bind:style='"border: 5px solid lightgray;background: white;;overflow:none;height:100%; overflow: auto; width:100%; padding:10px;"'>
-
-                  <div  style="width:40%;font-weight:bold;"
-                        v-bind:class='((design_mode_pane.direction=="incoming")?"badge badge-primary":"badge")'
-                        v-on:click='design_mode_pane.direction="incoming";refresh++;'
-                        >Incoming Links:</div>
-
-                   <div style="width:40%;font-weight:bold;"
-                        v-bind:class='((design_mode_pane.direction=="outgoing")?"badge badge-primary":"badge")'
-                        v-on:click='design_mode_pane.direction="outgoing";refresh++;'
-                        >Outgoing Links:</div>
-
-
-<br/><br/>
-<table style="width:100%;" class="table">
-<tr style="width:100%;">
-
-    <td    style="width:40%;font-weight:bold;padding:10px;">From</td>
-    <td    style="width:40%;font-weight:bold;padding:10px;">Transform</td>
-    <td    style="width:40%;font-weight:bold;padding:10px;">To</td>
-    <td    style="width:20%;font-weight:bold;"></td>
-</tr>
-
-<template v-for='currentWatch in watchList'>
-<tr 
-v-if="model.forms[active_form].components[active_component_links_index] && (currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
-      (design_mode_pane.direction == 'incoming')">
-
-    <td style='padding:10px;'>
-        {{getIncomingFromPropertyName(currentWatch)}}
-    </td>
-
-    <td style='padding:10px;'>
-        {{getIncomingTransformFn(currentWatch)}}
-    </td>
-
-    <td style='padding:10px;' >
-        {{getIncomingToPropertyName(currentWatch)}}
-    </td>
-
-    <td style='padding:10px;' >
-        <div     class='btn btn-danger'
-                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
-                               "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                 v-on:click='$event.stopPropagation();deleteLinkedProperty(currentWatch )'>
-
-                X
-
-        </div>
-    </td>
-</tr>
-</template>
-
-<template v-for='currentPush in watchList'>
-<tr 
-v-if="model.forms[active_form].components[active_component_links_index] && (currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) &&
-      (design_mode_pane.direction == 'outgoing')">
+                        <template v-for='currentWatch in watchList'>
+                            <tr     v-if="model.forms[active_form].components[active_component_links_index] && (currentWatch.to_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) && (design_mode_pane.direction == 'incoming')">
+                            
+                                <td style='padding:10px;'>
+                                    {{getIncomingFromPropertyName(currentWatch)}}
+                                </td>
+                            
+                                <td style='padding:10px;'>
+                                    {{getIncomingTransformFn(currentWatch)}}
+                                </td>
+                            
+                                <td style='padding:10px;' >
+                                    {{getIncomingToPropertyName(currentWatch)}}
+                                </td>
+                            
+                                <td style='padding:10px;' >
+                                    <div     class='btn btn-danger'
+                                             v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                                                           "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                             v-on:click='$event.stopPropagation();deleteLinkedProperty(currentWatch )'>
+                            
+                                            X
+                            
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
 
 
-    <td style='padding:10px;' >
-        {{getOutgoingFromPropertyName(currentPush)}}
-    </td>
+                        <template v-for='currentPush in watchList'>
+                            <tr   v-if="model.forms[active_form].components[active_component_links_index] && (currentPush.from_component_uuid == model.forms[active_form].components[active_component_links_index].uuid) && (design_mode_pane.direction == 'outgoing')">
+                            
+                                <td style='padding:10px;' >
+                                    {{getOutgoingFromPropertyName(currentPush)}}
+                                </td>
+                            
+                                <td style='padding:10px;'>
+                                    {{getOutgoingTransformFn(currentPush)}}
+                                </td>
+                            
+                                <td style='padding:10px;' >
+                                    {{getOutgoingToPropertyName(currentPush)}}
+                                </td>
+                            
+                                <td style='padding:10px;' >
+                                    <div     class='btn btn-danger'
+                                             v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
+                                                           "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
+                                             v-on:click='$event.stopPropagation();deleteLinkedProperty(currentPush)'>
+                            
+                                            X
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+
+                    </table>
+
+                    <br/><br/>
+                    <b>Add new link</b>
 
 
-    <td style='padding:10px;'>
-        {{getOutgoingTransformFn(currentPush)}}
-    </td>
-
-
-
-    <td style='padding:10px;' >
-        {{getOutgoingToPropertyName(currentPush)}}
-    </td>
-
-
-    <td style='padding:10px;' >
-        <div     class='btn btn-danger'
-                 v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
-                               "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                 v-on:click='$event.stopPropagation();deleteLinkedProperty(currentPush)'>
-
-                X
-
-        </div>
-    </td>
-
-
-</tr>
-</template>
-
-
-
-
-
-
-</table>
-
-
-
-
-
-<br/><br/>
-<b>Add new link</b>
-
-
-<ul class="nav nav-pills" id="myTab" role="tablist"
-    v-bind:refresh='refresh'>
-
-
-  <li class="nav-item" style="width:30%">
-    <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "form"?"active":""  )'
-        id="links-form-tab"
-        v-on:click='design_mode_pane.links_type = "form";clearAllControlPropertyLinkFields();refresh++;'
-        data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Form</a>
-  </li>
-
-
-  <li class="nav-item"  style="width:30%">
-    <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "create_new_component"?"active":""  )'
-        id="links-create-new-component-tab"
-        v-on:click='design_mode_pane.links_type = "create_new_component";clearAllControlPropertyLinkFields();refresh++;'
-        data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Create New</a>
-  </li>
-
-
-  <li class="nav-item"  style="width:30%">
-    <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "manual"?"active":""  )'
-        id="manual-links-tab"
-        v-on:click='design_mode_pane.links_type = "manual";clearAllControlPropertyLinkFields();refresh++;'
-        data-toggle="tab" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
-  </li>
-
-
-</ul>
+                    <ul class="nav nav-pills" id="myTab" role="tablist"
+                        v-bind:refresh='refresh'>
+                    
+                    
+                      <li class="nav-item" style="width:30%">
+                        <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "form"?"active":""  )'
+                            id="links-form-tab"
+                            v-on:click='design_mode_pane.links_type = "form";clearAllControlPropertyLinkFields();refresh++;'
+                            data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Form</a>
+                      </li>
+                    
+                    
+                      <li class="nav-item"  style="width:30%">
+                        <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "create_new_component"?"active":""  )'
+                            id="links-create-new-component-tab"
+                            v-on:click='design_mode_pane.links_type = "create_new_component";clearAllControlPropertyLinkFields();refresh++;'
+                            data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Create New</a>
+                      </li>
+                    
+                    
+                      <li class="nav-item"  style="width:30%">
+                        <a  v-bind:class='"nav-link " + (  design_mode_pane.links_type == "manual"?"active":""  )'
+                            id="manual-links-tab"
+                            v-on:click='design_mode_pane.links_type = "manual";clearAllControlPropertyLinkFields();refresh++;'
+                            data-toggle="tab" role="tab" aria-controls="manual" aria-selected="false">Manual</a>
+                      </li>
+                    
+                    
+                    </ul>
+                    
+                    
+                    
+                    
 <div class="tab-content" id="myTabContent">
-
-
-
-
-
-
-
-
-
-
-
-
 
    <!--
    --------------------------------------------
