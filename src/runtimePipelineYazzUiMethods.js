@@ -3477,10 +3477,10 @@ ${code}
 
                 if (  mm.model.forms[  formId  ].on_form_show && (!mm.design_mode)) {
 
-                    if (!isValidObject(this.args)) {
+                    if (!isValidObject(this.properties)) {
                         //TODO
                         // WHY does this ever get called? remove it when you can!!!!
-                        mm.args = mm.model
+                        mm.properties = mm.model
                     }
 
                     let formActivateCode = mm.model.forms[formId].on_form_show
@@ -6030,14 +6030,6 @@ return {}
                     mm.local_app                    = localAppshareApp
                     mm.in_change_model              = true
 
-                    if (mm.properties && mm.args) {
-                        mm.args = {...mm.args, ...mm.properties}
-                        mm.properties = mm.args
-                    } else if (mm.properties) {
-                        mm.args = mm.properties
-                    } else {
-                        mm.properties = mm.args
-                    }
 
                     if (mm.design_mode) {
                         yz.mainVars.disableAutoSave = false
