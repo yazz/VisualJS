@@ -129,19 +129,19 @@ logo_url("/driver_icons/text_control.png")
 */
 
     Yazz.component({
-        props: ["meta","name","args","refresh","design_mode"]
+        props: ["meta","name","properties_and_actions","refresh","design_mode"]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; " +
-                                        "color: "              +     args["color"]  + ";" +
-                                        "border-color: "       +     args["border_color"]  + ";" +
-                                        "border: "             +    (design_mode?0:args["border_width_px"])  + "px;" +
-                                        "background-color: "   +     args["background_color"]  + ";" +
-                                        "font-size: "   +     ((args["font_size"]?args["font_size"]:16)  + (args["font_size_units"]?args["font_size_units"]:"px")+";") +
-                                        "padding: "            +     args["padding_px"]  + ";" +
+                                        "color: "              +     properties_and_actions["color"]  + ";" +
+                                        "border-color: "       +     properties_and_actions["border_color"]  + ";" +
+                                        "border: "             +    (design_mode?0:properties_and_actions["border_width_px"])  + "px;" +
+                                        "background-color: "   +     properties_and_actions["background_color"]  + ";" +
+                                        "font-size: "   +     ((properties_and_actions["font_size"]?properties_and_actions["font_size"]:16)  + (properties_and_actions["font_size_units"]?properties_and_actions["font_size_units"]:"px")+";") +
+                                        "padding: "            +     properties_and_actions["padding_px"]  + ";" +
                                         "border-style: solid;" +
                                         "overflow: auto;"'>
 
-                    <pre v-if="args.use_pre == 'True'">{{text}}</pre>
+                    <pre v-if="properties_and_actions.use_pre == 'True'">{{text}}</pre>
                     
                     <div v-else>
                     {{text}}
@@ -158,18 +158,18 @@ logo_url("/driver_icons/text_control.png")
         watch: {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
-              //console.log("refresh: " + this.args.text)
-              if (isValidObject(this.args)) {
-                  this.text = this.args.text
-                  this.background_color = this.args.background_color
+              //console.log("refresh: " + this.properties_and_actions.text)
+              if (isValidObject(this.properties_and_actions)) {
+                  this.text = this.properties_and_actions.text
+                  this.background_color = this.properties_and_actions.background_color
               }          // you can do anything here with the new value or old/previous value
           }
         },
         mounted: async function() {
             await registerComponent(this)
 
-            if (isValidObject(this.args.text)) {
-                this.text = this.args.text
+            if (isValidObject(this.properties_and_actions.text)) {
+                this.text = this.properties_and_actions.text
             }
         }
         ,
@@ -185,8 +185,8 @@ logo_url("/driver_icons/text_control.png")
             }
             ,
             changedFn: function() {
-                if (isValidObject(this.args)) {
-                    this.args.text = this.text
+                if (isValidObject(this.properties_and_actions)) {
+                    this.properties_and_actions.text = this.text
                 }
             }
         }
