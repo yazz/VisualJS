@@ -2029,7 +2029,6 @@
                             <div
                                     v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
                                     v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
-                                    
                                 <div    v-if="property.id == 'base_component_id'"    
                                         style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                         v-on:click='debug_component_bci = model.forms[active_form].components[active_component_index].base_component_id;
