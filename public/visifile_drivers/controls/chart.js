@@ -81,7 +81,7 @@ logo_url("/driver_icons/chart.png")
 
 
     Yazz.component({
-      props: ["meta","name","args","refresh","design_mode","runEvent"]
+      props: ["meta","name","properties_and_actions","refresh","design_mode","runEvent"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
@@ -93,7 +93,7 @@ logo_url("/driver_icons/chart.png")
 
          <label for="usr">Data:</label>
          <textarea style="font-family:monospace; height:80%"
-                   v-model="args.jsonConfig"
+                   v-model="properties_and_actions.jsonConfig"
                    type="" class="form-control" id="usr"
                    cols="50"
 
@@ -104,7 +104,7 @@ logo_url("/driver_icons/chart.png")
      </div>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                       "background-color: "+    args["background_color"]  +  ";"'
+                       "background-color: "+    properties_and_actions["background_color"]  +  ";"'
          v-else>
 
          <canvas    v-bind:id='canvasId'
@@ -116,7 +116,7 @@ logo_url("/driver_icons/chart.png")
                     height="400"
                     v-if='design_mode'>
 
-                    Chart - {{args.name}}
+                    Chart - {{properties_and_actions.name}}
          </div>
     </div>
 
@@ -140,10 +140,10 @@ logo_url("/driver_icons/chart.png")
      watch: {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
-           //console.log("refresh: " + this.args.text)
-           if (isValidObject(this.args)) {
-               this.value = this.args.value
-               this.items = this.args.items
+           //console.log("refresh: " + this.properties_and_actions.text)
+           if (isValidObject(this.properties_and_actions)) {
+               this.value = this.properties_and_actions.value
+               this.items = this.properties_and_actions.items
            }
        }
      }
@@ -152,17 +152,17 @@ logo_url("/driver_icons/chart.png")
          await registerComponent(this)
          await useChartsJs()
 
-         if (isValidObject(this.args)) {
-             this.items = this.args.items
-             if (isValidObject(this.args.value)) {
-                this.value = this.args.value
+         if (isValidObject(this.properties_and_actions)) {
+             this.items = this.properties_and_actions.items
+             if (isValidObject(this.properties_and_actions.value)) {
+                this.value = this.properties_and_actions.value
              }
          }
          if (document.getElementById(this.canvasId)) {
              var ctx = document.getElementById(this.canvasId).getContext('2d');
 
-             if (this.args.jsonConfig.length > 0 ) {
-                 this.myChart = new Chart(ctx,   eval("(" + this.args.jsonConfig + ")"));
+             if (this.properties_and_actions.jsonConfig.length > 0 ) {
+                 this.myChart = new Chart(ctx,   eval("(" + this.properties_and_actions.jsonConfig + ")"));
              }
          }
       }
@@ -183,15 +183,15 @@ logo_url("/driver_icons/chart.png")
             }
             ,
             changedFn: function() {
-                if (isValidObject(this.args)) {
-                    this.args.value = this.value
-                    this.args.items = this.items
+                if (isValidObject(this.properties_and_actions)) {
+                    this.properties_and_actions.value = this.value
+                    this.properties_and_actions.items = this.items
                 }
             }
             ,
 
             runEventHandler: async function() {
-                await this.runEvent({ display: "changed",   code: this.args.changed_event })
+                await this.runEvent({ display: "changed",   code: this.properties_and_actions.changed_event })
             }
       }
 
