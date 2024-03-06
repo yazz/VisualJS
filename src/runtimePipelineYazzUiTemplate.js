@@ -1807,8 +1807,7 @@
     
     
                             <div    v-bind:refresh='refresh'
-                                    v-for='( formName,formindex ) in getFormNames( )'
-                                    v-bind:style=''>
+                                    v-for='( formName,formindex ) in getFormNames( )'>
                                 <div    v-bind:refresh='refresh'
                                         v-for='(item,index) in getFormComponents({formName: formName})'
                                         ondrop="return false;"
