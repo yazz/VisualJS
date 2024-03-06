@@ -2000,7 +2000,7 @@
         
                 <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;"'
                         v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                        v-on:click='if (selected_pane == "properties") {chooseRight("project")} else {chooseRight("properties")}'>
+                        v-on:click='chooseRight((selected_pane == "properties")?"project":"properties")'>
                     Properties - {{isValidObject(active_component_index)?model.forms[active_form].components[active_component_index].name + " (Component)" : (app_selected?"App":active_form + " (Form)")}}
                 </div>
     
