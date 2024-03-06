@@ -1996,69 +1996,68 @@
 
 
 
+    
+    
+    
+        <div    id='right_properties_pane'
+                v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
+                v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
+    
+            <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;"'
+                    v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
+                    v-on:click='if (selected_pane == "properties") {chooseRight("project")} else {chooseRight("properties")}'>
+                Properties - {{isValidObject(active_component_index)?model.forms[active_form].components[active_component_index].name + " (Component)" : (app_selected?"App":active_form + " (Form)")}}
+            </div>
 
 
+            <div id='property_selector_parent' style='margin: 5px;'>
 
-            <div    id='right_properties_pane'
-                    v-bind:class='(right_mode == "properties"?"right_properties_pane_collapsed":"right_properties_pane_collapsed")'
-                    v-bind:style='"padding:0px; border: 4px solid lightgray;padding:0px;background-color: lightgray;"'>
+            </div>
 
-                <div    v-bind:style='"border-radius: 3px;padding: 4px;height: 40px;overflow-x:none;white-space:nowrap;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow:hidden ;text-overflow: ellipsis;font-family:verdana,helvetica;font-size: 13px;"'
-                        v-bind:class='(selected_pane == "properties"?"selected_pane_title_slower":"unselected_pane_title_slower") '
-                        v-on:click='if (selected_pane == "properties") {chooseRight("project")} else {chooseRight("properties")}'>
-                    Properties - {{isValidObject(active_component_index)?model.forms[active_form].components[active_component_index].name + " (Component)" : (app_selected?"App":active_form + " (Form)")}}
-                </div>
+            <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
+            
+                <div    id="property_scroll_region"
+                        style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
 
 
-                <div id='property_selector_parent' style='margin: 5px;'>
+                    <div    v-for='property in properties'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'
+                            >
 
-                </div>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;'
+                             v-if='!property.hidden'>
+                            <div
+                                    v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
+                                    v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
+                                    
+                                <div    v-if="property.id == 'base_component_id'"    
+                                        style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
+                                        v-on:click='debug_component_bci = model.forms[active_form].components[active_component_index].base_component_id;
+                                                  // if we have the commit ID
+                                                  if (debug_component_code_id && (debug_component_code_id != "")) {
+                                                        debug_component_code_id=model.forms[active_form].components[active_component_index].code_id;
+                                                        
+                                                  // if only a BCI
+                                                  } else {
+                                                        debug_component_code_id=GLOBALS.getCommitIdForBaseComponentId( model.forms[active_form].components[active_component_index].base_component_id);
+                                                  }'
+                                                  > ..
+                                </div>
+                            </div>
 
-                <div  style="border-radius: 3px; padding:4px; border-right:2px solid gray;border-bottom:2px solid gray; margin-top:2px;;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:65%;">
-                    <div    id="property_scroll_region"
-                            style="border-radius: 3px;overflow-y:scroll; padding:0px; border: 0px solid lightgray;border-left: 2px solid gray;border-top: 2px solid gray; background-color:white;height:100%;">
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
+                                 v-on:click='selected_pane = "properties";'>
 
-
-                        <div    v-for='property in properties'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'
-                                >
-
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;'
-                                 v-if='!property.hidden'>
-                                <div
-                                        v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;" + (active_property_index == property.name?"background-color:#000099;color:white;":"")'
-                                        v-on:click='selected_pane = "properties";active_property_index = property.name;'>{{property.name}}
-                                  <div    v-if="property.id == 'base_component_id'"    
-                                          style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                          v-on:click='debug_component_bci = model.forms[active_form].components[active_component_index].base_component_id;
-                                                      // if we have the commit ID
-                                                      if (debug_component_code_id && (debug_component_code_id != "")) {
-                                                            debug_component_code_id=model.forms[active_form].components[active_component_index].code_id;
-                                                            
-                                                      // if only a BCI
-                                                      } else {
-                                                            debug_component_code_id=GLOBALS.getCommitIdForBaseComponentId( model.forms[active_form].components[active_component_index].base_component_id);
-                                                      }'
-                                                      > ..
-                                  </div>
-
+                                <div  v-if="isValidObject(property.help)"
+                                      style="width:auto;display:inline-block;">
+                                      
+                                    <div        style='margin-right:4px;margin-left:2px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: pink; padding:0px; padding-right:5px;padding-left:5px;height: 20px;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;color:black;width:20px;'
+                                                v-on:click='$event.stopPropagation();showHelp({
+                                                      help:                   property.help
+                                                  })'  >?</div>
                                 </div>
 
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'
-                                     v-on:click='selected_pane = "properties";'>
-
-                                     <div v-if="isValidObject(property.help)"
-                                          style="width:auto;display:inline-block;">
-                                          <div        style='margin-right:4px;margin-left:2px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: pink; padding:0px; padding-right:5px;padding-left:5px;height: 20px;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;color:black;width:20px;'
-                                                      v-on:click='$event.stopPropagation();showHelp({
-                                                          help:                   property.help
-                                                      })'  >?</div>
-
-                                     </div>
-
-                                    <div v-if='!property.readonly' style="width:100%">
-
-
+                                <div v-if='!property.readonly' style="width:100%">
                                     <div v-if="(property.editor  == 'detail_editor')  " style="width:100%">
                                         <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
                                                     v-on:click='$event.stopPropagation();showComponentDetailedDesignUi(active_component_index)'
@@ -2068,662 +2067,626 @@
                                     </div>
 
 
-                                        <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                            <input
-                                                    v-if="(property.textarea == null) || (property.textarea == '')"
-                                                    @change='setVBEditorProperty( {  property: property  ,  value: $event.target.value  } )'
-                                                    v-bind:value='getVBEditorProperty(property)'
-                                                    v-bind:type='property.password?"password":""'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;' />
-                                            <textarea
-                                                    v-if="(property.textarea != null) && (property.textarea != '')"
-                                                    rows=10
-                                                    @change='setVBEditorProperty(  {  property: property  ,  value: $event.target.value  }  )'
-                                                    v-bind:value='getVBEditorProperty(property)'
-                                                    v-bind:type='property.password?"password":""'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
-                                            </textarea>
-                                        </div>
-
-
-
-
-
-                                        <div    v-if="(property.type  == 'FilePath') ">
-                                            <img    src='/driver_icons/fileopen.png'
-                                                    style='height: 16px;'
-                                                    class='img-fluid' />
-                                            
-
-                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                                        v-on:click='$event.stopPropagation();selectFilePath({
-                                                            app_selected:           app_selected,
-                                                            active_form:            active_form,
-                                                            active_component_index: active_component_index,
-                                                            property_id:            property.id,
-                                                            file_exts:              property.file_exts
-                                                        })'  >
-                                                Open file
-                                            </div>
-                                            {{model.forms[active_form].components[active_component_index][property.id]}}
-                                        </div>
-
-
-
-
-
-
-
-
-                                        <div    v-if="(property.type  == 'Select')  ">
-                                            <select  @change='setVBEditorProperty(  {  property: property  ,  value: $event.target.value  }  )'>
-                                                  <option   v-for="propVal in property.values"
-                                                            v-bind:value="propVal.value"
-                                                            v-bind:selected="propVal.value == model.forms[active_form].components[active_component_index][property.id]">
-
-                                                        {{propVal.display}}
-
-                                                  </option>
-                                            </select>
-                                        </div>
-                                        <div    v-if="(property.type  == 'Image') ">
-                                            <input type="file"
-                                                   id="image_file"
-                                                   @change="previewUpload(property)" />
-                                        </div>
-                                        <div    v-if="(property.type  == 'File') ">
-                                            <input type="file"
-                                                   id="upload_file"
-                                                   @change="previewFileUpload(property)" />
-                                        </div>
-
-
-
-                                        <div    v-if="property.custom == 'true'"    
-                                                style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:5px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                                v-on:click='$event.stopPropagation();editAppProperty(property)'
-                                                          >*</div>
-
-
-                                        <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn))  ||  (app_selected && (property.type  == 'Action'))"
-                                                style="width:100%">
-
-                                            <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
-                                                        v-on:click='$event.stopPropagation();editAsCode({
-                                                            app_selected:           app_selected,
-                                                            active_form:            active_form,
-                                                            active_component_index: active_component_index,
-                                                            property_id:            property.id
-                                                        })'  >
-                                                JS
-                                            </div>
-                                          
-                                        </div>
-
-
-
-
+                                    <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
+                                        <input
+                                                v-if="(property.textarea == null) || (property.textarea == '')"
+                                                @change='setVBEditorProperty( {  property: property  ,  value: $event.target.value  } )'
+                                                v-bind:value='getVBEditorProperty(property)'
+                                                v-bind:type='property.password?"password":""'
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;' />
+                                        <textarea
+                                                v-if="(property.textarea != null) && (property.textarea != '')"
+                                                rows=10
+                                                @change='setVBEditorProperty(  {  property: property  ,  value: $event.target.value  }  )'
+                                                v-bind:value='getVBEditorProperty(property)'
+                                                v-bind:type='property.password?"password":""'
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
+                                        </textarea>
                                     </div>
 
-                                    <div v-if='property.readonly'>
-                                        <div    v-if='property.id == "display_name"'
-                                                style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                                class='col-md-12 small'>
 
-                                            {{GLOBALS.getTypeDisplayName(
-                                                {
-                                                    baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
-                                                    codeId:             model.forms[active_form].components[active_component_index].code_id
-                                                })
-                                            }}
 
-                                        </div>
-                                                                         <div    v-if='property.id == "display_icon"'
-                                                style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                                class='col-md-12 small'>
 
-                                            <img    v-bind:src='GLOBALS.getTypeDisplayIcon(
-                                                                    {
-                                                                        baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
-                                                                        codeId:             model.forms[active_form].components[active_component_index].code_id
-                                                                    })
-                                                                '
-                                                    style='height: 20px;'
-                                                    class='img-fluid' />
-                                            
-                                            
 
-                                        </div>       
+                                    <div    v-if="(property.type  == 'FilePath') ">
+                                        <img    src='/driver_icons/fileopen.png'
+                                                style='height: 16px;'
+                                                class='img-fluid' />
                                         
-                                        <div    v-if='active_component_index != null'
-                                                style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                                class='col-md-12 small'>
 
-                                            {{model.forms[active_form].components[active_component_index][property.id]}}
-
+                                        <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
+                                                    v-on:click='$event.stopPropagation();selectFilePath({
+                                                        app_selected:           app_selected,
+                                                        active_form:            active_form,
+                                                        active_component_index: active_component_index,
+                                                        property_id:            property.id,
+                                                        file_exts:              property.file_exts
+                                                    })'  >
+                                            Open file
                                         </div>
+                                        {{model.forms[active_form].components[active_component_index][property.id]}}
+                                    </div>
 
-                                        <div v-if='(active_component_index == null) && (active_form != null) && (app_selected == false)' class='col-md-12 small'   v-model='model.forms[active_form][property.id]'>
-                                        </div>
 
-                                        <div    v-if='app_selected'
-                                                style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
-                                                class='col-md-12 small'  >
 
-                                            {{property.get_fn?property.get_fn():model[property.id]}}
 
+
+                                    <div    v-if="(property.type  == 'Select')  ">
+                                        <select  @change='setVBEditorProperty(  {  property: property  ,  value: $event.target.value  }  )'>
+                                              <option   v-for="propVal in property.values"
+                                                        v-bind:value="propVal.value"
+                                                        v-bind:selected="propVal.value == model.forms[active_form].components[active_component_index][property.id]">
+
+                                                    {{propVal.display}}
+
+                                              </option>
+                                        </select>
+                                    </div>
+                                    
+                                    
+                                    <div    v-if="(property.type  == 'Image') ">
+                                        <input type="file"
+                                               id="image_file"
+                                               @change="previewUpload(property)" />
+                                    </div>
+                                    
+                                    
+                                    
+                                    <div    v-if="(property.type  == 'File') ">
+                                        <input type="file"
+                                               id="upload_file"
+                                               @change="previewFileUpload(property)" />
+                                    </div>
+
+
+
+                                    <div    v-if="property.custom == 'true'"    
+                                            style='margin-left:5px;margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:5px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
+                                            v-on:click='$event.stopPropagation();editAppProperty(property)'
+                                                      >*</div>
+
+
+                                    <div    v-if="(property.type  == 'Event') || ((property.type  == 'Action_old') && isValidObject(property.fn))  ||  (app_selected && (property.type  == 'Action'))"
+                                            style="width:100%">
+
+                                        <div        style='margin-top:2px;margin-bottom:2px;border-right: 2px solid gray;border-bottom: 2px solid gray;background-color: darkgray;float: right; padding:0px; padding-right:5px;padding-left:20px;height: 20px;color: white;border-radius: 3px;font-family:verdana,helvetica;font-size: 13px;font-style:bold;'
+                                                    v-on:click='$event.stopPropagation();editAsCode({
+                                                        app_selected:           app_selected,
+                                                        active_form:            active_form,
+                                                        active_component_index: active_component_index,
+                                                        property_id:            property.id
+                                                    })'  >
+                                            JS
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
+
+                                <div v-if='property.readonly'>
+                                    <div    v-if='property.id == "display_name"'
+                                            style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                            class='col-md-12 small'>
+
+                                        {{GLOBALS.getTypeDisplayName(
+                                            {
+                                                baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
+                                                codeId:             model.forms[active_form].components[active_component_index].code_id
+                                            })
+                                        }}
+                                    </div>
+                                    
+                                    <div        v-if='property.id == "display_icon"'
+                                                style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                                class='col-md-12 small'>
+
+                                        <img    v-bind:src='GLOBALS.getTypeDisplayIcon(
+                                                                {
+                                                                    baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
+                                                                    codeId:             model.forms[active_form].components[active_component_index].code_id
+                                                                })
+                                                            '
+                                                style='height: 20px;'
+                                                class='img-fluid' />
+                                    </div>       
+                                    
+                                        
+                                    <div    v-if='active_component_index != null'
+                                            style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                            class='col-md-12 small'>
+
+                                            {{model.forms[active_form].components[active_component_index][property.id]}}
+                                    </div>
+
+                                    <div v-if='(active_component_index == null) && (active_form != null) && (app_selected == false)' class='col-md-12 small'   v-model='model.forms[active_form][property.id]'>
+                                    </div>
+
+                                    <div    v-if='app_selected'
+                                            style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
+                                            class='col-md-12 small'  >
+
+                                        {{property.get_fn?property.get_fn():model[property.id]}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                            
+                    </div>
+                        
+                        
+
+
+
+
+                    <!-- -----------------------------------------------------------------------------------     
+                    ADD PROPERTY
+                    ----------------------------------------------------------------------------------- -->
+
+
+                    <!-- --------------------
+                    + PROPERTY BUTTON
+                    -------------------- -->
+                    <div  v-if='app_selected && (!add_property)' class='row' style='margin: 5px;'>
+                        <button     type=button class='btn btn-info'
+                                    style='font-family:verdana,helvetica;font-size: 13px;padding: 3px;'
+                                    v-on:click='$event.stopPropagation();addPropertyToApp()'  >
+                            +
+                        </button>
+                    </div>
+                        
+
+                        
+                    <!-- --------------------
+                    Add property text
+                    -------------------- -->
+                    <div v-if='(app_selected) && (add_property)' class='row'>
+                        <div    style='left:10px;padding-left:10px;padding-top:4px;padding-bottom:4px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
+                                class='col-md-12 small'>
+                            Add a property
                         </div>
-                        
-                        
+                    </div>
 
 
 
 
-                        <!-- ----------------------------------------------------------------------------------- 
+
+                    <!-- --------------------
+                    NEW PROPERTY ID
+                    -------------------- -->
+                    
+                    <div   v-if='(app_selected) && (add_property)'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >ID</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                        <input
+                                                v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                v-model='new_property_id' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         
-                        
-                                                            ADD PROPERTY
-                        
-                             
-                         ----------------------------------------------------------------------------------- -->
 
 
 
+                    <!-- --------------------
+                    NEW PROPERTY NAME
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (add_property)'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
                         
-                        <!-- --------------------
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Name</div>
+                                
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                        <input
+                                                v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
+                                                v-model='new_property_name'
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                 />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+                    <!-- --------------------     
+                    NEW PROPERTY TYPE
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (add_property)'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Type</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                        <select  class='col-md-7 small'
+                                                 style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                 v-model='new_property_type'>
+        
+                                            <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
+                                            <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
+                                            <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
+                                            <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
+                                            <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div
+                    </div>
+
+
+
+
+
                         
-                             + PROPERTY BUTTON
-                             
-                         -------------------- -->
-                        <div  v-if='app_selected && (!add_property)' class='row' style='margin: 5px;'>
-                            <button     type=button class='btn btn-info'
-                                        style='font-family:verdana,helvetica;font-size: 13px;padding: 3px;'
-                                        v-on:click='$event.stopPropagation();addPropertyToApp()'  >
-                                +
+                        
+                    <!-- --------------------
+                    NEW PROPERTY PRE SNIPPET
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (add_property) && (new_property_type=="Action")'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Pre snippet</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                         <input
+                                                readonly
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                value="await "
+                                                 />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                        
+                    
+                    
+                               
+      
+      
+      
+      
+                    <!-- --------------------
+                    NEW PROPERTY SNIPPET
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (add_property) && (new_property_type=="Action")'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Snippet</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                         <input
+                                                placeholder='doAction(...)'
+                                                v-model='new_snippet'
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                 />
+                                                                          
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                    
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                    <!-- --------------------
+                    NEW PROPERTY HELP
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (add_property)'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Help</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                         <textarea  
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                rows=10
+                                                v-bind:placeholder='(new_property_type=="Action")?"await doAction(...) does something":"background_color is the standard HTML color for backgrounds"'
+                                                v-model='new_help'>
+                                        </textarea>                     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        
+                                        
+                                       
+                                        
+                    <!-- --------------------
+                    CANCEL / SAVE BUTTON
+                    -------------------- -->          
+                    <div    v-if='(app_selected) && (add_property)'
+                            style='padding-bottom:60px;'
+                            class='row'>
+                        <div class='col-md-12'>
+                            <button style='font-family:verdana,helvetica;font-size: 13px;'
+                                    type=button class='btn btn-sm btn-info'
+                                    v-on:click='$event.stopPropagation();addPropertyCancel()'  >
+                                Cancel
+                            </button>
+
+                            <button style='font-family:verdana,helvetica;font-size: 13px;'
+                                    type=button class='btn btn-sm btn-info'
+                                    v-on:click='$event.stopPropagation();addPropertySave()'  >
+                                Save
                             </button>
                         </div>
-                        
-
-                        
-                        <!-- --------------------
-                        
-                             Add property text
-                             
-                         -------------------- -->
-                        <div v-if='(app_selected) && (add_property)' class='row'>
-                            <div    style='left:10px;padding-left:10px;padding-top:4px;padding-bottom:4px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
-                                    class='col-md-12 small'>
-                                Add a property
-                            </div>
-                        </div>
-
-
-
-
-
-                        <!-- --------------------
-                        
-                             NEW PROPERTY ID
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (add_property)'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >ID</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                            <input
-                                                    v-bind:placeholder='(new_property_type=="Action")?"doAction":"background_color"'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    v-model='new_property_id' />
-                                        </div></div></div></div></div>
-                        
-
-
-
-                        <!-- --------------------
-                        
-                             NEW PROPERTY NAME
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (add_property)'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Name</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                            <input
-                                                    v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
-                                                    v-model='new_property_name'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                     />
-                                        </div></div></div></div></div>
-
-
-
-
-
-
-
-
-
-
-                        <!-- --------------------
-                        
-                             NEW PROPERTY TYPE
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (add_property)'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Type</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                            <select  class='col-md-7 small'
-                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                     v-model='new_property_type'>
-            
-                                                <option  v-bind:selected='new_property_type=="String"' value="String">String</option>
-                                                <option  v-bind:selected='new_property_type=="Number"' value="Number">Number</option>
-                                                <option  v-bind:selected='new_property_type=="Array"' value="Array">Array</option>
-                                                <option  v-bind:selected='new_property_type=="Object"' value="Object">Object</option>
-                                                <option  v-bind:selected='new_property_type=="Action"' value="Action">Action</option>
-                                            </select>
-                                        </div></div></div></div></div>
-
-
-
-
-
-                        
-                        
-                        <!-- --------------------
-                        
-                             NEW PROPERTY PRE SNIPPET
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (add_property) && (new_property_type=="Action")'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Pre snippet</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                             <input
-                                                    readonly
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    value="await "
-                                                     />
-                                        </div></div></div></div></div>                        
-                        
-                        
-                               
-      
-      
-      
-      
-                        <!-- --------------------
-                        
-                             NEW PROPERTY SNIPPET
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (add_property) && (new_property_type=="Action")'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Snippet</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                             <input
-                                                    placeholder='doAction(...)'
-                                                    v-model='new_snippet'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                     />
-                                                                              
-                                        </div></div></div></div></div>
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                        <!-- --------------------
-                        
-                             NEW PROPERTY HELP
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (add_property)'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Help</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                             <textarea  
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    rows=10
-                                                    v-bind:placeholder='(new_property_type=="Action")?"await doAction(...) does something":"background_color is the standard HTML color for backgrounds"'
-                                                    v-model='new_help'>
-                                            </textarea>                     
-                                        </div></div></div></div></div>
-                                        
-                                        
-                                       
-                                        
-                        <!-- --------------------
-                        
-                             CANCEL / SAVE BUTTON
-                             
-                         -------------------- -->          
-                        <div    v-if='(app_selected) && (add_property)'
-                                style='padding-bottom:60px;'
-                                class='row'>
-                            <div class='col-md-12'>
-                                <button style='font-family:verdana,helvetica;font-size: 13px;'
-                                        type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();addPropertyCancel()'  >
-                                    Cancel
-                                </button>
-
-                                <button style='font-family:verdana,helvetica;font-size: 13px;'
-                                        type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();addPropertySave()'  >
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <!-- ----------------------------------------------------------------------------------- 
-                        
-                        
-                                                            EDIT PROPERTY
-                        
-                             
-                         ----------------------------------------------------------------------------------- -->
-                        
-                        
-                        
-                                                
-                        <!-- --------------------
-                        
-                             Edit property text
-                             
-                         -------------------- -->
-                        <div v-if='(app_selected) && (edit_property)' class='row'>
-                            <div    style='left:10px;padding-left:10px;padding-top:4px;padding-bottom:4px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
-                                    class='col-md-12 small'>
-                                Edit property
-                            </div>
-                        </div>
-
-
-
-
-
-                        <!-- --------------------
-                        
-                             EDIT PROPERTY ID
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (edit_property)'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >ID</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                            <div
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    v-html='edit_property_id'>
-                                            </div>
-                                        </div></div></div></div></div>
-                        
-
-
-
-                        <!-- --------------------
-                        
-                             EDIT PROPERTY NAME
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (edit_property)'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Name</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                            <input
-                                                    v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
-                                                    v-model='edit_property_name'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                     />
-                                        </div></div></div></div></div>
-
-
-
-
-
-
-
-
-
-
-                        <!-- --------------------
-                        
-                             EDIT PROPERTY TYPE
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (edit_property)'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Type</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                            <select  class='col-md-7 small'
-                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                     v-model='edit_property_type'>
-            
-                                                <option  v-bind:selected='edit_property_type=="String"' value="String">String</option>
-                                                <option  v-bind:selected='edit_property_type=="Number"' value="Number">Number</option>
-                                                <option  v-bind:selected='edit_property_type=="Array"' value="Array">Array</option>
-                                                <option  v-bind:selected='edit_property_type=="Object"' value="Object">Object</option>
-                                                <option  v-bind:selected='edit_property_type=="Action"' value="Action">Action</option>
-                                            </select>
-                                        </div></div></div></div></div>
-
-
-
-
-
-                        
-                        
-                        <!-- --------------------
-                        
-                             EDIT PROPERTY PRE SNIPPET
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (edit_property) && (edit_property_type=="Action")'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Pre snippet</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                             <input
-                                                    readonly
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    value="await "
-                                                    />
-                                        </div></div></div></div></div>                        
-                        
-                        
-                               
-      
-      
-      
-      
-                        <!-- --------------------
-                        
-                             EDIT PROPERTY SNIPPET
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (edit_property) && (edit_property_type=="Action")'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Snippet</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                             <input
-                                                    placeholder='doAction(...)'
-                                                    v-model='edit_property_snippet'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    />
-                                                                              
-                                        </div></div></div></div></div>
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                        <!-- --------------------
-                        
-                             EDIT PROPERTY HELP
-                             
-                         -------------------- -->
-
-                        <div   v-if='(app_selected) && (edit_property)'
-                                style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
-                            <div style='width:100%;padding:0px;margin:0px;display:flex;' >
-                                <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
-                                    >Help</div>
-                                <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
-                                    <div style="width:100%">
-                                        <div>
-                                             <textarea  
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
-                                                    rows=10
-                                                    v-bind:placeholder='(edit_property_type=="Action")?"await doAction(...) does something":"background_color is the standard HTML color for backgrounds"'
-                                                    v-model='edit_property_help'>
-                                            </textarea>                     
-                                        </div></div></div></div></div>
-                                        
-                                        
-                                       
-                                        
-                        <!-- --------------------
-                        
-                             CANCEL / DELETE / SAVE BUTTON
-                             
-                         -------------------- -->          
-                        <div    v-if='(app_selected) && (edit_property)'
-                                style='padding-bottom:60px;'
-                                class='row'>
-                            <div class='col-md-12'>
-                                <button style='font-family:verdana,helvetica;font-size: 13px;'
-                                        type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();editPropertyCancel()'  >
-                                    Cancel
-                                </button>
-
-                                <button style='font-family:verdana,helvetica;font-size: 13px;'
-                                        type=button class='btn btn-sm btn-danger'
-                                        v-on:click='$event.stopPropagation();editPropertyDelete()'  >
-                                    Delete
-                                </button>
-
-                                <button style='font-family:verdana,helvetica;font-size: 13px;'
-                                        type=button class='btn btn-sm btn-info'
-                                        v-on:click='$event.stopPropagation();(async function(){await editPropertySave()})();'  >
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                        
-
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                         
                     </div>
                     
                         
                         
-
-
-
-
-
-
                         
-                        
-                        
-
-  
-
-
-
+                    
+                    
+                    
+                    <!-- ----------------------------------------------------------------------------------- 
+                    
+                    
+                                                        EDIT PROPERTY
+                    
+                         
+                     ----------------------------------------------------------------------------------- -->
+                    
+                    <!-- --------------------
+                    Edit property text     
+                    -------------------- -->
+                    <div v-if='(app_selected) && (edit_property)' class='row'>
+                        <div    style='left:10px;padding-left:10px;padding-top:4px;padding-bottom:4px;margin-top: 20px; font-family:verdana,helvetica;font-size: 13px;font-weight:bold;color:white;background-color:blue;'
+                                class='col-md-12 small'>
+                            Edit property
+                        </div>
                     </div>
+
+
+
+
+
+                    <!-- -------------------- 
+                    EDIT PROPERTY ID
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (edit_property)'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                            
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >ID</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                        <div
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                v-html='edit_property_id'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+
+                    
+                    <!-- --------------------
+                    EDIT PROPERTY NAME
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (edit_property)'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Name</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                        <input
+                                                v-bind:placeholder='(new_property_type=="Action")?"Do Action":"Background Color"'
+                                                v-model='edit_property_name'
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                 />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+                    <!-- --------------------
+                    EDIT PROPERTY TYPE                    
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (edit_property)'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Type</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                        <select  class='col-md-7 small'
+                                                 style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                 v-model='edit_property_type'>
+        
+                                            <option  v-bind:selected='edit_property_type=="String"' value="String">String</option>
+                                            <option  v-bind:selected='edit_property_type=="Number"' value="Number">Number</option>
+                                            <option  v-bind:selected='edit_property_type=="Array"' value="Array">Array</option>
+                                            <option  v-bind:selected='edit_property_type=="Object"' value="Object">Object</option>
+                                            <option  v-bind:selected='edit_property_type=="Action"' value="Action">Action</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                        
+                        
+                    <!-- --------------------
+                    EDIT PROPERTY PRE SNIPPET
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (edit_property) && (edit_property_type=="Action")'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Pre snippet</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                         <input
+                                                readonly
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                value="await "
+                                                />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                        
+                    
+                    
+                               
+      
+      
+      
+      
+                    <!-- --------------------
+                    EDIT PROPERTY SNIPPET     
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (edit_property) && (edit_property_type=="Action")'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Snippet</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                         <input
+                                                placeholder='doAction(...)'
+                                                v-model='edit_property_snippet'
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                />
+                                                                          
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                    
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                    <!-- --------------------
+                    EDIT PROPERTY HELP
+                    -------------------- -->
+
+                    <div   v-if='(app_selected) && (edit_property)'
+                            style='font-family:verdana,helvetica;font-size: 13px;border-bottom: 1px solid lightgray;padding:0px;margin:0px;'>
+                        <div style='width:100%;padding:0px;margin:0px;display:flex;' >
+                            <div   v-bind:style='"text-overflow: ellipsis;white-space: pre-line;vertical-align: top;display:flex;width:40%;margin: 0px;font-family:verdana,helvetica;font-size: 13px;padding-left: 1px;padding-top:0px;padding-bottom:0px;"'
+                                >Help</div>
+                            <div style='display:flex;width:57%;padding:0px;padding-left:3px; border-left: 1px solid lightgray;'>
+                                <div style="width:100%">
+                                    <div>
+                                         <textarea  
+                                                style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'
+                                                rows=10
+                                                v-bind:placeholder='(edit_property_type=="Action")?"await doAction(...) does something":"background_color is the standard HTML color for backgrounds"'
+                                                v-model='edit_property_help'>
+                                        </textarea>                     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                    
+                                        
+                                       
+                                        
+                    <!-- --------------------
+                    CANCEL / DELETE / SAVE BUTTON
+                    -------------------- --> 
+                             
+                    <div    v-if='(app_selected) && (edit_property)'
+                            style='padding-bottom:60px;'
+                            class='row'>
+                        <div class='col-md-12'>
+                            <button style='font-family:verdana,helvetica;font-size: 13px;'
+                                    type=button class='btn btn-sm btn-info'
+                                    v-on:click='$event.stopPropagation();editPropertyCancel()'  >
+                                Cancel
+                            </button>
+
+                            <button style='font-family:verdana,helvetica;font-size: 13px;'
+                                    type=button class='btn btn-sm btn-danger'
+                                    v-on:click='$event.stopPropagation();editPropertyDelete()'  >
+                                Delete
+                            </button>
+
+                            <button style='font-family:verdana,helvetica;font-size: 13px;'
+                                    type=button class='btn btn-sm btn-info'
+                                    v-on:click='$event.stopPropagation();(async function(){await editPropertySave()})();'  >
+                                Save
+                            </button>
+                        </div>
+                    </div>         
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
     </div>
-</div>`
+</div>
+`
         //*** gen_end ***//
 }
