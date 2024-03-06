@@ -2190,7 +2190,7 @@
                                                 {{model.forms[active_form].components[active_component_index][property.id]}}
                                         </div>
     
-                                        <div v-if='(active_component_index == null) && (active_form != null) && (app_selected == false)' class='col-md-12 small'   v-model='model.forms[active_form][property.id]'>
+                                        <div v-if='(active_component_index == null) && (active_form != null) && (app_selected == false)' class='col-md-12 small' >
                                         </div>
     
                                         <div    v-if='app_selected'
