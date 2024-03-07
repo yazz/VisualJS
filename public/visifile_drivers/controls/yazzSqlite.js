@@ -160,30 +160,30 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Yazz.component({
-        props:      [  "sql"  ,  "meta",  "properties_and_actions",   "name",  "refresh",  "design_mode"  ],
+        props:      [  "sql"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ],
         template:   ` 
 <div    v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
-        "background-color: "+    properties_and_actions["background_color"]  +  ";"'>
+        "background-color: "+    args["background_color"]  +  ";"'>
         
     <div  >
         <div v-if="design_mode">
-            <div  v-if='properties_and_actions.show_driver_ui && design_mode'>    
-                <span v-if="!properties_and_actions.sqlite_file_path">Internal Yazz DB</div>
-                <span v-if="properties_and_actions.sqlite_file_path">From file: {{properties_and_actions.sqlite_file_path}}</div>           
+            <div  v-if='properties.show_driver_ui && design_mode'>    
+                <span v-if="!properties.sqlite_file_path">Internal Yazz DB</div>
+                <span v-if="properties.sqlite_file_path">From file: {{properties.sqlite_file_path}}</div>           
             </div>
             
             </br/>
-            <div  v-if='properties_and_actions.show_connected_ui && design_mode'>
+            <div  v-if='properties.show_connected_ui && design_mode'>
                 {{tables.length}} tables
             </div>
-            <div  v-if='properties_and_actions.standalone_ui && design_mode'>
+            <div  v-if='properties.standalone_ui && design_mode'>
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
                                 v-on:click="connect()">
                           Connect
                     </button>
-                    <div style="color:red;">{{properties_and_actions.error}}</div>
-                    <div style="color:green;">{{properties_and_actions.info}}</div>
+                    <div style="color:red;">{{properties.error}}</div>
+                    <div style="color:green;">{{properties.info}}</div>
 
             </div>
         </div>
@@ -206,8 +206,8 @@ logo_url("/driver_icons/sqlite.jpg")
         watch:      {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
-              if (isValidObject(this.properties_and_actions)) {
-                  this.design_time_text = this.properties_and_actions.design_time_text
+              if (isValidObject(this.args)) {
+                  this.design_time_text = this.args.design_time_text
               }
           }
         },
@@ -233,28 +233,28 @@ logo_url("/driver_icons/sqlite.jpg")
             },
             connect:    async function  (  ) {
                 let mm = this
-                mm.properties_and_actions.error = ""
-                mm.properties_and_actions.info = ""
+                mm.properties.error = ""
+                mm.properties.info = ""
 
                 // if a Sqlite file is specified then ...
-                if (mm.properties_and_actions.sqlite_file_path) {
+                if (mm.properties.sqlite_file_path) {
                     let result = await querySqlite(
                         {
-                            path:            mm.properties_and_actions.sqlite_file_path,
+                            path:            mm.properties.sqlite_file_path,
                             connect:         true
                         })
                     if (result.error && (result.error.length > 0)) {
-                        mm.properties_and_actions.error = result.error
+                        mm.properties.error = result.error
                         return false
                     }
-                    mm.properties_and_actions.info = "Connected"
+                    mm.properties.info = "Connected"
                     await mm.getTables()
                     return true
 
 
                 // otherwise use the internal Sqlite database
                 } else {
-                    mm.properties_and_actions.info = "Connected"
+                    mm.properties.info = "Connected"
                     await mm.getTables()
                     return true
                 }
@@ -264,30 +264,30 @@ logo_url("/driver_icons/sqlite.jpg")
 
                 if (this.design_mode) {
                     let result = null
-                    if (mm.properties_and_actions.sqlite_file_path) {
+                    if (mm.properties.sqlite_file_path) {
                         let retValCols = await querySqlite(
                             {
-                                path:            mm.properties_and_actions.sqlite_file_path,
+                                path:            mm.properties.sqlite_file_path,
                                 get_columns:     true,
-                                table:           mm.properties_and_actions.design_mode_table
+                                table:           mm.args.design_mode_table
                             })
                         if (retValCols) {
                             result = retValCols.value
                         }
                     } else {
                         debugger
-                        result = await mm.sql( `PRAGMA table_info(  ${mm.properties_and_actions.design_mode_table}  )` )
+                        result = await mm.sql( `PRAGMA table_info(  ${mm.args.design_mode_table}  )` )
                     }
 
 
                    if (result) {
-                       this.properties_and_actions.columns = []
+                       this.args.columns = []
                        for (let i=0;i<result.length;i++) {
-                           this.properties_and_actions.columns.push(result[i].name)
+                           this.args.columns.push(result[i].name)
                        }
                    }
 
-                   return mm.properties_and_actions.columns
+                   return mm.args.columns
                 }
             },
             getSchema:  async function  (  ) {
@@ -296,39 +296,39 @@ logo_url("/driver_icons/sqlite.jpg")
             },
             runQuery:   async function  (  ) {
                 let mm = this
-                mm.rowReturned = await mm.internalRunQuery(mm.properties_and_actions.sql)
-                mm.properties_and_actions.result = mm.rowReturned
+                mm.rowReturned = await mm.internalRunQuery(mm.properties.sql)
+                mm.args.result = mm.rowReturned
                 mm.changedFn()
-                return mm.properties_and_actions.result
+                return mm.args.result
             },
             internalRunQuery:   async function  (  sql  ,  sqlArgs  ) {
                 let mm = this
-                if (mm.properties_and_actions.sqlite_file_path) {
+                if (mm.properties.sqlite_file_path) {
                     let result = await querySqlite(
                         {
                             sql:             sql,
-                            path:            this.properties_and_actions.sqlite_file_path
+                            path:            this.properties.sqlite_file_path
                         })
 
 
                     //alert("runQuery: " + JSON.stringify(result,null,2))
                     console.log(JSON.stringify(result,null,2))
                     if (result) {
-                        this.properties_and_actions.result = result.value
+                        this.args.result = result.value
 
-                        return this.properties_and_actions.result
+                        return this.args.result
                     }
 
 
                 } else {
-                    this.properties_and_actions.result = await mm.sql(  sql  )
-                    return this.properties_and_actions.result
+                    this.args.result = await mm.sql(  sql  )
+                    return this.args.result
                 }
             },
             changedFn:  function        (  ) {
                 let mm = this
-                if (isValidObject(this.properties_and_actions)) {
-                    //this.properties_and_actions.text = this.text
+                if (isValidObject(this.args)) {
+                    //this.args.text = this.text
                 }
             }
         }
