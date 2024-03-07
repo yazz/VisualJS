@@ -329,6 +329,7 @@
                                     v-bind:is='model.forms[active_form].components[active_component_detail_index].code_id?model.forms[active_form].components[active_component_detail_index].code_id:GLOBALS.baseComponentIdReturnsCommitId[model.forms[active_form].components[active_component_detail_index].base_component_id]'
                                     v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
                                     v-bind:props='model.forms[active_form].components[active_component_detail_index]'
+                                    v-bind:properties_and_actions='model.forms[active_form].components[active_component_detail_index]'
                                     v-if='model.forms[active_form].components[active_component_detail_index]'
                                     v-bind:properties='model.forms[active_form].components[active_component_detail_index]'
                                     v-bind:args='model.forms[active_form].components[active_component_detail_index]'>
@@ -355,6 +356,7 @@
                                             v-bind:properties='model.forms[active_form].components[child_item.index_in_parent_array]'
                                             v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
                                             v-bind:props='model.forms[active_form].components[child_item.index_in_parent_array]'
+                                            v-bind:properties_and_actions='model.forms[active_form].components[child_item.index_in_parent_array]'
                                             v-bind:args='model.forms[active_form].components[child_item.index_in_parent_array]'>
                                 </component>
         
@@ -1833,6 +1835,7 @@
                                                     v-bind:name='item.name + "_design_mode_" + design_mode'
                                                     v-bind:properties='model.forms[formName].components[index]'
                                                     v-bind:props='model.forms[formName].components[index]'
+                                                    v-bind:properties_and_actions='model.forms[formName].components[index]'
                                                     v-bind:style='(formName==active_form)?"":"display:none;"'
                                                     v-bind:args='model.forms[formName].components[index]'>
         
@@ -1857,6 +1860,7 @@
                                                                 v-bind:properties='model.forms[formName].components[child_item.index_in_parent_array]'
                                                                 v-if='model.forms[formName].components[child_item.index_in_parent_array]'
                                                                 v-bind:props='model.forms[formName].components[child_item.index_in_parent_array]'
+                                                                v-bind:properties_and_actions='model.forms[formName].components[child_item.index_in_parent_array]'
                                                                 v-bind:args='model.forms[formName].components[child_item.index_in_parent_array]'>
                                                 </component>
                                             </template>
