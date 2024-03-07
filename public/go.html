@@ -9789,6 +9789,10 @@
                         args = vueComponentObject.properties
                         argsPrefix = "properties"
                     }
+                    if (vueComponentObject.properties_and_actions) {
+                        args = vueComponentObject.properties_and_actions
+                        argsPrefix = "properties_and_actions"
+                    }
                     if (args && args.name) {
                         let cccname = args.name
 
@@ -9862,6 +9866,9 @@
                     }
                     if (!isValidObject(usePropVar)) {
                         usePropVar = vueComponentObject.props
+                    }
+                    if (!isValidObject(usePropVar)) {
+                        usePropVar = vueComponentObject.properties_and_actions
                     }
 
 

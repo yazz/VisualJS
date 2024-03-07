@@ -160,7 +160,7 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Yazz.component({
-        props:      [  "sql"  ,  "meta",  "args",  "name",  "refresh",  "design_mode"  ,  "properties_and_actions"  ],
+        props:      [  "sql"  ,  "meta",  "name",  "refresh",  "design_mode"  ,  "properties_and_actions"  ],
         template:   ` 
 <div    v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
         "background-color: "+    properties_and_actions["background_color"]  +  ";"'>
