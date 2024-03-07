@@ -348,7 +348,7 @@ logo_url("/driver_icons/data_control.png")
 */
 
     Yazz.component({
-        props:                  [ "meta" , "name"  , "properties_and_actions" , "refresh" , "design_mode" , "children" ,  "runEvent" ],
+        props:                  [ "meta" , "name" , "properties" , "args" , "refresh" , "design_mode" , "children" , "properties",  "runEvent" ],
         template:               ` 
 <!-- ----------------------------------------------------------------
 |                                    |
@@ -400,34 +400,34 @@ logo_url("/driver_icons/data_control.png")
 
             <ul class="nav nav-pills" v-bind:style='"height:20%;width:100%; overflow: none;"'>
                 <li class="nav-item" style="width:20%;">
-                    <a  v-bind:class='"nav-link " + ((properties_and_actions.designDetailTab == "connection")?"active":"")'
-                        v-on:click="properties_and_actions.designDetailTab = 'connection';"
+                    <a  v-bind:class='"nav-link " + ((properties.designDetailTab == "connection")?"active":"")'
+                        v-on:click="properties.designDetailTab = 'connection';"
                         href="#">
                         Source
                     </a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
-                    <a    v-bind:class='"nav-link " + ((properties_and_actions.designDetailTab == "schema")?"active":"")'
+                    <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "schema")?"active":"")'
                           v-on:click="switchTab('schema');"
                           href="#">Tables</a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
-                    <a    v-bind:class='"nav-link " + ((properties_and_actions.designDetailTab == "columns")?"active":"")'
-                          v-on:click="properties_and_actions.designDetailTab = 'columns';"
+                    <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "columns")?"active":"")'
+                          v-on:click="properties.designDetailTab = 'columns';"
                           href="#">Cols</a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
-                    <a    v-bind:class='"nav-link " + ((properties_and_actions.designDetailTab == "where")?"active":"")'
-                          v-on:click="properties_and_actions.designDetailTab = 'where';"
+                    <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "where")?"active":"")'
+                          v-on:click="properties.designDetailTab = 'where';"
                           href="#">Where</a>
                 </li>
 
                 <li class="nav-item" style="width:20%;">
-                    <a    v-bind:class='"nav-link " + ((properties_and_actions.designDetailTab == "options")?"active":"")'
-                          v-on:click="properties_and_actions.designDetailTab = 'options';"
+                    <a    v-bind:class='"nav-link " + ((properties.designDetailTab == "options")?"active":"")'
+                          v-on:click="properties.designDetailTab = 'options';"
                           href="#">Options</a>
                 </li>
             </ul>
@@ -451,18 +451,18 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-bind:style='((properties_and_actions.designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
+            <div v-bind:style='((properties.designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
                  v-bind:refresh='refresh'
                  v-observe-visibility="visibilityChanged">
 
                 Connection
 
-                <div   v-if='properties_and_actions.connect_status == "connected"'   style="background-color: green; color: white;padding:10px;">
+                <div   v-if='properties.connect_status == "connected"'   style="background-color: green; color: white;padding:10px;">
                     Connected
                 </div>
 
-                <div   v-if='properties_and_actions.connect_status == "not_connected"'   style="background-color: red; color: white;padding:10px;">
-                    Not Connected: {{properties_and_actions.connect_error}}
+                <div   v-if='properties.connect_status == "not_connected"'   style="background-color: red; color: white;padding:10px;">
+                    Not Connected: {{properties.connect_error}}
                 </div>
 
                 <select  @change='chooseSource($event)'
@@ -473,7 +473,7 @@ logo_url("/driver_icons/data_control.png")
                       </option>
                       <option   v-for='propVal in data_sources'
                                 v-bind:value="propVal.base_component_id"
-                                v-bind:selected='(propVal.base_component_id == properties_and_actions.sourceComponentType)'>
+                                v-bind:selected='(propVal.base_component_id == properties.sourceComponentType)'>
 
                             {{propVal.display_name}}
 
@@ -485,7 +485,7 @@ logo_url("/driver_icons/data_control.png")
 
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
-                                v-bind:disabled='properties_and_actions.connect_status == "connected"'
+                                v-bind:disabled='properties.connect_status == "connected"'
                                 v-on:click="connect">
                           Connect
                     </button>
@@ -526,13 +526,13 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-if='properties_and_actions.designDetailTab == "schema"'  >
-               Database Tables: &#34;{{properties_and_actions.sourceComponentType}}&#34; 
+            <div v-if='properties.designDetailTab == "schema"'  >
+               Database Tables: &#34;{{properties.sourceComponentType}}&#34; 
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
-                   <div   v-for='table in properties_and_actions.tables'
+                   <div   v-for='table in properties.tables'
                           v-on:click="selectTable( table )"
-                          v-bind:style='"padding: 5px; " + ((properties_and_actions.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                          v-bind:style='"padding: 5px; " + ((properties.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                          {{table}}
 
@@ -566,15 +566,15 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-if='properties_and_actions.designDetailTab == "columns"' >
-                Table Columns: &#34;{{properties_and_actions.design_mode_table}}&#34;
+            <div v-if='properties.designDetailTab == "columns"' >
+                Table Columns: &#34;{{properties.design_mode_table}}&#34;
                 <div>
 
                     <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top; border: 2px solid gray;">
 
-                        <div   v-for='column in properties_and_actions.tableColumnNames'
-                               v-on:click="properties_and_actions.selected_column = column;"
-                               v-bind:style='"padding: 5px; " + ((properties_and_actions.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                        <div   v-for='column in properties.tableColumnNames'
+                               v-on:click="properties.selected_column = column;"
+                               v-bind:style='"padding: 5px; " + ((properties.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                               {{column}}
 
@@ -583,16 +583,16 @@ logo_url("/driver_icons/data_control.png")
 
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <button    class="btn btn-primary"
-                                :disabled="(properties_and_actions.selected_column && properties_and_actions.selected_column.length > 0)?false:true"
-                                v-on:click="let newId = properties_and_actions.dataWindowColumnsMax++;properties_and_actions.dataWindowColumns.push({id:    newId, value: properties_and_actions.selected_column, name: properties_and_actions.selected_column});setSql();properties_and_actions.selected_data_window_column_index = newId;properties_and_actions.selected_data_window_column = properties_and_actions.dataWindowColumns[properties_and_actions.dataWindowColumns.length - 1];">
+                                :disabled="(properties.selected_column && properties.selected_column.length > 0)?false:true"
+                                v-on:click="let newId = properties.dataWindowColumnsMax++;properties.dataWindowColumns.push({id:    newId, value: properties.selected_column, name: properties.selected_column});setSql();properties.selected_data_window_column_index = newId;properties.selected_data_window_column = properties.dataWindowColumns[properties.dataWindowColumns.length - 1];">
 
                               Add >>
 
                         </button>
                         <button    class="btn btn-primary"
                                 style="margin-top:20px;"
-                                :disabled="(properties_and_actions.selected_data_window_column_index > -1)?false:true"
-                                v-on:click="properties_and_actions.dataWindowColumns.splice(properties_and_actions.selected_data_window_column_index,1);setSql(); properties_and_actions.selected_data_window_column_index = -1;properties_and_actions.selected_data_window_column='';">
+                                :disabled="(properties.selected_data_window_column_index > -1)?false:true"
+                                v-on:click="properties.dataWindowColumns.splice(properties.selected_data_window_column_index,1);setSql(); properties.selected_data_window_column_index = -1;properties.selected_data_window_column='';">
 
                               << Remove
 
@@ -608,9 +608,9 @@ logo_url("/driver_icons/data_control.png")
                         <div style="height:100%;width:100%; overflow-y: scroll;vertical-align:top;">
 
 
-                            <div    v-for='(dwcolumn,index) in properties_and_actions.dataWindowColumns'
-                                    v-on:click="properties_and_actions.selected_data_window_column = dwcolumn;properties_and_actions.selected_data_window_column_index = index;"
-                                    v-bind:style='"padding: 5px; " + ((properties_and_actions.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                            <div    v-for='(dwcolumn,index) in properties.dataWindowColumns'
+                                    v-on:click="properties.selected_data_window_column = dwcolumn;properties.selected_data_window_column_index = index;"
+                                    v-bind:style='"padding: 5px; " + ((properties.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                                   {{dwcolumn.value}}
 
@@ -620,18 +620,18 @@ logo_url("/driver_icons/data_control.png")
                         <div    class="btn-group">
 
                             <button     class="btn btn-primary"
-                                        :disabled="(properties_and_actions.selected_data_window_column_index > 0)?false:true"
+                                        :disabled="(properties.selected_data_window_column_index > 0)?false:true"
                                         style="margin-top:20px; margin-left: 0px;"
-                                        v-on:click="array_move(properties_and_actions.dataWindowColumns,properties_and_actions.selected_data_window_column_index,properties_and_actions.selected_data_window_column_index-1);properties_and_actions.selected_data_window_column_index --;">
+                                        v-on:click="array_move(properties.dataWindowColumns,properties.selected_data_window_column_index,properties.selected_data_window_column_index-1);properties.selected_data_window_column_index --;">
 
                                   Move Up
 
                             </button>
 
                             <button class="btn btn-primary"
-                                    :disabled="((properties_and_actions.selected_data_window_column_index > -1) && (properties_and_actions.selected_data_window_column_index < (properties_and_actions.dataWindowColumns.length - 1)))?false:true"
+                                    :disabled="((properties.selected_data_window_column_index > -1) && (properties.selected_data_window_column_index < (properties.dataWindowColumns.length - 1)))?false:true"
                                     style="margin-top:20px; margin-left: 20px;"
-                                    v-on:click="array_move(properties_and_actions.dataWindowColumns,properties_and_actions.selected_data_window_column_index,properties_and_actions.selected_data_window_column_index + 1);properties_and_actions.selected_data_window_column_index ++;">
+                                    v-on:click="array_move(properties.dataWindowColumns,properties.selected_data_window_column_index,properties.selected_data_window_column_index + 1);properties.selected_data_window_column_index ++;">
 
                                   Move Down
 
@@ -642,7 +642,7 @@ logo_url("/driver_icons/data_control.png")
 
                         <div   style=" border: 1px solid lightgray;height:90%;width:100%; display:inline-block;margin-top:20px;overflow-y:scroll;">
 
-                            <div    v-if="properties_and_actions.selected_data_window_column"
+                            <div    v-if="properties.selected_data_window_column"
                                     style="height:100%;width:100%; overflow-y: none; padding: 10px;">
 
                                 <div class="form-group">
@@ -655,8 +655,8 @@ logo_url("/driver_icons/data_control.png")
                                           id=col_input_name
                                           name="col_input_name"
                                           required
-                                          v-bind:value='properties_and_actions.selected_data_window_column.name'
-                                          v-on:change="let qwe = document.getElementById('col_input_name').value;properties_and_actions.dataWindowColumns[properties_and_actions.selected_data_window_column_index].name=qwe;properties_and_actions.selected_data_window_column.name = qwe;"
+                                          v-bind:value='properties.selected_data_window_column.name'
+                                          v-on:change="let qwe = document.getElementById('col_input_name').value;properties.dataWindowColumns[properties.selected_data_window_column_index].name=qwe;properties.selected_data_window_column.name = qwe;"
                                            />
 
 
@@ -669,9 +669,9 @@ logo_url("/driver_icons/data_control.png")
                                           style="margin-bottom: 30px;"
                                           name="col_input_value"
                                           required
-                                          v-bind:value='properties_and_actions.selected_data_window_column.value'
+                                          v-bind:value='properties.selected_data_window_column.value'
 
-                                          v-on:change="let qwe = document.getElementById('col_input_value').value;properties_and_actions.dataWindowColumns[properties_and_actions.selected_data_window_column_index].value=qwe;properties_and_actions.selected_data_window_column.value = qwe;"
+                                          v-on:change="let qwe = document.getElementById('col_input_value').value;properties.dataWindowColumns[properties.selected_data_window_column_index].value=qwe;properties.selected_data_window_column.value = qwe;"
                                            />
 
 
@@ -686,9 +686,9 @@ logo_url("/driver_icons/data_control.png")
                                             class="form-control"
                                             id=col_input_width
                                             name="col_input_width"
-                                            v-bind:value='properties_and_actions.selected_data_window_column.width?properties_and_actions.selected_data_window_column.width:""'
+                                            v-bind:value='properties.selected_data_window_column.width?properties.selected_data_window_column.width:""'
 
-                                            v-on:change="let qwe = document.getElementById('col_input_width').value;properties_and_actions.selected_data_window_column.width = qwe;properties_and_actions.dataWindowColumns[properties_and_actions.selected_data_window_column_index].width=qwe;"
+                                            v-on:change="let qwe = document.getElementById('col_input_width').value;properties.selected_data_window_column.width = qwe;properties.dataWindowColumns[properties.selected_data_window_column_index].width=qwe;"
                                              />
                               </div>
 
@@ -698,7 +698,7 @@ logo_url("/driver_icons/data_control.png")
                             </div>
 
 
-                            <div   v-if="!properties_and_actions.selected_data_window_column"  style="height:100%;width:100%; overflow-y: none;margin-top:0px;border: 1px solid lightgray;">
+                            <div   v-if="!properties.selected_data_window_column"  style="height:100%;width:100%; overflow-y: none;margin-top:0px;border: 1px solid lightgray;">
 
                             </div>
                         </div>
@@ -740,7 +740,7 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-if='properties_and_actions.designDetailTab == "where"'  >
+            <div v-if='properties.designDetailTab == "where"'  >
 
                 <label for="col_input_width">Where Clause</label>
                 <input  type=text
@@ -748,9 +748,9 @@ logo_url("/driver_icons/data_control.png")
                         class="form-control"
                         id=where_clause
                         name="where_clause"
-                        v-bind:value='(properties_and_actions.where_clause && (properties_and_actions.where_clause.length > 0))?properties_and_actions.where_clause:""'
+                        v-bind:value='(properties.where_clause && (properties.where_clause.length > 0))?properties.where_clause:""'
 
-                        v-on:change="properties_and_actions.where_clause = document.getElementById('where_clause').value;setSql()"
+                        v-on:change="properties.where_clause = document.getElementById('where_clause').value;setSql()"
                         />
             </div>
 
@@ -777,7 +777,7 @@ logo_url("/driver_icons/data_control.png")
             |
             |
             --------------------------------------------------------------------- -->
-            <div v-if='properties_and_actions.designDetailTab == "options"'  >
+            <div v-if='properties.designDetailTab == "options"'  >
                 Options tab
 
                 <form>
@@ -786,21 +786,21 @@ logo_url("/driver_icons/data_control.png")
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_col_resize"
-                                :checked='properties_and_actions.allow_col_resize' v-model='properties_and_actions.allow_col_resize'>
+                                :checked='properties.allow_col_resize' v-model='properties.allow_col_resize'>
                         <label class="form-check-label" for="allow_col_resize">Allow col resize</label>
                       </div>
 
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_col_move"
-                                :checked='properties_and_actions.allow_col_move' v-model='properties_and_actions.allow_col_move'>
+                                :checked='properties.allow_col_move' v-model='properties.allow_col_move'>
                         <label class="form-check-label" for="allow_col_move">Allow col move</label>
                       </div>
 
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_row_resize"
-                                :checked='properties_and_actions.allow_row_resize' v-model='properties_and_actions.allow_row_resize'>
+                                :checked='properties.allow_row_resize' v-model='properties.allow_row_resize'>
                         <label class="form-check-label" for="allow_row_resize">Allow row resize</label>
                       </div>
 
@@ -830,7 +830,7 @@ logo_url("/driver_icons/data_control.png")
 
 
         <div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                           "background-color: "+    properties_and_actions["background_color"]  +  ";"'
+                           "background-color: "+    args["background_color"]  +  ";"'
              v-if='design_mode == false'>
 
 
@@ -852,17 +852,17 @@ logo_url("/driver_icons/data_control.png")
               v-else>
 
                       <div   v-for='propVal in data_sources'>
-                            <b v-if='(propVal.base_component_id == properties_and_actions.sourceComponentType)'>
+                            <b v-if='(propVal.base_component_id == properties.sourceComponentType)'>
                                 {{propVal.display_name}}
                             </b>
                       </div>
-                      <b v-if='!properties_and_actions.sourceComponentType || (properties_and_actions.sourceComponentType == "")'>
+                      <b v-if='!properties.sourceComponentType || (properties.sourceComponentType == "")'>
                           No data source selected
                       </b>
                       <br/>
 
                      <b>SQL:</b>
-                        {{properties_and_actions.sql}}
+                        {{properties.sql}}
          </div>
 
      </div>
@@ -882,8 +882,8 @@ logo_url("/driver_icons/data_control.png")
             // This would be called anytime the value of the input changes
             refresh: function(newValue, oldValue)
             {
-                //console.log("refresh: " + this.properties_and_actions.text)
-                if (isValidObject(this.properties_and_actions)) {
+                //console.log("refresh: " + this.properties.text)
+                if (isValidObject(this.properties)) {
                     //this.getTables()
                     //alert(JSON.stringify(this.tables,null,2))
                 }
@@ -897,7 +897,7 @@ logo_url("/driver_icons/data_control.png")
             let mm = this
             await registerComponent(this)
             if (mm.design_mode == "detail_editor") {
-                mm.switchTab( mm.properties_and_actions.designDetailTab )
+                mm.switchTab( mm.properties.designDetailTab )
             }
             //let listLL = await findComponentsImplementing(["runQuery","connect"])
             let listLL  =
@@ -910,16 +910,16 @@ logo_url("/driver_icons/data_control.png")
             }
             mm.data_sources = listLL.values
 
-            if (isValidObject(mm.properties_and_actions)) {
+            if (isValidObject(mm.properties)) {
             }
 
             if (mm.design_mode == "never") {
                 mm.table = new Tabulator(mm.$refs.exampletable,
                 {
-                    width:                      this.properties_and_actions.width,
-                    height:                     this.properties_and_actions.height,
+                    width:                      this.properties.width,
+                    height:                     this.properties.height,
                     tables:                     [],
-                    data:                       this.properties_and_actions.data,
+                    data:                       this.properties.data,
                 	layout:                     "fitColumns",
                 	responsiveLayout:           "hide",
                 	tooltips:                   true,
@@ -928,10 +928,10 @@ logo_url("/driver_icons/data_control.png")
                 	pagination:                 "local",
                 	paginationSize:             7,
                 	movableColumns:             true,
-                    resizableColumns:           this.properties_and_actions.allow_col_resize,
-                	resizableRows:              this.properties_and_actions.allow_row_resize,
-                    movableColumns:             this.properties_and_actions.allow_col_move,
-                    layout:                     this.properties_and_actions.layout,
+                    resizableColumns:           this.properties.allow_col_resize,
+                	resizableRows:              this.properties.allow_row_resize,
+                    movableColumns:             this.properties.allow_col_move,
+                    layout:                     this.properties.layout,
                     tableNames:                 [],
                 	initialSort:                [],
                     columns:                    []
@@ -960,11 +960,11 @@ logo_url("/driver_icons/data_control.png")
                     await mm.getTables()
                 } else if (tabName == "connection") {
                     await mm.getTables()
-                    await this.meta.getEditor().selectComponentByName(mm.properties_and_actions.sourceControlName)
+                    await this.meta.getEditor().selectComponentByName(mm.properties.sourceControlName)
                 } else {
                     await mm.getTables()
                 }
-                mm.properties_and_actions.designDetailTab = tabName
+                mm.properties.designDetailTab = tabName
             },
             chooseSource:       async function  (  event  ) {
                 //----------------------------------------------------------------------------------/
@@ -981,24 +981,24 @@ logo_url("/driver_icons/data_control.png")
                 let mm = this
                 let typeName = event.target.value
                 await GLOBALS.makeSureUiComponentLoadedV6([typeName])
-                mm.properties_and_actions.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
-                mm.properties_and_actions.sourceComponentType = typeName
+                mm.properties.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
+                mm.properties.sourceComponentType = typeName
                 await this.meta.getEditor().addControl(
                     {
                             "leftX":                    10,
                             "topY":                     10,
                             width:                      "100%",
                             show_connected_ui:          false,
-                            "name":                     mm.properties_and_actions.sourceControlName,
+                            "name":                     mm.properties.sourceControlName,
                             "base_component_id":        typeName,
-                            parent_base_component_id:   mm.properties_and_actions.base_component_id,
-                            parent_name:                mm.properties_and_actions.name,
+                            parent_base_component_id:   mm.properties.base_component_id,
+                            parent_name:                mm.properties.name,
                             standalone_ui:              false
                           }
                 )
                 //debugger
               //await mm.meta.getEditor().updateComponentMethods()
-                let newcontrol =  mm.meta.lookupComponent(mm.properties_and_actions.sourceControlName)
+                let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 //newcontrol.height = 700
             },
             connect:            async function  (  ) {
@@ -1013,7 +1013,7 @@ logo_url("/driver_icons/data_control.png")
                 // driver
                 //--------------------------------------------------------------------------/
                 let mm = this
-                let newcontrol =  mm.meta.lookupComponent(mm.properties_and_actions.sourceControlName)
+                let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                 if (newcontrol) {
                     let connected = await newcontrol.connect()
                     if (connected == false) {
@@ -1021,55 +1021,55 @@ logo_url("/driver_icons/data_control.png")
                             newcontrol.result &&
                             newcontrol.result.failed &&
                             newcontrol.result.failed.routine) {
-                            mm.properties_and_actions.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
+                            mm.properties.connect_error = JSON.stringify(newcontrol.result.failed.routine,null,2)
 
 
                         } else if (newcontrol && newcontrol.error) {
-                            mm.properties_and_actions.connect_error = newcontrol.error
+                            mm.properties.connect_error = newcontrol.error
                         }
-                        mm.properties_and_actions.connect_status = "not_connected"
+                        mm.properties.connect_status = "not_connected"
                         newcontrol.show_connected_ui = false
 
                     } else {
-                        mm.properties_and_actions.connect_error = ""
+                        mm.properties.connect_error = ""
                         await mm.getTables()
-                        mm.properties_and_actions.connect_status = "connected"
+                        mm.properties.connect_status = "connected"
                         newcontrol.show_connected_ui = true
                     }
                 }
             },
             disconnect:         async function  (  ) {
                 let mm = this
-                mm.properties_and_actions.connect_status = "not_connected"
-                mm.properties_and_actions.connect_error = ""
-                //let newcontrol =  mm.meta.lookupComponent(mm.properties_and_actions.sourceControlName)
-                await this.meta.getEditor().deleteComponentByName(mm.properties_and_actions.sourceControlName)
-                mm.properties_and_actions.sourceControlName == ""
-                mm.properties_and_actions.sourceComponentType = ""
+                mm.properties.connect_status = "not_connected"
+                mm.properties.connect_error = ""
+                //let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
+                await this.meta.getEditor().deleteComponentByName(mm.properties.sourceControlName)
+                mm.properties.sourceControlName == ""
+                mm.properties.sourceComponentType = ""
             },
             setSql:             function        (  ) {
                 let mm = this
                 let colSql = "*"
-                if (this.properties_and_actions.dataWindowColumns.length > 0) {
+                if (this.properties.dataWindowColumns.length > 0) {
                     colSql = ""
-                    for (let coli=0; coli < this.properties_and_actions.dataWindowColumns.length; coli ++) {
-                        colSql += this.properties_and_actions.dataWindowColumns[coli].value
-                        if (coli< (this.properties_and_actions.dataWindowColumns.length - 1)) {
+                    for (let coli=0; coli < this.properties.dataWindowColumns.length; coli ++) {
+                        colSql += this.properties.dataWindowColumns[coli].value
+                        if (coli< (this.properties.dataWindowColumns.length - 1)) {
                             colSql += ","
                         }
                     }
                 }
-                this.properties_and_actions.sql = "select " + colSql + " from " + this.properties_and_actions.design_mode_table
+                this.properties.sql = "select " + colSql + " from " + this.properties.design_mode_table
 
-                if (this.properties_and_actions.where_clause && (this.properties_and_actions.where_clause.length > 0)) {
-                    this.properties_and_actions.sql += " where " + this.properties_and_actions.where_clause
+                if (this.properties.where_clause && (this.properties.where_clause.length > 0)) {
+                    this.properties.sql += " where " + this.properties.where_clause
                 }
 
 
             },
             changedFn:          function        (  ) {
                 let mm = this
-                if (isValidObject(this.properties_and_actions)) {
+                if (isValidObject(this.properties)) {
                 }
             },
             resetColumns:       async function  (  data  ) {
@@ -1082,7 +1082,7 @@ logo_url("/driver_icons/data_control.png")
             },
             runEventHandler:   async function        (  ) {
                 let mm = this
-                await this.runEvent({ display: "changed",   code: this.properties_and_actions.changed_event })
+                await this.runEvent({ display: "changed",   code: this.args.changed_event })
             },
             array_move:         function        (  arr  ,  old_index  ,  new_index  ) {
                 let mm = this
@@ -1098,16 +1098,16 @@ logo_url("/driver_icons/data_control.png")
             getTables:          async function  (  ) {
                 let mm = this
                 if (this.design_mode) {
-                    let newcontrol =  mm.meta.lookupComponent(mm.properties_and_actions.sourceControlName)
+                    let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     if (newcontrol) {
                         let result = await newcontrol.getTables()
 
                         console.log(JSON.stringify(result,null,2))
                         if (result) {
-                            this.properties_and_actions.tables = []
+                            this.properties.tables = []
                             //alert(JSON.stringify(result,null,2))
                             for (let i=0;i<result.length;i++) {
-                                this.properties_and_actions.tables.push(result[i].name)
+                                this.properties.tables.push(result[i].name)
                             }
                         }
                     }
@@ -1116,23 +1116,23 @@ logo_url("/driver_icons/data_control.png")
             generateColumns:    async function  (  ) {
                 let mm = this
                 if (this.design_mode) {
-                    let newcontrol =  mm.meta.lookupComponent(mm.properties_and_actions.sourceControlName)
-                    newcontrol.design_mode_table = mm.properties_and_actions.design_mode_table
+                    let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
+                    newcontrol.design_mode_table = mm.properties.design_mode_table
                     let result = await newcontrol.getColumns()
-                    this.properties_and_actions.tableColumnNames = result
+                    this.properties.tableColumnNames = result
                 }
             },
             runQuery:           async function  (  ) {
                 let mm = this
-                let newcontrol =  mm.meta.lookupComponent(mm.properties_and_actions.sourceControlName)
-                newcontrol.sql = mm.properties_and_actions.sql
-                newcontrol.select_columns = mm.properties_and_actions.dataWindowColumns
-                newcontrol.select_table = mm.properties_and_actions.design_mode_table
+                let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
+                newcontrol.sql = mm.properties.sql
+                newcontrol.select_columns = mm.properties.dataWindowColumns
+                newcontrol.select_table = mm.properties.design_mode_table
 
                 let result = await newcontrol.runQuery()
-                this.properties_and_actions.result = result
-                this.properties_and_actions.data = result
-                return this.properties_and_actions.result
+                this.properties.result = result
+                this.properties.data = result
+                return this.properties.result
             },
             visibilityChanged:  function        (  isVisible  ,  entry  ) {
                 let mm = this
@@ -1147,8 +1147,8 @@ logo_url("/driver_icons/data_control.png")
             },
             minimizeChildren:   async function  (  ) {
                 let mm = this
-                if (mm.properties_and_actions.sourceControlName) {
-                    let newcontrol =  mm.meta.lookupComponent(mm.properties_and_actions.sourceControlName)
+                if (mm.properties.sourceControlName) {
+                    let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     if (newcontrol) {
                         //newcontrol.width = 10
                         //newcontrol.height = 10
@@ -1157,8 +1157,8 @@ logo_url("/driver_icons/data_control.png")
             },
             maximizeChildren:   async function  (  ) {
                 let mm = this
-                if (mm.properties_and_actions.sourceControlName) {
-                    let newcontrol =  mm.meta.lookupComponent(mm.properties_and_actions.sourceControlName)
+                if (mm.properties.sourceControlName) {
+                    let newcontrol =  mm.meta.lookupComponent(mm.properties.sourceControlName)
                     if (newcontrol) {
                         newcontrol.width = 600
                         newcontrol.height = 600
@@ -1167,8 +1167,8 @@ logo_url("/driver_icons/data_control.png")
             },
             selectTable:        async function  (  table  ) {
                 let mm = this
-                mm.properties_and_actions.design_mode_table = table
-                mm.properties_and_actions.sql = 'select * from ' + table;
+                mm.properties.design_mode_table = table
+                mm.properties.sql = 'select * from ' + table;
                 await mm.generateColumns(  )
             }
         }
