@@ -240,21 +240,21 @@ logo_url("/driver_icons/sqlite.jpg")
                 if (mm.properties.sqlite_file_path) {
                     let result = await querySqlite(
                         {
-                            path:            mm.properties.sqlite_file_path,
+                            path:            mm.properties_and_actions.sqlite_file_path,
                             connect:         true
                         })
                     if (result.error && (result.error.length > 0)) {
-                        mm.properties.error = result.error
+                        mm.properties_and_actions.error = result.error
                         return false
                     }
-                    mm.properties.info = "Connected"
+                    mm.properties_and_actions.info = "Connected"
                     await mm.getTables()
                     return true
 
 
                 // otherwise use the internal Sqlite database
                 } else {
-                    mm.properties.info = "Connected"
+                    mm.properties_and_actions.info = "Connected"
                     await mm.getTables()
                     return true
                 }
@@ -264,10 +264,10 @@ logo_url("/driver_icons/sqlite.jpg")
 
                 if (this.design_mode) {
                     let result = null
-                    if (mm.properties.sqlite_file_path) {
+                    if (mm.properties_and_actions.sqlite_file_path) {
                         let retValCols = await querySqlite(
                             {
-                                path:            mm.properties.sqlite_file_path,
+                                path:            mm.properties_and_actions.sqlite_file_path,
                                 get_columns:     true,
                                 table:           mm.args.design_mode_table
                             })
@@ -296,18 +296,18 @@ logo_url("/driver_icons/sqlite.jpg")
             },
             runQuery:   async function  (  ) {
                 let mm = this
-                mm.rowReturned = await mm.internalRunQuery(mm.properties.sql)
+                mm.rowReturned = await mm.internalRunQuery(mm.properties_and_actions.sql)
                 mm.args.result = mm.rowReturned
                 mm.changedFn()
                 return mm.args.result
             },
             internalRunQuery:   async function  (  sql  ,  sqlArgs  ) {
                 let mm = this
-                if (mm.properties.sqlite_file_path) {
+                if (mm.properties_and_actions.sqlite_file_path) {
                     let result = await querySqlite(
                         {
                             sql:             sql,
-                            path:            this.properties.sqlite_file_path
+                            path:            this.properties_and_actions.sqlite_file_path
                         })
 
 
