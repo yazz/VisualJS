@@ -206,8 +206,8 @@ logo_url("/driver_icons/sqlite.jpg")
         watch:      {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
-              if (isValidObject(this.args)) {
-                  this.design_time_text = this.args.design_time_text
+              if (isValidObject(this.properties_and_actions)) {
+                  this.design_time_text = this.properties_and_actions.design_time_text
               }
           }
         },
@@ -269,25 +269,25 @@ logo_url("/driver_icons/sqlite.jpg")
                             {
                                 path:            mm.properties_and_actions.sqlite_file_path,
                                 get_columns:     true,
-                                table:           mm.args.design_mode_table
+                                table:           mm.properties_and_actions.design_mode_table
                             })
                         if (retValCols) {
                             result = retValCols.value
                         }
                     } else {
                         debugger
-                        result = await mm.sql( `PRAGMA table_info(  ${mm.args.design_mode_table}  )` )
+                        result = await mm.sql( `PRAGMA table_info(  ${mm.properties_and_actions.design_mode_table}  )` )
                     }
 
 
                    if (result) {
-                       this.args.columns = []
+                       this.properties_and_actions.columns = []
                        for (let i=0;i<result.length;i++) {
-                           this.args.columns.push(result[i].name)
+                           this.properties_and_actions.columns.push(result[i].name)
                        }
                    }
 
-                   return mm.args.columns
+                   return mm.properties_and_actions.columns
                 }
             },
             getSchema:  async function  (  ) {
@@ -297,9 +297,9 @@ logo_url("/driver_icons/sqlite.jpg")
             runQuery:   async function  (  ) {
                 let mm = this
                 mm.rowReturned = await mm.internalRunQuery(mm.properties_and_actions.sql)
-                mm.args.result = mm.rowReturned
+                mm.properties_and_actions.result = mm.rowReturned
                 mm.changedFn()
-                return mm.args.result
+                return mm.properties_and_actions.result
             },
             internalRunQuery:   async function  (  sql  ,  sqlArgs  ) {
                 let mm = this
@@ -314,21 +314,21 @@ logo_url("/driver_icons/sqlite.jpg")
                     //alert("runQuery: " + JSON.stringify(result,null,2))
                     console.log(JSON.stringify(result,null,2))
                     if (result) {
-                        this.args.result = result.value
+                        this.properties_and_actions.result = result.value
 
-                        return this.args.result
+                        return this.properties_and_actions.result
                     }
 
 
                 } else {
-                    this.args.result = await mm.sql(  sql  )
-                    return this.args.result
+                    this.properties_and_actions.result = await mm.sql(  sql  )
+                    return this.properties_and_actions.result
                 }
             },
             changedFn:  function        (  ) {
                 let mm = this
-                if (isValidObject(this.args)) {
-                    //this.args.text = this.text
+                if (isValidObject(this.properties_and_actions)) {
+                    //this.properties_and_actions.text = this.text
                 }
             }
         }
