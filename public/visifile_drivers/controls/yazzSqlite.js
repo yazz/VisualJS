@@ -160,30 +160,30 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Yazz.component({
-        props:      [  "sql"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ],
+        props:      [  "sql"  ,  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ,  "properties_and_actions"  ],
         template:   ` 
 <div    v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
-        "background-color: "+    args["background_color"]  +  ";"'>
+        "background-color: "+    properties_and_actions["background_color"]  +  ";"'>
         
     <div  >
         <div v-if="design_mode">
-            <div  v-if='properties.show_driver_ui && design_mode'>    
-                <span v-if="!properties.sqlite_file_path">Internal Yazz DB</div>
-                <span v-if="properties.sqlite_file_path">From file: {{properties.sqlite_file_path}}</div>           
+            <div  v-if='properties_and_actions.show_driver_ui && design_mode'>    
+                <span v-if="!properties_and_actions.sqlite_file_path">Internal Yazz DB</div>
+                <span v-if="properties_and_actions.sqlite_file_path">From file: {{properties_and_actions.sqlite_file_path}}</div>           
             </div>
             
             </br/>
-            <div  v-if='properties.show_connected_ui && design_mode'>
+            <div  v-if='properties_and_actions.show_connected_ui && design_mode'>
                 {{tables.length}} tables
             </div>
-            <div  v-if='properties.standalone_ui && design_mode'>
+            <div  v-if='properties_and_actions.standalone_ui && design_mode'>
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
                                 v-on:click="connect()">
                           Connect
                     </button>
-                    <div style="color:red;">{{properties.error}}</div>
-                    <div style="color:green;">{{properties.info}}</div>
+                    <div style="color:red;">{{properties_and_actions.error}}</div>
+                    <div style="color:green;">{{properties_and_actions.info}}</div>
 
             </div>
         </div>
