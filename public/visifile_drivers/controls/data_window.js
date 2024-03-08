@@ -625,14 +625,14 @@ logo_url("/driver_icons/data_window.png")
 
 </div>`,
         data:       function(  ) {
-            return
-            {
-                    selected_index:        null,
-                    columnDefinitions:     [ ],
-                    tables:                [ ],
-                    table:                 null,
-                    designDetailTab:       "connection"
-            }
+            let thisData = {}
+            thisData.selected_index=        null
+            thisData.columnDefinitions=     [ ]
+            thisData.tables=                [ ]
+            thisData.table=                 null
+            thisData.designDetailTab=       "connection"
+
+            return thisData
         },
         watch:      {
         // This would be called anytime the value of the input changes
