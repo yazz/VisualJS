@@ -129,19 +129,19 @@ logo_url("/driver_icons/text_control.png")
 */
 
     Yazz.component({
-        props: ["meta","name","properties_and_actions","refresh","design_mode"]
+        props: ["meta","name","control_properties_and_events","refresh","design_mode"]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; " +
-                                        "color: "              +     properties_and_actions["color"]  + ";" +
-                                        "border-color: "       +     properties_and_actions["border_color"]  + ";" +
-                                        "border: "             +    (design_mode?0:properties_and_actions["border_width_px"])  + "px;" +
-                                        "background-color: "   +     properties_and_actions["background_color"]  + ";" +
-                                        "font-size: "   +     ((properties_and_actions["font_size"]?properties_and_actions["font_size"]:16)  + (properties_and_actions["font_size_units"]?properties_and_actions["font_size_units"]:"px")+";") +
-                                        "padding: "            +     properties_and_actions["padding_px"]  + ";" +
+                                        "color: "              +     control_properties_and_events["color"]  + ";" +
+                                        "border-color: "       +     control_properties_and_events["border_color"]  + ";" +
+                                        "border: "             +    (design_mode?0:control_properties_and_events["border_width_px"])  + "px;" +
+                                        "background-color: "   +     control_properties_and_events["background_color"]  + ";" +
+                                        "font-size: "   +     ((control_properties_and_events["font_size"]?control_properties_and_events["font_size"]:16)  + (control_properties_and_events["font_size_units"]?control_properties_and_events["font_size_units"]:"px")+";") +
+                                        "padding: "            +     control_properties_and_events["padding_px"]  + ";" +
                                         "border-style: solid;" +
                                         "overflow: auto;"'>
 
-                    <pre v-if="properties_and_actions.use_pre == 'True'">{{text}}</pre>
+                    <pre v-if="control_properties_and_events.use_pre == 'True'">{{text}}</pre>
                     
                     <div v-else>
                     {{text}}
@@ -158,18 +158,18 @@ logo_url("/driver_icons/text_control.png")
         watch: {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
-              //console.log("refresh: " + this.properties_and_actions.text)
-              if (isValidObject(this.properties_and_actions)) {
-                  this.text = this.properties_and_actions.text
-                  this.background_color = this.properties_and_actions.background_color
+              //console.log("refresh: " + this.control_properties_and_events.text)
+              if (isValidObject(this.control_properties_and_events)) {
+                  this.text = this.control_properties_and_events.text
+                  this.background_color = this.control_properties_and_events.background_color
               }          // you can do anything here with the new value or old/previous value
           }
         },
         mounted: async function() {
             await registerComponent(this)
 
-            if (isValidObject(this.properties_and_actions.text)) {
-                this.text = this.properties_and_actions.text
+            if (isValidObject(this.control_properties_and_events.text)) {
+                this.text = this.control_properties_and_events.text
             }
         }
         ,
@@ -185,8 +185,8 @@ logo_url("/driver_icons/text_control.png")
             }
             ,
             changedFn: function() {
-                if (isValidObject(this.properties_and_actions)) {
-                    this.properties_and_actions.text = this.text
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.control_properties_and_events.text = this.text
                 }
             }
         }

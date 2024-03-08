@@ -81,7 +81,7 @@ logo_url("/driver_icons/chart.png")
 
 
     Yazz.component({
-      props: ["meta","name","properties_and_actions","refresh","design_mode","runEvent"]
+      props: ["meta","name","control_properties_and_events","refresh","design_mode","runEvent"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
@@ -93,7 +93,7 @@ logo_url("/driver_icons/chart.png")
 
          <label for="usr">Data:</label>
          <textarea style="font-family:monospace; height:80%"
-                   v-model="properties_and_actions.jsonConfig"
+                   v-model="control_properties_and_events.jsonConfig"
                    type="" class="form-control" id="usr"
                    cols="50"
 
@@ -104,7 +104,7 @@ logo_url("/driver_icons/chart.png")
      </div>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                       "background-color: "+    properties_and_actions["background_color"]  +  ";"'
+                       "background-color: "+    control_properties_and_events["background_color"]  +  ";"'
          v-else>
 
          <canvas    v-bind:id='canvasId'
@@ -116,7 +116,7 @@ logo_url("/driver_icons/chart.png")
                     height="400"
                     v-if='design_mode'>
 
-                    Chart - {{properties_and_actions.name}}
+                    Chart - {{control_properties_and_events.name}}
          </div>
     </div>
 
@@ -140,10 +140,10 @@ logo_url("/driver_icons/chart.png")
      watch: {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
-           //console.log("refresh: " + this.properties_and_actions.text)
-           if (isValidObject(this.properties_and_actions)) {
-               this.value = this.properties_and_actions.value
-               this.items = this.properties_and_actions.items
+           //console.log("refresh: " + this.control_properties_and_events.text)
+           if (isValidObject(this.control_properties_and_events)) {
+               this.value = this.control_properties_and_events.value
+               this.items = this.control_properties_and_events.items
            }
        }
      }
@@ -152,17 +152,17 @@ logo_url("/driver_icons/chart.png")
          await registerComponent(this)
          await useChartsJs()
 
-         if (isValidObject(this.properties_and_actions)) {
-             this.items = this.properties_and_actions.items
-             if (isValidObject(this.properties_and_actions.value)) {
-                this.value = this.properties_and_actions.value
+         if (isValidObject(this.control_properties_and_events)) {
+             this.items = this.control_properties_and_events.items
+             if (isValidObject(this.control_properties_and_events.value)) {
+                this.value = this.control_properties_and_events.value
              }
          }
          if (document.getElementById(this.canvasId)) {
              var ctx = document.getElementById(this.canvasId).getContext('2d');
 
-             if (this.properties_and_actions.jsonConfig.length > 0 ) {
-                 this.myChart = new Chart(ctx,   eval("(" + this.properties_and_actions.jsonConfig + ")"));
+             if (this.control_properties_and_events.jsonConfig.length > 0 ) {
+                 this.myChart = new Chart(ctx,   eval("(" + this.control_properties_and_events.jsonConfig + ")"));
              }
          }
       }
@@ -183,15 +183,15 @@ logo_url("/driver_icons/chart.png")
             }
             ,
             changedFn: function() {
-                if (isValidObject(this.properties_and_actions)) {
-                    this.properties_and_actions.value = this.value
-                    this.properties_and_actions.items = this.items
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.control_properties_and_events.value = this.value
+                    this.control_properties_and_events.items = this.items
                 }
             }
             ,
 
             runEventHandler: async function() {
-                await this.runEvent({ display: "changed",   code: this.properties_and_actions.changed_event })
+                await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
             }
       }
 

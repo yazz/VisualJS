@@ -160,30 +160,30 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Yazz.component({
-        props:      [  "sql"  ,  "meta",  "name",  "refresh",  "design_mode"  ,  "properties_and_actions"  ],
+        props:      [  "sql"  ,  "meta",  "name",  "refresh",  "design_mode"  ,  "control_properties_and_events"  ],
         template:   ` 
 <div    v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
-        "background-color: "+    properties_and_actions["background_color"]  +  ";"'>
+        "background-color: "+    control_properties_and_events["background_color"]  +  ";"'>
         
     <div  >
         <div v-if="design_mode">
-            <div  v-if='properties_and_actions.show_driver_ui && design_mode'>    
-                <span v-if="!properties_and_actions.sqlite_file_path">Internal Yazz DB</div>
-                <span v-if="properties_and_actions.sqlite_file_path">From file: {{properties_and_actions.sqlite_file_path}}</div>           
+            <div  v-if='control_properties_and_events.show_driver_ui && design_mode'>    
+                <span v-if="!control_properties_and_events.sqlite_file_path">Internal Yazz DB</div>
+                <span v-if="control_properties_and_events.sqlite_file_path">From file: {{control_properties_and_events.sqlite_file_path}}</div>           
             </div>
             
             </br/>
-            <div  v-if='properties_and_actions.show_connected_ui && design_mode'>
+            <div  v-if='control_properties_and_events.show_connected_ui && design_mode'>
                 {{tables.length}} tables
             </div>
-            <div  v-if='properties_and_actions.standalone_ui && design_mode'>
+            <div  v-if='control_properties_and_events.standalone_ui && design_mode'>
                     <button     class="btn btn-primary"
                                 style="margin-top: 5px;"
                                 v-on:click="connect()">
                           Connect
                     </button>
-                    <div style="color:red;">{{properties_and_actions.error}}</div>
-                    <div style="color:green;">{{properties_and_actions.info}}</div>
+                    <div style="color:red;">{{control_properties_and_events.error}}</div>
+                    <div style="color:green;">{{control_properties_and_events.info}}</div>
 
             </div>
         </div>
@@ -206,8 +206,8 @@ logo_url("/driver_icons/sqlite.jpg")
         watch:      {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
-              if (isValidObject(this.properties_and_actions)) {
-                  this.design_time_text = this.properties_and_actions.design_time_text
+              if (isValidObject(this.control_properties_and_events)) {
+                  this.design_time_text = this.control_properties_and_events.design_time_text
               }
           }
         },
@@ -233,28 +233,28 @@ logo_url("/driver_icons/sqlite.jpg")
             },
             connect:    async function  (  ) {
                 let mm = this
-                mm.properties_and_actions.error = ""
-                mm.properties_and_actions.info = ""
+                mm.control_properties_and_events.error = ""
+                mm.control_properties_and_events.info = ""
 
                 // if a Sqlite file is specified then ...
-                if (mm.properties_and_actions.sqlite_file_path) {
+                if (mm.control_properties_and_events.sqlite_file_path) {
                     let result = await querySqlite(
                         {
-                            path:            mm.properties_and_actions.sqlite_file_path,
+                            path:            mm.control_properties_and_events.sqlite_file_path,
                             connect:         true
                         })
                     if (result.error && (result.error.length > 0)) {
-                        mm.properties_and_actions.error = result.error
+                        mm.control_properties_and_events.error = result.error
                         return false
                     }
-                    mm.properties_and_actions.info = "Connected"
+                    mm.control_properties_and_events.info = "Connected"
                     await mm.getTables()
                     return true
 
 
                 // otherwise use the internal Sqlite database
                 } else {
-                    mm.properties_and_actions.info = "Connected"
+                    mm.control_properties_and_events.info = "Connected"
                     await mm.getTables()
                     return true
                 }
@@ -264,29 +264,29 @@ logo_url("/driver_icons/sqlite.jpg")
 
                 if (this.design_mode) {
                     let result = null
-                    if (mm.properties_and_actions.sqlite_file_path) {
+                    if (mm.control_properties_and_events.sqlite_file_path) {
                         let retValCols = await querySqlite(
                             {
-                                path:            mm.properties_and_actions.sqlite_file_path,
+                                path:            mm.control_properties_and_events.sqlite_file_path,
                                 get_columns:     true,
-                                table:           mm.properties_and_actions.design_mode_table
+                                table:           mm.control_properties_and_events.design_mode_table
                             })
                         if (retValCols) {
                             result = retValCols.value
                         }
                     } else {
-                        result = await mm.sql( `PRAGMA table_info(  ${mm.properties_and_actions.design_mode_table}  )` )
+                        result = await mm.sql( `PRAGMA table_info(  ${mm.control_properties_and_events.design_mode_table}  )` )
                     }
 
 
                    if (result) {
-                       this.properties_and_actions.columns = []
+                       this.control_properties_and_events.columns = []
                        for (let i=0;i<result.length;i++) {
-                           this.properties_and_actions.columns.push(result[i].name)
+                           this.control_properties_and_events.columns.push(result[i].name)
                        }
                    }
 
-                   return mm.properties_and_actions.columns
+                   return mm.control_properties_and_events.columns
                 }
             },
             getSchema:  async function  (  ) {
@@ -295,39 +295,39 @@ logo_url("/driver_icons/sqlite.jpg")
             },
             runQuery:   async function  (  ) {
                 let mm = this
-                mm.rowReturned = await mm.internalRunQuery(mm.properties_and_actions.sql)
-                mm.properties_and_actions.result = mm.rowReturned
+                mm.rowReturned = await mm.internalRunQuery(mm.control_properties_and_events.sql)
+                mm.control_properties_and_events.result = mm.rowReturned
                 mm.changedFn()
-                return mm.properties_and_actions.result
+                return mm.control_properties_and_events.result
             },
             internalRunQuery:   async function  (  sql  ,  sqlArgs  ) {
                 let mm = this
-                if (mm.properties_and_actions.sqlite_file_path) {
+                if (mm.control_properties_and_events.sqlite_file_path) {
                     let result = await querySqlite(
                         {
                             sql:             sql,
-                            path:            this.properties_and_actions.sqlite_file_path
+                            path:            this.control_properties_and_events.sqlite_file_path
                         })
 
 
                     //alert("runQuery: " + JSON.stringify(result,null,2))
                     console.log(JSON.stringify(result,null,2))
                     if (result) {
-                        this.properties_and_actions.result = result.value
+                        this.control_properties_and_events.result = result.value
 
-                        return this.properties_and_actions.result
+                        return this.control_properties_and_events.result
                     }
 
 
                 } else {
-                    this.properties_and_actions.result = await mm.sql(  sql  )
-                    return this.properties_and_actions.result
+                    this.control_properties_and_events.result = await mm.sql(  sql  )
+                    return this.control_properties_and_events.result
                 }
             },
             changedFn:  function        (  ) {
                 let mm = this
-                if (isValidObject(this.properties_and_actions)) {
-                    //this.properties_and_actions.text = this.text
+                if (isValidObject(this.control_properties_and_events)) {
+                    //this.control_properties_and_events.text = this.text
                 }
             }
         }

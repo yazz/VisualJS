@@ -87,14 +87,14 @@ logo_url("/driver_icons/button_control.png")
 
     Yazz.component(
     {
-        props:      [  "sql"  ,  "meta"  ,  "name"  ,  "refresh"  ,  "design_mode"   ,  "properties_and_actions"  ,  "runEvent"  ],
+        props:      [  "sql"  ,  "meta"  ,  "name"  ,  "refresh"  ,  "design_mode"   ,  "control_properties_and_events"  ,  "runEvent"  ],
         template:   `<button  type=button
-                      v-bind:class='"btn btn-info " + (((properties_and_actions.button_size=="large") || (!properties_and_actions.button_size))?"btn-lg ":"")  + (properties_and_actions.button_size=="small"?"btn-sm ":"") '
-                      v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    properties_and_actions["background_color"]  +  ";"+ "color: "+    (properties_and_actions["color"]?properties_and_actions["color"]:"black")  +  ";" + (properties_and_actions.padding?"padding: " + properties_and_actions.padding + ";": "")'
+                      v-bind:class='"btn btn-info " + (((control_properties_and_events.button_size=="large") || (!control_properties_and_events.button_size))?"btn-lg ":"")  + (control_properties_and_events.button_size=="small"?"btn-sm ":"") '
+                      v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    control_properties_and_events["background_color"]  +  ";"+ "color: "+    (control_properties_and_events["color"]?control_properties_and_events["color"]:"black")  +  ";" + (control_properties_and_events.padding?"padding: " + control_properties_and_events.padding + ";": "")'
                       v-on:click='buttonClicked()'
                     >
                     
-                        {{properties_and_actions.text}}
+                        {{control_properties_and_events.text}}
                     
                     </button>`,
         mounted:    async function( ) {
@@ -109,15 +109,15 @@ logo_url("/driver_icons/button_control.png")
                         buttonClicked:      async function  ( ) {
                             let mm = this
                             //debugger
-                            await mm.runEvent({display: "click_event",code: mm.properties_and_actions.click_event})
+                            await mm.runEvent({display: "click_event",code: mm.control_properties_and_events.click_event})
                         },
                         setText:            async function  ( newtext ) {
                                             this.text = newtext
                                             this.changedFn()
                                         },
                         changedFn:          function        ( ) {
-                                            if (isValidObject(this.properties_and_actions)) {
-                                                this.properties_and_actions.text = this.text
+                                            if (isValidObject(this.control_properties_and_events)) {
+                                                this.control_properties_and_events.text = this.text
                                             }
                                         }
                     }
