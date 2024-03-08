@@ -57,15 +57,15 @@ logo_url("/driver_icons/timer.png")
     Yazz.component(
     {
 
-      props: ["meta", "args","design_mode","refresh",  "runEvent"]
+      props: ["meta", "control_properties_and_events","design_mode","refresh",  "runEvent"]
 
       ,
 
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+                                    "background-color: "+    control_properties_and_events["background_color"]  +  ";"'>
 
                         <img v-if="design_mode"
-                             v-bind:style='"max-width:" + args.width + "px;max-height: " + args.height + "px;"'
+                             v-bind:style='"max-width:" + control_properties_and_events.width + "px;max-height: " + control_properties_and_events.height + "px;"'
                              src="/driver_icons/timer.png" />
                  </div>`
       ,
@@ -79,13 +79,13 @@ logo_url("/driver_icons/timer.png")
         await registerComponent(this)
         let mm = this
         if (!mm.design_mode) {
-            let interval = parseInt(mm.args.timer_interval)
+            let interval = parseInt(mm.control_properties_and_events.timer_interval)
 
-            if (isValidObject(mm.args.timer_interval) && ( interval > 0)) {
+            if (isValidObject(mm.control_properties_and_events.timer_interval) && ( interval > 0)) {
                 appSetInterval(async function() {
-                    mm.args.counter ++
-                    if (isValidObject(mm.args.tick_event)) {
-                        await mm.runEvent({ display: "tick",   code: mm.args.tick_event })
+                    mm.control_properties_and_events.counter ++
+                    if (isValidObject(mm.control_properties_and_events.tick_event)) {
+                        await mm.runEvent({ display: "tick",   code: mm.control_properties_and_events.tick_event })
                      }
 
                  },interval)
@@ -96,7 +96,7 @@ logo_url("/driver_icons/timer.png")
       ,
       methods: {
           reset: async function() {
-              this.args.counter = 0
+              this.control_properties_and_events.counter = 0
           }
 
       }
