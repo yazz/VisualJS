@@ -59,7 +59,7 @@ logo_url("/driver_icons/group_control.png")
 */
 
     Yazz.component({
-        props:      [  "args"  ,  "design_mode"  ,  "refresh"  ,  "children"  ,  "form_helper_fns"  ],
+        props:      [  "control_properties_and_events"  ,  "design_mode"  ,  "refresh"  ,  "children"  ,  "form_helper_fns"  ],
         template:   `
 <div v-bind:style='"width:100%;overflow-y:auto;height:100%"'>
     <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
@@ -86,12 +86,12 @@ logo_url("/driver_icons/group_control.png")
         </div>
     </div>
 
-    <div v-bind:style='"position:relative;height:" + args.height + ";width:" + args.width + "; color: black;overflow:hidden;"'>
+    <div v-bind:style='"position:relative;height:" + control_properties_and_events.height + ";width:" + control_properties_and_events.width + "; color: black;overflow:hidden;"'>
 
 
-        <div v-bind:style='"position:relative;width:100%;height:100%;border: 2px solid gray;background-color: "+    args["background_color"]  +  ";"'>
+        <div v-bind:style='"position:relative;width:100%;height:100%;border: 2px solid gray;background-color: "+    control_properties_and_events["background_color"]  +  ";"'>
             <div style="position:absolute;top:0px">
-                {{args.text}}
+                {{control_properties_and_events.text}}
             </div>
             <div style="position:absolute;top:0px">
                 <slot v-bind:refresh='refresh'>
