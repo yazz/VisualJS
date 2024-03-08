@@ -56,7 +56,7 @@ logo_url("/driver_icons/horiz_scroll.png")
 */
 
     Yazz.component({
-        props: ["args","refresh",  "runEvent"]
+        props: ["control_properties_and_events","refresh",  "runEvent"]
         ,
 
 
@@ -64,7 +64,7 @@ logo_url("/driver_icons/horiz_scroll.png")
         template:
 
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                    "background-color: "+    args["background_color"]  +  ";"'>
+                    "background-color: "+    control_properties_and_events["background_color"]  +  ";"'>
 
     <input  type="range"
             v-on:change='changedFn();runEventHandler()'
@@ -74,7 +74,7 @@ logo_url("/driver_icons/horiz_scroll.png")
             max="100"
             value="50"
             step="1"
-            v-bind:style='"width:" + args.width' />
+            v-bind:style='"width:" + control_properties_and_events.width' />
 
 </div>`
         ,
@@ -91,32 +91,32 @@ logo_url("/driver_icons/horiz_scroll.png")
         ,
         watch: {
           refresh: function(newValue, oldValue) {
-              if (isValidObject(this.args)) {
-                  this.value = this.args.value
+              if (isValidObject(this.control_properties_and_events)) {
+                  this.value = this.control_properties_and_events.value
               }
           }
         }
         ,
         mounted: async function() {
             await registerComponent(this)
-            if (isValidObject(this.args)) {
-                this.items = this.args.items
-                if (isValidObject(this.args.value)) {
-                   this.value = this.args.value
+            if (isValidObject(this.control_properties_and_events)) {
+                this.items = this.control_properties_and_events.items
+                if (isValidObject(this.control_properties_and_events.value)) {
+                   this.value = this.control_properties_and_events.value
                 }
             }
         }
         ,
         methods: {
               changedFn: async function() {
-                  if (isValidObject(this.args)) {
-                      this.args.value = this.value
+                  if (isValidObject(this.control_properties_and_events)) {
+                      this.control_properties_and_events.value = this.value
                   }
               }
               ,
 
               runEventHandler: async function() {
-                  await this.runEvent({ display: "changed",   code: this.args.changed_event })
+                  await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
 
               }
         }

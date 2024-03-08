@@ -57,9 +57,9 @@ function(args) {
     */
 
     Yazz.component({
-        props:          [  "args"  ,  "refresh"  ,  "runEvent"  ],
+        props:          [  "control_properties_and_events"  ,  "refresh"  ,  "runEvent"  ],
         template:       `
-<div v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    args["background_color"]  +  ";"'>
+<div v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    control_properties_and_events["background_color"]  +  ";"'>
 
     <input  type="range"
             v-on:change='runEventHandler()'
@@ -69,7 +69,7 @@ function(args) {
             max="100"
             value="50"
             step="1"
-            v-bind:style='"position:absolute;transform: rotate(90deg);width: " + (args.height - 20) + ";top: " + ((args.height / 2) - 0) + "px;left: -" + ((args.height / 2) - 20) + "px;"'
+            v-bind:style='"position:absolute;transform: rotate(90deg);width: " + (control_properties_and_events.height - 20) + ";top: " + ((control_properties_and_events.height / 2) - 0) + "px;left: -" + ((control_properties_and_events.height / 2) - 20) + "px;"'
             >
 </div>`,
         data:           function() {
@@ -80,29 +80,29 @@ function(args) {
         },
         watch:          {
             refresh: function(newValue, oldValue) {
-                if (isValidObject(this.args)) {
-                    this.value = this.args.value
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.value = this.control_properties_and_events.value
                 }
             }
         },
         mounted:        async function() {
             await registerComponent(this)
-            if (isValidObject(this.args)) {
-                this.items = this.args.items
-                if (isValidObject(this.args.value)) {
-                    this.value = this.args.value
+            if (isValidObject(this.control_properties_and_events)) {
+                this.items = this.control_properties_and_events.items
+                if (isValidObject(this.control_properties_and_events.value)) {
+                    this.value = this.control_properties_and_events.value
                 }
             }
         },
         methods:        {
             changedFn:        function() {
-                if (isValidObject(this.args)) {
-                    this.args.value = this.value
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.control_properties_and_events.value = this.value
                 }
             },
             runEventHandler:  async function() {
                 this.changedFn();
-                await this.runEvent({ display: "changed",   code: this.args.changed_event })
+                await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
             }
         }
     })

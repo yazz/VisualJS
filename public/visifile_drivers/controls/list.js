@@ -52,7 +52,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
 */
 
     Yazz.component({
-      props: ["args","refresh","design_mode",  "runEvent"]
+      props: ["control_properties_and_events","refresh","design_mode",  "runEvent"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
@@ -143,7 +143,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
      </div>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                       "background-color: "+    args["background_color"]  +  ";"'
+                       "background-color: "+    control_properties_and_events["background_color"]  +  ";"'
          v-else>
 
         <select
@@ -151,7 +151,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
             size="5"
             v-model='value'>
 
-            <option v-for='opt in args.items'
+            <option v-for='opt in control_properties_and_events.items'
                     v-bind:value='opt.value'>
                 {{opt.text}}
             </option>
@@ -176,19 +176,19 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
      watch: {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
-           //console.log("refresh: " + this.args.text)
-           if (isValidObject(this.args)) {
-               this.value = this.args.value
-               this.items = this.args.items
+           //console.log("refresh: " + this.control_properties_and_events.text)
+           if (isValidObject(this.control_properties_and_events)) {
+               this.value = this.control_properties_and_events.value
+               this.items = this.control_properties_and_events.items
            }
        }
      }
      ,
      mounted: function() {
-         if (isValidObject(this.args)) {
-             this.items = this.args.items
-             if (isValidObject(this.args.value)) {
-                this.value = this.args.value
+         if (isValidObject(this.control_properties_and_events)) {
+             this.items = this.control_properties_and_events.items
+             if (isValidObject(this.control_properties_and_events.value)) {
+                this.value = this.control_properties_and_events.value
              }
          }
 
@@ -197,16 +197,16 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
       ,
       methods: {
             changedFn: function() {
-                if (isValidObject(this.args)) {
-                    this.args.value = this.value
-                    this.args.items = this.items
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.control_properties_and_events.value = this.value
+                    this.control_properties_and_events.items = this.items
                 }
             }
             ,
 
             runEventHandler: async function() {
                 changedFn();
-                await this.runEvent({ display: "changed",   code: this.args.changed_event })
+                await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
             }
       }
 
