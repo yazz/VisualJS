@@ -57,13 +57,13 @@ logo_url("/driver_icons/checkbox_control.png")
 */
 
     Yazz.component({
-      props: ["args","design_mode","meta", "form",  "name", "refresh", "runEvent"]
+      props: ["control_properties_and_events","design_mode","meta", "form",  "name", "refresh", "runEvent"]
       ,
       template: `<div class="">
-                    <input v-bind:id='design_mode?"":args.name'
+                    <input v-bind:id='design_mode?"":control_properties_and_events.name'
                         type="checkbox"
                         v-on:change='valChanged(event)'
-                        v-bind:checked='(args.checked=="True")?"True":""'
+                        v-bind:checked='(control_properties_and_events.checked=="True")?"True":""'
                          />
                  </div>`
       ,
@@ -79,11 +79,11 @@ logo_url("/driver_icons/checkbox_control.png")
       methods: {
           valChanged: async function(e) {
               if(e.target.checked) {
-                  this.args.checked="True"
+                  this.control_properties_and_events.checked="True"
               } else {
-                  this.args.checked="False"
+                  this.control_properties_and_events.checked="False"
               }
-              await this.runEvent({ display: "changed",   code: this.args.changed_event })
+              await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
 
           }
       }

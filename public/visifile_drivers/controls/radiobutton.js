@@ -53,14 +53,14 @@ logo_url("/driver_icons/radio.png")
 */
 
     Yazz.component({
-      props: ["args","design_mode"]
+      props: ["control_properties_and_events","design_mode"]
       ,
       template: `<div class="radio">
-                    <input v-bind:id='design_mode?"":args.name'
+                    <input v-bind:id='design_mode?"":control_properties_and_events.name'
                         type="radio"
                         style="width:100%;"
-                        v-model="args.checked"
-                        v-bind:value='args.text' />{{args.text}}<br>
+                        v-model="control_properties_and_events.checked"
+                        v-bind:value='control_properties_and_events.text' />{{control_properties_and_events.text}}<br>
 
         
                  </div>`
