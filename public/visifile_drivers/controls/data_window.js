@@ -296,7 +296,7 @@ logo_url("/driver_icons/data_window.png")
 */
 
     Yazz.component({
-        props:      ["meta","name","args","refresh","design_mode",  "runEvent"],
+        props:      ["meta","name","control_properties_and_events","refresh","design_mode",  "runEvent"],
         template:   `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
         v-bind:refresh='refresh'>
 
@@ -360,12 +360,12 @@ logo_url("/driver_icons/data_window.png")
 
 
             <div v-if='designDetailTab == "schema"'  >
-               Database tables for schema &#34;{{args.database}}&#34;
+               Database tables for schema &#34;{{control_properties_and_events.database}}&#34;
                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
                    <div   v-for='table in tables'
-                          v-on:click="args.sql = 'select * from ' + table; args.design_mode_table = table;getColumns();args.dataWindowColumns=[];"
-                          v-bind:style='"padding: 5px; " + ((args.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                          v-on:click="control_properties_and_events.sql = 'select * from ' + table; control_properties_and_events.design_mode_table = table;getColumns();control_properties_and_events.dataWindowColumns=[];"
+                          v-bind:style='"padding: 5px; " + ((control_properties_and_events.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                          {{table}}
 
@@ -376,16 +376,16 @@ logo_url("/driver_icons/data_window.png")
 
 
             <div v-if='designDetailTab == "columns"' >
-                Columns for table &#34;{{args.design_mode_table}}&#34;
+                Columns for table &#34;{{control_properties_and_events.design_mode_table}}&#34;
                 <div>
 
 
                     <div style="height:70%;width:30%; overflow-y: scroll;display:inline-block;vertical-align:top; border: 2px solid gray;">
 
 
-                        <div   v-for='column in args.columns'
-                               v-on:click="args.selected_column = column;"
-                               v-bind:style='"padding: 5px; " + ((args.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                        <div   v-for='column in control_properties_and_events.columns'
+                               v-on:click="control_properties_and_events.selected_column = column;"
+                               v-bind:style='"padding: 5px; " + ((control_properties_and_events.selected_column == column)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                               {{column}}
 
@@ -394,16 +394,16 @@ logo_url("/driver_icons/data_window.png")
 
                     <div style="height:70%;width:15%; overflow-y: none;display:inline-block;vertical-align:top;">
                         <button    class="btn btn-primary"
-                                :disabled="(args.selected_column && args.selected_column.length > 0)?false:true"
-                                v-on:click="var newId = args.dataWindowColumnsMax++;args.dataWindowColumns.push({id:    newId, value: args.selected_column, name: args.selected_column});setSql();args.selected_data_window_column_index = newId;args.selected_data_window_column = args.dataWindowColumns[args.dataWindowColumns.length - 1];">
+                                :disabled="(control_properties_and_events.selected_column && control_properties_and_events.selected_column.length > 0)?false:true"
+                                v-on:click="var newId = control_properties_and_events.dataWindowColumnsMax++;control_properties_and_events.dataWindowColumns.push({id:    newId, value: control_properties_and_events.selected_column, name: control_properties_and_events.selected_column});setSql();control_properties_and_events.selected_data_window_column_index = newId;control_properties_and_events.selected_data_window_column = control_properties_and_events.dataWindowColumns[control_properties_and_events.dataWindowColumns.length - 1];">
 
                               Add >>
 
                         </button>
                         <button    class="btn btn-primary"
                                 style="margin-top:20px;"
-                                :disabled="(args.selected_data_window_column_index > -1)?false:true"
-                                v-on:click="args.dataWindowColumns.splice(args.selected_data_window_column_index,1);setSql(); args.selected_data_window_column_index = -1;args.selected_data_window_column='';">
+                                :disabled="(control_properties_and_events.selected_data_window_column_index > -1)?false:true"
+                                v-on:click="control_properties_and_events.dataWindowColumns.splice(control_properties_and_events.selected_data_window_column_index,1);setSql(); control_properties_and_events.selected_data_window_column_index = -1;control_properties_and_events.selected_data_window_column='';">
 
                               << Remove
 
@@ -419,9 +419,9 @@ logo_url("/driver_icons/data_window.png")
                         <div style="height:100%;width:100%; overflow-y: scroll;vertical-align:top;">
 
 
-                            <div    v-for='(dwcolumn,index) in args.dataWindowColumns'
-                                    v-on:click="args.selected_data_window_column = dwcolumn;args.selected_data_window_column_index = index;"
-                                    v-bind:style='"padding: 5px; " + ((args.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                            <div    v-for='(dwcolumn,index) in control_properties_and_events.dataWindowColumns'
+                                    v-on:click="control_properties_and_events.selected_data_window_column = dwcolumn;control_properties_and_events.selected_data_window_column_index = index;"
+                                    v-bind:style='"padding: 5px; " + ((control_properties_and_events.selected_data_window_column.id == dwcolumn.id)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                                   {{dwcolumn.value}}
 
@@ -431,18 +431,18 @@ logo_url("/driver_icons/data_window.png")
                         <div    class="btn-group">
 
                             <button     class="btn btn-primary"
-                                        :disabled="(args.selected_data_window_column_index > 0)?false:true"
+                                        :disabled="(control_properties_and_events.selected_data_window_column_index > 0)?false:true"
                                         style="margin-top:20px; margin-left: 0px;"
-                                        v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index-1);args.selected_data_window_column_index --;">
+                                        v-on:click="array_move(control_properties_and_events.dataWindowColumns,control_properties_and_events.selected_data_window_column_index,control_properties_and_events.selected_data_window_column_index-1);control_properties_and_events.selected_data_window_column_index --;">
 
                                   Move Up
 
                             </button>
 
                             <button class="btn btn-primary"
-                                    :disabled="((args.selected_data_window_column_index > -1) && (args.selected_data_window_column_index < (args.dataWindowColumns.length - 1)))?false:true"
+                                    :disabled="((control_properties_and_events.selected_data_window_column_index > -1) && (control_properties_and_events.selected_data_window_column_index < (control_properties_and_events.dataWindowColumns.length - 1)))?false:true"
                                     style="margin-top:20px; margin-left: 20px;"
-                                    v-on:click="array_move(args.dataWindowColumns,args.selected_data_window_column_index,args.selected_data_window_column_index + 1);args.selected_data_window_column_index ++;">
+                                    v-on:click="array_move(control_properties_and_events.dataWindowColumns,control_properties_and_events.selected_data_window_column_index,control_properties_and_events.selected_data_window_column_index + 1);control_properties_and_events.selected_data_window_column_index ++;">
 
                                   Move Down
 
@@ -453,7 +453,7 @@ logo_url("/driver_icons/data_window.png")
 
                         <div   style=" border: 1px solid lightgray;height:90%;width:100%; display:inline-block;margin-top:20px;overflow-y:scroll;">
 
-                            <div    v-if="args.selected_data_window_column"
+                            <div    v-if="control_properties_and_events.selected_data_window_column"
                                     style="height:100%;width:100%; overflow-y: none; padding: 10px;">
 
                                 <div class="form-group">
@@ -466,8 +466,8 @@ logo_url("/driver_icons/data_window.png")
                                           id=col_input_name
                                           name="col_input_name"
                                           required
-                                          v-bind:value='args.selected_data_window_column.name'
-                                          v-on:change="var qwe = document.getElementById('col_input_name').value;args.dataWindowColumns[args.selected_data_window_column_index].name=qwe;args.selected_data_window_column.name = qwe;"
+                                          v-bind:value='control_properties_and_events.selected_data_window_column.name'
+                                          v-on:change="var qwe = document.getElementById('col_input_name').value;control_properties_and_events.dataWindowColumns[control_properties_and_events.selected_data_window_column_index].name=qwe;control_properties_and_events.selected_data_window_column.name = qwe;"
                                            />
 
 
@@ -480,9 +480,9 @@ logo_url("/driver_icons/data_window.png")
                                           style="margin-bottom: 30px;"
                                           name="col_input_value"
                                           required
-                                          v-bind:value='args.selected_data_window_column.value'
+                                          v-bind:value='control_properties_and_events.selected_data_window_column.value'
 
-                                          v-on:change="var qwe = document.getElementById('col_input_value').value;args.dataWindowColumns[args.selected_data_window_column_index].value=qwe;args.selected_data_window_column.value = qwe;"
+                                          v-on:change="var qwe = document.getElementById('col_input_value').value;control_properties_and_events.dataWindowColumns[control_properties_and_events.selected_data_window_column_index].value=qwe;control_properties_and_events.selected_data_window_column.value = qwe;"
                                            />
 
 
@@ -497,9 +497,9 @@ logo_url("/driver_icons/data_window.png")
                                             class="form-control"
                                             id=col_input_width
                                             name="col_input_width"
-                                            v-bind:value='args.selected_data_window_column.width?args.selected_data_window_column.width:""'
+                                            v-bind:value='control_properties_and_events.selected_data_window_column.width?control_properties_and_events.selected_data_window_column.width:""'
 
-                                            v-on:change="var qwe = document.getElementById('col_input_width').value;args.selected_data_window_column.width = qwe;args.dataWindowColumns[args.selected_data_window_column_index].width=qwe;"
+                                            v-on:change="var qwe = document.getElementById('col_input_width').value;control_properties_and_events.selected_data_window_column.width = qwe;control_properties_and_events.dataWindowColumns[control_properties_and_events.selected_data_window_column_index].width=qwe;"
                                             />
                               </div>
 
@@ -509,7 +509,7 @@ logo_url("/driver_icons/data_window.png")
                             </div>
 
 
-                            <div   v-if="!args.selected_data_window_column"  style="height:100%;width:100%; overflow-y: none;margin-top:0px;border: 1px solid lightgray;">
+                            <div   v-if="!control_properties_and_events.selected_data_window_column"  style="height:100%;width:100%; overflow-y: none;margin-top:0px;border: 1px solid lightgray;">
 
                             </div>
                         </div>
@@ -537,9 +537,9 @@ logo_url("/driver_icons/data_window.png")
                         class="form-control"
                         id=where_clause
                         name="where_clause"
-                        v-bind:value='(args.where_clause && (args.where_clause.length > 0))?args.where_clause:""'
+                        v-bind:value='(control_properties_and_events.where_clause && (control_properties_and_events.where_clause.length > 0))?control_properties_and_events.where_clause:""'
 
-                        v-on:change="args.where_clause = document.getElementById('where_clause').value;setSql()"
+                        v-on:change="control_properties_and_events.where_clause = document.getElementById('where_clause').value;setSql()"
                         />
             </div>
 
@@ -553,21 +553,21 @@ logo_url("/driver_icons/data_window.png")
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_col_resize"
-                                :checked='args.allow_col_resize' v-model='args.allow_col_resize'>
+                                :checked='control_properties_and_events.allow_col_resize' v-model='control_properties_and_events.allow_col_resize'>
                         <label class="form-check-label" for="allow_col_resize">Allow col resize</label>
                       </div>
 
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_col_move"
-                                :checked='args.allow_col_move' v-model='args.allow_col_move'>
+                                :checked='control_properties_and_events.allow_col_move' v-model='control_properties_and_events.allow_col_move'>
                         <label class="form-check-label" for="allow_col_move">Allow col move</label>
                       </div>
 
 
                       <div class="form-check">
                         <input  type="checkbox" class="form-check-input" id="allow_row_resize"
-                                :checked='args.allow_row_resize' v-model='args.allow_row_resize'>
+                                :checked='control_properties_and_events.allow_row_resize' v-model='control_properties_and_events.allow_row_resize'>
                         <label class="form-check-label" for="allow_row_resize">Allow row resize</label>
                       </div>
 
@@ -597,7 +597,7 @@ logo_url("/driver_icons/data_window.png")
 
 
         <div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                           "background-color: "+    args["background_color"]  +  ";"'
+                           "background-color: "+    control_properties_and_events["background_color"]  +  ";"'
              v-if='design_mode == false'>
 
              <div    ref="exampletable"></div>
@@ -614,7 +614,7 @@ logo_url("/driver_icons/data_window.png")
 
 
                      <b>SQL:</b>
-                        {{args.sql}}
+                        {{control_properties_and_events.sql}}
          </div>
 
      </div>
@@ -637,8 +637,8 @@ logo_url("/driver_icons/data_window.png")
         watch:      {
         // This would be called anytime the value of the input changes
             refresh: function(newValue, oldValue) {
-                //console.log("refresh: " + this.args.text)
-                if (isValidObject(this.args)) {
+                //console.log("refresh: " + this.control_properties_and_events.text)
+                if (isValidObject(this.control_properties_and_events)) {
                     this.getTables()
                     //alert(JSON.stringify(this.tables,null,2))
                 }
@@ -647,16 +647,16 @@ logo_url("/driver_icons/data_window.png")
         mounted:    async function(  ) {
             await registerComponent(this)
 
-            if (isValidObject(this.args)) {
+            if (isValidObject(this.control_properties_and_events)) {
             }
 
             if (this.design_mode == false) {
                 this.table = new Tabulator(this.$refs.exampletable,
                     {
-                    width:                      this.args.width,
-                    height:                     this.args.height,
+                    width:                      this.control_properties_and_events.width,
+                    height:                     this.control_properties_and_events.height,
                     tables:                     [],
-                    data:                       this.args.data,
+                    data:                       this.control_properties_and_events.data,
                 	layout:                     "fitColumns",
                 	responsiveLayout:           "hide",
                 	tooltips:                   true,
@@ -665,10 +665,10 @@ logo_url("/driver_icons/data_window.png")
                 	pagination:                 "local",
                 	paginationSize:             7,
                 	movableColumns:             true,
-                    resizableColumns:           this.args.allow_col_resize,
-                	resizableRows:              this.args.allow_row_resize,
-                    movableColumns:             this.args.allow_col_move,
-                    layout:                     this.args.layout,
+                    resizableColumns:           this.control_properties_and_events.allow_col_resize,
+                	resizableRows:              this.control_properties_and_events.allow_row_resize,
+                    movableColumns:             this.control_properties_and_events.allow_col_move,
+                    layout:                     this.control_properties_and_events.layout,
                     tableNames:                 [],
                 	initialSort:                [
                                             	],
@@ -688,25 +688,25 @@ logo_url("/driver_icons/data_window.png")
         methods:    {
             setSql:             function      (  ) {
                 var colSql = "*"
-                if (this.args.dataWindowColumns.length > 0) {
+                if (this.control_properties_and_events.dataWindowColumns.length > 0) {
                     colSql = ""
-                    for (var coli=0; coli < this.args.dataWindowColumns.length; coli ++) {
-                        colSql += this.args.dataWindowColumns[coli].value
-                        if (coli< (this.args.dataWindowColumns.length - 1)) {
+                    for (var coli=0; coli < this.control_properties_and_events.dataWindowColumns.length; coli ++) {
+                        colSql += this.control_properties_and_events.dataWindowColumns[coli].value
+                        if (coli< (this.control_properties_and_events.dataWindowColumns.length - 1)) {
                             colSql += ","
                         }
                     }
                 }
-                this.args.sql = "select " + colSql + " from " + this.args.design_mode_table
+                this.control_properties_and_events.sql = "select " + colSql + " from " + this.control_properties_and_events.design_mode_table
 
-                if (this.args.where_clause && (this.args.where_clause.length > 0)) {
-                    this.args.sql += " where " + this.args.where_clause
+                if (this.control_properties_and_events.where_clause && (this.control_properties_and_events.where_clause.length > 0)) {
+                    this.control_properties_and_events.sql += " where " + this.control_properties_and_events.where_clause
                 }
 
 
             },
             changedFn:          function      (  ) {
-                if (isValidObject(this.args)) {
+                if (isValidObject(this.control_properties_and_events)) {
                 }
             },
             resetColumns:       async function(  data  ) {
@@ -716,10 +716,10 @@ logo_url("/driver_icons/data_window.png")
                 this.table.addColumn(colData, true, "name");
             },
             runEventHandler:    async function      (  ) {
-                await this.runEvent({ display: "changed",   code: this.args.changed_event })
+                await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
             },
             setData:            async function(  data  ) {
-                this.args.data = data
+                this.control_properties_and_events.data = data
                 this.table.setData(data)
 
                 var keysOfData = new Object()
@@ -732,19 +732,19 @@ logo_url("/driver_icons/data_window.png")
                     }
                 }
 
-                if (this.args.dataWindowColumns.length == 0) {
+                if (this.control_properties_and_events.dataWindowColumns.length == 0) {
                     var dfg2 = Object.keys(keysOfData)
                     for (var qq2 = 0 ; qq2 < dfg2.length; qq2 ++) {
                         this.addColumn({title:dfg2[qq2], field:dfg2[qq2]})
                     }
 
                 } else {
-                    for (var coli = this.args.dataWindowColumns.length - 1; coli >= 0; coli --) {
-                        var colDefn = {title:this.args.dataWindowColumns[coli].name,
-                                        field:this.args.dataWindowColumns[coli].value
+                    for (var coli = this.control_properties_and_events.dataWindowColumns.length - 1; coli >= 0; coli --) {
+                        var colDefn = {title:this.control_properties_and_events.dataWindowColumns[coli].name,
+                                        field:this.control_properties_and_events.dataWindowColumns[coli].value
                                     }
-                        if (this.args.dataWindowColumns[coli].width) {
-                            colDefn.width = parseInt(this.args.dataWindowColumns[coli].width)
+                        if (this.control_properties_and_events.dataWindowColumns[coli].width) {
+                            colDefn.width = parseInt(this.control_properties_and_events.dataWindowColumns[coli].width)
                         }
 
                         this.addColumn(colDefn)
@@ -772,11 +772,11 @@ logo_url("/driver_icons/data_window.png")
                                             base_component_id: "postgres_server"
                                         }
                                             ,{
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
+                                                user:            this.control_properties_and_events.user,
+                                                password:        this.control_properties_and_events.password,
+                                                database:        this.control_properties_and_events.database,
+                                                host:            this.control_properties_and_events.host,
+                                                port:            this.control_properties_and_events.port,
                                                 get_tables:      true
                                              })
 
@@ -805,23 +805,23 @@ logo_url("/driver_icons/data_window.png")
                                         }
                                         ,
                                         {
-                                            user:            this.args.user,
-                                            password:        this.args.password,
-                                            database:        this.args.database,
-                                            host:            this.args.host,
-                                            port:            this.args.port,
+                                            user:            this.control_properties_and_events.user,
+                                            password:        this.control_properties_and_events.password,
+                                            database:        this.control_properties_and_events.database,
+                                            host:            this.control_properties_and_events.host,
+                                            port:            this.control_properties_and_events.port,
                                             get_columns:      true,
-                                            table:           this.args.design_mode_table
+                                            table:           this.control_properties_and_events.design_mode_table
                                         })
 
 
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
-                       this.args.columns = []
+                       this.control_properties_and_events.columns = []
                        //alert(JSON.stringify(result,null,2))
                        for (var i=0;i<result.length;i++) {
-                           this.args.columns.push(result[i].name)
+                           this.control_properties_and_events.columns.push(result[i].name)
 
                        }
                    }
@@ -836,13 +836,13 @@ logo_url("/driver_icons/data_window.png")
                                             base_component_id: "postgres_server"
                                         }
                                             ,{
-                                                sql:             this.args.sql,
-                                                user:            this.args.user,
-                                                password:        this.args.password,
-                                                database:        this.args.database,
-                                                host:            this.args.host,
-                                                port:            this.args.port,
-                                                limit:           this.args.limit
+                                                sql:             this.control_properties_and_events.sql,
+                                                user:            this.control_properties_and_events.user,
+                                                password:        this.control_properties_and_events.password,
+                                                database:        this.control_properties_and_events.database,
+                                                host:            this.control_properties_and_events.host,
+                                                port:            this.control_properties_and_events.port,
+                                                limit:           this.control_properties_and_events.limit
                                              })
 
 
@@ -850,14 +850,14 @@ logo_url("/driver_icons/data_window.png")
                    //alert("executeSql: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
-                        this.args.result = result
+                        this.control_properties_and_events.result = result
 
                         return result
                    }
 
 
                }
-                this.args.result = []
+                this.control_properties_and_events.result = []
                 //this.changedFn()
                 return {}
             }
