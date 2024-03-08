@@ -40,11 +40,11 @@ logo_url("/driver_icons/shapes.png")
 */
 
     Yazz.component({
-      props: ["args"]
+      props: ["control_properties_and_events"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  + ";" +
-                                    ((args.shape == "circle")?"border-radius: 50%;":"border-radius: 0%;") +
+                                    "background-color: "+    control_properties_and_events["background_color"]  + ";" +
+                                    ((control_properties_and_events.shape == "circle")?"border-radius: 50%;":"border-radius: 0%;") +
                                     ";"'>
 
 
