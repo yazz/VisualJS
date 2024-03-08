@@ -275,7 +275,6 @@ logo_url("/driver_icons/sqlite.jpg")
                             result = retValCols.value
                         }
                     } else {
-                        debugger
                         result = await mm.sql( `PRAGMA table_info(  ${mm.properties_and_actions.design_mode_table}  )` )
                     }
 

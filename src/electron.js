@@ -1552,11 +1552,6 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/controls/yazzSqlite.js')
     await releaseComponentFromPath( '/controls/database.js')
 
-    await releaseComponentFromPath( '/controls/metamask.js')
-    await releaseComponentFromPath( '/controls/evm_contract.js')
-    await releaseComponentFromPath( '/controls/component_builder.js')
-    await releaseComponentFromPath( '/controls/evm_demo_count_contract.js')
-
     //
     await releaseComponentFromPath( '/controls/input.js')
 
@@ -1601,6 +1596,11 @@ async function  setUpComponentsLocally                  (  ) {
     //await releaseComponentFromPath( '/controls/rhdata_grid.js')
     //await releaseComponentFromPath( '/controls/rhopenshift.js')
 
+
+    await releaseComponentFromPath( '/controls/metamask.js')
+    await releaseComponentFromPath( '/controls/evm_contract.js')
+    await releaseComponentFromPath( '/controls/component_builder.js')
+    await releaseComponentFromPath( '/controls/evm_demo_count_contract.js')
 
 
 
