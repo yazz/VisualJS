@@ -83,7 +83,7 @@
                     </div>
 
                     <div    v-for='av in available_components'>
-                        <div    draggable="true"
+                        <div    v-bind:draggable="true"
                                 class=''
                                 v-on:dragend='$event.stopPropagation();deleteCursor();'
                                 v-on:dragstart='//alert(JSON.stringify(av,null,2));
