@@ -123,34 +123,34 @@ logo_url("/driver_icons/input_box.png")
 */
 
     Yazz.component({
-      props: [ "meta", "form",  "name", "args", "refresh",  "runEvent"]
+      props: [ "meta", "form",  "name", "properties_and_actions", "refresh",  "runEvent"]
       ,
       template: `<div>
-                    <label v-if='args.label'>{{args.label}}</label>
+                    <label v-if='properties_and_actions.label'>{{properties_and_actions.label}}</label>
 
-                    <input  v-if='(!args.multiline) || (args.multiline == "False") '
+                    <input  v-if='(!properties_and_actions.multiline) || (properties_and_actions.multiline == "False") '
                             class="form-control2"
                             v-on:click='click_event_callback()'
                             v-on:focus='focus_event_callback()'
                             v-on:keypress='keypress_event_callback(event.key)'
                             v-bind:style=   '"width:100%; " +
-                                             "background-color: "+  args.background_color  +  ";"'
+                                             "background-color: "+  properties_and_actions.background_color  +  ";"'
 
-                            v-model='args.value' />
+                            v-model='properties_and_actions.value' />
 
 
                     <textarea
-                            v-bind:rows='(!args.rows)?"4":args.rows'
-                            v-bind:cols='(!args.cols)?"50":args.cols'
-                            v-if='(args.multiline == "True")'
+                            v-bind:rows='(!properties_and_actions.rows)?"4":properties_and_actions.rows'
+                            v-bind:cols='(!properties_and_actions.cols)?"50":properties_and_actions.cols'
+                            v-if='(properties_and_actions.multiline == "True")'
                             class="form-control2"
                             v-on:click='click_event_callback()'
                             v-on:focus='focus_event_callback()'
                             v-on:keypress='keypress_event_callback(event.key)'
                             v-bind:style=   '"width:100%; " +
-                                             "background-color: "+  args.background_color  +  ";"'
+                                             "background-color: "+  properties_and_actions.background_color  +  ";"'
 
-                            v-model='args.valueMultiline'>  </textarea>
+                            v-model='properties_and_actions.valueMultiline'>  </textarea>
                  </div>`
       ,
       mounted: async function() {
@@ -164,23 +164,23 @@ logo_url("/driver_icons/input_box.png")
 
             click_event_callback: async function() {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
-                //eval("(function(){" + this.args.click_event + "})")()
-                await this.runEvent({ display: "click",   code: this.args.click_event })
+                //eval("(function(){" + this.properties_and_actions.click_event + "})")()
+                await this.runEvent({ display: "click",   code: this.properties_and_actions.click_event })
             }
             ,
             keypress_event_callback: async function(mykeypressed) {
                 //console.log("----- button_control, keypress_event_callback: function() = " + this.name)
-                //eval("(function(){" + this.args.click_event + "})")()
-                //this.args.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
+                //eval("(function(){" + this.properties_and_actions.click_event + "})")()
+                //this.properties_and_actions.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
                 console.log("mykeypressed: "+ mykeypressed)
 
-                this.args.last_keypressed = mykeypressed
-                await this.runEvent({ display: "keypress",   code: this.args.keypress_event  })
+                this.properties_and_actions.last_keypressed = mykeypressed
+                await this.runEvent({ display: "keypress",   code: this.properties_and_actions.keypress_event  })
             }
             ,
             focus_event_callback: async function() {
                 console.log("----- button_control, focus_event_callback: function() = " + this.name)
-                await this.runEvent({ display: "focus",   code: this.args.focus_event })
+                await this.runEvent({ display: "focus",   code: this.properties_and_actions.focus_event })
             }
        }
     })
