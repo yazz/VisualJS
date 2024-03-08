@@ -39,13 +39,13 @@ logo_url("/driver_icons/line.png")
 */
 
     Yazz.component({
-      props: ["args","refresh", "design_mode"]
+      props: ["control_properties_and_events","refresh", "design_mode"]
       ,
       template: `<div       v-bind:refresh='refresh'
                             v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";color:black;"'>
+                                    "background-color: "+    control_properties_and_events["background_color"]  +  ";color:black;"'>
 
-                                    <canvas v-bind:id='args.name + "_canvas_" + (design_mode?"_design_mode":"")'
+                                    <canvas v-bind:id='control_properties_and_events.name + "_canvas_" + (design_mode?"_design_mode":"")'
                                             style="height:100%:width:100%;">
                                     </canvas>
 
@@ -59,8 +59,8 @@ logo_url("/driver_icons/line.png")
       watch: {
         // This would be called anytime the value of the input changes
         refresh(newValue, oldValue) {
-            //console.log("refresh: " + this.args.text)
-            if (isValidObject(this.args)) {
+            //console.log("refresh: " + this.control_properties_and_events.text)
+            if (isValidObject(this.control_properties_and_events)) {
             }
             this.redraw()
         }
@@ -70,19 +70,19 @@ logo_url("/driver_icons/line.png")
       },
       methods: {
         redraw: function() {
-            var c = document.getElementById(this.args.name + "_canvas_" + (this.design_mode?"_design_mode":""));
+            var c = document.getElementById(this.control_properties_and_events.name + "_canvas_" + (this.design_mode?"_design_mode":""));
             if (isValidObject(c)) {
                 var ctx = c.getContext("2d");
                 ctx.clearRect(0, 0, c.width, c.height);
                 ctx.beginPath();
                 ctx.strokeStyle = "#FF0000";
-                if (this.args.direction == "topToBottom") {
+                if (this.control_properties_and_events.direction == "topToBottom") {
                     ctx.moveTo(0, 0);
-                    ctx.lineTo(  parseInt(this.args.width),   parseInt(this.args.height)  );
+                    ctx.lineTo(  parseInt(this.control_properties_and_events.width),   parseInt(this.control_properties_and_events.height)  );
                     ctx.stroke();
                 } else {
-                    ctx.moveTo(0, parseInt(this.args.height));
-                    ctx.lineTo(  parseInt(this.args.width),   0  );
+                    ctx.moveTo(0, parseInt(this.control_properties_and_events.height));
+                    ctx.lineTo(  parseInt(this.control_properties_and_events.width),   0  );
                     ctx.stroke();
 
                 }

@@ -73,21 +73,21 @@ logo_url("/driver_icons/draw.png")
 
 
     Yazz.component({
-      props: ["args","refresh", "design_mode"]
+      props: ["control_properties_and_events","refresh", "design_mode"]
       ,
       template: `<div   v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                      "background-color: "+    args["background_color"]  +  ";"'
+                                      "background-color: "+    control_properties_and_events["background_color"]  +  ";"'
                         v-bind:refresh='refresh'>
 
                                     <canvas v-if='design_mode == "detail_editor"'
-                                            v-bind:id='args.name + "_canvas_" + (design_mode?"_design_mode":"")'
+                                            v-bind:id='control_properties_and_events.name + "_canvas_" + (design_mode?"_design_mode":"")'
                                             v-bind:refresh='refresh'
                                             style="border: solid black 5px;margin-bottom: 10px;"
                                             v-on:mousemove='if (mousedown) {drawNow($event)}'
                                             v-on:mousedown='mousedown=true'
                                             v-on:mouseup='mousedown=false'
-                                            v-bind:height='args.height + "px"'
-                                            v-bind:width='args.width + "px"'
+                                            v-bind:height='control_properties_and_events.height + "px"'
+                                            v-bind:width='control_properties_and_events.width + "px"'
                                              >
                                     </canvas>
 
@@ -95,7 +95,7 @@ logo_url("/driver_icons/draw.png")
 
                                         <div    v-for="color in colors"
                                                 v-if='design_mode == "detail_editor"'
-                                                v-on:click='args.draw_color = color;'
+                                                v-on:click='control_properties_and_events.draw_color = color;'
                                                 v-bind:style="'display: inline-block;width:15px;height:15px;background-color: ' + color">
                                         </div>
                                     </div>
@@ -104,18 +104,18 @@ logo_url("/driver_icons/draw.png")
 
                                         <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]"
                                                 v-if='design_mode == "detail_editor"'
-                                                v-on:click='args.brush_width = brush_size;'
+                                                v-on:click='control_properties_and_events.brush_width = brush_size;'
                                                 v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
-                                                              'px;background-color: ' + args.draw_color + ';border: black solid 1px ;margin-right: 2px;'">
+                                                              'px;background-color: ' + control_properties_and_events.draw_color + ';border: black solid 1px ;margin-right: 2px;'">
                                         </div>
                                     </div>
 
 
                                     <img      v-if='design_mode != "detail_editor"'
-                                              v-bind:width='args.width + "px"'
+                                              v-bind:width='control_properties_and_events.width + "px"'
                                               v-bind:refresh='refresh'
                                               alt='No image set'
-                                              v-bind:src='"" + args.image_data' />
+                                              v-bind:src='"" + control_properties_and_events.image_data' />
 
 
                                     
@@ -134,8 +134,8 @@ logo_url("/driver_icons/draw.png")
       watch: {
         // This would be called anytime the value of the input changes
         refresh: function(newValue, oldValue) {
-            //console.log("refresh: " + this.args.text)
-            if (isValidObject(this.args)) {
+            //console.log("refresh: " + this.control_properties_and_events.text)
+            if (isValidObject(this.control_properties_and_events)) {
             }
             this.loadImageToCanvas()
         }
@@ -154,18 +154,18 @@ logo_url("/driver_icons/draw.png")
 
           drawNow: function(event) {
           var mm= this
-          var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
+          var el = document.getElementById(mm.control_properties_and_events.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
               if (isValidObject(el)) {
                var rect = el.getBoundingClientRect()
                var left = (event.clientX - rect.left ) - 8
                var right = (event.clientY - rect.top) - 8
 
                var ctx = el.getContext("2d");
-               ctx.strokeStyle = mm.args.draw_color;
-               ctx.fillStyle = mm.args.draw_color;
-               ctx.fillRect(left,right,  mm.args.brush_width,  mm.args.brush_width)
+               ctx.strokeStyle = mm.control_properties_and_events.draw_color;
+               ctx.fillStyle = mm.control_properties_and_events.draw_color;
+               ctx.fillRect(left,right,  mm.control_properties_and_events.brush_width,  mm.control_properties_and_events.brush_width)
 
-               this.args.image_data = el.toDataURL()
+               this.control_properties_and_events.image_data = el.toDataURL()
             }
           }
           ,
@@ -177,10 +177,10 @@ logo_url("/driver_icons/draw.png")
           loadImageToCanvas: function() {
               var mm = this
               var base_image = new Image();
-              //alert(this.args.image_data)
-              base_image.src = this.args.image_data;
+              //alert(this.control_properties_and_events.image_data)
+              base_image.src = this.control_properties_and_events.image_data;
               base_image.onload = function() {
-                var el = document.getElementById(mm.args.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
+                var el = document.getElementById(mm.control_properties_and_events.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
                 if (isValidObject(el)) {
                     //alert(el)
                     var ctx = el.getContext("2d");
