@@ -9946,6 +9946,20 @@
                         props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ],
                         mounted:    async function() {
                             let mm = this
+                            if (Vue.version.startsWith("2")) {
+                                mm.GLOBALS          = GLOBALS
+                                mm.isValidObject    = isValidObject
+                                mm.yz               = yz
+                                mm.showProgressBar  = showProgressBar
+                                mm.hideProgressBar  = hideProgressBar
+                            } else if (Vue.version.startsWith("3")) {
+                                mm.GLOBALS          = Vue.inject('GLOBALS')
+                                mm.isValidObject    = Vue.inject('isValidObject')
+                                mm.yz               = Vue.inject('yz')
+                                mm.showProgressBar  = Vue.inject('showProgressBar')
+                                mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                            }
+
 
                             globalEventBus.on('hide_settings',
                                 async function() {
@@ -9957,12 +9971,11 @@
                                 });
                         },
                         methods:    {
-                            click_card: async function(id) {
+                            click_card:                     async function(  id  ) {
                                 yz.mainVars.autoScroll = false;
                                 await select_card(id)
-                            }
-                            ,
-                            updateComments: async function() {
+                            },
+                            updateComments:                 async function(  ) {
                                 let mm                           = this
                                 let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
                                     location.port + "/http_post_load_comments_for_component" + "/" +
@@ -9984,9 +9997,8 @@
                                         if (resp.status == "ok")
                                             mm.comments = resp.level_2_comments_and_ratings
                                     })
-                            }
-                            ,
-                            submitComment: async function() {
+                            },
+                            submitComment:                  async function(  ) {
                                 let mm                           = this
 
                                 mm.submit_error_message = ""
@@ -10028,9 +10040,8 @@
                                         }
                                     })
 
-                            }
-                            ,
-                            openInfo: async function(useTab) {
+                            },
+                            openInfo:                       async function(  useTab  ) {
                                 //debugger
                                 let mm = this
                                 if (mm.tab == useTab) {
@@ -10041,9 +10052,8 @@
                                     mm.show_page_info = true
                                     await mm.updateComments()
                                 }
-                            }
-                            ,
-                            logInWithMetamask: async function() {
+                            },
+                            logInWithMetamask:              async function(  ) {
                                 let mm = this
                                 //debugger
                                 if (window.ethereum) {
@@ -10106,9 +10116,8 @@
 
                                     },100)
                                 }
-                            }
-                            ,
-                            signTransactionV2: async function(test_transaction_text) {
+                            },
+                            signTransactionV2:              async function(  test_transaction_text  ) {
                                 let currentETHACC = (await web3.eth.getAccounts())[0]
                                 let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
                                     await ethereum.request({
@@ -10122,9 +10131,8 @@
                                         ],
                                     });
                                 return signedTx
-                            }
-                            ,
-                            signMetamaskLoginTransaction: async function() {
+                            },
+                            signMetamaskLoginTransaction:   async function(  ) {
                                 let mm                          = this
                                 let test_transaction_text_el    = document.getElementById("test_transaction_text")
                                 let test_transaction_text       = test_transaction_text_el.value
