@@ -492,7 +492,7 @@ ___________
 
 
 
-                    <button   v-bind:disabled='read_only?"":false'
+                    <button   v-bind:disabled='read_only?"":"false"'
                               v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
@@ -523,14 +523,14 @@ ___________
                         Saved
                     </span>
                     <div    v-if="!read_only && (save_state == 'saved') && (!hideImportButtons)"
-                            v-bind:disabled='read_only?"":false'
+                            v-bind:disabled='read_only?"":"false"'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
                         {{saveCodeToFile?"Save":"App preview up to date"}}
                     </div>
 
                     <div    v-if="!read_only && (save_state == 'saving')"
-                            v-bind:disabled='read_only?"":false'
+                            v-bind:disabled='read_only?"":"false"'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
                         saving ...
@@ -625,13 +625,13 @@ ___________
                     v-if="(preview_type=='app')"
                     v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
                     v-on:mouseleave='setInfo(null)'
-                    v-bind:disabled='sqlite_data_saved_in_html?false:""'
+                    v-bind:disabled='sqlite_data_saved_in_html?"false":""'
                     type="button"
                     class="btn btn-light"
                     >
                     <img  
                         src="/driver_icons/html.png"
-                        v-bind:disabled='sqlite_data_saved_in_html?false:""'
+                        v-bind:disabled='sqlite_data_saved_in_html?"false":""'
                         style="height: 25px;; margin: 0px;"
                         class='img-fluid'
                          />
