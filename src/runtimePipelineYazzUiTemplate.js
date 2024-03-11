@@ -317,14 +317,13 @@
                                     v-bind:refresh='refresh'
                                     design_mode='detail_editor'
     
-                                    v-bind:meta='{form: active_form,name: model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"") ,getEditor: getEditor , lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                    v-bind:meta='{form: active_form,name: model.forms[active_form].components[active_component_detail_index].name + (design_mode?"_design":"") ,getEditor: getEditor , lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm, children: getChildren( model.forms[active_form].components[active_component_detail_index].name)}'
                                     v-bind:sql='sqlQuery'
                                     v-bind:app_helper_fns='{}'
                                     v-bind:form_helper_fns='form_helper_fns'
                                     v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: model.forms[active_form].components[active_component_detail_index].name,sub_type: a.display,code: a.code, args: a.args})})'
     
                                     v-bind:form="active_form"
-                                    v-bind:children='getChildren( model.forms[active_form].components[active_component_detail_index].name)'
                                     
                                     v-bind:is='model.forms[active_form].components[active_component_detail_index].code_id?model.forms[active_form].components[active_component_detail_index].code_id:GLOBALS.baseComponentIdReturnsCommitId[model.forms[active_form].components[active_component_detail_index].base_component_id]'
                                     v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
@@ -1815,14 +1814,13 @@
                                          v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;":"display:none;"'>
                                         <component  v-bind:id='formName + "_" + model.forms[formName].components[index].name + (design_mode?"_design":"")'
                                                     v-bind:refresh='refresh'
-                                                    v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm}'
+                                                    v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm, children: getChildren(item.name)}'
                                                     v-bind:sql='sqlQuery'
                                                     v-bind:app_helper_fns='{}'
                                                     v-bind:form_helper_fns='form_helper_fns'
                                                     v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: item.name,sub_type: a.display,code: a.code, args: a.args})})'
                                                     v-bind:form="formName"
                                                     v-bind:design_mode='design_mode'
-                                                    v-bind:children='getChildren(item.name)'
                                                     
                                                     v-bind:is='item.code_id?item.code_id:GLOBALS.baseComponentIdReturnsCommitId[item.base_component_id]'
                                                     v-if='!item.parent && model.forms[formName].components[index]'

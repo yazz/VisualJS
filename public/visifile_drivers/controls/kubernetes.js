@@ -169,7 +169,7 @@ logo_url("/driver_icons/kubernetes.png")
 
     Yazz.component({
 
-        props: ["meta", "args","design_mode","refresh", "children"]
+        props: ["meta", "args","design_mode","refresh"]
 
         ,
 

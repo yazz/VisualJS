@@ -377,7 +377,7 @@ logo_url("/driver_icons/mixer.png")
 */
 
     Yazz.component({
-      props: ["meta","name","properties","args","refresh","design_mode", "children", "properties",  "runEvent"]
+      props: ["meta","name","properties","args","refresh","design_mode", "properties",  "runEvent"]
       ,
       template:
 `<div   v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
@@ -449,7 +449,7 @@ logo_url("/driver_icons/mixer.png")
                       </option>
                 </select>
 
-                <div v-if='children && children[0]'>
+                <div v-if='meta.children && meta.children[0]'>
 
 
                     <button     class="btn btn-primary"
@@ -731,7 +731,7 @@ logo_url("/driver_icons/mixer.png")
              v-if='design_mode == false'>
 
 
-             <div    v-if='children && children[0]'
+             <div    v-if='meta.children && meta.children[0]'
                      v-bind:refresh='refresh'
                      hidden>
 

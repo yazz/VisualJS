@@ -59,7 +59,7 @@ logo_url("/driver_icons/group_control.png")
 */
 
     Yazz.component({
-        props:      [  "control_properties_and_events"  ,  "design_mode"  ,  "refresh"  ,  "children"  ,  "form_helper_fns"  ],
+        props:      [  "meta"  ,  "control_properties_and_events"  ,  "design_mode"  ,  "refresh"  ,  "form_helper_fns"  ],
         template:   `
 <div v-bind:style='"width:100%;overflow-y:auto;height:100%"'>
     <div    v-bind:style='"width:100%;height:40vh;overflow-y:auto;"'
@@ -69,7 +69,7 @@ logo_url("/driver_icons/group_control.png")
 
         <div    v-bind:style='"border:1px solid gray; padding: 10px;"'
                 v-bind:refresh='refresh'
-                v-for='(child_item,index)  in  children'>
+                v-for='(child_item,index)  in  meta.children'>
             <div v-if='child_item' v-bind:refresh='refresh'>
                 <div v-if='child_item' v-bind:refresh='refresh'>{{child_item.name}}</div>
                 <div     class='btn btn-danger'
