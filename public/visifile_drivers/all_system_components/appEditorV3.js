@@ -620,7 +620,7 @@ ___________
               "Save As HTML" button
               ---------------------------------------------- -->
                 <a        
-                    v-on:click='if ((preview_type=="app") && (!sqlite_data_saved_in_html)) {sqlite_data_saved_in_html = true;setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null,{allowAppToWorkOffline: true});setTimeout(function(){document.getElementById("saveHTMLButton").click();sqlite_data_saved_in_html = false;},700)},100);} '
+                    v-on:click='downloadHtmlPressed()'
                     v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (sqlite_data_saved_in_html?'opacity:0.2;':'') "
                     v-if="(preview_type=='app')"
                     v-on:mouseenter='setInfo("Download this app as a standalone HTML file")'
@@ -1020,6 +1020,20 @@ ___________
        },
         methods:            {
             // editor actions
+            downloadHtmlPressed:            async function  (  ) {
+                let mm = this
+                if ((mm.preview_type=="app") && (!mm.sqlite_data_saved_in_html)) {
+                    mm.sqlite_data_saved_in_html = true;
+                    setTimeout(async function(){
+                        appClearIntervals();
+                        await mm.save(mm.base_component_id, mm.code_id,null,{allowAppToWorkOffline: true});
+                        setTimeout(function(){
+                            document.getElementById("saveHTMLButton").click();
+                            mm.sqlite_data_saved_in_html = false;
+                        },700)
+                    },100);
+                }
+            },
             closeSubEditor:                 async function  (  ) {
                // ---------------------------------------------------------------
                //                         closeSubEditor
