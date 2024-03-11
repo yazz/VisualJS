@@ -74,7 +74,7 @@ logo_url("/driver_icons/openshift.png")
 
     Yazz.component({
 
-        props: ["meta", "args","design_mode","refresh", "children"]
+        props: ["meta", "args","design_mode","refresh"]
 
         ,
 
@@ -85,7 +85,7 @@ logo_url("/driver_icons/openshift.png")
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
-    <div v-if="design_mode && (children.length == 0)" style="margin: 10px;">
+    <div v-if="design_mode && (meta.children.length == 0)" style="margin: 10px;">
         <img src="/driver_icons/openshift.png" width=100px></src>
         <h3 class="text-center" >Red Hat OpenShift connector</h3>
         The Red Hat Openshift Connector can be used to query Openshift

@@ -176,7 +176,7 @@ logo_url("/driver_icons/rhdm.png")
 
     Yazz.component({
 
-        props: ["meta", "args","properties","design_mode","refresh", "children"]
+        props: ["meta", "args","properties","design_mode","refresh"]
 
         ,
 

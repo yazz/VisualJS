@@ -60,7 +60,7 @@ logo_url("/driver_icons/terminal.png")
 
     Yazz.component({
 
-        props: ["meta", "args","design_mode","refresh", "children"]
+        props: ["meta", "args","design_mode","refresh"]
 
         ,
 
@@ -71,7 +71,7 @@ logo_url("/driver_icons/terminal.png")
 `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
     "background-color: "+    args["background_color"]  +  ";"'>
 
-    <div v-if="design_mode && (children.length == 0)">
+    <div v-if="design_mode && (meta.children.length == 0)">
         {{args.text}}
     </div>
 
