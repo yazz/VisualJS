@@ -505,7 +505,7 @@ use_db("todo")
 
 
                       </div>
-                    <hr></hr>
+                    <hr/>
                  </div>`,
         props:      [  "editor_fns"  ],
         mounted:    async function() {

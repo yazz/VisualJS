@@ -63,7 +63,7 @@ load_once_from_file(true)
                                     v-if="errors != null">Line {{errors.lineNumber}}: {{errors.description}}</pre>
     
                         </div>
-                        <hr></hr>
+                        <hr/>
                      </div>`,
             props:      [  "editor_fns"  ],
             mounted:    function() {
