@@ -205,7 +205,7 @@ logo_url("/driver_icons/threedee_item.png")
 */
 
     Yazz.component({
-        props:            [  "args"  ,  "design_mode", "refresh", "children", "runEvent"  ,  "form_helper_fns"  ],
+        props:            [  "args"  ,  "design_mode", "refresh",  "runEvent"  ,  "form_helper_fns"  ],
         template:         `
 <div   v-bind:style='"width:100%;overflow-y:auto;height:100%"'
         v-bind:refresh='refresh'>
@@ -219,7 +219,7 @@ logo_url("/driver_icons/threedee_item.png")
         <div    v-bind:style='"border:1px solid gray; padding: 10px;display:flex;" + ((selected_index==index)?"background-color: lightgray;":"")'
                 v-bind:refresh='refresh'
                 v-on:click='select_design_time_component(child_item.index_in_parent_array)'
-                v-for='(child_item,index)  in  children'>
+                v-for='(child_item,index)  in  meta.children'>
 
             <div    v-if='child_item'
                     v-bind:refresh='refresh'>
@@ -251,7 +251,7 @@ logo_url("/driver_icons/threedee_item.png")
             v-bind:refresh='refresh'
             v-if='design_mode == true'>
 
-        3D Scene - {{children.length}} items
+        3D Scene - {{meta.children.length}} items
 
     </div>
 

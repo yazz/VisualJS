@@ -348,7 +348,7 @@ logo_url("/driver_icons/data_control.png")
 */
 
     Yazz.component({
-        props:                  [ "meta" , "name"  , "control_properties_and_events" , "refresh" , "design_mode" , "children" ,  "runEvent" ],
+        props:                  [ "meta" , "name"  , "control_properties_and_events" , "refresh" , "design_mode"  ,  "runEvent" ],
         template:               ` 
 <!-- ----------------------------------------------------------------
 |                                    |
@@ -480,7 +480,7 @@ logo_url("/driver_icons/data_control.png")
                       </option>
                 </select>
 
-                <div    v-if='children && children[0]' 
+                <div    v-if='meta.children && meta.children[0]' 
                         style="width:100%; height:100%;">
 
                     <button     class="btn btn-primary"
@@ -834,7 +834,7 @@ logo_url("/driver_icons/data_control.png")
              v-if='design_mode == false'>
 
 
-             <div    v-if='children && children[0]'
+             <div    v-if='meta.children && meta.children[0]'
                      v-bind:refresh='refresh'
                      hidden>
 
