@@ -9420,7 +9420,7 @@
         </script> <!-- jsDelivr -->
         <script>
             //External Public JS Library load code fns
-            async function  useVisJs                            (   ) {
+            async function  useVisJs                            (  ) {
                 if (!yz.mainVars.visJsloaded) {
                     //debugger
                     let loadVisJsScript = document.createElement('script');
@@ -9435,7 +9435,7 @@
                     };
                 }
             }
-            async function  useIpfsServerInBrowser              (   ) {
+            async function  useIpfsServerInBrowser              (  ) {
                 if (!yz.mainVars.ipfsServerloaded) {
                     let promise = new Promise(async function(returnfn) {
                         //debugger
@@ -9456,7 +9456,7 @@
                     return ret
                 }
             }
-            async function  useVisCss                           (   ) {
+            async function  useVisCss                           (  ) {
                 if (!yz.mainVars.visCssloaded) {
                     //debugger
                     let loadVisCssScript = document.createElement('script');
@@ -9471,7 +9471,7 @@
                     };
                 }
             }
-            async function  useWeb3                             (   ) {
+            async function  useWeb3                             (  ) {
                 if (!yz.mainVars.web3loaded) {
                     let loadWeb3LibScript = document.createElement('script');
                     loadWeb3LibScript.src = "/js_libs/web3.min.js";
@@ -9494,7 +9494,7 @@
                     };
                 }
             }
-            async function  useIdeTools                         (   ) {
+            async function  useIdeTools                         (  ) {
                 if (!yz.mainVars.ideToolsloaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
@@ -9512,7 +9512,7 @@
                     let ret = await promise
                 }
             }
-            async function  useDiffJs                           (   ) {
+            async function  useDiffJs                           (  ) {
                 if (!yz.mainVars.diffJsloaded) {
                     let promise = new Promise(returnfn => {
                         let loadDiffJsScript = document.createElement('script');
@@ -9529,7 +9529,7 @@
                     let ret = await promise
                 }
             }
-            async function  useChartsJs                         (   ) {
+            async function  useChartsJs                         (  ) {
 
                 if (!yz.mainVars.chartsJsloaded) {
                     //debugger
@@ -9557,7 +9557,7 @@
 
                 }
             }
-            async function  useEstraverse                       (   ) {
+            async function  useEstraverse                       (  ) {
 
                 if (!yz.mainVars.estraverseloaded) {
                     //debugger
@@ -9581,7 +9581,7 @@
 
                 }
             }
-            async function  useEsCodeGen                        (   ) {
+            async function  useEsCodeGen                        (  ) {
                 if (!yz.mainVars.esCodeGenLoaded) {
                     //debugger
                     let promise = new Promise(returnfn => {
@@ -9604,7 +9604,7 @@
 
                 }
             }
-            async function  useTabulatorJs                      (   ) {
+            async function  useTabulatorJs                      (  ) {
                 return
 
                 if (!yz.mainVars.tabulatorJsLoaded) {
@@ -9635,7 +9635,7 @@
             }
 
             // blockchain helpers
-            async function  filterBlockchainParams              (   blockchainDetails   ) {
+            async function  filterBlockchainParams              (  blockchainDetails  ) {
                 return {
                     chainId: blockchainDetails.chainId,
                     chainName: blockchainDetails.chainName,
@@ -9644,7 +9644,7 @@
                     nativeCurrency: blockchainDetails.nativeCurrency
                 }
             }
-            async function  switchBlockchainNetwork             (   blockchainId   ) {
+            async function  switchBlockchainNetwork             (  blockchainId  ) {
 
                 const provider = window.ethereum;
                 if(!provider){
@@ -9686,7 +9686,7 @@
             }
 
             // Yazz system fns
-            async function  onPageInitialized                   (   doCode   ) {
+            async function  onPageInitialized                   (  doCode  ) {
                 yz.mainVars.executeOnPageLoad = doCode
                 if (yz.mainVars.pageInitialised) {
                     await yz.mainVars.executeOnPageLoad()
@@ -9716,11 +9716,11 @@
                     );
                 }
             }
-            async function  addToIpfs                           (   sometext   ) {
+            async function  addToIpfs                           (  sometext  ) {
                 let ret = await yz.mainVars.ipfs.add(sometext)
                 return ret
             }
-            async function  getYazzContentHash                         (   sometext   ) {
+            async function  getYazzContentHash                  (  sometext  ) {
                 let hashingAlgorithm = "IPFS"
                 let overrideHashingAlgorithm = yz.helpers.getValueOfCodeString(sometext, "hash_algorithm")
                 if (overrideHashingAlgorithm) {
@@ -9751,7 +9751,7 @@
                     }
                 }
             }
-            async function sha256                               (message) {
+            async function  sha256                              (  message  ) {
                 // encode as UTF-8
                 const msgBuffer = new TextEncoder('utf-8').encode(message);
 
@@ -9766,7 +9766,7 @@
                 console.log(hashHex);
                 return hashHex;
             }
-            async function  registerComponent                   (   vueComponentObject   ) {
+            async function  registerComponent                   (  vueComponentObject  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -9905,11 +9905,11 @@
                     }
                 }
             }
-            async function  unregisterComponent                 (   componentName   ) {
+            async function  unregisterComponent                 (  componentName  ) {
                 yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
                 yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
             }
-            async function  initSystem                          (   ) {
+            async function  initSystem                          (  ) {
                 if (GLOBALS.isStaticHtmlPageApp) {
                     useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
                     usePort = /*static_port_start*/ -1/*static_port_end*/
@@ -9923,7 +9923,7 @@
                 }
                 //alert(useHostname + ":" +  usePort)
             }
-            async function  initYazzApplication                 (   ) {
+            async function  initYazzApplication                 (  ) {
                 //----------------------------------------------------------------------------------
                 //
                 //                    /-------------------------------------/
@@ -10542,10 +10542,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 },100)
             };
-            async function  populateStaticCodeCache             (   ) {
+            async function  populateStaticCodeCache             (  ) {
                 //***ADD_STATIC_CODE
             }
-            async function  sendToServerViaWebSocket            (   msg   ) {
+            async function  sendToServerViaWebSocket            (  msg  ) {
                 let isThisAppOnline = true
                 if (localAppshareApp) {
                     isThisAppOnline = false
@@ -10558,7 +10558,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
                 //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
             }
-            function        setupWebSocket                      (   host   ,   port   ) {
+            function        setupWebSocket                      (  host  ,  port  ) {
 
                 //console.log('opening web socketio');
                 socket = io();
@@ -10680,7 +10680,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 });
 
             }
-            async function  findComponentsImplementing          (   listOfProperties   ){
+            async function  findComponentsImplementing          (  listOfProperties  ){
                 //aaa
                 let results = await callComponent(
                     {
@@ -10691,13 +10691,13 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     })
                 return results
             }
-            async function  runn                                (   ) {
+            async function  runn                                (  ) {
                 fullCode(thecode)
             }
-            function        getYazzCookie                       (   ) {
+            function        getYazzCookie                       (  ) {
                 return getCookie("yazz")
             }
-            async function  callComponent                       (   componentSearchDetails   ,  fnCallArgs   ) {
+            async function  callComponent                       (  componentSearchDetails  ,  fnCallArgs  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -10741,7 +10741,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 return ret
             }
-            async function  enhanceCodeWithPipeline             (   args   ) {
+            async function  enhanceCodeWithPipeline             (  args   ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -10797,7 +10797,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
                 return trcode2;
             }
-            async function  universalSaveStaticUIControl        (   { sha1sum , unescapedCode , baseComponentId , loadMethod }   ) {
+            async function  universalSaveStaticUIControl        (  {  sha1sum  ,  unescapedCode  ,  baseComponentId  ,  loadMethod  }  ) {
                 GLOBALS.cacheThisComponentCode(
                     {
                         codeId:             sha1sum,
@@ -10872,7 +10872,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 }
             }
-            async function  createAlaSqlTable                   (  {tableName , fields}  ) {
+            async function  createAlaSqlTable                   (  {  tableName  ,  fields  }  ) {
                 let alaSqlCreateString = "create table " + tableName + "("
 
                 let alaSqlInsertString = "insert into level_9_tables (table_name) values (?)"
@@ -10894,11 +10894,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
             // app helpers
-            function        appSetInterval                      (   fnn   ,   interval   ) {
+            function        appSetInterval                      (  fnn  ,  interval  ) {
                 var xx = setInterval(fnn,interval)
                 appIntervalTimers.push(xx)
             }
-            function        appClearIntervals                   (   ) {
+            function        appClearIntervals                   (  ) {
                 for(var i = 0; i < appIntervalTimers.length; i++){
                     clearInterval(appIntervalTimers[i]);
                 }
@@ -10930,7 +10930,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
 
             // Embedded Sqlite helpers
-            function        localSql                            (   sql   ,  params   ) {
+            function        localSql                            (  sql  ,  params  ) {
                 if (!window.SQL) {
                     console.log("Local SQLite only works for static Creator apps")
                 } else {
@@ -10956,7 +10956,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return resOut
                 }
             }
-            async function  sqliteQuery                         (   sql   ) {
+            async function  sqliteQuery                         (  sql  ) {
                 let results = await callComponent(
                     {
                         base_component_id:    "readFromInternalSqliteDatabase"
@@ -10967,7 +10967,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     })
                 return results
             }
-            async function  sqlRx                               (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+            async function  sqlRx                               (  code_id  ,  base_component_id  ,  sqlcode  ,  params  ) {
                 if (localAppshareApp) {
                     let results = localSql(sqlcode,params)
                     return results
@@ -10988,7 +10988,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return results
                 }
             }
-            async function  sqlRx1                              (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+            async function  sqlRx1                              (  code_id  ,  base_component_id  ,  sqlcode  ,  params  ) {
                 let x = await sqlRx(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
                     return x[0]
@@ -10996,7 +10996,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return null
                 }
             }
-            async function  sqlRxFirstCol                       (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+            async function  sqlRxFirstCol                       (  code_id  ,  base_component_id  ,  sqlcode  ,  params  ) {
                 let x = await sqlRx(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
                     let colName = Object.keys(x[0])[0]
@@ -11009,7 +11009,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return []
                 }
             }
-            async function  sqlRxFirstCol1                      (   code_id   ,   base_component_id   ,   sqlcode   ,   params   ) {
+            async function  sqlRxFirstCol1                      (  code_id  ,  base_component_id  ,  sqlcode  ,  params  ) {
                 let x = await sqlRxFirstCol(code_id,base_component_id,sqlcode, params)
                 if (x && (x.length > 0)) {
                     return x[0]
@@ -11020,7 +11020,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
             // Load app into UI fns
-            async function  prepareApp                          (   id   ,  bbase_component_id   ,  args  ) {
+            async function  prepareApp                          (  id  ,  bbase_component_id  ,  args  ) {
                 base_component_id_of_loaded_app = bbase_component_id
 
                 let rootElement = "app_" + id
@@ -11071,7 +11071,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 }
             }
-            async function  select_card                         (   id   ) {
+            async function  select_card                         (  id  ) {
                 if (mainVueAppVm.selected_card == id) {
                     return;
                 }
@@ -11119,23 +11119,23 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
 
             // Simple web UI helpers
-            function        onscrolled                          (   ) {
+            function        onscrolled                          (  ) {
                 if (yz.mainVars.mousedown) {
                     yz.mainVars.autoScroll = false;
                 }
             };
-            function        onemousedown                        (   ) {
+            function        onemousedown                        (  ) {
                 //console.log("onmousedown")
                 yz.mainVars.mousedown = true
             };
-            function        onemouseup                          (   ) {
+            function        onemouseup                          (  ) {
                 //console.log("onmouseup")
                 yz.mainVars.mousedown = false
             };
-            function        refresh                             (   ) {
+            function        refresh                             (  ) {
                 mainVueAppVm.count += 1;
             }
-            function        getPosition                         (   el   ) {
+            function        getPosition                         (  el  ) {
                 let xPos = 0;
                 let yPos = 0;
 
@@ -11163,13 +11163,13 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
             //debug helpers
-            function        trace                               (   ) {
+            function        trace                               (  ) {
                 // this is a server side call but for some reason it gets evaluated
                 // when open a microservice which contains the "trace" function (Which
                 // is used for Jaeger OpenTracing)
 
             }
-            function        fillInMissingWatchTimelineValues    (   vName   ,   executionStepNo   ) {
+            function        fillInMissingWatchTimelineValues    (  vName  ,  executionStepNo  ) {
                 if (!globalWatchList[vName]) {
                     globalWatchList[vName] = {
                         viewer: ""
@@ -11191,7 +11191,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
                 fillInMissingWatchTimelineValues(vName, executionStepNo + 1)
             }
-            function        addWatchPoint                       (   vName   ,   value   ) {
+            function        addWatchPoint                       (  vName  ,  value  ) {
                 globalWatchList[vName][currentTimelineLogPoint] = {}
                 globalWatchList[vName][currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
                 globalWatchList[vName][currentTimelineLogPoint].isSet = true
@@ -11209,7 +11209,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 }
             }
-            function        logExecutionPoint                   (   codeBlockName   ,   line   ,   node   ) {
+            function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  ) {
                 //console.log("logExecutionPoint(" + codeBlockName + "," + line)
 
                 if (executionCode[codeBlockName]) {
@@ -11226,7 +11226,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     executionTimelineMapTimeToLine[recor.time] = recor
                 }
             }
-            function        getDebugCode                        (   blockName   ,   trcode2   ,   args   ) {
+            function        getDebugCode                        (  blockName  ,  trcode2  ,  args  ) {
 
                 let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
                 let line = -1
@@ -11453,7 +11453,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
 
             //simple helpers
-            function        compareValues                       (   a   ,   b   ) {
+            function        compareValues                       (  a  ,  b  ) {
 
                 //if a and b aren't the same type, they can't be equal
                 if (typeof a !== typeof b) {
@@ -11485,7 +11485,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return a === b;
                 }
             }
-            async function  saveDebugTextOnServer               (   textInput   ,   fileLocation   ) {
+            async function  saveDebugTextOnServer               (  textInput  ,  fileLocation  ) {
                 /*
                 ________________________________________
                 |                                      |
@@ -11510,12 +11510,12 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     })
 
             }
-            function        resetTimer                          (   messageToStart   ) {
+            function        resetTimer                          (  messageToStart  ) {
                 console.log("Starting timer for: " + messageToStart)
                 globalStartTimer = new Date().getTime()
                 globalTimerCounter = 0
             }
-            function        showTimer                           (   optionalMessage   ) {
+            function        showTimer                           (  optionalMessage  ) {
                 globalEndTimer = new Date().getTime()
                 globalTimerCounter ++
                 let theTimerText = optionalMessage
@@ -11524,7 +11524,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
                 console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
             }
-            function        getUrlParam                         (   paramName   ) {
+            function        getUrlParam                         (  paramName  ) {
 
                 var pairs = document.URL.split('?')
                     .pop()
@@ -11539,7 +11539,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 return null;
             }
-            function        msToTime                            (   duration   ,   options  ) {
+            function        msToTime                            (  duration  ,  options  ) {
                 if (!duration) {
                     return ""
                 }
@@ -11578,10 +11578,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 return ret
             }
-            function        capitalizeFirstLetter               (   string   ) {
+            function        capitalizeFirstLetter               (  string  ) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
-            function        timeDiffLater                       (   time1   ,   time2   ) {
+            function        timeDiffLater                       (  time1  ,  time2  ) {
                 //debugger
                 if (!time1) {
                     return ""
@@ -11623,7 +11623,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 return ret
             }
-            async function  getFromYazzReturnJson               (   urlToget   ,   urlParams   ) {
+            async function  getFromYazzReturnJson               (  urlToget  ,  urlParams  ) {
                 let urlParamsWithoutNulls = {}
                 for (let paramItemKey of Object.keys(urlParams)) {
                     if (isValidObject(urlParams[paramItemKey])) {
@@ -11650,7 +11650,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 retval = await promise
                 return retval
             }
-            async function  postToYazzReturnJson                (   urlToget   ,   postParams   ) {
+            async function  postToYazzReturnJson                (  urlToget  ,  postParams  ) {
                 let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget
 
                 let promise = new Promise(async function (returnfn) {
@@ -11676,12 +11676,12 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 retval = await promise
                 return retval
             }
-            function        getCookie                           (   name   ) {
+            function        getCookie                           (  name  ) {
                 const value = `; ${document.cookie}`;
                 const parts = value.split(`; ${name}=`);
                 if (parts.length === 2) return parts.pop().split(';').shift();
             }
-            function        callAjax                            (   url   ,   callback   ){
+            function        callAjax                            (  url  ,  callback  ){
                 var xmlhttp;
                 // compatible with IE7+, Firefox, Chrome, Opera, Safari
                 xmlhttp = new XMLHttpRequest();
@@ -11693,7 +11693,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             }
-            function        callAjax2                           (   url   ,   options   ,   callback   ){
+            function        callAjax2                           (  url  ,  options  ,  callback  ){
                 var xmlhttp;
                 //debugger
                 if (options && options.params) {
@@ -11719,7 +11719,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 xmlhttp.open("GET", url, true);
                 xmlhttp.send();
             }
-            function        callAjaxPost                        (   url   ,   value   ,   callback   ){
+            function        callAjaxPost                        (  url  ,  value  ,  callback  ){
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function(){
 
@@ -11735,14 +11735,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 })
                 xhr.send(payload);
             }
-            function        uuidv4                              (   ) {
+            function        uuidv4                              (  ) {
                 return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
                     return v.toString(16);
                 });
             }
 
-            async function  scriptTag                           (   src   ,   callback   ) {
+            async function  scriptTag                           (  src  ,  callback  ) {
 
                 var s = document.createElement('script');
                 s.type = 'text/' + (src.type || 'javascript');
@@ -11762,7 +11762,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 // use body if available. more safe in IE
                 (document.body || head).appendChild(s);
             }
-            function        logVarBefore                        (   codeBlockName   ,   line   ,   varName   ,   varValue   ) {
+            function        logVarBefore                        (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
                 if (executionCode[codeBlockName]) {
 
                     if (executionTimeline[currentTimelineLogPoint]) {
@@ -11776,7 +11776,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
             }
-            function        logVarAfter                         (   codeBlockName   ,   line   ,   varName   ,   varValue   ) {
+            function        logVarAfter                         (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
                 if (executionCode[codeBlockName]) {
 
                     if (executionTimeline[currentTimelineLogPoint]) {
@@ -11787,7 +11787,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 }
             }
-            function        base64ToUint8Array                  (   string   ) {
+            function        base64ToUint8Array                  (  string  ) {
                 let raw = atob(string);
                 let rawLength = raw.length;
                 let array = new Uint8Array(new ArrayBuffer(rawLength));
@@ -11798,7 +11798,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
 
             //login helpers
-            function        loadKeycloak                        (   keycloakJson   ) {
+            function        loadKeycloak                        (  keycloakJson  ) {
                 /*
             loadKeycloak(
             {
@@ -11850,7 +11850,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 script.src = keycloakJson["auth-server-url"] + "/js/keycloak.js";
                 document.head.appendChild(script);
             }
-            function        logoutKeycloak                      (   ) {
+            function        logoutKeycloak                      (  ) {
                 if (keycloak) {
                     keycloakJsonInUse = null
                     keycloak.logout()
