@@ -5990,6 +5990,7 @@ return {}
                 // This is called whenever an app is loaded, either at design
                 // time or at runtime
 
+
                 let mm = this
                 if (Vue.version.startsWith("2")) {
                     mm.GLOBALS          = GLOBALS
@@ -6003,6 +6004,9 @@ return {}
                     mm.yz               = Vue.inject('yz')
                     mm.showProgressBar  = Vue.inject('showProgressBar')
                     mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                }
+                if (!mm.design_mode) {
+                    debugger
                 }
 
 

@@ -3680,6 +3680,8 @@ async function  copyAppshareApp                         (  args  ) {
             code = yz.helpers.insertCodeString(code, "updated_timestamp", timeNow)
 
 
+            //DELETE START
+            // I think this can be deleted as it can never be used!!!! since we use Yazz.component!
             //hack city - Vue and component strings are separated as otherwise they mark the
             // code as UI code
             var vueIndex = code.indexOf("Vue" + ".component")
@@ -3689,6 +3691,7 @@ async function  copyAppshareApp                         (  args  ) {
                     code = code.substring(0, vueIndex + 14) + "'" + newBaseid + "'" + code.substring(vueIndex + vueIndexEnd)
                 }
             }
+            //DELETE END
 
             //console.log("    newDisplayName:      " + newDisplayName)
 
