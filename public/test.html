@@ -60,19 +60,16 @@
                                         <div style="margin-top: 70px;">
                                             <br>
                                                 I am a component 5...
-                                        </div>`,
-                                    mounted:    function() {
-                                        vueApp.refresh ++
-                                    }
+                                        </div>`
                                 })
                             console.log("Loaded user component")
                         },
                         refreshAll: async function () {
-                            vueApp.refresh ++
+                            this.refresh ++
                             console.log("Refreshed app")
                         },
                         showItemf: async function () {
-                            vueApp.showItem = true
+                            this.showItem = true
                             console.log("Showed item")
                         }
                     }
