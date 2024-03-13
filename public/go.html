@@ -15,8 +15,8 @@
         <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
 
         <scriptlatest src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.19/vue.global.prod.min.js"></scriptlatest>
-        <script3 src="https://unpkg.com/@vue/compat@3.1"></script3>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
+        <script src="https://unpkg.com/@vue/compat@3.1"></script>
+        <script2 src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script2>
 
 
         <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
@@ -9164,7 +9164,8 @@ debugger
 
                         let fnfn = eval( codeIdVueObjectCode  )
 
-                        if (trcode2.indexOf("dsabase_component_id(\"control_preview_container_app\")") != -1) {
+                        //if (trcode2.indexOf("Todo App") != -1) {
+                        if (trcode2.startsWith("COMP_") != -1) {
                             yz.debug.writeTextFile(
                                 {
                                     fileName: "z.txt",
@@ -9201,6 +9202,7 @@ debugger
                         })
 
                     } catch (runtimeError) {
+                        debugger
                         console.log("runtime err: " + runtimeError)
 
                         hideProgressBar()
