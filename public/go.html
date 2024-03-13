@@ -8908,6 +8908,10 @@
                 },
                 addRuntimePipelinesAndRunCode:  async function  (   {codeId , codeArgs}   ) {
                     // Init - Set the BCI
+                    if (yz.componentsAPI.vue.getVueComponentInfo({codeId: codeId})) {
+                        return
+                    }
+                    console.log("Started creating Vue object with Code ID: " + codeId)
                     let baseComponentId = null
                     let code            = this.getCodeForComponent({codeId: codeId})
 
@@ -9156,13 +9160,14 @@
                             vueComponentCreation = "yz.mainVars.mainVueApp"
                         }
 
-debugger
+//debugger
                         let codeIdVueObjectCode = trcode2.toString().replaceAll(
                             "Yazz" + ".component[(]",
                             vueComponentCreation + ".component(" + "\"" + codeId + "\", "
                         )
 
                         let fnfn = eval( codeIdVueObjectCode  )
+                        console.log("Created Vue object with Code ID: " + codeId)
 
                         //if (trcode2.indexOf("Todo App") != -1) {
                         if (trcode2.startsWith("COMP_") != -1) {

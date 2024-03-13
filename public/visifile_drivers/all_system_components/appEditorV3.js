@@ -2240,11 +2240,11 @@ ___________
             //
             // set up the AUTOSAVE timer every second
             //
-            console.log("Set up Ausosave for mm.code_id: " + mm.code_id)
+            //console.log("Set up Ausosave for mm.code_id: " + mm.code_id)
 
 
-            console.log("Create Ausosave for mm.code_id: " + mm.code_id)
-            console.log("         mm.save_state : " + mm.save_state )
+            //console.log("Create Ausosave for mm.code_id: " + mm.code_id)
+            //console.log("         mm.save_state : " + mm.save_state )
             mm.autosaveTimer = setInterval(async function() {
                 // ******** if a change has been made **************
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
