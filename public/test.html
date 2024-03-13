@@ -29,11 +29,14 @@
                 {
                     el: "#rootel",
                     template:   `
-                        <div style="">
+                        <div style="" v-bind:refresh='refresh'>
                             <br>
                                 WE ARE IN THE MATRIX {{refresh}}...
                                 <br>
-                                <b><component :is='"UserList"'></component></b>
+                                <b v-bind:refresh='refresh'><component v-bind:refresh='refresh' :is='"UserList"' ></component></b>
+                                <br>
+                                <button style="height: 050px;width:050px;" v-on:click="createItem()" >Click me</button>
+                                <button style="height: 050px;width:100px;" v-on:click="refreshAll()" >Refresh</button>
                         </div>`,
                     data: function() {
                         return {
@@ -41,25 +44,37 @@
                         }
                     },
                     mounted:    async function() {
+                    },
+                    methods: {
+                        createItem: async function () {
+
+                            vueApp.component("UserList",
+                                {
+                                    name: "UserList",
+                                    template:   `
+                                        <div style="margin-top: 70px;">
+                                            <br>
+                                                I am a component 5...
+                                        </div>`,
+                                    mounted:    function() {
+                                        vueApp.refresh ++
+                                    }
+                                })
+                            console.log("Loaded user component")
+                        },
+                        refreshAll: async function () {
+                            vueApp.refresh ++
+                            console.log("Refreshed app")
+                        }
                     }
                 })
-        vueApp.component("UserList",
-            {
-                name: "UserList",
-                template:   `
-                        <div style="margin-top: 70px;">
-                            <br>
-                                I am a component 5...
-                        </div>`,
-                mounted:    function() {
-                    vueApp.refresh ++
-                }
-            })
+
         setTimeout(async function() {
             //let vm = Vue.getCurrentInstance()
             //debugger
             //vueApp.refresh = 8
             vueApp.mount("#rootel")
+            console.log("main app mounted")
 
         },100)
 
