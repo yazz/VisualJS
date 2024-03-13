@@ -582,7 +582,7 @@ ___________
                 Refresh button 
                 ---------------------------------------------- -->
                 <button   
-                    v-on:click='setTimeout(async function(){appClearIntervals();await loadComponentIntoEditor({codeId: code_id, runThisApp: true})},100)'
+                    v-on:click='pressRefresh()'
                     type="button"
                     v-bind:style="'padding: 0px; margin-top: 0px; margin-left:10px; position: relative; border: 0px;background-color: rgb(242, 242, 242);' + (read_only?'opacity:0.2;':'')"
                     class="btn"
@@ -705,6 +705,7 @@ ___________
                             v-if='app_loaded  &&  (preview_type=="app")'
                             style='background-color: white; height: 92%;'
                             v-bind:is="code_id"
+                            v-bind:refresh="refresh"
                 >
                 </component>
             </div>
@@ -1020,6 +1021,19 @@ ___________
        },
         methods:            {
             // editor actions
+            pressRefresh:                   async function  (  ) {
+                let mm = this
+                setTimeout(
+                    async function(){
+                        appClearIntervals();
+                        await mm.loadComponentIntoEditor(
+                            {
+                                codeId:         mm.code_id,
+                                runThisApp:     true
+                            }
+                        )
+                    },100)
+            },
             downloadHtmlPressed:            async function  (  ) {
                 let mm = this
                 if ((mm.preview_type=="app") && (!mm.sqlite_data_saved_in_html)) {
