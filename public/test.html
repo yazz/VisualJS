@@ -29,13 +29,13 @@
                 {
                     el: "#rootel",
                     template:   `
-                        <div style="" v-bind:refresh='refresh'>
+                        <div style="">
                             <br>
-                                WE ARE IN THE MATRIX {{refresh}}...
+                                WE ARE IN THE MATRIX...
                                 <br>
                                 showItem := {{showItem}}
                                 <div v-if='showItem'>
-                                    <b v-bind:refresh='refresh'><component v-bind:refresh='refresh' :is='"UserList"' ></component></b>
+                                    <b><component v-bind:refresh='refresh' :is='"UserList"' ></component></b>
                                 </div>
                                 <br>
                                 <button style="height: 050px;width:050px;" v-on:click="createItem()" >Create item</button>
@@ -45,7 +45,7 @@
                     data: function() {
                         return {
                             refresh: 0,
-                            showItem: false
+                            showItem: true
                         }
                     },
                     mounted:    async function() {
@@ -62,6 +62,7 @@
                                                 I am a component 5...
                                         </div>`
                                 })
+                            this.refresh ++
                             console.log("Loaded user component")
                         },
                         refreshAll: async function () {
