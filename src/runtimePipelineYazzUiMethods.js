@@ -6006,7 +6006,7 @@ return {}
                     mm.hideProgressBar  = Vue.inject('hideProgressBar')
                 }
                 if (!mm.design_mode) {
-                    debugger
+                    //debugger
                 }
 
 
