@@ -9,8 +9,6 @@
                 props:      [ "args"  ],
                 template:   /* ** *** insert_ui_template_start *** ** */
                             /* ** *** insert_ui_template_end *** ** */,
-                setup: async function() {
-                },
                 mounted:    //*** paste_mounted_start ***//
                             //*** paste_mounted_end ***//
                             ,
