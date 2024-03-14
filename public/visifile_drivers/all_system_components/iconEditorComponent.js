@@ -40,7 +40,7 @@ load_once_from_file(true)
                             <canvas v-bind:id='"_canvas_" '
                                     v-bind:refresh='refresh'
                                     style="border: solid black 1px;margin-bottom: 10px;"
-                                    v-on:mousemove='if (mousedown) {drawNow($event)}'
+                                    v-on:mousemove='mouseButtonDown($event)'
                                     v-on:mousedown='mousedown=true;drawNow($event)'
                                     v-on:mouseup='mousedown=false'
                                     v-bind:height='iconHeightPixels + "px"'
@@ -93,6 +93,12 @@ load_once_from_file(true)
 
                 this.baseComponentId        = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.loadImageToCanvas()
+            },
+            mouseButtonDown: function(event) {
+                let mm = this
+                if (mm.mousedown) {
+                    mm.drawNow(event)
+                }
             },
             drawNow: function(event) {
                 var mm= this

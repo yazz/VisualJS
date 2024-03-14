@@ -328,7 +328,7 @@ ___________
                         ---------------------------------------------- -->
                     <a  v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                         href="#"
-                        v-on:click='setTimeout(async function(){await switchEditor("icon_editor_component")},100)'
+                        v-on:click='pressedIconEditor()'
                         v-if="show_download_save"
                         v-on:mouseenter='setInfo("Create a new icon for this app / component")'
                         v-on:mouseleave='setInfo(null)'
@@ -1021,6 +1021,16 @@ ___________
        },
         methods:            {
             // editor actions
+            pressedIconEditor:              async function  (  ) {
+                let mm = this
+                setTimeout(
+                    async function(){
+                        debugger
+                        await mm.switchEditor( "icon_editor_component" )
+                    },
+                    100
+                )
+            },
             pressRefresh:                   async function  (  ) {
                 let mm = this
                 setTimeout(
