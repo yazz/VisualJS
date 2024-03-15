@@ -492,11 +492,11 @@ ___________
 
 
 
-                    <button   v-bind:disabled='read_only?"":"false"'
+                    <button   v-bind:disabled='read_only?"true":false'
                               v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
-                              v-on:click='setTimeout(async function(){appClearIntervals();await save(base_component_id, code_id,null)},100)'
+                              v-on:click='saveButtonPressed()'
                               type="button" class="btn  btn-warning"
                               v-if="(((!hideImportButtons) || yz.mainVars.disableAutoSave) && (!read_only) && ((save_state == 'pending') || (!save_state)))"
                               >
@@ -1021,6 +1021,13 @@ ___________
        },
         methods:            {
             // editor actions
+            saveButtonPressed:              async function  (  ) {
+                let mm = this
+                setTimeout(async function () {
+                    appClearIntervals();
+                    await mm.save(  mm.base_component_id  ,  mm.code_id  ,  null  )
+                }, 100)
+            },
             backToEditorPressed:            async function  (  ) {
                 let mm = this
                 setTimeout(async function () {
@@ -1146,7 +1153,7 @@ ___________
                        })
 
                } else if (yz.editor.lastEditingAppBaseComponentId) {
-                   debugger // where does "model" come from?
+                   // where does "model" come from?
                    window.globalEventBus.emit("message", { type:  "edit_component", base_component_id:   yz.editor.lastEditingAppBaseComponentId, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})
 
                } else {
@@ -1691,7 +1698,13 @@ ___________
                 //
                 mm.component_display_name = yz.helpers.getValueOfCodeString(code,"display_name")
                 // ****** set readonly *******
-                this.read_only = yz.helpers.getValueOfCodeString(code, "read_only")
+
+                let isReadOnly =  yz.helpers.getValueOfCodeString(code, "read_only")
+                if (isReadOnly && (isReadOnly == true)) {
+                    mm.read_only = true
+                } else {
+                    mm.read_only = false
+                }
 
 
                 //
