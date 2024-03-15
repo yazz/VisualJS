@@ -9222,15 +9222,7 @@
                 //
                 isStaticHtmlPageApp: false
             }
-            var injectedVars = {
-                GLOBALS:            GLOBALS,
-                isValidObject:      isValidObject,
-                yz:                 yz,
-                showProgressBar:    showProgressBar,
-                hideProgressBar:    hideProgressBar,
-                location:           location,
-                getNetworkHostName: getNetworkHostName
-            }
+
 
             window.GLOBALS = GLOBALS
             var networkIntranetIpAddress        = null
@@ -9385,6 +9377,23 @@
             '1666600000': 'harmony',
             '11297108109': 'palm',
             '836542336838601': 'curio'
+            }
+
+            var injectedVars = {
+                GLOBALS:                        GLOBALS,
+                isValidObject:                  isValidObject,
+                yz:                             yz,
+                showProgressBar:                showProgressBar,
+                hideProgressBar:                hideProgressBar,
+                location:                       location,
+                getNetworkHostName:             getNetworkHostName,
+                executionCode:                  executionCode,
+                currentTimelineLogPoint:        currentTimelineLogPoint,
+                maxTimelineLogPoint:            maxTimelineLogPoint,
+                startTimelineTop:               startTimelineTop,
+                executionTimeline:              executionTimeline,
+                executionTimelineMapTimeToLine: executionTimelineMapTimeToLine,
+                globalWatchList:                globalWatchList
             }
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/

@@ -2198,21 +2198,30 @@ ___________
         mounted:            async function () {
             let mm = this
             if (Vue.version.startsWith("2")) {
-                mm.GLOBALS          = GLOBALS
-                mm.isValidObject    = isValidObject
-                mm.yz               = yz
-                mm.showProgressBar  = showProgressBar
-                mm.hideProgressBar  = hideProgressBar
+                mm.GLOBALS              = GLOBALS
+                mm.isValidObject        = isValidObject
+                mm.yz                   = yz
+                mm.showProgressBar      = showProgressBar
+                mm.hideProgressBar      = hideProgressBar
                 mm.location             = location
                 mm.getNetworkHostName   = getNetworkHostName
+
             } else if (Vue.version.startsWith("3")) {
-                mm.GLOBALS          = Vue.inject('GLOBALS')
-                mm.isValidObject    = Vue.inject('isValidObject')
-                mm.yz               = Vue.inject('yz')
-                mm.showProgressBar  = Vue.inject('showProgressBar')
-                mm.hideProgressBar  = Vue.inject('hideProgressBar')
-                mm.location          = Vue.inject('location')
-                mm.getNetworkHostName = Vue.inject('getNetworkHostName')
+                mm.GLOBALS                          = Vue.inject('GLOBALS')
+                mm.isValidObject                    = Vue.inject('isValidObject')
+                mm.yz                               = Vue.inject('yz')
+                mm.showProgressBar                  = Vue.inject('showProgressBar')
+                mm.hideProgressBar                  = Vue.inject('hideProgressBar')
+                mm.location                         = Vue.inject('location')
+                mm.getNetworkHostName               = Vue.inject('getNetworkHostName')
+                mm.executionCode                    = Vue.inject('executionCode')
+                mm.currentTimelineLogPoint          = Vue.inject('currentTimelineLogPoint')
+                mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')
+                mm.startTimelineTop                 = Vue.inject('startTimelineTop')
+                mm.executionTimeline                = Vue.inject('executionTimeline')
+                mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
+                mm.globalWatchList                  = Vue.inject('globalWatchList')
+
             }
 
             await useIdeTools()
