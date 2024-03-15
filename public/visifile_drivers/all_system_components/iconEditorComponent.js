@@ -39,6 +39,7 @@ load_once_from_file(true)
 
                             <!-- ------------- Drawing canvas  ----------------- -->
                             <canvas v-bind:id='"_canvas_" '
+                                    ref='_canvas_'
                                     v-bind:refresh='refresh'
                                     v-on:mousemove='onMouseMove($event)'
                                     v-on:mousedown='onMouseDown($event)'
@@ -96,21 +97,21 @@ load_once_from_file(true)
                 this.baseComponentId        = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.loadImageToCanvas()
             },
-            onMouseMove: function(event) {
+            onMouseMove: async function(event) {
                 let mm = this
                 if (mm.mousedown) {
-                    mm.drawNow(event)
+                    await mm.drawNow(event)
                 }
             },
-            onMouseDown: function(event) {
+            onMouseDown: async function(event) {
                 let mm = this
                 mm.mousedown=true;
-                mm.drawNow(event)
+                await mm.drawNow(event)
             },
-            drawNow: function(event) {
+            drawNow: async function(event) {
                 var mm= this
-                debugger
-                var el = document.getElementById("_canvas_" )
+debugger
+                var el = mm.$refs._canvas_//document.getElementById("_canvas_" )
                 if (isValidObject(el)) {
                     var rect = el.getBoundingClientRect()
                     var left = (event.clientX - rect.left ) - mm.brush_width
