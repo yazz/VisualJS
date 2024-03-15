@@ -443,7 +443,7 @@ ___________
 
 
                     <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                              v-on:click='setTimeout(function(){closeSubEditor()},100)'
+                              v-on:click='backToEditorPressed()'
                               v-if="editor_overloaded"
                               v-on:mouseenter='setInfo("Back to editor")'
                               v-on:mouseleave='setInfo(null)'
@@ -1021,6 +1021,12 @@ ___________
        },
         methods:            {
             // editor actions
+            backToEditorPressed:            async function  (  ) {
+                let mm = this
+                setTimeout(async function () {
+                    await mm.closeSubEditor()
+                }, 100)
+            },
             pressedIconEditor:              async function  (  ) {
                 let mm = this
                 setTimeout(
