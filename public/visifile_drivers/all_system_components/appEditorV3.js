@@ -1025,7 +1025,7 @@ ___________
                 let mm = this
                 setTimeout(
                     async function(){
-                        debugger
+                        //debugger
                         await mm.switchEditor( "icon_editor_component" )
                     },
                     100

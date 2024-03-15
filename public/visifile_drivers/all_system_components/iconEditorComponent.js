@@ -20,7 +20,8 @@ load_once_from_file(true)
                 baseComponentId:        null,
                 colors:                 [ "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray", "cyan","lightblue" ]  ,
                 iconHeightPixels:       200,
-                iconWidthPixels:        200
+                iconWidthPixels:        200,
+                refresh:                0
             }
         },
         template:   `<div style='background-color:white; ' >
