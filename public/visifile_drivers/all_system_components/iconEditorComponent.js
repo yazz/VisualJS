@@ -40,8 +40,8 @@ load_once_from_file(true)
                             <!-- ------------- Drawing canvas  ----------------- -->
                             <canvas v-bind:id='"_canvas_" '
                                     v-bind:refresh='refresh'
-                                    v-on:mousemove='mouseButtonDown($event)'
-                                    v-on:mousedown='mousedown=true;drawNow($event)'
+                                    v-on:mousemove='onMouseMove($event)'
+                                    v-on:mousedown='onMouseDown($event)'
                                     v-on:mouseup='mousedown=false'
                                     v-bind:height='iconHeightPixels + "px"'
                                     v-bind:width='iconWidthPixels + "px"'
@@ -96,14 +96,20 @@ load_once_from_file(true)
                 this.baseComponentId        = yz.helpers.getValueOfCodeString(this.text, "base_component_id")
                 this.loadImageToCanvas()
             },
-            mouseButtonDown: function(event) {
+            onMouseMove: function(event) {
                 let mm = this
                 if (mm.mousedown) {
                     mm.drawNow(event)
                 }
             },
+            onMouseDown: function(event) {
+                let mm = this
+                mm.mousedown=true;
+                mm.drawNow(event)
+            },
             drawNow: function(event) {
                 var mm= this
+                debugger
                 var el = document.getElementById("_canvas_" )
                 if (isValidObject(el)) {
                     var rect = el.getBoundingClientRect()
@@ -116,6 +122,7 @@ load_once_from_file(true)
                     ctx.fillRect(left,right,  mm.brush_width,  mm.brush_width)
 
                     this.icon_image_data = el.toDataURL()
+                    mm.refresh ++
                 }
             },
             loadImageToCanvas: function() {
