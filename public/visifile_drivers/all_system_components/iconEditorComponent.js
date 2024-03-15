@@ -44,8 +44,8 @@ load_once_from_file(true)
                                     v-on:mousemove='onMouseMove($event)'
                                     v-on:mousedown='onMouseDown($event)'
                                     v-on:mouseup='mousedown=false'
-                                    v-bind:height='iconHeightPixels + "px"'
-                                    v-bind:width='iconWidthPixels + "px"'
+                                    v-bind:height='iconHeightPixels'
+                                    v-bind:width='iconWidthPixels'
                                     v-bind:style='"border: solid black 1px;margin-bottom: 10px;height: " + iconHeightPixels + "px; width: " + iconWidthPixels + "px;"'>
                             </canvas>
 
@@ -110,7 +110,7 @@ load_once_from_file(true)
             },
             drawNow: async function(event) {
                 var mm= this
-debugger
+
                 var el = mm.$refs._canvas_//document.getElementById("_canvas_" )
                 if (isValidObject(el)) {
                     var rect = el.getBoundingClientRect()
@@ -155,7 +155,7 @@ debugger
                 let mm = this
                 this.text = yz.helpers.deleteCodeString(this.text, "logo_url")
                 this.text = yz.helpers.insertCodeString(this.text, "logo_url", this.icon_image_data)
-                debugger
+
                 mm.editor_fns.pending()
             },
             clear: function() {
