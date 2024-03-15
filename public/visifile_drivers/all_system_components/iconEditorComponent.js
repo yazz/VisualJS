@@ -40,12 +40,12 @@ load_once_from_file(true)
                             <!-- ------------- Drawing canvas  ----------------- -->
                             <canvas v-bind:id='"_canvas_" '
                                     v-bind:refresh='refresh'
-                                    style="border: solid black 1px;margin-bottom: 10px;"
                                     v-on:mousemove='mouseButtonDown($event)'
                                     v-on:mousedown='mousedown=true;drawNow($event)'
                                     v-on:mouseup='mousedown=false'
                                     v-bind:height='iconHeightPixels + "px"'
-                                    v-bind:width='iconWidthPixels + "px"'>
+                                    v-bind:width='iconWidthPixels + "px"'
+                                    v-bind:style='"border: solid black 1px;margin-bottom: 10px;height: " + iconHeightPixels + "px; width: " + iconWidthPixels + "px;"'>
                             </canvas>
 
                             <div>
@@ -76,6 +76,7 @@ load_once_from_file(true)
                       </div>`,
         props:      [  "editor_fns"  ],
         mounted:    async function() {
+            let mm = this
         },
         methods:    {
             getText:                            async function () {
