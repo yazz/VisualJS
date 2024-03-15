@@ -2198,13 +2198,21 @@ ___________
         mounted:            async function () {
             let mm = this
             if (Vue.version.startsWith("2")) {
-                mm.GLOBALS              = GLOBALS
-                mm.isValidObject        = isValidObject
-                mm.yz                   = yz
-                mm.showProgressBar      = showProgressBar
-                mm.hideProgressBar      = hideProgressBar
-                mm.location             = location
-                mm.getNetworkHostName   = getNetworkHostName
+                mm.GLOBALS                          = GLOBALS
+                mm.isValidObject                    = isValidObject
+                mm.yz                               = yz
+                mm.showProgressBar                  = showProgressBar
+                mm.hideProgressBar                  = hideProgressBar
+                mm.location                         = location
+                mm.getNetworkHostName               = getNetworkHostName
+                mm.executionCode                    = executionCode
+                mm.currentTimelineLogPoint          = currentTimelineLogPoint
+                mm.maxTimelineLogPoint              = maxTimelineLogPoint
+                mm.startTimelineTop                 = startTimelineTop
+                mm.executionTimeline                = executionTimeline
+                mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
+                mm.globalWatchList                  = globalWatchList
+                mm.saveCodeToFile                   = saveCodeToFile
 
             } else if (Vue.version.startsWith("3")) {
                 mm.GLOBALS                          = Vue.inject('GLOBALS')
@@ -2221,6 +2229,7 @@ ___________
                 mm.executionTimeline                = Vue.inject('executionTimeline')
                 mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                 mm.globalWatchList                  = Vue.inject('globalWatchList')
+                mm.saveCodeToFile                   = Vue.inject('saveCodeToFile')
 
             }
 
