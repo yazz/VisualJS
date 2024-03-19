@@ -148,7 +148,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                      
                   
     <!--   ----------------------------------------------------------------------------------------------------------- -->
-    <template    v-for="(item, index) in editable_app_list">
+    <div    v-for="(item, index) in editable_app_list">
         <div    v-bind:refresh='refresh'
                 v-if="(editingBaseComponentId == item.base_component_id)"
                 v-on:mouseenter="currentlyHighlightedEditableCodeId = item.code_id;"
@@ -191,7 +191,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 </component>
             </div>
         </div>
-    </template>
+    </div>
 
                     
                     
