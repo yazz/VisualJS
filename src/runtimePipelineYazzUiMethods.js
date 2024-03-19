@@ -6031,7 +6031,6 @@ return {}
                     mm.unique_app_dom_element_id    = uuidv4()
                     mm.vb_grid_element_id           = "vb_grid_" + uuidv4()
                     mm.vb_editor_element_id         = "vb_editor_" + uuidv4()
-                    mm.local_app                    = localAppshareApp
                     mm.in_change_model              = true
 
 
@@ -6566,7 +6565,6 @@ return {}
                 new_property_type:                   "",
                 new_snippet:                         "",
                 new_help:                            "",
-                local_app:                           false,
                 refresh:                             0,
                 properties:                          [],
                 read_only:                           false,
