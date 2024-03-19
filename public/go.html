@@ -16,8 +16,8 @@
 
         <scriptlatest src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></scriptlatest>
         <script315 src="https://unpkg.com/vue@3.1.5/dist/vue.global.prod.js"></script315>
-        <script src="https://unpkg.com/@vue/compat@3.1"></script>
-        <script2 src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script2>
+        <script3 src="https://unpkg.com/@vue/compat@3.1"></script3>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
 
 
         <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
@@ -7894,6 +7894,7 @@
             yz                              = {
                 mainVars:                   {
                     mainVueApp:                 null,
+                    secondaryVueApp:            null,
                     visJsloaded:                false,
                     mousedown:                  false,
                     ipfs:                       null,
@@ -9153,22 +9154,32 @@
                                 }
                             }
                         }
-
+debugger
                         let vueComponentCreation = null
+                        let vueComponentCreation2 = null
                         if (Vue.version.startsWith("2")) {
                             vueComponentCreation = "Vue"
                         } else if (Vue.version.startsWith("3")) {
                             vueComponentCreation = "yz.mainVars.mainVueApp"
+                            vueComponentCreation2 = "yz.mainVars.secondaryVueApp"
                         }
 
-//debugger
+
                         let codeIdVueObjectCode = trcode2.toString().replaceAll(
                             "Yazz" + ".component[(]",
                             vueComponentCreation + ".component(" + "\"" + codeId + "\", "
                         )
-
                         let fnfn = eval( codeIdVueObjectCode  )
+                        let fnfn2 = null
                         //console.log("Created Vue object with Code ID: " + codeId)
+
+                        if (vueComponentCreation2) {
+                            let codeIdVueObjectCode2 = trcode2.toString().replaceAll(
+                                "Yazz" + ".component[(]",
+                                vueComponentCreation2 + ".component(" + "\"" + codeId + "\", "
+                            )
+                                fnfn2 = eval( codeIdVueObjectCode2  )
+                        }
 
                         //if (trcode2.indexOf("Todo App") != -1) {
                         if (trcode2.indexOf("yazz_blank") != -1) {
@@ -9185,8 +9196,20 @@
                         if (!yz.componentsAPI.vue.getVueComponentInfo({codeId: codeId})) {
                             if (codeIdVueObjectCode.indexOf("async ")  == -1) {
                                 fnfn(codeArgs)
+                                if (fnfn2) {
+                                    setTimeout(async function() {
+                                        fnfn2(codeArgs)
+                                        },1000
+                                    )
+                                }
                             } else {
                                 await fnfn(codeArgs)
+                                if (fnfn2) {
+                                    setTimeout(async function() {
+                                            await fnfn2(codeArgs)
+                                        },1000
+                                    )
+                                }
                             }
                             yz.componentsAPI.vue.setVueComponentInfo({
                                 codeId:     codeId,
@@ -11080,14 +11103,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                 el:         "#" + rootElement
                             })
                     } else if (Vue.version.startsWith("3")) {
-                        let componentAppvue = Vue.createApp({
+                        yz.mainVars.secondaryVueApp = Vue.createApp({
                             template:   vueTemplateForComponent,
                             provide:    function() {
                                 return injectedVars
                             }
                         })
                         //componentAppvue.config.compilerOptions.whitespace = 'preserve';
-                        componentAppvue.mount( "#" + rootElement )
+                        yz.mainVars.secondaryVueApp.mount( "#" + rootElement )
                     }
                 }
             }
