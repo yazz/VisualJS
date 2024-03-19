@@ -10466,7 +10466,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                 count:                  1,
                                 console_output:         "",
                                 selected_card:          -1,
-                                cards:                  [],
+                                cards:                  null,
                                 show_loader:            false,
                                 is_static:              false
                             }
@@ -10503,7 +10503,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     if (GLOBALS.isStaticHtmlPageApp) {
                         let nid = yz.mainVars.nextGlobalAppId++;
                         let ccy = document.getElementById('wrapper').scrollTop
-                        mainVueAppVm.cards.push(
+                        mainVueAppVm.cards =
                             {
                                 id: nid,
                                 card: {
@@ -10513,7 +10513,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                     code_id:            "***STATIC_BASE_COMPONENT_ID***",
                                     display_name:       "***STATIC_NAME***",
                                     type:               "app"
-                                }});
+                                }
+                            }
                         setTimeout(function() {
                             document.getElementById('wrapper').scrollTop = ccy
                         },100)
@@ -11065,7 +11066,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 base_component_id_of_loaded_app = bbase_component_id
 
                 let rootElement = "yazz_app_container"
-                if ((mainVueAppVm.cards[id - 1].card.base_component_id != base_component_id_of_loaded_app) ||
+                if ((mainVueAppVm.cards.card.base_component_id != base_component_id_of_loaded_app) ||
                     (!newAppArgs[id]))
                 {
                     newAppArgs[id] = args
@@ -11075,7 +11076,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 // loadAppIntoElement
                 //
                 await GLOBALS.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
-                if (mainVueAppVm.cards[id - 1].card.base_component_id == base_component_id_of_loaded_app) {
+                if (mainVueAppVm.cards.card.base_component_id == base_component_id_of_loaded_app) {
 
                     if (!document.getElementById(rootElement)) {
                         let newRootId = rootElement.substring(4)
@@ -11126,9 +11127,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         if (GLOBALS.isStaticHtmlPageApp) {
                             mainVueAppVm.selected_card = id;
                             setTimeout(async function() {
-                                let thisApp = mainVueAppVm.cards[id - 1]
-                                if (mainVueAppVm.cards[id - 1].card.fn) {
-                                    setTimeout( mainVueAppVm.cards[id - 1].card.fn, 3000)
+                                let thisApp = mainVueAppVm.cards
+                                if (mainVueAppVm.cards.card.fn) {
+                                    setTimeout( mainVueAppVm.cards.card.fn, 3000)
                                 }
                                 if (thisApp.card.base_component_id) {
                                     await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -11141,9 +11142,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             {
                                 mainVueAppVm.selected_card = id;
                                 setTimeout(async function() {
-                                    let thisApp = mainVueAppVm.cards[id - 1]
-                                    if (mainVueAppVm.cards[id - 1].card.fn) {
-                                        setTimeout( mainVueAppVm.cards[id - 1].card.fn, 3000)
+                                    let thisApp = mainVueAppVm.cards
+                                    if (mainVueAppVm.cards.card.fn) {
+                                        setTimeout( mainVueAppVm.cards.card.fn, 3000)
                                     }
                                     if (thisApp.card.base_component_id) {
                                         await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
@@ -12075,7 +12076,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         class="loader">
                 </div>
 
-                <template   v-for="item  in  cards" >
+<div v-if="cards">
+                <template   v-for="item  in  [cards]" >
                             <div    v-if="item.id == selected_card"
                                     style="left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
                                     <card_component :item='item'
@@ -12088,10 +12090,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             </div>
 
                 </template>
+</div>
 
 
-
-                <template   v-for="item  in  cards">
+<div v-if="cards">
+                <template   v-for="item  in  [cards]">
                     <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
                         <card_component :item='item'
                                         :visible='true'
@@ -12102,7 +12105,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         </card_component>
                     </div>
                 </template>
-
+</div>
 
 
                 <div style="height: 200px;">
