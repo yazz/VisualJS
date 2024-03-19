@@ -10447,7 +10447,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                         <div    v-if='full_screen && (item.card.type == "app")'>
 
                                             <div    v-bind:id='"app_container_"+ item.id'  >
-                                                <div v-bind:id='"app_"+ item.id' >
+                                                <div v-bind:id='"yazz_app_container"' >
                                                 </div>
                                             </div>
                                         </div>
@@ -11063,7 +11063,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             async function  prepareApp                          (  id  ,  bbase_component_id  ,  args  ) {
                 base_component_id_of_loaded_app = bbase_component_id
 
-                let rootElement = "app_" + id
+                let rootElement = "yazz_app_container"
                 if ((mainVueAppVm.cards[id - 1].card.base_component_id != base_component_id_of_loaded_app) ||
                     (!newAppArgs[id]))
                 {
