@@ -9154,7 +9154,7 @@
                                 }
                             }
                         }
-debugger
+
                         let vueComponentCreation = null
                         let vueComponentCreation2 = null
                         if (Vue.version.startsWith("2")) {
@@ -11061,6 +11061,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             // Load app into UI fns
             async function  prepareApp                          (  id  ,  bbase_component_id  ,  args  ) {
+                console.log("****prepareApp")
                 base_component_id_of_loaded_app = bbase_component_id
 
                 let rootElement = "yazz_app_container"
