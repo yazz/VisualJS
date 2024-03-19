@@ -10444,7 +10444,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                               <div
                                   v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
 
-                                        <div    v-if='full_screen && (item.card.type == "app")'>
+                                        <div    v-if='full_screen && (item.type == "app")'>
 
                                             <div    v-bind:id='"app_container_"+ item.id'  >
                                                 <div v-bind:id='"yazz_app_container"' >
@@ -10464,9 +10464,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         data: function() {
                             return {
                                 count:                  1,
-                                console_output:         "",
                                 selected_card:          -1,
-                                loadedAppMetaData:                  null,
+                                loadedAppMetaData:      null,
                                 show_loader:            false,
                                 is_static:              false
                             }
@@ -10505,15 +10504,12 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         let ccy = document.getElementById('wrapper').scrollTop
                         mainVueAppVm.loadedAppMetaData =
                             {
-                                id: nid,
-                                card: {
-                                    id:                 nid,
-                                    name:               "***STATIC_NAME***",
-                                    base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
-                                    code_id:            "***STATIC_BASE_COMPONENT_ID***",
-                                    display_name:       "***STATIC_NAME***",
-                                    type:               "app"
-                                }
+                                id:                 nid,
+                                name:               "***STATIC_NAME***",
+                                base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
+                                code_id:            "***STATIC_BASE_COMPONENT_ID***",
+                                display_name:       "***STATIC_NAME***",
+                                type:               "app"
                             }
                         setTimeout(function() {
                             document.getElementById('wrapper').scrollTop = ccy
@@ -11066,7 +11062,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 base_component_id_of_loaded_app = bbase_component_id
 
                 let rootElement = "yazz_app_container"
-                if ((mainVueAppVm.loadedAppMetaData.card.base_component_id != base_component_id_of_loaded_app) ||
+                if ((mainVueAppVm.loadedAppMetaData.base_component_id != base_component_id_of_loaded_app) ||
                     (!newAppArgs[id]))
                 {
                     newAppArgs[id] = args
@@ -11076,7 +11072,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 // loadAppIntoElement
                 //
                 await GLOBALS.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
-                if (mainVueAppVm.loadedAppMetaData.card.base_component_id == base_component_id_of_loaded_app) {
+                if (mainVueAppVm.loadedAppMetaData.base_component_id == base_component_id_of_loaded_app) {
 
                     if (!document.getElementById(rootElement)) {
                         let newRootId = rootElement.substring(4)
@@ -11128,11 +11124,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             mainVueAppVm.selected_card = id;
                             setTimeout(async function() {
                                 let thisApp = mainVueAppVm.loadedAppMetaData
-                                if (mainVueAppVm.loadedAppMetaData.card.fn) {
-                                    setTimeout( mainVueAppVm.loadedAppMetaData.card.fn, 3000)
+                                if (mainVueAppVm.loadedAppMetaData.fn) {
+                                    setTimeout( mainVueAppVm.loadedAppMetaData.fn, 3000)
                                 }
-                                if (thisApp.card.base_component_id) {
-                                    await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
+                                if (thisApp.base_component_id) {
+                                    await prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
                                 }
                             },200)
                         } else {
@@ -11143,11 +11139,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                 mainVueAppVm.selected_card = id;
                                 setTimeout(async function() {
                                     let thisApp = mainVueAppVm.loadedAppMetaData
-                                    if (mainVueAppVm.loadedAppMetaData.card.fn) {
-                                        setTimeout( mainVueAppVm.loadedAppMetaData.card.fn, 3000)
+                                    if (mainVueAppVm.loadedAppMetaData.fn) {
+                                        setTimeout( mainVueAppVm.loadedAppMetaData.fn, 3000)
                                     }
-                                    if (thisApp.card.base_component_id) {
-                                        await prepareApp(  thisApp.id,   thisApp.card.base_component_id,   thisApp.card.args  )
+                                    if (thisApp.base_component_id) {
+                                        await prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
                                     }
                                 },200)
                             },1000)
