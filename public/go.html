@@ -11086,12 +11086,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     code_id_of_loaded_app = codeIdOfComponent
 
                     let vueTemplateForComponent = `
-                                    <component
-                                        v-bind:is='"${codeIdOfComponent}"'
-                                        v-bind:card_index='1'
-                                    >
-                                    </component>
-                                `
+                        <component      v-bind:is='"${codeIdOfComponent}"'></component>
+                    `
                     //zzz
 
                     if (Vue.version.startsWith("2")) {
