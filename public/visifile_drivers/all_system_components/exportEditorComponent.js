@@ -7,21 +7,21 @@ load_once_from_file(true)
 */
 
     Yazz.component( {
-      data: function () {
-        return {
-            text:                args.text,
-            read_only:           false,
-            errors:              null,
-            dockerHost:         "host.docker.internal",
-            dockerPort:         "1234",
-            dockerLocalPort:     "81",
-            dockerLocalHost:     location.hostname,
-            dockerImageName:    "name/image",
-            outputText:         ""
-        }
+        data:           function () {
+            return {
+                text:                args.text,
+                read_only:           false,
+                errors:              null,
+                dockerHost:         "host.docker.internal",
+                dockerPort:         "1234",
+                dockerLocalPort:     "81",
+                dockerLocalHost:     location.hostname,
+                dockerImageName:    "name/image",
+                outputText:         ""
+            }
       },
-      template:
-`<div style='background-color:white; ' >
+        template:       `
+<div style='background-color:white; ' >
     <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
 
         <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
@@ -259,114 +259,70 @@ load_once_from_file(true)
         </div>
 
     </div>
-</div>`
-     ,
-
-     mounted: function() {
-         var thisVueInstance = this
-         args.text           = null
-
-         if (isValidObject(thisVueInstance.text)) {
-             this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
-         }
-
-         if (this.read_only) {
-         }
-
-
-
-     },
-     methods: {
-
-
-
-        // -----------------------------------------------------
-        //                      getText
-        //
-        // This is called to get the SQL definitions
-        //
-        //
-        //
-        // -----------------------------------------------------
-        getText: async function() {
-            if (!isValidObject(this.text)) {
-                return null
-            }
-
-            return this.text
-        }
-        ,
-
-
-
-        // -----------------------------------------------------
-        //                      setText
-        //
-        // This is called to set the SQL
-        //
-        //
-        //
-        // -----------------------------------------------------
-        setText: function(textValue) {
+</div>`,
+        mounted:        function() {
             var thisVueInstance = this
-            this.text           =  textValue
+            if (Vue.version.startsWith("3")) {
+            }
+            args.text           = null
 
-            if (!isValidObject(this.text)) {
-                return
+            if (isValidObject(thisVueInstance.text)) {
+                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
             }
 
-            //
-            //
-            //
-
-
-            this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
             }
+        },
+        methods:        {
+            getText:            async function  (  ) {
+                if (!isValidObject(this.text)) {
+                    return null
+                }
 
+                return this.text
+            },
+            setText:            function        (  textValue  ) {
+                var thisVueInstance = this
+                this.text           =  textValue
+
+                if (!isValidObject(this.text)) {
+                    return
+                }
+
+                //
+                //
+                //
+
+
+                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+                if (this.read_only) {
+                }
+            },
+            createDockerImage:  async function  (  ) {
+                this.outputText = ""
+                this.outputText += "Creating Docker image "  + this.dockerImageName + " at "+ this.dockerHost + ":" + this.dockerPort + "\n"
+                this.outputText += "..." + "\n"
+                var result = await callComponent(
+                                    {
+                                        base_component_id: "serverDockerStuff"
+                                    }
+                                        ,{
+                                            create:                 true,
+                                            image_name:             this.dockerImageName,
+                                            host:                   this.dockerHost,
+                                            port:                   this.dockerPort,
+                                            docker_local_port:      this.dockerLocalPort,
+                                            app_base_component_id:  yz.editor.editingAppBaseComponentId
+                                         })
+
+               //alert(JSON.stringify(result,null,2))
+               if (result) {
+                    this.outputText += JSON.stringify(   result  ,  null  ,  2   )
+
+               }
+
+               this.outputText += "\n" + ".. done!" + "\n"
+            }
         }
-        ,
-
-
-
-        // -----------------------------------------------------
-        //                      createDockerImage
-        //
-        // This is called to create the app as a Docker image
-        //
-        //
-        //
-        // -----------------------------------------------------
-        createDockerImage: async function() {
-            this.outputText = ""
-            this.outputText += "Creating Docker image "  + this.dockerImageName + " at "+ this.dockerHost + ":" + this.dockerPort + "\n"
-            this.outputText += "..." + "\n"
-            var result = await callComponent(
-                                {
-                                    base_component_id: "serverDockerStuff"
-                                }
-                                    ,{
-                                        create:                 true,
-                                        image_name:             this.dockerImageName,
-                                        host:                   this.dockerHost,
-                                        port:                   this.dockerPort,
-                                        docker_local_port:      this.dockerLocalPort,
-                                        app_base_component_id:  yz.editor.editingAppBaseComponentId
-                                     })
-
-           //alert(JSON.stringify(result,null,2))
-           if (result) {
-                this.outputText += JSON.stringify(   result  ,  null  ,  2   )
-
-           }
-
-           this.outputText += "\n" + ".. done!" + "\n"
-       }
-
-
-     }
-
-
     })
-
 }

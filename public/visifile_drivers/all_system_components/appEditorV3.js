@@ -222,9 +222,15 @@ ___________
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){switchEditor("keycloak_editor_component")},100)' >Keycloak</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){switchEditor("export_editor_component")},100)' >Export</button>
+                <button     v-if='(mode != "profiler") && (!editor_overloaded)' 
+                            type=button 
+                            class=' btn btn-sm btn-warning'        
+                            v-on:click='exportPressed()' >Export</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='envsPressed()' >Envs</button>
+                <button     v-if='(mode != "profiler") && (!editor_overloaded)' 
+                            type=button 
+                            class=' btn btn-sm btn-info'        
+                            v-on:click='envsPressed()' >Envs</button>
 
             </div>
 
@@ -1020,6 +1026,13 @@ ___________
        },
         methods:            {
             // editor actions
+
+            exportPressed:                  async function  (  ) {
+                let mm = this
+                setTimeout(function () {
+                    mm.switchEditor("export_editor_component")
+                }, 100)
+            },
             envsPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(function () {
