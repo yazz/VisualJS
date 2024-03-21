@@ -16,8 +16,8 @@
 
         <scriptlatest src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></scriptlatest>
         <script315 src="https://unpkg.com/vue@3.1.5/dist/vue.global.prod.js"></script315>
-        <script3 src="https://unpkg.com/@vue/compat@3.1"></script3>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script>
+        <script src="https://unpkg.com/@vue/compat@3.1"></script>
+        <script2 src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js"></script2>
 
 
         <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
@@ -10512,7 +10512,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     } else if (Vue.version.startsWith("3")) {
                         yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
                         yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
-                        //yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'preserve';
+                        yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
                         mainVueAppVm = yz.mainVars.mainVueApp.mount("#infinite-list")
                     }
 
