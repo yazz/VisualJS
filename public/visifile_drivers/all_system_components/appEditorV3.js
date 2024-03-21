@@ -385,7 +385,7 @@ ___________
                            v-if="show_download_save"
                            v-on:mouseenter='setInfo("Undo last change")'
                            v-on:mouseleave='setInfo(null)'
-                           v-on:click='setTimeout(async function(){await undo()},100)'
+                           v-on:click='undoPressed()'
                            type="button" class="btn btn-light ">
 
                         <img
@@ -404,7 +404,7 @@ ___________
                            v-if="show_download_save"
                            v-on:mouseenter='setInfo("Redo last change")'
                            v-on:mouseleave='setInfo(null)'
-                           v-on:click='setTimeout(async function(){await redo()},100)'
+                           v-on:click='redoPressed()'
                            type="button" class="btn btn-light ">
 
                         <img
@@ -1020,6 +1020,16 @@ ___________
        },
         methods:            {
             // editor actions
+            redoPressed:                  async function  (  ) {
+                let mm = this
+                setTimeout(async function(){await mm.redo()},100)
+            },
+            undoPressed:                  async function  (  ) {
+                let mm = this
+                setTimeout(async function () {
+                    await mm.undo()
+                }, 100)
+            },
             showDBPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(async function () {
