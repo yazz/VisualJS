@@ -224,7 +224,7 @@ ___________
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){switchEditor("export_editor_component")},100)' >Export</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){switchEditor("environment_editor_component")},100)' >Envs</button>
+                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='envsPressed()' >Envs</button>
 
             </div>
 
@@ -1020,6 +1020,12 @@ ___________
        },
         methods:            {
             // editor actions
+            envsPressed:                  async function  (  ) {
+                let mm = this
+                setTimeout(function () {
+                    mm.switchEditor("environment_editor_component")
+                }, 100)
+            },
             embedPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(async function () {

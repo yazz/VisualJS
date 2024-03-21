@@ -207,7 +207,7 @@ when was the change in a commit first made (each commit can have many changes)
                     </span>
                     <input  style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:20%;display: inline-block;'
                             v-on:click=''
-                            v-on:keydown="pane_changes_clearMessages()"
+                            v-on:keydown="pane_envs_clearMessages()"
                             placeholder="environment_id_with_underscores (Required)"
                             v-model='pane_environments_env_id'
                             value='' />
@@ -223,7 +223,7 @@ when was the change in a commit first made (each commit can have many changes)
                     </span>
                     <input style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px; width:20%;display: inline-block;'
                            v-on:click=''
-                           v-on:keydown="pane_changes_clearMessages()"
+                           v-on:keydown="pane_envs_clearMessages()"
                            placeholder="Environment name (Required)"
                            v-model='pane_environments_env_name'
                            value='' />
@@ -239,7 +239,7 @@ when was the change in a commit first made (each commit can have many changes)
                     <textarea rows=6
                             style="margin: 10px; font-family:verdana,helvetica;font-size: 13px;width:20%;display: inline-block;vertical-align:top"
                             placeholder="Description"
-                            v-on:keydown="pane_changes_clearMessages()"
+                            v-on:keydown="pane_envs_clearMessages()"
                             v-model='pane_environments_env_desc'>
                     </textarea>
                 </div>
@@ -340,6 +340,12 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
         },
         methods:    {
             // editor interface
+            pane_envs_clearMessages:                        async function (  ) {
+                let mm = this
+
+                mm.commitMessage            = ""
+                mm.commitErrorMessage       = ""
+            },
             switchTab:                                      async function (  {  tabName  }  ) {
                 let mm = this
                 mm.selectedTab = tabName
