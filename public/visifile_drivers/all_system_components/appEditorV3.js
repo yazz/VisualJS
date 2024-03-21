@@ -602,7 +602,7 @@ ___________
                     readonly
                     v-if='preview_type=="app"'
                     style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                    v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                    v-on:click='previewUrlPressed()'
                     v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"' />
 
                 <span
@@ -1020,6 +1020,15 @@ ___________
        },
         methods:            {
             // editor actions
+            previewUrlPressed:                  async function  (  ) {
+                let mm = this
+                debugger
+                let locToUse = location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" +
+                                mm.base_component_id + ".html"
+
+                let win = window.open(locToUse, "_blank");
+                win.focus();
+            },
             remixButtonPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(async function () {
