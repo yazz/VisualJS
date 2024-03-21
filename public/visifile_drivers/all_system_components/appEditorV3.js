@@ -425,7 +425,7 @@ ___________
                     ---------------------------------------------- -->
                     <a     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                            href="#"
-                           v-on:click='setTimeout(async function(){await switchEditor("deliver_component_screen")},100)'
+                           v-on:click='revisionsPressed()'
                            v-if="show_download_save"
                            v-on:mouseenter='setInfo("Save changes, view history, and publish apps / components")'
                            v-on:mouseleave='setInfo(null)'
@@ -1020,6 +1020,12 @@ ___________
        },
         methods:            {
             // editor actions
+            revisionsPressed:                  async function  (  ) {
+                let mm = this
+                setTimeout(async function () {
+                    await mm.switchEditor("deliver_component_screen")
+                }, 100)
+            },
             redoPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(async function(){await mm.redo()},100)
