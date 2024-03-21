@@ -6,8 +6,8 @@ hash_algorithm("SHA256")
 load_once_from_file(true)
 */
 
-    Yazz.component( {
-      data: function () {
+    Yazz.component({
+        data:     function () {
         return {
             text:                args.text,
             baseComponentId:     null,
@@ -15,8 +15,8 @@ load_once_from_file(true)
             embed_code: ""
         }
       },
-      template:
-`<div style='background-color:white; ' >
+        template: `
+<div style='background-color:white; ' >
     <div style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);background-color: lightgray; padding: 5px;padding-left: 15px;border: 4px solid lightgray;' >
 
         <slot style='box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);display: inline-block;' v-if='text' :text2="text">
@@ -75,74 +75,63 @@ load_once_from_file(true)
         </div>
 
   
-</div>`
-     ,
+</div>`,
+        mounted:   async function() {
+            let mm = this
 
-     mounted: async function() {
-         let mm = this
-         let thisVueInstance  = this
-         args.text            = null
-         this.baseComponentId = yz.helpers.getValueOfCodeString(thisVueInstance.text, "base_component_id")
+            if (Vue.version.startsWith("2")) {
+            } else if (Vue.version.startsWith("3")) {
+                mm.yz                               = yz
+            }
+            let thisVueInstance  = this
+            args.text            = null
+            this.baseComponentId = yz.helpers.getValueOfCodeString(thisVueInstance.text, "base_component_id")
 
-         if (isValidObject(thisVueInstance.text)) {
-             this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
-         }
+            if (isValidObject(thisVueInstance.text)) {
+                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+            }
 
+            if (mm.baseComponentId) {
+                let sql =   "select  component_name as name from  level_2_released_components  where " +
+                            "        base_component_id = '" + yz.editor.editingAppBaseComponentId + "'"
 
-         if (mm.baseComponentId) {
-             let sql =    "select  component_name as name from  level_2_released_components  where " +
-                 "        base_component_id = '" + mm.base_component_id + "'"
-
-             //alert( sql )
-
-             let results = await callComponent(
-                 {
-                     base_component_id:    "readFromInternalSqliteDatabase"
-                 }
-                 ,
-                 {
-                     sql: sql
-                 })
-
-
-             if (results) {
-                 //alert(JSON.stringify(results,null,2))
-                 if (results.length > 0) {
-
-                     mm.app_component_name = results[0].name
-                 }
-             }
+                let results = await callComponent(
+                    {
+                        base_component_id:    "readFromInternalSqliteDatabase"
+                    }
+                    ,
+                    {
+                        sql: sql
+                    })
 
 
+                if (results) {
+                    //alert(JSON.stringify(results,null,2))
+                    if (results.length > 0) {
+                        mm.app_component_name = results[0].name
+                    }
+                }
 
+                mm.embed_code = "http://" + location.hostname + ":" +
+                                location.port + "/app/" + yz.editor.editingAppBaseComponentId + ".html"
+            }
+        },
+        methods:   {
+            getText:   async function  (  ) {
+                if (!isValidObject(this.text)) {
+                    return null
+                }
 
-             mm.embed_code = "http://" + location.hostname + ":" + location.port + "/app/" + mm.baseComponentId + ".html"
-         }
-     }
-     ,
-     methods: {
+                return this.text
+            },
+            setText:   function        (  textValue  ) {
+                let thisVueInstance = this
+                this.text = textValue
 
-         getText: async function () {
-             if (!isValidObject(this.text)) {
-                 return null
-             }
-
-             return this.text
-         }
-         ,
-
-         setText: function (textValue) {
-             let thisVueInstance = this
-             this.text = textValue
-
-             if (!isValidObject(this.text)) {
-                 return
-             }
-
-
-         }
-
-     }
+                if (!isValidObject(this.text)) {
+                    return
+                }
+            }
+        }
     })
-
 }
