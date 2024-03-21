@@ -220,7 +220,10 @@ ___________
 
                 <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)' >Copy app</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-info'        v-on:click='setTimeout(function(){switchEditor("keycloak_editor_component")},100)' >Keycloak</button>
+                <button     v-if='(mode != "profiler") && (!editor_overloaded)' 
+                            type=button 
+                            class=' btn btn-sm btn-info'        
+                            v-on:click='keycloakPressed()' >Keycloak</button>
 
                 <button     v-if='(mode != "profiler") && (!editor_overloaded)' 
                             type=button 
@@ -1027,6 +1030,12 @@ ___________
         methods:            {
             // editor actions
 
+            keycloakPressed:                  async function  (  ) {
+                let mm = this
+                setTimeout(function () {
+                    mm.switchEditor("keycloak_editor_component")
+                }, 100)
+            },
             exportPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(function () {
