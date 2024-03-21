@@ -1022,8 +1022,9 @@ ___________
             // editor actions
             remixButtonPressed:                  async function  (  ) {
                 let mm = this
-                setTimeout(function () {
-                    mm.copyApp(mm.base_component_id, null, mm.code_id)
+                setTimeout(async function () {
+                    await mm.copyApp(mm.base_component_id, null, mm.code_id)
+                    mm.refresh++
                 }, 100)
             },
             revisionsPressed:                  async function  (  ) {
