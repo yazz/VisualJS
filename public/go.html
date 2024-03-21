@@ -10445,7 +10445,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                   v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
 
                                         <div    v-if='full_screen && (item.type == "app")'>
-appCodeId:  {{appCodeId}}
 <component      v-bind:is='appCodeId'></component>
                                             <div    v-bind:id='"app_container_"+ item.id'  >
                                                 <div v-bind:id='"yazz_app_container"' >
@@ -11127,37 +11126,10 @@ appCodeId:  {{appCodeId}}
                 await GLOBALS.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
                 if (mainVueAppVm.loadedAppMetaData.base_component_id == base_component_id_of_loaded_app) {
 
-                    if (!document.getElementById(rootElement)) {
-                        let newRootId = rootElement.substring(4)
-                        let newCardId = "app_container_" + newRootId
-                        document.getElementById(newCardId).innerHTML = ""
-                    }
-
                     let codeIdOfComponent = GLOBALS.baseComponentIdReturnsCommitId[base_component_id_of_loaded_app]
                     code_id_of_loaded_app = codeIdOfComponent
 
-                    let vueTemplateForComponent = `
-                        <div>blank app</div>
-                    `
-                    //zzz
                     yz.mainVars.mainVueApp.appCodeId = codeIdOfComponent
-
-                    if (Vue.version.startsWith("2")) {
-                        new Vue(
-                            {
-                                template:   vueTemplateForComponent,
-                                el:         "#" + rootElement
-                            })
-                    } else if (Vue.version.startsWith("3")) {
-                        yz.mainVars.secondaryVueApp = Vue.createApp({
-                            template:   vueTemplateForComponent,
-                            provide:    function() {
-                                return injectedVars
-                            }
-                        })
-                        //componentAppvue.config.compilerOptions.whitespace = 'preserve';
-                        yz.mainVars.secondaryVueApp.mount( "#" + rootElement )
-                    }
                 }
             }
             async function  select_card                         (  id  ) {
