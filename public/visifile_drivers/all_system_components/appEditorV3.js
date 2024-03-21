@@ -345,7 +345,6 @@ ___________
                     Download
                     ---------------------------------------------- -->
                     <a     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                           href="#"
                            v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
                            download
                            v-if="show_download_save"
