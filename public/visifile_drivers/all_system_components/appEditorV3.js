@@ -2264,7 +2264,7 @@ ___________
                 mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                 mm.globalWatchList                  = Vue.inject('globalWatchList')
                 mm.saveCodeToFile                   = Vue.inject('saveCodeToFile')
-
+                mm.msToTime                         = Vue.inject('msToTime')
             }
 
             await useIdeTools()
