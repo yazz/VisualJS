@@ -218,7 +218,10 @@ ___________
               
                 <button  v-if='(editor_component != "textEditorPlugInComponent") && (!read_only) && (mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-info btn-sm'   v-on:click='editAsText()' >Edit as text</button>
 
-                <button  v-if='(mode != "profiler") && (!editor_overloaded)' type=button class=' btn btn-sm btn-warning'        v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)' >Copy app</button>
+                <button     v-if='(mode != "profiler") && (!editor_overloaded)' 
+                            type=button 
+                            class=' btn btn-sm btn-warning'        
+                            v-on:click='copyAppPressed()' >Copy app</button>
 
                 <button     v-if='(mode != "profiler") && (!editor_overloaded)' 
                             type=button 
@@ -1030,6 +1033,12 @@ ___________
         methods:            {
             // editor actions
 
+            copyAppPressed:                  async function  (  ) {
+                let mm = this
+                setTimeout(function () {
+                    mm.copyApp(mm.base_component_id, null, mm.code_id)
+                }, 100)
+            },
             keycloakPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(function () {
