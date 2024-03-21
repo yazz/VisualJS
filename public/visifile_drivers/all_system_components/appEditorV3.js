@@ -344,7 +344,7 @@ ___________
                     <!-- ----------------------------------------------
                     Download
                     ---------------------------------------------- -->
-                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <a     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                            href="#"
                            v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
                            download
@@ -361,7 +361,7 @@ ___________
                     </a>
                   
                   
-                    <a  v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <a  v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                         href="#"
                         v-on:click='setTimeout(async function(){await switchEditor("sqlite_app_editor_component_v2")},100)'
                         v-if="show_download_save"
@@ -381,7 +381,7 @@ ___________
                     <!-- ----------------------------------------------  
                           UNDO BUTTON
                     ---------------------------------------------- -->
-                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <a     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                            href="#"
                            v-if="show_download_save"
                            v-on:mouseenter='setInfo("Undo last change")'
@@ -400,7 +400,7 @@ ___________
                     <!-- ----------------------------------------------                    
                             REDO BUTTON
                     ---------------------------------------------- -->
-                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <a     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                            href="#"
                            v-if="show_download_save"
                            v-on:mouseenter='setInfo("Redo last change")'
@@ -424,7 +424,7 @@ ___________
                       git, or adding a version number to the code
                       
                     ---------------------------------------------- -->
-                    <a     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <a     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                            href="#"
                            v-on:click='setTimeout(async function(){await switchEditor("deliver_component_screen")},100)'
                            v-if="show_download_save"
@@ -442,7 +442,7 @@ ___________
 
 
 
-                    <button   v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <button   v-bind:style="'margin-left:4px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                               v-on:click='backToEditorPressed()'
                               v-if="editor_overloaded"
                               v-on:mouseenter='setInfo("Back to editor")'
@@ -475,7 +475,7 @@ ___________
                     </button>
 
 
-                    <button     v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
+                    <button     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                                 v-on:mouseenter='setInfo("Make a copy of this app / component")'
                                 v-on:mouseleave='setInfo(null)'
                                 v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
@@ -493,7 +493,7 @@ ___________
 
 
                     <button   v-bind:disabled='read_only?"true":false'
-                              v-bind:style="'margin-left:0px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
+                              v-bind:style="'margin-left:4px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                               v-on:mouseenter='setInfo("Save the changes made in the UI and reload the app")'
                               v-on:mouseleave='setInfo(null)'
                               v-on:click='saveButtonPressed()'
