@@ -10461,6 +10461,49 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
                     let vueAppStructure = {
+                        template: `
+                            <div>
+                                <div    v-if="show_loader"
+                                        v-bind:style='show_loader?"":"display:none;"'
+                                        class="loader">
+                                </div>
+
+                                <div v-if="loadedAppMetaData">
+                                    <template   v-for="item  in  [loadedAppMetaData]" >
+                                        <div    v-if="item.id == selected_card"
+                                                style="left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
+                                            <card_component :item='item'
+                                                :visible='true'
+                                                :element_id='"current_card"'
+                                                :full_screen='true'
+                                                :is_static='is_static'
+                                                :card_selected='true'>
+                                            </card_component>
+                                        </div>
+                                    </template>
+                                </div>
+
+
+                                <div v-if="loadedAppMetaData">
+                                    <template   v-for="item  in  [loadedAppMetaData]">
+                                        <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
+                                            <card_component :item='item'
+                                                :visible='true'
+                                                :element_id='"card_" + item.id'
+                                                :full_screen='false'
+                                                :is_static='is_static'
+                                                :card_selected='(item.id == selected_card)'>
+                                            </card_component>
+                                        </div>
+                                    </template>
+                                </div>
+
+
+                                <div style="height: 200px;">
+                                </div>
+                            </div>
+                        `
+                        ,
                         data: function() {
                             return {
                                 count:                  1,
@@ -12066,46 +12109,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             <div    id='infinite-list'
                     style='overflow-y: none;' >
-
-                <div    v-if="show_loader"
-                        v-bind:style='show_loader?"":"display:none;"'
-                        class="loader">
-                </div>
-
-<div v-if="loadedAppMetaData">
-                <template   v-for="item  in  [loadedAppMetaData]" >
-                            <div    v-if="item.id == selected_card"
-                                    style="left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
-                                    <card_component :item='item'
-                                                    :visible='true'
-                                                    :element_id='"current_card"'
-                                                    :full_screen='true'
-                                                    :is_static='is_static'
-                                                    :card_selected='true'>
-                                    </card_component>
-                            </div>
-
-                </template>
-</div>
-
-
-<div v-if="loadedAppMetaData">
-                <template   v-for="item  in  [loadedAppMetaData]">
-                    <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
-                        <card_component :item='item'
-                                        :visible='true'
-                                        :element_id='"card_" + item.id'
-                                        :full_screen='false'
-                                        :is_static='is_static'
-                                        :card_selected='(item.id == selected_card)'>
-                        </card_component>
-                    </div>
-                </template>
-</div>
-
-
-                <div style="height: 200px;">
-                </div>
 
 
             </div>
