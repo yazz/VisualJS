@@ -477,7 +477,7 @@ ___________
                     <button     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
                                 v-on:mouseenter='setInfo("Make a copy of this app / component")'
                                 v-on:mouseleave='setInfo(null)'
-                                v-on:click='setTimeout(function(){copyApp(base_component_id, null,code_id)},100)'
+                                v-on:click='remixButtonPressed()'
                                 type="button" class="btn  btn-primary"
                                 v-if='yz && (mode != "profiler") && (!editor_overloaded) && ((preview_type == "app") || ((preview_type == "control")) && (yz.editor.lastEditingAppCodeId == null))'>
     
@@ -1020,6 +1020,12 @@ ___________
        },
         methods:            {
             // editor actions
+            remixButtonPressed:                  async function  (  ) {
+                let mm = this
+                setTimeout(function () {
+                    mm.copyApp(mm.base_component_id, null, mm.code_id)
+                }, 100)
+            },
             revisionsPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(async function () {
