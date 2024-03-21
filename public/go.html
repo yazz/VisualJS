@@ -9985,7 +9985,7 @@
 
 
                     let cardComponentStructure = {
-                        props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ],
+                        props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
                         mounted:    async function() {
                             let mm = this
                             if (Vue.version.startsWith("2")) {
@@ -10445,7 +10445,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                   v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
 
                                         <div    v-if='full_screen && (item.type == "app")'>
-
+appCodeId:  {{appCodeId}}
+<component      v-bind:is='appCodeId'></component>
                                             <div    v-bind:id='"app_container_"+ item.id'  >
                                                 <div v-bind:id='"yazz_app_container"' >
                                                 </div>
@@ -10479,6 +10480,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                             :element_id='"current_card"'
                                                             :full_screen='true'
                                                             :is_static='is_static'
+                                                            :appCodeId='appCodeId'
                                                             :card_selected='true'>
                                             </card_component>
 
@@ -10497,6 +10499,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                             :element_id='"card_" + item.id'
                                                             :full_screen='false'
                                                             :is_static='is_static'
+                                                            :appCodeId='appCodeId'
                                                             :card_selected='(item.id == selected_card)'>
                                             </card_component>
 
@@ -10516,7 +10519,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                 selected_card:          -1,
                                 loadedAppMetaData:      null,
                                 show_loader:            false,
-                                is_static:              false
+                                is_static:              false,
+                                appCodeId:              "ZIO"
                             }
                         }
                         ,
@@ -11133,9 +11137,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     code_id_of_loaded_app = codeIdOfComponent
 
                     let vueTemplateForComponent = `
-                        <component      v-bind:is='"${codeIdOfComponent}"'></component>
+                        <div>blank app</div>
                     `
                     //zzz
+                    yz.mainVars.mainVueApp.appCodeId = codeIdOfComponent
 
                     if (Vue.version.startsWith("2")) {
                         new Vue(
