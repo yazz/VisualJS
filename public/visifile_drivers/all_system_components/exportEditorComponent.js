@@ -132,7 +132,7 @@ load_once_from_file(true)
                                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;margin-bottom:10px;'">
                                 Shareable link:<input   readonly
                                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                                        v-bind:value='location.protocol + "//" + networkIntranetIpAddress + ":" + dockerLocalPort '>
+                                                        v-bind:value='getLocation().protocol + "//" + networkIntranetIpAddress + ":" + dockerLocalPort '>
                             </div>
                         </div>
                         <button v-on:click="createDockerImage()"
@@ -233,7 +233,7 @@ load_once_from_file(true)
                                     v-bind:style="'display:flex;text-decoration: underline;color:blue;padding: 5px; margin-top: 3px; position: relative; border: 0px;border-bottom: 4px solid lightsteelblue;margin-bottom:10px;'">
                                 Shareable link:<input   readonly
                                                         style='flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                                                        v-bind:value='location.protocol + "//" + networkIntranetIpAddress + ":" + dockerLocalPort '>
+                                                        v-bind:value='getLocation().protocol + "//" + networkIntranetIpAddress + ":" + dockerLocalPort '>
                             </div>
                         </div>
                         <button v-on:click="createDockerImage()"
@@ -274,6 +274,9 @@ load_once_from_file(true)
             }
         },
         methods:        {
+            getLocation:        function  (  ) {
+                return location
+            },
             getText:            async function  (  ) {
                 if (!isValidObject(this.text)) {
                     return null
