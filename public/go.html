@@ -9848,7 +9848,7 @@
                 } else if (hashingAlgorithm == "SHA256") {
                     if (typeof crypto.subtle !== 'undefined') {
                         let ret = await sha256(sometext)
-                        debugger
+                        //debugger
                         return "SHA256_" + ret
                     } else {
                         let resulthash = await postToYazzReturnJson(
