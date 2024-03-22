@@ -58,10 +58,9 @@ logo_url("/driver_icons/dropdown.png")
 */
 
     Yazz.component({
-      props: ["control_properties_and_events","refresh","design_mode",  "runEvent"]
-      ,
-      template:
-`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
+        props:      [  "control_properties_and_events"  ,  "refresh"  ,  "design_mode"  ,  "runEvent"  ],
+        template:   ` 
+<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"'
         v-bind:refresh='refresh'>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
@@ -166,52 +165,54 @@ logo_url("/driver_icons/dropdown.png")
 
 
 
-</div>`
-      ,
-      data: function() {
-       return {
+</div>`,
+        data:       function(  ) {
+            return {
          value:             null,
          selected_index:    null,
          items:             [],
          new_value:         "",
          new_text:          ""
        }
-     }
-     ,
-     watch: {
-       // This would be called anytime the value of the input changes
-       refresh: function(newValue, oldValue) {
+        },
+        watch:      {
+            // This would be called anytime the value of the input changes
+            refresh: function(newValue, oldValue) {
            //console.log("refresh: " + this.control_properties_and_events.text)
            if (isValidObject(this.control_properties_and_events)) {
                this.value = this.control_properties_and_events.value
                this.items = this.control_properties_and_events.items
            }
        }
-     }
-     ,
-     mounted: function() {
-         if (isValidObject(this.control_properties_and_events)) {
-             this.items = this.control_properties_and_events.items
-             if (isValidObject(this.control_properties_and_events.value)) {
-                this.value = this.control_properties_and_events.value
-             }
-         }
-      }
-      ,
-      methods: {
-            changedFn: function() {
+        },
+        mounted:    function(  ) {
+            let mm = this
+            if (Vue.version.startsWith("3")) {
+                mm.GLOBALS          = Vue.inject('GLOBALS')
+                mm.isValidObject    = Vue.inject('isValidObject')
+                mm.yz               = Vue.inject('yz')
+                mm.showProgressBar  = Vue.inject('showProgressBar')
+                mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
+            }
+
+            if (isValidObject(this.control_properties_and_events)) {
+                this.items = this.control_properties_and_events.items
+                if (isValidObject(this.control_properties_and_events.value)) {
+                    this.value = this.control_properties_and_events.value
+                }
+            }
+        },
+        methods:    {
+            changedFn:          function(  ) {
                 if (isValidObject(this.control_properties_and_events)) {
                     this.control_properties_and_events.value = this.value
                     this.control_properties_and_events.items = this.items
                 }
-            }
-            ,
-
-            runEventHandler: async function() {
+            },
+            runEventHandler:    async function(  ) {
                 await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
-
             }
-      }
-
+        }
     })
 }

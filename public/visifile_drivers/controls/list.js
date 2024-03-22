@@ -52,11 +52,10 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
 */
 
     Yazz.component({
-      props: ["control_properties_and_events","refresh","design_mode",  "runEvent"]
-      ,
-      template:
-`<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
-        v-bind:refresh='refresh'>
+        props:      [  "control_properties_and_events"  ,  "refresh"  ,  "design_mode"  ,  "runEvent"  ],
+        template:   `
+<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
+       v-bind:refresh='refresh'>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
          v-if='design_mode == "detail_editor"'>
@@ -161,9 +160,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
 
 
 
-</div>`
-      ,
-      data: function() {
+</div>`,
+        data:       function(  ) {
        return {
          value:             null,
          selected_index:    null,
@@ -171,9 +169,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
          new_value:         "",
          new_text:          ""
        }
-     }
-     ,
-     watch: {
+     },
+        watch:      {
        // This would be called anytime the value of the input changes
        refresh: function(newValue, oldValue) {
            //console.log("refresh: " + this.control_properties_and_events.text)
@@ -182,9 +179,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
                this.items = this.control_properties_and_events.items
            }
        }
-     }
-     ,
-     mounted: function() {
+     },
+        mounted:    function(  ) {
          if (isValidObject(this.control_properties_and_events)) {
              this.items = this.control_properties_and_events.items
              if (isValidObject(this.control_properties_and_events.value)) {
@@ -193,9 +189,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
          }
 
 
-      }
-      ,
-      methods: {
+      },
+        methods:    {
             changedFn: function() {
                 if (isValidObject(this.control_properties_and_events)) {
                     this.control_properties_and_events.value = this.value
@@ -209,6 +204,5 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
                 await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
             }
       }
-
     })
 }
