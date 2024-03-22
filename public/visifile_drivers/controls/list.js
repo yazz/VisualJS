@@ -54,7 +54,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
     Yazz.component({
         props:      [  "control_properties_and_events"  ,  "refresh"  ,  "design_mode"  ,  "runEvent"  ],
         template:   `
-<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
+<div   v-bind:style='"width:100%;overflow-y:auto;height:100%"'
        v-bind:refresh='refresh'>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
@@ -63,83 +63,78 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
 
         <div class="form-group">
             <label for="usr">Display:</label>
-            <input v-model="new_text" type="text" class="form-control" id="usr">
+            <input v-model="new_text" type="text" class="form-control" id="usr" />
         </div>
+    
         <div class="form-group">
             <label for="usr">Value:</label>
-            <input v-model="new_value" type="text" class="form-control" id="usr">
+            <input v-model="new_value" type="text" class="form-control" id="usr" />
         </div>
+    
         <div    class="btn btn-sm btn-info"
                 v-on:click="items.push({value: new_value, text:new_text});new_value='';new_text='';"
-                style="margin-bottom: 30px;"
-        >
-                Add
+                style="margin-bottom: 30px;">
+            Add
         </div>
 
 
 
-                <table class="table">
-                  <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">Display</th>
-                      <th scope="col">Value</th>
-                      <th scope="col"></th>
-                      <th scope="col">Delete</th>
-                    </tr>
-                  </thead>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Display</th>
+                    <th scope="col">Value</th>
+                    <th scope="col"></th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
 
 
 
-                  <tbody  v-bind:refresh='refresh'
-                          v-for='(child_item,index)  in  items'>
+            <tbody  v-bind:refresh='refresh'
+                    v-for='(child_item,index)  in  items'>
 
-                     <tr v-if='child_item && isValidObject(child_item)'
-                             v-bind:refresh='refresh'>
-
-                       <th scope="row">{{child_item.text}}</th>
-
-                       <td>{{child_item.value}}</td>
-
-                       <td>
-                           <div    class='btn btn-info'
+                <tr     v-if='child_item && isValidObject(child_item)'
+                        v-bind:refresh='refresh'>
+    
+                    <th scope="row">{{child_item.text}}</th>
+    
+                    <td>{{child_item.value}}</td>
+    
+                    <td>
+                        <div       class='btn btn-info'
                                    v-bind:refresh='refresh'
                                    v-on:click='var x = items[index];items.splice(index, 1);items.splice(index - 1, 0, x);changedFn();'
                                    v-if='child_item'
                                    v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                    "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
                                    UP
-
-                           </div>
-                           <div    class='btn btn-info'
+                        </div>
+                           
+                        <div       class='btn btn-info'
                                    v-bind:refresh='refresh'
                                    v-on:click='var x = items[index];items.splice(index, 1);items.splice(index + 1, 0, x);changedFn();'
                                    v-if='child_item'
                                    v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                    "width: 60px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
                                    DOWN
-
-                           </div>
-                       </td>
-
-                       <td>
-                           <div    class='btn btn-danger'
+                        </div>
+                    </td>
+    
+                    <td>
+                        <div       class='btn btn-danger'
                                    v-bind:refresh='refresh'
                                    v-if='child_item'
                                    v-on:click='items.splice(index, 1);changedFn();'
                                    v-bind:style='"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;padding:0px; z-index: 21474836;opacity:1;"  +
                                    "width: 20px; height: 20px; line-height:20px;text-align: center;vertical-align: middle;margin-left: 20px;"'>
-                                   X
-                           </div>
-                       </td>
-
-                     </tr>
-
-
-
-               </tbody>
-             </table>
-
-     </div>
+                            X
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div v-bind:style='"height:100%;width:100%; border: 0px;" +
                        "background-color: "+    control_properties_and_events["background_color"]  +  ";"'
@@ -156,51 +151,54 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMsAAAD5CAMAAAC+lzGnAAAA
             </option>
         </select>
     </div>
-
-
-
-
 </div>`,
         data:       function(  ) {
-       return {
-         value:             null,
-         selected_index:    null,
-         items:             [],
-         new_value:         "",
-         new_text:          ""
-       }
-     },
+            return {
+                value:             null,
+                selected_index:    null,
+                items:             [],
+                new_value:         "",
+                new_text:          ""
+            }
+        },
         watch:      {
-       // This would be called anytime the value of the input changes
-       refresh: function(newValue, oldValue) {
-           //console.log("refresh: " + this.control_properties_and_events.text)
-           if (isValidObject(this.control_properties_and_events)) {
-               this.value = this.control_properties_and_events.value
-               this.items = this.control_properties_and_events.items
-           }
-       }
-     },
+            // This would be called anytime the value of the input changes
+            refresh: function(newValue, oldValue) {
+                //console.log("refresh: " + this.control_properties_and_events.text)
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.value = this.control_properties_and_events.value
+                    this.items = this.control_properties_and_events.items
+                }
+            }
+        },
         mounted:    function(  ) {
-         if (isValidObject(this.control_properties_and_events)) {
-             this.items = this.control_properties_and_events.items
-             if (isValidObject(this.control_properties_and_events.value)) {
-                this.value = this.control_properties_and_events.value
-             }
-         }
+            let mm = this
+            if (Vue.version.startsWith("3")) {
+                mm.GLOBALS          = Vue.inject('GLOBALS')
+                mm.isValidObject    = Vue.inject('isValidObject')
+                mm.yz               = Vue.inject('yz')
+                mm.showProgressBar  = Vue.inject('showProgressBar')
+                mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
+            }
 
-
-      },
+            if (isValidObject(this.control_properties_and_events)) {
+                this.items = this.control_properties_and_events.items
+                if (isValidObject(this.control_properties_and_events.value)) {
+                    this.value = this.control_properties_and_events.value
+                }
+            }
+        },
         methods:    {
-            changedFn: function() {
+            changedFn:          function(  ) {
                 if (isValidObject(this.control_properties_and_events)) {
                     this.control_properties_and_events.value = this.value
                     this.control_properties_and_events.items = this.items
                 }
-            }
-            ,
-
-            runEventHandler: async function() {
-                changedFn();
+            },
+            runEventHandler:    async function(  ) {
+                let mm = this
+                mm.changedFn();
                 await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
             }
       }
