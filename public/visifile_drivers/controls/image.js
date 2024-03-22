@@ -41,26 +41,27 @@ logo_url("/driver_icons/image.png")
 */
 
     Yazz.component({
-      props: ["control_properties_and_events", "name","refresh",  "runEvent"]
-      ,
-      template: `<img   v-bind:width='control_properties_and_events.width + "px"'
-                        v-bind:refresh='refresh'
-                        alt='No image set'
-                        v-bind:src='"" + control_properties_and_events.image_data' />
-                 `
-      ,
-      data: function() {
-       return {
-         msg: "..."
-         }
-     },
-     methods: {
-        event_callback: async function() {
-        console.log("----- image_control, event_callback: function() = " + this.name)
-            //eval("(function(){" + this.control_properties_and_events.click_event + "})")()
-            await this.runEvent({ display: "click",   code: this.control_properties_and_events.click_event })
-        }
+        props:      [  "control_properties_and_events"  ,  "name"  ,  "refresh"  ,  "runEvent"  ,  "design_mode"  ],
+        template:   ` 
+<img    v-bind:width='control_properties_and_events.width + "px"'
+        v-bind:refresh='refresh'
+        alt='No image set'
+        v-bind:src='"" + control_properties_and_events.image_data' />
+`,
+        mounted:    async function(  ) {
+            await registerComponent(this)
+        },
+        data:       function() {
+                return {
+                    msg: "..."
+            }
+},
+        methods:    {
+            event_callback: async function() {
+                console.log("----- image_control, event_callback: function() = " + this.name)
+                //eval("(function(){" + this.control_properties_and_events.click_event + "})")()
+                await this.runEvent({ display: "click",   code: this.control_properties_and_events.click_event })
+            }
      }
-
     })
 }
