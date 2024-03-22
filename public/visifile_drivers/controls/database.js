@@ -452,7 +452,7 @@ logo_url("/driver_icons/data_control.png")
             --------------------------------------------------------------------- -->
             <div v-bind:style='((control_properties_and_events.designDetailTab == "connection")?"visibility:visible;":"visibility:hidden;display: none;")'
                  v-bind:refresh='refresh'
-                 v-observe-visibility="visibilityChanged">
+                 oldv-observe-visibility="visibilityChanged">
 
                 Connection
 
