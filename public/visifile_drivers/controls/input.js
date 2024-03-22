@@ -132,7 +132,7 @@ logo_url("/driver_icons/input_box.png")
             class="form-control2"
             v-on:click='click_event_callback()'
             v-on:focus='focus_event_callback()'
-            v-on:keypress='keypress_event_callback(event.key)'
+            v-on:keypress='keypress_event_callback($event.key)'
             v-bind:style=   '"width:100%; " +
                              "background-color: "+  control_properties_and_events.background_color  +  ";"'
 
@@ -146,7 +146,7 @@ logo_url("/driver_icons/input_box.png")
             class="form-control2"
             v-on:click='click_event_callback()'
             v-on:focus='focus_event_callback()'
-            v-on:keypress='keypress_event_callback(event.key)'
+            v-on:keypress='keypress_event_callback($event.key)'
             v-bind:style=   '"width:100%; " +
                              "background-color: "+  control_properties_and_events.background_color  +  ";"'
 
