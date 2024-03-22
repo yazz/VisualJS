@@ -57,7 +57,7 @@ function(args) {
     */
 
     Yazz.component({
-        props:          [  "control_properties_and_events"  ,  "refresh"  ,  "runEvent"  ],
+        props:          [  "control_properties_and_events"  ,  "refresh"  ,  "runEvent"  ,  "design_mode"  ],
         template:       `
 <div v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    control_properties_and_events["background_color"]  +  ";"'>
 
@@ -67,7 +67,6 @@ function(args) {
             v-model='value'
             min="1"
             max="100"
-            value="50"
             step="1"
             v-bind:style='"position:absolute;transform: rotate(90deg);width: " + (control_properties_and_events.height - 20) + ";top: " + ((control_properties_and_events.height / 2) - 0) + "px;left: -" + ((control_properties_and_events.height / 2) - 20) + "px;"'
             >
@@ -75,7 +74,7 @@ function(args) {
         data:           function() {
             return {
                 msg:               "...",
-                value:              null
+                value:              50
             }
         },
         watch:          {
