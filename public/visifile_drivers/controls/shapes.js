@@ -40,20 +40,20 @@ logo_url("/driver_icons/shapes.png")
 */
 
     Yazz.component({
-      props: ["control_properties_and_events"]
-      ,
-      template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    control_properties_and_events["background_color"]  + ";" +
-                                    ((control_properties_and_events.shape == "circle")?"border-radius: 50%;":"border-radius: 0%;") +
-                                    ";"'>
-
-
-                 </div>`
-      ,
-      data: function() {
-       return {
-         msg: "..."
-     }
-      },
+        props:          [  "control_properties_and_events"  ,  "design_mode"  ],
+        template:       ` 
+<div    v-bind:style='"height:100%;width:100%; border: 0px;" +
+        "background-color: "+    control_properties_and_events["background_color"]  + ";" +
+        ((control_properties_and_events.shape == "circle")?"border-radius: 50%;":"border-radius: 0%;") +
+        ";"'>
+</div>`,
+        mounted:        async function(  ) {
+            await registerComponent(this)
+        },
+        data:           function(  ) {
+            return {
+                msg: "..."
+            }
+        }
     })
 }
