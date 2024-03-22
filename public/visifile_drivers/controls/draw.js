@@ -70,44 +70,45 @@ properties(
 logo_url("/driver_icons/draw.png")
 */
 
-
-
     Yazz.component({
-      props: ["control_properties_and_events","refresh", "design_mode"]
-      ,
-      template: `<div   v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                      "background-color: "+    control_properties_and_events["background_color"]  +  ";"'
-                        v-bind:refresh='refresh'>
+        props:      [  "control_properties_and_events"  ,  "refresh"  ,  "design_mode"  ],
+        template:   ` 
+<div   v-bind:style='"height:100%;width:100%; border: 0px;" +
+       "background-color: "+    control_properties_and_events["background_color"]  +  ";"'
+       v-bind:refresh='refresh'>
 
                                     <canvas v-if='design_mode == "detail_editor"'
                                             v-bind:id='control_properties_and_events.name + "_canvas_" + (design_mode?"_design_mode":"")'
                                             v-bind:refresh='refresh'
                                             style="border: solid black 5px;margin-bottom: 10px;"
-                                            v-on:mousemove='if (mousedown) {drawNow($event)}'
+                                            v-on:mousemove='onMouseMove(  $event  )'
                                             v-on:mousedown='mousedown=true'
                                             v-on:mouseup='mousedown=false'
                                             v-bind:height='control_properties_and_events.height + "px"'
                                             v-bind:width='control_properties_and_events.width + "px"'
-                                             >
+                                            >
                                     </canvas>
 
                                     <div        v-if='design_mode == "detail_editor"'>
 
-                                        <div    v-for="color in colors"
-                                                v-if='design_mode == "detail_editor"'
-                                                v-on:click='control_properties_and_events.draw_color = color;'
-                                                v-bind:style="'display: inline-block;width:15px;height:15px;background-color: ' + color">
-                                        </div>
+                                        <template    v-if='design_mode == "detail_editor"'>
+                                            <div    v-for="color in colors"
+                                                    
+                                                    v-on:click='control_properties_and_events.draw_color = color;'
+                                                    v-bind:style="'display: inline-block;width:15px;height:15px;background-color: ' + color">
+                                            </div>
+                                        </template>
                                     </div>
 
                                     <div        v-if='design_mode == "detail_editor"'>
 
-                                        <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]"
-                                                v-if='design_mode == "detail_editor"'
-                                                v-on:click='control_properties_and_events.brush_width = brush_size;'
-                                                v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
-                                                              'px;background-color: ' + control_properties_and_events.draw_color + ';border: black solid 1px ;margin-right: 2px;'">
-                                        </div>
+                                        <template    v-if='design_mode == "detail_editor"'>
+                                            <div    v-for="brush_size in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]"
+                                                    v-on:click='control_properties_and_events.brush_width = brush_size;'
+                                                    v-bind:style="'display: inline-block;width:' + brush_size + 'px;height:' + brush_size +
+                                                                  'px;background-color: ' + control_properties_and_events.draw_color + ';border: black solid 1px ;margin-right: 2px;'">
+                                            </div>
+                                        </template>
                                     </div>
 
 
@@ -119,9 +120,8 @@ logo_url("/driver_icons/draw.png")
 
 
                                     
-                 </div>`
-      ,
-      data: function() {
+                 </div>`,
+        data:       function(  ) {
        return {
          msg: "...",
          mousedown: false,
@@ -129,9 +129,8 @@ logo_url("/driver_icons/draw.png")
                     "cyan","lightblue"
                     ]
      }
-      }
-      ,
-      watch: {
+      },
+        watch:      {
         // This would be called anytime the value of the input changes
         refresh: function(newValue, oldValue) {
             //console.log("refresh: " + this.control_properties_and_events.text)
@@ -140,62 +139,62 @@ logo_url("/driver_icons/draw.png")
             this.loadImageToCanvas()
         }
       },
-      mounted: function() {
-        this.loadImageToCanvas()
-      }
-      ,
-      methods: {
+        mounted:    async function(  ) {
+            let mm = this
+            if (Vue.version.startsWith("3")) {
+                mm.GLOBALS          = Vue.inject('GLOBALS')
+                mm.isValidObject    = Vue.inject('isValidObject')
+                mm.yz               = Vue.inject('yz')
+                mm.showProgressBar  = Vue.inject('showProgressBar')
+                mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
+            }
+            await registerComponent(this)
+            this.loadImageToCanvas()
+        },
+        methods:    {
+            onMouseMove:          async function (  event  ) {
+                let mm = this
+                if (mm.mousedown) {
+                    mm.drawNow(event)
+                }
+            },
+            drawNow:              function    (  event  ) {
+                let mm= this
+                let el = document.getElementById(mm.control_properties_and_events.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
+                    if (isValidObject(el)) {
+               let rect = el.getBoundingClientRect()
+               let left = (event.clientX - rect.left ) - 8
+               let right = (event.clientY - rect.top) - 8
 
-
-
-
-
-
-
-          drawNow: function(event) {
-          var mm= this
-          var el = document.getElementById(mm.control_properties_and_events.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
-              if (isValidObject(el)) {
-               var rect = el.getBoundingClientRect()
-               var left = (event.clientX - rect.left ) - 8
-               var right = (event.clientY - rect.top) - 8
-
-               var ctx = el.getContext("2d");
+               let ctx = el.getContext("2d");
                ctx.strokeStyle = mm.control_properties_and_events.draw_color;
                ctx.fillStyle = mm.control_properties_and_events.draw_color;
                ctx.fillRect(left,right,  mm.control_properties_and_events.brush_width,  mm.control_properties_and_events.brush_width)
 
                this.control_properties_and_events.image_data = el.toDataURL()
             }
-          }
-          ,
-
-
-
-
-
-          loadImageToCanvas: function() {
-              var mm = this
-              var base_image = new Image();
-              //alert(this.control_properties_and_events.image_data)
-              base_image.src = this.control_properties_and_events.image_data;
-              base_image.onload = function() {
-                var el = document.getElementById(mm.control_properties_and_events.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
-                if (isValidObject(el)) {
-                    //alert(el)
-                    var ctx = el.getContext("2d");
-                    ctx.clearRect(0, 0, el.width, el.height);
-                    var hRatio = el.width / base_image.width    ;
-                    var vRatio = el.height / base_image.height  ;
-                    var ratio  = Math.min ( hRatio, vRatio );
-                    ctx.drawImage(base_image,   0, 0, base_image.width,             base_image.height,
-                                                0, 0, base_image.width*ratio,       base_image.height*ratio);
-                    //alert(base_image)
+            },
+            loadImageToCanvas:    function    (  ) {
+                let mm = this
+                let base_image = new Image();
+                //alert(this.control_properties_and_events.image_data)
+                base_image.src = this.control_properties_and_events.image_data;
+                base_image.onload = function() {
+                    let el = document.getElementById(mm.control_properties_and_events.name + "_canvas_" + (mm.design_mode?"_design_mode":""))
+                    if (isValidObject(el)) {
+                        //alert(el)
+                        let ctx = el.getContext("2d");
+                        ctx.clearRect(0, 0, el.width, el.height);
+                        let hRatio = el.width / base_image.width    ;
+                        let vRatio = el.height / base_image.height  ;
+                        let ratio  = Math.min ( hRatio, vRatio );
+                        ctx.drawImage(base_image,   0, 0, base_image.width,             base_image.height,
+                                                    0, 0, base_image.width*ratio,       base_image.height*ratio);
+                        //alert(base_image)
+                    }
                 }
-              }
-          }
-
-      }
-
+            }
+        }
     })
 }
