@@ -93,9 +93,9 @@ logo_url("/driver_icons/table.png")
 */
 
     Yazz.component({
-        props:      [  "meta"  ,  "form"  ,  "name"  ,  "args"  ,  "refresh"  ,  "design_mode"  ,  "properties"  ,  "runEvent"],
+        props:      [  "meta"  ,  "form"  ,  "name"  ,  "control_properties_and_events"  ,  "refresh"  ,  "design_mode"  ,  "runEvent"  ],
         template:   `
-<div    v-bind:style='"width:100%;overflow-y:auto;height:100%"
+<div    v-bind:style='"width:100%;overflow-y:auto;height:100%"'
         v-bind:refresh='refresh'>
 
 
@@ -125,33 +125,33 @@ logo_url("/driver_icons/table.png")
             refresh: function(newValue, oldValue) {
                 // This would be called anytime the value of the input changes
 
-                //console.log("refresh: " + this.args.text)
-                if (isValidObject(this.args)) {
-                    this.value = this.args.value
+                //console.log("refresh: " + this.control_properties_and_events.text)
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.value = this.control_properties_and_events.value
 
-                    let ttt = jsondiffpatch2.diff(this.data,this.args.data)
+                    let ttt = jsondiffpatch2.diff(this.data,this.control_properties_and_events.data)
                     if (ttt) {
-                        this.data = this.args.data
+                        this.data = this.control_properties_and_events.data
                         this.setData(this.data)
                     }
                 }
             }
         },
-        mounted:    async function() {
+        mounted:    async function(  ) {
             await registerComponent(this)
             await useTabulatorJs()
 
-             if (isValidObject(this.args)) {
-                 this.data = this.args.data
-                 if (isValidObject(this.args.value)) {
-                    this.value = this.args.value
+             if (isValidObject(this.control_properties_and_events)) {
+                 this.data = this.control_properties_and_events.data
+                 if (isValidObject(this.control_properties_and_events.value)) {
+                    this.value = this.control_properties_and_events.value
                  }
              }
 
-         if (this.args.design_mode != "detail_editor") {
+         if (this.control_properties_and_events.design_mode != "detail_editor") {
              this.table = new Tabulator(this.$refs.exampletable, {
-                    width:                      this.args.width,
-                    height:                     this.args.height,
+                    width:                      this.control_properties_and_events.width,
+                    height:                     this.control_properties_and_events.height,
                 	data:                       this.data,
                 	layout:                     "fitColumns",
                 	responsiveLayout:           "hide",
@@ -169,13 +169,13 @@ logo_url("/driver_icons/table.png")
         },
         methods:    {
             changedFn:          function        (  ) {
-                if (isValidObject(this.args)) {
-                    this.args.value = this.value
-                    this.args.data = this.data
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.control_properties_and_events.value = this.value
+                    this.control_properties_and_events.data = this.data
                 }
             },
-            runEventHandler:    async function        (  ) {
-                await this.runEvent({ display: "changed",   code: this.args.changed_event })
+            runEventHandler:    async function  (  ) {
+                await this.runEvent({ display: "changed",   code: this.control_properties_and_events.changed_event })
             },
             setText:            async function  (  newtext  ) {
 
@@ -185,8 +185,8 @@ logo_url("/driver_icons/table.png")
             },
             setData:            async function  (  data  ) {
                 let mm = this
-                if (mm.args) {
-                    mm.args.data = data
+                if (mm.control_properties_and_events) {
+                    mm.control_properties_and_events.data = data
                     mm.table.setData(data)
 
                     let keysOfData = new Object()
