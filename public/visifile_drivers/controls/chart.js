@@ -78,16 +78,14 @@ properties(
 logo_url("/driver_icons/chart.png")
 */
     Yazz.component({
-        props:      [  "meta","name","control_properties_and_events","refresh","design_mode","runEvent"  ],
+        props:      [  "meta"  ,  "name"  ,  "control_properties_and_events"  ,  "design_mode"  ,  "runEvent"  ],
         template:   `
- <div   v-bind:style='"width:100%;overflow-y:auto;height:100%"
-        v-bind:refresh='refresh'>
-
-    <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;"'
-         v-if='design_mode == "detail_editor"'>
-
+ <div   style="width:100%;overflow-y:auto;height:100%">
+ 
+    <div  style="height:100%;width:100%; border: 0px;color:black;"  v-if='design_mode == "detail_editor"'>
 
          <label for="usr">Data:</label>
+         
          <textarea style="font-family:monospace; height:80%"
                    v-model="control_properties_and_events.jsonConfig"
                    type="" class="form-control" id="usr"
