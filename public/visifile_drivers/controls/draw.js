@@ -84,8 +84,8 @@ logo_url("/driver_icons/draw.png")
                                             v-on:mousemove='onMouseMove(  $event  )'
                                             v-on:mousedown='mousedown=true'
                                             v-on:mouseup='mousedown=false'
-                                            v-bind:height='control_properties_and_events.height + "px"'
-                                            v-bind:width='control_properties_and_events.width + "px"'
+                                            v-bind:height='control_properties_and_events.height '
+                                            v-bind:width='control_properties_and_events.width '
                                             >
                                     </canvas>
 
@@ -122,14 +122,14 @@ logo_url("/driver_icons/draw.png")
                                     
                  </div>`,
         data:       function(  ) {
-       return {
-         msg: "...",
-         mousedown: false,
-          colors: [ "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray",
-                    "cyan","lightblue"
-                    ]
-     }
-      },
+            return {
+                msg: "...",
+                mousedown: false,
+                colors: [   "blue","green","yellow","orange","black","white","purple","red","violet","blue","gray","pink","orange","lightgray","darkgray",
+                            "cyan","lightblue"
+                        ]
+            }
+        },
         watch:      {
         // This would be called anytime the value of the input changes
         refresh: function(newValue, oldValue) {
