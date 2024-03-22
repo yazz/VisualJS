@@ -123,52 +123,45 @@ logo_url("/driver_icons/input_box.png")
 */
 
     Yazz.component({
-      props: [ "meta", "form",  "name", "control_properties_and_events", "refresh",  "runEvent"]
-      ,
-      template: `<div>
-                    <label v-if='control_properties_and_events.label'>{{control_properties_and_events.label}}</label>
+        props:    [  "meta"  ,  "form"  ,  "name"  ,  "control_properties_and_events"  ,  "refresh"  ,  "runEvent"  ,  "design_mode"  ],
+        template: `
+<div>
+    <label v-if='control_properties_and_events.label'>{{control_properties_and_events.label}}</label>
 
-                    <input  v-if='(!control_properties_and_events.multiline) || (control_properties_and_events.multiline == "False") '
-                            class="form-control2"
-                            v-on:click='click_event_callback()'
-                            v-on:focus='focus_event_callback()'
-                            v-on:keypress='keypress_event_callback(event.key)'
-                            v-bind:style=   '"width:100%; " +
-                                             "background-color: "+  control_properties_and_events.background_color  +  ";"'
+    <input  v-if='(!control_properties_and_events.multiline) || (control_properties_and_events.multiline == "False") '
+            class="form-control2"
+            v-on:click='click_event_callback()'
+            v-on:focus='focus_event_callback()'
+            v-on:keypress='keypress_event_callback(event.key)'
+            v-bind:style=   '"width:100%; " +
+                             "background-color: "+  control_properties_and_events.background_color  +  ";"'
 
-                            v-model='control_properties_and_events.value' />
-
-
-                    <textarea
-                            v-bind:rows='(!control_properties_and_events.rows)?"4":control_properties_and_events.rows'
-                            v-bind:cols='(!control_properties_and_events.cols)?"50":control_properties_and_events.cols'
-                            v-if='(control_properties_and_events.multiline == "True")'
-                            class="form-control2"
-                            v-on:click='click_event_callback()'
-                            v-on:focus='focus_event_callback()'
-                            v-on:keypress='keypress_event_callback(event.key)'
-                            v-bind:style=   '"width:100%; " +
-                                             "background-color: "+  control_properties_and_events.background_color  +  ";"'
-
-                            v-model='control_properties_and_events.valueMultiline'>  </textarea>
-                 </div>`
-      ,
-      mounted: async function() {
-        await registerComponent(this)
-      }
-      ,
+            v-model='control_properties_and_events.value' />
 
 
+    <textarea
+            v-bind:rows='(!control_properties_and_events.rows)?"4":control_properties_and_events.rows'
+            v-bind:cols='(!control_properties_and_events.cols)?"50":control_properties_and_events.cols'
+            v-if='(control_properties_and_events.multiline == "True")'
+            class="form-control2"
+            v-on:click='click_event_callback()'
+            v-on:focus='focus_event_callback()'
+            v-on:keypress='keypress_event_callback(event.key)'
+            v-bind:style=   '"width:100%; " +
+                             "background-color: "+  control_properties_and_events.background_color  +  ";"'
 
-      methods: {
-
-            click_event_callback: async function() {
+            v-model='control_properties_and_events.valueMultiline'>  </textarea>
+</div>`,
+        mounted:  async function(  ) {
+            await registerComponent(this)
+        },
+        methods:  {
+            click_event_callback:       async function  (  ) {
                 //console.log("----- button_control, click_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.control_properties_and_events.click_event + "})")()
                 await this.runEvent({ display: "click",   code: this.control_properties_and_events.click_event })
-            }
-            ,
-            keypress_event_callback: async function(mykeypressed) {
+            },
+            keypress_event_callback:    async function  (  mykeypressed  ) {
                 //console.log("----- button_control, keypress_event_callback: function() = " + this.name)
                 //eval("(function(){" + this.control_properties_and_events.click_event + "})")()
                 //this.control_properties_and_events.last_keypressed = JSON.parse(JSON.stringify(mykeypressed))
@@ -176,12 +169,11 @@ logo_url("/driver_icons/input_box.png")
 
                 this.control_properties_and_events.last_keypressed = mykeypressed
                 await this.runEvent({ display: "keypress",   code: this.control_properties_and_events.keypress_event  })
-            }
-            ,
-            focus_event_callback: async function() {
+            },
+            focus_event_callback:       async function  (  ) {
                 console.log("----- button_control, focus_event_callback: function() = " + this.name)
                 await this.runEvent({ display: "focus",   code: this.control_properties_and_events.focus_event })
             }
-       }
+        }
     })
 }
