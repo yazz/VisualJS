@@ -360,7 +360,7 @@ logo_url("/driver_icons/data_control.png")
 |  database driver first
 |
 --------------------------------------------------------------------- -->
-<div    v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"
+<div    v-bind:style='"width:100%;overflow-y:auto;height:100%;color:black;"'
         v-bind:refresh='refresh'>
 
 
@@ -393,8 +393,7 @@ logo_url("/driver_icons/data_control.png")
     |
     --------------------------------------------------------------------- -->
     <div v-bind:style='"height:100%;width:100%; border: 0px;color:black;padding: 10px;"'
-         v-if='design_mode == "detail_editor"'
-          >
+         v-if='design_mode == "detail_editor"'>
 
         <div v-bind:style='"height:100%;width:100%; overflow: none;"'>
 
@@ -468,16 +467,16 @@ logo_url("/driver_icons/data_control.png")
                 <select  @change='chooseSource($event)'
                           style="margin-top: 5px;">
 
-                      <option   value=""
+                    <option   value=""
                               selected='true'>
-                      </option>
-                      <option   v-for='propVal in data_sources'
-                                v-bind:value="propVal.base_component_id"
-                                v-bind:selected='(propVal.base_component_id == control_properties_and_events.sourceComponentType)'>
+                    </option>
+                    <option   v-for='propVal in data_sources'
+                              v-bind:value="propVal.base_component_id"
+                              v-bind:selected='(propVal.base_component_id == control_properties_and_events.sourceComponentType)'>
 
                             {{propVal.display_name}}
 
-                      </option>
+                    </option>
                 </select>
 
                 <div    v-if='meta.children && meta.children[0]' 
@@ -500,7 +499,6 @@ logo_url("/driver_icons/data_control.png")
 
                     <slot v-bind:refresh='refresh'>
                     </slot>
-
                 </div>
             </div>
 
@@ -527,17 +525,19 @@ logo_url("/driver_icons/data_control.png")
             |
             --------------------------------------------------------------------- -->
             <div v-if='control_properties_and_events.designDetailTab == "schema"'  >
-               Database Tables: &#34;{{control_properties_and_events.sourceComponentType}}&#34; 
-               <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
+            
+                Database Tables: &#34;{{control_properties_and_events.sourceComponentType}}&#34;
+                 
+                <div style="height:70%;width:100%; overflow-y: scroll;border: 1px solid lightgray;">
 
-                   <div   v-for='table in control_properties_and_events.tables'
-                          v-on:click="selectTable( table )"
-                          v-bind:style='"padding: 5px; " + ((control_properties_and_events.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
+                    <div   v-for='table in control_properties_and_events.tables'
+                           v-on:click="selectTable( table )"
+                           v-bind:style='"padding: 5px; " + ((control_properties_and_events.design_mode_table == table)?"background-color:gray;color:white;":"background-color:white;color:gray;") '>
 
                          {{table}}
 
-                   </div>
-               </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -586,7 +586,7 @@ logo_url("/driver_icons/data_control.png")
                                 :disabled="(control_properties_and_events.selected_column && control_properties_and_events.selected_column.length > 0)?false:true"
                                 v-on:click="let newId = control_properties_and_events.dataWindowColumnsMax++;control_properties_and_events.dataWindowColumns.push({id:    newId, value: control_properties_and_events.selected_column, name: control_properties_and_events.selected_column});setSql();control_properties_and_events.selected_data_window_column_index = newId;control_properties_and_events.selected_data_window_column = control_properties_and_events.dataWindowColumns[control_properties_and_events.dataWindowColumns.length - 1];">
 
-                              Add >>
+                              Add &gt;&gt;
 
                         </button>
                         <button    class="btn btn-primary"
@@ -594,7 +594,7 @@ logo_url("/driver_icons/data_control.png")
                                 :disabled="(control_properties_and_events.selected_data_window_column_index > -1)?false:true"
                                 v-on:click="control_properties_and_events.dataWindowColumns.splice(control_properties_and_events.selected_data_window_column_index,1);setSql(); control_properties_and_events.selected_data_window_column_index = -1;control_properties_and_events.selected_data_window_column='';">
 
-                              << Remove
+                              &lt;&lt; Remove
 
                         </button>
                     </div>
@@ -645,39 +645,37 @@ logo_url("/driver_icons/data_control.png")
                             <div    v-if="control_properties_and_events.selected_data_window_column"
                                     style="height:100%;width:100%; overflow-y: none; padding: 10px;">
 
-                                <div class="form-group">
-
-
-                                  <label for="col_input_name">Title</label>
-                                  <input  type=text
-                                          class="form-control"
-                                          style="margin-bottom: 30px;"
-                                          id=col_input_name
-                                          name="col_input_name"
-                                          required
-                                          v-bind:value='control_properties_and_events.selected_data_window_column.name'
-                                          v-on:change="let qwe = document.getElementById('col_input_name').value;control_properties_and_events.dataWindowColumns[control_properties_and_events.selected_data_window_column_index].name=qwe;control_properties_and_events.selected_data_window_column.name = qwe;"
-                                           />
-
-
-
-
-                                  <label for="col_input_value">DB Col ID</label>
-                                  <input  type=text
-                                          class="form-control"
-                                          id=col_input_value
-                                          style="margin-bottom: 30px;"
-                                          name="col_input_value"
-                                          required
-                                          v-bind:value='control_properties_and_events.selected_data_window_column.value'
-
-                                          v-on:change="let qwe = document.getElementById('col_input_value').value;control_properties_and_events.dataWindowColumns[control_properties_and_events.selected_data_window_column_index].value=qwe;control_properties_and_events.selected_data_window_column.value = qwe;"
-                                           />
+                                <div class="form-group"> 
+                                    <label for="col_input_name">Title</label>
+                                    
+                                    <input  type=text
+                                            class="form-control"
+                                            style="margin-bottom: 30px;"
+                                            id=col_input_name
+                                            name="col_input_name"
+                                            required
+                                            v-bind:value='control_properties_and_events.selected_data_window_column.name'
+                                            v-on:change="let qwe = document.getElementById('col_input_name').value;control_properties_and_events.dataWindowColumns[control_properties_and_events.selected_data_window_column_index].name=qwe;control_properties_and_events.selected_data_window_column.name = qwe;"
+                                            />
 
 
 
-                                  <div class="valid-feedback">Valid.</div>
-                                  <div class="invalid-feedback">Please fill out this field.</div>
+
+                                    <label for="col_input_value">DB Col ID</label>
+                                    <input  type=text
+                                            class="form-control"
+                                            id=col_input_value
+                                            style="margin-bottom: 30px;"
+                                            name="col_input_value"
+                                            required
+                                            v-bind:value='control_properties_and_events.selected_data_window_column.value'
+                                            v-on:change="let qwe = document.getElementById('col_input_value').value;control_properties_and_events.dataWindowColumns[control_properties_and_events.selected_data_window_column_index].value=qwe;control_properties_and_events.selected_data_window_column.value = qwe;"
+                                            />
+
+
+
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">Please fill out this field.</div>
 
 
                                     <label for="col_input_width">Col Width px</label>
@@ -690,7 +688,7 @@ logo_url("/driver_icons/data_control.png")
 
                                             v-on:change="let qwe = document.getElementById('col_input_width').value;control_properties_and_events.selected_data_window_column.width = qwe;control_properties_and_events.dataWindowColumns[control_properties_and_events.selected_data_window_column_index].width=qwe;"
                                              />
-                              </div>
+                                </div>
 
 
 
@@ -702,37 +700,9 @@ logo_url("/driver_icons/data_control.png")
 
                             </div>
                         </div>
-
-
                     </div>
-
-
-
-
-
-
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             <!--  WHERE CLAUSE PANE ---------------------------------------------------------
@@ -781,39 +751,32 @@ logo_url("/driver_icons/data_control.png")
                 Options tab
 
                 <form>
-                  <div class="form-group">
+                    <div class="form-group">
 
 
-                      <div class="form-check">
-                        <input  type="checkbox" class="form-check-input" id="allow_col_resize"
-                                :checked='control_properties_and_events.allow_col_resize' v-model='control_properties_and_events.allow_col_resize'>
-                        <label class="form-check-label" for="allow_col_resize">Allow col resize</label>
-                      </div>
+                        <div class="form-check">
+                            <input  type="checkbox" class="form-check-input" id="allow_col_resize"
+                                    :checked='control_properties_and_events.allow_col_resize' v-model='control_properties_and_events.allow_col_resize'>
+                            <label class="form-check-label" for="allow_col_resize">Allow col resize</label>
+                        </div>
 
 
-                      <div class="form-check">
-                        <input  type="checkbox" class="form-check-input" id="allow_col_move"
-                                :checked='control_properties_and_events.allow_col_move' v-model='control_properties_and_events.allow_col_move'>
-                        <label class="form-check-label" for="allow_col_move">Allow col move</label>
-                      </div>
+                        <div class="form-check">
+                            <input  type="checkbox" class="form-check-input" id="allow_col_move"
+                                    :checked='control_properties_and_events.allow_col_move' v-model='control_properties_and_events.allow_col_move'>
+                            <label class="form-check-label" for="allow_col_move">Allow col move</label>
+                        </div>
 
 
-                      <div class="form-check">
-                        <input  type="checkbox" class="form-check-input" id="allow_row_resize"
-                                :checked='control_properties_and_events.allow_row_resize' v-model='control_properties_and_events.allow_row_resize'>
-                        <label class="form-check-label" for="allow_row_resize">Allow row resize</label>
-                      </div>
-
-
-
+                        <div class="form-check">
+                            <input  type="checkbox" class="form-check-input" id="allow_row_resize"
+                                    :checked='control_properties_and_events.allow_row_resize' v-model='control_properties_and_events.allow_row_resize'>
+                            <label class="form-check-label" for="allow_row_resize">Allow row resize</label>
+                        </div>
+                    </div>
                 </form>
             </div>
-
-
-
-
         </div>
-
     </div>
 
 
@@ -821,56 +784,45 @@ logo_url("/driver_icons/data_control.png")
 
 
 
-
-
-
-
-
     <div v-else>
-
-
         <div v-bind:style='"height:100%;width:100%; border: 0px;" +
                            "background-color: "+    control_properties_and_events["background_color"]  +  ";"'
              v-if='design_mode == false'>
 
 
-             <div    v-if='meta.children && meta.children[0]'
-                     v-bind:refresh='refresh'
-                     hidden>
+            <div    v-if='meta.children && meta.children[0]'
+                    v-bind:refresh='refresh'
+                    hidden>
 
                  <slot v-bind:refresh='refresh'>
                  </slot>
-             </div>
-
+            </div>
         </div>
 
 
 
 
-         <div v-bind:style='"height:100%;width:100%; border: 0px;" +
+        <div v-bind:style='"height:100%;width:100%; border: 0px;" +
                             "background-color:white;color:black;"'
               v-else>
 
-                      <div   v-for='propVal in data_sources'>
-                            <b v-if='(propVal.base_component_id == control_properties_and_events.sourceComponentType)'>
-                                {{propVal.display_name}}
-                            </b>
-                      </div>
-                      <b v-if='!control_properties_and_events.sourceComponentType || (control_properties_and_events.sourceComponentType == "")'>
-                          No data source selected
-                      </b>
-                      <br/>
+            <div   v-for='propVal in data_sources'>
+                    <b v-if='(propVal.base_component_id == control_properties_and_events.sourceComponentType)'>
+                        {{propVal.display_name}}
+                    </b>
+            </div>
+              
+            <b v-if='!control_properties_and_events.sourceComponentType || (control_properties_and_events.sourceComponentType == "")'>
+                No data source selected
+            </b>
+              
+            <br/>
 
-                     <b>SQL:</b>
-                        {{control_properties_and_events.sql}}
-         </div>
-
-     </div>
-
-
-
-
-
+            <b>SQL:</b>
+              
+            {{control_properties_and_events.sql}}
+        </div>
+    </div>
 </div>`,
         data:                   function        (  )  {
             return {
@@ -889,10 +841,14 @@ logo_url("/driver_icons/data_control.png")
                 }
             }
         },
-        beforeDestroy:          async function  (  ) {
-            console.log('beforeDestroy');
+        beforeUnmount:          async function  (  ) {
+            console.log('beforeUnmount');
             await this.minimizeChildren()
         },
+        //beforeDestroy:          async function  (  ) {
+        //    console.log('beforeDestroy');
+        //    await this.minimizeChildren()
+        //},
         mounted:                async function  (  ) {
             let mm = this
             await registerComponent(this)

@@ -751,6 +751,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     mm.yz               = Vue.inject('yz')
                     mm.showProgressBar  = Vue.inject('showProgressBar')
                     mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                    mm.$DEBUG           = Vue.inject('$DEBUG')
                 }
 
 
