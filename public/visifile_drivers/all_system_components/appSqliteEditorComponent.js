@@ -511,7 +511,7 @@ use_db("todo")
         mounted:    async function() {
             let mm = this
             if (Vue.version.startsWith("3")) {
-                mm.$DEBUG              = Vue.inject($DEBUG')
+                mm.$DEBUG              = Vue.inject('$DEBUG')
         }
 
     yz.mainVars.disableAutoSave     = false
