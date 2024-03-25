@@ -285,19 +285,19 @@ use_db("todo")
                                          v-on:click="pane_home_col_startRenameColumn()" >Rename</button>
 
                                 <button  type=button class='btn btn-sm btn-primary'
-                                         style=""
+                                         style="margin-left: 5px;"
                                          v-bind:disabled="pane_home_col_read_only"
                                          v-on:click="pane_home_col_startChangeType()" >Change type</button>
     
                                 
                                 <button  type=button class='btn btn-sm btn-primary'
-                                         style=""
+                                         style="margin-left: 5px;"
                                          v-bind:disabled="pane_home_col_read_only"
                                          v-on:click="pane_home_col_deleteColumn()" >Delete</button>
 
 
                                 <button  type=button class='btn btn-sm btn-primary'
-                                         style=""
+                                         style="margin-left: 5px;"
                                          v-on:click='switchTab({tabName: "home"})' >Close</button>
                             </div>
 
