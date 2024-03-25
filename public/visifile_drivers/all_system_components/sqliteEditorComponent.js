@@ -43,13 +43,12 @@ load_once_from_file(true)
                  </div>`,
         props:      [  "editor_fns"  ],
         mounted:    function() {
-            let thisVueInstance         = this
             let mm                      = this
             args.text                   = null
             yz.mainVars.disableAutoSave = true
 
             ace.config.set('basePath', '/');
-            mm.editor = ace.edit(           mm.editorDomId, {
+            mm.editor = ace.edit(            mm.editorDomId, {
                                              selectionStyle: "text",
                                              mode:           "ace/mode/javascript"
                                          })
@@ -71,9 +70,9 @@ load_once_from_file(true)
             document.getElementById(mm.editorDomId).style["border"]     = "0px"
             document.getElementById(mm.editorDomId).style.height        = "65vh"
 
-            if (isValidObject(thisVueInstance.text)) {
-                mm.editor.getSession().setValue(thisVueInstance.sqlText);
-                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+            if (isValidObject(mm.text)) {
+                mm.editor.getSession().setValue(mm.sqlText);
+                this.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
             }
 
             mm.editor.getSession().setUseWorker(false);
@@ -84,41 +83,41 @@ load_once_from_file(true)
 
             mm.editor.getSession().on('change', function() {
                 let haveIChangedtext = false
-                if (thisVueInstance.sqlText != mm.editor.getSession().getValue())
+                if (mm.sqlText != mm.editor.getSession().getValue())
                 {
                     haveIChangedtext = true
                 }
-                thisVueInstance.sqlText = mm.editor.getSession().getValue();
-                thisVueInstance.errors  = null
+                mm.sqlText = mm.editor.getSession().getValue();
+                mm.errors  = null
 
-                if (!isValidObject(thisVueInstance.sqlText))
+                if (!isValidObject(mm.sqlText))
                 {
                     return
                 }
-                if (thisVueInstance.sqlText.length == 0)
+                if (mm.sqlText.length == 0)
                 {
                     return
                 }
                 try {
-                    let newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
+                    let newNode = esprima.parse("(" + mm.sqlText + ")", { tolerant: true })
                     //alert(JSON.stringify(newNode.errors, null, 2))
-                    thisVueInstance.errors = newNode.errors
-                    if (thisVueInstance.errors)
+                    mm.errors = newNode.errors
+                    if (mm.errors)
                     {
-                        if (thisVueInstance.errors.length == 0)
+                        if (mm.errors.length == 0)
                         {
-                            thisVueInstance.errors = null
+                            mm.errors = null
                             if (haveIChangedtext)
                             {
-                                thisVueInstance.editor_fns.pending()
+                                mm.editor_fns.pending()
                             }
                         } else {
-                            thisVueInstance.errors = thisVueInstance.errors[0]
+                            mm.errors = mm.errors[0]
                         }
                     }
                 } catch(e) {
                     //alert(JSON.stringify(e, null, 2))
-                    thisVueInstance.errors = e
+                    mm.errors = e
                 }
             });
 
@@ -140,7 +139,7 @@ load_once_from_file(true)
                 return this.text
             },
             setText:    function        (  textValue  ) {
-                let thisVueInstance = this
+                let mm = this
                 this.text           =  textValue
 
                 if (!isValidObject(this.text)) {
@@ -152,7 +151,7 @@ load_once_from_file(true)
                 //
 
 
-                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+                this.read_only = yz.helpers.getValueOfCodeString(mm.text, "read_only")
                 if (this.read_only) {
                    this.editor.setReadOnly(true)
                 }
