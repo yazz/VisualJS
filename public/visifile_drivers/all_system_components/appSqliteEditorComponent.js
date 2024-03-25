@@ -997,7 +997,9 @@ use_db("todo")
                     "insert into " + mm.pane_home_selectedTable + " DEFAULT VALUES")
                 mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                 //mm.pane_home_data_rows = sql("select id,name from items")
-                mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
+                if (mm.pane_home_tabulator) {
+                    mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
+                }
             },
             pane_home_deleteRow:                async function  (  ) {
                 let mm = this
@@ -1011,7 +1013,9 @@ use_db("todo")
                         "delete from " + mm.pane_home_selectedTable + " where  id = " + rowId)
                     mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                     //mm.pane_home_data_rows = sql("select id,name from items")
-                    mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
+                    if (mm.pane_home_tabulator) {
+                        mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
+                    }
                 }
             },
             pane_home_moveTableDown:            async function  (  ) {
@@ -1245,7 +1249,9 @@ use_db("todo")
                     mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                     //mm.pane_home_data_rows      = sql("select id,name from items")
 
-                    mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
+                    if (mm.pane_home_tabulator) {
+                        mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
+                    }
                     if (mm.pane_home_selectedColumn) {
                         mm.pane_home_tabulator.scrollToColumn(mm.pane_home_selectedColumn)
                     }
