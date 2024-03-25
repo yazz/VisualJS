@@ -8,7 +8,6 @@ load_once_from_file(true)
 
     let newEditorDomId     = uuidv4()
 
-
     Yazz.component( {
         data:       function () {
         return {
@@ -44,97 +43,93 @@ load_once_from_file(true)
                  </div>`,
         props:      [  "editor_fns"  ],
         mounted:    function() {
-         let thisVueInstance = this
-         let mm = this
-         args.text           = null
-         yz.mainVars.disableAutoSave     = true
+            let thisVueInstance         = this
+            let mm                      = this
+            args.text                   = null
+            yz.mainVars.disableAutoSave = true
 
-         ace.config.set('basePath', '/');
-         mm.editor = ace.edit(           mm.editorDomId, {
-                                                 selectionStyle: "text",
-                                                 mode:           "ace/mode/javascript"
-                                             })
+            ace.config.set('basePath', '/');
+            mm.editor = ace.edit(           mm.editorDomId, {
+                                             selectionStyle: "text",
+                                             mode:           "ace/mode/javascript"
+                                         })
 
-         //Bug fix: Need a delay when setting theme or view is corrupted
-         setTimeout(function(){
-             mm.editor.setTheme("ace/theme/sqlserver");
+            //Bug fix: Need a delay when setting theme or view is corrupted
+            setTimeout( function() {
+                mm.editor.setTheme("ace/theme/sqlserver");
 
-            let langTools = ace.require("ace/ext/language_tools");
-             mm.editor.setOptions({
-               enableBasicAutocompletion: true,
-               enableSnippets: true,
-               enableLiveAutocompletion: false
+                let langTools = ace.require("ace/ext/language_tools");
+                mm.editor.setOptions({
+                    enableBasicAutocompletion: true,
+                    enableSnippets: true,
+                    enableLiveAutocompletion: false
+                });
+            },100)
+
+            document.getElementById(mm.editorDomId).style["font-size"]  = "16px"
+            document.getElementById(mm.editorDomId).style.width         ="100%"
+            document.getElementById(mm.editorDomId).style["border"]     = "0px"
+            document.getElementById(mm.editorDomId).style.height        = "65vh"
+
+            if (isValidObject(thisVueInstance.text)) {
+                mm.editor.getSession().setValue(thisVueInstance.sqlText);
+                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+            }
+
+            mm.editor.getSession().setUseWorker(false);
+            if (this.read_only) {
+                mm.editor.setReadOnly(true)
+            }
+
+
+            mm.editor.getSession().on('change', function() {
+                let haveIChangedtext = false
+                if (thisVueInstance.sqlText != mm.editor.getSession().getValue())
+                {
+                    haveIChangedtext = true
+                }
+                thisVueInstance.sqlText = mm.editor.getSession().getValue();
+                thisVueInstance.errors  = null
+
+                if (!isValidObject(thisVueInstance.sqlText))
+                {
+                    return
+                }
+                if (thisVueInstance.sqlText.length == 0)
+                {
+                    return
+                }
+                try {
+                    let newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
+                    //alert(JSON.stringify(newNode.errors, null, 2))
+                    thisVueInstance.errors = newNode.errors
+                    if (thisVueInstance.errors)
+                    {
+                        if (thisVueInstance.errors.length == 0)
+                        {
+                            thisVueInstance.errors = null
+                            if (haveIChangedtext)
+                            {
+                                thisVueInstance.editor_fns.pending()
+                            }
+                        } else {
+                            thisVueInstance.errors = thisVueInstance.errors[0]
+                        }
+                    }
+                } catch(e) {
+                    //alert(JSON.stringify(e, null, 2))
+                    thisVueInstance.errors = e
+                }
             });
 
-         },100)
-
-
-
-         document.getElementById(mm.editorDomId).style["font-size"] = "16px"
-         document.getElementById(mm.editorDomId).style.width="100%"
-         document.getElementById(mm.editorDomId).style["border"] = "0px"
-
-         document.getElementById(mm.editorDomId).style.height="65vh"
-         if (isValidObject(thisVueInstance.text)) {
-             mm.editor.getSession().setValue(thisVueInstance.sqlText);
-             this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
-         }
-
-         mm.editor.getSession().setUseWorker(false);
-         if (this.read_only) {
-             mm.editor.setReadOnly(true)
-         }
-
-
-         mm.editor.getSession().on('change', function() {
-            let haveIChangedtext = false
-            if (thisVueInstance.sqlText != mm.editor.getSession().getValue()) {
-              haveIChangedtext = true
-            }
-            thisVueInstance.sqlText = mm.editor.getSession().getValue();
-            thisVueInstance.errors = null
-            if (!isValidObject(thisVueInstance.sqlText)) {
-                return
-            }
-            if (thisVueInstance.sqlText.length == 0) {
-                return
-            }
-            try {
-               let newNode = esprima.parse("(" + thisVueInstance.sqlText + ")", { tolerant: true })
-               //alert(JSON.stringify(newNode.errors, null, 2))
-               thisVueInstance.errors = newNode.errors
-               if (thisVueInstance.errors) {
-                    if (thisVueInstance.errors.length == 0) {
-                        thisVueInstance.errors = null
-                        if (haveIChangedtext) {
-                            thisVueInstance.editor_fns.pending()
-                        }
-                    } else {
-                        thisVueInstance.errors = thisVueInstance.errors[0]
-                    }
-               }
-            } catch(e) {
-               //alert(JSON.stringify(e, null, 2))
-               thisVueInstance.errors = e
-            }
-         });
-
-         mm.editor.resize(true);
-         mm.editor.focus();
-     },
+            mm.editor.resize(true);
+            mm.editor.focus();
+        },
         methods:    {
-            gotoLine:   function(line) {
+            gotoLine:   function        (  line  ) {
                 this.editor.gotoLine(line , 10, true);
             },
-            // -----------------------------------------------------
-            //                      getText
-            //
-            // This is called to get the SQL definitions
-            //
-            //
-            //
-            // -----------------------------------------------------
-            getText:    async function() {
+            getText:    async function  (  ) {
                 if (!isValidObject(this.text)) {
                     return null
                 }
@@ -144,47 +139,37 @@ load_once_from_file(true)
 
                 return this.text
             },
-            // -----------------------------------------------------
-            //                      setText
-            //
-            // This is called to set the SQL
-            //
-            //
-            //
-            // -----------------------------------------------------
-            setText:    function(textValue) {
-            let thisVueInstance = this
-            this.text           =  textValue
+            setText:    function        (  textValue  ) {
+                let thisVueInstance = this
+                this.text           =  textValue
 
-            if (!isValidObject(this.text)) {
-                return
+                if (!isValidObject(this.text)) {
+                    return
+                }
+
+                //
+                // set the editor to read only if in read only mode
+                //
+
+
+                this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
+                if (this.read_only) {
+                   this.editor.setReadOnly(true)
+                }
+
+
+
+                //
+                // If a database definition has been given then read it
+                //
+
+                let llsqlText = yz.helpers.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
+                if (isValidObject(llsqlText)) {
+                    this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
+                } else {
+                    this.editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
+                }
             }
-
-            //
-            // set the editor to read only if in read only mode
-            //
-
-
-            this.read_only = yz.helpers.getValueOfCodeString(thisVueInstance.text, "read_only")
-            if (this.read_only) {
-               this.editor.setReadOnly(true)
-            }
-
-
-
-
-
-            //
-            // If a database definition has been given then read it
-            //
-
-            let llsqlText = yz.helpers.getValueOfCodeString(textValue, "sqlite", ")//sqlite")
-            if (isValidObject(llsqlText)) {
-                this.editor.getSession().setValue(  JSON.stringify(  llsqlText , null , 2  ));
-            } else {
-                this.editor.getSession().setValue(  JSON.stringify(  [] , null , 2  ));
-            }
-        }
         }
     })
 }
