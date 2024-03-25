@@ -463,7 +463,7 @@ use_db("todo")
                           <div>
                             <a   v-bind:style="'margin-left:0px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;' "
                                  href="#"
-                                 v-on:click='setTimeout(async function(){editor_fns.switch_editorFn({editorName: "sqlite_editor_component"})},100)'
+                                 v-on:click='oldDBEditorPressed()'
                                  type="button" class="btn btn-light ">
                               <img
                                   src='/driver_icons/database.png'
@@ -519,6 +519,16 @@ use_db("todo")
         },
         methods:    {
             // main fns
+            oldDBEditorPressed:                 async function  (  ) {
+                let mm = this
+                setTimeout(async function () {
+                    await mm.editor_fns.switch_editor(
+                        {
+                            editorName: "sqlite_editor_component"
+                        }
+                    )
+                }, 100)
+            },
             switchTab:                          async function  (  {  tabName  }  ) {
                 //----------------------------------------------------------------------------------/
                 //
