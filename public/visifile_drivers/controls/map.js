@@ -88,17 +88,34 @@ logo_url("/driver_icons/map_control.png")
     Yazz.component(
     {
         props:      [  "sql"  ,  "meta"  ,  "name"  ,  "refresh"  ,  "design_mode"   ,  "control_properties_and_events"  ,  "runEvent"  ],
-        template:   `<button  type=button
-                      v-bind:class='"btn btn-info " + (((control_properties_and_events.button_size=="large") || (!control_properties_and_events.button_size))?"btn-lg ":"")  + (control_properties_and_events.button_size=="small"?"btn-sm ":"") '
-                      v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    control_properties_and_events["background_color"]  +  ";"+ "color: "+    (control_properties_and_events["color"]?control_properties_and_events["color"]:"black")  +  ";" + (control_properties_and_events.padding?"padding: " + control_properties_and_events.padding + ";": "")'
-                      v-on:click='buttonClicked()'
-                    >
-                    
-                        {{control_properties_and_events.text}}
-                    
-                    </button>`,
+        template:   `<div>
+                        <div    v-if='!design_mode' v-bind:id='"map"+(design_mode?"_":"")' style="width: 600px; height: 400px;"></div>
+                        <div    v-if='design_mode' style="width: 600px; height: 400px;">
+                          Map
+                        </div>
+                    </div>`,
         mounted:    async function( ) {
+            let mm = this
             await registerComponent(this)
+
+            setTimeout(function() {
+                if (!mm.design_mode) {
+                    let map = L.map('map').setView([51.505, -0.09], 13);
+
+                    // Add an OpenStreetMap tile layer to the map:
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        maxZoom: 18,
+                    }).addTo(map);
+
+                    // Add a marker at the same coordinates as the map's initial view:
+                    let marker = L.marker([51.505, -0.09]).addTo(map);
+
+                    // Optionally, add a popup to the marker:
+                    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+                }
+
+            },500)
         },
         data:       function( ) {
                                     return {
@@ -106,20 +123,6 @@ logo_url("/driver_icons/map_control.png")
                                     }
                                 },
         methods:    {
-                        buttonClicked:      async function  ( ) {
-                            let mm = this
-                            //debugger
-                            await mm.runEvent({display: "click_event",code: mm.control_properties_and_events.click_event})
-                        },
-                        setText:            async function  ( newtext ) {
-                                            this.text = newtext
-                                            this.changedFn()
-                                        },
-                        changedFn:          function        ( ) {
-                                            if (isValidObject(this.control_properties_and_events)) {
-                                                this.control_properties_and_events.text = this.text
-                                            }
-                                        }
                     }
     })
 }
