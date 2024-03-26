@@ -1558,6 +1558,8 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/controls/group.js')
     await releaseComponentFromPath( '/controls/button.js')
 
+    await releaseComponentFromPath( '/controls/map.js')
+
     await releaseComponentFromPath( '/controls/checkbox.js')
     await releaseComponentFromPath( '/controls/radiobutton.js')
     await releaseComponentFromPath( '/controls/dropdown.js')
