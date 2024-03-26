@@ -45,7 +45,7 @@ load_once_from_file(true)
         mounted:    function() {
             let mm                      = this
             args.text                   = null
-            yz.mainVars.disableAutoSave = true
+            //yz.mainVars.disableAutoSave = true
 
             ace.config.set('basePath', '/');
             mm.editor = ace.edit(            mm.editorDomId, {
@@ -109,7 +109,7 @@ load_once_from_file(true)
                             mm.errors = null
                             if (haveIChangedtext)
                             {
-                                mm.editor_fns.pending()
+                                //mm.editor_fns.pending()
                             }
                         } else {
                             mm.errors = mm.errors[0]
