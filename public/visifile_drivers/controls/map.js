@@ -106,6 +106,10 @@ logo_url("/driver_icons/map_control.png")
     <div    v-if='design_mode == "detail_editor"' 
             v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
         Map Details        
+        <div    v-if='design_mode == "detail_editor"' 
+                v-bind:id='"map_design"' 
+                v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
+        </div>
     </div>
 
     <div    v-if='design_mode && (design_mode != "detail_editor")' 
@@ -131,6 +135,21 @@ logo_url("/driver_icons/map_control.png")
 
                     // Add a marker at the same coordinates as the map's initial view:
                     let marker = L.marker([51.505, -0.09]).addTo(map);
+
+                    // Optionally, add a popup to the marker:
+                    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+                }
+                if (mm.design_mode) {
+                    let map = L.map('map_design').setView([45.505, -0.09], 13);
+
+                    // Add an OpenStreetMap tile layer to the map:
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        maxZoom: 18,
+                    }).addTo(map);
+
+                    // Add a marker at the same coordinates as the map's initial view:
+                    let marker = L.marker([45.505, -0.09]).addTo(map);
 
                     // Optionally, add a popup to the marker:
                     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
