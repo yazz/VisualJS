@@ -31,14 +31,14 @@ properties(
         {
             id:         "width",
             name:       "Width",
-            default:    110,
+            default:    300,
             type:       "Number"
         }
         ,
         {
             id:         "height",
             name:       "Height",
-            default:    50,
+            default:    200,
             type:       "Number"
         }
         ,
@@ -95,7 +95,12 @@ logo_url("/driver_icons/map_control.png")
             v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
     </div>
     
-    <div    v-if='design_mode' 
+    <div    v-if='design_mode == "detail_editor"' 
+            v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
+        Map Details        
+    </div>
+
+    <div    v-if='design_mode && (design_mode != "detail_editor")' 
             v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
         Map        
     </div>
