@@ -43,6 +43,14 @@ properties(
         }
         ,
         {
+            id:         "has_details_ui",
+            name:       "Has details UI?",
+            type:       "Boolean",
+            default:    true,
+            hidden:     true
+        }
+        ,
+        {
             id:         "padding",
             name:       "Padding",
             type:       "Number"
