@@ -88,12 +88,20 @@ logo_url("/driver_icons/map_control.png")
     Yazz.component(
     {
         props:      [  "sql"  ,  "meta"  ,  "name"  ,  "refresh"  ,  "design_mode"   ,  "control_properties_and_events"  ,  "runEvent"  ],
-        template:   `<div>
-                        <div    v-if='!design_mode' v-bind:id='"map"+(design_mode?"_":"")' style="width: 600px; height: 400px;"></div>
-                        <div    v-if='design_mode' style="width: 600px; height: 400px;">
-                          Map
-                        </div>
-                    </div>`,
+        template:   ` 
+<div>
+    <div    v-if='!design_mode' 
+            v-bind:id='"map"+(design_mode?"_":"")' 
+            v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
+    </div>
+    
+    <div    v-if='design_mode' 
+            v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
+        Map        
+    </div>
+    
+</div>
+`,
         mounted:    async function( ) {
             let mm = this
             await registerComponent(this)
