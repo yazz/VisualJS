@@ -139,36 +139,36 @@ logo_url("/driver_icons/map_control.png")
 
             setTimeout(function() {
                 if (!mm.design_mode) {
-                    let map = L.map('map').setView([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude], 13);
+                    mm.map = L.map('map').setView([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude], 13);
 
                     // Add an OpenStreetMap tile layer to the map:
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                         maxZoom: 18,
-                    }).addTo(map);
+                    }).addTo(mm.map);
 
                     // Add a marker at the same coordinates as the map's initial view:
-                    let marker = L.marker([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude]).addTo(map);
+                    let marker = L.marker([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude]).addTo(mm.map);
 
                     // Optionally, add a popup to the marker:
                     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
                 }
                 if (mm.design_mode) {
-                    let map = L.map('map_design').setView([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude], 13);
+                    mm.map = L.map('map_design').setView([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude], 13);
 
                     // Add an OpenStreetMap tile layer to the map:
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                         maxZoom: 18,
-                    }).addTo(map);
+                    }).addTo(mm.map);
 
                     // Add a marker at the same coordinates as the map's initial view:
-                    let marker = L.marker([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude]).addTo(map);
+                    let marker = L.marker([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude]).addTo(mm.map);
 
                     // Optionally, add a popup to the marker:
                     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
 
-                    map.addEventListener('mousemove', function(ev) {
+                    mm.map.addEventListener('mousemove', function(ev) {
                         mm.control_properties_and_events.latitude   = ev.latlng.lat;
                         mm.control_properties_and_events.longitude  = ev.latlng.lng;
                     });
@@ -178,10 +178,17 @@ logo_url("/driver_icons/map_control.png")
         },
         data:       function( ) {
                                     return {
-                                        text: ""
+                                        text:   "",
+                                        map:    null
                                     }
-                                },
+                    },
         methods:    {
-                    }
+                    },
+        beforeUnmount:          async function  (  ) {
+            let mm = this
+            if (mm.map) {
+                mm.map.close()
+            }
+        }
     })
 }
