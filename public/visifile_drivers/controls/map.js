@@ -167,6 +167,11 @@ logo_url("/driver_icons/map_control.png")
 
                     // Optionally, add a popup to the marker:
                     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+
+                    map.addEventListener('mousemove', function(ev) {
+                        mm.control_properties_and_events.latitude   = ev.latlng.lat;
+                        mm.control_properties_and_events.longitude  = ev.latlng.lng;
+                    });
                 }
 
             },500)
