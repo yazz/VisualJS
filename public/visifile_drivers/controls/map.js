@@ -18,7 +18,7 @@ properties(
             help:       `<div>This is the text that is displayed in the button</div>`
         }
         ,
-                {
+        {
             id:         "setText",
             snippet:    `setText("")`,
             name:       "setText",
@@ -60,6 +60,20 @@ properties(
             id:         "background_color",
             name:       "Background color",
             type:       "String"
+        }
+        ,
+        {
+            id:         "latitude",
+            name:       "Latitude",
+            type:       "Number",
+            default:    51.505
+        }
+        ,
+        {
+            id:         "longitude",
+            name:       "Longitude",
+            type:       "Number",
+            default:    -0.09
         }
         ,
         {
@@ -125,7 +139,7 @@ logo_url("/driver_icons/map_control.png")
 
             setTimeout(function() {
                 if (!mm.design_mode) {
-                    let map = L.map('map').setView([51.505, -0.09], 13);
+                    let map = L.map('map').setView([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude], 13);
 
                     // Add an OpenStreetMap tile layer to the map:
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -134,13 +148,13 @@ logo_url("/driver_icons/map_control.png")
                     }).addTo(map);
 
                     // Add a marker at the same coordinates as the map's initial view:
-                    let marker = L.marker([51.505, -0.09]).addTo(map);
+                    let marker = L.marker([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude]).addTo(map);
 
                     // Optionally, add a popup to the marker:
                     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
                 }
                 if (mm.design_mode) {
-                    let map = L.map('map_design').setView([45.505, -0.09], 13);
+                    let map = L.map('map_design').setView([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude], 13);
 
                     // Add an OpenStreetMap tile layer to the map:
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -149,7 +163,7 @@ logo_url("/driver_icons/map_control.png")
                     }).addTo(map);
 
                     // Add a marker at the same coordinates as the map's initial view:
-                    let marker = L.marker([45.505, -0.09]).addTo(map);
+                    let marker = L.marker([mm.control_properties_and_events.latitude,mm.control_properties_and_events.longitude]).addTo(map);
 
                     // Optionally, add a popup to the marker:
                     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
