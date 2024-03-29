@@ -51,8 +51,8 @@ properties(
         }
         ,
         {
-            id:         "on_click_details_ui",
-            name:       "Details UI Clicked",
+            id:         "action_click_details_ui",
+            name:       "Action Details UI Clicked",
             type:       "Action",
             hidden:     true
         }
@@ -175,7 +175,7 @@ logo_url("/driver_icons/map_control.png")
                                     }
                     },
         methods:    {
-            on_click_details_ui: async function() {
+            action_click_details_ui: async function() {
                 //debugger
                 let mm = this
                 Vue.nextTick(async function() {
