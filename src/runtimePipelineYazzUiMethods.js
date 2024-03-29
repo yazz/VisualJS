@@ -3631,26 +3631,33 @@ ${code}
                 await mm.editor_fns.switch_editor( {  editorName: editorComponentName  ,  previewType: "control" } )
             },
             showComponentDetailedDesignUi:          async function  (  index  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |                   |
-                |                                      |
-                |______________________________________|
+                //----------------------------------------------------------------------------------/
+                //
+                //                    /-------------------------------------/
+                //                   /    showComponentDetailedDesignUi    /
+                //                  /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // This is used to when the user clicks on the "advanced" button (...) for
+                // a component is a visual application
+                //
+                //________
+                // PARAMS \______________________________________________________________/
+                //
+                //    index
+                //    -----    Numberic index of the control on the form
+                //
+                //-----------------------------------------------------------/
 
-                TO BE FILLED IN
-
-                __________
-                | Params |
-                |        |______________________________________________________________
-                |
-                |     NONE
-                |________________________________________________________________________ */
                 let mm = this
                 mm.design_mode_pane.type = "control_details_editor"
 
                 this.active_component_detail_index = index;
                 this.active_component_detail_name = this.model.forms[this.active_form].components[index].name;
+                debugger
+                if (this.model.forms[this.active_form].components[index].on_click_details_ui) {
+                    await this.model.forms[this.active_form].components[index].on_click_details_ui()
+                }
 
                 setTimeout(function() {
                     //mm.refresh ++

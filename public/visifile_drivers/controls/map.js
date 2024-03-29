@@ -51,6 +51,13 @@ properties(
         }
         ,
         {
+            id:         "on_click_details_ui",
+            name:       "Details UI Clicked",
+            type:       "Action",
+            hidden:     true
+        }
+        ,
+        {
             id:         "padding",
             name:       "Padding",
             type:       "Number"
@@ -190,7 +197,10 @@ logo_url("/driver_icons/map_control.png")
                                     }
                     },
         methods:    {
-                    },
+            on_click_details_ui: async function() {
+                debugger
+            }
+        },
         beforeUnmount:          async function  (  ) {
             let mm = this
             if (mm.map) {
