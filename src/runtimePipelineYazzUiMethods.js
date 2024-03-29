@@ -3654,7 +3654,7 @@ ${code}
 
                 this.active_component_detail_index = index;
                 this.active_component_detail_name = this.model.forms[this.active_form].components[index].name;
-                debugger
+                //debugger
                 if (this.model.forms[this.active_form].components[index].on_click_details_ui) {
                     await this.model.forms[this.active_form].components[index].on_click_details_ui()
                 }
