@@ -228,13 +228,15 @@ logo_url("/driver_icons/map_control.png")
                         mm.control_properties_and_events.pinLongitude  = ev.latlng.lng;
                         mm.map.removeLayer(marker)
                         marker = L.marker([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude]).addTo(mm.map);
-                        debugger
+                        console.log("Clicked ( " + ev.latlng.lat + " , " + ev.latlng.lng + " )")
                     });
                     mm.map.addEventListener('moveend', function(ev) {
                         let mapCenter = mm.map.getCenter()
-                        mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
-                        mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
-                        debugger
+                        var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
+                        var topLeftLatLng = bounds.getNorthWest();
+                        mm.control_properties_and_events.mapLatitude   = topLeftLatLng.lat;
+                        mm.control_properties_and_events.mapLongitude  = topLeftLatLng.lng;
+                        console.log("Moved to ( " + topLeftLatLng.lat + " , " + topLeftLatLng.lng + " )")
                     });
                 })
             }
