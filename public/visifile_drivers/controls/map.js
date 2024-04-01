@@ -70,20 +70,6 @@ properties(
         }
         ,
         {
-            id:         "pinLatitude",
-            name:       "Pin Latitude",
-            type:       "Number",
-            default:    51.505
-        }
-        ,
-        {
-            id:         "pinLongitude",
-            name:       "Pin Longitude",
-            type:       "Number",
-            default:    -0.09
-        }
-        ,
-        {
             id:         "mapLatitude",
             name:       "Map Latitude",
             type:       "Number",
@@ -133,7 +119,6 @@ logo_url("/driver_icons/map_control.png")
         props:      [  "sql"  ,  "meta"  ,  "name"  ,  "refresh"  ,  "design_mode"   ,  "control_properties_and_events"  ,  "runEvent"  ],
         template:   ` 
 <div>
-{{control_properties_and_events.text}} <button v-on:click="odoo" class=btn></button>
     <div    v-if='!design_mode' 
             id="map" 
             v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
@@ -173,16 +158,6 @@ logo_url("/driver_icons/map_control.png")
                             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                             maxZoom: 18,
                         }).addTo(mm.map);
-
-                        // Add a marker at the same coordinates as the map's initial view:
-                        let marker = L.marker(
-                            [
-                                mm.control_properties_and_events.pinLatitude,
-                                mm.control_properties_and_events.pinLongitude
-                            ]).addTo(mm.map);
-
-                        // Optionally, add a popup to the marker:
-                        marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
                     }
                 } catch ( err ) {
                     debugger
@@ -198,10 +173,6 @@ logo_url("/driver_icons/map_control.png")
             }
         },
         methods:    {
-            odoo:    async function(  ) {
-                this.control_properties_and_events.text ++
-                this.control_properties_and_events.pinLatitude ++
-            },
             action_click_details_ui: async function() {
                 //debugger
                 let mm = this
@@ -218,30 +189,13 @@ logo_url("/driver_icons/map_control.png")
                         maxZoom: 18,
                     }).addTo(mm.map);
 
-                    // Add a marker at the same coordinates as the map's initial view:
-                    let marker = L.marker(
-                        [
-                            mm.control_properties_and_events.pinLatitude,
-                            mm.control_properties_and_events.pinLongitude]
-                    ).addTo(mm.map);
 
-                    // Optionally, add a popup to the marker:
-                    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-
-                    mm.map.addEventListener('click', function(ev) {
-                        mm.control_properties_and_events.pinLatitude   = ev.latlng.lat;
-                        mm.control_properties_and_events.pinLongitude  = ev.latlng.lng;
-                        mm.map.removeLayer(marker)
-                        marker = L.marker([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude]).addTo(mm.map);
-                        console.log("Clicked ( " + ev.latlng.lat + " , " + ev.latlng.lng + " )")
-                    });
                     mm.map.addEventListener('moveend', async function(ev) {
                         let mapCenter = mm.map.getCenter()
                         var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
                         var topLeftLatLng = bounds.getNorthWest();
                         mm.control_properties_and_events.mapLatitude   = topLeftLatLng.lat;
                         mm.control_properties_and_events.mapLongitude  = topLeftLatLng.lng;
-                        debugger
                         console.log("Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
                             mm.control_properties_and_events.mapLongitude + " )")
 
