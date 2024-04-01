@@ -123,6 +123,12 @@ properties(
                             <b>click_event</b> event
                         </div>`
         }
+        ,
+        {
+            id:     "changed_event",
+            name:   "Changed event",
+            type:   "Event"
+        }
     ]
 )//properties
 logo_url("/driver_icons/map_control.png")
@@ -207,6 +213,19 @@ logo_url("/driver_icons/map_control.png")
                 mapLongitude: null
             }
         },
+        watch:      {
+            // This would be called anytime the value of the input changes
+            refresh: function(newValue, oldValue) {
+                debugger
+                //console.log("refresh: " + this.control_properties_and_events.text)
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.mapLatitude = this.control_properties_and_events.mapLatitude
+                    this.mapLongitude = this.control_properties_and_events.mapLongitude
+                    this.pinLatitude = this.control_properties_and_events.pinLatitude
+                    this.pinLongitude = this.control_properties_and_events.pinLongitude
+                }
+            }
+        },
         methods:    {
             changedFn:          async function(  ) {
                 if (isValidObject(this.control_properties_and_events)) {
@@ -256,7 +275,9 @@ logo_url("/driver_icons/map_control.png")
                         mm.mapLatitude   = topLeftLatLng.lat;
                         mm.mapLongitude  = topLeftLatLng.lng;
                         console.log("Moved to ( " + topLeftLatLng.lat + " , " + topLeftLatLng.lng + " )")
-                        //await mm.changedFn()
+                        await mm.changedFn()
+                        await mm.runEvent({ display: "changed",   code: mm.control_properties_and_events.changed_event })
+
 
                     });
                 })
