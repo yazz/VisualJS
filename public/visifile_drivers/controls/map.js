@@ -194,12 +194,11 @@ logo_url("/driver_icons/map_control.png")
                         let mapCenter = mm.map.getCenter()
                         var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
                         var topLeftLatLng = bounds.getNorthWest();
-                        mm.control_properties_and_events.mapLatitude   = topLeftLatLng.lat;
-                        mm.control_properties_and_events.mapLongitude  = topLeftLatLng.lng;
+                        //debugger
+                        mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
+                        mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
                         console.log("Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
                             mm.control_properties_and_events.mapLongitude + " )")
-
-
                     });
                 })
             }
