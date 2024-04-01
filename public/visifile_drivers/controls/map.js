@@ -84,6 +84,20 @@ properties(
         }
         ,
         {
+            id:         "mapLatitude",
+            name:       "Map Latitude",
+            type:       "Number",
+            default:    51.505
+        }
+        ,
+        {
+            id:         "mapLongitude",
+            name:       "map Longitude",
+            type:       "Number",
+            default:    -0.09
+        }
+        ,
+        {
             id:         "color",
             name:       "Color",
             type:       "String"
@@ -147,7 +161,11 @@ logo_url("/driver_icons/map_control.png")
             setTimeout(function() {
                 try {
                     if (!mm.design_mode) {
-                        mm.map = L.map('map').setView([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude], 13);
+                        mm.map = L.map('map').setView(
+                            [
+                                mm.control_properties_and_events.mapLatitude,
+                                mm.control_properties_and_events.mapLongitude
+                            ], 13);
 
                         // Add an OpenStreetMap tile layer to the map:
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -179,7 +197,11 @@ logo_url("/driver_icons/map_control.png")
                 //debugger
                 let mm = this
                 Vue.nextTick(async function() {
-                    mm.map = L.map('map_design').setView([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude], 13);
+                    mm.map = L.map('map_design').setView(
+                        [
+                            mm.control_properties_and_events.mapLatitude,
+                            mm.control_properties_and_events.mapLongitude
+                        ], 13);
 
                     // Add an OpenStreetMap tile layer to the map:
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -198,6 +220,11 @@ logo_url("/driver_icons/map_control.png")
                         mm.control_properties_and_events.pinLongitude  = ev.latlng.lng;
                         mm.map.removeLayer(marker)
                         marker = L.marker([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude]).addTo(mm.map);
+                    });
+                    mm.map.addEventListener('moveend', function(ev) {
+                        let mapCenter = mm.map.getCenter()
+                        mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
+                        mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
                     });
                 })
             }
