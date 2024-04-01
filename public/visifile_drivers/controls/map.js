@@ -92,7 +92,7 @@ properties(
         ,
         {
             id:         "mapLongitude",
-            name:       "map Longitude",
+            name:       "Map Longitude",
             type:       "Number",
             default:    -0.09
         }
@@ -174,7 +174,11 @@ logo_url("/driver_icons/map_control.png")
                         }).addTo(mm.map);
 
                         // Add a marker at the same coordinates as the map's initial view:
-                        let marker = L.marker([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude]).addTo(mm.map);
+                        let marker = L.marker(
+                            [
+                                mm.control_properties_and_events.pinLatitude,
+                                mm.control_properties_and_events.pinLongitude
+                            ]).addTo(mm.map);
 
                         // Optionally, add a popup to the marker:
                         marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
@@ -187,11 +191,11 @@ logo_url("/driver_icons/map_control.png")
             },500)
         },
         data:       function( ) {
-                                    return {
-                                        text:   "",
-                                        map:    null
-                                    }
-                    },
+            return {
+                text:   "",
+                map:    null
+            }
+        },
         methods:    {
             action_click_details_ui: async function() {
                 //debugger
@@ -210,7 +214,11 @@ logo_url("/driver_icons/map_control.png")
                     }).addTo(mm.map);
 
                     // Add a marker at the same coordinates as the map's initial view:
-                    let marker = L.marker([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude]).addTo(mm.map);
+                    let marker = L.marker(
+                        [
+                            mm.control_properties_and_events.pinLatitude,
+                            mm.control_properties_and_events.pinLongitude]
+                    ).addTo(mm.map);
 
                     // Optionally, add a popup to the marker:
                     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
@@ -220,11 +228,13 @@ logo_url("/driver_icons/map_control.png")
                         mm.control_properties_and_events.pinLongitude  = ev.latlng.lng;
                         mm.map.removeLayer(marker)
                         marker = L.marker([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude]).addTo(mm.map);
+                        debugger
                     });
                     mm.map.addEventListener('moveend', function(ev) {
                         let mapCenter = mm.map.getCenter()
                         mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
                         mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
+                        debugger
                     });
                 })
             }
