@@ -157,7 +157,13 @@ logo_url("/driver_icons/map_control.png")
         mounted:    async function( ) {
             let mm = this
             await registerComponent(this)
-            await mm.changedFn()
+            if (isValidObject(this.control_properties_and_events)) {
+                this.mapLatitude = this.control_properties_and_events.mapLatitude
+                this.mapLongitude = this.control_properties_and_events.mapLongitude
+                this.pinLatitude = this.control_properties_and_events.pinLatitude
+                this.pinLongitude = this.control_properties_and_events.pinLongitude
+            }
+
 
             setTimeout(function() {
                 try {
@@ -204,10 +210,10 @@ logo_url("/driver_icons/map_control.png")
         methods:    {
             changedFn:          async function(  ) {
                 if (isValidObject(this.control_properties_and_events)) {
-                    this.mapLatitude = this.control_properties_and_events.mapLatitude
-                    this.mapLongitude = this.control_properties_and_events.mapLongitude
-                    this.pinLatitude = this.control_properties_and_events.pinLatitude
-                    this.pinLongitude = this.control_properties_and_events.pinLongitude
+                    this.control_properties_and_events.mapLatitude = this.mapLatitude
+                    this.control_properties_and_events.mapLongitude = this.mapLongitude
+                    this.control_properties_and_events.pinLatitude = this.pinLatitude
+                    this.control_properties_and_events.pinLongitude = this.pinLongitude
                 }
             },
             action_click_details_ui: async function() {
@@ -243,13 +249,15 @@ logo_url("/driver_icons/map_control.png")
                         marker = L.marker([mm.pinLatitude,mm.pinLongitude]).addTo(mm.map);
                         console.log("Clicked ( " + ev.latlng.lat + " , " + ev.latlng.lng + " )")
                     });
-                    mm.map.addEventListener('moveend', function(ev) {
+                    mm.map.addEventListener('moveend', async function(ev) {
                         let mapCenter = mm.map.getCenter()
                         var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
                         var topLeftLatLng = bounds.getNorthWest();
                         mm.mapLatitude   = topLeftLatLng.lat;
                         mm.mapLongitude  = topLeftLatLng.lng;
                         console.log("Moved to ( " + topLeftLatLng.lat + " , " + topLeftLatLng.lng + " )")
+                        //await mm.changedFn()
+
                     });
                 })
             }
