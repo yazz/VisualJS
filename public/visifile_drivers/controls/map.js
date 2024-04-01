@@ -157,14 +157,15 @@ logo_url("/driver_icons/map_control.png")
         mounted:    async function( ) {
             let mm = this
             await registerComponent(this)
+            await mm.changedFn()
 
             setTimeout(function() {
                 try {
                     if (!mm.design_mode) {
                         mm.map = L.map('map').setView(
                             [
-                                mm.control_properties_and_events.mapLatitude,
-                                mm.control_properties_and_events.mapLongitude
+                                mm.mapLatitude,
+                                mm.mapLongitude
                             ], 13);
 
                         // Add an OpenStreetMap tile layer to the map:
@@ -176,8 +177,8 @@ logo_url("/driver_icons/map_control.png")
                         // Add a marker at the same coordinates as the map's initial view:
                         let marker = L.marker(
                             [
-                                mm.control_properties_and_events.pinLatitude,
-                                mm.control_properties_and_events.pinLongitude
+                                mm.pinLatitude,
+                                mm.pinLongitude
                             ]).addTo(mm.map);
 
                         // Optionally, add a popup to the marker:
@@ -193,18 +194,30 @@ logo_url("/driver_icons/map_control.png")
         data:       function( ) {
             return {
                 text:   "",
-                map:    null
+                map:    null,
+                mapLatitude: null,
+                mapLongitude: null,
+                mapLatitude: null,
+                mapLongitude: null
             }
         },
         methods:    {
+            changedFn:          async function(  ) {
+                if (isValidObject(this.control_properties_and_events)) {
+                    this.mapLatitude = this.control_properties_and_events.mapLatitude
+                    this.mapLongitude = this.control_properties_and_events.mapLongitude
+                    this.pinLatitude = this.control_properties_and_events.pinLatitude
+                    this.pinLongitude = this.control_properties_and_events.pinLongitude
+                }
+            },
             action_click_details_ui: async function() {
                 //debugger
                 let mm = this
                 Vue.nextTick(async function() {
                     mm.map = L.map('map_design').setView(
                         [
-                            mm.control_properties_and_events.mapLatitude,
-                            mm.control_properties_and_events.mapLongitude
+                            mm.mapLatitude,
+                            mm.mapLongitude
                         ], 13);
 
                     // Add an OpenStreetMap tile layer to the map:
@@ -216,26 +229,26 @@ logo_url("/driver_icons/map_control.png")
                     // Add a marker at the same coordinates as the map's initial view:
                     let marker = L.marker(
                         [
-                            mm.control_properties_and_events.pinLatitude,
-                            mm.control_properties_and_events.pinLongitude]
+                            mm.pinLatitude,
+                            mm.pinLongitude]
                     ).addTo(mm.map);
 
                     // Optionally, add a popup to the marker:
                     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
 
                     mm.map.addEventListener('click', function(ev) {
-                        mm.control_properties_and_events.pinLatitude   = ev.latlng.lat;
-                        mm.control_properties_and_events.pinLongitude  = ev.latlng.lng;
+                        mm.pinLatitude   = ev.latlng.lat;
+                        mm.pinLongitude  = ev.latlng.lng;
                         mm.map.removeLayer(marker)
-                        marker = L.marker([mm.control_properties_and_events.pinLatitude,mm.control_properties_and_events.pinLongitude]).addTo(mm.map);
+                        marker = L.marker([mm.pinLatitude,mm.pinLongitude]).addTo(mm.map);
                         console.log("Clicked ( " + ev.latlng.lat + " , " + ev.latlng.lng + " )")
                     });
                     mm.map.addEventListener('moveend', function(ev) {
                         let mapCenter = mm.map.getCenter()
                         var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
                         var topLeftLatLng = bounds.getNorthWest();
-                        mm.control_properties_and_events.mapLatitude   = topLeftLatLng.lat;
-                        mm.control_properties_and_events.mapLongitude  = topLeftLatLng.lng;
+                        mm.mapLatitude   = topLeftLatLng.lat;
+                        mm.mapLongitude  = topLeftLatLng.lng;
                         console.log("Moved to ( " + topLeftLatLng.lat + " , " + topLeftLatLng.lng + " )")
                     });
                 })
