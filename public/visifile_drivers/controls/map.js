@@ -135,7 +135,7 @@ logo_url("/driver_icons/map_control.png")
 <div>
 {{control_properties_and_events.text}} <button v-on:click="odoo" class=btn></button>
     <div    v-if='!design_mode' 
-            v-bind:id='"map"+(design_mode?"_":"")' 
+            id="map" 
             v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
     </div>
     
@@ -199,7 +199,8 @@ logo_url("/driver_icons/map_control.png")
         },
         methods:    {
             odoo:    async function(  ) {
-              this.control_properties_and_events.text ++
+                this.control_properties_and_events.text ++
+                this.control_properties_and_events.pinLatitude ++
             },
             action_click_details_ui: async function() {
                 //debugger
@@ -240,7 +241,9 @@ logo_url("/driver_icons/map_control.png")
                         var topLeftLatLng = bounds.getNorthWest();
                         mm.control_properties_and_events.mapLatitude   = topLeftLatLng.lat;
                         mm.control_properties_and_events.mapLongitude  = topLeftLatLng.lng;
-                        console.log("Moved to ( " + topLeftLatLng.lat + " , " + topLeftLatLng.lng + " )")
+                        debugger
+                        console.log("Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
+                            mm.control_properties_and_events.mapLongitude + " )")
 
 
                     });
