@@ -173,7 +173,20 @@ logo_url("/driver_icons/map_control.png")
             }
         },
         methods:    {
-            action_click_details_ui: async function() {
+            addMoveEndEvent:            async function() {
+                let mm = this
+                mm.map.addEventListener('moveend', async function(ev) {
+                    let mapCenter = mm.map.getCenter()
+                    var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
+                    var topLeftLatLng = bounds.getNorthWest();
+                    //debugger
+                    mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
+                    mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
+                    console.log("Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
+                        mm.control_properties_and_events.mapLongitude + " )")
+                });
+            },
+            action_click_details_ui:    async function() {
                 //debugger
                 let mm = this
                 Vue.nextTick(async function() {
@@ -189,17 +202,8 @@ logo_url("/driver_icons/map_control.png")
                         maxZoom: 18,
                     }).addTo(mm.map);
 
+                    mm.addMoveEndEvent()
 
-                    mm.map.addEventListener('moveend', async function(ev) {
-                        let mapCenter = mm.map.getCenter()
-                        var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
-                        var topLeftLatLng = bounds.getNorthWest();
-                        //debugger
-                        mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
-                        mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
-                        console.log("Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
-                            mm.control_properties_and_events.mapLongitude + " )")
-                    });
                 })
             }
         },
