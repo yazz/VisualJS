@@ -127,6 +127,7 @@ logo_url("/driver_icons/map_control.png")
     <div    v-if='design_mode == "detail_editor"' 
             v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
         Map Details        
+        <button class=btn v-on:click='odoo()'></button>
         <div    v-if='design_mode == "detail_editor"' 
                 v-bind:id='name + "_" + control_properties_and_events.code_id + "_design"' 
                 v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
@@ -153,7 +154,7 @@ logo_url("/driver_icons/map_control.png")
             //-------------------------------------------------------------------------/
             let mm = this
             await registerComponent(this)
-            yz.mainVars.disableAutoSave                 = true
+            //yz.mainVars.disableAutoSave                 = true
 
             setTimeout(function() {
                 try {
@@ -184,6 +185,9 @@ logo_url("/driver_icons/map_control.png")
             }
         },
         methods:    {
+            odoo: async function() {
+                this.control_properties_and_events.mapLatitude += 0.01
+            },
             addMoveEndEvent:            async function() {
                 //----------------------------------------------------------------------------------/
                 //
