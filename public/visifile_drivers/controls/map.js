@@ -184,7 +184,8 @@ logo_url("/driver_icons/map_control.png")
         data:       function( ) {
             return {
                 text:   "",
-                map:    null
+                map:    null,
+                movee: false
             }
         },
         methods:    {
@@ -208,6 +209,11 @@ logo_url("/driver_icons/map_control.png")
 
                 mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
                 mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
+                Vue.nextTick(async function() {
+                    mm.map.off('moveend', mm.addMoveEndEvent);
+                    mm.movee = false
+                    console.log("*** removing move event")
+                })
                 console.log(mm.control_properties_and_events.code_id + ":   Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
                     mm.control_properties_and_events.mapLongitude + " )")
             },
@@ -240,7 +246,12 @@ logo_url("/driver_icons/map_control.png")
                     }).addTo(mm.map);
 
                     //await mm.addMoveEndEvent()
-                    mm.map.on('moveend', mm.addMoveEndEvent);
+                    setInterval(async function(){
+                        if (mm.movee == false) {
+                            console.log("*** adding move event")
+                            mm.map.on('moveend', mm.addMoveEndEvent);
+                            mm.movee = true                        }
+                    },500)
 
                 })
             }
