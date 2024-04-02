@@ -188,7 +188,7 @@ logo_url("/driver_icons/map_control.png")
             odoo: async function() {
                 this.control_properties_and_events.mapLatitude += 0.01
             },
-            addMoveEndEvent:            async function() {
+            addMoveEndEvent:            async function( ev ) {
                 //----------------------------------------------------------------------------------/
                 //
                 //                                          /-------------------------------------/
@@ -201,16 +201,14 @@ logo_url("/driver_icons/map_control.png")
                 //
                 //-------------------------------------------------------------------------/
                 let mm = this
-                mm.map.addEventListener('moveend', async function(ev) {
-                    let mapCenter = mm.map.getCenter()
-                    var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
-                    var topLeftLatLng = bounds.getNorthWest();
-                    //debugger
-                    mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
-                    mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
-                    console.log(mm.control_properties_and_events.code_id + ":   Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
-                        mm.control_properties_and_events.mapLongitude + " )")
-                });
+                let mapCenter = mm.map.getCenter()
+                var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
+                var topLeftLatLng = bounds.getNorthWest();
+                //debugger
+                mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
+                mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
+                console.log(mm.control_properties_and_events.code_id + ":   Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
+                    mm.control_properties_and_events.mapLongitude + " )")
             },
             action_click_details_ui:    async function() {
                 //debugger
@@ -230,7 +228,8 @@ logo_url("/driver_icons/map_control.png")
                         maxZoom: 18,
                     }).addTo(mm.map);
 
-                    mm.addMoveEndEvent()
+                    //await mm.addMoveEndEvent()
+                    mm.map.on('moveend', mm.addMoveEndEvent);
 
                 })
             }
