@@ -127,7 +127,9 @@ logo_url("/driver_icons/map_control.png")
     <div    v-if='design_mode == "detail_editor"' 
             v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
         Map Details        
-        <button class=btn v-on:click='odoo()'></button>
+        
+        <button class=btn v-on:click='odoo()'></button> ( {{control_properties_and_events.mapLatitude}} , {{control_properties_and_events.mapLongitude}} )
+        
         <div    v-if='design_mode == "detail_editor"' 
                 v-bind:id='name + "_" + control_properties_and_events.code_id + "_design"' 
                 v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
@@ -202,15 +204,23 @@ logo_url("/driver_icons/map_control.png")
                 //-------------------------------------------------------------------------/
                 let mm = this
                 let mapCenter = mm.map.getCenter()
-                var bounds = mm.map.getBounds(); // Gets the geographical bounds visible in the current map view
-                var topLeftLatLng = bounds.getNorthWest();
-                //debugger
+
                 mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
                 mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
                 console.log(mm.control_properties_and_events.code_id + ":   Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
                     mm.control_properties_and_events.mapLongitude + " )")
             },
             action_click_details_ui:    async function() {
+                //----------------------------------------------------------------------------------/
+                //
+                //                                          /-------------------------------------/
+                //                                         /   FUNCTION  action_click_details_ui /
+                //                                        /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // Called when we look at the advanced UI in design mode
+                //
+                //-------------------------------------------------------------------------/
                 //debugger
                 let mm = this
                 Vue.nextTick(async function() {
@@ -235,6 +245,16 @@ logo_url("/driver_icons/map_control.png")
             }
         },
         beforeUnmount:          async function  (  ) {
+            //----------------------------------------------------------------------------------/
+            //
+            //                                          /-------------------------------------/
+            //                                         /      FUNCTION  beforeUnmount        /
+            //                                        /-------------------------------------/
+            //
+            //----------------------------------------------------------------------------/
+            // Before map unmounted from UI
+            //
+            //-------------------------------------------------------------------------/
             let mm = this
             if (mm.map) {
                 //mm.map.close()
