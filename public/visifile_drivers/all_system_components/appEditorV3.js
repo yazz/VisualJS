@@ -2391,7 +2391,7 @@ ___________
                 if ((!mm.read_only) && (mm.save_state == 'pending' || (!mm.save_state))) {
                     // ******** if AUTOSAVE is on then save the code ************
                     if (!yz.mainVars.disableAutoSave) {
-                        console.log("     saved: " + mm.code_id)
+                        //console.log("     saved: " + mm.code_id)
                         appClearIntervals();
                         await mm.save(mm.base_component_id, mm.code_id, null)
                     }

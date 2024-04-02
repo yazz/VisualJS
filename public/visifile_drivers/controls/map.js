@@ -203,7 +203,7 @@ logo_url("/driver_icons/map_control.png")
                     //debugger
                     mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
                     mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
-                    console.log("Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
+                    console.log(mm.control_properties_and_events.code_id + ":   Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
                         mm.control_properties_and_events.mapLongitude + " )")
                 });
             },
@@ -211,7 +211,9 @@ logo_url("/driver_icons/map_control.png")
                 //debugger
                 let mm = this
                 Vue.nextTick(async function() {
-                    mm.map = L.map(mm.name + "_" + mm.control_properties_and_events.code_id + "_design").setView(
+                    let designName = mm.name + "_" + mm.control_properties_and_events.code_id + "_design"
+                    //debugger
+                    mm.map = L.map(designName).setView(
                         [
                             mm.control_properties_and_events.mapLatitude,
                             mm.control_properties_and_events.mapLongitude
