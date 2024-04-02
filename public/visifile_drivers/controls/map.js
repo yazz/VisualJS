@@ -153,6 +153,7 @@ logo_url("/driver_icons/map_control.png")
             //-------------------------------------------------------------------------/
             let mm = this
             await registerComponent(this)
+            yz.mainVars.disableAutoSave                 = true
 
             setTimeout(function() {
                 try {
