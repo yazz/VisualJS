@@ -141,6 +141,16 @@ logo_url("/driver_icons/map_control.png")
 </div>
 `,
         mounted:    async function( ) {
+            //----------------------------------------------------------------------------------/
+            //
+            //                                          /-------------------------------------/
+            //                                         /      FUNCTION  mounted              /
+            //                                        /-------------------------------------/
+            //
+            //----------------------------------------------------------------------------/
+            // Called when the map control is mounted
+            //
+            //-------------------------------------------------------------------------/
             let mm = this
             await registerComponent(this)
 
@@ -174,6 +184,17 @@ logo_url("/driver_icons/map_control.png")
         },
         methods:    {
             addMoveEndEvent:            async function() {
+                //----------------------------------------------------------------------------------/
+                //
+                //                                          /-------------------------------------/
+                //                                         /      FUNCTION  addMoveEndEvent      /
+                //                                        /-------------------------------------/
+                //
+                //----------------------------------------------------------------------------/
+                // Called to add an event to the map control when the user stops moving
+                // the map in designer
+                //
+                //-------------------------------------------------------------------------/
                 let mm = this
                 mm.map.addEventListener('moveend', async function(ev) {
                     let mapCenter = mm.map.getCenter()
