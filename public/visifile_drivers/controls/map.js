@@ -256,6 +256,7 @@ logo_url("/driver_icons/map_control.png")
             //
             //-------------------------------------------------------------------------/
             let mm = this
+            console.log("beforeUnmount called on " + mm.name)
             if (mm.map) {
                 //mm.map.close()
             }
