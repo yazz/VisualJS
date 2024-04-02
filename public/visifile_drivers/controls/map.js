@@ -156,6 +156,7 @@ logo_url("/driver_icons/map_control.png")
             //-------------------------------------------------------------------------/
             let mm = this
             await registerComponent(this)
+            console.log("Mounted called on " + mm.name)
             //yz.mainVars.disableAutoSave                 = true
 
             setTimeout(function() {
