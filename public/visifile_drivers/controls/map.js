@@ -120,7 +120,7 @@ logo_url("/driver_icons/map_control.png")
         template:   ` 
 <div>
     <div    v-if='!design_mode' 
-            id="map" 
+            v-bind:id='name + "_" + control_properties_and_events.code_id' 
             v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
     </div>
     
@@ -128,7 +128,7 @@ logo_url("/driver_icons/map_control.png")
             v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
         Map Details        
         <div    v-if='design_mode == "detail_editor"' 
-                v-bind:id='"map_design"' 
+                v-bind:id='name + "_" + control_properties_and_events.code_id + "_design"' 
                 v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
         </div>
     </div>
@@ -157,7 +157,7 @@ logo_url("/driver_icons/map_control.png")
             setTimeout(function() {
                 try {
                     if (!mm.design_mode) {
-                        mm.map = L.map('map').setView(
+                        mm.map = L.map(mm.name + "_" + mm.control_properties_and_events.code_id ).setView(
                             [
                                 mm.control_properties_and_events.mapLatitude,
                                 mm.control_properties_and_events.mapLongitude
@@ -211,7 +211,7 @@ logo_url("/driver_icons/map_control.png")
                 //debugger
                 let mm = this
                 Vue.nextTick(async function() {
-                    mm.map = L.map('map_design').setView(
+                    mm.map = L.map(mm.name + "_" + mm.control_properties_and_events.code_id + "_design").setView(
                         [
                             mm.control_properties_and_events.mapLatitude,
                             mm.control_properties_and_events.mapLongitude
