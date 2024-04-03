@@ -51,13 +51,6 @@ properties(
         }
         ,
         {
-            id:         "action_click_details_ui",
-            name:       "Action Details UI Clicked",
-            type:       "Action",
-            hidden:     true
-        }
-        ,
-        {
             id:         "padding",
             name:       "Padding",
             type:       "Number"
@@ -128,9 +121,6 @@ logo_url("/driver_icons/map_control.png")
                 v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
             Map Details        
             
-            <button class=btn v-on:click='onClickApplyChanges()'>Apply</button> 
-            ( {{control_properties_and_events.mapLatitude}} , {{control_properties_and_events.mapLongitude}} )
-            
             <div    v-if='design_mode' 
                     v-bind:id='name + "_" + control_properties_and_events.code_id + "_design"' 
                     v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
@@ -157,8 +147,6 @@ logo_url("/driver_icons/map_control.png")
             //-------------------------------------------------------------------------/
             let mm = this
             await registerComponent(this)
-            //console.log("Mounted called on " + mm.name)
-            //yz.mainVars.disableAutoSave                 = true
 
             setTimeout(function() {
                 try {
@@ -192,6 +180,8 @@ logo_url("/driver_icons/map_control.png")
                             maxZoom: 18,
                         }).addTo(mm.map);
 
+                        mm.map.addEventListener('moveend', mm.onMapMove)
+
                     }
                 } catch ( err ) {
                     debugger
@@ -213,16 +203,15 @@ logo_url("/driver_icons/map_control.png")
             //-------------------------------------------------------------------------/
             return {
                 text:   "",
-                map:    null,
-                movee: false
+                map:    null
             }
         },
         methods:    {
-            onClickApplyChanges:        async function() {
+            onMapMove:          async function() {
                 //----------------------------------------------------------------------------------/
                 //
                 //                                          /-------------------------------------/
-                //                                         /   FUNCTION  onClickApplyChanges     /
+                //                                         /   FUNCTION  onMapMove               /
                 //                                        /-------------------------------------/
                 //
                 //----------------------------------------------------------------------------/
@@ -230,7 +219,6 @@ logo_url("/driver_icons/map_control.png")
                 //
                 //-------------------------------------------------------------------------/
                 let mm = this
-                //debugger
                 let mapCenter = mm.map.getCenter()
 
                 mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
@@ -238,21 +226,6 @@ logo_url("/driver_icons/map_control.png")
                 console.log(mm.control_properties_and_events.code_id + ":   Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
                     mm.control_properties_and_events.mapLongitude + " )")
 
-            },
-            action_click_details_ui:    async function() {
-                //----------------------------------------------------------------------------------/
-                //
-                //                                          /-------------------------------------/
-                //                                         /   FUNCTION  action_click_details_ui /
-                //                                        /-------------------------------------/
-                //
-                //----------------------------------------------------------------------------/
-                // Called when we look at the advanced UI in design mode
-                //
-                //-------------------------------------------------------------------------/
-                let mm = this
-                Vue.nextTick(async function() {
-                })
             }
         },
         beforeUnmount:          async function  (  ) {
