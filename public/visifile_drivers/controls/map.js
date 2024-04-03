@@ -124,16 +124,18 @@ logo_url("/driver_icons/map_control.png")
             v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
     </div>
     
-    <div    v-if='design_mode == "detail_editor"' 
-            v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
-        Map Details        
-        
-        <button class=btn v-on:click='onClickApplyChanges()'>Apply</button> 
-        ( {{control_properties_and_events.mapLatitude}} , {{control_properties_and_events.mapLongitude}} )
-        
+    <div    v-if='design_mode' v-bind:style='design_mode == "detail_editor"?"":"display:none;"'>
         <div    v-if='design_mode == "detail_editor"' 
-                v-bind:id='name + "_" + control_properties_and_events.code_id + "_design"' 
-                v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
+                v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
+            Map Details        
+            
+            <button class=btn v-on:click='onClickApplyChanges()'>Apply</button> 
+            ( {{control_properties_and_events.mapLatitude}} , {{control_properties_and_events.mapLongitude}} )
+            
+            <div    v-if='design_mode == "detail_editor"' 
+                    v-bind:id='name + "_" + control_properties_and_events.code_id + "_design"' 
+                    v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
+            </div>
         </div>
     </div>
 
