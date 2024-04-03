@@ -128,7 +128,8 @@ logo_url("/driver_icons/map_control.png")
             v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
         Map Details        
         
-        <button class=btn v-on:click='odoo()'></button> ( {{control_properties_and_events.mapLatitude}} , {{control_properties_and_events.mapLongitude}} )
+        <button class=btn v-on:click='onClickApplyChanges()'>Apply</button> 
+        ( {{control_properties_and_events.mapLatitude}} , {{control_properties_and_events.mapLongitude}} )
         
         <div    v-if='design_mode == "detail_editor"' 
                 v-bind:id='name + "_" + control_properties_and_events.code_id + "_design"' 
@@ -182,6 +183,16 @@ logo_url("/driver_icons/map_control.png")
             },500)
         },
         data:       function( ) {
+            //----------------------------------------------------------------------------------/
+            //
+            //                                          /-------------------------------------/
+            //                                         /                DATA                 /
+            //                                        /-------------------------------------/
+            //
+            //----------------------------------------------------------------------------/
+            //
+            //
+            //-------------------------------------------------------------------------/
             return {
                 text:   "",
                 map:    null,
@@ -189,33 +200,26 @@ logo_url("/driver_icons/map_control.png")
             }
         },
         methods:    {
-            odoo: async function() {
-                this.control_properties_and_events.mapLatitude += 0.01
-            },
-            addMoveEndEvent:            async function( ev ) {
+            onClickApplyChanges:        async function() {
                 //----------------------------------------------------------------------------------/
                 //
                 //                                          /-------------------------------------/
-                //                                         /      FUNCTION  addMoveEndEvent      /
+                //                                         /   FUNCTION  onClickApplyChanges     /
                 //                                        /-------------------------------------/
                 //
                 //----------------------------------------------------------------------------/
-                // Called to add an event to the map control when the user stops moving
-                // the map in designer
+                // Called when we look at the advanced UI in design mode
                 //
                 //-------------------------------------------------------------------------/
                 let mm = this
+                debugger
                 let mapCenter = mm.map.getCenter()
 
                 mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
                 mm.control_properties_and_events.mapLongitude  = mapCenter.lng;
-                Vue.nextTick(async function() {
-                    mm.map.off('moveend', mm.addMoveEndEvent);
-                    mm.movee = false
-                    console.log("*** removing move event")
-                })
                 console.log(mm.control_properties_and_events.code_id + ":   Moved to ( " + mm.control_properties_and_events.mapLatitude + " , " +
                     mm.control_properties_and_events.mapLongitude + " )")
+
             },
             action_click_details_ui:    async function() {
                 //----------------------------------------------------------------------------------/
@@ -228,11 +232,10 @@ logo_url("/driver_icons/map_control.png")
                 // Called when we look at the advanced UI in design mode
                 //
                 //-------------------------------------------------------------------------/
-                //debugger
                 let mm = this
                 Vue.nextTick(async function() {
                     let designName = mm.name + "_" + mm.control_properties_and_events.code_id + "_design"
-                    //debugger
+                    debugger
                     mm.map = L.map(designName).setView(
                         [
                             mm.control_properties_and_events.mapLatitude,
@@ -244,15 +247,6 @@ logo_url("/driver_icons/map_control.png")
                         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                         maxZoom: 18,
                     }).addTo(mm.map);
-
-                    //await mm.addMoveEndEvent()
-                    setInterval(async function(){
-                        if (mm.movee == false) {
-                            console.log("*** adding move event")
-                            mm.map.on('moveend', mm.addMoveEndEvent);
-                            mm.movee = true                        }
-                    },500)
-
                 })
             }
         },
