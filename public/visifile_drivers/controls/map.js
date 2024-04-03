@@ -157,17 +157,19 @@ logo_url("/driver_icons/map_control.png")
             //-------------------------------------------------------------------------/
             let mm = this
             await registerComponent(this)
-            console.log("Mounted called on " + mm.name)
+            //console.log("Mounted called on " + mm.name)
             //yz.mainVars.disableAutoSave                 = true
 
             setTimeout(function() {
                 try {
                     if (!mm.design_mode) {
-                        mm.map = L.map(mm.name + "_" + mm.control_properties_and_events.code_id ).setView(
+                        let runtimeName = mm.name + "_" + mm.control_properties_and_events.code_id
+                        mm.map = L.map( runtimeName ).setView(
                             [
                                 mm.control_properties_and_events.mapLatitude,
                                 mm.control_properties_and_events.mapLongitude
                             ], 13);
+                        console.log("Mounting map " + runtimeName)
 
                         // Add an OpenStreetMap tile layer to the map:
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -212,7 +214,7 @@ logo_url("/driver_icons/map_control.png")
                 //
                 //-------------------------------------------------------------------------/
                 let mm = this
-                debugger
+                //debugger
                 let mapCenter = mm.map.getCenter()
 
                 mm.control_properties_and_events.mapLatitude   = mapCenter.lat;
@@ -235,12 +237,13 @@ logo_url("/driver_icons/map_control.png")
                 let mm = this
                 Vue.nextTick(async function() {
                     let designName = mm.name + "_" + mm.control_properties_and_events.code_id + "_design"
-                    debugger
+                    //debugger
                     mm.map = L.map(designName).setView(
                         [
                             mm.control_properties_and_events.mapLatitude,
                             mm.control_properties_and_events.mapLongitude
                         ], 13);
+                    console.log("Mounting map " + designName)
 
                     // Add an OpenStreetMap tile layer to the map:
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -262,8 +265,10 @@ logo_url("/driver_icons/map_control.png")
             //
             //-------------------------------------------------------------------------/
             let mm = this
-            console.log("beforeUnmount called on " + mm.name)
+
             if (mm.map) {
+                let designName = mm.name + "_" + mm.control_properties_and_events.code_id + "_design"
+                console.log("beforeUnmount called on " + designName)
                 //mm.map.close()
             }
         }
