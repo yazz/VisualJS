@@ -29,6 +29,16 @@ properties(
         }
         ,
         {
+            id:         "refreshMap",
+            snippet:    `refreshMap()`,
+            name:       "refreshMap",
+            type:       "Action",
+            help:       `<div>Help text for
+                            <b>refreshMap</b> function
+                         </div>`
+        }
+        ,
+        {
             id:         "width",
             name:       "Width",
             default:    300,
@@ -207,6 +217,10 @@ logo_url("/driver_icons/map_control.png")
             }
         },
         methods:    {
+            refreshMap:         async function() {
+                let mm = this
+                mm.map.invalidateSize()
+            },
             onMapMove:          async function() {
                 //----------------------------------------------------------------------------------/
                 //
