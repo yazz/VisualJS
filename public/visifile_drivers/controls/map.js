@@ -156,6 +156,17 @@ logo_url("/driver_icons/map_control.png")
             //
             //-------------------------------------------------------------------------/
             let mm = this
+            Vue.watch(
+                yz.testRef
+                ,
+                async function(newo,old){
+                    console.log(old +"-> " + newo)
+                }
+                //,
+                //{deep: true}
+            )
+            yz.testRef.value = 8
+            //testRef.value = 83
             await registerComponent(this)
 
             setTimeout(function() {
