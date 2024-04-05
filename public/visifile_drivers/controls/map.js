@@ -157,15 +157,14 @@ logo_url("/driver_icons/map_control.png")
             //-------------------------------------------------------------------------/
             let mm = this
             Vue.watch(
-                yz.testRef
-                ,
+                yz.refTest,
                 async function(newo,old){
-                    console.log("yz.testRef -> " + JSON.stringify(yz.testRef))
+                    console.log("yz.testRef -> " + JSON.stringify(yz.refTest.value))
                 }
                 //,
                 //{deep: true}
             )
-            yz.testRef.a = 8
+            yz.refTest.value = 8
             //testRef.value = 83
             await registerComponent(this)
 

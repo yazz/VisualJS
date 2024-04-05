@@ -99,7 +99,7 @@ logo_url("/driver_icons/button_control.png")
                     </button>`,
         mounted:    async function( ) {
             await registerComponent(this)
-            yz.testRef.a = 89
+            yz.refTest.value = 89
 
         },
         data:       function( ) {
