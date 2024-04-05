@@ -11006,6 +11006,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     ]})
 
 
+                await createAlaSqlTable({
+                    tableName: "ui_system_properties",
+                    fields: [
+                        {name: "prop_id",        fieldType: "STRING"},
+                        {name: "prop_type",      fieldType: "STRING"},
+                        {name: "prop_value",     fieldType: "STRING"}
+                    ]})
+
             }
             async function  setupAlaSqlSync                     (  ) {
                 if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
