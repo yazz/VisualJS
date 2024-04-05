@@ -4,6 +4,22 @@
         {
             //*** gen_start ***//
 
+            forkComponent:                          async function  (  event  ) {
+                let mm = this
+
+                yz.editor.subEditorAction               = "FORK_CONTROL";
+                yz.editor.lastEditingAppBaseComponentId = yz.editor.editingAppBaseComponentId;
+                yz.editor.lastEditingAppCodeId          = yz.editor.editingAppCodeId;
+                event.stopPropagation();
+                window.globalEventBus.emit("message", {
+                    type: "fork_component",
+                    base_component_id:      mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id,
+                    code_id:                mm.model.forms[mm.active_form].components[mm.active_component_index].code_id,
+                    form_id:                mm.active_form,
+                    control_name:           mm.model.forms[mm.active_form].components[mm.active_component_index].name
+                })
+            },
+
             // Load the list of controls available
             loadControlPalette:                     async function  (  ) {
                 // This loads the controls for the control palette, which allows the user

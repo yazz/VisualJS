@@ -1773,7 +1773,7 @@
                                             "left: " + ((getLeft(active_form,active_component_index)) + (model.forms[active_form].components[active_component_index].width) + 15) + "px;" +
                                             "top:  " + ((getTop(active_form,active_component_index)) - 45) +  "px;" +
                                             "width: 30px; height: 30px; line-height:30px;text-align: center;vertical-align: middle;"'
-                                       v-on:click='yz.editor.subEditorAction = "FORK_CONTROL"; yz.editor.lastEditingAppBaseComponentId = yz.editor.editingAppBaseComponentId; yz.editor.lastEditingAppCodeId = yz.editor.editingAppCodeId;$event.stopPropagation();window.globalEventBus.emit("message", { type:  "fork_component", base_component_id:   model.forms[active_form].components[active_component_index].base_component_id, code_id:   model.forms[active_form].components[active_component_index].code_id, form_id: active_form, control_name: model.forms[active_form].components[active_component_index].name})'
+                                       v-on:click='forkComponent($event)'
                             >
     
     
