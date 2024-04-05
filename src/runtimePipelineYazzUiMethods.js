@@ -4,6 +4,21 @@
         {
             //*** gen_start ***//
 
+            editComponent:                          async function  (  event  ) {
+                let mm = this
+
+                yz.editor.subEditorAction = "EDIT_CONTROL";
+                yz.editor.lastEditingAppBaseComponentId = yz.editor.editingAppBaseComponentId;
+                yz.editor.lastEditingAppCodeId = yz.editor.editingAppCodeId;
+                event.stopPropagation();
+                window.globalEventBus.emit("message", {
+                    type:               "edit_component",
+                    base_component_id:  mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id,
+                    code_id:            mm.model.forms[mm.active_form].components[mm.active_component_index].code_id,
+                    form_id:            mm.active_form,
+                    control_name:       mm.model.forms[mm.active_form].components[mm.active_component_index].name
+                })
+            },
             forkComponent:                          async function  (  event  ) {
                 let mm = this
 
