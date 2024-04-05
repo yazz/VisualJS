@@ -7892,7 +7892,7 @@
             var yz
             var mainVueAppVm
             yz                              = {
-                testRef:                    Vue.ref(null),
+                testRef:                    Vue.reactive({a: 1}),
                 mainVars:                   {
                     mainVueApp:                 null,
                     visJsloaded:                false,

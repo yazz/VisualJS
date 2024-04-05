@@ -160,12 +160,12 @@ logo_url("/driver_icons/map_control.png")
                 yz.testRef
                 ,
                 async function(newo,old){
-                    console.log(old +"-> " + newo)
+                    console.log("yz.testRef -> " + JSON.stringify(yz.testRef))
                 }
                 //,
                 //{deep: true}
             )
-            yz.testRef.value = 8
+            yz.testRef.a = 8
             //testRef.value = 83
             await registerComponent(this)
 
