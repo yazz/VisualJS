@@ -1081,6 +1081,9 @@ logo_url("/driver_icons/data_control.png")
             runQuery:           async function  (  ) {
                 let mm = this
                 let newcontrol =  mm.meta.lookupComponent(mm.control_properties_and_events.sourceControlName)
+                if (!newcontrol) {
+                    return null
+                }
                 newcontrol.sql = mm.control_properties_and_events.sql
                 newcontrol.select_columns = mm.control_properties_and_events.dataWindowColumns
                 newcontrol.select_table = mm.control_properties_and_events.design_mode_table
