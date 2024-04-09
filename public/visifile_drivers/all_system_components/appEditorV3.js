@@ -1065,7 +1065,7 @@ ___________
             },
             previewUrlPressed:                  async function  (  ) {
                 let mm = this
-                debugger
+                //debugger
                 let locToUse = location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" +
                                 mm.base_component_id + ".html"
 
