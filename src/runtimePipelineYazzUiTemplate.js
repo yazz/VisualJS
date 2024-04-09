@@ -2053,20 +2053,20 @@
     
     
                                         <div    v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                            <input
+                                            <form action="" style="margin: 0px;"><input
                                                     v-if="(property.textarea == null) || (property.textarea == '')"
                                                     @change='setVBEditorProperty( {  property: property  ,  value: $event.target.value  } )'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     v-bind:type='property.password?"password":""'
-                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;' />
-                                            <textarea
+                                                    style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;' /></form>
+                                            <form action="" style="margin: 0px;"><textarea
                                                     v-if="(property.textarea != null) && (property.textarea != '')"
                                                     rows=10
                                                     @change='setVBEditorProperty(  {  property: property  ,  value: $event.target.value  }  )'
                                                     v-bind:value='getVBEditorProperty(property)'
                                                     v-bind:type='property.password?"password":""'
                                                     style='width: 100%;border: 0px;font-family:verdana,helvetica;font-size: 13px;padding:0px;'>
-                                            </textarea>
+                                            </textarea></form>
                                         </div>
     
     
