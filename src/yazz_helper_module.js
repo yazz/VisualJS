@@ -2209,10 +2209,10 @@ module.exports = {
 
         if (hashingAlgorithm == "IPFS") {
             let contentHash = await OnlyIpfsHash.of(content)
-            return "IPFS_" + contentHash
+            return "IPFSx" + contentHash
         } else if (hashingAlgorithm == "SHA256") {
             let sha256Hash = await yz.calculateSHA256(content)
-            return "SHA256_" + sha256Hash
+            return "SHA256x" + sha256Hash
         }
     },
     calculateSHA256:                async function (text) {
