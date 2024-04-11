@@ -7889,8 +7889,11 @@
                 mainVueAppVm.show_loader = false
             }
             var timelineIndex = 0
-            function        setVar                                (varName,varValue) {
+            var listOfChanges = []
+            function        addVar                                (varName,varValue) {
                 yz[varName] = varValue
+                listOfChanges.push({changeType: "addVar", varName: varName,varValue: varValue, timelineIndex: timelineIndex})
+                timelineIndex++
             }
             function        getVar                                (varName) {
                 return yz[varName]
