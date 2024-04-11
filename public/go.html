@@ -7888,9 +7888,17 @@
             function        hideProgressBar                     (   ) {
                 mainVueAppVm.show_loader = false
             }
+            var timelineIndex = 0
+            function        setVar                                (varName,varValue) {
+                yz[varName] = varValue
+            }
+            function        getVar                                (varName) {
+                return yz[varName]
+            }
             var yz
             var mainVueAppVm
             yz                              = {
+                refs:                       {},
                 refTest:                    Vue.ref({a: 1}),
                 mainVars:                   {
                     mainVueApp:                 null,
