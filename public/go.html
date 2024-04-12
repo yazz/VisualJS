@@ -8090,27 +8090,6 @@
             }
             window.yz = yz
 
-            var timelineIndex = 0
-            var listOfChanges = []
-            function        addVar                                (varName,varValue) {
-                yz[varName] = varValue
-                let lineNumber = null
-                try {
-                    fdsfdsfdv.WillGenerateError;
-                } catch (e) {
-                    debugger
-                    lineNumber = (e.lineNumber);
-                }
-                listOfChanges.push({changeType: "addVar", varName: varName,varValue: varValue, timelineIndex: timelineIndex, lineNumber: lineNumber})
-                timelineIndex++
-            }
-            function        getVar                                (varName) {
-                return yz[varName]
-            }
-            addVar("z","zoo")
-
-
-
 
 
             var GLOBALS                         = {
