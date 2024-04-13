@@ -15,7 +15,8 @@
             Standard HTML and JS below
             <br>
             <b>HI THERE!</b>
-            <div id="tele"></div>
+            <div id="tele" style="border: 1px solid black">TELE:</div>
+            <div id="tele2" style="border: 1px solid black">TELE2:</div>
         </div>
 
         <div style="margin-top:200px">
@@ -61,7 +62,7 @@
                                     <b><component v-bind:refresh='refresh' :is='"UserList"' ></component></b>
                                 </div>
                                 <div v-if='showItem2'>
-                                    <b><component v-bind:refresh='refresh' :is='"UserList2"' ></component></b>
+                                    <b><component v-bind:refresh='refresh' :is='"UserList2"' v-bind:teleport_id='teleportId' ></component></b>
                                 </div>
                                 <br>
                                 <button style="height: 050px;width:050px;" v-on:click="createItem()" >Create item</button>
@@ -71,17 +72,23 @@
 
                                 <button style="height: 050px;width:050px;" v-on:click="createItem2()" >Create item 2</button>
                                 <button style="height: 050px;width:050px;" v-on:click="showItemf2()" >Show</button>
+
+                                <button style="height: 050px;width:100px;" v-on:click="switchTeleport()" >switch Teleport</button>
                         </div>`,
                     data: function() {
                         return {
                             refresh: 0,
                             showItem: false,
-                            showItem2: false
+                            showItem2: false,
+                            teleportId: "tele"
                         }
                     },
                     mounted:    async function() {
                     },
                     methods: {
+                        switchTeleport: function(){
+                            this.teleportId = "tele2"
+                        },
                         createItem: async function () {
 
                             vueApp.component("UserList",
@@ -115,11 +122,12 @@
                             vueApp.component("UserList2",
                                 {
                                     name: "UserList2",
+                                    props: ["teleport_id"],
                                     template:   `
                                         <div style="margin-top: 70px;">
                                             <br>
-                                                I am a component 6...
-                                                <Teleport to="#tele">
+                                                I am a component 6... ({{teleport_id}}
+                                                <Teleport v-bind:to='"#" + teleport_id'>
                                                   <div >
                                                     component COntent teleported 2
                                                   </div>
