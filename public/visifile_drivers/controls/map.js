@@ -127,8 +127,8 @@ logo_url("/driver_icons/map_control.png")
             v-bind:style='"width: " + control_properties_and_events.width + "px; height: " + control_properties_and_events.height + "px;"'>
     </div>
     
-    <div        v-if='design_mode'   v-bind:style='design_mode == "detail_editor"?"":"display:none"'
-                v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
+    <div        v-if='design_mode'  
+                v-bind:style='(design_mode == "detail_editor"?"":"display:none;") + "width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + control_properties_and_events.height + "px;"'>
             Map Details        
             
             <div    v-if='design_mode' 
@@ -138,7 +138,7 @@ logo_url("/driver_icons/map_control.png")
         </div>
 
     <div    v-if='design_mode && (design_mode != "detail_editor")' 
-            v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + height + "px;"'>
+            v-bind:style='"width: " + control_properties_and_events.width + "px; control_properties_and_events.height: " + control_properties_and_events.height + "px;"'>
         Map        
     </div>
     
