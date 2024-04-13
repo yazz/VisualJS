@@ -60,15 +60,23 @@
                                 <div v-if='showItem'>
                                     <b><component v-bind:refresh='refresh' :is='"UserList"' ></component></b>
                                 </div>
+                                <div v-if='showItem2'>
+                                    <b><component v-bind:refresh='refresh' :is='"UserList2"' ></component></b>
+                                </div>
                                 <br>
                                 <button style="height: 050px;width:050px;" v-on:click="createItem()" >Create item</button>
                                 <button style="height: 050px;width:050px;" v-on:click="showItemf()" >Show</button>
+
                                 <button style="height: 050px;width:100px;" v-on:click="refreshAll()" >Refresh</button>
+
+                                <button style="height: 050px;width:050px;" v-on:click="createItem2()" >Create item 2</button>
+                                <button style="height: 050px;width:050px;" v-on:click="showItemf2()" >Show</button>
                         </div>`,
                     data: function() {
                         return {
                             refresh: 0,
-                            showItem: false
+                            showItem: false,
+                            showItem2: false
                         }
                     },
                     mounted:    async function() {
@@ -99,8 +107,32 @@
                             console.log("Refreshed app")
                         },
                         showItemf: async function () {
-                            this.showItem = true
+                            this.showItem = !this.showItem
                             console.log("Showed item")
+                        },
+                        createItem2: async function () {
+
+                            vueApp.component("UserList2",
+                                {
+                                    name: "UserList2",
+                                    template:   `
+                                        <div style="margin-top: 70px;">
+                                            <br>
+                                                I am a component 6...
+                                                <Teleport to="#tele">
+                                                  <div >
+                                                    component COntent teleported 2
+                                                  </div>
+                                                </Teleport>
+
+                                        </div>`
+                                })
+                            this.refresh ++
+                            console.log("Loaded user component")
+                        },
+                        showItemf2: async function () {
+                            this.showItem2 = !this.showItem2
+                            console.log("Showed item 2")
                         }
                     }
                 })
