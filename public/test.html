@@ -159,15 +159,14 @@
                                     if (command=="STOP") {
                                         return
                                     }
-                                    let a = 2
                                     eval(command)
                                 }
                                 console.log("foo done")
                             };
                             let gen=foo()
                             gen.next()
-                            gen.next("let a = 1")
-                            gen.next("console.log(a)")
+                            gen.next("let a = 12;console.log(a);")
+                            //gen.next("console.log(a)")
                             gen.next("STOP")
 
                             console.log(" ------------------------------------------------- ")
