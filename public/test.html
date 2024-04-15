@@ -74,6 +74,8 @@
                                 <button style="height: 050px;width:050px;" v-on:click="showItemf2()" >Show</button>
 
                                 <button style="height: 050px;width:100px;" v-on:click="switchTeleport()" >switch Teleport</button>
+
+                                <button style="height: 050px;width:100px;" v-on:click="runDebugger()" >Run debugger</button>
                         </div>`,
                     data: function() {
                         return {
@@ -139,8 +141,27 @@
                             console.log("Loaded user component")
                         },
                         showItemf2: async function () {
+                            debugger
                             this.showItem2 = !this.showItem2
                             console.log("Showed item 2")
+                        }
+                        ,
+                        runDebugger:  async function () {
+
+                            function* foo () {
+                                console.log(1)
+                                yield 'a';
+                                console.log(2)
+                                yield 'b';
+                                console.log(3)
+                                yield 'c';
+                                console.log(4)
+                            };
+                            let gen=foo()
+                            gen.next()
+                            gen.next(1)
+                            gen.next(2)
+                            gen.next(3)
                         }
                     }
                 })
