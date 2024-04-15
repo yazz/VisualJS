@@ -146,22 +146,35 @@
                             console.log("Showed item 2")
                         }
                         ,
+                        evalInContext: function (js, context) {
+                            //# Return the results of the in-line anonymous function we .call with the passed context
+                            return function() { return eval(js); }.call(context);
+                        },
                         runDebugger:  async function () {
 
                             function* foo () {
-                                console.log(1)
-                                yield 'a';
-                                console.log(2)
-                                yield 'b';
-                                console.log(3)
-                                yield 'c';
-                                console.log(4)
+                                while (true) {
+                                    console.log("2")
+                                    let command = yield;
+                                    console.log("3")
+                                    console.log("Running command: " + command)
+                                    if (command=="STOP") {
+                                        return
+                                    }
+                                    console.log("4")
+
+                                }
+                                console.log("foo done")
                             };
                             let gen=foo()
                             gen.next()
-                            gen.next(1)
-                            gen.next(2)
-                            gen.next(3)
+                            gen.next("STOP")
+
+                            console.log(" ------------------------------------------------- ")
+
+                            let context = {}
+                            this.evalInContext("let a = 1", context)
+                            //this.evalInContext("console.log(a)", context)
                         }
                     }
                 })
