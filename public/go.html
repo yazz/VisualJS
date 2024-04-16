@@ -7918,7 +7918,8 @@
                     wait_and_select_app:        null,
                     online:                     false,   // If the Yazz server is current online with internet access
                     localSqliteDb:              null
-
+                    localSqliteDb:              null,
+                    executionTimeline:          []
                 },
                 helpers:                    {
                     insertCodeString:               function(  code  ,  st   ,  vall        ,  optionalEnd  ) {
@@ -11335,7 +11336,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     globalWatchList[vName][executionStepNo] = {}
                 }
 
-                if (executionStepNo == executionTimeline.length) {
+                if (executionStepNo == yz.executionTimeline.length) {
                     return
 
                 } else if (!globalWatchList[vName][executionStepNo].isSet) {
@@ -11377,7 +11378,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         node:               node,
                         vars:               {}
                     }
-                    executionTimeline.push(recor)
+                    yz.executionTimeline.push(recor)
 
                     executionTimelineMapTimeToLine[recor.time] = recor
                 }
@@ -11838,11 +11839,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             function        logVarBefore                        (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
                 if (executionCode[codeBlockName]) {
 
-                    if (executionTimeline[currentTimelineLogPoint]) {
-                        if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
-                            executionTimeline[currentTimelineLogPoint].vars[varName] = {}
+                    if (yz.executionTimeline[currentTimelineLogPoint]) {
+                        if (!yz.executionTimeline[currentTimelineLogPoint].vars[varName]) {
+                            yz.executionTimeline[currentTimelineLogPoint].vars[varName] = {}
                         }
-                        executionTimeline[currentTimelineLogPoint].vars[varName].before = varValue
+                        yz.executionTimeline[currentTimelineLogPoint].vars[varName].before = varValue
                     }
 
                 }
@@ -11852,11 +11853,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             function        logVarAfter                         (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
                 if (executionCode[codeBlockName]) {
 
-                    if (executionTimeline[currentTimelineLogPoint]) {
-                        if (!executionTimeline[currentTimelineLogPoint].vars[varName]) {
-                            executionTimeline[currentTimelineLogPoint].vars[varName] = {}
+                    if (yz.executionTimeline[currentTimelineLogPoint]) {
+                        if (!yz.executionTimeline[currentTimelineLogPoint].vars[varName]) {
+                            yz.executionTimeline[currentTimelineLogPoint].vars[varName] = {}
                         }
-                        executionTimeline[currentTimelineLogPoint].vars[varName].after = varValue
+                        yz.executionTimeline[currentTimelineLogPoint].vars[varName].after = varValue
                     }
                 }
             }
