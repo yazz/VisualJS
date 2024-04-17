@@ -48,12 +48,30 @@
         alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON testview verify2');
         console.log( alasql("SELECT * FROM testview ") );
 
+        const baseState = [
+            {
+                title: "Learn TypeScript",
+                done: true
+            },
+            {
+                title: "Try Immer",
+                done: false
+            }
+        ]
+
+
+
+        const nextState = immer.produce(baseState, draft => {
+            draft[1].done = true
+            draft.push({title: "Tweet about it"})
+        })
 
         let vueApp = Vue.createApp(
                 {
                     el: "#rootel",
                     template:   `
                         <div style="">
+                            <br>
                             <br>
                         {{vss}}
                             <br>
