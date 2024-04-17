@@ -60,7 +60,7 @@
         ]
 
 
-        let dataImmerData = Vue.ref({a: 1})
+        let dataImmerData = baseState
 
         let vueApp = Vue.createApp(
                 {
@@ -198,12 +198,13 @@
                         ,
                         mutate:  async function ()
                         {
-                                let mm=this
-                            const nextState = immer.produce(mm.dataImmer.value, draft => {
+                            let mm=this
+                            debugger
+                            const nextState = immer.produce(mm.dataImmer, draft => {
                                 draft[1].done = true
                                 draft.push({title: "Tweet about it"})
                             })
-                            mm.dataImmer.value = nextState
+                            mm.dataImmer = nextState
                         }
                     }
                 })
@@ -215,9 +216,6 @@
                 //vueApp.refresh = 8
                 vueApp.mount("#rootel")
                 console.log("main app mounted")
-
-
-
 
             },1000)
         })
