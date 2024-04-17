@@ -60,11 +60,7 @@
         ]
 
 
-
-        const nextState = immer.produce(baseState, draft => {
-            draft[1].done = true
-            draft.push({title: "Tweet about it"})
-        })
+        let dataImmerData = Vue.ref({a: 1})
 
         let vueApp = Vue.createApp(
                 {
@@ -73,7 +69,7 @@
                         <div style="">
                             <br>
                             <br>
-                        {{vss}}
+                        {{dataImmer}}
                             <br>
                             <br>
                                 WE ARE IN THE MATRIX...
@@ -97,6 +93,8 @@
                                 <button style="height: 050px;width:100px;" v-on:click="switchTeleport()" >switch Teleport</button>
 
                                 <button style="height: 050px;width:100px;" v-on:click="runDebugger()" >Run debugger</button>
+
+                                <button style="height: 050px;width:100px;" v-on:click="mutate()" >Mutate</button>
                         </div>`,
                     data: function() {
                         return {
@@ -104,7 +102,7 @@
                             showItem: false,
                             showItem2: false,
                             teleportId: "tele",
-                            vss:        Vue.shallowRef(baseState)
+                            dataImmer:  dataImmerData
                         }
                     },
                     mounted:    async function() {
@@ -197,17 +195,32 @@
                             this.evalInContext( "this.a = 10"         , context )
                             this.evalInContext( "console.log(this.a)" , context )
                         }
+                        ,
+                        mutate:  async function ()
+                        {
+                                let mm=this
+                            const nextState = immer.produce(mm.dataImmer.value, draft => {
+                                draft[1].done = true
+                                draft.push({title: "Tweet about it"})
+                            })
+                            mm.dataImmer.value = nextState
+                        }
                     }
                 })
 
-        setTimeout(async function() {
-            //let vm = Vue.getCurrentInstance()
-            //debugger
-            //vueApp.refresh = 8
-            vueApp.mount("#rootel")
-            console.log("main app mounted")
+        Vue.nextTick(function(){
+            setTimeout(async function() {
+                //let vm = Vue.getCurrentInstance()
+                //debugger
+                //vueApp.refresh = 8
+                vueApp.mount("#rootel")
+                console.log("main app mounted")
 
-        },100)
+
+
+
+            },1000)
+        })
 
 
 
