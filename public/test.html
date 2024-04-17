@@ -10,7 +10,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/immer/9.0.21/immer.umd.production.min.js"></script>
 
-
     <body>
         <div>
             Standard HTML and JS below
@@ -56,6 +55,9 @@
                     template:   `
                         <div style="">
                             <br>
+                        {{vss}}
+                            <br>
+                            <br>
                                 WE ARE IN THE MATRIX...
                                 <br>
                                 showItem := {{showItem}}
@@ -83,7 +85,8 @@
                             refresh: 0,
                             showItem: false,
                             showItem2: false,
-                            teleportId: "tele"
+                            teleportId: "tele",
+                            vss:        Vue.shallowRef(baseState)
                         }
                     },
                     mounted:    async function() {
@@ -187,6 +190,9 @@
             console.log("main app mounted")
 
         },100)
+
+
+
 
     </script>
 
