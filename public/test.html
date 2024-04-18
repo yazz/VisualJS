@@ -13,6 +13,11 @@
     <body>
         <div>
             <div id="injected_id"></div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             Standard HTML and JS below
             <br>
             <b>HI THERE!</b>
@@ -222,11 +227,15 @@
         })
 
 
-        let injectedVueApp = Vue.createApp(
+        let injectedCode = `
+Vue.createApp(
             {
                 el: "#injected_id",
                 template: "injected code"
             })
+
+        `
+        let injectedVueApp = eval(injectedCode)
         injectedVueApp.mount("#injected_id")
 
 
