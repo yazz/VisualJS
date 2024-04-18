@@ -892,7 +892,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         function        getDebugCode                        (  blockName  ,  trcode2  ,  args  ) {
             let originalSourceParseTree = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
-            //debugger
             let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
             let line = -1
             let varsToAdd = {}
@@ -903,6 +902,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     skipFirstAndLastLine=true
                     numLinesToSkip = 1
                 }
+            }
+            if (_b.body[0].type == "ExpressionStatement") {
+                debugger
             }
             estraverse.traverse(_b, {
                 enter: function (node, parent) {
@@ -1465,11 +1467,14 @@ let VueAppData = null
 
 
         let injectedCode = `
-Vue.createApp(
+(function() {
+  let retVal = Vue.createApp(
             {
                 el: "#injected_id",
                 template: "injected code"
             })
+  return retVal
+})()
 
         `
 
@@ -1482,7 +1487,8 @@ Vue.createApp(
         refData.value = debugInjectedTree
         console.log("DEBUG CODE: ")
         console.log(debugInjectedCode)
-        let injectedVueApp = eval(debugInjectedCode)
+        //let injectedVueApp = eval(debugInjectedCode)
+        let injectedVueApp = eval(injectedCode)
         injectedVueApp.mount("#injected_id")
 
 
