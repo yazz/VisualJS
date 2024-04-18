@@ -1119,6 +1119,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         ]
 
         let refData = Vue.ref({a: 1})
+        let refDebugCode = Vue.ref("")
+        let refOrigCode = Vue.ref("")
 
 
         let dataImmerData = baseState
@@ -1130,6 +1132,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         <div style="">
                             <br>
                             <pre>
+                                        {{dataRefOrigCode}}
+                                        ====>
+                                        {{dataRefDebugCode}}
+
                                         {{dataRefData}}
                                         </pre>
                             <br>
@@ -1167,7 +1173,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             showItem2: false,
                             teleportId: "tele",
                             dataImmer:  dataImmerData,
-                            dataRefData:   refData.value
+                            dataRefData:   refData.value,
+                            dataRefOrigCode: refOrigCode,
+                            dataRefDebugCode: refDebugCode
                         }
                     },
                     mounted:    async function() {
@@ -1296,7 +1304,9 @@ Vue.createApp(
         `
 
         let debugInjectedRet = getDebugCode("Vue code", injectedCode)
+        refOrigCode.value = injectedCode
         let debugInjectedCode = debugInjectedRet.code
+        refDebugCode.value = debugInjectedCode
         let debugInjectedTree = debugInjectedRet.tree
         //debugger
         refData.value = debugInjectedTree
