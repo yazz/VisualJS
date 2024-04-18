@@ -870,9 +870,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <script>
         function        getDebugCode                        (  blockName  ,  trcode2  ,  args  ) {
-            return trcode2
-
             let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
+            debugger
+            return {code: trcode2, tree: _b}
+
             let line = -1
             let varsToAdd = {}
             let skipFirstAndLastLine = false
@@ -884,7 +885,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 }
             }
 
-            if (uiDebuggerOn) {
                 estraverse.traverse(_b, {
                     enter: function (node, parent) {
                         //
@@ -1038,7 +1038,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         viewer: ""
                     }
                 }
-            }
 
 
             //
@@ -1068,7 +1067,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 
-            if (uiDebuggerOn) {
                 executionCode[blockName] = {}
                 executionCode[blockName].debug_code = debugCode
                 if (numLinesToSkip > 0) {
@@ -1083,15 +1081,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     }
                 }
 
-                trcode2 = trcode2.toString().replaceAll("await sqlRx[(][^,]*,[^,]*,", "sql(")
-                trcode2 = trcode2.toString().replaceAll("await sqlRx1[(][^,]*,[^,]*,", "sql1(")
-                trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol[(][^,]*,[^,]*,", "sqlFirstCol(")
-                trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol1[(][^,]*,[^,]*,", "sqlFirstCol1(")
 
                 executionCode[blockName].code = trcode2
                 executionCode[blockName].start = startTimelineTop
                 startTimelineTop += trcode2.length
-            }
 
             return debugCode
         }
@@ -1125,6 +1118,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             }
         ]
 
+        let refData = Vue.ref({a: 1})
+
 
         let dataImmerData = baseState
 
@@ -1134,6 +1129,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     template:   `
                         <div style="">
                             <br>
+                            <pre>
+                                        {{dataRefData}}
+                                        </pre>
                             <br>
                         {{dataImmer}}
                             <br>
@@ -1168,7 +1166,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             showItem: false,
                             showItem2: false,
                             teleportId: "tele",
-                            dataImmer:  dataImmerData
+                            dataImmer:  dataImmerData,
+                            dataRefData:   refData.value
                         }
                     },
                     mounted:    async function() {
@@ -1274,13 +1273,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         }
                     }
                 })
-
+let VueAppData = null
         Vue.nextTick(function(){
             setTimeout(async function() {
                 //let vm = Vue.getCurrentInstance()
                 //debugger
                 //vueApp.refresh = 8
-                vueApp.mount("#rootel")
+                VueAppData = vueApp.mount("#rootel")
                 console.log("main app mounted")
 
             },1000)
@@ -1296,7 +1295,11 @@ Vue.createApp(
 
         `
 
-        let debugInjectedCode = getDebugCode("Vue code", injectedCode)
+        let debugInjectedRet = getDebugCode("Vue code", injectedCode)
+        let debugInjectedCode = debugInjectedRet.code
+        let debugInjectedTree = debugInjectedRet.tree
+        //debugger
+        refData.value = debugInjectedTree
         console.log("DEBUG CODE: ")
         console.log(debugInjectedCode)
         let injectedVueApp = eval(debugInjectedCode)
