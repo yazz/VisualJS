@@ -12,6 +12,7 @@
 
     <body>
         <div>
+            <div id="injected_id"></div>
             Standard HTML and JS below
             <br>
             <b>HI THERE!</b>
@@ -220,6 +221,13 @@
             },1000)
         })
 
+
+        let injectedVueApp = Vue.createApp(
+            {
+                el: "#injected_id",
+                template: "injected code"
+            })
+        injectedVueApp.mount("#injected_id")
 
 
 
