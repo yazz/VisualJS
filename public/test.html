@@ -30,11 +30,9 @@
     <script>
         alasql("CREATE TABLE test (language INT, hello STRING)");
         alasql.fn.verify = function(r) {
-            //debugger
             return true; // Do not insert on this number
         };
         alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON test verify');
-
         alasql("INSERT INTO test VALUES (1,'Hello!')");
         alasql("INSERT INTO test VALUES (2,'Aloha!')");
         alasql("INSERT INTO test VALUES (3,'Bonjour!')");
@@ -45,7 +43,9 @@
             debugger
             return true; // Do not insert on this number
         };
-        alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON testview verify2');
+        alasql('CREATE TRIGGER mytrigger AFTER update ON testview verify2');
+        debugger
+        alasql("INSERT INTO test VALUES (4,'Velkommen!')");
         console.log( alasql("SELECT * FROM testview ") );
 
         const baseState = [
