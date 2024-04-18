@@ -1297,6 +1297,8 @@ Vue.createApp(
         `
 
         let debugInjectedCode = getDebugCode("Vue code", injectedCode)
+        console.log("DEBUG CODE: ")
+        console.log(debugInjectedCode)
         let injectedVueApp = eval(debugInjectedCode)
         injectedVueApp.mount("#injected_id")
 
