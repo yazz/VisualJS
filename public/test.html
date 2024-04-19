@@ -875,8 +875,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
     <script>
-        var globalWatchList                 = {}
-
         function        addWatchPoint                       (  vName  ,  value  ) {
         }
         function        isValidObject                       (  variable  ){
@@ -1262,26 +1260,32 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             return debugCode
         }
+        function        alaSqlStuff                         (  ) {
+            alasql("CREATE TABLE test (language INT, hello STRING)");
+            alasql.fn.verify = function(r) {
+                return true; // Do not insert on this number
+            };
+            alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON test verify');
+            alasql("INSERT INTO test VALUES (1,'Hello!')");
+            alasql("INSERT INTO test VALUES (2,'Aloha!')");
+            alasql("INSERT INTO test VALUES (3,'Bonjour!')");
+            console.log( alasql("SELECT * FROM test WHERE language > 1") );
 
-        alasql("CREATE TABLE test (language INT, hello STRING)");
-        alasql.fn.verify = function(r) {
-            return true; // Do not insert on this number
-        };
-        alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON test verify');
-        alasql("INSERT INTO test VALUES (1,'Hello!')");
-        alasql("INSERT INTO test VALUES (2,'Aloha!')");
-        alasql("INSERT INTO test VALUES (3,'Bonjour!')");
-        console.log( alasql("SELECT * FROM test WHERE language > 1") );
+            alasql("create view testview (name) as select * from test ;")
+            alasql.fn.verify2 = function(r) {
+                return true; // Do not insert on this number
+            };
+            alasql('CREATE TRIGGER mytrigger AFTER update ON testview verify2');
+            alasql("INSERT INTO test VALUES (4,'Velkommen!')");
+            console.log( alasql("SELECT * FROM testview ") );
+        }
 
-        alasql("create view testview (name) as select * from test ;")
-        alasql.fn.verify2 = function(r) {
-            return true; // Do not insert on this number
-        };
-        alasql('CREATE TRIGGER mytrigger AFTER update ON testview verify2');
-        alasql("INSERT INTO test VALUES (4,'Velkommen!')");
-        console.log( alasql("SELECT * FROM testview ") );
-
-        const baseState = [
+        let globalWatchList     = {}
+        let refData             = Vue.ref({a: 1})
+        let refDebugCode        = Vue.ref("")
+        let refOrigCode         = Vue.ref("")
+        let refErrorMsg         = Vue.ref("Error ... ")
+        const baseState         = [
             {
                 title: "Learn TypeScript",
                 done: true
@@ -1291,17 +1295,30 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 done: false
             }
         ]
+        let dataImmerData       = baseState
+        let vueApp              = null
+        let VueAppData          = null
+        let injectedCode        = null
 
-        let refData = Vue.ref({a: 1})
-        let refDebugCode = Vue.ref("")
-        let refOrigCode = Vue.ref("")
-        let refErrorMsg = Vue.ref("Error ... ")
 
+        // code to transform
+        injectedCode = `
+(function() {
+  let retVal = Vue.createApp(
+            {
+                el: "#injected_id",
+                template: "injected code"
+            })
+  return retVal
+})()
 
-        let dataImmerData = baseState
+        `
+
+        alaSqlStuff()
+
 
         // MAIN Vue app
-        let vueApp      = Vue.createApp( {
+        vueApp      = Vue.createApp( {
                     el: "#rootel",
                     template:   `
                         <div style="">
@@ -1460,7 +1477,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         }
                     }
                 })
-        let VueAppData  = null
+        VueAppData  = null
 
         Vue.nextTick(  function(){
             setTimeout(async function() {
@@ -1472,21 +1489,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             },1000)
         }  )
-
-        // code to transform
-        let injectedCode = `
-(function() {
-  let retVal = Vue.createApp(
-            {
-                el: "#injected_id",
-                template: "injected code"
-            })
-  return retVal
-})()
-
-        `
-
-            try {
+        try {
                 let debugInjectedRet = getDebugCode("Vue code", injectedCode)
                 refOrigCode.value = injectedCode
                 let debugInjectedCode = debugInjectedRet.code
@@ -1501,10 +1504,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 injectedVueApp.mount("#injected_id")
 
 
-            } catch (err) {
-                refErrorMsg.value = JSON.stringify(err,null,2)
-            }
+} catch (err) {
+            refErrorMsg.value = JSON.stringify(err,null,2)
+        }
 
     </script>
-
 </html>
