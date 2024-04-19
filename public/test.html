@@ -1294,6 +1294,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         let refData = Vue.ref({a: 1})
         let refDebugCode = Vue.ref("")
         let refOrigCode = Vue.ref("")
+        let refErrorMsg = Vue.ref("Error ... ")
 
 
         let dataImmerData = baseState
@@ -1353,7 +1354,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             dataRefData:   refData.value,
                             dataRefOrigCode: refOrigCode,
                             dataRefDebugCode: refDebugCode,
-                            error_msg: "Error"
+                            error_msg: refErrorMsg
                         }
                     },
                     mounted:    async function() {
@@ -1484,19 +1485,24 @@ let VueAppData = null
 
         `
 
-        let debugInjectedRet = getDebugCode("Vue code", injectedCode)
-        refOrigCode.value = injectedCode
-        let debugInjectedCode = debugInjectedRet.code
-        refDebugCode.value = debugInjectedCode
-        let debugInjectedTree = debugInjectedRet.tree
-        //debugger
-        refData.value = debugInjectedTree
-        console.log("DEBUG CODE: ")
-        console.log(debugInjectedCode)
-        let injectedVueApp = eval(debugInjectedCode)
-        //let injectedVueApp = eval(injectedCode)
-        injectedVueApp.mount("#injected_id")
+            try {
+                let debugInjectedRet = getDebugCode("Vue code", injectedCode)
+                refOrigCode.value = injectedCode
+                let debugInjectedCode = debugInjectedRet.code
+                refDebugCode.value = debugInjectedCode
+                let debugInjectedTree = debugInjectedRet.tree
+                //debugger
+                refData.value = debugInjectedTree
+                console.log("DEBUG CODE: ")
+                console.log(debugInjectedCode)
+                //let injectedVueApp = eval(debugInjectedCode)
+                let injectedVueApp = eval(injectedCode)
+                injectedVueApp.mount("#injected_id")
 
+
+            } catch (err) {
+                refErrorMsg.value = JSON.stringify(err,null,2)
+            }
 
 
     </script>
