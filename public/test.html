@@ -1495,8 +1495,8 @@ let VueAppData = null
                 refData.value = debugInjectedTree
                 console.log("DEBUG CODE: ")
                 console.log(debugInjectedCode)
-                //let injectedVueApp = eval(debugInjectedCode)
-                let injectedVueApp = eval(injectedCode)
+                let injectedVueApp = eval(debugInjectedCode)
+                //let injectedVueApp = eval(injectedCode)
                 injectedVueApp.mount("#injected_id")
 
 
