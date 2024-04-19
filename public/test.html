@@ -876,11 +876,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <script>
         var globalWatchList                 = {}
+
         function        addWatchPoint                       (  vName  ,  value  ) {
         }
-
-
-        function        isValidObject                       (   variable   ){
+        function        isValidObject                       (  variable  ){
             if ((typeof variable !== 'undefined') && (variable != null)) {
                 return true
             }
@@ -889,10 +888,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  ) {
 
         }
-
-        // FN getDebugCode
         function        getDebugCode                        (  blockName  ,  trcode2  ,  args  ) {
             let originalSourceParseTree = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
+            // esprima
             let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
             let line = -1
             let varsToAdd = {}
@@ -907,6 +905,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             if (_b.body[0].type == "ExpressionStatement") {
                 debugger
             }
+
+            // estraverse
             estraverse.traverse(_b, {
                 enter: function (node, parent) {
                     //
@@ -1234,6 +1234,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 }
             });
 
+            // escodegen
             let debugCode = escodegen.generate(_b, {comment: false})
 
 
@@ -1300,8 +1301,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         let dataImmerData = baseState
 
         // MAIN Vue app
-        let vueApp = Vue.createApp(
-                {
+        let vueApp      = Vue.createApp( {
                     el: "#rootel",
                     template:   `
                         <div style="">
@@ -1460,8 +1460,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         }
                     }
                 })
-let VueAppData = null
-        Vue.nextTick(function(){
+        let VueAppData  = null
+
+        Vue.nextTick(  function(){
             setTimeout(async function() {
                 //let vm = Vue.getCurrentInstance()
                 //debugger
@@ -1470,9 +1471,9 @@ let VueAppData = null
                 console.log("main app mounted")
 
             },1000)
-        })
+        }  )
 
-        // CODE `(function() {
+        // code to transform
         let injectedCode = `
 (function() {
   let retVal = Vue.createApp(
@@ -1503,7 +1504,6 @@ let VueAppData = null
             } catch (err) {
                 refErrorMsg.value = JSON.stringify(err,null,2)
             }
-
 
     </script>
 
