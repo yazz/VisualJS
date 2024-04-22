@@ -912,7 +912,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 }
             }
             if (_b.body[0].type == "ExpressionStatement") {
-                debugger
+                //debugger
             }
 
             estraverse.traverse(_b, {
@@ -1339,6 +1339,19 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     el: "#rootel",
                     template:   `
                         <div style="">
+                                <button style="height: 050px;width:050px;" v-on:click="createItem()" >Create item</button>
+                                <button style="height: 050px;width:050px;" v-on:click="showItemf()" >Show</button>
+
+                                <button style="height: 050px;width:100px;" v-on:click="refreshAll()" >Refresh</button>
+
+                                <button style="height: 050px;width:050px;" v-on:click="createItem2()" >Create item 2</button>
+                                <button style="height: 050px;width:050px;" v-on:click="showItemf2()" >Show</button>
+
+                                <button style="height: 050px;width:100px;" v-on:click="switchTeleport()" >switch Teleport</button>
+
+                                <button style="height: 050px;width:100px;" v-on:click="runDebugger()" >Run debugger</button>
+
+                                <button style="height: 050px;width:100px;" v-on:click="mutate()" >Mutate</button>
                             <br>
                                         <div style="border: 3px solid red">{{error_msg}}</div>
                             <pre>
@@ -1364,19 +1377,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                     <b><component v-bind:refresh='refresh' :is='"UserList2"' v-bind:teleport_id='teleportId' ></component></b>
                                 </div>
                                 <br>
-                                <button style="height: 050px;width:050px;" v-on:click="createItem()" >Create item</button>
-                                <button style="height: 050px;width:050px;" v-on:click="showItemf()" >Show</button>
-
-                                <button style="height: 050px;width:100px;" v-on:click="refreshAll()" >Refresh</button>
-
-                                <button style="height: 050px;width:050px;" v-on:click="createItem2()" >Create item 2</button>
-                                <button style="height: 050px;width:050px;" v-on:click="showItemf2()" >Show</button>
-
-                                <button style="height: 050px;width:100px;" v-on:click="switchTeleport()" >switch Teleport</button>
-
-                                <button style="height: 050px;width:100px;" v-on:click="runDebugger()" >Run debugger</button>
-
-                                <button style="height: 050px;width:100px;" v-on:click="mutate()" >Mutate</button>
                         </div>`,
                     data: function() {
                         return {
@@ -1447,7 +1447,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             console.log("Loaded user component")
                         },
                         showItemf2: async function () {
-                            debugger
+                            //debugger
                             this.showItem2 = !this.showItem2
                             console.log("Showed item 2")
                         }
@@ -1485,7 +1485,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         mutate:  async function ()
                         {
                             let mm=this
-                            debugger
+                            //debugger
                             const nextState = immer.produce(mm.dataImmer, draft => {
                                 draft[1].done = true
                                 draft.push({title: "Tweet about it"})
@@ -1514,8 +1514,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 let debugInjectedTree = debugInjectedRet.tree
                 //debugger
                 refData.value = debugInjectedTree
-                console.log("DEBUG CODE: ")
-                console.log(debugInjectedCode)
+                //console.log("DEBUG CODE: ")
+                //console.log(debugInjectedCode)
                 let injectedVueApp = eval(debugInjectedCode)
                 //let injectedVueApp = eval(injectedCode)
                 injectedVueApp.mount("#injected_id")
