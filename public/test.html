@@ -1457,9 +1457,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             return function() { with(this) { return eval(js); }; }.call(contextAsScope);
                         },
                         runDebugger:  async function () {
-
+                            //
+                            // DEBUGGER code
+                            //
                             function* foo () {
                                 while (true) {
+                                    let g = 7
+                                    let h = g + 1
                                     let command = yield;
                                     console.log("Running command: " + command)
                                     if (command=="STOP") {
@@ -1472,6 +1476,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             let gen=foo()
                             gen.next()
                             gen.next("let a = 12;console.log(a);")
+                            gen.next("console.log('h: ' + h);")
                             //gen.next("console.log(a)")
                             gen.next("STOP")
 
