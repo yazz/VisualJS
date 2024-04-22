@@ -887,9 +887,20 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         }
         function        getDebugCode                        (  blockName  ,  trcode2  ,  args  ) {
+            //
+            // PARSE source code
+            //
             let originalSourceParseTree = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
-            // PARSE esprima
             let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
+
+
+
+
+
+
+            //
+            // TRANSFORM source code
+            //
             let line = -1
             let varsToAdd = {}
             let skipFirstAndLastLine = false
@@ -904,7 +915,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 debugger
             }
 
-            // TRANSFORM estraverse
             estraverse.traverse(_b, {
                 enter: function (node, parent) {
                     //
@@ -1232,7 +1242,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 }
             });
 
-            // GENERATE escodegen
+
+
+
+
+
+            //
+            // GENERATE debug code
+            //
             let debugCode = escodegen.generate(_b, {comment: false})
 
 
