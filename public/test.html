@@ -1352,6 +1352,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                         {{ title }}
                                     </li>
                                 </ul>
+                                <button style="height: 050px;width:100px;" v-on:click="undo()" >Undo</button>
 
 
 
@@ -1433,6 +1434,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
                     },
                     methods: {
+                        undo: function() {
+                            let mm = this
+                            mm.stateArrayIndex--
+                            this.items =   mm.stateArray[mm.stateArrayIndex]
+                            debugger
+                        },
                         useImmer: function(baseState) {
                             let mm = this
                             this.state = Vue.shallowRef(baseState)
@@ -1441,14 +1448,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 state: this.state
                                 ,
                                 update: function(updater) {
+                                    mm.stateArray[mm.stateArrayIndex] = this.state
                                     this.state.value = immer.produce(this.state.value, updater)
-                                    mm.stateArray[mm.stateArrayIndex] = this.state.value
                                     mm.stateArrayIndex++
                                 }
                             }
                         },
                         toggleItem: function(index) {
-                            console.log("togglre")
+                            console.log("toggle")
                             this.update(items => {
                                 this.items.todo[index].done = !this.items.todo[index].done
                             })
