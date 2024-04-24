@@ -1432,15 +1432,16 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         this.state = Vue.shallowRef(baseState)
                         this.update = function(updater) {
                             mm.state.value = immer.produce(mm.state.value, updater)
-                            mm.stateArray[mm.stateArrayIndex] = mm.state.value
+                            mm.stateArray.push(mm.state.value)
                             mm.stateArrayIndex++
                         }
-                        mm.stateArray[mm.stateArrayIndex] = aaaa.state
+                        mm.stateArray[mm.stateArrayIndex] = baseState
                         mm.stateArrayIndex++
 
                     },
                     methods: {
                         undo: function() {
+                            let mm =this
                             mm.stateArrayIndex--
                             this.state.value =   mm.stateArray[mm.stateArrayIndex]
                             debugger
