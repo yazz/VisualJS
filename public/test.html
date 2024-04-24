@@ -1344,6 +1344,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     template:   `
                         <div style="">
                         items: {{items}}
+                        stateArrayIndex: {{stateArrayIndex}}
                                 <ul v-if="items">
                                     <li v-for="({ title, done }, index) in items.todo"
                                         v-bind:style='done?"color:green":"color:red"'
@@ -1406,7 +1407,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             error_msg: refErrorMsg,
                             items: null,
                             update: null,
-                            state: null
+                            state: null,
+                            stateArray: [],
+                            stateArrayIndex: 0
                         }
                     },
                     mounted:    async function() {
@@ -1431,6 +1434,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     },
                     methods: {
                         useImmer: function(baseState) {
+                            let mm = this
                             this.state = Vue.shallowRef(baseState)
 
                             return {
@@ -1438,12 +1442,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 ,
                                 update: function(updater) {
                                     this.state.value = immer.produce(this.state.value, updater)
+                                    mm.stateArray[mm.stateArrayIndex] = this.state.value
+                                    mm.stateArrayIndex++
                                 }
                             }
                         },
                         toggleItem: function(index) {
                             console.log("togglre")
-                            debugger
                             this.update(items => {
                                 this.items.todo[index].done = !this.items.todo[index].done
                             })
