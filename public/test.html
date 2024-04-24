@@ -1334,11 +1334,26 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alaSqlStuff()
 
 
+
+
+
+
         // MAIN Vue app
         vueApp      = Vue.createApp( {
                     el: "#rootel",
                     template:   `
                         <div style="">
+                        items: {{items}}
+                                <ul v-if="items">
+                                    <li v-for="({ title, done }, index) in items.todo"
+                                        v-bind:style='done?"color:green":"color:red"'
+                                        v-on:click="toggleItem(index)">
+                                        {{ title }}
+                                    </li>
+                                </ul>
+
+
+
                                 <button style="height: 050px;width:050px;" v-on:click="createItem()" >Create item</button>
                                 <button style="height: 050px;width:050px;" v-on:click="showItemf()" >Show</button>
 
@@ -1388,12 +1403,50 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             dataRefData:   refData.value,
                             dataRefOrigCode: refOrigCode,
                             dataRefDebugCode: refDebugCode,
-                            error_msg: refErrorMsg
+                            error_msg: refErrorMsg,
+                            items: null,
+                            update: null
                         }
                     },
                     mounted:    async function() {
+                        let aaaa = this.useImmer(
+                        {
+                            todo:
+                                [
+                                    {
+                                        title: "Learn Vue",
+                                        done: true
+                                    }
+                                    ,
+                                    {
+                                        title: "Use Vue with Immer",
+                                        done: false
+                                    }
+                                ]
+                            })
+                        this.items =  aaaa.state
+                        this.update = aaaa.update
+
                     },
                     methods: {
+                        useImmer: function(baseState) {
+                            this.state = Vue.shallowRef(baseState)
+
+                            return {
+                                state: this.state
+                                ,
+                                update: function(updater) {
+                                    this.state.value = immer.produce(this.state.value, updater)
+                                }
+                            }
+                        },
+                        toggleItem: function(index) {
+                            console.log("togglre")
+                            debugger
+                            this.update(items => {
+                                this.items.todo[index].done = !this.items.todo[index].done
+                            })
+                        },
                         switchTeleport: function(){
                             this.teleportId = "tele2"
                         },
