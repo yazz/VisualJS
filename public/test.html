@@ -1345,8 +1345,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         <div style="">
                         items: {{items}}
                         stateArrayIndex: {{stateArrayIndex}}
-                                <ul v-if="items">
-                                    <li v-for="({ title, done }, index) in items.todo"
+                                <ul v-if="state">
+                                    <li v-for="({ title, done }, index) in state.todo"
                                         v-bind:style='done?"color:green":"color:red"'
                                         v-on:click="toggleItem(index)">
                                         {{ title }}
@@ -1406,7 +1406,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             dataRefOrigCode: refOrigCode,
                             dataRefDebugCode: refDebugCode,
                             error_msg: refErrorMsg,
-                            items: null,
                             update: null,
                             state: null,
                             stateArray: [],
@@ -1429,7 +1428,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                     }
                                 ]
                             })
-                        this.items =  aaaa.state
                         this.update = aaaa.update
 
                     },
@@ -1437,7 +1435,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         undo: function() {
                             let mm = this
                             mm.stateArrayIndex--
-                            this.items =   mm.stateArray[mm.stateArrayIndex]
+                            this.state =   mm.stateArray[mm.stateArrayIndex]
                             debugger
                         },
                         useImmer: function(baseState) {
@@ -1456,8 +1454,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         },
                         toggleItem: function(index) {
                             console.log("toggle")
-                            this.update(items => {
-                                this.items.todo[index].done = !this.items.todo[index].done
+                            this.update(state => {
+                                this.state.todo[index].done = !this.state.todo[index].done
                             })
                         },
                         switchTeleport: function(){
