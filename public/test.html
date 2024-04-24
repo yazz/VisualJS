@@ -1413,7 +1413,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         }
                     },
                     mounted:    async function() {
-                        let aaaa = this.useImmer(
+                        let mm = this
+                        let baseState =
                         {
                             todo:
                                 [
@@ -1427,34 +1428,24 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                         done: false
                                     }
                                 ]
-                            })
-                        this.update = aaaa.update
+                            }
+                        this.state = Vue.shallowRef(baseState)
+                        this.update = function(updater) {
+                            mm.state.value = immer.produce(mm.state.value, updater)
+                            mm.stateArray[mm.stateArrayIndex] = mm.state.value
+                            mm.stateArrayIndex++
+                        }
                         mm.stateArray[mm.stateArrayIndex] = aaaa.state
                         mm.stateArrayIndex++
 
                     },
                     methods: {
                         undo: function() {
-                            let mm = this
                             mm.stateArrayIndex--
                             this.state.value =   mm.stateArray[mm.stateArrayIndex]
                             debugger
                         },
-                        useImmer: function(baseState) {
-                            let mm = this
-                            this.state = Vue.shallowRef(baseState)
 
-                            return {
-                                state: this.state
-                                ,
-                                update: function(updater) {
-                                    debugger
-                                    mm.state.value = immer.produce(mm.state.value, updater)
-                                    mm.stateArray[mm.stateArrayIndex] = mm.state.value
-                                    mm.stateArrayIndex++
-                                }
-                            }
-                        },
                         toggleItem: function(index) {
                             console.log("toggle")
                             this.update(state => {
