@@ -1343,7 +1343,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     el: "#rootel",
                     template:   `
                         <div style="">
-                        items: {{state}}
+                        state: {{state}}
+                        <br>
+                        state array: {{JSON.stringify( stateArray,null,2)}}
                                 <ul v-if="state">
                                     <li v-for="({ title, done }, index) in state.todo"
                                         v-bind:style='done?"color:green":"color:red"'
@@ -1431,8 +1433,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         this.update = function(updater) {
                             mm.state.value = immer.produce(mm.state.value, updater)
                             mm.stateArray.push(mm.state)
-                            //debugger
-                            console.log("stateArray: " +JSON.stringify( mm.stateArray,null,2))
                         }
                     },
                     methods: {
