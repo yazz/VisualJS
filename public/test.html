@@ -1343,7 +1343,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     el: "#rootel",
                     template:   `
                         <div style="">
-                        items: {{items}}
+                        items: {{state}}
                         stateArrayIndex: {{stateArrayIndex}}
                                 <ul v-if="state">
                                     <li v-for="({ title, done }, index) in state.todo"
@@ -1429,13 +1429,15 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 ]
                             })
                         this.update = aaaa.update
+                        mm.stateArray[mm.stateArrayIndex] = aaaa.state
+                        mm.stateArrayIndex++
 
                     },
                     methods: {
                         undo: function() {
                             let mm = this
                             mm.stateArrayIndex--
-                            this.state =   mm.stateArray[mm.stateArrayIndex]
+                            this.state.value =   mm.stateArray[mm.stateArrayIndex]
                             debugger
                         },
                         useImmer: function(baseState) {
@@ -1446,8 +1448,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 state: this.state
                                 ,
                                 update: function(updater) {
-                                    mm.stateArray[mm.stateArrayIndex] = this.state
-                                    this.state.value = immer.produce(this.state.value, updater)
+                                    debugger
+                                    mm.state.value = immer.produce(mm.state.value, updater)
+                                    mm.stateArray[mm.stateArrayIndex] = mm.state.value
                                     mm.stateArrayIndex++
                                 }
                             }
