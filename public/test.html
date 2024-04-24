@@ -1344,7 +1344,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     template:   `
                         <div style="">
                         items: {{state}}
-                        stateArrayIndex: {{stateArrayIndex}}
                                 <ul v-if="state">
                                     <li v-for="({ title, done }, index) in state.todo"
                                         v-bind:style='done?"color:green":"color:red"'
@@ -1408,8 +1407,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             error_msg: refErrorMsg,
                             update: null,
                             state: null,
-                            stateArray: [],
-                            stateArrayIndex: 0
+                            stateArray: []
                         }
                     },
                     mounted:    async function() {
@@ -1429,22 +1427,15 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                     }
                                 ]
                             }
-                        this.state = Vue.shallowRef(baseState)
+                        this.state = Vue.ref(baseState)
                         this.update = function(updater) {
                             mm.state.value = immer.produce(mm.state.value, updater)
                             mm.stateArray.push(mm.state.value)
-                            mm.stateArrayIndex++
                         }
-                        mm.stateArray[mm.stateArrayIndex] = baseState
-                        mm.stateArrayIndex++
-
                     },
                     methods: {
                         undo: function() {
                             let mm =this
-                            mm.stateArrayIndex--
-                            this.state.value =   mm.stateArray[mm.stateArrayIndex]
-                            debugger
                         },
 
                         toggleItem: function(index) {
