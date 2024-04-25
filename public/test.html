@@ -1352,7 +1352,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                         {{ title }}
                                     </li>
                                 </ul>
-<ZooComp v-bind:a='state.zoo'></ZooComp>
+<ZooComp v-bind:statezoo='state'></ZooComp>
 
                                 <input  type="range" min="1"
                                         v-bind:max="stateArray.length"
@@ -1590,10 +1590,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 })
         vueApp.component("ZooComp",
             {
-                props: ["a"],
+                props: ["statezoo"],
                 template:   `
                                         <div style="margin-top: 70px;">
-                                            Zoocomp {{a}}
+                                            Zoocomp {{statezoo}}
                                         <button style="height: 050px;width:100px;" v-on:click="zoo()" >ZOO</button>
 
                                         </div>`
@@ -1601,11 +1601,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 methods: {
                     zoo: function () {
                         let mm = this
-                        mm.a = immer.produce(
-                            mm.a
+                        mm.statezoo = immer.produce(
+                            mm.statezoo
                             ,
                             function(stateChange) {
-                                stateChange =2
+                                stateChange.zoo.a  = 2
                             }
                         )
 
