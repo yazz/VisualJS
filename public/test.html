@@ -1407,27 +1407,27 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             dataRefOrigCode: refOrigCode,
                             dataRefDebugCode: refDebugCode,
                             error_msg: refErrorMsg,
-                            statex: null
+                            statex: null,
+                            baseState2:
+                                {
+                                    todo:
+                                        [
+                                            {
+                                                title: "Learn Vue",
+                                                done: true
+                                            }
+                                            ,
+                                            {
+                                                title: "Use Vue with Immer",
+                                                done: false
+                                            }
+                                        ]
+                                }
                         }
                     },
                     mounted:    async function() {
                         let mm = this
-                        let baseState2 =
-                        {
-                            todo:
-                                [
-                                    {
-                                        title: "Learn Vue",
-                                        done: true
-                                    }
-                                    ,
-                                    {
-                                        title: "Use Vue with Immer",
-                                        done: false
-                                    }
-                                ]
-                            }
-                        this.statex = Vue.ref(baseState2)
+                        this.statex = Vue.ref(mm.baseState2)
                     },
                     methods: {
                         undo: function() {
