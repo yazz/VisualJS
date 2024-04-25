@@ -1342,6 +1342,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         <div style="">
                         state: {{state}}
                         <br>
+                        stateArray:
+                            <div v-for="( item2 , index) in stateArray">
+                                <span style="margin-left:20px;">({{index}}) {{item2}}</span>>
+                            </div>
+                        <br>
+                        currentStateIndex: {{currentStateIndex}}
+                        <br>
                                 <ul v-if="state">
                                     <li v-for="({ title, done }, index) in state.todo"
                                         v-bind:style='done?"color:green":"color:red"'
@@ -1417,12 +1424,16 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                 done: false
                                             }
                                         ]
-                                }
+                                },
+
+                            stateArray: [],
+                            currentStateIndex: 0
 
                         }
                     },
                     mounted:    async function() {
                         let mm = this
+                        mm.stateArray.push(mm.state)
                     },
                     methods: {
                         undo: function() {
@@ -1438,6 +1449,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                     stateChange.todo[index].done = !stateChange.todo[index].done
                                 }
                             )
+                            mm.stateArray.push(mm.state)
+                            currentStateIndex++
                         },
                         switchTeleport: function(){
                             this.teleportId = "tele2"
