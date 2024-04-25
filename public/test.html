@@ -1349,19 +1349,21 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 ]
             }
 
+        let statex =  Vue.ref(baseState2)
 
-
-
+        let injectedVars = {
+            statex2: statex
+        }
 
         // MAIN Vue app
         vueApp      = Vue.createApp( {
                     el: "#rootel",
                     template:   `
                         <div style="">
-                        state: {{statex}}
+                        state: {{statex2}}
                         <br>
-                                <ul v-if="statex">
-                                    <li v-for="({ title, done }, index) in statex.todo"
+                                <ul v-if="statex2">
+                                    <li v-for="({ title, done }, index) in statex2.todo"
                                         v-bind:style='done?"color:green":"color:red"'
                                         v-on:click="toggleItem(index)">
                                         {{ title }}
@@ -1410,6 +1412,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 </div>
                                 <br>
                         </div>`,
+                    provide: function() {
+                        return injectedVars
+                    },
                     data: function() {
                         return {
                             refresh: 0,
@@ -1421,11 +1426,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             dataRefOrigCode: refOrigCode,
                             dataRefDebugCode: refDebugCode,
                             error_msg: refErrorMsg,
-                            statex: Vue.ref(baseState2)
+                            statex2: null
                         }
                     },
                     mounted:    async function() {
                         let mm = this
+                        mm.statex2                    = statex
                     },
                     methods: {
                         undo: function() {
@@ -1433,13 +1439,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         },
 
                         toggleItem: function(index) {
-                            debugger
                             let mm = this
-                            mm.statex.value = immer.produce(
-                                mm.statex.value
+                            statex.value = immer.produce(
+                                statex.value
                                 ,
-                                function(state2) {
-                                    mm.statex.todo[index].done = !mm.statex.todo[index].done
+                                async function(stateChange) {
+                                    debugger
+                                    stateChange.todo[index].done = !stateChange.todo[index].done
                                 }
                             )
                         },
