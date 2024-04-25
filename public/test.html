@@ -1457,7 +1457,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         },
                         forward: function() {
                             let mm = this
-                            if (mm.currentStateIndex <= mm.stateArray.length) {
+                            if (mm.currentStateIndex < (mm.stateArray.length - 1)) {
                                 mm.currentStateIndex++
                                 mm.sliderValue = mm.currentStateIndex + 1
                                 mm.state = mm.stateArray[mm.currentStateIndex]
