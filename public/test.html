@@ -1591,18 +1591,22 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         vueApp.component("ZooComp",
             {
                 props: ["statezoo"],
-                template:   `
-                                        <div style="margin-top: 70px;">
-                                            Zoocomp {{statezoo}}
-                                        <button style="height: 050px;width:100px;" v-on:click="zoo()" >ZOO</button>
-
-                                        </div>`
-                ,
+                data: function() {
+                  return {
+                      myState: {}
+                  }
+                },
+                template:   `<div style="margin-top: 70px;">
+                                Zoocomp {{myState}}
+                                <button style="height: 050px;width:100px;" v-on:click="zoo()" >ZOO</button>
+                            </div>`,
                 methods: {
                     zoo: function () {
                         let mm = this
-                        mm.statezoo = immer.produce(
-                            mm.statezoo
+                        debugger
+                        this.myState = this.statezoo
+                        mm.myState = immer.produce(
+                            mm.myState
                             ,
                             function(stateChange) {
                                 stateChange.zoo.a  = 2
