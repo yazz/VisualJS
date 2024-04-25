@@ -1414,7 +1414,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     },
                     mounted:    async function() {
                         let mm = this
-                        let baseState =
+                        let baseState2 =
                         {
                             todo:
                                 [
@@ -1429,7 +1429,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                     }
                                 ]
                             }
-                        this.statex = Vue.ref(baseState)
+                        this.statex = Vue.ref(baseState2)
                     },
                     methods: {
                         undo: function() {
@@ -1440,11 +1440,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             console.log("toggle")
                             let mm = this
                             mm.statex.value = immer.produce(
-                                mm.statex
+                                mm.statex.value
                                 ,
                                 function(state2) {
                                     debugger
-                                    state2.todo[index].done = !state2.todo[index].done
+                                    mm.statex.todo[index].done = !mm.statex.todo[index].done
                                 }
                             )
                         },
