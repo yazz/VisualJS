@@ -866,7 +866,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <div id="tele2" style="border: 1px solid black">TELE2:</div>
         </div>
 
-        <div style="margin-top:200px">
+        <div style="margin-top:20px">
             Inside VueJS 2 below
             <div id="rootel"></div>
         </div>
@@ -1342,12 +1342,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         <div style="">
                         state: {{state}}
                         <br>
-                        stateArray:
-                            <div v-for="( item2 , index) in stateArray">
-                                <span style="margin-left:20px;">({{index}}) {{item2}}</span>>
-                            </div>
-                        <br>
-                        currentStateIndex: {{currentStateIndex}}
+                        currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
                         <br>
                                 <ul v-if="state">
                                     <li v-for="({ title, done }, index) in state.todo"
@@ -1356,7 +1351,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                         {{ title }}
                                     </li>
                                 </ul>
-                                <button style="height: 050px;width:100px;" v-on:click="undo()" >Undo</button>
+                                <button style="height: 050px;width:100px;" v-on:click="back()" >&lt;</button>
+                                <button style="height: 050px;width:100px;" v-on:click="forward()" >&gt;</button>
 
 
 
@@ -1436,12 +1432,18 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         mm.stateArray.push(mm.state)
                     },
                     methods: {
-                        undo: function() {
+                        back: function() {
                             let mm = this
                             if (mm.currentStateIndex > 0) {
                                 mm.currentStateIndex--
                                 mm.state = mm.stateArray[mm.currentStateIndex]
-                                mm.stateArray.pop()
+                            }
+                        },
+                        forward: function() {
+                            let mm = this
+                            if (mm.currentStateIndex <= mm.stateArray.length) {
+                                mm.currentStateIndex++
+                                mm.state = mm.stateArray[mm.currentStateIndex]
                             }
                         },
 
