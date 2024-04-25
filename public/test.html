@@ -1437,9 +1437,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     },
                     methods: {
                         undo: function() {
-                            let mm =this
-                            mm.currentStateIndex--
-                            mm.state = mm.stateArray[mm.currentStateIndex]
+                            let mm = this
+                            if (mm.currentStateIndex > 0) {
+                                mm.currentStateIndex--
+                                mm.state = mm.stateArray[mm.currentStateIndex]
+                                mm.stateArray.pop()
+                            }
                         },
 
                         toggleItem: function(index) {
