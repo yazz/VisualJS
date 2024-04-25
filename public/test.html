@@ -1333,6 +1333,21 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         alaSqlStuff()
 
+        let    baseState2 =
+            {
+                todo:
+                [
+                    {
+                        title: "Learn Vue",
+                        done: true
+                    }
+                    ,
+                    {
+                        title: "Use Vue with Immer",
+                        done: false
+                    }
+                ]
+            }
 
 
 
@@ -1345,7 +1360,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         <div style="">
                         state: {{statex}}
                         <br>
-                        state array: {{JSON.stringify( stateArray,null,2)}}
                                 <ul v-if="statex">
                                     <li v-for="({ title, done }, index) in statex.todo"
                                         v-bind:style='done?"color:green":"color:red"'
@@ -1402,32 +1416,16 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             showItem: false,
                             showItem2: false,
                             teleportId: "tele",
-                            dataImmer:  dataImmerData,
-                            dataRefData:   refData.value,
+                            dataImmer: dataImmerData,
+                            dataRefData: refData.value,
                             dataRefOrigCode: refOrigCode,
                             dataRefDebugCode: refDebugCode,
                             error_msg: refErrorMsg,
-                            statex: null,
-                            baseState2:
-                                {
-                                    todo:
-                                        [
-                                            {
-                                                title: "Learn Vue",
-                                                done: true
-                                            }
-                                            ,
-                                            {
-                                                title: "Use Vue with Immer",
-                                                done: false
-                                            }
-                                        ]
-                                }
+                            statex: Vue.ref(baseState2)
                         }
                     },
                     mounted:    async function() {
                         let mm = this
-                        this.statex = Vue.ref(mm.baseState2)
                     },
                     methods: {
                         undo: function() {
@@ -1435,13 +1433,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         },
 
                         toggleItem: function(index) {
-                            console.log("toggle")
+                            debugger
                             let mm = this
                             mm.statex.value = immer.produce(
                                 mm.statex.value
                                 ,
                                 function(state2) {
-                                    debugger
                                     mm.statex.todo[index].done = !mm.statex.todo[index].done
                                 }
                             )
