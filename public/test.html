@@ -1435,17 +1435,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         undo: function() {
                             let mm =this
                         },
-                        updateState: function(updater) {
-                            let mm = this
-                            mm.state.value = immer.produce(mm.state.value, updater)
-                            //mm.stateArray.push(mm.state)
-                        },
 
                         toggleItem: function(index) {
                             console.log("toggle")
-                            this.updateState(state => {
-                                this.state.todo[index].done = !this.state.todo[index].done
-                            })
+                            let mm = this
+                            mm.state.value = immer.produce(
+                                mm.state.value
+                                ,
+                                function(state) {
+                                    mm.state.todo[index].done = !mm.state.todo[index].done
+                                }
+                            )
                         },
                         switchTeleport: function(){
                             this.teleportId = "tele2"
