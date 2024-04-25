@@ -1343,11 +1343,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     el: "#rootel",
                     template:   `
                         <div style="">
-                        state: {{state}}
+                        state: {{statex}}
                         <br>
                         state array: {{JSON.stringify( stateArray,null,2)}}
-                                <ul v-if="state">
-                                    <li v-for="({ title, done }, index) in state.todo"
+                                <ul v-if="statex">
+                                    <li v-for="({ title, done }, index) in statex.todo"
                                         v-bind:style='done?"color:green":"color:red"'
                                         v-on:click="toggleItem(index)">
                                         {{ title }}
@@ -1408,7 +1408,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             dataRefDebugCode: refDebugCode,
                             error_msg: refErrorMsg,
                             update: null,
-                            state: null,
+                            statex: null,
                             stateArray: new Array()
                         }
                     },
@@ -1429,7 +1429,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                     }
                                 ]
                             }
-                        this.state = Vue.ref(baseState)
+                        this.statex = Vue.ref(baseState)
                     },
                     methods: {
                         undo: function() {
@@ -1439,11 +1439,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         toggleItem: function(index) {
                             console.log("toggle")
                             let mm = this
-                            mm.state.value = immer.produce(
-                                mm.state.value
+                            mm.statex.value = immer.produce(
+                                mm.statex.value
                                 ,
-                                function(state) {
-                                    mm.state.todo[index].done = !mm.state.todo[index].done
+                                function(state2) {
+                                    mm.statex.todo[index].done = !mm.statex.todo[index].done
                                 }
                             )
                         },
