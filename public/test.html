@@ -1352,7 +1352,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                         {{ title }}
                                     </li>
                                 </ul>
-<ZooComp v-bind:statezoo='state'></ZooComp>
+<ZooComp v-bind:statezoo='state.zoo'></ZooComp>
 
                                 <input  type="range" min="1"
                                         v-bind:max="stateArray.length"
@@ -1477,6 +1477,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 ,
                                 function(stateChange) {
                                     stateChange.todo[index].done = !stateChange.todo[index].done
+                                    stateChange.zoo.a++
                                 }
                             )
                             mm.stateArray.push(mm.state)
