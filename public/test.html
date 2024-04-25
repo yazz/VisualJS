@@ -1438,6 +1438,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     methods: {
                         undo: function() {
                             let mm =this
+                            mm.currentStateIndex--
+                            mm.state = mm.stateArray[mm.currentStateIndex]
                         },
 
                         toggleItem: function(index) {
@@ -1450,7 +1452,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 }
                             )
                             mm.stateArray.push(mm.state)
-                            currentStateIndex++
+                            mm.currentStateIndex++
                         },
                         switchTeleport: function(){
                             this.teleportId = "tele2"
