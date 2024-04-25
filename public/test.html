@@ -1356,7 +1356,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <input  type="range" min="1"
                                         v-bind:max="stateArray.length"
                                         v-model="sliderValue"
-                                        v-on:change='jumpTo()'
+                                        v-on:input='jumpTo()'
                                         class="slider"
                                         id="myRange">
                                 </input>
@@ -1444,12 +1444,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     methods: {
                         jumpTo: function() {
                             let mm = this
-                            mm.state = mm.stateArray[mm.sliderValue - 1]
+                            mm.currentStateIndex = mm.sliderValue - 1
+                            mm.state = mm.stateArray[mm.currentStateIndex]
                         },
                         back: function() {
                             let mm = this
                             if (mm.currentStateIndex > 0) {
                                 mm.currentStateIndex--
+                                mm.sliderValue = mm.currentStateIndex + 1
                                 mm.state = mm.stateArray[mm.currentStateIndex]
                             }
                         },
@@ -1457,6 +1459,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             let mm = this
                             if (mm.currentStateIndex <= mm.stateArray.length) {
                                 mm.currentStateIndex++
+                                mm.sliderValue = mm.currentStateIndex + 1
                                 mm.state = mm.stateArray[mm.currentStateIndex]
                             }
                         },
@@ -1472,6 +1475,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             )
                             mm.stateArray.push(mm.state)
                             mm.currentStateIndex++
+                            mm.sliderValue = mm.currentStateIndex + 1
                         },
                         switchTeleport: function(){
                             this.teleportId = "tele2"
