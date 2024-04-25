@@ -1335,6 +1335,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 
+
         // MAIN Vue app
         vueApp      = Vue.createApp( {
                     el: "#rootel",
@@ -1351,7 +1352,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                         {{ title }}
                                     </li>
                                 </ul>
-
+<ZooComp v-bind:a='state.zoo'></ZooComp>
 
                                 <input  type="range" min="1"
                                         v-bind:max="stateArray.length"
@@ -1429,7 +1430,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                 title: "Use Vue with Immer",
                                                 done: false
                                             }
-                                        ]
+                                        ],
+                                    zoo: {
+                                        a: 1
+                                    }
                                 },
 
                             stateArray: [],
@@ -1440,6 +1444,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     mounted:    async function() {
                         let mm = this
                         mm.stateArray.push(mm.state)
+
+
                     },
                     methods: {
                         jumpTo: function() {
@@ -1582,6 +1588,31 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         }
                     }
                 })
+        vueApp.component("ZooComp",
+            {
+                props: ["a"],
+                template:   `
+                                        <div style="margin-top: 70px;">
+                                            Zoocomp {{a}}
+                                        <button style="height: 050px;width:100px;" v-on:click="zoo()" >ZOO</button>
+
+                                        </div>`
+                ,
+                methods: {
+                    zoo: function () {
+                        let mm = this
+                        mm.a = immer.produce(
+                            mm.a
+                            ,
+                            function(stateChange) {
+                                stateChange =2
+                            }
+                        )
+
+                    }
+                }
+            })
+
         VueAppData  = null
 
         Vue.nextTick(  function(){
