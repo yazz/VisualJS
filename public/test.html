@@ -1430,19 +1430,20 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 ]
                             }
                         this.state = Vue.ref(baseState)
-                        this.update = function(updater) {
-                            mm.state.value = immer.produce(mm.state.value, updater)
-                            mm.stateArray.push(mm.state)
-                        }
                     },
                     methods: {
                         undo: function() {
                             let mm =this
                         },
+                        updateState: function(updater) {
+                            let mm = this
+                            mm.state.value = immer.produce(mm.state.value, updater)
+                            //mm.stateArray.push(mm.state)
+                        },
 
                         toggleItem: function(index) {
                             console.log("toggle")
-                            this.update(state => {
+                            this.updateState(state => {
                                 this.state.todo[index].done = !this.state.todo[index].done
                             })
                         },
