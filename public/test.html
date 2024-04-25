@@ -1333,37 +1333,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         alaSqlStuff()
 
-        let    baseState2 =
-            {
-                todo:
-                [
-                    {
-                        title: "Learn Vue",
-                        done: true
-                    }
-                    ,
-                    {
-                        title: "Use Vue with Immer",
-                        done: false
-                    }
-                ]
-            }
 
-        let statex =  Vue.ref(baseState2)
-
-        let injectedVars = {
-            statex2: statex
-        }
 
         // MAIN Vue app
         vueApp      = Vue.createApp( {
                     el: "#rootel",
                     template:   `
                         <div style="">
-                        state: {{statex2}}
+                        state: {{state}}
                         <br>
-                                <ul v-if="statex2">
-                                    <li v-for="({ title, done }, index) in statex2.todo"
+                                <ul v-if="state">
+                                    <li v-for="({ title, done }, index) in state.todo"
                                         v-bind:style='done?"color:green":"color:red"'
                                         v-on:click="toggleItem(index)">
                                         {{ title }}
@@ -1412,9 +1392,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 </div>
                                 <br>
                         </div>`,
-                    provide: function() {
-                        return injectedVars
-                    },
                     data: function() {
                         return {
                             refresh: 0,
@@ -1426,12 +1403,26 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             dataRefOrigCode: refOrigCode,
                             dataRefDebugCode: refDebugCode,
                             error_msg: refErrorMsg,
-                            statex2: null
+                            state:
+                                {
+                                    todo:
+                                        [
+                                            {
+                                                title: "Learn Vue",
+                                                done: true
+                                            }
+                                            ,
+                                            {
+                                                title: "Use Vue with Immer",
+                                                done: false
+                                            }
+                                        ]
+                                }
+
                         }
                     },
                     mounted:    async function() {
                         let mm = this
-                        mm.statex2                    = statex
                     },
                     methods: {
                         undo: function() {
@@ -1440,11 +1431,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
                         toggleItem: function(index) {
                             let mm = this
-                            statex.value = immer.produce(
-                                statex.value
+                            mm.state = immer.produce(
+                                mm.state
                                 ,
-                                async function(stateChange) {
-                                    debugger
+                                function(stateChange) {
                                     stateChange.todo[index].done = !stateChange.todo[index].done
                                 }
                             )
