@@ -1351,6 +1351,16 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                         {{ title }}
                                     </li>
                                 </ul>
+
+
+                                <input  type="range" min="1"
+                                        v-bind:max="stateArray.length"
+                                        v-model="sliderValue"
+                                        v-on:change='jumpTo()'
+                                        class="slider"
+                                        id="myRange">
+                                </input>
+
                                 <button style="height: 050px;width:100px;" v-on:click="back()" >&lt;</button>
                                 <button style="height: 050px;width:100px;" v-on:click="forward()" >&gt;</button>
 
@@ -1423,8 +1433,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 },
 
                             stateArray: [],
-                            currentStateIndex: 0
-
+                            currentStateIndex: 0,
+                            sliderValue: 0
                         }
                     },
                     mounted:    async function() {
@@ -1432,6 +1442,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         mm.stateArray.push(mm.state)
                     },
                     methods: {
+                        jumpTo: function() {
+                            let mm = this
+                            mm.state = mm.stateArray[mm.sliderValue - 1]
+                        },
                         back: function() {
                             let mm = this
                             if (mm.currentStateIndex > 0) {
