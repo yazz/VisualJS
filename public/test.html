@@ -1440,10 +1440,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             console.log("toggle")
                             let mm = this
                             mm.statex.value = immer.produce(
-                                mm.statex.value
+                                mm.statex
                                 ,
                                 function(state2) {
-                                    mm.statex.todo[index].done = !mm.statex.todo[index].done
+                                    debugger
+                                    state2.todo[index].done = !state2.todo[index].done
                                 }
                             )
                         },
