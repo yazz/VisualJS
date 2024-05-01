@@ -8,6 +8,8 @@
     <scriptvc src="https://unpkg.com/@vue/compat@3.1"></scriptvc>
     <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
 
+    <script src="https://johnresig.com/files/htmlparser.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/immer/9.0.21/immer.umd.production.min.js"></script>
 
     <script src="https://www.unpkg.com/esprima@4.0.1/dist/esprima.js"></script>
@@ -1555,6 +1557,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                     let g = 7
                                     let h = g + 1
                                     let command = yield;
+                                    function* afrs() {
+                                        conole.log("in afsr")
+                                        yield
+                                    }
+                                    afrs()
                                     console.log("Running command: " + command)
                                     if (command=="STOP") {
                                         return
