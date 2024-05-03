@@ -1382,6 +1382,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <button style="height: 050px;width:100px;" v-on:click="runDebugger()" >Run debugger</button>
 
                                 <button style="height: 050px;width:100px;" v-on:click="mutate()" >Mutate</button>
+
+                                <button style="height: 050px;width:100px;" v-on:click="runHtmlParser()" >HTMLParser</button>
                             <br>
                                         <div style="border: 3px solid red">{{error_msg}}</div>
                             <pre>
@@ -1450,6 +1452,32 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
                     },
                     methods: {
+                        runHtmlParser: function() {
+                            var results = "";
+
+                            HTMLParser("<p id=test>hello <i>world", {
+                                start: function( tag, attrs, unary ) {
+                                    results += "<" + tag;
+
+                                    for ( var i = 0; i < attrs.length; i++ )
+                                        results += " " + attrs[i].name + '="' + attrs[i] + '"';
+
+                                    results += (unary ? "/" : "") + ">";
+                                },
+                                end: function( tag ) {
+                                    results += "</" + tag + ">";
+                                },
+                                chars: function( text ) {
+                                    results += text;
+                                },
+                                comment: function( text ) {
+                                    results += "<!--" + text + "-->";
+                                }
+                            });
+
+                            //results == '<p id="test">hello <i>world</i></p>"
+                            console.log("HTML Parser results = " + results)
+                        },
                         jumpTo: function() {
                             let mm = this
                             mm.currentStateIndex = mm.sliderValue - 1
