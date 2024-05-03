@@ -1454,13 +1454,15 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     methods: {
                         runHtmlParser: function() {
                             var results = "";
+                            let htmlInput = "<p id=test>hello <i>world"
+                            console.log("htmlInput = " + htmlInput)
 
-                            HTMLParser("<p id=test>hello <i>world", {
+                            HTMLParser(htmlInput, {
                                 start: function( tag, attrs, unary ) {
                                     results += "<" + tag;
 
                                     for ( var i = 0; i < attrs.length; i++ )
-                                        results += " " + attrs[i].name + '="' + attrs[i] + '"';
+                                        results += " " + attrs[i].name + '="' + attrs[i].value + '"';
 
                                     results += (unary ? "/" : "") + ">";
                                 },
