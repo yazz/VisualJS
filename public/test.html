@@ -1527,6 +1527,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             let parser = new DOMParser();
                             const doc3 = parser.parseFromString(htmlInput, "text/xml");
 
+
+
+                            //HTMLParser(htmlInput, {});
+
                             const s = new XMLSerializer();
                             results = s.serializeToString(doc3);
 
