@@ -1333,7 +1333,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     template:   `
                         <div style="">
                         state: {{state}}
-                        <textarea rows=40 cols=90>{{htmlInput}}</textarea>
+                        <textarea rows=40 cols=90 v-model='htmlInput'></textarea>
                         <br>
                         currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
                         <br>
@@ -1514,6 +1514,7 @@ currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
                         runHtmlParser: function() {
                             var results = "";
                             let mm = this
+                            alert(mm.htmlInput)
                             console.log("htmlInput = " + mm.htmlInput)
                             let parser = new DOMParser();
                             const doc3 = parser.parseFromString(mm.htmlInput, "text/xml");
