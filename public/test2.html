@@ -848,17 +848,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <body>
         <div>
             <div id="injected_id"></div>
-            <br>
-            <br>
-            Standard HTML and JS below
-            <br>
-            <b>HI THERE!</b>
-            <div id="tele" style="border: 1px solid black">TELE:</div>
-            <div id="tele2" style="border: 1px solid black">TELE2:</div>
         </div>
 
         <div style="margin-top:20px">
-            Inside VueJS 2 below
             <div id="rootel"></div>
         </div>
     </body>
@@ -1367,8 +1359,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <button style="height: 050px;width:050px;" v-on:click="createItem2()" >Create item 2</button>
                                 <button style="height: 050px;width:050px;" v-on:click="showItemf2()" >Show</button>
 
-                                <button style="height: 050px;width:100px;" v-on:click="switchTeleport()" >switch Teleport</button>
-
                                 <button style="height: 050px;width:100px;" v-on:click="runDebugger()" >Run debugger</button>
 
                                 <button style="height: 050px;width:100px;" v-on:click="mutate()" >Mutate</button>
@@ -1405,7 +1395,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             refresh: 0,
                             showItem: false,
                             showItem2: false,
-                            teleportId: "tele",
                             dataImmer: dataImmerData,
                             dataRefData: refData.value,
                             dataRefOrigCode: refOrigCode,
@@ -1469,8 +1458,6 @@ currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
         <button style="height: 050px;width:050px;" v-on:click="createItem2()" >Create item 2</button>
         <button style="height: 050px;width:050px;" v-on:click="showItemf2()" >Show</button>
 
-        <button style="height: 050px;width:100px;" v-on:click="switchTeleport()" >switch Teleport</button>
-
         <button style="height: 050px;width:100px;" v-on:click="runDebugger()" >Run debugger</button>
 
         <button style="height: 050px;width:100px;" v-on:click="mutate()" >Mutate</button>
@@ -1498,7 +1485,7 @@ currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
             <b><component v-bind:refresh='refresh' :is='"UserList"' ></component></b>
         </div>
         <div v-if='showItem2'>
-            <b><component v-bind:refresh='refresh' :is='"UserList2"' v-bind:teleport_id='teleportId' ></component></b>
+            <b><component v-bind:refresh='refresh' :is='"UserList2"'  ></component></b>
         </div>
         <br>
 </div>`
@@ -1565,9 +1552,6 @@ currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
                             mm.currentStateIndex++
                             mm.sliderValue = mm.currentStateIndex + 1
                         },
-                        switchTeleport: function(){
-                            this.teleportId = "tele2"
-                        },
                         createItem: async function () {
 
                             vueApp.component("UserList",
@@ -1577,12 +1561,6 @@ currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
                                         <div style="margin-top: 70px;">
                                             <br>
                                                 I am a component 5...
-                                                <Teleport to="#tele">
-                                                  <div >
-                                                    component COntent teleported
-                                                  </div>
-                                                </Teleport>
-
                                         </div>`
                                 })
                             this.refresh ++
@@ -1601,16 +1579,11 @@ currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
                             vueApp.component("UserList2",
                                 {
                                     name: "UserList2",
-                                    props: ["teleport_id"],
+                                    props: [],
                                     template:   `
                                         <div style="margin-top: 70px;">
                                             <br>
-                                                I am a component 6... ({{teleport_id}}
-                                                <Teleport v-bind:to='"#" + teleport_id'>
-                                                  <div >
-                                                    component COntent teleported 2
-                                                  </div>
-                                                </Teleport>
+                                                I am a component 6...
 
                                         </div>`
                                 })
