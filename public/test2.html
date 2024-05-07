@@ -861,6 +861,21 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
     <script>
+        async function  useIdeTools                         (  ) {
+            let promise = new Promise(returnfn => {
+                let loadIdeToolsLibScript = document.createElement('script');
+                loadIdeToolsLibScript.src = "/js_libs/idetools.js";
+                document.head.appendChild(loadIdeToolsLibScript);
+                loadIdeToolsLibScript.onload = function () {
+                    try {
+                    } catch (error) {
+                    }
+                    returnfn()
+                };
+            })
+            let ret = await promise
+        }
+
         function        addWatchPoint                       (  vName  ,  value  ) {
         }
         function        isValidObject                       (  variable  ){
@@ -872,6 +887,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  ) {
 
         }
+        async function init() {
+            await useIdeTools()
+        }
+        init()
         function        getDebugCode                        (  blockName  ,  trcode2  ,  args  ) {
             //
             // PARSE source code
