@@ -910,6 +910,30 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             timeline_editor.getSession().setValue("");
             timeline_editor.getSession().setUseWorker(false);
             //timeline_editor.setReadOnly(true)
+
+
+            timeline_editor.on("guttermousedown", function(e) {
+                var target = e.domEvent.target;
+
+                if (target.className.indexOf("ace_gutter-cell") == -1){
+                    return;
+                }
+
+                if (!timeline_editor.isFocused()){
+                    return;
+                }
+
+                if (e.clientX > 25 + target.getBoundingClientRect().left){
+                    return;
+                }
+
+                var breakpoints = e.editor.session.getBreakpoints(row, 0);
+                var row = e.getDocumentPosition().row;
+
+                alert(row)
+
+                e.stop();
+            });
         }
         async function init() {
             await useIdeTools()
