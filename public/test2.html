@@ -849,6 +849,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </script>
 
     <body>
+<div id="timeline_editor"></div>
         <div>
             <div id="injected_id"></div>
         </div>
@@ -887,8 +888,32 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  ) {
 
         }
+        let timeline_editor = null
+        async function setupAceEditor() {
+            ace.config.set('basePath', '/');
+            timeline_editor = ace.edit(           "timeline_editor", {
+                selectionStyle: "text",
+                mode:           "ace/mode/javascript"
+            })
+
+            //Bug fix: Need a delay when setting theme or view is corrupted
+            setTimeout(function(){
+                timeline_editor.setTheme("ace/theme/sqlserver");
+            },100)
+
+
+            document.getElementById("timeline_editor").style["font-size"] = "16px"
+            document.getElementById("timeline_editor").style.width = "100%"
+            document.getElementById("timeline_editor").style.border = "0px solid #2C2828"
+
+            document.getElementById("timeline_editor").style.height = "75vh"
+            timeline_editor.getSession().setValue("");
+            timeline_editor.getSession().setUseWorker(false);
+            //timeline_editor.setReadOnly(true)
+        }
         async function init() {
             await useIdeTools()
+            await setupAceEditor()
         }
         init()
         function        getDebugCode                        (  blockName  ,  trcode2  ,  args  ) {
