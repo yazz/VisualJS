@@ -1326,11 +1326,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         vueApp      = Vue.createApp( {
                     el: "#rootel",
                     template:   `
-<div style="">
+<div style="margin: 20px;">
     <textarea rows=15 cols=70 v-model='htmlInput'></textarea>
-    <div>
+    <div style="margin-top: 20px;">
       <button   v-on:click="runCode()"
-                class="btn btn-sm">Run</button>
+                class="btn btn-sm btn-info">Run</button>
     </div>
 
 <br>
