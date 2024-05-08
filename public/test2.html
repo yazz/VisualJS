@@ -899,6 +899,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             //Bug fix: Need a delay when setting theme or view is corrupted
             setTimeout(function(){
                 timeline_editor.setTheme("ace/theme/sqlserver");
+                timeline_editor.getSession().setMode({
+                    inline: true
+                });
             },100)
 
 
@@ -930,7 +933,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 var breakpoints = e.editor.session.getBreakpoints(row, 0);
                 var row = e.getDocumentPosition().row;
 
-                alert(row)
+                //alert(row)
+                debugger
+                e.editor.session.setBreakpoint(row);
 
                 e.stop();
             });
