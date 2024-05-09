@@ -946,8 +946,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 //alert(row)
                 debugger
                 e.editor.session.setBreakpoint(row);
-
-                e.stop();
+                e.editor.scrollToLine(row , true, true, function () {});
+                //e.stop();
             });
         }
         async function init() {
