@@ -914,12 +914,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             },100)
 
+            document.getElementById("timeline_editor").style["font-size"]   = "16px"
+            document.getElementById("timeline_editor").style.width          = "40%"
+            document.getElementById("timeline_editor").style.border         = "0px solid #2C2828"
+            document.getElementById("timeline_editor").style.display        = "inline-block"
+            document.getElementById("timeline_editor").style.height         = "30vh"
 
-            document.getElementById("timeline_editor").style["font-size"] = "16px"
-            document.getElementById("timeline_editor").style.width = "100%"
-            document.getElementById("timeline_editor").style.border = "0px solid #2C2828"
-
-            document.getElementById("timeline_editor").style.height = "75vh"
             timeline_editor.getSession().setValue("");
             timeline_editor.getSession().setUseWorker(false);
             //timeline_editor.setReadOnly(true)
@@ -1409,11 +1409,25 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     el: "#rootel",
                     template:   `
                                 <div style="margin: 20px;">
-                                    <div id="timeline_editor" rows=15 cols=70 v-model='htmlInput'></div>
+                                    <div>
+                                      <span style="width:49%; margin-right: 20px;"><div id="timeline_editor" rows=15 cols=70 v-model='htmlInput'></div></span>
+                                      <span  style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
+                                    </div>
                                     <div style="margin-top: 20px;">
                                       <button   v-on:click="runCode()"
+                                                style="margin-right: 10px;"
                                                 class="btn btn-sm btn-info">
                                         Run
+                                      </button>
+                                      <button   v-on:click="createDebugCode()"
+                                                style="margin-right: 10px;"
+                                                class="btn btn-sm btn-info">
+                                        Create Debug
+                                      </button>
+                                      <button   v-on:click="startDebugger()"
+                                                style="margin-right: 10px;"
+                                                class="btn btn-sm btn-info">
+                                        Start Debugger
                                       </button>
                                     </div>
 
