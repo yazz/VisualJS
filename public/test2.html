@@ -1409,15 +1409,26 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     el: "#rootel",
                     template:   `
                                 <div style="margin: 20px;">
+
                                     <div>
                                       <span style="width:49%; margin-right: 20px;"><div id="timeline_editor" rows=15 cols=70 v-model='htmlInput'></div></span>
-                                      <span  style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
+                                      <span  v-if="!rightPane" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
+                                      <span  v-if="rightPane=='AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >AST
+                                      <pre>
+                                        
+                                      </pre></span>
                                     </div>
+
                                     <div style="margin-top: 20px;">
                                       <button   v-on:click="runCode()"
                                                 style="margin-right: 10px;"
                                                 class="btn btn-sm btn-info">
                                         Run
+                                      </button>
+                                      <button   v-on:click="createAST()"
+                                                style="margin-right: 10px;"
+                                                class="btn btn-sm btn-info">
+                                        Create AST
                                       </button>
                                       <button   v-on:click="createDebugCode()"
                                                 style="margin-right: 10px;"
@@ -1496,16 +1507,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 </div>
                                 <br>
                                 </div>`,
-                                                    data: function() {
+                    data: function() {3
                         return {
                             refresh:            0,
+                            rightPane:          null,
                             showItem:           false,
-                            showItem2: false,
+                            showItem2:          false,
                             dataImmer:          dataImmerData,
-                            dataRefData: refData.value,
-                            dataRefOrigCode: refOrigCode,
-                            dataRefDebugCode: refDebugCode,
-                            error_msg: refErrorMsg,
+                            dataRefData:        refData.value,
+                            dataRefOrigCode:    refOrigCode,
+                            dataRefDebugCode:   refDebugCode,
+                            error_msg:          refErrorMsg,
                             state:
                                 {
                                     todo:
@@ -1528,7 +1540,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             stateArray: [],
                             currentStateIndex: 0,
                             sliderValue: 0,
-//DEFAULT CODE TO DEBUG
+
+                            //DEFAULT CODE TO DEBUG
                             htmlInput:
 `let a = 1
 a++
@@ -1543,6 +1556,10 @@ alert(a)
                         timeline_editor.getSession().setValue(mm.htmlInput)
                     },
                     methods: {
+                        createAST: async function() {
+                            let mm = this
+                            mm.rightPane = "AST"
+                        },
                         runCode: function() {
                             let mm = this
                             mm.htmlInput = timeline_editor.getSession().getValue()
