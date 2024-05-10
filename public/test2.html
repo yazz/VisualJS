@@ -1424,7 +1424,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
                                           <span  v-if="rightPane=='transform_AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
                                             Transformed AST
-                                              <pre style="overflow: scroll;height:95%">{{codeAST}}
+                                              <pre style="overflow: scroll;height:95%">{{transformedAST}}
                                               </pre>
                                           </span>
 
@@ -1536,7 +1536,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             dataRefOrigCode:    refOrigCode,
                             dataRefDebugCode:   refDebugCode,
                             error_msg:          refErrorMsg,
-                            codeAST:            "",
+                            codeAST:            null,
+                            transformedAST:     null,
                             state:
                                 {
                                     todo:
