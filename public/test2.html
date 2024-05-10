@@ -1421,13 +1421,18 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                               </pre>
                                           </span>
 
-
                                           <span  v-if="rightPane=='transform_AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
                                             Transformed AST
                                               <pre style="overflow: scroll;height:95%">{{transformedAST}}
                                               </pre>
                                           </span>
 
+
+                                          <span v-if="rightPane=='debug_code'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block; ">
+                                              Debug code
+                                              <pre style="overflow: scroll;height:95%">{{debugCode}}
+                                              </pre>
+                                          </span>
 
 
                                     </div>
@@ -1451,7 +1456,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                       <button   v-on:click="createDebugCode()"
                                                 style="margin-right: 10px;"
                                                 class="btn btn-sm btn-info">
-                                        Create Debug
+                                        Create Debug Code
                                       </button>
                                       <button   v-on:click="startDebugger()"
                                                 style="margin-right: 10px;"
@@ -1566,7 +1571,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 `let a = 1
 a++
 alert(a)
-`
+`,
+                            debugCode: null
                         }
                     },
                     mounted:    async function() {
@@ -1588,6 +1594,7 @@ alert(a)
                             mm.rightPane = "transform_AST"
                             mm.htmlInput = timeline_editor.getSession().getValue()
                             mm.codeAST = esprima.parse(mm.htmlInput)
+
 
                             //
                             // add "await" to all function calls
@@ -1611,6 +1618,15 @@ alert(a)
                             });
 
 
+                        },
+                        createDebugCode: async function() {
+                            let mm = this
+                            mm.rightPane = "debug_code"
+
+                            //
+                            // add "await" to all function calls
+                            //
+                            mm.debugCode = escodegen.generate(mm.transformedAST, {comment: false})
                         },
                         runCode: function() {
                             let mm = this
