@@ -1589,6 +1589,28 @@ alert(a)
                             mm.htmlInput = timeline_editor.getSession().getValue()
                             mm.codeAST = esprima.parse(mm.htmlInput)
 
+                            //
+                            // add "await" to all function calls
+                            //
+                            mm.transformedAST = estraverse.replace(mm.codeAST, {
+                                leave: function (node, parent) {
+                                    if (node.type === 'CallExpression') {
+                                        //debugger
+                                        //if (node && node.expression && node.expression.async) {
+                                        return {
+                                            type:       'AwaitExpression',
+                                            argument:   node
+                                        };
+                                        //};
+                                    }
+                                },
+
+                                keys: {
+                                    'AwaitExpression': ['argument']
+                                }
+                            });
+
+
                         },
                         runCode: function() {
                             let mm = this
