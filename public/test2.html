@@ -1475,7 +1475,9 @@ let vueDebugApp      =  Vue.createApp( {
                             let mm = this
                             mm.rightPane = "running"
                             mm.htmlInput = timeline_editor.getSession().getValue()
-                            eval(mm.htmlInput)
+                            Vue.nextTick( async function() {
+                                eval(mm.htmlInput)
+                            })
                         },
                         createAST: async function() {
                             let mm = this
