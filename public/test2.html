@@ -1111,7 +1111,10 @@ let vueDebugApp      =  Vue.createApp( {
                             mm.transformedAST = estraverse.replace(mm.codeAST, {
                                 leave: function (node, parent) {
                                     if (node.type === 'CallExpression') {
-                                        //debugger
+                                        debugger
+                                        if (parent && (parent.type == 'AwaitExpression')) {
+                                            debugger
+                                        }
                                         //if (node && node.expression && node.expression.async) {
                                         return {
                                             type:       'AwaitExpression',
