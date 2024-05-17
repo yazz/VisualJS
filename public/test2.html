@@ -1568,9 +1568,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
                             //DEFAULT CODE TO DEBUG
                             htmlInput:
-`let a = 1
+`console.log("out: " + new Date().getTime())
+let a = 1
 a++
-alert(a)
+let b = a
 `,
                             debugCode: null
                         }
@@ -1582,20 +1583,17 @@ alert(a)
                         timeline_editor.getSession().setValue(mm.htmlInput)
                     },
                     methods: {
-                        startDebugger: async function() {
-                            let mm = this
-                            mm.rightPane = "debugger"
-                            eval("(async function() {" + mm.debugCode + "})()")
-                        },
                         createAST: async function() {
                             let mm = this
                             mm.rightPane = "AST"
+
                             mm.htmlInput = timeline_editor.getSession().getValue()
                             mm.codeAST = esprima.parse(mm.htmlInput)
 
                         },
                         transformAST: async function() {
                             let mm = this
+                            await mm.createAST()
                             mm.rightPane = "transform_AST"
                             mm.htmlInput = timeline_editor.getSession().getValue()
                             mm.codeAST = esprima.parse(mm.htmlInput)
@@ -1626,12 +1624,20 @@ alert(a)
                         },
                         createDebugCode: async function() {
                             let mm = this
+                            await mm.transformAST()
                             mm.rightPane = "debug_code"
+
 
                             //
                             // add "await" to all function calls
                             //
                             mm.debugCode = escodegen.generate(mm.transformedAST, {comment: false})
+                        },
+                        startDebugger: async function() {
+                            let mm = this
+                            mm.rightPane = "debugger"
+                            await mm.createDebugCode()
+                            eval("(async function() {" + mm.debugCode + "})()")
                         },
                         runCode: function() {
                             let mm = this
