@@ -1585,7 +1585,7 @@ alert(a)
                         startDebugger: async function() {
                             let mm = this
                             mm.rightPane = "debugger"
-                            eval(mm.debugCode)
+                            eval("(async function() {" + mm.debugCode + "})()")
                         },
                         createAST: async function() {
                             let mm = this
