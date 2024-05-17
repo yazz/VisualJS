@@ -856,13 +856,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </script>
 
     <body>
-
-        <div>
-            <div id="injected_id"></div>
-        </div>
-
         <div style="margin-top:20px">
-            <div id="rootel"></div>
+            <div id="vue_root_element"></div>
         </div>
     </body>
 
@@ -1383,21 +1378,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         let dataImmerData       = baseState
         let vueApp              = null
         let VueAppData          = null
-        let injectedCode        = null
-
-
-        // code to transform
-        injectedCode = `
-(function() {
-  let retVal = Vue.createApp(
-            {
-                el: "#injected_id",
-                template: "injected code"
-            })
-  return retVal
-})()
-
-        `
 
         alaSqlStuff()
 
@@ -1406,7 +1386,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         // MAIN Vue app
         vueApp      = Vue.createApp( {
-                    el: "#rootel",
                     template:   `
                                 <div style="margin: 20px;">
 
@@ -1596,7 +1575,7 @@ let b = a
                 //let vm = Vue.getCurrentInstance()
                 //debugger
                 //vueApp.refresh = 8
-                VueAppData = vueApp.mount("#rootel")
+                VueAppData = vueApp.mount("#vue_root_element")
                 console.log("main app mounted")
 
             },1000)
