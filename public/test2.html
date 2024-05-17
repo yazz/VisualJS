@@ -1365,17 +1365,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         let refDebugCode        = Vue.ref("")
         let refOrigCode         = Vue.ref("")
         let refErrorMsg         = Vue.ref("Error ... ")
-        const baseState         = [
-            {
-                title: "Learn TypeScript",
-                done: true
-            },
-            {
-                title: "Try Immer",
-                done: false
-            }
-        ]
-        let dataImmerData       = baseState
         let vueApp              = null
         let VueAppData          = null
 
@@ -1393,6 +1382,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                           <span style="width:49%; margin-right: 20px;"><div id="timeline_editor" rows=15 cols=70 v-model='htmlInput'></div></span>
 
                                           <span  v-if="!rightPane" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
+
 
                                           <span  v-if="rightPane=='AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
                                               <b>AST</b>
@@ -1414,10 +1404,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                           </span>
 
 
-                                          <span v-if="rightPane=='debugger'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
-                                              <b>Debugging</b>
-                                              <pre style="overflow: scroll;height:95%">
-                                              </pre>
+                                          <span v-if="rightPane=='debugger' || rightPane=='running'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
+                                              <b v-if="rightPane=='debugger'">Debugging</b>
+                                              <b v-if="rightPane=='running'">Running</b>
+                                              <div style="overflow: scroll;height:95%" id="vue_app_element">
+                                              </div>
                                           </span>
 
                                     </div>
@@ -1454,37 +1445,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 </div>`,
                     data: function() {3
                         return {
-                            refresh:            0,
                             rightPane:          null,
-                            showItem:           false,
-                            showItem2:          false,
-                            dataImmer:          dataImmerData,
-                            dataRefData:        refData.value,
                             error_msg:          refErrorMsg,
                             codeAST:            null,
                             transformedAST:     null,
-                            state:
-                                {
-                                    todo:
-                                        [
-                                            {
-                                                title: "Learn Vue",
-                                                done: true
-                                            }
-                                            ,
-                                            {
-                                                title: "Use Vue with Immer",
-                                                done: false
-                                            }
-                                        ],
-                                    zoo: {
-                                        a: 1
-                                    }
-                                },
-
-                            stateArray: [],
-                            currentStateIndex: 0,
-                            sliderValue: 0,
 
                             //DEFAULT CODE TO DEBUG
                             htmlInput:
@@ -1492,17 +1456,27 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 let a = 1
 a++
 let b = a
-`,
+let vueDebugApp      =  Vue.createApp( {
+                            template:   \`
+                                <div style="margin: 20px;">Vue debug app </div>
+                                \`})
+                        vueDebugApp.mount("#vue_app_element")
+                            `,
                             debugCode: null
                         }
                     },
                     mounted:    async function() {
                         let mm = this
-                        mm.stateArray.push(mm.state)
                         await setupAceEditor()
                         timeline_editor.getSession().setValue(mm.htmlInput)
                     },
                     methods: {
+                        runCode: function() {
+                            let mm = this
+                            mm.rightPane = "running"
+                            mm.htmlInput = timeline_editor.getSession().getValue()
+                            eval(mm.htmlInput)
+                        },
                         createAST: async function() {
                             let mm = this
                             mm.rightPane = "AST"
@@ -1558,13 +1532,7 @@ let b = a
                             await mm.createDebugCode()
                             mm.rightPane = "debugger"
                             eval("(async function() {" + mm.debugCode + "})()")
-                        },
-                        runCode: function() {
-                            let mm = this
-                            mm.htmlInput = timeline_editor.getSession().getValue()
-                            eval(mm.htmlInput)
                         }
-
                     }
                 })
 
