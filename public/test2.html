@@ -944,7 +944,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 var row = e.getDocumentPosition().row;
 
                 //alert(row)
-                debugger
+                //debugger
                 e.editor.session.setBreakpoint(row);
                 e.editor.scrollToLine(row , true, true, function () {});
                 //e.stop();
@@ -1416,24 +1416,30 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                           <span  v-if="!rightPane" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
 
                                           <span  v-if="rightPane=='AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
-                                            AST
+                                              <b>AST</b>
                                               <pre style="overflow: scroll;height:95%">{{codeAST}}
                                               </pre>
                                           </span>
 
                                           <span  v-if="rightPane=='transform_AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
-                                            Transformed AST
+                                              <b>Transformed AST</b>
                                               <pre style="overflow: scroll;height:95%">{{transformedAST}}
                                               </pre>
                                           </span>
 
 
                                           <span v-if="rightPane=='debug_code'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
-                                              Debug code
+                                              <b>Debug code</b>
                                               <pre style="overflow: scroll;height:95%">{{debugCode}}
                                               </pre>
                                           </span>
 
+
+                                          <span v-if="rightPane=='debugger'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
+                                              <b>Debugging</b>
+                                              <pre style="overflow: scroll;height:95%">
+                                              </pre>
+                                          </span>
 
                                     </div>
 
@@ -1464,71 +1470,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                         Start Debugger
                                       </button>
                                     </div>
-
-                                <br>
-                                state: {{state}}
-                                currentStateIndex: {{currentStateIndex + 1}} of {{stateArray.length}}
-                                <br>
-                                <ul v-if="state">
-                                <li v-for="({ title, done }, index) in state.todo"
-                                v-bind:style='done?"color:green":"color:red"'
-                                v-on:click="toggleItem(index)">
-                                {{ title }}
-                                </li>
-                                </ul>
-                                <ZooComp v-bind:statezoo='state.zoo'></ZooComp>
-
-                                <input  type="range" min="1"
-                                v-bind:max="stateArray.length"
-                                v-model="sliderValue"
-                                v-on:input='jumpTo()'
-                                class="slider"
-                                id="myRange">
-                                </input>
-
-                                <button style="height: 050px;width:100px;" v-on:click="back()" >&lt;</button>
-                                <button style="height: 050px;width:100px;" v-on:click="forward()" >&gt;</button>
-
-
-
-                                <button style="height: 050px;width:050px;" v-on:click="createItem()" >Create item</button>
-                                <button style="height: 050px;width:050px;" v-on:click="showItemf()" >Show</button>
-
-                                <button style="height: 050px;width:100px;" v-on:click="refreshAll()" >Refresh</button>
-
-                                <button style="height: 050px;width:050px;" v-on:click="createItem2()" >Create item 2</button>
-                                <button style="height: 050px;width:050px;" v-on:click="showItemf2()" >Show</button>
-
-                                <button style="height: 050px;width:100px;" v-on:click="runDebugger()" >Run debugger</button>
-
-                                <button style="height: 050px;width:100px;" v-on:click="mutate()" >Mutate</button>
-
-                                <button style="height: 050px;width:100px;" v-on:click="runHtmlParser()" >HTMLParser</button>
                                 <br>
                                 <div style="border: 3px solid red">{{error_msg}}</div>
-                                <pre>
-                                {{dataRefOrigCode}}
-                                ====>
-                                {{dataRefDebugCode}}
-
-                                {{dataRefData}}
-                                </pre>
-                                <br>
-
-                                <br>
-                                {{dataImmer}}
-                                <br>
-                                <br>
-                                WE ARE IN THE MATRIX...
-                                <br>
-                                showItem := {{showItem}}
-                                <div v-if='showItem'>
-                                <b><component v-bind:refresh='refresh' :is='"UserList"' ></component></b>
-                                </div>
-                                <div v-if='showItem2'>
-                                <b><component v-bind:refresh='refresh' :is='"UserList2"' v-bind:teleport_id='teleportId' ></component></b>
-                                </div>
-                                <br>
                                 </div>`,
                     data: function() {3
                         return {
@@ -1538,8 +1481,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             showItem2:          false,
                             dataImmer:          dataImmerData,
                             dataRefData:        refData.value,
-                            dataRefOrigCode:    refOrigCode,
-                            dataRefDebugCode:   refDebugCode,
                             error_msg:          refErrorMsg,
                             codeAST:            null,
                             transformedAST:     null,
@@ -1635,8 +1576,8 @@ let b = a
                         },
                         startDebugger: async function() {
                             let mm = this
-                            mm.rightPane = "debugger"
                             await mm.createDebugCode()
+                            mm.rightPane = "debugger"
                             eval("(async function() {" + mm.debugCode + "})()")
                         },
                         runCode: function() {
@@ -1780,17 +1721,6 @@ let b = a
                             let context = {}
                             this.evalInContext( "this.a = 10"         , context )
                             this.evalInContext( "console.log(this.a)" , context )
-                        }
-                        ,
-                        mutate:  async function ()
-                        {
-                            let mm=this
-                            //debugger
-                            const nextState = immer.produce(mm.dataImmer, draft => {
-                                draft[1].done = true
-                                draft.push({title: "Tweet about it"})
-                            })
-                            mm.dataImmer = nextState
                         }
                     }
                 })
