@@ -1582,6 +1582,11 @@ alert(a)
                         timeline_editor.getSession().setValue(mm.htmlInput)
                     },
                     methods: {
+                        startDebugger: async function() {
+                            let mm = this
+                            mm.rightPane = "debugger"
+                            eval(mm.debugCode)
+                        },
                         createAST: async function() {
                             let mm = this
                             mm.rightPane = "AST"
