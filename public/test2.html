@@ -989,7 +989,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <div style="margin: 20px;">
 
                                     <div>
-                                          <span style="width:49%; margin-right: 20px;"><div id="timeline_editor" rows=15 cols=70 v-model='htmlInput'></div></span>
+                                          <span style="width:49%; margin-right: 20px;"><div id="timeline_editor" rows=15 cols=70 ></div></span>
 
                                           <span  v-if="!rightPane" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
 
@@ -1070,7 +1070,7 @@ let vueDebugApp      =  Vue.createApp( {
                             template:   \`
                                 <div style="margin: 20px;">Vue debug app </div>
                                 \`})
-                        vueDebugApp.mount("#vue_app_element")
+vueDebugApp.mount("#vue_app_element")
                             `,
                             debugCode: null
                         }
@@ -1094,7 +1094,8 @@ let vueDebugApp      =  Vue.createApp( {
                             mm.rightPane = "AST"
 
                             mm.htmlInput = timeline_editor.getSession().getValue()
-                            mm.codeAST = esprima.parse(mm.htmlInput)
+                            //debugger
+                            mm.codeAST = esprima.parse("(( async function() {" + mm.htmlInput + "})())");
 
                         },
                         transformAST: async function() {
@@ -1111,7 +1112,6 @@ let vueDebugApp      =  Vue.createApp( {
                             mm.transformedAST = estraverse.replace(mm.codeAST, {
                                 leave: function (node, parent) {
                                     if (node.type === 'CallExpression') {
-                                        debugger
                                         if (parent && (parent.type == 'AwaitExpression')) {
                                             debugger
                                         }
