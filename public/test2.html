@@ -1070,7 +1070,7 @@ let vueDebugApp      =  Vue.createApp( {
                             template:   \`
                                 <div style="margin: 20px;">Vue debug app </div>
                                 \`})
-vueDebugApp.mount("#vue_app_element")
+await vueDebugApp.mount("#vue_app_element")
                             `,
                             debugCode: null
                         }
@@ -1095,7 +1095,7 @@ vueDebugApp.mount("#vue_app_element")
 
                             mm.htmlInput = timeline_editor.getSession().getValue()
                             //debugger
-                            mm.codeAST = esprima.parse("(( async function() {" + mm.htmlInput + "})())");
+                            mm.codeAST = esprima.parse("(( async function() { " + mm.htmlInput + " })())");
 
                         },
                         transformAST: async function() {
@@ -1103,7 +1103,7 @@ vueDebugApp.mount("#vue_app_element")
                             await mm.createAST()
                             mm.rightPane = "transform_AST"
                             mm.htmlInput = timeline_editor.getSession().getValue()
-                            mm.codeAST = esprima.parse(mm.htmlInput)
+                            mm.codeAST = esprima.parse("(( async function() { " + mm.htmlInput + " })())")
 
 
                             //
@@ -1111,9 +1111,12 @@ vueDebugApp.mount("#vue_app_element")
                             //
                             mm.transformedAST = estraverse.replace(mm.codeAST, {
                                 leave: function (node, parent) {
-                                    if (node.type === 'CallExpression') {
+                                    debugger
+                                    if (node.type == 'AwaitExpression') {
+                                    } else if (node.type === 'CallExpression') {
                                         if (parent && (parent.type == 'AwaitExpression')) {
                                             debugger
+                                            return
                                         }
                                         //if (node && node.expression && node.expression.async) {
                                         return {
