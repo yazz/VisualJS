@@ -1014,6 +1014,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                           </span>
 
 
+                                        <span v-if="rightPane=='debug_code_v2'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
+                                              <b>Debug code V2</b>
+                                              <pre style="overflow: scroll;height:95%">{{debugCodeToEval}}
+                                              </pre>
+                                          </span>
+
+
                                           <span v-if="rightPane=='debugger' || rightPane=='running'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
                                               <b v-if="rightPane=='debugger'">Debugging</b>
                                               <b v-if="rightPane=='running'">Running</b>
@@ -1043,6 +1050,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                 style="margin-right: 10px;"
                                                 class="btn btn-sm btn-info">
                                         Create Debug Code
+                                      </button>
+                                      <button   v-on:click="createDebugCodeV2()"
+                                                style="margin-right: 10px;"
+                                                class="btn btn-sm btn-info">
+                                        Create Debug Code V2
                                       </button>
                                       <button   v-on:click="startDebugger()"
                                                 style="margin-right: 10px;"
@@ -1155,14 +1167,20 @@ await vueDebugApp.mount("#vue_app_element")
                             //
                             mm.debugCode = escodegen.generate(mm.transformedAST, {comment: false})
                         },
-                        startDebugger: async function() {
+                        createDebugCodeV2: async function() {
                             let mm = this
                             await mm.createDebugCode()
-                            mm.rightPane = "debugger"
+                            mm.rightPane = "debug_code_v2"
+
                             mm.debugCodeToEval = `(async function() {
     let gen = ${mm.debugCode}
     gen.next()
 })()`
+                        },
+                        startDebugger: async function() {
+                            let mm = this
+                            await mm.createDebugCodeV2()
+                            mm.rightPane = "debugger"
                             eval(mm.debugCodeToEval)
                         }
                     }
