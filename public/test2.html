@@ -1130,7 +1130,6 @@ await vueDebugApp.mount("#vue_app_element")
 
                                     // if we are defining a function then make it a generator so that we can debug it
                                     } else if (node.type === 'FunctionExpression') {
-                                            debugger
                                         node.generator = true
                                         return
                                     }
@@ -1159,7 +1158,16 @@ await vueDebugApp.mount("#vue_app_element")
                             let mm = this
                             await mm.createDebugCode()
                             mm.rightPane = "debugger"
-                            eval("(async function() {" + mm.debugCode + "})()")
+                            let debugCode = ` (function* () {
+                                        console.log("in afsr")
+                                        yield
+                                    })`
+                            let debugCodeToEval = `(async function() {
+    let gen = ${debugCode}()
+    gen.next()
+})()`
+                            debugger
+                            eval(debugCodeToEval)
                         }
                     }
                 })
