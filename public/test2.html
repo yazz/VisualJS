@@ -1111,11 +1111,13 @@ await vueDebugApp.mount("#vue_app_element")
                             //
                             mm.transformedAST = estraverse.replace(mm.codeAST, {
                                 leave: function (node, parent) {
-                                    debugger
+                                    // if we have "await" keyword then do nothing
                                     if (node.type == 'AwaitExpression') {
+
+
+                                    // if we are calling a function call then add the "await" keyword so it is an async call
                                     } else if (node.type === 'CallExpression') {
                                         if (parent && (parent.type == 'AwaitExpression')) {
-                                            debugger
                                             return
                                         }
                                         //if (node && node.expression && node.expression.async) {
@@ -1123,8 +1125,16 @@ await vueDebugApp.mount("#vue_app_element")
                                             type:       'AwaitExpression',
                                             argument:   node
                                         };
-                                        //};
+
+
+
+                                    // if we are defining a function then make it a generator so that we can debug it
+                                    } else if (node.type === 'FunctionExpression') {
+                                            debugger
+                                        node.generator = true
+                                        return
                                     }
+
                                 },
 
                                 keys: {
