@@ -1072,7 +1072,8 @@ let vueDebugApp      =  Vue.createApp( {
                                 \`})
 await vueDebugApp.mount("#vue_app_element")
                             `,
-                            debugCode: null
+                            debugCode: null,
+                            debugCodeToEval: null
                         }
                     },
                     mounted:    async function() {
@@ -1158,16 +1159,11 @@ await vueDebugApp.mount("#vue_app_element")
                             let mm = this
                             await mm.createDebugCode()
                             mm.rightPane = "debugger"
-                            let debugCode = ` (function* () {
-                                        console.log("in afsr")
-                                        yield
-                                    })`
-                            let debugCodeToEval = `(async function() {
-    let gen = ${debugCode}()
+                            mm.debugCodeToEval = `(async function() {
+    let gen = ${mm.debugCode}
     gen.next()
 })()`
-                            debugger
-                            eval(debugCodeToEval)
+                            eval(mm.debugCodeToEval)
                         }
                     }
                 })
