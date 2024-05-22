@@ -1076,7 +1076,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 let a = 1
 a++
 let b = a
-let vueDebugApp      =  Vue.createApp( {
+let vueDebugApp      =  await Vue.createApp( {
                             template:   \`
                                         <div style="margin: 20px;">Vue debug app {{value2}}</div>
                                         \`
@@ -1151,6 +1151,7 @@ return 78
                                         if (parent && (parent.type == 'AwaitExpression')) {
                                             return
                                         }
+                                        return
                                         //if (node && node.expression && node.expression.async) {
                                         return {
                                             type: 'AwaitExpression',
