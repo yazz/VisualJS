@@ -981,8 +981,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alaSqlStuff()
 
 
-
-
         // MAIN Vue app
         vueApp      = Vue.createApp( {
                     template:   `
@@ -1094,7 +1092,7 @@ await vueDebugApp.mount("#vue_app_element")
                         timeline_editor.getSession().setValue(mm.htmlInput)
                     },
                     methods: {
-                        runCode: async function() {
+                        runCode:            async function() {
                             let mm = this
                             mm.rightPane = "running"
                             mm.htmlInput = timeline_editor.getSession().getValue()
@@ -1102,7 +1100,7 @@ await vueDebugApp.mount("#vue_app_element")
                                 eval("(async function() {" + mm.htmlInput + "})()")
                             })
                         },
-                        createAST: async function() {
+                        createAST:          async function() {
                             let mm = this
                             mm.rightPane = "AST"
 
@@ -1111,7 +1109,7 @@ await vueDebugApp.mount("#vue_app_element")
                             mm.codeAST = esprima.parse("(( async function() { " + mm.htmlInput + " })())");
 
                         },
-                        transformAST: async function() {
+                        transformAST:       async function() {
                             let mm = this
                             await mm.createAST()
                             mm.rightPane = "transform_AST"
@@ -1156,7 +1154,7 @@ await vueDebugApp.mount("#vue_app_element")
 
 
                         },
-                        createDebugCode: async function() {
+                        createDebugCode:    async function() {
                             let mm = this
                             await mm.transformAST()
                             mm.rightPane = "debug_code"
@@ -1167,17 +1165,25 @@ await vueDebugApp.mount("#vue_app_element")
                             //
                             mm.debugCode = escodegen.generate(mm.transformedAST, {comment: false})
                         },
-                        createDebugCodeV2: async function() {
+                        createDebugCodeV2:  async function() {
                             let mm = this
                             await mm.createDebugCode()
                             mm.rightPane = "debug_code_v2"
 
-                            mm.debugCodeToEval = `(async function() {
+                            mm.debugCodeToEval =
+`(async function() {
     let gen = ${mm.debugCode}
-    gen.next()
+    let result = await gen.next()
+    while (!result.done) {
+        console.log(result.value);  // Output the value
+        result = await gen.next();   // Move to the next yield
+    }
+    if (result.done) {
+        console.log('The generator has ended.');  // This will be output after the last value
+    }
 })()`
                         },
-                        startDebugger: async function() {
+                        startDebugger:      async function() {
                             let mm = this
                             await mm.createDebugCodeV2()
                             mm.rightPane = "debugger"
