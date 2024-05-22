@@ -1078,8 +1078,13 @@ a++
 let b = a
 let vueDebugApp      =  Vue.createApp( {
                             template:   \`
-                                <div style="margin: 20px;">Vue debug app </div>
-                                \`})
+                                <div style="margin: 20px;">Vue debug app {{value2}}</div>
+                                \`,
+                                data: function() {
+                                    return {
+                                        value2: 2
+                                    }
+                                }})
 await vueDebugApp.mount("#vue_app_element")
                             `,
                             debugCode: null,
@@ -1111,6 +1116,7 @@ await vueDebugApp.mount("#vue_app_element")
                         },
                         transformAST:       async function() {
                             let mm = this
+                            let fnToGenDone = false
                             await mm.createAST()
                             mm.rightPane = "transform_AST"
                             mm.htmlInput = timeline_editor.getSession().getValue()
@@ -1121,6 +1127,17 @@ await vueDebugApp.mount("#vue_app_element")
                             // add "await" to all function calls
                             //
                             mm.transformedAST = estraverse.replace(mm.codeAST, {
+                                enter: function (node, parent) {
+                                    // if we are defining a function then make it a generator so that we can debug it
+                                    if (node.type === 'FunctionExpression') {
+                                        if (!fnToGenDone) {
+                                            fnToGenDone = true
+                                            node.generator = true
+                                        }
+                                        return
+                                    }
+
+                                },
                                 leave: function (node, parent) {
                                     // if we have "await" keyword then do nothing
                                     if (node.type == 'AwaitExpression') {
@@ -1133,17 +1150,12 @@ await vueDebugApp.mount("#vue_app_element")
                                         }
                                         //if (node && node.expression && node.expression.async) {
                                         return {
-                                            type:       'AwaitExpression',
-                                            argument:   node
+                                            type: 'AwaitExpression',
+                                            argument: node
                                         };
-
-
-
-                                    // if we are defining a function then make it a generator so that we can debug it
-                                    } else if (node.type === 'FunctionExpression') {
-                                        node.generator = true
-                                        return
                                     }
+
+
 
                                 },
 
