@@ -1086,6 +1086,7 @@ let vueDebugApp      =  Vue.createApp( {
                                     }
                                 }})
 await vueDebugApp.mount("#vue_app_element")
+return 78
                             `,
                             debugCode: null,
                             debugCodeToEval: null
@@ -1191,7 +1192,7 @@ await vueDebugApp.mount("#vue_app_element")
         result = await gen.next();   // Move to the next yield
     }
     if (result.done) {
-        console.log('The generator has ended.');  // This will be output after the last value
+        console.log('The generator returned ' + result.value);  // This will be output after the last value
     }
 })()`
                         },
