@@ -1078,13 +1078,15 @@ a++
 let b = a
 let vueDebugApp      =  Vue.createApp( {
                             template:   \`
-                                <div style="margin: 20px;">Vue debug app {{value2}}</div>
-                                \`,
-                                data: function() {
-                                    return {
-                                        value2: 2
-                                    }
-                                }})
+                                        <div style="margin: 20px;">Vue debug app {{value2}}</div>
+                                        \`
+                                        ,
+                            data:       async function () {
+                                                return {
+                                                    value2: 2
+                                                }
+                                        }
+                                })
 await vueDebugApp.mount("#vue_app_element")
 return 78
                             `,
@@ -1193,6 +1195,7 @@ return 78
     }
     if (result.done) {
         console.log('The generator returned ' + result.value);  // This will be output after the last value
+        return result.value
     }
 })()`
                         },
