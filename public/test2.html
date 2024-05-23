@@ -1082,9 +1082,20 @@ let vueDebugApp      =  await Vue.createApp( {
                                         \`
                                         ,
                             data:       function () {
+                                            let gen = function* () {
                                                 return {
                                                     value2: 2
                                                 }
+                                            }()
+                                            let result = gen.next()
+                                            while (!result.done) {
+                                                console.log(result.value);  // Output the value
+                                                result = gen.next();   // Move to the next yield
+                                            }
+                                            if (result.done) {
+                                                console.log('The generator returned ' + result.value);  // This will be output after the last value
+                                                return result.value
+                                            }
                                         }
                                 })
 await vueDebugApp.mount("#vue_app_element")
