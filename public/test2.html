@@ -1083,17 +1083,18 @@ let vueDebugApp      =  await Vue.createApp( {
                                         ,
                             data:       function () {
                                             let gen = function* () {
+                                                yield
                                                 return {
                                                     value2: 2
                                                 }
                                             }()
                                             let result = gen.next()
                                             while (!result.done) {
-                                                console.log(result.value);  // Output the value
+                                                console.log(JSON.stringify(result.value,null,2));  // Output the value
                                                 result = gen.next();   // Move to the next yield
                                             }
                                             if (result.done) {
-                                                console.log('The generator returned ' + result.value);  // This will be output after the last value
+                                                console.log(JSON.stringify(result.value,null,2));  // This will be output after the last value
                                                 return result.value
                                             }
                                         }
@@ -1206,7 +1207,7 @@ return 78
         result = await gen.next();   // Move to the next yield
     }
     if (result.done) {
-        console.log('The generator returned ' + result.value);  // This will be output after the last value
+        console.log('The generator returned ' + JSON.stringify(result.value,null,2));  // This will be output after the last value
         return result.value
     }
 })()`
