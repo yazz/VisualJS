@@ -987,9 +987,29 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <div style="margin: 20px;">
 
                                     <div>
-                                          <span style="width:49%; margin-right: 20px;"><div id="timeline_editor" rows=15 cols=70 ></div></span>
+                                        <span style="width:49%; margin-right: 20px;">
 
-                                          <span  v-if="!rightPane" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
+                                            <div>
+                                                <div id="timeline_editor" rows=15 cols=70 ></div>
+
+
+                                                <div  v-if="rightPane=='debugger'" style="margin:10px;">
+                                                    <button   v-on:click="runCode()"
+                                                              style="margin-right: 10px;"
+                                                              class="btn btn-sm btn-info">
+                                                        &lt;
+                                                    </button>
+                                                    <button   v-on:click="runCode()"
+                                                              style="margin-right: 10px;"
+                                                              class="btn btn-sm btn-info">
+                                                       &gt;
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </span>
+
+                                        <span  v-if="!rightPane" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
 
 
                                           <span  v-if="rightPane=='AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
