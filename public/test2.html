@@ -1,4 +1,5 @@
 <html>
+    <!-- HMTL Headers and iclude all external JS scripts and stuff -->
     <head>
         <meta http-equiv="X-UA-Compatible"  content="IE=edge" />
         <meta name="viewport"    Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -880,7 +881,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             })
             let ret = await promise
         }
-
         function        addWatchPoint                       (  vName  ,  value  ) {
         }
         function        isValidObject                       (  variable  ){
@@ -892,8 +892,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  ) {
 
         }
-        let timeline_editor = null
-        async function setupAceEditor() {
+        async function  setupAceEditor                      (  ) {
             ace.config.set('basePath', '/');
             timeline_editor = ace.edit(           "timeline_editor", {
                 selectionStyle: "text",
@@ -947,11 +946,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 //e.stop();
             });
         }
-        async function init() {
+        async function  init                                (  ) {
             await useIdeTools()
         }
-        init()
-
         function        alaSqlStuff                         (  ) {
             alasql("CREATE TABLE test (language INT, hello STRING)");
             alasql.fn.verify = function(r) {
@@ -972,6 +969,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             console.log( alasql("SELECT * FROM testview ") );
         }
 
+        let timeline_editor = null
         let globalWatchList     = {}
         let refData             = Vue.ref({a: 1})
         let refDebugCode        = Vue.ref("")
@@ -980,6 +978,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         let vueApp              = null
         let VueAppData          = null
 
+        init()
         alaSqlStuff()
 
 
