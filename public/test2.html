@@ -968,23 +968,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             alasql("INSERT INTO test VALUES (4,'Velkommen!')");
             console.log( alasql("SELECT * FROM testview ") );
         }
-
-        let timeline_editor = null
-        let globalWatchList     = {}
-        let refData             = Vue.ref({a: 1})
-        let refDebugCode        = Vue.ref("")
-        let refOrigCode         = Vue.ref("")
-        let refErrorMsg         = Vue.ref("Error ... ")
-        let vueApp              = null
-        let VueAppData          = null
-
-        init()
-        alaSqlStuff()
-
-
-        // MAIN Vue app
-        vueApp      = Vue.createApp( {
-                    template:   `
+        function        createDebuggerUI                    (  ) {
+            vueApp = Vue.createApp({
+                template: `
 <div style="margin: 20px;">
     <div>
         <span style="width:45%; margin-right: 20px;">
@@ -1084,16 +1070,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <br/>
     <div style="border: 3px solid red">{{error_msg}}</div>
 </div>`,
-                    data: function() {3
-                        return {
-                            rightPane:          null,
-                            error_msg:          refErrorMsg,
-                            codeAST:            null,
-                            transformedAST:     null,
+                data: function () {
+                    3
+                    return {
+                        rightPane: null,
+                        error_msg: refErrorMsg,
+                        codeAST: null,
+                        transformedAST: null,
 
-                            //DEFAULT CODE TO DEBUG
-                            htmlInput:
-`console.log("out: " + new Date().getTime())
+                        //DEFAULT CODE TO DEBUG
+                        htmlInput:
+                            `console.log("out: " + new Date().getTime())
 let a = 1
 a++
 let b = a
@@ -1123,104 +1110,103 @@ let vueDebugApp      =  await Vue.createApp( {
 await vueDebugApp.mount("#vue_app_element")
 return 78
                             `,
-                            debugCode: null,
-                            debugCodeToEval: null
-                        }
-                    },
-                    mounted:    async function() {
+                        debugCode: null,
+                        debugCodeToEval: null
+                    }
+                },
+                mounted: async function () {
+                    let mm = this
+                    await setupAceEditor()
+                    timeline_editor.getSession().setValue(mm.htmlInput)
+                },
+                methods: {
+                    runCode: async function () {
                         let mm = this
-                        await setupAceEditor()
-                        timeline_editor.getSession().setValue(mm.htmlInput)
+                        mm.rightPane = "running"
+                        mm.htmlInput = timeline_editor.getSession().getValue()
+                        Vue.nextTick(async function () {
+                            eval("(async function() {" + mm.htmlInput + "})()")
+                        })
                     },
-                    methods: {
-                        runCode:            async function() {
-                            let mm = this
-                            mm.rightPane = "running"
-                            mm.htmlInput = timeline_editor.getSession().getValue()
-                            Vue.nextTick( async function() {
-                                eval("(async function() {" + mm.htmlInput + "})()")
-                            })
-                        },
-                        createAST:          async function() {
-                            let mm = this
-                            mm.rightPane = "AST"
+                    createAST: async function () {
+                        let mm = this
+                        mm.rightPane = "AST"
 
-                            mm.htmlInput = timeline_editor.getSession().getValue()
-                            //debugger
-                            mm.codeAST = esprima.parse("(( async function() { " + mm.htmlInput + " })())");
+                        mm.htmlInput = timeline_editor.getSession().getValue()
+                        //debugger
+                        mm.codeAST = esprima.parse("(( async function() { " + mm.htmlInput + " })())");
 
-                        },
-                        transformAST:       async function() {
-                            let mm = this
-                            let fnToGenDone = false
-                            await mm.createAST()
-                            mm.rightPane = "transform_AST"
-                            mm.htmlInput = timeline_editor.getSession().getValue()
-                            mm.codeAST = esprima.parse("(( async function() { " + mm.htmlInput + " })())")
+                    },
+                    transformAST: async function () {
+                        let mm = this
+                        let fnToGenDone = false
+                        await mm.createAST()
+                        mm.rightPane = "transform_AST"
+                        mm.htmlInput = timeline_editor.getSession().getValue()
+                        mm.codeAST = esprima.parse("(( async function() { " + mm.htmlInput + " })())")
 
 
-                            //
-                            // add "await" to all function calls
-                            //
-                            mm.transformedAST = estraverse.replace(mm.codeAST, {
-                                enter: function (node, parent) {
-                                    // if we are defining a function then make it a generator so that we can debug it
-                                    if (node.type === 'FunctionExpression') {
-                                        if (!fnToGenDone) {
-                                            fnToGenDone = true
-                                            node.generator = true
-                                        }
-                                        return
+                        //
+                        // add "await" to all function calls
+                        //
+                        mm.transformedAST = estraverse.replace(mm.codeAST, {
+                            enter: function (node, parent) {
+                                // if we are defining a function then make it a generator so that we can debug it
+                                if (node.type === 'FunctionExpression') {
+                                    if (!fnToGenDone) {
+                                        fnToGenDone = true
+                                        node.generator = true
                                     }
+                                    return
+                                }
 
-                                },
-                                leave: function (node, parent) {
-                                    // if we have "await" keyword then do nothing
-                                    if (node.type == 'AwaitExpression') {
+                            },
+                            leave: function (node, parent) {
+                                // if we have "await" keyword then do nothing
+                                if (node.type == 'AwaitExpression') {
 
 
                                     // if we are calling a function call then add the "await" keyword so it is an async call
-                                    } else if (node.type === 'CallExpression') {
-                                        if (parent && (parent.type == 'AwaitExpression')) {
-                                            return
-                                        }
+                                } else if (node.type === 'CallExpression') {
+                                    if (parent && (parent.type == 'AwaitExpression')) {
                                         return
-                                        //if (node && node.expression && node.expression.async) {
-                                        return {
-                                            type: 'AwaitExpression',
-                                            argument: node
-                                        };
                                     }
-
-
-
-                                },
-
-                                keys: {
-                                    'AwaitExpression': ['argument']
+                                    return
+                                    //if (node && node.expression && node.expression.async) {
+                                    return {
+                                        type: 'AwaitExpression',
+                                        argument: node
+                                    };
                                 }
-                            });
 
 
-                        },
-                        createDebugCode:    async function() {
-                            let mm = this
-                            await mm.transformAST()
-                            mm.rightPane = "debug_code"
+                            },
+
+                            keys: {
+                                'AwaitExpression': ['argument']
+                            }
+                        });
 
 
-                            //
-                            // add "await" to all function calls
-                            //
-                            mm.debugCode = escodegen.generate(mm.transformedAST, {comment: false})
-                        },
-                        createDebugCodeV2:  async function() {
-                            let mm = this
-                            await mm.createDebugCode()
-                            mm.rightPane = "debug_code_v2"
+                    },
+                    createDebugCode: async function () {
+                        let mm = this
+                        await mm.transformAST()
+                        mm.rightPane = "debug_code"
 
-                            mm.debugCodeToEval =
-`(async function() {
+
+                        //
+                        // add "await" to all function calls
+                        //
+                        mm.debugCode = escodegen.generate(mm.transformedAST, {comment: false})
+                    },
+                    createDebugCodeV2: async function () {
+                        let mm = this
+                        await mm.createDebugCode()
+                        mm.rightPane = "debug_code_v2"
+
+                        mm.debugCodeToEval =
+                            `(async function() {
     let gen = ${mm.debugCode}
     let result = await gen.next()
     while (!result.done) {
@@ -1232,28 +1218,42 @@ return 78
         return result.value
     }
 })()`
-                        },
-                        startDebugger:      async function() {
-                            let mm = this
-                            await mm.createDebugCodeV2()
-                            mm.rightPane = "debugger"
-                            eval(mm.debugCodeToEval)
-                        }
+                    },
+                    startDebugger: async function () {
+                        let mm = this
+                        await mm.createDebugCodeV2()
+                        mm.rightPane = "debugger"
+                        eval(mm.debugCodeToEval)
                     }
-                })
+                }
+            })
+        }
+        function        mountDebuggerVueElement             (  ) {
+            Vue.nextTick(function () {
+                setTimeout(async function () {
+                    //let vm = Vue.getCurrentInstance()
+                    //debugger
+                    //vueApp.refresh = 8
+                    VueAppData = vueApp.mount("#vue_root_element")
+                    console.log("main app mounted")
 
-        VueAppData  = null
+                }, 1000)
+            })
+        }
 
-        Vue.nextTick(  function(){
-            setTimeout(async function() {
-                //let vm = Vue.getCurrentInstance()
-                //debugger
-                //vueApp.refresh = 8
-                VueAppData = vueApp.mount("#vue_root_element")
-                console.log("main app mounted")
+        let timeline_editor = null
+        let globalWatchList     = {}
+        let refData             = Vue.ref({a: 1})
+        let refDebugCode        = Vue.ref("")
+        let refOrigCode         = Vue.ref("")
+        let refErrorMsg         = Vue.ref("Error ... ")
+        let vueApp              = null
+        let VueAppData          = null
 
-            },1000)
-        }  )
+        init()
+        alaSqlStuff()
+        createDebuggerUI();
+        mountDebuggerVueElement();
 
     </script>
 </html>
