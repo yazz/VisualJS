@@ -916,7 +916,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         }
         async function  setupAceEditor                      (  ) {
             ace.config.set('basePath', '/');
-            timeline_editor = ace.edit(           "timeline_editor", {
+            timeline_editor = ace.edit(           "timeline_editor_html_element", {
                 selectionStyle: "text",
                 mode:           "ace/mode/javascript"
             })
@@ -932,11 +932,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             },100)
 
-            document.getElementById("timeline_editor").style["font-size"]   = "16px"
-            document.getElementById("timeline_editor").style.width          = "40%"
-            document.getElementById("timeline_editor").style.border         = "0px solid #2C2828"
-            document.getElementById("timeline_editor").style.display        = "inline-block"
-            document.getElementById("timeline_editor").style.height         = "30vh"
+            document.getElementById("timeline_editor_html_element").style["font-size"]   = "11px"
+            document.getElementById("timeline_editor_html_element").style.width          = "40%"
+            document.getElementById("timeline_editor_html_element").style.border         = "0px solid #2C2828"
+            document.getElementById("timeline_editor_html_element").style.display        = "inline-block"
+            document.getElementById("timeline_editor_html_element").style.height         = "50%"
 
             timeline_editor.getSession().setValue("");
             timeline_editor.getSession().setUseWorker(false);
@@ -971,10 +971,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function        createDebuggerUI                    (  ) {
             vueApp = Vue.createApp({
                 template: `
-<div style="margin: 20px;">
+<div style="margin: 20px; font-size: 11px;">
     <div>
-        <span style="width:45%; margin-right: 20px;">
-            <div id="timeline_editor"></div>
+        <span style="width:45%; margin-right: 20px; hieght: 100%;">
+            <div id="timeline_editor_html_element"></div>
         </span>
 
         <span  v-if="!rightPane" style="width:45%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
@@ -1247,7 +1247,7 @@ return 78
             await mountDebuggerVueElement();
         }
 
-        let timeline_editor = null
+        let timeline_editor     = null
         let globalWatchList     = {}
         let refData             = Vue.ref({a: 1})
         let refDebugCode        = Vue.ref("")
