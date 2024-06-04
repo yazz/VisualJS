@@ -1062,6 +1062,22 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                   class="btn btn-sm btn-info">
             Start Debugger
         </button>
+
+
+        <button   v-on:click="runCode()"
+                  v-if="rightPane=='debugger'"
+                  style="margin-right: 10px;"
+                  class="btn btn-sm btn-info">
+            &lt;
+        </button>
+
+        <button   v-on:click="runCode()"
+                  v-if="rightPane=='debugger'"
+                  style="margin-right: 10px;"
+                  class="btn btn-sm btn-info">
+            &gt;
+        </button>
+
     </div>
 
     <br/>
