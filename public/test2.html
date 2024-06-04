@@ -867,6 +867,28 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- Start of all code in the script tag-->
     <script>
+        async function  init                                (  ) {
+            await useIdeTools()
+        }
+        function        alaSqlStuff                         (  ) {
+            alasql("CREATE TABLE test (language INT, hello STRING)");
+            alasql.fn.verify = function(r) {
+                return true; // Do not insert on this number
+            };
+            alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON test verify');
+            alasql("INSERT INTO test VALUES (1,'Hello!')");
+            alasql("INSERT INTO test VALUES (2,'Aloha!')");
+            alasql("INSERT INTO test VALUES (3,'Bonjour!')");
+            console.log( alasql("SELECT * FROM test WHERE language > 1") );
+
+            alasql("create view testview (name) as select * from test ;")
+            alasql.fn.verify2 = function(r) {
+                return true; // Do not insert on this number
+            };
+            alasql('CREATE TRIGGER mytrigger AFTER update ON testview verify2');
+            alasql("INSERT INTO test VALUES (4,'Velkommen!')");
+            console.log( alasql("SELECT * FROM testview ") );
+        }
         async function  useIdeTools                         (  ) {
             let promise = new Promise(returnfn => {
                 let loadIdeToolsLibScript = document.createElement('script');
@@ -945,28 +967,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 e.editor.scrollToLine(row , true, true, function () {});
                 //e.stop();
             });
-        }
-        async function  init                                (  ) {
-            await useIdeTools()
-        }
-        function        alaSqlStuff                         (  ) {
-            alasql("CREATE TABLE test (language INT, hello STRING)");
-            alasql.fn.verify = function(r) {
-                return true; // Do not insert on this number
-            };
-            alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON test verify');
-            alasql("INSERT INTO test VALUES (1,'Hello!')");
-            alasql("INSERT INTO test VALUES (2,'Aloha!')");
-            alasql("INSERT INTO test VALUES (3,'Bonjour!')");
-            console.log( alasql("SELECT * FROM test WHERE language > 1") );
-
-            alasql("create view testview (name) as select * from test ;")
-            alasql.fn.verify2 = function(r) {
-                return true; // Do not insert on this number
-            };
-            alasql('CREATE TRIGGER mytrigger AFTER update ON testview verify2');
-            alasql("INSERT INTO test VALUES (4,'Velkommen!')");
-            console.log( alasql("SELECT * FROM testview ") );
         }
         function        createDebuggerUI                    (  ) {
             vueApp = Vue.createApp({
@@ -1240,6 +1240,12 @@ return 78
                 }, 1000)
             })
         }
+        async function  runAll                              (  ) {
+            await init()
+            await alaSqlStuff()
+            await createDebuggerUI();
+            await mountDebuggerVueElement();
+        }
 
         let timeline_editor = null
         let globalWatchList     = {}
@@ -1250,10 +1256,8 @@ return 78
         let vueApp              = null
         let VueAppData          = null
 
-        init()
-        alaSqlStuff()
-        createDebuggerUI();
-        mountDebuggerVueElement();
+
+        runAll();
 
     </script>
 </html>
