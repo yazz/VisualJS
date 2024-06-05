@@ -1151,11 +1151,18 @@ return {step: "Main app run"}
                         //
                         mm.transformedAST = estraverse.replace(mm.codeAST, {
                             enter: function (node, parent) {
-                                // if we are defining a function then make it a generator so that we can debug it
+                                // convert function to function*
                                 if (node.type === 'FunctionExpression') {
-                                    if (!fnToGenDone) {
+                                    if (!fnToGenDone  && (node.generator == false)) {
                                         fnToGenDone = true
                                         node.generator = true
+                                        //debugger
+                                        if (node.body.type === 'BlockStatement') {
+                                            node.body.body = node.body.body.flatMap(statement => [
+                                                { type: 'ExpressionStatement', expression: { type: 'YieldExpression', argument: null } },
+                                                statement
+                                            ]);
+                                        }
                                     }
                                     return
                                 }
