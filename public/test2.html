@@ -976,10 +976,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         <span style="width:45%; margin-right: 20px; height: 80%;">
             <select v-on:change=''>
-                <option v-for='opt in ["sd"]'
-                        v-bind:selected=''
-                        v-bind:value=''>
-                    {{opt}}
+                <option v-for='(opt,index) in defaultPrograms'
+                        v-bind:selected='selectProgram(selectedProgramIndex)'
+                        v-bind:value='selectedProgramIndex'>
+                    {{opt.name}}
                 </option>
             </select>
             <br/>
@@ -1086,6 +1086,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         error_msg:      refErrorMsg,
                         codeAST:        null,
                         transformedAST: null,
+                        selectedProgramIndex: 0,
                         defaultPrograms:[
                             {
                                 name: "Vue",
@@ -1134,6 +1135,9 @@ return {step: "Main app run"}`
                     timeline_editor.getSession().setValue(mm.htmlInput)
                 },
                 methods: {
+                    selectProgram: async function () {
+                        this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
+                    },
                     runCode: async function () {
                         let mm = this
                         mm.rightPane = "running"
