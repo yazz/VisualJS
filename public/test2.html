@@ -975,11 +975,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <div>
 
         <span style="width:45%; margin-right: 20px; height: 80%;">
-            <select v-on:change=''>
+            {{selectedProgramIndex}}
+            <select v-on:change='selectProgram()'>
                 <option v-for='(opt,index) in defaultPrograms'
-                        v-bind:selected='selectProgram(selectedProgramIndex)'
-                        v-bind:value='selectedProgramIndex'>
-                    {{opt.name}}
+                        v-bind:selected='selectedProgramIndex == index'
+                        v-bind:value='index'>
+                    ({{index}}) {{opt.name}}
                 </option>
             </select>
             <br/>
@@ -1089,6 +1090,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         selectedProgramIndex: 0,
                         defaultPrograms:[
                             {
+                                name: "Basic",
+                                code:
+                                    `console.log("out: " + new Date().getTime())
+                                    `
+                            }
+                            ,
+                            {
                                 name: "Vue",
                                 code:
                             `console.log("out: " + new Date().getTime())
@@ -1136,6 +1144,7 @@ return {step: "Main app run"}`
                 },
                 methods: {
                     selectProgram: async function () {
+                        debugger
                         this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
                     },
                     runCode: async function () {
