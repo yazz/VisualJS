@@ -1134,7 +1134,7 @@ return {step: "Main app run"}
 
                         mm.htmlInput = timeline_editor.getSession().getValue()
                         //debugger
-                        mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())");
+                        mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 });
 
                     },
                     transformAST: async function () {
@@ -1143,7 +1143,7 @@ return {step: "Main app run"}
                         await mm.createAST()
                         mm.rightPane = "transform_AST"
                         mm.htmlInput = timeline_editor.getSession().getValue()
-                        mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())")
+                        mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 })
 
 
                         //
