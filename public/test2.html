@@ -1093,7 +1093,7 @@ let vueDebugApp      =  await Vue.createApp( {
                                             let gen = function* () {
                                                 yield
                                                 return {
-                                                    value2: 2
+                                                    step: "data fn in Vue"
                                                 }
                                             }()
                                             let result = gen.next()
@@ -1108,7 +1108,7 @@ let vueDebugApp      =  await Vue.createApp( {
                                         }
                                 })
 await vueDebugApp.mount("#vue_app_element")
-return 78
+return {step: "Main app run"}
                             `,
                         debugCode: null,
                         debugCodeToEval: null
