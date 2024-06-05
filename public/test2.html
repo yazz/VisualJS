@@ -973,7 +973,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 template: `
 <div style="margin: 20px; font-size: 11px;">
     <div>
-        <span style="width:45%; margin-right: 20px; hieght: 100%;">
+
+        <span style="width:45%; margin-right: 20px; height: 80%;">
+            <select v-on:change=''>
+                <option v-for='opt in ["sd"]'
+                        v-bind:selected=''
+                        v-bind:value=''>
+                    {{opt}}
+                </option>
+            </select>
+            <br/>
+
             <div id="timeline_editor_html_element"></div>
         </span>
 
@@ -1071,15 +1081,15 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <div style="border: 3px solid red">{{error_msg}}</div>
 </div>`,
                 data: function () {
-                    3
                     return {
                         rightPane:      null,
                         error_msg:      refErrorMsg,
                         codeAST:        null,
                         transformedAST: null,
-
-                        //DEFAULT CODE TO DEBUG
-                        htmlInput:
+                        defaultPrograms:[
+                            {
+                                name: "Vue",
+                                code:
                             `console.log("out: " + new Date().getTime())
 let a = 1
 a++
@@ -1108,8 +1118,12 @@ let vueDebugApp      =  await Vue.createApp( {
                                         }
                                 })
 await vueDebugApp.mount("#vue_app_element")
-return {step: "Main app run"}
-                            `,
+return {step: "Main app run"}`
+                            }
+                        ],
+
+                        //DEFAULT CODE TO DEBUG
+                        htmlInput: "",
                         debugCode: null,
                         debugCodeToEval: null
                     }
