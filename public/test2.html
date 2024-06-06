@@ -1105,29 +1105,30 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 let a = 1
 a++
 let b = a
-let vueDebugApp      =  await Vue.createApp( {
-                            template:   \`
-                                        <div style="margin: 20px;">Vue debug app {{step}}</div>
-                                        \`
-                                        ,
-                            data:       function () {
-                                            let gen = function* () {
-                                                yield
-                                                return {
-                                                    step: "RETURN data fn in Vue"
-                                                }
-                                            }()
-                                            let result = gen.next()
-                                            while (!result.done) {
-                                                console.log(JSON.stringify(result.value,null,2));  // Output the value
-                                                result = gen.next();   // Move to the next yield
-                                            }
-                                            if (result.done) {
-                                                console.log(JSON.stringify(result.value,null,2));  // This will be output after the last value
-                                                return result.value
-                                            }
-                                        }
-                                })
+let vueDebugApp = await Vue.createApp(
+    {
+        template:   \`
+                    <div style="margin: 20px;">Vue debug app {{step}}</div>
+                    \`
+                    ,
+        data:       function () {
+                        let gen = function* () {
+                            yield
+                            return {
+                                step: "RETURN data fn in Vue"
+                            }
+                        }()
+                        let result = gen.next()
+                        while (!result.done) {
+                            console.log(JSON.stringify(result.value,null,2));  // Output the value
+                            result = gen.next();   // Move to the next yield
+                        }
+                        if (result.done) {
+                            console.log(JSON.stringify(result.value,null,2));  // This will be output after the last value
+                            return result.value
+                        }
+                    }
+            })
 await vueDebugApp.mount("#vue_app_element")
 return {step: "Main app run"}`
                             }
