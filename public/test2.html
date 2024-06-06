@@ -1092,7 +1092,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         selectedProgramIndex:   0,
                         defaultPrograms:        [
                             {
-                                name: "Basic",
+                                name: "Simplest",
+                                code:
+                                    `let a = 1
+                                    `
+                            }
+                            ,
+                            {
+                                name: "Console log",
                                 code:
                                     `console.log("out: " + new Date().getTime())
                                     `
@@ -1266,6 +1273,7 @@ return {step: "Main app run"}`
         return result.value
     }
 })()`
+                        mm.debugCodeToEval = mm.debugCode
                     },
                     startDebugger: async function () {
                         let mm = this
