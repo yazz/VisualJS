@@ -1190,10 +1190,19 @@ return {step: "Main app run"}`
                                         node.generator = true
                                         //debugger
                                         if (node.body.type === 'BlockStatement') {
-                                            node.body.body = node.body.body.flatMap(statement => [
-                                                { type: 'ExpressionStatement', expression: { type: 'YieldExpression', argument: null } },
-                                                statement
-                                            ]);
+                                            node.body.body = node.body.body.flatMap(
+                                                statement => [
+                                                                {
+                                                                    type:           'ExpressionStatement',
+                                                                    expression:     {
+                                                                                        type:       'YieldExpression',
+                                                                                        argument:   null
+                                                                                    }
+                                                                }
+                                                                ,
+                                                                statement
+                                                            ]
+                                            );
                                         }
                                     }
                                     return
