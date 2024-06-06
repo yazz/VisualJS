@@ -975,16 +975,18 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <div>
 
         <span style="width:45%; margin-right: 20px; height: 80%;">
-            {{selectedProgramIndex}}
-            <select v-on:change='selectProgram()'>
+            <!--  The CANNED PROGRAM HTML SELECTOR  -->
+            <select v-on:change='selectProgram()'  v-model="selectedProgramIndex">
                 <option v-for='(opt,index) in defaultPrograms'
                         v-bind:selected='selectedProgramIndex == index'
-                        v-bind:value='index'>
+                        v-bind:value='index'
+                        v-model="selectedProgramIndex">
                     ({{index}}) {{opt.name}}
                 </option>
             </select>
             <br/>
 
+            <!--  The PROGRAM TEXT EDITOR  -->
             <div id="timeline_editor_html_element"></div>
         </span>
 
@@ -1083,12 +1085,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 </div>`,
                 data: function () {
                     return {
-                        rightPane:      null,
-                        error_msg:      refErrorMsg,
-                        codeAST:        null,
-                        transformedAST: null,
-                        selectedProgramIndex: 0,
-                        defaultPrograms:[
+                        rightPane:              null,
+                        error_msg:              refErrorMsg,
+                        codeAST:                null,
+                        transformedAST:         null,
+                        selectedProgramIndex:   0,
+                        defaultPrograms:        [
                             {
                                 name: "Basic",
                                 code:
@@ -1140,12 +1142,14 @@ return {step: "Main app run"}`
                 mounted: async function () {
                     let mm = this
                     await setupAceEditor()
-                    timeline_editor.getSession().setValue(mm.htmlInput)
+                    await mm.selectProgram()
                 },
                 methods: {
                     selectProgram: async function () {
-                        debugger
+                        let mm = this
                         this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
+                        timeline_editor.getSession().setValue(mm.htmlInput)
+                        mm.rightPane = null
                     },
                     runCode: async function () {
                         let mm = this
