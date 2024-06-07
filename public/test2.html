@@ -1192,7 +1192,7 @@ return {step: "Main app run"}`
                         mm.transformedAST = estraverse.replace(mm.codeAST, {
                             enter: function (node, parent) {
                                 // convert function to function*
-                                if (node.type === 'FunctionExpression') {
+                                /*if (node.type === 'FunctionExpression') {
                                     if (!fnToGenDone  && (node.generator == false)) {
                                         fnToGenDone = true
                                         node.generator = true
@@ -1214,15 +1214,15 @@ return {step: "Main app run"}`
                                         }
                                     }
                                     return
-                                }
+                                }*/
 
                             },
                             leave: function (node, parent) {
-                                // if we have "await" keyword then do nothing
-                                if (node.type == 'AwaitExpression') {
+                                // if we already have "await" keyword then do nothing
+                                /*if (node.type == 'AwaitExpression') {
 
 
-                                    // if we are calling a function call then add the "await" keyword so it is an async call
+                                // if we are calling a function call then add the "await" keyword so it is an async call
                                 } else if (node.type === 'CallExpression') {
                                     if (parent && (parent.type == 'AwaitExpression')) {
                                         return
@@ -1233,7 +1233,7 @@ return {step: "Main app run"}`
                                         type: 'AwaitExpression',
                                         argument: node
                                     };
-                                }
+                                }*/
 
 
                             },
@@ -1274,7 +1274,7 @@ return {step: "Main app run"}`
         return result.value
     }
 })()`
-                        //mm.debugCodeToEval = mm.debugCode
+                        mm.debugCodeToEval = mm.debugCode
                     },
                     startDebugger: async function () {
                         let mm = this
