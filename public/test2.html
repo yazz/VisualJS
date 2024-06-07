@@ -1192,6 +1192,12 @@ return {step: "Main app run"}`
                         mm.transformedAST = estraverse.replace(mm.codeAST, {
                             enter: function (node, parent) {
                                 // convert function to function*
+                                if (node.type === 'FunctionExpression') {
+                                    if (node.generator == false) {
+                                        node.generator = true
+                                    }
+                                }
+                                return node
                                 /*if (node.type === 'FunctionExpression') {
                                     if (!fnToGenDone  && (node.generator == false)) {
                                         fnToGenDone = true
