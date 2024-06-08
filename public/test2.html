@@ -1198,6 +1198,22 @@ return {step: "Main app run"}`
                                         node.generator = true
                                     }
 
+                                    let generatorCode =
+                                        `(async function() {
+                                            let result = await gen.next()
+                                            while (!result.done) {
+                                                console.log(result.value);  // Output the value
+                                                result = await gen.next();   // Move to the next yield
+                                            }
+                                            if (result.done) {
+                                                console.log('Generator returned ' + JSON.stringify(result.value,null,2));  // output after the last value
+                                                return result.value
+                                            }
+                                        })()`
+                                    //zzz
+                                    let commandsAfterAst = acorn.parse(generatorCode,{ ecmaVersion: 2021 });
+                                    let commandsAfter = commandsAfterAst.body[0].expression.callee.body.body
+
                                     let returnAst = {
                                         type: "FunctionExpression",
                                         id: null,
@@ -1232,7 +1248,7 @@ return {step: "Main app run"}`
                                                                     }
                                                                 ]
                                                         }
-                                                    ]
+                                                    ].concat(commandsAfter)
                                             }
                                     }
 
