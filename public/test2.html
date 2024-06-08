@@ -1181,17 +1181,18 @@ return {step: "Main app run"}`
                             leave: function (node, parent) {
                                 // convert function to function*
                                 console.log("node: " + (typeof  node))
-                                if ((node.type === 'FunctionExpression') && (node.async == true)) {
+                                if (node.type === 'FunctionExpression')  {
                                     if (node.generator == false) {
                                         node.generator = true
                                     }
-
+                                    let asyncPrefix = node.async?"async ":""
+                                    let awaitPrefix = node.async?"await ":""
                                     let generatorCode =
-                                        `(async function() {
-                                            let result = await gen.next()
+                                        `(${asyncPrefix} function() {
+                                            let result = ${awaitPrefix} gen.next()
                                             while (!result.done) {
                                                 console.log(result.value);  // Output the value
-                                                result = await gen.next();   // Move to the next yield
+                                                result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             if (result.done) {
                                                 console.log('Generator returned ' + JSON.stringify(result.value,null,2));  // output after the last value
@@ -1207,7 +1208,7 @@ return {step: "Main app run"}`
                                         id: null,
                                         expression: false,
                                         generator: false,
-                                        async: true,
+                                        async: node.async,
                                         params: [],
                                         body:
                                             {
