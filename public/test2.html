@@ -1193,7 +1193,7 @@ return {step: "Main app run"}`
                             leave: function (node, parent) {
                                 // convert function to function*
                                 console.log("node: " + (typeof  node))
-                                if (node.type === 'FunctionExpression') {
+                                if ((node.type === 'FunctionExpression') && (node.async == true)) {
                                     if (node.generator == false) {
                                         node.generator = true
                                     }
