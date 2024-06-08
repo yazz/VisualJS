@@ -1179,11 +1179,8 @@ return {step: "Main app run"}`
                     },
                     transformAST: async function () {
                         let mm = this
-                        let fnToGenDone = false
                         await mm.createAST()
                         mm.rightPane = "transform_AST"
-                        mm.htmlInput = timeline_editor.getSession().getValue()
-                        mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 , locations: true})
 
 
                         //
@@ -1199,8 +1196,7 @@ return {step: "Main app run"}`
                                 }
                                 return node
                                 /*if (node.type === 'FunctionExpression') {
-                                    if (!fnToGenDone  && (node.generator == false)) {
-                                        fnToGenDone = true
+                                    if ( (node.generator == false)) {
                                         node.generator = true
                                         //debugger
                                         if (node.body.type === 'BlockStatement') {
