@@ -1198,45 +1198,46 @@ return {step: "Main app run"}`
                                         node.generator = true
                                     }
 
-                                    return {
-                                                type:         "FunctionExpression",
-                                                id:           null,
-                                                expression:   false,
-                                                generator:    false,
-                                                async:        true,
-                                                params:       [],
+                                    let returnAst = {
+                                        type: "FunctionExpression",
+                                        id: null,
+                                        expression: false,
+                                        generator: false,
+                                        async: true,
+                                        params: [],
+                                        body:
+                                            {
+                                                type: "BlockStatement",
                                                 body:
-                                                {
-                                                    type:   "BlockStatement",
-                                                    body:
                                                     [
                                                         {
-                                                            type:           "VariableDeclaration",
-                                                            kind:           "let",
+                                                            type: "VariableDeclaration",
+                                                            kind: "let",
                                                             declarations:
-                                                            [
-                                                                {
-                                                                    type: "VariableDeclarator",
-                                                                    id:
+                                                                [
                                                                     {
-                                                                        type: "Identifier",
-                                                                        name: "gen"
-                                                                    },
-                                                                    init:
-                                                                    {
-                                                                        type: "CallExpression",
-                                                                        callee: node,
-                                                                        arguments: [],
-                                                                        optional: false
+                                                                        type: "VariableDeclarator",
+                                                                        id:
+                                                                            {
+                                                                                type: "Identifier",
+                                                                                name: "gen"
+                                                                            },
+                                                                        init:
+                                                                            {
+                                                                                type: "CallExpression",
+                                                                                callee: node,
+                                                                                arguments: [],
+                                                                                optional: false
+                                                                            }
                                                                     }
-                                                                }
-                                                            ]
+                                                                ]
                                                         }
                                                     ]
-                                                }
                                             }
-                                        }
-                                //return newNode
+                                    }
+
+                                    return returnAst
+                                }
                                 /*if (node.type === 'FunctionExpression') {
                                     if ( (node.generator == false)) {
                                         node.generator = true
