@@ -1174,7 +1174,7 @@ return {step: "Main app run"}`
 
                         mm.htmlInput = timeline_editor.getSession().getValue()
                         //debugger
-                        mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 , locations: true});
+                        mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 , locations: true, range: true});
 
                     },
                     transformAST: async function () {
@@ -1186,15 +1186,55 @@ return {step: "Main app run"}`
                         //
                         // add "await" to all function calls
                         //
-                        mm.transformedAST = estraverse.replace(mm.codeAST, {
-                            enter: function (node, parent) {
+                        mm.transformedAST = estraverse.replace(
+                            mm.codeAST
+                            ,
+                            {
+                            leave: function (node, parent) {
                                 // convert function to function*
+                                console.log("node: " + (typeof  node))
                                 if (node.type === 'FunctionExpression') {
                                     if (node.generator == false) {
                                         node.generator = true
                                     }
-                                }
-                                return node
+
+                                    return {
+                                                type:         "FunctionExpression",
+                                                id:           null,
+                                                expression:   false,
+                                                generator:    false,
+                                                async:        true,
+                                                params:       [],
+                                                body:
+                                                {
+                                                    type:   "BlockStatement",
+                                                    body:
+                                                    [
+                                                        {
+                                                            type:           "VariableDeclaration",
+                                                            "kind": "let",
+                                                            declarations:
+                                                            [
+                                                                {
+                                                                    type: "VariableDeclarator",
+                                                                    id:
+                                                                    {
+                                                                        type: "Identifier",
+                                                                        name: "gen"
+                                                                    },
+                                                                    init:
+                                                                    {
+                                                                        type: "CallExpression",
+                                                                        callee: node
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                //return newNode
                                 /*if (node.type === 'FunctionExpression') {
                                     if ( (node.generator == false)) {
                                         node.generator = true
@@ -1219,7 +1259,12 @@ return {step: "Main app run"}`
                                 }*/
 
                             },
-                            leave: function (node, parent) {
+                            enter: function (node, parent) {
+                                //delete node.start;
+                                //delete node.end;
+                                delete node.loc;
+                                delete node.range;
+
                                 // if we already have "await" keyword then do nothing
                                 /*if (node.type == 'AwaitExpression') {
 
