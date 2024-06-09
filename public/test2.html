@@ -1190,9 +1190,11 @@ return {step: "Main app run"}`
                             ,
                             {
                             leave: function (node, parent) {
+
+
                                 // convert function to function*
-                                console.log("node: " + (typeof  node))
-                                if (node.type === 'FunctionExpression')  {
+                                if ((node.type === 'FunctionExpression') || (node.type === 'FunctionDeclaration' )) {
+
 
                                     // add the yield keyword to return intermediate steps and values during debugging
                                     if (node.body.type === 'BlockStatement') {
@@ -1238,13 +1240,17 @@ return {step: "Main app run"}`
                                     let commandsAfterAst = acorn.parse(generatorCode,{ ecmaVersion: 2021 });
                                     let commandsAfter = commandsAfterAst.body[0].expression.callee.body.body
 
+
+                                    // if this is like "function a() and not function () then move the declaration
+                                    // of "a" up to the function
+
                                     let returnAst = {
-                                        type: "FunctionExpression",
-                                        id: null,
+                                        type:       "FunctionExpression",
+                                        id:         node.type === 'FunctionDeclaration'  ?  node.id  :  null,
                                         expression: false,
-                                        generator: false,
-                                        async: node.async,
-                                        params: [],
+                                        generator:  false,
+                                        async:      node.async,
+                                        params:     [],
                                         body:
                                             {
                                                 type: "BlockStatement",
@@ -1276,7 +1282,12 @@ return {step: "Main app run"}`
                                             }
                                     }
 
-                                    return returnAst
+                                    if (node.type === 'FunctionDeclaration') {
+                                        node.id = null
+                                    }
+
+
+                                        return returnAst
                                 }
                             },
                             enter: function (node, parent) {
