@@ -1182,9 +1182,33 @@ return {step: "Main app run"}`
                                 // convert function to function*
                                 console.log("node: " + (typeof  node))
                                 if (node.type === 'FunctionExpression')  {
+
+                                    // add the yield keyword to return intermediate steps and values during debugging
+                                    if (node.body.type === 'BlockStatement') {
+                                        node.body.body = node.body.body.flatMap(
+                                            statement => [
+                                                {
+                                                    type: 'ExpressionStatement',
+                                                    expression: {
+                                                        type: 'YieldExpression',
+                                                        argument: null
+                                                    }
+                                                }
+                                                ,
+                                                statement
+                                            ]
+                                        );
+                                    }
+
+
+
+
+
+                                        // move the function into a generator
                                     if (node.generator == false) {
                                         node.generator = true
                                     }
+
                                     let asyncPrefix = node.async?"async ":""
                                     let awaitPrefix = node.async?"await ":""
                                     let generatorCode =
@@ -1243,52 +1267,9 @@ return {step: "Main app run"}`
 
                                     return returnAst
                                 }
-                                /*if (node.type === 'FunctionExpression') {
-                                    if ( (node.generator == false)) {
-                                        node.generator = true
-                                        //debugger
-                                        if (node.body.type === 'BlockStatement') {
-                                            node.body.body = node.body.body.flatMap(
-                                                statement => [
-                                                                {
-                                                                    type:           'ExpressionStatement',
-                                                                    expression:     {
-                                                                                        type:       'YieldExpression',
-                                                                                        argument:   null
-                                                                                    }
-                                                                }
-                                                                ,
-                                                                statement
-                                                            ]
-                                            );
-                                        }
-                                    }
-                                    return
-                                }*/
-
                             },
                             enter: function (node, parent) {
-                                //delete node.start;
-                                //delete node.end;
-                                delete node.loc;
-                                delete node.range;
 
-                                // if we already have "await" keyword then do nothing
-                                /*if (node.type == 'AwaitExpression') {
-
-
-                                // if we are calling a function call then add the "await" keyword so it is an async call
-                                } else if (node.type === 'CallExpression') {
-                                    if (parent && (parent.type == 'AwaitExpression')) {
-                                        return
-                                    }
-                                    return
-                                    //if (node && node.expression && node.expression.async) {
-                                    return {
-                                        type: 'AwaitExpression',
-                                        argument: node
-                                    };
-                                }*/
 
 
                             },
