@@ -868,7 +868,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- Start of all code in the script tag-->
     <script>
-        function        step                                (  )                                    {
+        function        step                                (  gen  ,  result  )                    {
             console.log("Step count: " + stepCount)
             stepCount++
         }
@@ -1219,12 +1219,12 @@ return {step: "Main app run"}`
                                         `(${asyncPrefix} function() {
                                             let result = ${awaitPrefix} gen.next()
                                             while (!result.done) {
-                                                step()
+                                                step(gen, result)
                                                 console.log(result.value);  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             if (result.done) {
-                                                step()
+                                                step(gen,result)
                                                 // output after the last value
                                                 console.log('Generator returned ' + JSON.stringify(result.value,null,2));
                                                 return result.value
@@ -1313,7 +1313,7 @@ return {step: "Main app run"}`
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
-                        stepCount = 1
+                        stepCount = 0
                         eval(mm.debugCodeToEval)
                     }
                 }
@@ -1346,7 +1346,8 @@ return {step: "Main app run"}`
         let refErrorMsg         = Vue.ref("Error ... ")
         let vueApp              = null
         let VueAppData          = null
-        let stepCount           = 1
+        let stepCount           = 0
+        let stepDetails         = []
 
 
         runAll();
