@@ -868,6 +868,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- Start of all code in the script tag-->
     <script>
+        function        step                                (  )                                    {
+            console.log("Step count: " + stepCount)
+            stepCount++
+        }
         async function  init                                (  )                                    {
             await useIdeTools()
         }
@@ -1214,12 +1218,14 @@ return {step: "Main app run"}`
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
                                             let result = ${awaitPrefix} gen.next()
+                                            step()
                                             while (!result.done) {
                                                 console.log(result.value);  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             if (result.done) {
-                                                console.log('Generator returned ' + JSON.stringify(result.value,null,2));  // output after the last value
+                                                // output after the last value
+                                                console.log('Generator returned ' + JSON.stringify(result.value,null,2));
                                                 return result.value
                                             }
                                         })()`
@@ -1306,6 +1312,7 @@ return {step: "Main app run"}`
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
+                        stepCount = 1
                         eval(mm.debugCodeToEval)
                     }
                 }
@@ -1338,6 +1345,7 @@ return {step: "Main app run"}`
         let refErrorMsg         = Vue.ref("Error ... ")
         let vueApp              = null
         let VueAppData          = null
+        let stepCount           = 1
 
 
         runAll();
