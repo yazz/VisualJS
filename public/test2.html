@@ -1007,13 +1007,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         <span v-if="rightPane=='debug_code'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
             <b>Debug code</b>
-            <pre style="overflow: scroll;height:95%">{{debugCode}}
-            </pre>
-        </span>
-
-
-        <span v-if="rightPane=='debug_code_v2'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
-            <b>Debug code V2</b>
             <pre style="overflow: scroll;height:95%">{{debugCodeToEval}}
             </pre>
         </span>
@@ -1037,7 +1030,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <button   v-on:click="createAST()"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
-            Create AST
+            Code -&gt; AST
         </button>
 
         <button   v-on:click="transformAST()"
@@ -1049,13 +1042,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <button   v-on:click="createDebugCode()"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
-            Create Debug Code
-        </button>
-
-        <button   v-on:click="createDebugCodeV2()"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            Create Debug Code V2
+            AST -&gt; Code
         </button>
 
         <button   v-on:click="startDebugger()"
@@ -1312,31 +1299,12 @@ return {step: "Main app run"}`
                         //
                         // add "await" to all function calls
                         //
-                        mm.debugCode = escodegen.generate(mm.transformedAST, {comment: false})
+                        mm.debugCodeToEval = escodegen.generate(mm.transformedAST, {comment: false})
                     },
-                    createDebugCodeV2: async function () {
-                        let mm = this
-                        await mm.createDebugCode()
-                        mm.rightPane = "debug_code_v2"
 
-                        mm.debugCodeToEval =
-                            `(async function() {
-    let gen = ${mm.debugCode}
-    let result = await gen.next()
-    while (!result.done) {
-        console.log(result.value);  // Output the value
-        result = await gen.next();   // Move to the next yield
-    }
-    if (result.done) {
-        console.log('The generator returned ' + JSON.stringify(result.value,null,2));  // This will be output after the last value
-        return result.value
-    }
-})()`
-                        mm.debugCodeToEval = mm.debugCode
-                    },
                     startDebugger: async function () {
                         let mm = this
-                        await mm.createDebugCodeV2()
+                        await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         eval(mm.debugCodeToEval)
                     }
