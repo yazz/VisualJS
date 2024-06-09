@@ -1093,6 +1093,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         selectedProgramIndex:   0,
                         defaultPrograms:        [
                             {
+                                name: "JS Function",
+                                code:
+`function a() {
+    let re = 1+2+3
+    return re
+}
+
+console.log("val = " + a())`
+                            }
+                            ,
+                            {
                                 name: "Console log",
                                 code:
                                     `console.log("out: " + new Date().getTime())
