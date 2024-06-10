@@ -1336,6 +1336,10 @@ return {step: "Main app run"}`
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         stepCount = 0
+                        setInterval(
+                            async function() {
+                                stepExecute();
+                            },1000);
                         eval(mm.debugCodeToEval)
                     }
                 }
@@ -1370,6 +1374,7 @@ return {step: "Main app run"}`
         let VueAppData          = null
         let stepCount           = 0
         let stepDetails         = []
+        let debuggerTimer       = null
 
 
         runAll();
