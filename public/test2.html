@@ -1201,17 +1201,7 @@ return {step: "Main app run"}`
                                         let yieldCodeAfter = yieldCodeAfterAst.body[0].expression.body.body
 
                                         node.body.body = node.body.body.flatMap(
-                                            statement => [
-                                                {
-                                                    type: 'ExpressionStatement',
-                                                    expression: {
-                                                        type: 'YieldExpression',
-                                                        argument: null
-                                                    }
-                                                }
-                                                ,
-                                                statement
-                                            ]
+                                            statement => yieldCodeAfter.concat(statement)
                                         );
                                     }
 
