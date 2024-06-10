@@ -869,13 +869,19 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <!-- Start of all code in the script tag-->
     <script>
         function        step                                (  gen  ,  result  )                    {
-            console.log("Step count: " + stepCount)
+            console.log("Step: " + (stepCount + 1))
+            stepDetails.push({gen: gen  ,  result:  result  })
+        }
+        function        stepExecute                         (  )                    {
+            console.log("Step execute: " + (stepCount + 1))
+            stepDetails[stepCount].gen
             stepCount++
             timeline_editor.gotoLine(stepCount, 0, true);
-
             // Ensure the active line is highlighted
             timeline_editor.setHighlightActiveLine(true);
         }
+
+
         async function  init                                (  )                                    {
             await useIdeTools()
         }
@@ -1199,7 +1205,6 @@ return {step: "Main app run"}`
                                             function(statement) {
                                                 let asyncPrefix = node.async?"async ":""
                                                 let awaitPrefix = node.async?"await ":""
-                                                debugger
                                                 let yieldCode = null
                                                 if (statement.loc) {
                                                     yieldCode = `(${asyncPrefix} function*() {
