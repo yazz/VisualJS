@@ -1189,6 +1189,17 @@ return {step: "Main app run"}`
 
                                     // add the yield keyword to return intermediate steps and values during debugging
                                     if (node.body.type === 'BlockStatement') {
+                                        let asyncPrefix = node.async?"async ":""
+                                        let awaitPrefix = node.async?"await ":""
+                                        let yieldCode =
+                                            `(${asyncPrefix} function*() {
+                                            yield
+                                        })`
+                                        //zzz
+                                        debugger
+                                        let yieldCodeAfterAst = acorn.parse(yieldCode,{ ecmaVersion: 2021 });
+                                        let yieldCodeAfter = yieldCodeAfterAst.body[0].expression.body.body
+
                                         node.body.body = node.body.body.flatMap(
                                             statement => [
                                                 {
