@@ -1080,21 +1080,21 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         selectedProgramIndex:   0,
                         defaultPrograms:        [
                             {
+                                name: "Console log",
+                                code:
+                                    `console.log("out: " + new Date().getTime())
+                                    `
+                            }
+                            ,
+                            {
                                 name: "JS Function",
                                 code:
-`function a() {
+                                    `function a() {
     let re = 1+2+3
     return re
 }
 
 console.log("val = " + a())`
-                            }
-                            ,
-                            {
-                                name: "Console log",
-                                code:
-                                    `console.log("out: " + new Date().getTime())
-                                    `
                             }
                             ,
                             {
@@ -1333,12 +1333,17 @@ return {step: "Main app run"}`
             })
         }
         function        step                                (  gen  ,  result  )                    {
-            console.log("Step: " + (stepCount + 1))
+            //console.log("Step: " + (stepCount + 1))
             stepDetails.push({gen: gen  ,  result:  result  })
         }
         async function        stepExecute                   (  )                                    {
             console.log("Step execute: " + (stepCount + 1))
             let gen = stepDetails[stepCount].gen
+            if (typeof(gen) == "undefined") {
+                clearTimeout(debuggerTimer)
+                return
+            }
+
             stepCount++
             timeline_editor.gotoLine(stepCount, 0, true);
             // Ensure the active line is highlighted
@@ -1346,12 +1351,10 @@ return {step: "Main app run"}`
 
             let result = await gen.next()
             if (!result.done) {
-                step(gen)
                 console.log(result.value);  // Output the value
                 result = await gen.next();   // Move to the next yield
             }
             if (result.done) {
-                step(gen)
                 // output after the last value
                 console.log('Generator returned ' + JSON.stringify(result.value,null,2));
                 clearTimeout(debuggerTimer)
