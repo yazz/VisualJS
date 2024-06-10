@@ -1193,7 +1193,9 @@ return {step: "Main app run"}`
                                         let awaitPrefix = node.async?"await ":""
                                         let yieldCode =
                                             `(${asyncPrefix} function*() {
-                                            yield
+                                            yield {
+                                                    lineNumStart: ${node.loc.start.line}
+                                                    }
                                         })`
                                         //zzz
                                         debugger
