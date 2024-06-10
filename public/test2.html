@@ -1195,13 +1195,20 @@ return {step: "Main app run"}`
                                             function(statement) {
                                                 let asyncPrefix = node.async?"async ":""
                                                 let awaitPrefix = node.async?"await ":""
-                                                let yieldCode =
-                                                    `(${asyncPrefix} function*() {
+                                                debugger
+                                                let yieldCode = null
+                                                if (statement.loc) {
+                                                    yieldCode = `(${asyncPrefix} function*() {
                                                         yield {
-                                                                lineNumStart: ${node.loc.start.line}
+                                                                lineNumStart: ${statement.loc.start.line}
                                                                 }
                                                     })`
-                                                debugger
+                                                } else {
+                                                    yieldCode = `(${asyncPrefix} function*() {
+                                                        yield {
+                                                                }
+                                                    })`
+                                                }
                                                 let yieldCodeAfterAst = acorn.parse(yieldCode,{ ecmaVersion: 2021 });
                                                 let yieldCodeAfter = yieldCodeAfterAst.body[0].expression.body.body
                                                 return yieldCodeAfter.concat(statement)
