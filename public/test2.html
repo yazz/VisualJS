@@ -868,20 +868,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- Start of all code in the script tag-->
     <script>
-        function        step                                (  gen  ,  result  )                    {
-            console.log("Step: " + (stepCount + 1))
-            stepDetails.push({gen: gen  ,  result:  result  })
-        }
-        function        stepExecute                         (  )                    {
-            console.log("Step execute: " + (stepCount + 1))
-            stepDetails[stepCount].gen
-            stepCount++
-            timeline_editor.gotoLine(stepCount, 0, true);
-            // Ensure the active line is highlighted
-            timeline_editor.setHighlightActiveLine(true);
-        }
-
-
         async function  init                                (  )                                    {
             await useIdeTools()
         }
@@ -1239,18 +1225,7 @@ return {step: "Main app run"}`
                                     let awaitPrefix = node.async?"await ":""
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
-                                            let result = ${awaitPrefix} gen.next()
-                                            while (!result.done) {
-                                                step(gen, result)
-                                                console.log(result.value);  // Output the value
-                                                result = ${awaitPrefix} gen.next();   // Move to the next yield
-                                            }
-                                            if (result.done) {
-                                                step(gen,result)
-                                                // output after the last value
-                                                console.log('Generator returned ' + JSON.stringify(result.value,null,2));
-                                                return result.value
-                                            }
+                                            step(gen)
                                         })()`
                                     //zzz
                                     let commandsAfterAst = acorn.parse(generatorCode,{ ecmaVersion: 2021 });
@@ -1336,9 +1311,9 @@ return {step: "Main app run"}`
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         stepCount = 0
-                        setInterval(
+                        debuggerTimer = setInterval(
                             async function() {
-                                stepExecute();
+                                await stepExecute();
                             },1000);
                         eval(mm.debugCodeToEval)
                     }
@@ -1356,6 +1331,33 @@ return {step: "Main app run"}`
 
                 }, 1000)
             })
+        }
+        function        step                                (  gen  ,  result  )                    {
+            console.log("Step: " + (stepCount + 1))
+            stepDetails.push({gen: gen  ,  result:  result  })
+        }
+        async function        stepExecute                   (  )                                    {
+            console.log("Step execute: " + (stepCount + 1))
+            let gen = stepDetails[stepCount].gen
+            stepCount++
+            timeline_editor.gotoLine(stepCount, 0, true);
+            // Ensure the active line is highlighted
+            timeline_editor.setHighlightActiveLine(true);
+
+            let result = await gen.next()
+            if (!result.done) {
+                step(gen)
+                console.log(result.value);  // Output the value
+                result = await gen.next();   // Move to the next yield
+            }
+            if (result.done) {
+                step(gen)
+                // output after the last value
+                console.log('Generator returned ' + JSON.stringify(result.value,null,2));
+                clearTimeout(debuggerTimer)
+                return result.value
+            }
+
         }
         async function  runAll                              (  )                                    {
             await init()
