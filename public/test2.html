@@ -871,6 +871,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function        step                                (  gen  ,  result  )                    {
             console.log("Step count: " + stepCount)
             stepCount++
+            timeline_editor.gotoLine(2, 0, true);
+
+            // Ensure the active line is highlighted
+            timeline_editor.setHighlightActiveLine(true);
         }
         async function  init                                (  )                                    {
             await useIdeTools()
