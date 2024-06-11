@@ -1189,7 +1189,11 @@ return {step: "Main app run"}`
 
 
                                 // convert function to function*
-                                if ((node.type === 'FunctionExpression') || (node.type === 'FunctionDeclaration' )) {
+                                if (
+                                        node.async
+                                        &&
+                                        ((node.type === 'FunctionExpression') || (node.type === 'FunctionDeclaration' ))
+                                   ) {
 
 
                                     // add the yield keyword to return intermediate steps and values during debugging
