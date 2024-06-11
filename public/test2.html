@@ -1050,6 +1050,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             Start Debugger
         </button>
 
+        <button   v-on:click="stopDebugger()"
+                  style="margin-right: 10px;"
+                  class="btn btn-sm btn-info">
+            Stop Debugger
+        </button>
+
 
         <button   v-on:click="runCode()"
                   v-if="rightPane=='debugger'"
@@ -1334,7 +1340,16 @@ return {step: "Main app run"}`
                             },1000);
                         console.log("Global pulse started")
                         eval(mm.debugCodeToEval)
+                    },
+                    stopDebugger: async function () {
+                        let mm = this
+                        mm.rightPane = "debugger"
+                        tickCount = 0
+                        clearTimeout(debuggerTimer)
+                        stepDetails         = []
+                        console.log("Global pulse stopped")
                     }
+
                 }
             })
         }
