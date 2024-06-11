@@ -1229,7 +1229,19 @@ return {step: "Main app run"}`
                                     let awaitPrefix = node.async?"await ":""
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
-                                            step(gen)
+                                            let result = ${awaitPrefix} gen.next()
+                                            while (!result.done) {
+                                                //step(gen, result)
+                                                //console.log(result.value);  // Output the value
+                                                result = ${awaitPrefix} gen.next();   // Move to the next yield
+                                            }
+                                            if (result.done) {
+                                                //step(gen,result)
+                                                // output after the last value
+                                                //console.log('Generator returned ' + JSON.stringify(result.value,null,2));
+                                                return result.value
+                                            }
+                                            //step(gen)
                                         })()`
                                     //zzz
                                     let commandsAfterAst = acorn.parse(generatorCode,{ ecmaVersion: 2021 });
