@@ -1359,6 +1359,7 @@ return {step: "Main app run"}`
                     stepOver:           function       (  ) {
                         if (globalDebugLock) {
                             globalDebugLock()
+                            globalDebugLock = null
                         }
                     }
         }
