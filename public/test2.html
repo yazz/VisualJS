@@ -1132,7 +1132,8 @@ let vueDebugApp = await Vue.createApp(
                         }
                     }
             })
-await vueDebugApp.mount("#vue_app_element")
+let app = await vueDebugApp.mount("#vue_app_element")
+app.step = "Changed message"
 return {step: "Main app run"}`
                             }
                         ],
