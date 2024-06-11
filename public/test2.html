@@ -1230,12 +1230,12 @@ return {step: "Main app run"}`
                                         `(${asyncPrefix} function() {
                                             let result = ${awaitPrefix} gen.next()
                                             while (!result.done) {
-                                                //step(gen, result)
+                                                step(gen, result)
                                                 //console.log(result.value);  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             if (result.done) {
-                                                //step(gen,result)
+                                                step(gen,result)
                                                 // output after the last value
                                                 //console.log('Generator returned ' + JSON.stringify(result.value,null,2));
                                                 return result.value
@@ -1350,6 +1350,10 @@ return {step: "Main app run"}`
         function        step                                (  gen  ,  result  )                    {
             //console.log("Step: " + (stepCount + 1))
             stepDetails.push({gen: gen  ,  result:  result  })
+            let lineNum = result.value.lineNumStart
+            timeline_editor.gotoLine(lineNum, 0, true);
+            timeline_editor.setHighlightActiveLine(true);
+            //debugger
         }
         async function        stepExecute                   (  )                                    {
             //console.log("Step execute: " + (stepCount + 1))
