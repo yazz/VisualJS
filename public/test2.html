@@ -1325,11 +1325,14 @@ return {step: "Main app run"}`
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
-                        stepCount = 0
+                        tickCount = 0
+                        clearTimeout(debuggerTimer)
+                        stepDetails         = []
                         debuggerTimer = setInterval(
                             async function() {
-                                //await stepExecute();
+                                globalTick();
                             },1000);
+                        console.log("Global pulse started")
                         eval(mm.debugCodeToEval)
                     }
                 }
@@ -1355,35 +1358,9 @@ return {step: "Main app run"}`
                 timeline_editor.setHighlightActiveLine(true);
             }
         }
-        async function        stepExecute                   (  )                                    {
-            //console.log("Step execute: " + (stepCount + 1))
-            let gen = stepDetails[stepCount].gen
-            if (typeof(gen) == "undefined") {
-                clearTimeout(debuggerTimer)
-                stepCount           = 0
-                stepDetails         = []
-                return
-            }
-
-            stepCount++
-            timeline_editor.gotoLine(stepCount, 0, true);
-            // Ensure the active line is highlighted
-            timeline_editor.setHighlightActiveLine(true);
-
-            let result = await gen.next()
-            if (!result.done) {
-                //console.log(result.value);  // Output the value
-                result = await gen.next();   // Move to the next yield
-            }
-            if (result.done) {
-                // output after the last value
-                //console.log('Generator returned ' + JSON.stringify(result.value,null,2));
-                clearTimeout(debuggerTimer)
-                stepCount           = 0
-                stepDetails         = []
-                return result.value
-            }
-
+        function        globalTick                    (  )                                    {
+            console.log("tickCount: " + tickCount)
+            tickCount++
         }
         async function  runAll                              (  )                                    {
             await init()
@@ -1400,7 +1377,7 @@ return {step: "Main app run"}`
         let refErrorMsg         = Vue.ref("Error ... ")
         let vueApp              = null
         let VueAppData          = null
-        let stepCount           = 0
+        let tickCount           = 0
         let stepDetails         = []
         let debuggerTimer       = null
 
