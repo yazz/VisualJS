@@ -1236,11 +1236,14 @@ return {step: "Main app run"}`
 
                                     let asyncPrefix = node.async?"async ":""
                                     let awaitPrefix = node.async?"await ":""
+                                    let pauseCode = node.async?"await sleep(1000);":""
+
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
                                             let result = ${awaitPrefix} gen.next()
                                             while (!result.done) {
                                                 step(gen, result)
+                                                ${pauseCode}
                                                 //console.log(result.value);  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
@@ -1340,7 +1343,7 @@ return {step: "Main app run"}`
                         stepDetails         = []
                         debuggerTimer = setInterval(
                             async function() {
-                                //globalTick();
+                                await globalTick();
                             },1000);
                         console.log("Global pulse started")
                         eval(mm.debugCodeToEval)
@@ -1377,7 +1380,10 @@ return {step: "Main app run"}`
                 timeline_editor.setHighlightActiveLine(true);
             }
         }
-        function        globalTick                    (  )                                    {
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        async function        globalTick                    (  )                                    {
             console.log("tickCount: " + tickCount)
             tickCount++
         }
