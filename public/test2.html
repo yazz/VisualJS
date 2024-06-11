@@ -1348,12 +1348,12 @@ return {step: "Main app run"}`
             })
         }
         function        step                                (  gen  ,  result  )                    {
-            //console.log("Step: " + (stepCount + 1))
             stepDetails.push({gen: gen  ,  result:  result  })
-            let lineNum = result.value.lineNumStart
-            timeline_editor.gotoLine(lineNum, 0, true);
-            timeline_editor.setHighlightActiveLine(true);
-            //debugger
+            if (result && result.value) {
+                let lineNum = result.value.lineNumStart
+                timeline_editor.gotoLine(lineNum, 0, true);
+                timeline_editor.setHighlightActiveLine(true);
+            }
         }
         async function        stepExecute                   (  )                                    {
             //console.log("Step execute: " + (stepCount + 1))
