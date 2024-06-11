@@ -980,8 +980,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <select v-on:change='selectProgram()'  v-model="selectedProgramIndex">
                 <option v-for='(opt,index) in defaultPrograms'
                         v-bind:selected='selectedProgramIndex == index'
-                        v-bind:value='index'
-                        v-model="selectedProgramIndex">
+                        v-bind:value='index'>
                     ({{index}}) {{opt.name}}
                 </option>
             </select>
