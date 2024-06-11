@@ -1057,14 +1057,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </button>
 
 
-        <button   v-on:click="runCode()"
+        <button   v-on:click="stepOver()"
                   v-if="rightPane=='debugger'"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
             &lt;
         </button>
 
-        <button   v-on:click="runCode()"
+        <button   v-on:click="stepOver()"
                   v-if="rightPane=='debugger'"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
@@ -1356,9 +1356,15 @@ return {step: "Main app run"}`
                         clearTimeout(debuggerTimer)
                         stepDetails         = []
                         console.log("Global pulse stopped")
+                    },
+                    stepOver: function                 (  )                                    {
+                        if (globalDebugLock) {
+                            globalDebugLock()
+                        }
                     }
 
-                }
+
+        }
             })
         }
         function        mountDebuggerVueElement             (  )                                    {
@@ -1382,7 +1388,10 @@ return {step: "Main app run"}`
             }
         }
         function        debuggerPause                       (  )                                    {
-            return new Promise(resolve => setTimeout(resolve, 1000));
+            return new Promise(
+                function(resolve) {
+                    globalDebugLock = resolve
+                });
         }
         function        sleep                               (  ms  )                                {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -1409,6 +1418,7 @@ return {step: "Main app run"}`
         let tickCount           = 0
         let stepDetails         = []
         let debuggerTimer       = null
+        let globalDebugLock     = null
 
 
         runAll();
