@@ -1237,7 +1237,7 @@ return {step: "Main app run"}`
 
                                     let asyncPrefix = node.async?"async ":""
                                     let awaitPrefix = node.async?"await ":""
-                                    let pauseCode = node.async?"await sleep(1000);":""
+                                    let pauseCode = node.async?"await debuggerPause( );":""
 
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
@@ -1381,10 +1381,13 @@ return {step: "Main app run"}`
                 timeline_editor.setHighlightActiveLine(true);
             }
         }
-        function sleep(ms) {
+        function        debuggerPause                       (  )                                    {
+            return new Promise(resolve => setTimeout(resolve, 1000));
+        }
+        function        sleep                               (  ms  )                                {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
-        async function        globalTick                    (  )                                    {
+        async function  globalTick                          (  )                                    {
             console.log("tickCount: " + tickCount)
             tickCount++
         }
