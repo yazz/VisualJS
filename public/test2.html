@@ -1150,13 +1150,13 @@ return {step: "Main app run"}`
                     await mm.selectProgram()
                 },
                 methods: {
-                    selectProgram: async function () {
+                    selectProgram:      async function (  ) {
                         let mm = this
                         this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
                         timeline_editor.getSession().setValue(mm.htmlInput)
                         mm.rightPane = null
                     },
-                    runCode: async function () {
+                    runCode:            async function (  ) {
                         let mm = this
                         mm.rightPane = "running"
                         mm.htmlInput = timeline_editor.getSession().getValue()
@@ -1164,7 +1164,7 @@ return {step: "Main app run"}`
                             eval("(async function() {" + mm.htmlInput + "})()")
                         })
                     },
-                    createAST: async function () {
+                    createAST:          async function (  ) {
                         let mm = this
                         mm.rightPane = "AST"
 
@@ -1173,7 +1173,7 @@ return {step: "Main app run"}`
                         mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 , locations: true, range: true});
 
                     },
-                    transformAST: async function () {
+                    transformAST:       async function (  ) {
                         let mm = this
                         await mm.createAST()
                         mm.rightPane = "transform_AST"
@@ -1323,7 +1323,7 @@ return {step: "Main app run"}`
 
 
                     },
-                    createDebugCode: async function () {
+                    createDebugCode:    async function (  ) {
                         let mm = this
                         await mm.transformAST()
                         mm.rightPane = "debug_code"
@@ -1334,8 +1334,7 @@ return {step: "Main app run"}`
                         //
                         mm.debugCodeToEval = escodegen.generate(mm.transformedAST, {comment: false})
                     },
-
-                    startDebugger: async function () {
+                    startDebugger:      async function (  ) {
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
@@ -1349,7 +1348,7 @@ return {step: "Main app run"}`
                         console.log("Global pulse started")
                         eval(mm.debugCodeToEval)
                     },
-                    stopDebugger: async function () {
+                    stopDebugger:       async function (  ) {
                         let mm = this
                         mm.rightPane = "debugger"
                         tickCount = 0
@@ -1357,13 +1356,11 @@ return {step: "Main app run"}`
                         stepDetails         = []
                         console.log("Global pulse stopped")
                     },
-                    stepOver: function                 (  )                                    {
+                    stepOver:           function       (  ) {
                         if (globalDebugLock) {
                             globalDebugLock()
                         }
                     }
-
-
         }
             })
         }
