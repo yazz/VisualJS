@@ -1383,6 +1383,13 @@ return {step: "Main app run"}`
                         let range2 = new ace.Range(1,5,1,10)
                         timeline_editor.session.addMarker(range2, 'highlight', 'text');
 
+                        let range3 = new ace.Range(2,0,2,10)
+                        timeline_editor.session.addMarker(range3, 'highlight', 'text');
+
+                        let range5 = new ace.Range(5,0,5,10)
+                        timeline_editor.session.addMarker(range5, 'highlight', 'text');
+
+
                         document.querySelectorAll('.ace_marker-layer .highlight');
 
                         const hintElement = document.getElementById('hint');
