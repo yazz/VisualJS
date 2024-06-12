@@ -1377,8 +1377,12 @@ return {step: "Main app run"}`
 
 
 //delete
-                        let range = new ace.Range(0,5,1,7)
+                        let range = new ace.Range(0,0,0,10)
                         timeline_editor.session.addMarker(range, 'highlight', 'text');
+
+                        let range2 = new ace.Range(1,5,1,10)
+                        timeline_editor.session.addMarker(range2, 'highlight', 'text');
+
                         document.querySelectorAll('.ace_marker-layer .highlight');
 
                         const hintElement = document.getElementById('hint');
