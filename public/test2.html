@@ -857,6 +857,20 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         }));
         /* vim: set sw=4 ts=4 et tw=80 : */
         </script>
+        <style>
+            .highlight {
+                background-color: yellow;
+            }
+            .hint {
+                display: none;
+                position: absolute;
+                background-color: #333;
+                color: white;
+                padding: 5px;
+                border-radius: 3px;
+                z-index: 1000;
+            }
+        </style>
     </head>
 
     <!-- Start of the HTML to host the main Vue app -->
@@ -967,11 +981,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 e.editor.session.setBreakpoint(row);
                 e.editor.scrollToLine(row , true, true, function () {});
                 //e.stop();
+
+
             });
         }
         function        createDebuggerUI                    (  )                                    {
             vueApp = Vue.createApp({
-                template: `
+                template:               `
 <div style="margin: 20px; font-size: 11px;">
     <div>
 
@@ -988,6 +1004,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <!--  The PROGRAM TEXT EDITOR  -->
             <div id="timeline_editor_html_element"></div>
+            <div id="hint" class="hint">This is a hint!</div>
         </span>
 
         <span  v-if="!rightPane" style="width:45%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
@@ -1076,7 +1093,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <br/>
     <div style="border: 3px solid red">{{error_msg}}</div>
 </div>`,
-                data: function () {
+                data:                   function () {
                     return {
                         rightPane:              null,
                         error_msg:              refErrorMsg,
@@ -1144,12 +1161,12 @@ return {step: "Main app run"}`
                         debugCodeToEval: null
                     }
                 },
-                mounted: async function () {
+                mounted:                async function () {
                     let mm = this
                     await setupAceEditor()
                     await mm.selectProgram()
                 },
-                methods: {
+                methods:                {
                     selectProgram:      async function (  ) {
                         let mm = this
                         this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
@@ -1355,6 +1372,36 @@ return {step: "Main app run"}`
                         clearTimeout(debuggerTimer)
                         stepDetails         = []
                         console.log("Global pulse stopped")
+
+
+
+
+//delete
+                        let range = new ace.Range(0,5,1,7)
+                        timeline_editor.session.addMarker(range, 'highlight', 'text');
+                        document.querySelectorAll('.ace_marker-layer .highlight');
+
+                        const hintElement = document.getElementById('hint');
+
+                        timeline_editor.on('mousemove', function(e) {
+                            const position = e.getDocumentPosition();
+                            const session = timeline_editor.getSession();
+                            const screenPos = session.documentToScreenPosition(position);
+                            const markerElements = document.querySelectorAll('.ace_marker-layer .highlight');
+
+                            markerElements.forEach(marker => {
+                                const rect = marker.getBoundingClientRect();
+                                if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                                    hintElement.style.display = 'block';
+                                    hintElement.style.left = (e.clientX + 10) + 'px';
+                                    hintElement.style.top = (e.clientY + 10) + 'px';
+                                } else {
+                                    hintElement.style.display = 'none';
+                                }
+                            });
+                        })
+//delete
+
                     },
                     stepOver:           function       (  ) {
                         if (globalDebugLock) {
