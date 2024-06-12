@@ -1343,7 +1343,7 @@ return {step: "Main app run"}`
                         stepDetails         = []
                         debuggerTimer = setInterval(
                             async function() {
-                                await globalTick();
+                                //await globalTick();
                             },1000);
                         console.log("Global pulse started")
                         eval(mm.debugCodeToEval)
