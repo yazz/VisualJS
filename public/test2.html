@@ -1377,49 +1377,29 @@ return {step: "Main app run"}`
 
 
 //delete
-                        let range = new ace.Range(0,0,0,10)
-                        timeline_editor.session.addMarker(range, 'highlight', 'text');
-
-                        let range2 = new ace.Range(1,5,1,10)
-                        timeline_editor.session.addMarker(range2, 'highlight', 'text');
-
-                        let range3 = new ace.Range(2,0,2,10)
-                        timeline_editor.session.addMarker(range3, 'highlight', 'text');
-
-                        let range5 = new ace.Range(5,0,5,10)
-                        timeline_editor.session.addMarker(range5, 'highlight', 'text');
-
-
-                        document.querySelectorAll('.ace_marker-layer .highlight');
-
-                        const hintElement = document.getElementById('hint');
-
-                        timeline_editor.on('mousemove', function(e) {
-                            const position = e.getDocumentPosition();
-                            const session = timeline_editor.getSession();
-                            const screenPos = session.documentToScreenPosition(position);
-                            const markerElements = document.querySelectorAll('.ace_marker-layer .highlight');
-
-                            markerElements.forEach(marker => {
-                                const rect = marker.getBoundingClientRect();
-                                if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
-                                    hintElement.style.display = 'block';
-                                    hintElement.style.left = (e.clientX + 10) + 'px';
-                                    hintElement.style.top = (e.clientY + 10) + 'px';
-                                } else {
-                                    hintElement.style.display = 'none';
-                                }
-                            });
-                        })
-
-
-
-
-
-
-                        document.getElementById('timeline_editor_html_element').addEventListener('mousemove', function(event) {
+                        document.getElementById('timeline_editor_html_element').addEventListener('mousemove',
+                            function(event) {
                             const coords = timeline_editor.renderer.screenToTextCoordinates(event.clientX, event.clientY);
                             console.log('Row:', coords.row, 'Column:', coords.column);
+
+
+                            const range = new ace.Range(coords.row,  coords.column,  coords.row,  coords.column+1)
+
+                            timeline_editor.session.addMarker(range, 'highlighted', 'text', true);
+
+                            // Add some CSS to style the highlight
+                            const style = document.createElement('style');
+                            style.type = 'text/css';
+                            style.innerHTML = '.highlighted { background-color: lightgray; position: absolute; z-index: 20; }';
+                            document.head.appendChild(style);
+
+
+
+                                const hintElement = document.getElementById('hint');
+                                hintElement.style.display = 'block';
+                                hintElement.style.left = (event.clientX + 10) + 'px';
+                                hintElement.style.top = (event.clientY + 10) + 'px';
+                                //hintElement.style.display = 'none';
                         });
 //delete
 
