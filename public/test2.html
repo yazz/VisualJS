@@ -1411,6 +1411,16 @@ return {step: "Main app run"}`
                                 }
                             });
                         })
+
+
+
+
+
+
+                        document.getElementById('timeline_editor_html_element').addEventListener('mousemove', function(event) {
+                            const coords = timeline_editor.renderer.screenToTextCoordinates(event.clientX, event.clientY);
+                            console.log('Row:', coords.row, 'Column:', coords.column);
+                        });
 //delete
 
                     },
