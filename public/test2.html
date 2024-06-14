@@ -870,6 +870,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 border-radius: 3px;
                 z-index: 1000;
             }
+            .highlight-character {
+                background-color: gray;
+                position: absolute;
+                z-index: -2000;
+            }
         </style>
     </head>
 
@@ -1391,7 +1396,7 @@ return {step: "Main app run"}`
                             const style = document.createElement('style');
                             style.type = 'text/css';
                             style.innerHTML = '.highlighted { background-color: lightgray; position: absolute; z-index: 20; }';
-                            document.head.appendChild(style);
+                            //document.head.appendChild(style);
 
 
 
@@ -1400,6 +1405,35 @@ return {step: "Main app run"}`
                                 hintElement.style.left = (event.clientX + 10) + 'px';
                                 hintElement.style.top = (event.clientY + 10) + 'px';
                                 //hintElement.style.display = 'none';
+
+
+
+
+
+                                const row = 1; // Row index (0-based)
+                                const column = 12; // Column index (0-based)
+
+                                // Function to create a marker
+                                function createMarker() {
+                                    return {
+                                        update: function(html, markerLayer, session, config) {
+                                            const start = session.documentToScreenPosition(coords.row, coords.column);
+                                            const end = session.documentToScreenPosition(coords.row, coords.column + 1);
+
+                                            const height = config.lineHeight;
+                                            const width = config.characterWidth;
+                                            const top = start.row * height;
+                                            const left = markerLayer.$padding + start.column * width;
+
+                                            html.push(
+                                                `<div class='highlight-character' style='top:${top}px; left:${left}px; height:${height}px; width:${width}px'></div>`
+                                            );
+                                        }
+                                    };
+                                }
+
+                                // Add the marker to the session
+                                timeline_editor.session.addDynamicMarker(createMarker(), true);
                         });
 //delete
 
