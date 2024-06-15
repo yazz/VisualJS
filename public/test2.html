@@ -1387,11 +1387,16 @@ return {step: "Main app run"}`
                             const coords = timeline_editor.renderer.screenToTextCoordinates(event.clientX, event.clientY);
                             console.log('Row:', coords.row, 'Column:', coords.column);
 
+                            if (coords.row ==  2) {
                                 const hintElement = document.getElementById('hint');
                                 hintElement.style.display = 'block';
                                 hintElement.style.left = (event.clientX + 10) + 'px';
                                 hintElement.style.top = (event.clientY + 10) + 'px';
                                 //hintElement.style.display = 'none';
+                            } else {
+                                const hintElement = document.getElementById('hint');
+                                hintElement.style.display = 'none';
+                            }
 
                         });
 //delete
