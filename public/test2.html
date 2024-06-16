@@ -1082,7 +1082,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <!-- ----------------------------------
                     STEP BACK IN TIME - not implemented yet
              ---------------------------------- -->
-        <button   v-on:click="stepOver()"
+        <button   v-on:click="stepBack()"
                   v-if="rightPane=='debugger'"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
@@ -1435,9 +1435,11 @@ return {step: "Main app run"}`
         function        step                                (  gen  ,  result  )                    {
             stepDetails.push({gen: gen  ,  result:  result  })
             if (result && result.value) {
-                let lineNum = result.value.lineNumStart
+                let lineNum                 = result.value.lineNumStart
                 timeline_editor.gotoLine(lineNum, 0, true);
                 timeline_editor.setHighlightActiveLine(true);
+                listOfBreakpoints[lineNum]  = true
+                executingLineNumber         = lineNum
             }
         }
         function        debuggerPause                       (  )                                    {
@@ -1448,10 +1450,6 @@ return {step: "Main app run"}`
         }
         function        sleep                               (  ms  )                                {
             return new Promise(resolve => setTimeout(resolve, ms));
-        }
-        async function  globalTick                          (  )                                    {
-            console.log("tickCount: " + tickCount)
-            tickCount++
         }
         async function  runAll                              (  )                                    {
             await init()
@@ -1471,6 +1469,8 @@ return {step: "Main app run"}`
         let tickCount           = 0
         let stepDetails         = []
         let globalDebugLock     = null
+        let listOfBreakpoints   = {}
+        let executingLineNumber = null
 
         runAll();
 
