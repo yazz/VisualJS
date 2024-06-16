@@ -1121,10 +1121,12 @@ console.log("out: 3")
 console.log("out: 4")
 console.log("out: 5")
 let af = async function() {
-    return 6
+    console.log("out: 6" )
+    //return 7
 }
 let retres = await af()
 console.log("out: " + retres)
+console.log("out: 8")
 `
                             }
                             ,
@@ -1278,13 +1280,13 @@ return {step: "Main app run"}`
                                             while (!result.done) {
                                                 step(gen, result)
                                                 ${pauseCode}
-                                                //console.log(result.value);  // Output the value
+                                                console.log("DEBUG: " + JSON.stringify(result.value,null,2));  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             if (result.done) {
                                                 step(gen,result)
                                                 // output after the last value
-                                                //console.log('Generator returned ' + JSON.stringify(result.value,null,2));
+                                                console.log('DEBUG Generator returned ' + JSON.stringify(result.value,null,2));
                                                 return result.value
                                             }
                                             //step(gen)
