@@ -1410,9 +1410,13 @@ return {step: "Main app run"}`
 
                     },
                     stepOver:           function       (  ) {
+                        let mm = this
                         if (globalDebugLock) {
                             globalDebugLock()
                             globalDebugLock = null
+                            setTimeout(function() {
+                                mm.stepOver()
+                            },200)
                         } else {
                             console.log("Debugging ended")
                         }
