@@ -984,6 +984,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 //alert(row)
                 //debugger
                 e.editor.session.setBreakpoint(row);
+                listOfBreakpoints[row]  = true
                 e.editor.scrollToLine(row , true, true, function () {});
                 //e.stop();
 
@@ -1414,9 +1415,12 @@ return {step: "Main app run"}`
                         if (globalDebugLock) {
                             globalDebugLock()
                             globalDebugLock = null
-                            setTimeout(function() {
-                                mm.stepOver()
-                            },200)
+                            debugger
+                            if (!listOfBreakpoints[executingLineNumber]) {
+                                setTimeout(function() {
+                                    mm.stepOver()
+                                },200)
+                            }
                         } else {
                             console.log("Debugging ended")
                         }
@@ -1442,7 +1446,6 @@ return {step: "Main app run"}`
                 let lineNum                 = result.value.lineNumStart
                 timeline_editor.gotoLine(lineNum, 0, true);
                 timeline_editor.setHighlightActiveLine(true);
-                listOfBreakpoints[lineNum]  = true
                 executingLineNumber         = lineNum
             }
         }
