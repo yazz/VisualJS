@@ -1120,7 +1120,12 @@ console.log("out: 2")
 console.log("out: 3")
 console.log("out: 4")
 console.log("out: 5")
-                                    `
+let af = async function() {
+    return 6
+}
+let retres = await af()
+console.log("out: " + retres)
+`
                             }
                             ,
                             {
