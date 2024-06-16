@@ -1079,6 +1079,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </button>
 
 
+        <!-- ----------------------------------
+                    STEP BACK IN TIME - not implemented yet
+             ---------------------------------- -->
         <button   v-on:click="stepOver()"
                   v-if="rightPane=='debugger'"
                   style="margin-right: 10px;"
@@ -1086,6 +1089,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             &lt;
         </button>
 
+        <!-- ----------------------------------
+                    STEP OVER CODE
+             ---------------------------------- -->
         <button   v-on:click="stepOver()"
                   v-if="rightPane=='debugger'"
                   style="margin-right: 10px;"
@@ -1463,7 +1469,6 @@ return {step: "Main app run"}`
         let stepDetails         = []
         let debuggerTimer       = null
         let globalDebugLock     = null
-
 
         runAll();
 
