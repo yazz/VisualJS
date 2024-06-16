@@ -1278,17 +1278,17 @@ return {step: "Main app run"}`
                                         `(${asyncPrefix} function() {
                                             let result = ${awaitPrefix} gen.next()
                                             while (!result.done) {
-                                                console.log("result.done: " + result.done)
+                                                //console.log("result.done: " + result.done)
                                                 step(gen, result)
                                                 ${pauseCode}
-                                                console.log("DEBUG: " + JSON.stringify(result.value,null,2));  // Output the value
+                                                //console.log("DEBUG: " + JSON.stringify(result.value,null,2));  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             if (result.done) {
-                                                console.log("result.done: " + result.done)
+                                                //console.log("result.done: " + result.done)
                                                 step(gen,result)
                                                 // output after the last value
-                                                console.log('DEBUG Generator returned ' + JSON.stringify(result.value,null,2));
+                                                //console.log('DEBUG Generator returned ' + JSON.stringify(result.value,null,2));
                                                 return result.value
                                             }
                                             //step(gen)
