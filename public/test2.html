@@ -1081,6 +1081,16 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
         <!-- ----------------------------------
+                    RESUME DEBUGGER
+             ---------------------------------- -->
+        <button   v-on:click="resumeDebugger()"
+                  v-if="rightPane=='debugger'"
+                  style="margin-right: 10px;"
+                  class="btn btn-sm btn-info">
+            Resume
+        </button>
+
+        <!-- ----------------------------------
                     STEP BACK IN TIME - not implemented yet
              ---------------------------------- -->
         <button   v-on:click="stepBack()"
@@ -1380,7 +1390,7 @@ return {step: "Main app run"}`
                         stepDetails         = []
                         eval(mm.debugCodeToEval)
                         setTimeout(function(){
-                            mm.stepOver()
+                            mm.resumeDebugger()
                         },100)
                     },
                     stopDebugger:       async function (  ) {
@@ -1418,10 +1428,18 @@ return {step: "Main app run"}`
                         if (globalDebugLock) {
                             globalDebugLock()
                             globalDebugLock = null
-                            debugger
+                        } else {
+                            console.log("Debugging ended")
+                        }
+                    },
+                    resumeDebugger:           function       (  ) {
+                        let mm = this
+                        if (globalDebugLock) {
+                            globalDebugLock()
+                            globalDebugLock = null
                             if (!listOfBreakpoints[executingLineNumber]) {
                                 setTimeout(function() {
-                                    mm.stepOver()
+                                    mm.resumeDebugger()
                                 },200)
                             }
                         } else {
