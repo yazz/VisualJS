@@ -1379,6 +1379,9 @@ return {step: "Main app run"}`
                         tickCount = 0
                         stepDetails         = []
                         eval(mm.debugCodeToEval)
+                        setTimeout(function(){
+                            mm.stepOver()
+                        },100)
                     },
                     stopDebugger:       async function (  ) {
                         let mm = this
