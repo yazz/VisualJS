@@ -978,13 +978,15 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     return;
                 }
 
-                var breakpoints = e.editor.session.getBreakpoints(row, 0);
                 var row = e.getDocumentPosition().row;
 
-                //alert(row)
-                //debugger
-                e.editor.session.setBreakpoint(row);
-                listOfBreakpoints[row]  = true
+                if (!listOfBreakpoints[row]) {
+                    listOfBreakpoints[row]  = true
+                    e.editor.session.setBreakpoint(row);
+                } else {
+                    delete listOfBreakpoints[row]
+                    e.editor.session.clearBreakpoint(row)
+                }
                 e.editor.scrollToLine(row , true, true, function () {});
                 //e.stop();
 
@@ -1386,7 +1388,6 @@ return {step: "Main app run"}`
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
-                        tickCount = 0
                         stepDetails         = []
                         eval(mm.debugCodeToEval)
                         setTimeout(function(){
@@ -1396,7 +1397,6 @@ return {step: "Main app run"}`
                     stopDebugger:       async function (  ) {
                         let mm = this
                         mm.rightPane = "debugger"
-                        tickCount = 0
                         stepDetails         = []
 
 
@@ -1494,7 +1494,6 @@ return {step: "Main app run"}`
         let refErrorMsg         = Vue.ref("Error ... ")
         let vueApp              = null
         let VueAppData          = null
-        let tickCount           = 0
         let stepDetails         = []
         let globalDebugLock     = null
         let listOfBreakpoints   = {}
