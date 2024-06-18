@@ -1075,7 +1075,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             Start Debugger
         </button>
 
+        <!-- ----------------------------------
+                    STOP DEBUGGER
+             ---------------------------------- -->
         <button   v-on:click="stopDebugger()"
+                  v-if="rightPane=='debugger'"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
             Stop Debugger
@@ -1396,7 +1400,7 @@ return {step: "Main app run"}`
                     },
                     stopDebugger:       async function (  ) {
                         let mm = this
-                        mm.rightPane = "debugger"
+                        mm.rightPane = null
                         stepDetails         = []
 
 
@@ -1430,6 +1434,7 @@ return {step: "Main app run"}`
                             globalDebugLock = null
                         } else {
                             console.log("Debugging ended")
+                            mm.rightPane = null
                         }
                     },
                     resumeDebugger:           function       (  ) {
@@ -1444,6 +1449,7 @@ return {step: "Main app run"}`
                             }
                         } else {
                             console.log("Debugging ended")
+                            mm.rightPane = null
                         }
                     }
         }
