@@ -1075,15 +1075,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             Start Debugger
         </button>
 
-        <!-- ----------------------------------
-                    STOP DEBUGGER
-             ---------------------------------- -->
-        <button   v-on:click="stopDebugger()"
-                  v-if="rightPane=='debugger'"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            Stop Debugger
-        </button>
 
 
         <!-- ----------------------------------
@@ -1116,6 +1107,19 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             &gt;
         </button>
 
+
+
+        <!-- ----------------------------------
+                    STOP DEBUGGER
+             ---------------------------------- -->
+        <button   v-on:click="stopDebugger()"
+                  v-if="rightPane=='debugger'"
+                  style="margin-right: 10px;"
+                  class="btn btn-sm btn-info">
+            Stop Debugger
+        </button>
+
+        
     </div>
 
     <br/>
