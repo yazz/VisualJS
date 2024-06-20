@@ -1201,14 +1201,14 @@ return {step: "Main app run"}`
                                 return;
                             }
 
-                            var row = e.getDocumentPosition().row;
+                            var row = e.getDocumentPosition().row + 1;
 
                             if (!mm.listOfBreakpoints[row]) {
                                 mm.listOfBreakpoints[row]  = true
-                                e.editor.session.setBreakpoint(row);
+                                e.editor.session.setBreakpoint(row - 1);
                             } else {
                                 delete mm.listOfBreakpoints[row]
-                                e.editor.session.clearBreakpoint(row)
+                                e.editor.session.clearBreakpoint(row - 1)
                             }
                             e.editor.scrollToLine(row , true, true, function () {});
                             //e.stop();
@@ -1481,7 +1481,7 @@ return {step: "Main app run"}`
             stepDetails.push({ result:  result  })
             if (result && result.value) {
                 let lineNum                 = result.value.lineNumStart
-                timeline_editor.gotoLine(lineNum, 0, true);
+                timeline_editor.gotoLine(lineNum - 1, 0, true);
                 timeline_editor.setHighlightActiveLine(true);
                 executingLineNumber         = lineNum
             }
