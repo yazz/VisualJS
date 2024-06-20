@@ -1300,12 +1300,12 @@ return {step: "Main app run"}`
                                             let result = {done: false}
                                             while (!result.done) {
                                                 //console.log("result.done: " + result.done)
-                                                highlightSteppedLine(result)
+                                                highlightSteppedLine({result: result})
                                                 ${pauseCode}
                                                 //console.log("DEBUG: " + JSON.stringify(result.value,null,2));  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
-                                            highlightSteppedLine(result)
+                                            highlightSteppedLine({result: result})
                                             // output after the last value
                                             //console.log('DEBUG Generator returned ' + JSON.stringify(result.value,null,2));
                                             return result.value
@@ -1467,7 +1467,7 @@ return {step: "Main app run"}`
                 }, 1000)
             })
         }
-        function        highlightSteppedLine                (  result  )                    {
+        function        highlightSteppedLine                (  {  result  }  )                    {
             stepDetails.push({ result:  result  })
             if (result && result.value) {
                 let lineNum                 = result.value.lineNumStart
