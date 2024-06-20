@@ -1279,6 +1279,7 @@ return {step: "Main app run"}`
                                                         yield {
                                                                 lineNumStart: ${statement.loc.start.line}
                                                                 }
+                                                        yield
                                                     })`
                                                 } else {
                                                     yieldCode = `(${asyncPrefix} function*() {
@@ -1309,7 +1310,7 @@ return {step: "Main app run"}`
 
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
-                                            let result = {done: false}
+                                            result = ${awaitPrefix} gen.next();
                                             while (!result.done) {
                                                 //console.log("result.done: " + result.done)
                                                 mm.highlightStoppedLine({result: result})
@@ -1454,6 +1455,7 @@ return {step: "Main app run"}`
                         if (globalDebugLock) {
                             globalDebugLock()
                             globalDebugLock = null
+                            debugger
                             if (!mm.listOfBreakpoints[mm.executingLineNumber]) {
                                 setTimeout(function() {
                                     mm.resumeDebugger()
