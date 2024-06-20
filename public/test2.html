@@ -1071,13 +1071,15 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     listOfBreakpoints:
     {{listOfBreakpoints}}
 
-
+    executingLineNumber:
+    {{executingLineNumber}}
     </pre>
 </div>`,
                 data:                   function () {
                     return {
                         rightPane:              null,
                         listOfBreakpoints:      {},
+                        executingLineNumber:    null,
                         error_msg:              refErrorMsg,
                         codeAST:                null,
                         transformedAST:         null,
@@ -1156,7 +1158,7 @@ return {step: "Main app run"}`
                     await mm.selectProgram()
                 },
                 methods:                {
-                    setupAceEditor:     async function (  ) {
+                    setupAceEditor:         async function (  )                     {
                         let mm = this
                         ace.config.set('basePath', '/');
                         timeline_editor = ace.edit(           "timeline_editor_html_element", {
@@ -1216,13 +1218,13 @@ return {step: "Main app run"}`
 
                         });
                     },
-                    selectProgram:      async function (  ) {
+                    selectProgram:          async function (  )                     {
                         let mm = this
                         this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
                         timeline_editor.getSession().setValue(mm.htmlInput)
                         mm.rightPane = null
                     },
-                    runCode:            async function (  ) {
+                    runCode:                async function (  )                     {
                         let mm = this
                         mm.rightPane = "running"
                         mm.htmlInput = timeline_editor.getSession().getValue()
@@ -1230,7 +1232,7 @@ return {step: "Main app run"}`
                             eval("(async function() {" + mm.htmlInput + "})()")
                         })
                     },
-                    createAST:          async function (  ) {
+                    createAST:              async function (  )                     {
                         let mm = this
                         mm.rightPane = "AST"
 
@@ -1239,7 +1241,7 @@ return {step: "Main app run"}`
                         mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 , locations: true, range: true});
 
                     },
-                    transformAST:       async function (  ) {
+                    transformAST:           async function (  )                     {
                         let mm = this
                         await mm.createAST()
                         mm.rightPane = "transform_AST"
@@ -1310,12 +1312,12 @@ return {step: "Main app run"}`
                                             let result = {done: false}
                                             while (!result.done) {
                                                 //console.log("result.done: " + result.done)
-                                                highlightStoppedLine({result: result})
+                                                mm.highlightStoppedLine({result: result})
                                                 ${pauseCode}
                                                 //console.log("DEBUG: " + JSON.stringify(result.value,null,2));  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
-                                            highlightStoppedLine({result: result})
+                                            mm.highlightStoppedLine({result: result})
                                             // output after the last value
                                             //console.log('DEBUG Generator returned ' + JSON.stringify(result.value,null,2));
                                             return result.value
@@ -1387,7 +1389,7 @@ return {step: "Main app run"}`
 
 
                     },
-                    createDebugCode:    async function (  ) {
+                    createDebugCode:        async function (  )                     {
                         let mm = this
                         await mm.transformAST()
                         mm.rightPane = "debug_code"
@@ -1398,17 +1400,17 @@ return {step: "Main app run"}`
                         //
                         mm.debugCodeToEval = escodegen.generate(mm.transformedAST, {comment: false})
                     },
-                    startDebugger:      async function (  ) {
+                    startDebugger:          async function (  )                     {
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         stepDetails         = []
-                        eval(mm.debugCodeToEval)
+                        eval("let mm = this;" + mm.debugCodeToEval)
                         setTimeout(function(){
                             mm.resumeDebugger()
                         },100)
                     },
-                    stopDebugger:       async function (  ) {
+                    stopDebugger:           async function (  )                     {
                         let mm = this
                         mm.rightPane = null
                         stepDetails         = []
@@ -1437,7 +1439,7 @@ return {step: "Main app run"}`
 //delete
 
                     },
-                    stepOver:           function       (  ) {
+                    stepOver:               function       (  )                     {
                         let mm = this
                         if (globalDebugLock) {
                             globalDebugLock()
@@ -1447,12 +1449,12 @@ return {step: "Main app run"}`
                             mm.rightPane = null
                         }
                     },
-                    resumeDebugger:           function       (  ) {
+                    resumeDebugger:         function       (  )                     {
                         let mm = this
                         if (globalDebugLock) {
                             globalDebugLock()
                             globalDebugLock = null
-                            if (!mm.listOfBreakpoints[executingLineNumber]) {
+                            if (!mm.listOfBreakpoints[mm.executingLineNumber]) {
                                 setTimeout(function() {
                                     mm.resumeDebugger()
                                 },15)
@@ -1461,8 +1463,19 @@ return {step: "Main app run"}`
                             console.log("Debugging ended")
                             mm.rightPane = null
                         }
+                    },
+                    highlightStoppedLine:   function       (  {  result  }  )       {
+                        let mm = this
+                        stepDetails.push({ result:  result  })
+                        if (result && result.value) {
+                            let lineNum                 = result.value.lineNumStart
+                            timeline_editor.gotoLine(lineNum - 1, 0, true);
+                            timeline_editor.setHighlightActiveLine(true);
+                            mm.executingLineNumber         = lineNum
+                        }
                     }
-        }
+
+                }
             })
         }
         function        mountDebuggerVueElement             (  )                                    {
@@ -1476,15 +1489,6 @@ return {step: "Main app run"}`
 
                 }, 1000)
             })
-        }
-        function        highlightStoppedLine                (  {  result  }  )                    {
-            stepDetails.push({ result:  result  })
-            if (result && result.value) {
-                let lineNum                 = result.value.lineNumStart
-                timeline_editor.gotoLine(lineNum - 1, 0, true);
-                timeline_editor.setHighlightActiveLine(true);
-                executingLineNumber         = lineNum
-            }
         }
         function        debuggerPause                       (  )                                    {
             return new Promise(
@@ -1512,7 +1516,6 @@ return {step: "Main app run"}`
         let VueAppData          = null
         let stepDetails         = []
         let globalDebugLock     = null
-        let executingLineNumber = null
 
         runAll();
 
