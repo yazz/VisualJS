@@ -934,65 +934,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  )   {
 
         }
-        async function  setupAceEditor                      (  )                                    {
-            ace.config.set('basePath', '/');
-            timeline_editor = ace.edit(           "timeline_editor_html_element", {
-                selectionStyle: "text",
-                mode:           "ace/mode/javascript"
-            })
-
-
-            //Bug fix: Need a delay when setting theme or view is corrupted
-            setTimeout(function(){
-                timeline_editor.setTheme("ace/theme/sqlserver");
-                timeline_editor.getSession().setMode({
-                    inline: true
-                });
-
-
-            },100)
-
-            document.getElementById("timeline_editor_html_element").style["font-size"]   = "11px"
-            document.getElementById("timeline_editor_html_element").style.width          = "40%"
-            document.getElementById("timeline_editor_html_element").style.border         = "0px solid #2C2828"
-            document.getElementById("timeline_editor_html_element").style.display        = "inline-block"
-            document.getElementById("timeline_editor_html_element").style.height         = "50%"
-
-            timeline_editor.getSession().setValue("");
-            timeline_editor.getSession().setUseWorker(false);
-            //timeline_editor.setReadOnly(true)
-
-
-            timeline_editor.on("guttermousedown", function(e) {
-                var target = e.domEvent.target;
-
-                if (target.className.indexOf("ace_gutter-cell") == -1){
-                    return;
-                }
-
-                if (!timeline_editor.isFocused()){
-                    return;
-                }
-
-                if (e.clientX > 100 + target.getBoundingClientRect().left){
-                    return;
-                }
-
-                var row = e.getDocumentPosition().row;
-
-                if (!listOfBreakpoints[row]) {
-                    listOfBreakpoints[row]  = true
-                    e.editor.session.setBreakpoint(row);
-                } else {
-                    delete listOfBreakpoints[row]
-                    e.editor.session.clearBreakpoint(row)
-                }
-                e.editor.scrollToLine(row , true, true, function () {});
-                //e.stop();
-
-
-            });
-        }
         function        createDebuggerUI                    (  )                                    {
             vueApp = Vue.createApp({
                 template:               `
@@ -1124,10 +1065,19 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <br/>
     <div style="border: 3px solid red">{{error_msg}}</div>
+
+
+    <pre>
+    listOfBreakpoints:
+    {{listOfBreakpoints}}
+
+
+    </pre>
 </div>`,
                 data:                   function () {
                     return {
                         rightPane:              null,
+                        listOfBreakpoints:      {},
                         error_msg:              refErrorMsg,
                         codeAST:                null,
                         transformedAST:         null,
@@ -1202,10 +1152,70 @@ return {step: "Main app run"}`
                 },
                 mounted:                async function () {
                     let mm = this
-                    await setupAceEditor()
+                    await mm.setupAceEditor()
                     await mm.selectProgram()
                 },
                 methods:                {
+                    setupAceEditor:     async function (  ) {
+                        let mm = this
+                        ace.config.set('basePath', '/');
+                        timeline_editor = ace.edit(           "timeline_editor_html_element", {
+                            selectionStyle: "text",
+                            mode:           "ace/mode/javascript"
+                        })
+
+
+                        //Bug fix: Need a delay when setting theme or view is corrupted
+                        setTimeout(function(){
+                            timeline_editor.setTheme("ace/theme/sqlserver");
+                            timeline_editor.getSession().setMode({
+                                inline: true
+                            });
+
+
+                        },100)
+
+                        document.getElementById("timeline_editor_html_element").style["font-size"]   = "11px"
+                        document.getElementById("timeline_editor_html_element").style.width          = "40%"
+                        document.getElementById("timeline_editor_html_element").style.border         = "0px solid #2C2828"
+                        document.getElementById("timeline_editor_html_element").style.display        = "inline-block"
+                        document.getElementById("timeline_editor_html_element").style.height         = "50%"
+
+                        timeline_editor.getSession().setValue("");
+                        timeline_editor.getSession().setUseWorker(false);
+                        //timeline_editor.setReadOnly(true)
+
+
+                        timeline_editor.on("guttermousedown", function(e) {
+                            var target = e.domEvent.target;
+
+                            if (target.className.indexOf("ace_gutter-cell") == -1){
+                                return;
+                            }
+
+                            if (!timeline_editor.isFocused()){
+                                return;
+                            }
+
+                            if (e.clientX > 100 + target.getBoundingClientRect().left){
+                                return;
+                            }
+
+                            var row = e.getDocumentPosition().row;
+
+                            if (!mm.listOfBreakpoints[row]) {
+                                mm.listOfBreakpoints[row]  = true
+                                e.editor.session.setBreakpoint(row);
+                            } else {
+                                delete mm.listOfBreakpoints[row]
+                                e.editor.session.clearBreakpoint(row)
+                            }
+                            e.editor.scrollToLine(row , true, true, function () {});
+                            //e.stop();
+
+
+                        });
+                    },
                     selectProgram:      async function (  ) {
                         let mm = this
                         this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
@@ -1442,7 +1452,7 @@ return {step: "Main app run"}`
                         if (globalDebugLock) {
                             globalDebugLock()
                             globalDebugLock = null
-                            if (!listOfBreakpoints[executingLineNumber]) {
+                            if (!mm.listOfBreakpoints[executingLineNumber]) {
                                 setTimeout(function() {
                                     mm.resumeDebugger()
                                 },15)
@@ -1502,7 +1512,6 @@ return {step: "Main app run"}`
         let VueAppData          = null
         let stepDetails         = []
         let globalDebugLock     = null
-        let listOfBreakpoints   = {}
         let executingLineNumber = null
 
         runAll();
