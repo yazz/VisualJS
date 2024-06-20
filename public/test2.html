@@ -1405,7 +1405,7 @@ return {step: "Main app run"}`
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         stepDetails         = []
-                        eval("let mm = this;" + mm.debugCodeToEval)
+                        eval(mm.debugCodeToEval)
                         setTimeout(function(){
                             mm.resumeDebugger()
                         },100)
