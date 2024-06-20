@@ -1315,6 +1315,7 @@ return {step: "Main app run"}`
                                                 //console.log("result.done: " + result.done)
                                                 mm.highlightStoppedLine({result: result})
                                                 ${pauseCode}
+                                                ${awaitPrefix} gen.next();
                                                 //console.log("DEBUG: " + JSON.stringify(result.value,null,2));  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
@@ -1455,7 +1456,7 @@ return {step: "Main app run"}`
                         if (globalDebugLock) {
                             globalDebugLock()
                             globalDebugLock = null
-                            debugger
+
                             if (!mm.listOfBreakpoints[mm.executingLineNumber]) {
                                 setTimeout(function() {
                                     mm.resumeDebugger()
