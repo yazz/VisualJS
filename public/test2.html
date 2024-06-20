@@ -1297,22 +1297,21 @@ return {step: "Main app run"}`
 
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
-                                            let result = ${awaitPrefix} gen.next()
+                                            let result = {done: false}
                                             while (!result.done) {
                                                 //console.log("result.done: " + result.done)
-                                                step(gen, result)
+                                                step(result)
                                                 ${pauseCode}
                                                 //console.log("DEBUG: " + JSON.stringify(result.value,null,2));  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             if (result.done) {
                                                 //console.log("result.done: " + result.done)
-                                                step(gen,result)
+                                                step(result)
                                                 // output after the last value
                                                 //console.log('DEBUG Generator returned ' + JSON.stringify(result.value,null,2));
                                                 return result.value
                                             }
-                                            //step(gen)
                                         })()`
                                     //zzz
                                     let commandsAfterAst = acorn.parse(generatorCode,{ ecmaVersion: 2021 });
@@ -1471,8 +1470,8 @@ return {step: "Main app run"}`
                 }, 1000)
             })
         }
-        function        step                                (  gen  ,  result  )                    {
-            stepDetails.push({gen: gen  ,  result:  result  })
+        function        step                                (  result  )                    {
+            stepDetails.push({ result:  result  })
             if (result && result.value) {
                 let lineNum                 = result.value.lineNumStart
                 timeline_editor.gotoLine(lineNum, 0, true);
