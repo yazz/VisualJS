@@ -1462,11 +1462,6 @@ return {step: "Main app run"}`
                             unpauseDebugger()
                             unpauseDebugger = null
 
-                            if (!mm.listOfBreakpoints[mm.nextLineToExecute]) {
-                                setTimeout(function() {
-                                    mm.resumeDebugger()
-                                },15)
-                            }
                         } else {
                             console.log("Debugging ended")
                             mm.rightPane = null
