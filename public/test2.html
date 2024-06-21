@@ -1078,6 +1078,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 data:                   function () {
                     return {
                         rightPane:              null,
+                        stepOverPressed:        false,
                         listOfBreakpoints:      {},
                         nextLineToExecute:      null,
                         error_msg:              refErrorMsg,
@@ -1306,12 +1307,16 @@ return {step: "Main app run"}`
 
                                     let asyncPrefix = node.async?"async ":""
                                     let awaitPrefix = node.async?"await ":""
-                                    let pauseCode = node.async?"await mm.debuggerPause( );":""
+                                    let pauseCode = node.async?`if (mm.stepOverPressed || (mm.listOfBreakpoints[mm.nextLineToExecute])) {
+                                                                    await mm.debuggerPause( );
+                                                                    mm.stepOverPressed = false
+                                                                }`
+                                                                :
+                                                                ""
 
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
                                             result = ${awaitPrefix} gen.next();
-                                            debugger
                                             while (!result.done) {
                                                 //console.log("result.done: " + result.done)
                                                 mm.highlightStoppedLine({result: result})
@@ -1440,13 +1445,17 @@ return {step: "Main app run"}`
                     },
                     stepOver:               function       (  )                     {
                         let mm = this
-                        if (unpauseDebugger) {
+                        mm.stepOverPressed = 2
+                        /*if (unpauseDebugger) {
                             unpauseDebugger()
                             unpauseDebugger = null
                         } else {
                             console.log("Debugging ended")
                             mm.rightPane = null
-                        }
+                        }*/
+                        setTimeout(function() {
+                            mm.resumeDebugger()
+                        },15)
                     },
                     resumeDebugger:         function       (  )                     {
                         let mm = this
