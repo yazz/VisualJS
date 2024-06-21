@@ -1477,7 +1477,7 @@ return {step: "Main app run"}`
                         let mm = this
                         if (result && result.value) {
                             let lineNum                 = result.value.lineNumStart
-                            timeline_editor.gotoLine(lineNum - 1, 0, true);
+                            timeline_editor.gotoLine(lineNum, 0, true);
                             timeline_editor.setHighlightActiveLine(true);
                             mm.nextLineToExecute         = lineNum
                         }
