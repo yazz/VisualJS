@@ -1314,6 +1314,7 @@ return {step: "Main app run"}`
                                                 mm.listOfBreakpoints[  mm.nextLineToExecute  ]
                                             )
                                             {
+                                                mm.pauseAtNextLine = false
                                                 await mm.debuggerPause( );
                                             }
                                         `
