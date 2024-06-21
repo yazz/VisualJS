@@ -1440,9 +1440,9 @@ return {step: "Main app run"}`
                     },
                     stepOver:               function       (  )                     {
                         let mm = this
-                        if (globalDebugLock) {
-                            globalDebugLock()
-                            globalDebugLock = null
+                        if (unpauseDebugger) {
+                            unpauseDebugger()
+                            unpauseDebugger = null
                         } else {
                             console.log("Debugging ended")
                             mm.rightPane = null
@@ -1450,9 +1450,9 @@ return {step: "Main app run"}`
                     },
                     resumeDebugger:         function       (  )                     {
                         let mm = this
-                        if (globalDebugLock) {
-                            globalDebugLock()
-                            globalDebugLock = null
+                        if (unpauseDebugger) {
+                            unpauseDebugger()
+                            unpauseDebugger = null
 
                             if (!mm.listOfBreakpoints[mm.nextLineToExecute]) {
                                 setTimeout(function() {
@@ -1467,7 +1467,7 @@ return {step: "Main app run"}`
                     debuggerPause:          async function (  )                     {
                         let promise = new Promise(
                             function(resolve) {
-                                globalDebugLock = resolve
+                                unpauseDebugger = resolve
                                 //setTimeout(resolve, 5000)
                             });
                         let ret = await promise
@@ -1517,7 +1517,7 @@ return {step: "Main app run"}`
         let refErrorMsg         = Vue.ref("Error ... ")
         let vueApp              = null
         let VueAppData          = null
-        let globalDebugLock     = null
+        let unpauseDebugger     = null
 
         runAll();
 
