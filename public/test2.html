@@ -1307,12 +1307,15 @@ return {step: "Main app run"}`
 
                                     let asyncPrefix = node.async?"async ":""
                                     let awaitPrefix = node.async?"await ":""
-                                    let pauseCode = node.async?`if (mm.pauseAtNextLine || (mm.listOfBreakpoints[mm.nextLineToExecute])) {
-                                                                    await mm.debuggerPause( );
-                                                                }
-                                                                `
-                                                                :
-                                                                ""
+                                    let pauseCode = node.async?
+                                        `if (mm.pauseAtNextLine ||
+                                            (mm.listOfBreakpoints[mm.nextLineToExecute]))
+                                        {
+                                            await mm.debuggerPause( );
+                                        }
+                                        `
+                                        :
+                                        ""
 
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
