@@ -1071,15 +1071,15 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     listOfBreakpoints:
     {{listOfBreakpoints}}
 
-    executingLineNumber:
-    {{executingLineNumber}}
+    nextLineToExecute:
+    {{nextLineToExecute}}
     </pre>
 </div>`,
                 data:                   function () {
                     return {
                         rightPane:              null,
                         listOfBreakpoints:      {},
-                        executingLineNumber:    null,
+                        nextLineToExecute:      null,
                         error_msg:              refErrorMsg,
                         codeAST:                null,
                         transformedAST:         null,
@@ -1409,7 +1409,7 @@ return {step: "Main app run"}`
                         mm.rightPane = "debugger"
                         eval(mm.debugCodeToEval)
                         setTimeout(function(){
-                            mm.resumeDebugger()
+                            //mm.resumeDebugger()
                         },100)
                     },
                     stopDebugger:           async function (  )                     {
@@ -1454,7 +1454,7 @@ return {step: "Main app run"}`
                             globalDebugLock()
                             globalDebugLock = null
 
-                            if (!mm.listOfBreakpoints[mm.executingLineNumber]) {
+                            if (!mm.listOfBreakpoints[mm.nextLineToExecute]) {
                                 setTimeout(function() {
                                     mm.resumeDebugger()
                                 },15)
@@ -1470,7 +1470,7 @@ return {step: "Main app run"}`
                             let lineNum                 = result.value.lineNumStart
                             timeline_editor.gotoLine(lineNum - 1, 0, true);
                             timeline_editor.setHighlightActiveLine(true);
-                            mm.executingLineNumber         = lineNum
+                            mm.nextLineToExecute         = lineNum
                         }
                     }
 
