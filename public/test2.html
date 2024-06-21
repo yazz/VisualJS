@@ -1407,7 +1407,6 @@ return {step: "Main app run"}`
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
-                        stepDetails         = []
                         eval(mm.debugCodeToEval)
                         setTimeout(function(){
                             mm.resumeDebugger()
@@ -1416,9 +1415,6 @@ return {step: "Main app run"}`
                     stopDebugger:           async function (  )                     {
                         let mm = this
                         mm.rightPane = null
-                        stepDetails         = []
-
-
 
 
 //delete
@@ -1470,7 +1466,6 @@ return {step: "Main app run"}`
                     },
                     highlightStoppedLine:   function       (  {  result  }  )       {
                         let mm = this
-                        stepDetails.push({ result:  result  })
                         if (result && result.value) {
                             let lineNum                 = result.value.lineNumStart
                             timeline_editor.gotoLine(lineNum - 1, 0, true);
@@ -1521,7 +1516,6 @@ return {step: "Main app run"}`
         let refErrorMsg         = Vue.ref("Error ... ")
         let vueApp              = null
         let VueAppData          = null
-        let stepDetails         = []
         let globalDebugLock     = null
 
         runAll();
