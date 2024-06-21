@@ -1316,22 +1316,17 @@ return {step: "Main app run"}`
 
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
-                                            //debugger
                                             result = ${awaitPrefix} gen.next();
                                             while (!result.done) {
-                                                //console.log("result.done: " + result.done)
                                                 mm.highlightStoppedLine({result: result})
                                                 ${pauseCode}
                                                 ${awaitPrefix} gen.next();
-                                                //console.log("DEBUG: " + JSON.stringify(result.value,null,2));  // Output the value
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             mm.highlightStoppedLine({result: result})
-                                            // output after the last value
-                                            //console.log('DEBUG Generator returned ' + JSON.stringify(result.value,null,2));
                                             return result.value
                                         })()`
-                                    //zzz
+
                                     let commandsAfterAst = acorn.parse(generatorCode,{ ecmaVersion: 2021 });
                                     let commandsAfter = commandsAfterAst.body[0].expression.callee.body.body
 
