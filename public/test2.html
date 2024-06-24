@@ -1311,7 +1311,10 @@ return {step: "Main app run"}`
                                                         if (mm.evalCodeAtBreakpoint && mm.codeToEvalAtBreakpoint) {
                                                             mm.breakpointEvalResult = eval(mm.codeToEvalAtBreakpoint)
                                                             mm.evalCodeAtBreakpoint = false
-                                                            yield
+                                                            yield {
+                                                                lineNumStart: ${statement.loc.start.line}
+                                                                }
+                                                                yield
                                                         }
                                                         yield
                                                     })`
