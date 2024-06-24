@@ -1064,7 +1064,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     </div>
 
 
-    <div  style="margin:20px;"
+    <div  style="padding:20px;margin-bottom:20px;"
           v-if="rightPane=='debugger'">
 
         <!-- ----------------------------------
@@ -1072,7 +1072,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
              ---------------------------------- -->
 
 
-        <input v-model="codeToEvalAtBreakpoint"></input>
+        <input size=100 v-model="codeToEvalAtBreakpoint" style="margin-right:10px;"></input>
 
         <button   v-on:click="evalAtBreakpoint()"
                   style="margin-right: 10px;"
@@ -1081,7 +1081,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </button>
 
         <span>Result: {{breakpointEvalResult}}</span>
-    </span>
+    </div>
 
     <br/>
     <div style="border: 3px solid red">{{error_msg}}</div>
@@ -1308,7 +1308,7 @@ return {step: "Main app run"}`
                                                         yield {
                                                                 lineNumStart: ${statement.loc.start.line}
                                                                 }
-                                                        if (mm.evalCodeAtBreakpoint && mm.codeToEvalAtBreakpoint) {
+                                                        while (mm.evalCodeAtBreakpoint && mm.codeToEvalAtBreakpoint) {
                                                             mm.breakpointEvalResult = eval(mm.codeToEvalAtBreakpoint)
                                                             mm.evalCodeAtBreakpoint = false
                                                             yield {
