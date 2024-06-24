@@ -1088,8 +1088,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
     <pre>
-    listOfBreakpoints:
+    listOfSyncAsyncLines:
     {{listOfBreakpoints}}
+
+    listOfBreakpoints:
+    {{listOfSyncAsyncLines}}
 
     nextLineToExecute:
     {{nextLineToExecute}}
@@ -1103,6 +1106,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         breakpointEvalResult:   null,
                         pauseAtNextLine:        false,
                         listOfBreakpoints:      {},
+                        listOfSyncAsyncLines:   {},
                         nextLineToExecute:      null,
                         error_msg:              refErrorMsg,
                         codeAST:                null,
@@ -1270,6 +1274,9 @@ return {step: "Main app run"}`
                         mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 , locations: true, range: true});
 
                     },
+                    isRunningInAsyncNode:   function(node) {
+                        return (node.type === 'FunctionDeclaration' || node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression') && node.async;
+                    },
                     transformAST:           async function (  )                     {
                         let mm = this
                         await mm.createAST()
@@ -1306,7 +1313,8 @@ return {step: "Main app run"}`
                                                 if (statement.loc) {
                                                     yieldCode = `(${asyncPrefix} function*() {
                                                         yield {
-                                                                lineNumStart: ${statement.loc.start.line}
+                                                                lineNumStart: ${statement.loc.start.line},
+                                                                aysnc:        ${mm.isRunningInAsyncNode(node)}
                                                                 }
                                                         while (mm.evalCodeAtBreakpoint && mm.codeToEvalAtBreakpoint) {
                                                             mm.breakpointEvalResult = eval(mm.codeToEvalAtBreakpoint)
