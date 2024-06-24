@@ -1294,6 +1294,7 @@ return {step: "Main app run"}`
                         //
                         // add "await" to all function calls
                         //
+                        mm.listOfSyncAsyncLines = {}
                         mm.transformedAST = estraverse.replace(
                             mm.codeAST
                             ,
@@ -1302,7 +1303,7 @@ return {step: "Main app run"}`
 
 
                                 if (
-                                    ((node.body) && (Array.isArray(node.body)))
+                                    ((node.body) && (Array.isArray(node.body)) && (parent.type != "Program"))
                                 ) {
                                     node.body.flatMap(
                                         function(statement) {
@@ -1315,30 +1316,17 @@ return {step: "Main app run"}`
                                             }
                                         }
                                     );
-                                }
-
-                                    // convert function to function*
-                                if (
-                                        //node.async
-                                        //&&
-                                        ((node.type === 'FunctionExpression') || (node.type === 'FunctionDeclaration' ))
-                                   ) {
-
-
-                                    // add the yield keyword to return intermediate steps and values during debugging
-                                    if (node.body.type === 'BlockStatement') {
-                                        //zzz
-
-                                        node.body.body = node.body.body.flatMap(
-                                            function(statement) {
-                                                let asyncPrefix = node.async?"async ":""
-                                                let awaitPrefix = node.async?"await ":""
-                                                let yieldCode = null
-                                                if (statement && statement.loc) {
-                                                    yieldCode = `(${asyncPrefix} function*() {
+                                    node.body = node.body.flatMap(
+                                        function(statement) {
+                                            let asyncPrefix = mm.isRunningInAsyncNode(node,parent)?"async ":""
+                                            let awaitPrefix = mm.isRunningInAsyncNode(node,parent)?"await ":""
+                                            let yieldCode = null
+                                            //debugger
+                                            if (statement && statement.loc) {
+                                                yieldCode = `(${asyncPrefix} function*() {
                                                         yield {
                                                                 lineNumStart: ${statement.loc.start.line},
-                                                                aysnc:        ${mm.isRunningInAsyncNode(node)}
+                                                                async:        ${mm.isRunningInAsyncNode(node,parent)}
                                                                 }
                                                         while (mm.evalCodeAtBreakpoint && mm.codeToEvalAtBreakpoint) {
                                                             mm.breakpointEvalResult = eval(mm.codeToEvalAtBreakpoint)
@@ -1350,21 +1338,27 @@ return {step: "Main app run"}`
                                                         }
                                                         yield
                                                     })`
-                                                } else {
-                                                    yieldCode = `(${asyncPrefix} function*() {
+                                            } else {
+                                                yieldCode = `(${asyncPrefix} function*() {
                                                         yield {
                                                                 }
                                                     })`
-                                                }
-                                                let yieldCodeAfterAst = acorn.parse(yieldCode,{ ecmaVersion: 2021 });
-                                                let yieldCodeAfter = yieldCodeAfterAst.body[0].expression.body.body
-                                                return yieldCodeAfter.concat(statement)
-
                                             }
-                                        );
-                                    }
+                                            let yieldCodeAfterAst = acorn.parse(yieldCode,{ ecmaVersion: 2021 });
+                                            let yieldCodeAfter = yieldCodeAfterAst.body[0].expression.body.body
+                                            return yieldCodeAfter.concat(statement)
 
+                                        }
+                                    );
 
+                                }
+
+                                    // convert function to function*
+                                if (
+                                        //node.async
+                                        //&&
+                                        ((node.type === 'FunctionExpression') || (node.type === 'FunctionDeclaration' ))
+                                   ) {
 
 
 
