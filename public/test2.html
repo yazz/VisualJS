@@ -1089,10 +1089,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <pre>
     listOfSyncAsyncLines:
-    {{listOfBreakpoints}}
+    {{listOfSyncAsyncLines}}
 
     listOfBreakpoints:
-    {{listOfSyncAsyncLines}}
+    {{listOfBreakpoints}}
 
     nextLineToExecute:
     {{nextLineToExecute}}
@@ -1274,8 +1274,16 @@ return {step: "Main app run"}`
                         mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 , locations: true, range: true});
 
                     },
-                    isRunningInAsyncNode:   function(node) {
-                        return (node.type === 'FunctionDeclaration' || node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression') && node.async;
+                    isRunningInAsyncNode:   function(node, parent) {
+                        let mm = this
+                        if ((node.type === 'FunctionDeclaration' || node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression') && node.async ) {
+                            return true
+                        } else {
+                            if (parent) {
+                                return mm.isRunningInAsyncNode(parent)
+                            }
+                            return false
+                        }
                     },
                     transformAST:           async function (  )                     {
                         let mm = this
@@ -1293,7 +1301,23 @@ return {step: "Main app run"}`
                             leave: function (node, parent) {
 
 
-                                // convert function to function*
+                                if (
+                                    ((node.body) && (Array.isArray(node.body)))
+                                ) {
+                                    node.body.flatMap(
+                                        function(statement) {
+                                            if (statement && statement.loc) {
+                                                if (!mm.listOfSyncAsyncLines[statement.loc.start.line]) {
+                                                    mm.listOfSyncAsyncLines[statement.loc.start.line] = [mm.isRunningInAsyncNode(statement, parent)]
+                                                } else {
+                                                    mm.listOfSyncAsyncLines[statement.loc.start.line].push(mm.isRunningInAsyncNode(statement, parent))
+                                                }
+                                            }
+                                        }
+                                    );
+                                }
+
+                                    // convert function to function*
                                 if (
                                         //node.async
                                         //&&
@@ -1310,7 +1334,7 @@ return {step: "Main app run"}`
                                                 let asyncPrefix = node.async?"async ":""
                                                 let awaitPrefix = node.async?"await ":""
                                                 let yieldCode = null
-                                                if (statement.loc) {
+                                                if (statement && statement.loc) {
                                                     yieldCode = `(${asyncPrefix} function*() {
                                                         yield {
                                                                 lineNumStart: ${statement.loc.start.line},
