@@ -1063,6 +1063,24 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     </div>
 
+
+    <div  style="margin:20px;"
+          v-if="rightPane=='debugger'">
+
+        <!-- ----------------------------------
+                 EVAL AT BREAKPOINT
+             ---------------------------------- -->
+
+
+        <input v-model="debugEnvParams.codeToEval"></input>
+
+        <button   v-on:click="evalAtBreakpoint()"
+                  style="margin-right: 10px;"
+                  class="btn btn-sm btn-info">
+            Eval
+        </button>
+    </div>
+
     <br/>
     <div style="border: 3px solid red">{{error_msg}}</div>
 
@@ -1078,7 +1096,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 data:                   function () {
                     return {
                         rightPane:              null,
-                        debugEnvParams:         null,
+                        debugEnvParams:         {},
                         pauseAtNextLine:        false,
                         listOfBreakpoints:      {},
                         nextLineToExecute:      null,
@@ -1282,8 +1300,8 @@ return {step: "Main app run"}`
                                                                 lineNumStart: ${statement.loc.start.line}
                                                                 }
                                                         yield
-                                                        if (mm.debugEnvParams.codePaused && mm.debugEnvParams.codeInjected) {
-                                                            eval('app.step = "zoo message"')
+                                                        if (mm.debugEnvParams.evalCodeAtBreakpoint && mm.debugEnvParams.codeToEval) {
+                                                            eval(mm.debugEnvParams.codeToEval)
                                                             yield
                                                         }
                                                         //console.log("debugEnvParams: " + JSON.stringify(mm.debugEnvParams,null,2))
@@ -1320,7 +1338,7 @@ return {step: "Main app run"}`
                                                 mm.listOfBreakpoints[  mm.nextLineToExecute  ]
                                             )
                                             {
-                                                codePaused = true
+                                                evalCodeAtBreakpoint = true
                                                 mm.pauseAtNextLine = false
                                                 await mm.debuggerPause( );
                                             }
@@ -1331,12 +1349,12 @@ return {step: "Main app run"}`
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
                                             result = ${awaitPrefix} gen.next();
-                                            let codePaused = false
+                                            let evalCodeAtBreakpoint = false
                                             while (!result.done) {
                                                 mm.highlightStoppedLine({result: result})
                                                 ${pauseCode}
-                                                ${awaitPrefix} gen.next(  {  codePaused  }  );
-                                                codePaused = false
+                                                ${awaitPrefix} gen.next(  {  evalCodeAtBreakpoint  }  );
+                                                evalCodeAtBreakpoint = false
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             mm.highlightStoppedLine({result: result})
@@ -1455,6 +1473,19 @@ return {step: "Main app run"}`
                     },
                     stepOver:               function       (  )                     {
                         let mm = this
+                        mm.pauseAtNextLine = true
+                        if (unpauseDebugger) {
+                            unpauseDebugger()
+                            unpauseDebugger = null
+                        } else {
+                            console.log("Debugging ended")
+                            mm.rightPane = null
+                        }
+                    },
+                    evalAtBreakpoint:       function       (  )                     {
+                        let mm = this
+                        alert(mm.debugEnvParams.codeToEval)
+                        //if (mm.debugEnvParams.evalCodeAtBreakpoint && mm.debugEnvParams.codeToEval) {
                         mm.pauseAtNextLine = true
                         if (unpauseDebugger) {
                             unpauseDebugger()
