@@ -1282,10 +1282,11 @@ return {step: "Main app run"}`
                                                                 lineNumStart: ${statement.loc.start.line}
                                                                 }
                                                         yield
-                                                        if (mm.debugEnvParams.codePaused) {
+                                                        if (mm.debugEnvParams.codePaused && mm.debugEnvParams.codeInjected) {
                                                             eval('app.step = "zoo message"')
+                                                            yield
                                                         }
-                                                        console.log("debugEnvParams: " + JSON.stringify(mm.debugEnvParams,null,2))
+                                                        //console.log("debugEnvParams: " + JSON.stringify(mm.debugEnvParams,null,2))
                                                     })`
                                                 } else {
                                                     yieldCode = `(${asyncPrefix} function*() {
