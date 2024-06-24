@@ -1282,7 +1282,9 @@ return {step: "Main app run"}`
                                                                 lineNumStart: ${statement.loc.start.line}
                                                                 }
                                                         yield
-                                                        //eval('app.step = "zoo message"')
+                                                        if (mm.debugEnvParams.codePaused) {
+                                                            eval('app.step = "zoo message"')
+                                                        }
                                                         console.log("debugEnvParams: " + JSON.stringify(mm.debugEnvParams,null,2))
                                                     })`
                                                 } else {
@@ -1333,6 +1335,7 @@ return {step: "Main app run"}`
                                                 mm.highlightStoppedLine({result: result})
                                                 ${pauseCode}
                                                 ${awaitPrefix} gen.next(  {  codePaused  }  );
+                                                codePaused = false
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             mm.highlightStoppedLine({result: result})
