@@ -1078,6 +1078,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 data:                   function () {
                     return {
                         rightPane:              null,
+                        debugEnvParams:         null,
                         pauseAtNextLine:        false,
                         listOfBreakpoints:      {},
                         nextLineToExecute:      null,
@@ -1277,10 +1278,12 @@ return {step: "Main app run"}`
                                                 let yieldCode = null
                                                 if (statement.loc) {
                                                     yieldCode = `(${asyncPrefix} function*() {
-                                                        yield {
+                                                        mm.debugEnvParams = yield {
                                                                 lineNumStart: ${statement.loc.start.line}
                                                                 }
                                                         yield
+                                                        //eval('app.step = "zoo message"')
+                                                        console.log("debugEnvParams: " + JSON.stringify(mm.debugEnvParams,null,2))
                                                     })`
                                                 } else {
                                                     yieldCode = `(${asyncPrefix} function*() {
@@ -1314,6 +1317,7 @@ return {step: "Main app run"}`
                                                 mm.listOfBreakpoints[  mm.nextLineToExecute  ]
                                             )
                                             {
+                                                codePaused = true
                                                 mm.pauseAtNextLine = false
                                                 await mm.debuggerPause( );
                                             }
@@ -1324,10 +1328,11 @@ return {step: "Main app run"}`
                                     let generatorCode =
                                         `(${asyncPrefix} function() {
                                             result = ${awaitPrefix} gen.next();
+                                            let codePaused = false
                                             while (!result.done) {
                                                 mm.highlightStoppedLine({result: result})
                                                 ${pauseCode}
-                                                ${awaitPrefix} gen.next();
+                                                ${awaitPrefix} gen.next(  {  codePaused  }  );
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
                                             mm.highlightStoppedLine({result: result})
