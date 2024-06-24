@@ -1072,14 +1072,16 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
              ---------------------------------- -->
 
 
-        <input v-model="debugEnvParams.codeToEval"></input>
+        <input v-model="codeToEvalAtBreakpoint"></input>
 
         <button   v-on:click="evalAtBreakpoint()"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
             Eval
         </button>
-    </div>
+
+        <span>Result: {{breakpointEvalResult}}</span>
+    </span>
 
     <br/>
     <div style="border: 3px solid red">{{error_msg}}</div>
@@ -1096,7 +1098,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 data:                   function () {
                     return {
                         rightPane:              null,
-                        debugEnvParams:         {},
+                        codeToEvalAtBreakpoint: null,
+                        evalCodeAtBreakpoint:   null,
+                        breakpointEvalResult:   null,
                         pauseAtNextLine:        false,
                         listOfBreakpoints:      {},
                         nextLineToExecute:      null,
@@ -1108,11 +1112,16 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             {
                                 name: "Console log",
                                 code:
-                                    `console.log("out: 1")
-console.log("out: 2")
-console.log("out: 3")
-console.log("out: 4")
-console.log("out: 5")
+                                    `let a = 1
+console.log("out: " + a)
+a++
+console.log("out: " + a)
+a++
+console.log("out: " + a)
+a++
+console.log("out: " + a)
+a++
+console.log("out: " + a)
 let af = async function() {
     console.log("out: 6" )
     //return 7
@@ -1296,15 +1305,15 @@ return {step: "Main app run"}`
                                                 let yieldCode = null
                                                 if (statement.loc) {
                                                     yieldCode = `(${asyncPrefix} function*() {
-                                                        mm.debugEnvParams = yield {
+                                                        yield {
                                                                 lineNumStart: ${statement.loc.start.line}
                                                                 }
-                                                        yield
-                                                        if (mm.debugEnvParams.evalCodeAtBreakpoint && mm.debugEnvParams.codeToEval) {
-                                                            eval(mm.debugEnvParams.codeToEval)
+                                                        if (mm.evalCodeAtBreakpoint && mm.codeToEvalAtBreakpoint) {
+                                                            mm.breakpointEvalResult = eval(mm.codeToEvalAtBreakpoint)
+                                                            mm.evalCodeAtBreakpoint = false
                                                             yield
                                                         }
-                                                        //console.log("debugEnvParams: " + JSON.stringify(mm.debugEnvParams,null,2))
+                                                        yield
                                                     })`
                                                 } else {
                                                     yieldCode = `(${asyncPrefix} function*() {
@@ -1324,7 +1333,7 @@ return {step: "Main app run"}`
 
 
 
-                                        // move the function into a generator
+                                    // move the function into a generator
                                     if (node.generator == false) {
                                         node.generator = true
                                     }
@@ -1484,8 +1493,7 @@ return {step: "Main app run"}`
                     },
                     evalAtBreakpoint:       function       (  )                     {
                         let mm = this
-                        alert(mm.debugEnvParams.codeToEval)
-                        //if (mm.debugEnvParams.evalCodeAtBreakpoint && mm.debugEnvParams.codeToEval) {
+                        mm.evalCodeAtBreakpoint = true
                         mm.pauseAtNextLine = true
                         if (unpauseDebugger) {
                             unpauseDebugger()
