@@ -1191,7 +1191,7 @@ return {step: "Main app run"}`
                     await mm.selectProgram()
                 },
                 methods:                {
-                    setupAceEditor:         async function (  )                     {
+                    setupAceEditor:                 async function  (  )                        {
                         let mm = this
                         ace.config.set('basePath', '/');
                         timeline_editor = ace.edit(           "timeline_editor_html_element", {
@@ -1251,13 +1251,13 @@ return {step: "Main app run"}`
 
                         });
                     },
-                    selectProgram:          async function (  )                     {
+                    selectProgram:                  async function  (  )                        {
                         let mm = this
                         this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
                         timeline_editor.getSession().setValue(mm.htmlInput)
                         mm.rightPane = null
                     },
-                    runCode:                async function (  )                     {
+                    runCode:                        async function  (  )                        {
                         let mm = this
                         mm.rightPane = "running"
                         mm.htmlInput = timeline_editor.getSession().getValue()
@@ -1265,7 +1265,7 @@ return {step: "Main app run"}`
                             eval("(async function() {" + mm.htmlInput + "})()")
                         })
                     },
-                    createAST:              async function (  )                     {
+                    createAST:                      async function  (  )                        {
                         let mm = this
                         mm.rightPane = "AST"
 
@@ -1274,7 +1274,7 @@ return {step: "Main app run"}`
                         mm.codeAST = acorn.parse("(( async function() { " + mm.htmlInput + " })())",{ ecmaVersion: 2021 , locations: true, range: true});
 
                     },
-                    isRunningInAsyncNode:   function(node, parent) {
+                    isRunningInAsyncNode:           function        (  node  ,  parent  )       {
                         let mm = this
                         if ((node.type === 'FunctionDeclaration' || node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression') && node.async ) {
                             return true
@@ -1285,7 +1285,10 @@ return {step: "Main app run"}`
                             return false
                         }
                     },
-                    transformAST:           async function (  )                     {
+                    clearUnreachableBreakpoints:    async function  (  )                        {
+                        let mm = this
+                    },
+                    transformAST:                   async function  (  )                        {
                         let mm = this
                         await mm.createAST()
                         mm.rightPane = "transform_AST"
@@ -1465,7 +1468,7 @@ return {step: "Main app run"}`
 
 
                     },
-                    createDebugCode:        async function (  )                     {
+                    createDebugCode:                async function  (  )                        {
                         let mm = this
                         await mm.transformAST()
                         mm.rightPane = "debug_code"
@@ -1476,14 +1479,14 @@ return {step: "Main app run"}`
                         //
                         mm.debugCodeToEval = escodegen.generate(mm.transformedAST, {comment: false})
                     },
-                    startDebugger:          async function (  )                     {
+                    startDebugger:                  async function  (  )                        {
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         mm.pauseAtNextLine = false
                         eval(mm.debugCodeToEval)
                     },
-                    stopDebugger:           async function (  )                     {
+                    stopDebugger:                   async function  (  )                        {
                         let mm = this
                         mm.rightPane = null
 
@@ -1509,7 +1512,7 @@ return {step: "Main app run"}`
 //delete
 
                     },
-                    stepOver:               function       (  )                     {
+                    stepOver:                       function        (  )                        {
                         let mm = this
                         mm.pauseAtNextLine = true
                         if (unpauseDebugger) {
@@ -1520,7 +1523,7 @@ return {step: "Main app run"}`
                             mm.rightPane = null
                         }
                     },
-                    evalAtBreakpoint:       function       (  )                     {
+                    evalAtBreakpoint:               function        (  )                        {
                         let mm = this
                         mm.evalCodeAtBreakpoint = true
                         mm.pauseAtNextLine = true
@@ -1532,7 +1535,7 @@ return {step: "Main app run"}`
                             mm.rightPane = null
                         }
                     },
-                    resumeDebugger:         function       (  )                     {
+                    resumeDebugger:                 function        (  )                        {
                         let mm = this
                         mm.pauseAtNextLine = false
                         if (unpauseDebugger) {
@@ -1544,7 +1547,7 @@ return {step: "Main app run"}`
                             mm.rightPane = null
                         }
                     },
-                    debuggerPause:          async function (  )                     {
+                    debuggerPause:                  async function  (  )                        {
                         let promise = new Promise(
                             function(resolve) {
                                 unpauseDebugger = resolve
@@ -1553,7 +1556,7 @@ return {step: "Main app run"}`
                         let ret = await promise
                         return ret
                     },
-                    highlightStoppedLine:   function       (  {  result  }  )       {
+                    highlightStoppedLine:           function        (  {  result  }  )          {
                         let mm = this
                         if (result && result.value) {
                             let lineNum                 = result.value.lineNumStart
@@ -1578,7 +1581,6 @@ return {step: "Main app run"}`
                 }, 1000)
             })
         }
-
         function        sleep                               (  ms  )                                {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
