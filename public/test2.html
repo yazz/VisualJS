@@ -1378,16 +1378,14 @@ return {step: "Main app run"}`
 
                                 }
 
-                                    // convert function to function*
+                                // convert function to function* (generator function)
                                 if (
-                                        //node.async
-                                        //&&
                                         ((node.type === 'FunctionExpression') || (node.type === 'FunctionDeclaration' ))
                                    ) {
 
 
 
-                                    // move the function into a generator
+                                    // convert the function into a generator function
                                     if (node.generator == false) {
                                         node.generator = true
                                     }
