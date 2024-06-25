@@ -1098,7 +1098,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {{nextLineToExecute}}
     </pre>
 </div>`,
-                data:                           function        ()                          {
+                data:                           function        (  )                        {
                     return {
                         rightPane:              null,
                         codeToEvalAtBreakpoint: null,
@@ -1185,7 +1185,7 @@ return {step: "Main app run"}`
                         debugCodeToEval: null
                     }
                 },
-                mounted:                        async function  ()                          {
+                mounted:                        async function  (  )                        {
                     let mm = this
                     await mm.setupAceEditor()
                     await mm.selectProgram()
@@ -1287,6 +1287,15 @@ return {step: "Main app run"}`
                     },
                     clearUnreachableBreakpoints:    async function  (  )                        {
                         let mm = this
+                        //debugger
+                        let listOfLines = Object.keys(mm.listOfSyncAsyncLines)
+                        for ( let indexLines = 0 ; indexLines < listOfLines.length ; indexLines ++ ) {
+                            let lineNumber = listOfLines[indexLines]
+                            if (mm.listOfSyncAsyncLines[lineNumber].includes(false)) {
+                                delete mm.listOfBreakpoints[lineNumber]
+                                timeline_editor.session.clearBreakpoint(lineNumber - 1)
+                            }
+                        }
                     },
                     transformAST:                   async function  (  )                        {
                         let mm = this
@@ -1466,7 +1475,7 @@ return {step: "Main app run"}`
                             }
                         });
 
-
+                        await mm.clearUnreachableBreakpoints()
                     },
                     createDebugCode:                async function  (  )                        {
                         let mm = this
@@ -1565,7 +1574,6 @@ return {step: "Main app run"}`
                             mm.nextLineToExecute         = lineNum
                         }
                     }
-
                 }
             })
         }
