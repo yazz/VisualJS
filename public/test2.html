@@ -1094,18 +1094,26 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
     <pre>
-    listOfSyncAsyncLines:
-    {{listOfSyncAsyncLines}}
+programDebugSteps:
+{{programDebugSteps}}
 
-    listOfBreakpoints:
-    {{listOfBreakpoints}}
+programDebugStepIndex:
+{{programDebugStepIndex}}
 
-    nextLineToExecute:
-    {{nextLineToExecute}}
+listOfSyncAsyncLines:
+{{listOfSyncAsyncLines}}
+
+listOfBreakpoints:
+{{listOfBreakpoints}}
+
+nextLineToExecute:
+{{nextLineToExecute}}
     </pre>
-</div>`,
+</div>                         `,
                 data:                           function        (  )                        {
                     return {
+                        programDebugSteps:      [  ],
+                        programDebugStepIndex:  -1,
                         rightPane:              null,
                         codeToEvalAtBreakpoint: null,
                         evalCodeAtBreakpoint:   null,
@@ -1361,6 +1369,10 @@ return {step: "Main app run"}`
                                                                 yield
                                                         }
                                                         yield
+                                                        mm.programDebugStepIndex ++
+                                                        mm.programDebugSteps.push({
+                                                            id: mm.programDebugStepIndex
+                                                        })
                                                     })`
                                             } else {
                                                 yieldCode = `(${asyncPrefix} function*() {
@@ -1510,6 +1522,8 @@ return {step: "Main app run"}`
                     stopDebugger:                   async function  (  )                        {
                         let mm = this
                         mm.rightPane = null
+                        mm.programDebugSteps = [  ]
+                        mm.programDebugStepIndex = -1
 
 
 //delete
