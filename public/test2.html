@@ -929,17 +929,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             })
             let ret = await promise
         }
-        function        addWatchPoint                       (  vName  ,  value  )                   {
-        }
-        function        isValidObject                       (  variable  )                          {
-            if ((typeof variable !== 'undefined') && (variable != null)) {
-                return true
-            }
-            return false
-        }
-        function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  )   {
-
-        }
         function        createDebuggerUI                    (  )                                    {
             vueApp = Vue.createApp({
                 template:                       `
@@ -1204,7 +1193,7 @@ return {step: "Main app run"}`
                     await mm.setupAceEditor()
                     await mm.selectProgram()
                 },
-                methods:                {
+                methods:                        {
                     setupAceEditor:                 async function  (  )                        {
                         let mm = this
                         ace.config.set('basePath', '/');
