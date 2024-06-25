@@ -1289,13 +1289,19 @@ return {step: "Main app run"}`
                         let mm = this
                         //debugger
                         let listOfLines = Object.keys(mm.listOfSyncAsyncLines)
-                        for ( let indexLines = 0 ; indexLines < listOfLines.length ; indexLines ++ ) {
-                            let lineNumber = listOfLines[indexLines]
-                            if (mm.listOfSyncAsyncLines[lineNumber].includes(false)) {
+                        let lastLineNumber = listOfLines[listOfLines.length - 1]
+                        for ( let lineNumber = 1 ; lineNumber <= lastLineNumber ; lineNumber ++ ) {
+                            if (!mm.listOfSyncAsyncLines[lineNumber]) {
+                                if (mm.listOfBreakpoints[lineNumber]) {
+                                    delete mm.listOfBreakpoints[lineNumber]
+                                    timeline_editor.session.clearBreakpoint(lineNumber - 1)
+                                }
+                            } else if (mm.listOfSyncAsyncLines[lineNumber].includes(false)) {
                                 delete mm.listOfBreakpoints[lineNumber]
                                 timeline_editor.session.clearBreakpoint(lineNumber - 1)
                             }
                         }
+
                     },
                     transformAST:                   async function  (  )                        {
                         let mm = this
