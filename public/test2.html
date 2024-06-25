@@ -936,7 +936,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         }
         function        createDebuggerUI                    (  )                                    {
             vueApp = Vue.createApp({
-                template:               `
+                template:                       `
 <div style="margin: 20px; font-size: 11px;">
     <div>
 
@@ -1098,7 +1098,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {{nextLineToExecute}}
     </pre>
 </div>`,
-                data:                   function () {
+                data:                           function        ()                          {
                     return {
                         rightPane:              null,
                         codeToEvalAtBreakpoint: null,
@@ -1185,7 +1185,7 @@ return {step: "Main app run"}`
                         debugCodeToEval: null
                     }
                 },
-                mounted:                async function () {
+                mounted:                        async function  ()                          {
                     let mm = this
                     await mm.setupAceEditor()
                     await mm.selectProgram()
