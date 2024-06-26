@@ -1086,8 +1086,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 programDebugSteps:
 {{programDebugSteps}}
 
-programDebugStepIndex:
-{{programDebugStepIndex}}
+currentDebugStepIndex:
+{{currentDebugStepIndex}}
 
 listOfSyncAsyncLines:
 {{listOfSyncAsyncLines}}
@@ -1102,7 +1102,7 @@ nextLineToExecute:
                 data:                           function        (  )                        {
                     return {
                         programDebugSteps:      [  ],
-                        programDebugStepIndex:  -1,
+                        currentDebugStepIndex:  -1,
                         rightPane:              null,
                         codeToEvalAtBreakpoint: null,
                         evalCodeAtBreakpoint:   null,
@@ -1358,9 +1358,9 @@ return {step: "Main app run"}`
                                                                 yield
                                                         }
                                                         yield
-                                                        mm.programDebugStepIndex ++
+                                                        mm.currentDebugStepIndex ++
                                                         mm.programDebugSteps.push({
-                                                            id: mm.programDebugStepIndex
+                                                            id: mm.currentDebugStepIndex
                                                         })
                                                     })`
                                             } else {
@@ -1510,7 +1510,7 @@ return {step: "Main app run"}`
                         let mm = this
                         mm.rightPane = null
                         mm.programDebugSteps = [  ]
-                        mm.programDebugStepIndex = -1
+                        mm.currentDebugStepIndex = -1
 
 
 //delete
