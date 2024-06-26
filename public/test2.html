@@ -1545,6 +1545,17 @@ return {step: "Main app run"}`
                             mm.rightPane = null
                         }
                     },
+                    stepBack:                       function        (  )                        {
+                        let mm = this
+                        mm.pauseAtNextLine = true
+                        if (unpauseDebugger) {
+                            unpauseDebugger()
+                            unpauseDebugger = null
+                        } else {
+                            console.log("Debugging ended")
+                            mm.rightPane = null
+                        }
+                    },
                     evalAtBreakpoint:               function        (  )                        {
                         let mm = this
                         mm.evalCodeAtBreakpoint = true
