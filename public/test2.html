@@ -1399,13 +1399,19 @@ return {step: "Main app run"}`
                                     let pauseCode = node.async?
                                         `if (
                                                 (
-                                                    mm.pauseAtNextLine
-                                                    ||
-                                                    mm.listOfBreakpoints[  mm.nextLineToExecute  ]
+                                                    (
+                                                        mm.runToDebugStepIndex == null
+                                                    )
+                                                    &&
+                                                    (
+                                                        mm.pauseAtNextLine
+                                                        ||
+                                                        mm.listOfBreakpoints[  mm.nextLineToExecute  ]
+                                                    )
                                                 )
-                                                &&
+                                                ||
                                                 (
-                                                    mm.runToDebugStepIndex == null
+                                                    mm.runToDebugStepIndex == mm.currentDebugStepIndex
                                                 )
                                             )
                                             {
@@ -1514,12 +1520,12 @@ return {step: "Main app run"}`
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         mm.pauseAtNextLine = false
+                        mm.currentDebugStepIndex = -1
                         if (args && args.runToLine) {
 
                         } else {
                             mm.runToDebugStepIndex = null
                             mm.programDebugSteps = [  ]
-                            mm.currentDebugStepIndex = -1
                         }
                         eval(mm.debugCodeToEval)
                     },
