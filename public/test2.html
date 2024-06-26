@@ -1083,8 +1083,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
     <pre>
-currentDebugStepIndex:
-{{currentDebugStepIndex}}
+lastDebugSteppedIndex:
+{{lastDebugSteppedIndex}}
 
 runToDebugStepIndex:
 {{runToDebugStepIndex}}
@@ -1105,7 +1105,7 @@ nextLineToExecute:
                 data:                           function        (  )                        {
                     return {
                         programDebugSteps:      [  ],
-                        currentDebugStepIndex:  -1,
+                        lastDebugSteppedIndex:  -1,
                         runToDebugStepIndex:    null,
                         rightPane:              null,
                         codeToEvalAtBreakpoint: null,
@@ -1362,10 +1362,13 @@ return {step: "Main app run"}`
                                                                 yield
                                                         }
                                                         yield
-                                                        mm.currentDebugStepIndex ++
-                                                        mm.programDebugSteps.push({
-                                                            id: mm.currentDebugStepIndex
-                                                        })
+                                                        mm.lastDebugSteppedIndex ++
+                                                        if (mm.runToDebugStepIndex) {
+                                                        } else {
+                                                            mm.programDebugSteps.push({
+                                                                id: mm.lastDebugSteppedIndex
+                                                            })
+                                                        }
                                                     })`
                                             } else {
                                                 yieldCode = `(${asyncPrefix} function*() {
@@ -1411,7 +1414,7 @@ return {step: "Main app run"}`
                                                 )
                                                 ||
                                                 (
-                                                    mm.runToDebugStepIndex == mm.currentDebugStepIndex
+                                                    mm.runToDebugStepIndex == mm.lastDebugSteppedIndex
                                                 )
                                             )
                                             {
@@ -1520,7 +1523,7 @@ return {step: "Main app run"}`
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         mm.pauseAtNextLine = false
-                        mm.currentDebugStepIndex = -1
+                        mm.lastDebugSteppedIndex = -1
                         if (args && args.runToLine) {
 
                         } else {
@@ -1533,7 +1536,7 @@ return {step: "Main app run"}`
                         let mm = this
                         mm.rightPane = null
                         mm.programDebugSteps = [  ]
-                        mm.currentDebugStepIndex = -1
+                        mm.lastDebugSteppedIndex = -1
 
 
 //delete
@@ -1570,10 +1573,10 @@ return {step: "Main app run"}`
                     },
                     stepBack:                       async function  (  )                        {
                         let mm = this
-                        if (mm.currentDebugStepIndex < 1) {
+                        if (mm.lastDebugSteppedIndex < 1) {
                             return
                         }
-                        mm.runToDebugStepIndex = mm.currentDebugStepIndex - 1
+                        mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
                        await mm.startDebugger(  {  runToLine: true  } )
                     },
                     evalAtBreakpoint:               function        (  )                        {
