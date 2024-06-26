@@ -1103,6 +1103,7 @@ nextLineToExecute:
                     return {
                         programDebugSteps:      [  ],
                         currentDebugStepIndex:  -1,
+                        runToDebugStepIndex:    null,
                         rightPane:              null,
                         codeToEvalAtBreakpoint: null,
                         evalCodeAtBreakpoint:   null,
@@ -1547,6 +1548,10 @@ return {step: "Main app run"}`
                     },
                     stepBack:                       function        (  )                        {
                         let mm = this
+                        if (mm.currentDebugStepIndex < 0) {
+                            return
+                        }
+                        mm.runToDebugStepIndex = mm.currentDebugStepIndex - 1
                         mm.pauseAtNextLine = true
                         if (unpauseDebugger) {
                             unpauseDebugger()
