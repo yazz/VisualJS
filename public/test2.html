@@ -1363,7 +1363,7 @@ return {step: "Main app run"}`
                                                         }
                                                         yield
                                                         mm.lastDebugSteppedIndex ++
-                                                        if (mm.runToDebugStepIndex) {
+                                                        if (mm.runToDebugStepIndex != null) {
                                                         } else {
                                                             mm.programDebugSteps.push({
                                                                 id: mm.lastDebugSteppedIndex
@@ -1577,7 +1577,8 @@ return {step: "Main app run"}`
                             return
                         }
                         mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
-                       await mm.startDebugger(  {  runToLine: true  } )
+                        mm.programDebugSteps.pop( )
+                        await mm.startDebugger(  {  runToLine: true  } )
                     },
                     evalAtBreakpoint:               function        (  )                        {
                         let mm = this
