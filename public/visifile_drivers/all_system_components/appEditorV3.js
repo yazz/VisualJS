@@ -878,7 +878,7 @@ ___________
                                         <div v-for="varWatchName in execution_watch_list">
 
                                             <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
-                                                 v-if='globalWatchList[varWatchName][current_execution_step]'>
+                                                 v-if='globalWatchList && globalWatchList[varWatchName] && globalWatchList[varWatchName][current_execution_step]'>
 
                                                 <b>{{varWatchName}}:</b>
 
