@@ -1419,6 +1419,7 @@ return {step: "Main app run"}`
                                             )
                                             {
                                                 evalCodeAtBreakpoint = true
+                                                mm.runToDebugStepIndex = null
                                                 mm.pauseAtNextLine = false
                                                 await mm.debuggerPause( );
                                             }
