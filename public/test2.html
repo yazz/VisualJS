@@ -1089,6 +1089,9 @@ programDebugSteps:
 currentDebugStepIndex:
 {{currentDebugStepIndex}}
 
+runToDebugStepIndex:
+{{runToDebugStepIndex}}
+
 listOfSyncAsyncLines:
 {{listOfSyncAsyncLines}}
 
@@ -1500,11 +1503,16 @@ return {step: "Main app run"}`
                         //
                         mm.debugCodeToEval = escodegen.generate(mm.transformedAST, {comment: false})
                     },
-                    startDebugger:                  async function  (  )                        {
+                    startDebugger:                  async function  (  args  )                  {
                         let mm = this
                         await mm.createDebugCode()
                         mm.rightPane = "debugger"
                         mm.pauseAtNextLine = false
+                        if (args && args.runToLine) {
+
+                        } else {
+                            mm.runToDebugStepIndex = null
+                        }
                         eval(mm.debugCodeToEval)
                     },
                     stopDebugger:                   async function  (  )                        {
@@ -1546,20 +1554,13 @@ return {step: "Main app run"}`
                             mm.rightPane = null
                         }
                     },
-                    stepBack:                       function        (  )                        {
+                    stepBack:                       async function  (  )                        {
                         let mm = this
-                        if (mm.currentDebugStepIndex < 0) {
+                        if (mm.currentDebugStepIndex < 1) {
                             return
                         }
                         mm.runToDebugStepIndex = mm.currentDebugStepIndex - 1
-                        mm.pauseAtNextLine = true
-                        if (unpauseDebugger) {
-                            unpauseDebugger()
-                            unpauseDebugger = null
-                        } else {
-                            console.log("Debugging ended")
-                            mm.rightPane = null
-                        }
+                       await mm.startDebugger(  {  runToLine: true  } )
                     },
                     evalAtBreakpoint:               function        (  )                        {
                         let mm = this
