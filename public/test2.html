@@ -1083,14 +1083,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
     <pre>
-programDebugSteps:
-{{programDebugSteps}}
-
 currentDebugStepIndex:
 {{currentDebugStepIndex}}
 
 runToDebugStepIndex:
 {{runToDebugStepIndex}}
+
+programDebugSteps:
+{{programDebugSteps}}
 
 listOfSyncAsyncLines:
 {{listOfSyncAsyncLines}}
@@ -1398,9 +1398,15 @@ return {step: "Main app run"}`
                                     let awaitPrefix = node.async?"await ":""
                                     let pauseCode = node.async?
                                         `if (
-                                                mm.pauseAtNextLine
-                                                ||
-                                                mm.listOfBreakpoints[  mm.nextLineToExecute  ]
+                                                (
+                                                    mm.pauseAtNextLine
+                                                    ||
+                                                    mm.listOfBreakpoints[  mm.nextLineToExecute  ]
+                                                )
+                                                &&
+                                                (
+                                                    mm.runToDebugStepIndex == null
+                                                )
                                             )
                                             {
                                                 evalCodeAtBreakpoint = true
