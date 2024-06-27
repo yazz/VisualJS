@@ -1372,7 +1372,8 @@ return {step: "Main app run"}`
                                                         if (mm.runToDebugStepIndex != null) {
                                                         } else {
                                                             mm.programDebugSteps.push({
-                                                                id: mm.lastDebugSteppedIndex
+                                                                id: mm.lastDebugSteppedIndex,
+                                                                code: getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  )
                                                             })
                                                         }
                                                     })`
@@ -1652,6 +1653,19 @@ return {step: "Main app run"}`
             await alaSqlStuff()
             await createDebuggerUI();
             await mountDebuggerVueElement();
+        }
+        function getNthLine(text, n) {
+            // Split the string by line breaks (\n)
+            const lines = text.split('\n');
+
+            // Check if the desired line number is within the range
+            if (n >= 1 && n <= lines.length) {
+                // Return the nth line (1-based index, so we use n-1)
+                return lines[n - 1];
+            } else {
+                // Return null or an appropriate message if the line number is out of range
+                return null;
+            }
         }
 
         let timeline_editor     = null
