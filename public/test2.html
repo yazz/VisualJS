@@ -1082,18 +1082,18 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <div style="border: 3px solid red">{{error_msg}}</div>
 
 
+
+    <pre id=debug_steps style="height:300px; overflow-y:scroll">
+programDebugSteps:
+{{programDebugSteps}}
+    </pre>
+
     <pre>
 lastDebugSteppedIndex:
 {{lastDebugSteppedIndex}}
 
 runToDebugStepIndex:
 {{runToDebugStepIndex}}
-
-programDebugSteps:
-{{programDebugSteps}}
-
-listOfSyncAsyncLines:
-{{listOfSyncAsyncLines}}
 
 listOfBreakpoints:
 {{listOfBreakpoints}}
@@ -1198,6 +1198,12 @@ return {step: "Main app run"}`
                     await mm.selectProgram()
                 },
                 methods:                        {
+                    scrollEnd:                      function        (  )                        {
+                        setTimeout(function(){
+                            var objDiv = document.getElementById("debug_steps");
+                            objDiv.scrollTop = objDiv.scrollHeight;
+                        },100)
+                    },
                     setupAceEditor:                 async function  (  )                        {
                         let mm = this
                         ace.config.set('basePath', '/');
@@ -1375,6 +1381,7 @@ return {step: "Main app run"}`
                                                                 id: mm.lastDebugSteppedIndex,
                                                                 code: getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  )
                                                             })
+                                                            mm.scrollEnd()
                                                         }
                                                     })`
                                             } else {
