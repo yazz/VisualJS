@@ -1594,7 +1594,12 @@ return {step: "Main app run"}`
                             return
                         }
                         mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
-                        mm.programDebugSteps.pop( )
+                        let lastLine = mm.programDebugSteps.pop( )
+                        debugger
+                        while ((!lastLine.debuggableLine) && (mm.lastDebugSteppedIndex > -1)) {
+                            lastLine = mm.programDebugSteps.pop( )
+                            mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
+                        }
                         await mm.startDebugger(  {  runToLine: true  } )
                     },
                     evalAtBreakpoint:               function        (  )                        {
