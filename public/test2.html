@@ -1349,6 +1349,7 @@ return {step: "Main app run"}`
                                     );
                                     node.body = node.body.flatMap(
                                         function(statement) {
+                                            let isRunningInAsync = mm.isRunningInAsyncNode(node,parent)
                                             let asyncPrefix = mm.isRunningInAsyncNode(node,parent)?"async ":""
                                             let awaitPrefix = mm.isRunningInAsyncNode(node,parent)?"await ":""
                                             let yieldCode = null
@@ -1379,7 +1380,8 @@ return {step: "Main app run"}`
                                                         } else {
                                                             mm.programDebugSteps.push({
                                                                 id: mm.lastDebugSteppedIndex,
-                                                                code: getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  )
+                                                                code: getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  ),
+                                                                debuggableLine: ${isRunningInAsync}
                                                             })
                                                             mm.scrollEnd()
                                                         }
