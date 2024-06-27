@@ -1354,12 +1354,18 @@ return {step: "Main app run"}`
                                                                 async:        ${mm.isRunningInAsyncNode(node,parent)}
                                                                 }
                                                         while (mm.evalCodeAtBreakpoint && mm.codeToEvalAtBreakpoint) {
-                                                            mm.breakpointEvalResult = eval(mm.codeToEvalAtBreakpoint)
-                                                            mm.evalCodeAtBreakpoint = false
-                                                            yield {
-                                                                lineNumStart: ${statement.loc.start.line}
-                                                                }
+                                                            try {
+                                                                mm.breakpointEvalResult = eval(mm.codeToEvalAtBreakpoint)
+                                                            } catch (err) {
+                                                                console.log ("Error in eval at breakpoint: " + JSON.stringify(err,null,2))
+                                                                mm.breakpointEvalResult = null
+                                                            } finally {
+                                                                mm.evalCodeAtBreakpoint = false
+                                                                yield {
+                                                                    lineNumStart: ${statement.loc.start.line}
+                                                                    }
                                                                 yield
+                                                            }
                                                         }
                                                         yield
                                                         mm.lastDebugSteppedIndex ++
@@ -1574,7 +1580,7 @@ return {step: "Main app run"}`
                     },
                     stepBack:                       async function  (  )                        {
                         let mm = this
-                        if (mm.lastDebugSteppedIndex < 1) {
+                        if (mm.lastDebugSteppedIndex < 0) {
                             return
                         }
                         mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
