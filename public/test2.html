@@ -1593,11 +1593,14 @@ return {step: "Main app run"}`
                         if (mm.lastDebugSteppedIndex < 0) {
                             return
                         }
-                        mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
-                        let lastLine = mm.programDebugSteps.pop( )
                         debugger
+                        mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
+                        mm.lastDebugSteppedIndex --
+                        let lastLine = mm.programDebugSteps.pop( )
+
                         while ((!lastLine.debuggableLine) && (mm.lastDebugSteppedIndex > -1)) {
                             lastLine = mm.programDebugSteps.pop( )
+                            mm.lastDebugSteppedIndex --
                             mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
                         }
                         await mm.startDebugger(  {  runToLine: true  } )
