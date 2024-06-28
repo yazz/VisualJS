@@ -1118,7 +1118,7 @@ nextLineToExecute:
                         error_msg:              refErrorMsg,
                         codeAST:                null,
                         transformedAST:         null,
-                        selectedProgramIndex:   0,
+                        selectedProgramIndex:   3,
                         defaultPrograms:        [
                             {
                                 name: "Console log",
@@ -1171,9 +1171,17 @@ let b = a
 let vueDebugApp = await Vue.createApp(
     {
         template:   \`
-                    <div style="margin: 20px;">Vue debug app {{step}}</div>
+                    <div style="margin: 20px;">
+                        Vue debug app {{step}}
+                        <button type=btn v-on:click=doSomething>Click me</button>
+                    </div>
                     \`
                     ,
+        methods:    {
+            doSomething: async function() {
+                this.step = "* Button pressed"
+            }
+        },
         data:       function () {
                         return {
                             step: "RETURN data fn in Vue"
