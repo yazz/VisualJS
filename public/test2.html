@@ -1600,8 +1600,8 @@ return {step: "Main app run"}`
 
                         while ((!lastLine.debuggableLine) && (mm.lastDebugSteppedIndex > -1)) {
                             lastLine = mm.programDebugSteps.pop( )
-                            mm.lastDebugSteppedIndex --
                             mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
+                            mm.lastDebugSteppedIndex --
                         }
                         await mm.startDebugger(  {  runToLine: true  } )
                     },
