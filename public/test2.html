@@ -1387,9 +1387,10 @@ return {step: "Main app run"}`
                                                         if (mm.runToDebugStepIndex != null) {
                                                         } else {
                                                             mm.programDebugSteps.push({
-                                                                id: mm.lastDebugSteppedIndex,
-                                                                code: getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  ),
-                                                                debuggableLine: ${isRunningInAsync}
+                                                                id:             mm.lastDebugSteppedIndex,
+                                                                code:           getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  ),
+                                                                debuggableLine: ${isRunningInAsync},
+                                                                lineNumStart:   ${statement.loc.start.line}
                                                             })
                                                             mm.scrollEnd()
                                                         }
@@ -1456,13 +1457,16 @@ return {step: "Main app run"}`
                                             result = ${awaitPrefix} gen.next();
                                             let evalCodeAtBreakpoint = false
                                             while (!result.done) {
-                                                mm.highlightStoppedLine({result: result})
+                                                mm.highlightStoppedLine(    {  result:  result  }  )
+                                                mm.setNextLine(             {  result:  result  }  )
+
                                                 ${pauseCode}
                                                 ${awaitPrefix} gen.next(  {  evalCodeAtBreakpoint  }  );
                                                 evalCodeAtBreakpoint = false
                                                 result = ${awaitPrefix} gen.next();   // Move to the next yield
                                             }
-                                            mm.highlightStoppedLine({result: result})
+                                            mm.highlightStoppedLine(    {  result:  result  }  )
+                                            mm.setNextLine(             {  result:  result  }  )
                                             return result.value
                                         })()`
 
@@ -1650,8 +1654,19 @@ return {step: "Main app run"}`
                         let mm = this
                         if (result && result.value) {
                             let lineNum                 = result.value.lineNumStart
-                            timeline_editor.gotoLine(lineNum, 0, true);
-                            timeline_editor.setHighlightActiveLine(true);
+                            let line = mm.listOfSyncAsyncLines[lineNum]
+                            let isSync = (!line) || line.includes(false)
+                            debugger
+                            if (!isSync) {
+                                timeline_editor.gotoLine(lineNum, 0, true);
+                                timeline_editor.setHighlightActiveLine(true);
+                            }
+                        }
+                    },
+                    setNextLine:                    function        (  {  result  }  )          {
+                        let mm = this
+                        if (result && result.value) {
+                            let lineNum                 = result.value.lineNumStart
                             mm.nextLineToExecute         = lineNum
                         }
                     }
