@@ -1687,11 +1687,11 @@ return {step: "Main app run"}`
             })
         }
         function        getCurrentStackFrame                (  )                                    {
-            //const error = new Error();
-            //const stack = error.stack.split('\n');
-            let stack = console.trace()
-            console.log("Stack: " + JSON.stringify(stack,null,2))
-            return stack;
+            const error = new Error();
+            const stack = error.stack.toString();
+            debugger
+            let inCallBack = stack.includes('EventListener') || stack.includes('setTimeout') || stack.includes('setInterval');
+            console.log("inCallBack: " + inCallBack)
         }
         function        sleep                               (  ms  )                                {
             return new Promise(resolve => setTimeout(resolve, ms));
