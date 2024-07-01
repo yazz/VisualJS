@@ -1382,6 +1382,7 @@ return {step: "Main app run"}`
                                                                 yield
                                                             }
                                                         }
+                                                        getCurrentStackFrame()
                                                         yield
                                                         mm.lastDebugSteppedIndex ++
                                                         if (mm.runToDebugStepIndex != null) {
@@ -1656,7 +1657,7 @@ return {step: "Main app run"}`
                             let lineNum                 = result.value.lineNumStart
                             let line = mm.listOfSyncAsyncLines[lineNum]
                             let isSync = (!line) || line.includes(false)
-                            debugger
+                            //debugger
                             if (!isSync) {
                                 timeline_editor.gotoLine(lineNum, 0, true);
                                 timeline_editor.setHighlightActiveLine(true);
@@ -1688,6 +1689,7 @@ return {step: "Main app run"}`
         function        getCurrentStackFrame                (  )                                    {
             const error = new Error();
             const stack = error.stack.split('\n');
+            console.log("Stack: " + JSON.stringify(stack,null,2))
             return stack;
         }
         function        sleep                               (  ms  )                                {
