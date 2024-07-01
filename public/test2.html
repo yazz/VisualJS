@@ -1689,8 +1689,8 @@ return {step: "Main app run"}`
         function        getCurrentStackFrame                (  )                                    {
             const error = new Error();
             const stack = error.stack.toString();
-            debugger
-            let inCallBack = stack.includes('EventListener') || stack.includes('setTimeout') || stack.includes('setInterval');
+            //debugger
+            let inCallBack = stack.includes('Proxy.') || stack.includes('setTimeout') || stack.includes('setInterval');
             console.log("inCallBack: " + inCallBack)
         }
         function        sleep                               (  ms  )                                {
