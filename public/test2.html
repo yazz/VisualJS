@@ -1606,7 +1606,7 @@ return {step: "Main app run"}`
                         if (mm.lastDebugSteppedIndex < 0) {
                             return
                         }
-                        debugger
+                        //debugger
                         mm.runToDebugStepIndex = mm.lastDebugSteppedIndex - 1
                         mm.lastDebugSteppedIndex --
                         let lastLine = mm.programDebugSteps.pop( )
@@ -1687,8 +1687,9 @@ return {step: "Main app run"}`
             })
         }
         function        getCurrentStackFrame                (  )                                    {
-            const error = new Error();
-            const stack = error.stack.split('\n');
+            //const error = new Error();
+            //const stack = error.stack.split('\n');
+            let stack = console.trace()
             console.log("Stack: " + JSON.stringify(stack,null,2))
             return stack;
         }
