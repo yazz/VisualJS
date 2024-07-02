@@ -1169,6 +1169,8 @@ console.log("val = " + a())`
 let a = 1
 a++
 let b = a
+let c = 1
+let app = null
 let vueDebugApp = await Vue.createApp(
     {
         template:   \`
@@ -1180,7 +1182,9 @@ let vueDebugApp = await Vue.createApp(
                     ,
         methods:    {
             doSomething: async function() {
-                this.step = "* Button pressed"
+                //this.step = "* Button pressed" // this doesn't work in debug mode
+                app.step = "* Button pressed " + c
+                c++
             }
         },
         data:       function () {
@@ -1189,7 +1193,7 @@ let vueDebugApp = await Vue.createApp(
                         }
                     }
             })
-let app = await vueDebugApp.mount("#vue_app_element")
+app = await vueDebugApp.mount("#vue_app_element")
 app.step = "Changed message"
 return {step: "Main app run"}`
                             }
