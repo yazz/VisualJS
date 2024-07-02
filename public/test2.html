@@ -1104,22 +1104,23 @@ nextLineToExecute:
 </div>                         `,
                 data:                           function        (  )                        {
                     return {
-                        programDebugSteps:      [  ],
-                        lastDebugSteppedIndex:  -1,
-                        runToDebugStepIndex:    null,
-                        rightPane:              null,
-                        codeToEvalAtBreakpoint: null,
-                        evalCodeAtBreakpoint:   null,
-                        breakpointEvalResult:   null,
-                        pauseAtNextLine:        false,
-                        listOfBreakpoints:      {},
-                        listOfSyncAsyncLines:   {},
-                        nextLineToExecute:      null,
-                        error_msg:              refErrorMsg,
-                        codeAST:                null,
-                        transformedAST:         null,
-                        selectedProgramIndex:   3,
-                        defaultPrograms:        [
+                        programDebugSteps:          [  ],
+                        lastDebugSteppedIndex:      -1,
+                        runToDebugStepIndex:        null,
+                        rightPane:                  null,
+                        codeToEvalAtBreakpoint:     null,
+                        evalCodeAtBreakpoint:       null,
+                        breakpointEvalResult:       null,
+                        pauseAtNextLine:            false,
+                        listOfBreakpoints:          {},
+                        listOfSyncAsyncLines:       {},
+                        listOfSyncCallbackLines:    {},
+                        nextLineToExecute:          null,
+                        error_msg:                  refErrorMsg,
+                        codeAST:                    null,
+                        transformedAST:             null,
+                        selectedProgramIndex:       3,
+                        defaultPrograms:            [
                             {
                                 name: "Console log",
                                 code:
@@ -1382,7 +1383,7 @@ return {step: "Main app run"}`
                                                                 yield
                                                             }
                                                         }
-                                                        getCurrentStackFrame()
+                                                        storeLineCallbackStatus(  ${statement.loc.start.line}  )
                                                         yield
                                                         mm.lastDebugSteppedIndex ++
                                                         if (mm.runToDebugStepIndex != null) {
@@ -1686,12 +1687,12 @@ return {step: "Main app run"}`
                 }, 1000)
             })
         }
-        function        getCurrentStackFrame                (  )                                    {
+        function        storeLineCallbackStatus             (  lineNumber  )                        {
             const error = new Error();
             const stack = error.stack.toString();
             //debugger
             let inCallBack = stack.includes('Proxy.') || stack.includes('setTimeout') || stack.includes('setInterval');
-            console.log("inCallBack: " + inCallBack)
+            console.log("inCallBack: " +  lineNumber + " - " + inCallBack)
         }
         function        sleep                               (  ms  )                                {
             return new Promise(resolve => setTimeout(resolve, ms));
