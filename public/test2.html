@@ -1561,8 +1561,12 @@ return {step: "Main app run"}`
                             mm.runToDebugStepIndex = null
                             mm.programDebugSteps = [  ]
                         }
-                        eval(mm.debugCodeToEval)
-                        console.log("CODE EVAL FINISHED")
+                        //eval(mm.debugCodeToEval)
+                        eval("(async function(){let promise = new Promise(async function(resolve) {" +
+                                 mm.debugCodeToEval + "});await promise;" +
+                            "                        console.log(\"CODE EVAL FINISHED\")"+
+                            " })()")
+                        //ZZZ
                     },
                     stopDebugger:                   async function  (  )                        {
                         let mm = this
