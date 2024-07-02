@@ -1119,7 +1119,7 @@ nextLineToExecute:
                         error_msg:                  refErrorMsg,
                         codeAST:                    null,
                         transformedAST:             null,
-                        selectedProgramIndex:       0,//3 for Vue
+                        selectedProgramIndex:       3,//3 for Vue
                         defaultPrograms:            [
                             {
                                 name: "Console log",
@@ -1170,7 +1170,6 @@ let a = 1
 a++
 let b = a
 let c = 1
-let app = null
 let vueDebugApp = await Vue.createApp(
     {
         template:   \`
@@ -1182,8 +1181,7 @@ let vueDebugApp = await Vue.createApp(
                     ,
         methods:    {
             doSomething: async function() {
-                //this.step = "* Button pressed" // this doesn't work in debug mode
-                app.step = "* Button pressed " + c
+                this.step = "* Button pressed" + c
                 c++
             }
         },
@@ -1193,7 +1191,7 @@ let vueDebugApp = await Vue.createApp(
                         }
                     }
             })
-app = await vueDebugApp.mount("#vue_app_element")
+let app = await vueDebugApp.mount("#vue_app_element")
 app.step = "Changed message"
 return {step: "Main app run"}`
                             }
@@ -1509,10 +1507,25 @@ return {step: "Main app run"}`
                                                                             },
                                                                         init:
                                                                             {
-                                                                                type: "CallExpression",
-                                                                                callee: node,
-                                                                                arguments: [],
-                                                                                optional: false
+                                                                                type:       "CallExpression",
+                                                                                callee:     {
+                                                                                    type:    "MemberExpression",
+                                                                                    object:   node,
+                                                                                    property: {
+                                                                                        type: "Identifier",
+                                                                                        name: "call"
+                                                                                    },
+                                                                                    computed: false,
+                                                                                    optional: false
+                                                                                },
+
+                                                                                arguments:  [
+                                                                                    {
+                                                                                        type: "ThisExpression",
+
+                                                                                    }
+                                                                                ],
+                                                                                optional:   false
                                                                             }
                                                                     }
                                                                 ]
