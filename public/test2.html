@@ -1174,8 +1174,13 @@ let vueDebugApp = await Vue.createApp(
     {
         template:   \`
                     <div style="margin: 20px;">
-                        Vue debug app {{step}}
+                        Vue debug app: {{step}}
                         <button type=btn v-on:click=doSomething>Click me</button>
+                        <div style="margin: 20px;">
+                            <input v-model=debug_message></input>
+                            <button type=btn v-on:click=changeMessage>Change</button>
+                            <div style="margin: 20px;">Debug: {{debug_message}}</div>
+                        </div>
                     </div>
                     \`
                     ,
@@ -1183,11 +1188,15 @@ let vueDebugApp = await Vue.createApp(
             doSomething: async function() {
                 this.step = "* Button pressed " + c + " times"
                 c++
+            },
+            changeMessage: async function() {
+                this.step = this.debug_message
             }
         },
         data:       function () {
                         return {
-                            step: "RETURN data fn in Vue"
+                            step: "RETURN data fn in Vue",
+                            debug_message: ""
                         }
                     }
             })
