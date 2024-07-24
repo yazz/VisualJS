@@ -1726,6 +1726,16 @@ return {step: "Main app run"}`
                 }, 1000)
             })
         }
+        function        storeVariableDeclaratorInDebugMode  (  lineNumber  ,  varName  ,  expressionValue  ) {
+            dfdfd[lineNumber].varName = varName
+            dfdfd[lineNumber].expressionValue = expressionValue
+        }
+        function        storeExpressionValueInDebugMode     (  lineNumber  ,  expressionValue  ) {
+
+        }
+        function        getExpressionValueInDebugMode       (  lineNumber  ) {
+
+        }
         function        storeLineCallbackStatus             (  lineNumber  )                        {
             const error = new Error();
             const stack = error.stack.toString();
