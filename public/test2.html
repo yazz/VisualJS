@@ -1120,7 +1120,7 @@ nextLineToExecute:
                         evalCodeAtBreakpoint:       null,
                         breakpointEvalResult:       null,
                         pauseAtNextLine:            false,
-                        listOfBreakpoints:          {},
+                        listOfBreakpoints:          {  "1": true },
                         listOfSyncAsyncLines:       {},
                         listOfSyncCallbackLines:    {},
                         nextLineToExecute:          null,
@@ -1247,8 +1247,6 @@ return {step: "Main app run"}`
                             timeline_editor.getSession().setMode({
                                 inline: true
                             });
-
-
                         },100)
 
                         document.getElementById("timeline_editor_html_element").style["font-size"]   = "11px"
@@ -1260,6 +1258,7 @@ return {step: "Main app run"}`
                         timeline_editor.getSession().setValue("");
                         timeline_editor.getSession().setUseWorker(false);
                         //timeline_editor.setReadOnly(true)
+                        timeline_editor.getSession().setBreakpoint(0);
 
 
                         timeline_editor.on("guttermousedown", function(e) {
