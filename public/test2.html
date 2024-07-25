@@ -900,10 +900,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- Start of all code in the script tag-->
     <script>
-        async function  init                                (  )                                    {
+        async function  init                                (  )                                                {
             await useIdeTools()
         }
-        function        alaSqlStuff                         (  )                                    {
+        function        alaSqlStuff                         (  )                                                {
             alasql("CREATE TABLE test (language INT, hello STRING)");
             alasql.fn.verify = function(r) {
                 return true; // Do not insert on this number
@@ -922,7 +922,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             alasql("INSERT INTO test VALUES (4,'Velkommen!')");
             console.log( alasql("SELECT * FROM testview ") );
         }
-        async function  useIdeTools                         (  )                                    {
+        async function  useIdeTools                         (  )                                                {
             let promise = new Promise(returnfn => {
                 let loadIdeToolsLibScript = document.createElement('script');
                 loadIdeToolsLibScript.src = "/js_libs/idetools.js";
@@ -936,7 +936,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             })
             let ret = await promise
         }
-        function        createDebuggerUI                    (  )                                    {
+        function        createDebuggerUI                    (  )                                                {
             vueApp = Vue.createApp({
                 template:                       `
 <div style="margin: 20px; font-size: 11px;">
@@ -1411,6 +1411,7 @@ return {step: "Main app run"}`
                                                             mm.programDebugSteps.push({
                                                                 id:             mm.lastDebugSteppedIndex,
                                                                 code:           getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  ),
+                                                                fullCode:       "zzz",
                                                                 debuggableLine: ${isRunningInAsync},
                                                                 lineNumStart:   ${statement.loc.start.line},
                                                                 varDecl:        "${varDecl}"
@@ -1602,7 +1603,6 @@ return {step: "Main app run"}`
                                  mm.debugCodeToEval + "});await promise;" +
                             "                        console.log(\"CODE EVAL FINISHED\")"+
                             " })()")
-                        //ZZZ
                     },
                     stopDebugger:                   async function  (  )                        {
                         let mm = this
@@ -1716,7 +1716,7 @@ return {step: "Main app run"}`
                 }
             })
         }
-        function        mountDebuggerVueElement             (  )                                    {
+        function        mountDebuggerVueElement             (  )                                                {
             Vue.nextTick(function () {
                 setTimeout(async function () {
                     //let vm = Vue.getCurrentInstance()
@@ -1728,33 +1728,33 @@ return {step: "Main app run"}`
                 }, 1000)
             })
         }
-        function        storeVariableDeclaratorInDebugMode  (  stepNumber  ,  varName  ,  expressionValue  ) {
+        function        storeVariableDeclaratorInDebugMode  (  stepNumber  ,  varName  ,  expressionValue  )    {
             dfdfd[stepNumber].varName = varName
             dfdfd[stepNumber].expressionValue = expressionValue
         }
-        function        storeExpressionValueInDebugMode     (  stepNumber  ,  expressionValue  ) {
+        function        storeExpressionValueInDebugMode     (  stepNumber  ,  expressionValue  )                {
 
         }
-        function        getExpressionValueInDebugMode       (  stepNumber  ) {
+        function        getExpressionValueInDebugMode       (  stepNumber  )                                    {
 
         }
-        function        storeLineCallbackStatus             (  lineNumber  )                        {
+        function        storeLineCallbackStatus             (  lineNumber  )                                    {
             const error = new Error();
             const stack = error.stack.toString();
             //debugger
             let inCallBack = stack.includes('Proxy.') || stack.includes('setTimeout') || stack.includes('setInterval');
             console.log("inCallBack: " +  lineNumber + " - " + inCallBack)
         }
-        function        sleep                               (  ms  )                                {
+        function        sleep                               (  ms  )                                            {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
-        async function  runAll                              (  )                                    {
+        async function  runAll                              (  )                                                {
             await init()
             await alaSqlStuff()
             await createDebuggerUI();
             await mountDebuggerVueElement();
         }
-        function getNthLine(text, n) {
+        function        getNthLine                          (  text  ,  n  )                                    {
             // Split the string by line breaks (\n)
             const lines = text.split('\n');
 
