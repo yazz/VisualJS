@@ -1381,9 +1381,14 @@ return {step: "Main app run"}`
                                             let asyncPrefix = mm.isRunningInAsyncNode(node,parent)?"async ":""
                                             let awaitPrefix = mm.isRunningInAsyncNode(node,parent)?"await ":""
                                             let yieldCode = null
-                                            let varDecl = "dummyVar"
+                                            let varDecl = null
                                             //debugger
                                             if (statement && statement.loc) {
+                                                let statementString = statement.type
+                                                if (statementString == "VariableDeclaration"){
+                                                    debugger
+                                                    varDecl = statement.declarations[0].id.name
+                                                }
                                                 yieldCode = `(${asyncPrefix} function*() {
                                                         yield {
                                                                 lineNumStart: ${statement.loc.start.line},
@@ -1411,7 +1416,7 @@ return {step: "Main app run"}`
                                                             mm.programDebugSteps.push({
                                                                 id:             mm.lastDebugSteppedIndex,
                                                                 code:           getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  ),
-                                                                fullCode:       "zzz",
+                                                                type:           "${statementString}",
                                                                 debuggableLine: ${isRunningInAsync},
                                                                 lineNumStart:   ${statement.loc.start.line},
                                                                 varDecl:        "${varDecl}"
