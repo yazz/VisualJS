@@ -1386,7 +1386,6 @@ return {step: "Main app run"}`
                                             if (statement && statement.loc) {
                                                 let statementString = statement.type
                                                 if (statementString == "VariableDeclaration"){
-                                                    debugger
                                                     varDecl = statement.declarations[0].id.name
                                                 }
                                                 yieldCode = `(${asyncPrefix} function*() {
@@ -1413,14 +1412,17 @@ return {step: "Main app run"}`
                                                         mm.lastDebugSteppedIndex ++
                                                         if (mm.runToDebugStepIndex != null) {
                                                         } else {
-                                                            mm.programDebugSteps.push({
+                                                            let entry = {
                                                                 id:             mm.lastDebugSteppedIndex,
                                                                 code:           getNthLine(  mm.htmlInput  ,  ${statement.loc.start.line}  ),
                                                                 type:           "${statementString}",
                                                                 debuggableLine: ${isRunningInAsync},
-                                                                lineNumStart:   ${statement.loc.start.line},
-                                                                varDecl:        "${varDecl}"
-                                                            })
+                                                                lineNumStart:   ${statement.loc.start.line}
+                                                            }
+                                                            if ("${varDecl}" !== 'null') {
+                                                                entry.varDecl = "${varDecl}"
+                                                            }
+                                                            mm.programDebugSteps.push(entry)
                                                             mm.scrollEnd()
                                                         }
                                                     })`
