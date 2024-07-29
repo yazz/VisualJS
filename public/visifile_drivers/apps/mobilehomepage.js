@@ -60,7 +60,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                              Company
 
                            </a>
-                           <a      href="https://github.com/yazz/yazz"
+                           <a      href="https://github.com/yazz/visualjavascript"
                                    target=new
                                    v-bind:refresh='refresh'
                                    style='padding-left:10px;font-size:.8rem;color:white;'>

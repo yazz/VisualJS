@@ -278,7 +278,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 
                 
         <span>
-              <iframe src="https://ghbtns.com/github-btn.html?user=yazz&repo=yazz&type=star&count=true"
+              <iframe src="https://ghbtns.com/github-btn.html?user=yazz&repo=visualjavascript&type=star&count=true"
                       frameborder="0" scrolling="0" width="150" height="25" title="GitHub"
                       style="margin-left:40px"></iframe>
             

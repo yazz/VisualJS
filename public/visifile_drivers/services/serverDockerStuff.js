@@ -42,7 +42,7 @@ only_run_on_server(true)
     if (args.create) {
         //await dockerEngine.commit({
                           //      change: 'CMD ["node",  "src/electron.js",   "--runapp",   "homapage",   "--nogui",   "true",   "--deleteonstartup",   "true",   "--locked",    "false"]'
-                          //   }) --= e3b1bd7239df yazz/yazz2
+                          //   }) --= e3b1bd7239df yazz/visualjavascript2
 
         try {
             var runningContainers               = await dockerEngine.listContainers()

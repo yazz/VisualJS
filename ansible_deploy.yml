@@ -21,7 +21,7 @@
 
     - name: install the latest version of Yazz
       git:
-        repo: 'https://github.com/yazz/yazz.git'
+        repo: 'https://github.com/yazz/visualjavascript.git'
         dest: /root/visifile
 
 

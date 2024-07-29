@@ -80,7 +80,7 @@ Yazz is perfect for prototyping apps. Some demo apps can be found at https://yaz
 
 ### NodeJS on Mac
 Assuming that you have NodeJS, NPM, and Git installed, enter the following commands at the command line:
-<pre style="display:inline;">&gt; git clone https://github.com/yazz/yazz.git
+<pre style="display:inline;">&gt; git clone https://github.com/yazz/visualjavascript.git
 
 &gt; cd yazz
 
@@ -101,7 +101,7 @@ Browse to http://0.0.0.0:80 to open Yazz
 
 ### NodeJS
 Assuming that you have NodeJS, NPM, and Git installed, enter the following commands at the command line:
-<pre style="display:inline;">&gt; git clone https://github.com/yazz/yazz.git
+<pre style="display:inline;">&gt; git clone https://github.com/yazz/visualjavascript.git
 
 &gt; cd yazz
 
@@ -423,7 +423,7 @@ You can run yazz using the Docker Eth node:
 Zubair Quraishi is the main developer. There are also other people who also help out from time to time, including people from Google, Microsoft, and other companies.
 
 ### Is Yazz looking for investment
-No, we don't need money as Yazz has been sponsoring the development of the Yazz tool. We would only consider investment from the outside if it was a very long term partnership, as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to Yazz/Yazz.
+No, we don't need money as Yazz has been sponsoring the development of the Yazz tool. We would only consider investment from the outside if it was a very long term partnership, as Yazz is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to yazz/visualjavascript.
 
 
 
