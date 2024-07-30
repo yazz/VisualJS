@@ -1,5 +1,6 @@
 
-# Visual Javascript - Visual Basic reimagined for the internet
+# Visual Javascript
+## Visual Basic reimagined for the internet
 
 ![Alt text](public/vjs_logo.jpg?raw=true "Title")
 
