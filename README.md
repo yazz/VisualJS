@@ -1,7 +1,7 @@
 
 # Visual Javascript - Visual Basic reimagined for the internet
 
-![Alt text](relative%20public/vjs_logo.jpg?raw=true "Title")
+![Alt text](public/vjs_logo.jpg?raw=true "Title")
 
 
 ## Docs (in progress)
