@@ -426,7 +426,7 @@ You can run VisualJS using the Docker Eth node:
 Zubair Quraishi is the main developer. There are also other people who also help out from time to time, including people from Google, Microsoft, and other companies.
 
 ### Is VisualJS looking for investment
-No, we don't need money as VisualJS has been sponsoring the development of the VisualJS tool. We would only consider investment from the outside if it was a very long term partnership, as VisualJS is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to VisualJS/visualjavascript.
+No, we don't need money as VisualJS has been sponsoring the development of the VisualJS tool. We would only consider investment from the outside if it was a very long term partnership, as VisualJS is expecting to be unprofitable for many years to come. We have been approached by many investors to invest in us, but we would only consider long term investors who would also bring some strategic value to yazz/VisualJS.
 
 
 

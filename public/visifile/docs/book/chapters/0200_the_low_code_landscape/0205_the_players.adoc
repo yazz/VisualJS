@@ -1,4 +1,4 @@
-There are many alternatives to Visual Javascript, but they must be divided into categories:
+There are many alternatives to VisualJS, but they must be divided into categories:
 
 - No code
 - Low code

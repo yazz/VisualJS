@@ -1,4 +1,4 @@
-Visual Javascript can be used for many applications:
+VisualJS can be used for many applications:
 
 - Small internal business apps
 - Dashboards for monitoring systems
@@ -6,7 +6,7 @@ Visual Javascript can be used for many applications:
 - Visualisations of complex environments
 - Small microservices
 
-However, Visual Javascript would be terrible for:
+However, VisualJS would be terrible for:
 
 - Writing an operating system
 - Writing low level device drivers

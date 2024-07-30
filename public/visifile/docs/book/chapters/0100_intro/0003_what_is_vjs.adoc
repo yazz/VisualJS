@@ -1,7 +1,7 @@
-Visual Javascript is a tool for building internal business applications. It has a drag and drop UI builder and uses Javascript as a scripting language. In some ways Visual Javascript can be thought of as a very lightweight version of Visual Basic. A few points of compariston to Visual Basic are:
+VisualJS is a tool for building internal business applications. It has a drag and drop UI builder and uses Javascript as a scripting language. In some ways VisualJS can be thought of as a very lightweight version of Visual Basic. A few points of compariston to Visual Basic are:
 
-- Visual Basic runs only on Windows whereas Visual Javascript is multi-platform
-- Visual Basic is a proprietary product whereas Visual Javascript is open source
-- Visual Basic uses basic as a scripting language whereas Visual Javascript uses Javascript
-- Visual Javascript lacks the module system of Visual Basic
-- Visual Basic applications compile to a .exe whereas Visual Javascript apps are distributed as a HTML file or as the Visual JavaScript he run time plus a .vjs file
+- Visual Basic runs only on Windows whereas VisualJS is multi-platform
+- Visual Basic is a proprietary product whereas VisualJS is open source
+- Visual Basic uses basic as a scripting language whereas VisualJS uses Javascript
+- VisualJS lacks the module system of Visual Basic
+- Visual Basic applications compile to a .exe whereas VisualJS apps are distributed as a HTML file or as the VisualJS he run time plus a .vjs file
