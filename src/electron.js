@@ -1652,7 +1652,7 @@ async function  setUpComponentsLocally                  (  ) {
     //await releaseComponentFromPath( '/apps/search.js')
     //await releaseComponentFromPath( '/apps/test.js')
     //await releaseComponentFromPath( '/apps/oculus_go.js')
-    //await releaseComponentFromPath( '/apps/nft_art.yazz')
+    //await releaseComponentFromPath( '/apps/nft_art.vjs')
     //await releaseComponentFromPath( '/apps/game.js')
     //await releaseComponentFromPath('/apps/oldhomepage.js')
     //await releaseComponentFromPath( '/apps/multi_vr.vjs')

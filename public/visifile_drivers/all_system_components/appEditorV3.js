@@ -670,7 +670,7 @@ ___________
                 <a     v-bind:style="'padding: 0px; margin-top: 0px; margin-left:0px; position: relative; border: 0px;background-color: rgb(242, 242, 242);'"
                        v-if="show_download_save && (preview_type=='app')"
                        v-on:click='embedPressed()'
-                       v-on:mouseenter='setInfo("Download the JS .yazz file for this app")'
+                       v-on:mouseenter='setInfo("Download the JS .vjs file for this app")'
                        v-on:mouseleave='setInfo(null)'
                        type="button" class="btn btn-light ">
             

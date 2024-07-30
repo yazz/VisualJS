@@ -376,7 +376,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 style="position: fixed;left:10vw;top:5vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;font-size: 20px;">
     
             <div    style="font-size: 40px;">
-                    Choose a .yazz file
+                    Choose a .vjs file
             </div>
                 
             <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">

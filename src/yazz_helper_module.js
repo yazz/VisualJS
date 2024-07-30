@@ -1238,8 +1238,8 @@ module.exports = {
                             let origFilePath            = path.join(__dirname, '../public/go.html')
                             let newStaticFilePath       = path.join( mm.userData, 'apps/' + baseComponentId + '.html' )
                             let newLocalStaticFilePath  = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.html' )
-                            let newLocalJSPath          = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
-                            let newLocalYazzPath        = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.yazz' )
+                            let newLocalJSPath          = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.vjs' )
+                            let newLocalYazzPath        = path.join( mm.userData, 'apps/yazz_' + baseComponentId + '.vjs' )
                             let newStaticFileContent    = fs.readFileSync( origFilePath )
 
                             newStaticFileContent = newStaticFileContent.toString().replace("isStaticHtmlPageApp: false", "isStaticHtmlPageApp: true")
