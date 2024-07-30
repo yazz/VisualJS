@@ -1,5 +1,5 @@
 
-# Visual Javascript - Self Service Apps Without the IT Department
+# Visual Javascript - Visual Basic reimagined for the internet
 
 
 ## Docs (in progress)
