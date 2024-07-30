@@ -1483,18 +1483,18 @@ async function  setUpComponentsLocally                  (  ) {
 //
 //
 //------------------------------------------------------------------------------
-    //await evalComponentFromPath('/glb.js')
-    //await evalComponentFromPath('/csv.js')
-    //await evalComponentFromPath('/glb.js')
-    //await evalComponentFromPath('/excel.js')
-    //await evalComponentFromPath( '/word.js')
-    //await evalComponentFromPath('/pdf.js')
-    //await evalComponentFromPath('/outlook2012.js')
-    //await evalComponentFromPath( '/sqlite.js')
-    //await evalComponentFromPath('/mysql.js')
-    //await evalComponentFromPath( '/oracle.js')
-    //await evalComponentFromPath( '/testdriver.js')
-    //await evalComponentFromPath( '/file_uploader.js')
+    //await evalComponentFromPath('/glb.vjs')
+    //await evalComponentFromPath('/csv.vjs')
+    //await evalComponentFromPath('/glb.vjs')
+    //await evalComponentFromPath('/excel.vjs')
+    //await evalComponentFromPath( '/word.vjs')
+    //await evalComponentFromPath('/pdf.vjs')
+    //await evalComponentFromPath('/outlook2012.vjs')
+    //await evalComponentFromPath( '/sqlite.vjs')
+    //await evalComponentFromPath('/mysql.vjs')
+    //await evalComponentFromPath( '/oracle.vjs')
+    //await evalComponentFromPath( '/testdriver.vjs')
+    //await evalComponentFromPath( '/file_uploader.vjs')
 
 
 
@@ -1502,107 +1502,107 @@ async function  setUpComponentsLocally                  (  ) {
     // services
     //
     if (isWin) {
-        //await evalComponentFromPath( '/services/powershell.js')
+        //await evalComponentFromPath( '/services/powershell.vjs')
     }
-    await releaseComponentFromPath( '/services/commandLine.js')
-    await releaseComponentFromPath( '/services/commandLine2.js')
-    //await releaseComponentFromPath('/services/test_job.js')
-    //await releaseComponentFromPath('/services/kafka_service.js')
-    //await releaseComponentFromPath('/services/activemq_service.js')
+    await releaseComponentFromPath( '/services/commandLine.vjs')
+    await releaseComponentFromPath( '/services/commandLine2.vjs')
+    //await releaseComponentFromPath('/services/test_job.vjs')
+    //await releaseComponentFromPath('/services/kafka_service.vjs')
+    //await releaseComponentFromPath('/services/activemq_service.vjs')
 
-    //await releaseComponentFromPath( '/services/web_preview.js')
-    //await releaseComponentFromPath( '/services/spreadsheet_preview.js')
-    //await releaseComponentFromPath( '/services/csv_preview.js')
-    //await releaseComponentFromPath( '/services/doc_preview.js')
+    //await releaseComponentFromPath( '/services/web_preview.vjs')
+    //await releaseComponentFromPath( '/services/spreadsheet_preview.vjs')
+    //await releaseComponentFromPath( '/services/csv_preview.vjs')
+    //await releaseComponentFromPath( '/services/doc_preview.vjs')
 
-    await releaseComponentFromPath( '/services/serverDriveList.js')
-    await releaseComponentFromPath( '/services/serverFolderHierarchyList.js')
-    await releaseComponentFromPath( '/services/serverGetHomeDir.js')
-    await releaseComponentFromPath( '/services/serverFileList.js')
-    await releaseComponentFromPath( '/services/serverFolderContents.js')
-    await releaseComponentFromPath( '/services/serverFolderContentsV2.js')
-    await releaseComponentFromPath( '/services/compile_solidity.js')
-    await releaseComponentFromPath( '/services/serverDatabaseStuff.js')
-    //await releaseComponentFromPath( '/services/serverDockerStuff.js')
-    await releaseComponentFromPath( '/services/serverTerminalStuff.js')
+    await releaseComponentFromPath( '/services/serverDriveList.vjs')
+    await releaseComponentFromPath( '/services/serverFolderHierarchyList.vjs')
+    await releaseComponentFromPath( '/services/serverGetHomeDir.vjs')
+    await releaseComponentFromPath( '/services/serverFileList.vjs')
+    await releaseComponentFromPath( '/services/serverFolderContents.vjs')
+    await releaseComponentFromPath( '/services/serverFolderContentsV2.vjs')
+    await releaseComponentFromPath( '/services/compile_solidity.vjs')
+    await releaseComponentFromPath( '/services/serverDatabaseStuff.vjs')
+    //await releaseComponentFromPath( '/services/serverDockerStuff.vjs')
+    await releaseComponentFromPath( '/services/serverTerminalStuff.vjs')
 
 
-    await releaseComponentFromPath( '/services/postgres_server.js')
-    await releaseComponentFromPath( '/services/access_server.js')
-    await releaseComponentFromPath( '/services/excel_server.js')
+    await releaseComponentFromPath( '/services/postgres_server.vjs')
+    await releaseComponentFromPath( '/services/access_server.vjs')
+    await releaseComponentFromPath( '/services/excel_server.vjs')
 
-    await releaseComponentFromPath( '/services/rest_call_service.js')
-    await releaseComponentFromPath( '/services/rest_call_service_v2.js')
-    await releaseComponentFromPath( '/services/json_traverse_service.js')
-    await releaseComponentFromPath( '/services/json_filter_service.js')
+    await releaseComponentFromPath( '/services/rest_call_service.vjs')
+    await releaseComponentFromPath( '/services/rest_call_service_v2.vjs')
+    await releaseComponentFromPath( '/services/json_traverse_service.vjs')
+    await releaseComponentFromPath( '/services/json_filter_service.vjs')
 
 
     //
     // debug controls
     //
-    //await releaseComponentFromPath( '/controls/bug_vue.js')
+    //await releaseComponentFromPath( '/controls/bug_vue.vjs')
 
     //
     // controls
     //
-    await releaseComponentFromPath( '/controls/chart.js')
-    await releaseComponentFromPath( '/controls/image.js')
-    await releaseComponentFromPath( '/controls/label.js')
+    await releaseComponentFromPath( '/controls/chart.vjs')
+    await releaseComponentFromPath( '/controls/image.vjs')
+    await releaseComponentFromPath( '/controls/label.vjs')
 
-    await releaseComponentFromPath( '/controls/yazzSqlite.js')
-    await releaseComponentFromPath( '/controls/database.js')
+    await releaseComponentFromPath( '/controls/yazzSqlite.vjs')
+    await releaseComponentFromPath( '/controls/database.vjs')
 
     //
-    await releaseComponentFromPath( '/controls/input.js')
+    await releaseComponentFromPath( '/controls/input.vjs')
 
-    await releaseComponentFromPath( '/controls/group.js')
-    await releaseComponentFromPath( '/controls/button.js')
+    await releaseComponentFromPath( '/controls/group.vjs')
+    await releaseComponentFromPath( '/controls/button.vjs')
 
-    await releaseComponentFromPath( '/controls/map.js')
+    await releaseComponentFromPath( '/controls/map.vjs')
 
-    await releaseComponentFromPath( '/controls/checkbox.js')
-    await releaseComponentFromPath( '/controls/radiobutton.js')
-    await releaseComponentFromPath( '/controls/dropdown.js')
-    await releaseComponentFromPath( '/controls/list.js')
-    await releaseComponentFromPath( '/controls/horiz_scroll.js')
-    await releaseComponentFromPath( '/controls/vert_scroll.js')
-    await releaseComponentFromPath( '/controls/timer.js')
-    await releaseComponentFromPath( '/controls/drive_list.js')
-    await releaseComponentFromPath( '/controls/folder_list.js')
-    await releaseComponentFromPath( '/controls/file_list.js')
-    await releaseComponentFromPath( '/controls/shapes.js')
-    await releaseComponentFromPath( '/controls/line.js')
-    await releaseComponentFromPath( '/controls/draw.js')
-    await releaseComponentFromPath( '/controls/mixer.js')
-    await releaseComponentFromPath( '/controls/ms_access.js')
-    await releaseComponentFromPath( '/controls/ms_excel.js')
-    await releaseComponentFromPath( '/controls/data_window.js')
-    await releaseComponentFromPath( '/controls/ace_editor.js')
+    await releaseComponentFromPath( '/controls/checkbox.vjs')
+    await releaseComponentFromPath( '/controls/radiobutton.vjs')
+    await releaseComponentFromPath( '/controls/dropdown.vjs')
+    await releaseComponentFromPath( '/controls/list.vjs')
+    await releaseComponentFromPath( '/controls/horiz_scroll.vjs')
+    await releaseComponentFromPath( '/controls/vert_scroll.vjs')
+    await releaseComponentFromPath( '/controls/timer.vjs')
+    await releaseComponentFromPath( '/controls/drive_list.vjs')
+    await releaseComponentFromPath( '/controls/folder_list.vjs')
+    await releaseComponentFromPath( '/controls/file_list.vjs')
+    await releaseComponentFromPath( '/controls/shapes.vjs')
+    await releaseComponentFromPath( '/controls/line.vjs')
+    await releaseComponentFromPath( '/controls/draw.vjs')
+    await releaseComponentFromPath( '/controls/mixer.vjs')
+    await releaseComponentFromPath( '/controls/ms_access.vjs')
+    await releaseComponentFromPath( '/controls/ms_excel.vjs')
+    await releaseComponentFromPath( '/controls/data_window.vjs')
+    await releaseComponentFromPath( '/controls/ace_editor.vjs')
 
-    //await releaseComponentFromPath('/controls/container_3d.js')
-    //await releaseComponentFromPath( '/controls/item_3d.js')
+    //await releaseComponentFromPath('/controls/container_3d.vjs')
+    //await releaseComponentFromPath( '/controls/item_3d.vjs')
 
-    await releaseComponentFromPath( '/controls/terminal_ui.js')
-    await releaseComponentFromPath( '/controls/osquery_ui.js')
-    await releaseComponentFromPath( '/controls/rest_ui.js')
-    await releaseComponentFromPath( '/controls/tree_to_table.js')
-    await releaseComponentFromPath( '/controls/ducker.js')
-    await releaseComponentFromPath( '/controls/table.js')
-    await releaseComponentFromPath( '/controls/rh3scale.js')
-    await releaseComponentFromPath( '/controls/kubernetes.js')
-    await releaseComponentFromPath( '/controls/kafka.js')
-    //await releaseComponentFromPath( '/controls/rhfuse.js')
-    //await releaseComponentFromPath( '/controls/rhamq.js')
-    await releaseComponentFromPath( '/controls/rhdm.js')
-    //await releaseComponentFromPath( '/controls/rhpam.js')
-    //await releaseComponentFromPath( '/controls/rhdata_grid.js')
-    //await releaseComponentFromPath( '/controls/rhopenshift.js')
+    await releaseComponentFromPath( '/controls/terminal_ui.vjs')
+    await releaseComponentFromPath( '/controls/osquery_ui.vjs')
+    await releaseComponentFromPath( '/controls/rest_ui.vjs')
+    await releaseComponentFromPath( '/controls/tree_to_table.vjs')
+    await releaseComponentFromPath( '/controls/ducker.vjs')
+    await releaseComponentFromPath( '/controls/table.vjs')
+    await releaseComponentFromPath( '/controls/rh3scale.vjs')
+    await releaseComponentFromPath( '/controls/kubernetes.vjs')
+    await releaseComponentFromPath( '/controls/kafka.vjs')
+    //await releaseComponentFromPath( '/controls/rhfuse.vjs')
+    //await releaseComponentFromPath( '/controls/rhamq.vjs')
+    await releaseComponentFromPath( '/controls/rhdm.vjs')
+    //await releaseComponentFromPath( '/controls/rhpam.vjs')
+    //await releaseComponentFromPath( '/controls/rhdata_grid.vjs')
+    //await releaseComponentFromPath( '/controls/rhopenshift.vjs')
 
 
-    await releaseComponentFromPath( '/controls/metamask.js')
-    await releaseComponentFromPath( '/controls/evm_contract.js')
-    await releaseComponentFromPath( '/controls/component_builder.js')
-    await releaseComponentFromPath( '/controls/evm_demo_count_contract.js')
+    await releaseComponentFromPath( '/controls/metamask.vjs')
+    await releaseComponentFromPath( '/controls/evm_contract.vjs')
+    await releaseComponentFromPath( '/controls/component_builder.vjs')
+    await releaseComponentFromPath( '/controls/evm_demo_count_contract.vjs')
 
 
 
@@ -1610,30 +1610,30 @@ async function  setUpComponentsLocally                  (  ) {
     // functions
     //
 
-    //await releaseComponentFromPath( '/all_system_components/system.js')
-    await releaseComponentFromPath( '/all_system_components/system2.js')
-    //await releaseComponentFromPath( '/all_system_components/system3.js')
+    //await releaseComponentFromPath( '/all_system_components/system.vjs')
+    await releaseComponentFromPath( '/all_system_components/system2.vjs')
+    //await releaseComponentFromPath( '/all_system_components/system3.vjs')
 
     //
     // UI components
     //
-    await releaseComponentFromPath( '/all_system_components//comp.js')
-    await releaseComponentFromPath( '/all_system_components//sqliteEditorComponent.js')
-    await releaseComponentFromPath( '/all_system_components//appSqliteEditorComponent.js')
-    await releaseComponentFromPath( '/all_system_components//keycloakEditorComponent.js')
-    await releaseComponentFromPath( '/all_system_components//deliverComponentScreen.js')
-    await releaseComponentFromPath( '/all_system_components//environmentsEditor.js')
-    await releaseComponentFromPath( '/all_system_components//iconEditorComponent.js')
-    await releaseComponentFromPath( '/all_system_components//controlEditor.js')
-    await releaseComponentFromPath( '/all_system_components//exportEditorComponent.js')
-    await releaseComponentFromPath( '/all_system_components//embedAppComponent.js')
-    //await releaseComponentFromPath( '/all_system_components//simpleDisplayEditorComponent.js')
+    await releaseComponentFromPath( '/all_system_components//comp.vjs')
+    await releaseComponentFromPath( '/all_system_components//sqliteEditorComponent.vjs')
+    await releaseComponentFromPath( '/all_system_components//appSqliteEditorComponent.vjs')
+    await releaseComponentFromPath( '/all_system_components//keycloakEditorComponent.vjs')
+    await releaseComponentFromPath( '/all_system_components//deliverComponentScreen.vjs')
+    await releaseComponentFromPath( '/all_system_components//environmentsEditor.vjs')
+    await releaseComponentFromPath( '/all_system_components//iconEditorComponent.vjs')
+    await releaseComponentFromPath( '/all_system_components//controlEditor.vjs')
+    await releaseComponentFromPath( '/all_system_components//exportEditorComponent.vjs')
+    await releaseComponentFromPath( '/all_system_components//embedAppComponent.vjs')
+    //await releaseComponentFromPath( '/all_system_components//simpleDisplayEditorComponent.vjs')
 
     //
     // code editors
     //
-    await releaseComponentFromPath( '/all_system_components//codePlugInVbEditor.js')
-    await releaseComponentFromPath( '/all_system_components//codePlugInTextEditor.js')
+    await releaseComponentFromPath( '/all_system_components//codePlugInVbEditor.vjs')
+    await releaseComponentFromPath( '/all_system_components//codePlugInTextEditor.vjs')
 
     outputDebug("Loaded main drivers")
 
@@ -1642,35 +1642,35 @@ async function  setUpComponentsLocally                  (  ) {
     //
     // apps
     //
-    await releaseComponentFromPath( '/all_system_components/appEditorV3.js')
+    await releaseComponentFromPath( '/all_system_components/appEditorV3.vjs')
 
-    await evalHtmlComponentFromPath( '/apps/homepage.js')
-    await evalHtmlComponentFromPath( '/apps/mobilehomepage.js')
-    await releaseComponentFromPath( '/all_system_components/yazz_blank.js')
-    await releaseComponentFromPath( '/all_system_components/control_preview_container_app.js')
+    await evalHtmlComponentFromPath( '/apps/homepage.vjs')
+    await evalHtmlComponentFromPath( '/apps/mobilehomepage.vjs')
+    await releaseComponentFromPath( '/all_system_components/yazz_blank.vjs')
+    await releaseComponentFromPath( '/all_system_components/control_preview_container_app.vjs')
 
-    //await releaseComponentFromPath( '/apps/search.js')
-    //await releaseComponentFromPath( '/apps/test.js')
-    //await releaseComponentFromPath( '/apps/oculus_go.js')
+    //await releaseComponentFromPath( '/apps/search.vjs')
+    //await releaseComponentFromPath( '/apps/test.vjs')
+    //await releaseComponentFromPath( '/apps/oculus_go.vjs')
     //await releaseComponentFromPath( '/apps/nft_art.vjs')
-    //await releaseComponentFromPath( '/apps/game.js')
-    //await releaseComponentFromPath('/apps/oldhomepage.js')
+    //await releaseComponentFromPath( '/apps/game.vjs')
+    //await releaseComponentFromPath('/apps/oldhomepage.vjs')
     //await releaseComponentFromPath( '/apps/multi_vr.vjs')
-    //await releaseComponentFromPath( '/apps/hologram.js')
-    //await releaseComponentFromPath( '/apps/kinetic.js')
-    //await releaseComponentFromPath( '/apps/intro_logo_3d.js')
-    //await releaseComponentFromPath( '/apps/listApps.js')
-    //await releaseComponentFromPath( '/apps/listPublicApps.js')
-    await releaseComponentFromPath( '/apps/vue.js')
-    await releaseComponentFromPath( '/apps/bootstrap.js')
-    await releaseComponentFromPath( '/apps/databaseReader.js')
-    await releaseComponentFromPath( '/apps/todo_app_reader.js')
-    await releaseComponentFromPath( '/apps/newSqlApp.js')
-    //await releaseComponentFromPath( '/apps/yazzcraft.js')
+    //await releaseComponentFromPath( '/apps/hologram.vjs')
+    //await releaseComponentFromPath( '/apps/kinetic.vjs')
+    //await releaseComponentFromPath( '/apps/intro_logo_3d.vjs')
+    //await releaseComponentFromPath( '/apps/listApps.vjs')
+    //await releaseComponentFromPath( '/apps/listPublicApps.vjs')
+    await releaseComponentFromPath( '/apps/vue.vjs')
+    await releaseComponentFromPath( '/apps/bootstrap.vjs')
+    await releaseComponentFromPath( '/apps/databaseReader.vjs')
+    await releaseComponentFromPath( '/apps/todo_app_reader.vjs')
+    await releaseComponentFromPath( '/apps/newSqlApp.vjs')
+    //await releaseComponentFromPath( '/apps/yazzcraft.vjs')
 
 
-    let todoRet = await evalHtmlComponentFromPath( '/apps/todo.js')
-    let demoTimerRet = await evalHtmlComponentFromPath( '/apps/demo_timer.js')
+    let todoRet = await evalHtmlComponentFromPath( '/apps/todo.vjs')
+    let demoTimerRet = await evalHtmlComponentFromPath( '/apps/demo_timer.vjs')
 
     let releaseId = await yz.releaseCode( dbsearch, todoRet.codeId , {localOnly: true})
     await yz.createContentFromLevel2Record({db: dbsearch, type: "RELEASE", id: releaseId.value.id, scope: "LOCAL"})
@@ -1681,9 +1681,9 @@ async function  setUpComponentsLocally                  (  ) {
 
 
     //database drivers
-    await releaseComponentFromPath( '/controls/postgres.js')
-    await releaseComponentFromPath( '/controls/sqlite.js')
-    await releaseComponentFromPath( '/controls/mysql.js')
+    await releaseComponentFromPath( '/controls/postgres.vjs')
+    await releaseComponentFromPath( '/controls/sqlite.vjs')
+    await releaseComponentFromPath( '/controls/mysql.vjs')
 
 
     let extraFns = fs.readFileSync( path.join(__dirname, '../src/extraFns.js') ).toString()
@@ -1694,15 +1694,15 @@ async function  setUpComponentsLocally                  (  ) {
     //
     // non GUI front end apps
     //
-    //await releaseComponentFromPath( '/apps/rh3scale_app.js')
-    await releaseComponentFromPath('/apps/quicksort.js')
-    //await releaseComponentFromPath( '/apps/bubblesort.js')
-    await releaseComponentFromPath( '/all_system_components/blank_app.js')
-    //await evalHtmlComponentFromPath( '/apps/blank_microservice.js')
-    //await releaseComponentFromPath( '/apps/demo_microservice.js')
-    ////await releaseComponentFromPath( '/apps/echo_microservice.js')
-    //await releaseComponentFromPath( '/apps/call_function_microservice.js')
-    //await releaseComponentFromPath( '/apps/echo_post_microservice.js')
+    //await releaseComponentFromPath( '/apps/rh3scale_app.vjs')
+    await releaseComponentFromPath('/apps/quicksort.vjs')
+    //await releaseComponentFromPath( '/apps/bubblesort.vjs')
+    await releaseComponentFromPath( '/all_system_components/blank_app.vjs')
+    //await evalHtmlComponentFromPath( '/apps/blank_microservice.vjs')
+    //await releaseComponentFromPath( '/apps/demo_microservice.vjs')
+    ////await releaseComponentFromPath( '/apps/echo_microservice.vjs')
+    //await releaseComponentFromPath( '/apps/call_function_microservice.vjs')
+    //await releaseComponentFromPath( '/apps/echo_post_microservice.vjs')
     outputDebug("Loaded all apps (may use already loaded drivers)")
 
 
