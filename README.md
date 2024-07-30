@@ -8,7 +8,7 @@ https://yazz.com/visifile/docs/book/main.html
 
 
 
-## PDF of last physical magazine (March 2020 when the product was called Visual Javascript)
+## PDF of last physical magazine (March 2020)
 https://yazz.com/visifile/docs/yazz_march_2020.pdf
 <br/><br/><br/>
 
@@ -16,7 +16,7 @@ https://yazz.com/visifile/docs/yazz_march_2020.pdf
 
 
 ## What is Visual Javascript?
-Visual Javascript is a both an IDE for building small web applications and a decentralised app store. Visual Javascript allows you to build Web apps visually. Visual Javascript runs on the web, PC/Mac/Linux (desktop application or NodeJS) or as a container (Docker, Kubernetes). To develop an app:
+Visual Javascript is a browser based tool to build internal web applications using reusable components. It works with PC/Mac/Linux (desktop application or NodeJS) or as a container (Docker, Kubernetes). To develop an app:
 
 - Start the Visual Javascript web server
 - Create an app in your web browser
