@@ -49,7 +49,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                          target=new
                                          v-bind:refresh='refresh'
                                          style='font-size:2rem;color:white;'>
-                                         Yazz
+                                         Visual Javascript
 
                                  </a>
 

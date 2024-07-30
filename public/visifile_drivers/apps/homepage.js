@@ -247,7 +247,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         v-bind:refresh='refresh'
                         style='font-size:2rem;color:white;'>
                       
-                    Yazz
+                    Visual Javascript
                 
                 </a>
             </div>
