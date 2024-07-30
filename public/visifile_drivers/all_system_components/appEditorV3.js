@@ -357,7 +357,7 @@ ___________
                     Download
                     ---------------------------------------------- -->
                     <a     v-bind:style="'margin-left:4px;margin-right: 0px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' "
-                           v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".yazz"'
+                           v-bind:href='location.protocol + "//" + location.hostname + ":" + location.port + "/app/yazz_" + yz.editor.editingAppBaseComponentId + ".vjs"'
                            download
                            v-if="show_download_save"
                            v-on:mouseenter='setInfo("Download the source code for this app / component")'
