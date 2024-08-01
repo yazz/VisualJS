@@ -125,33 +125,21 @@
         </span>
 
         <span  v-if="!rightPane" style="width:45%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
+
         <span  v-if="rightPane=='AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
             <b>AST</b>
             <pre style="overflow: scroll;height:95%">{{codeAST}}
             </pre>
         </span>
 
-        <span  v-if="rightPane=='transform_AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
-            <b>Transformed AST</b>
-            <pre style="overflow: scroll;height:95%">{{transformedAST}}
-            </pre>
+        <span  v-if="rightPane=='canvas'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
+            <b>Canvas</b>
+            <canvas id=canvas style="overflow: scroll;height:95%">
+
+            </canvas>
         </span>
 
 
-        <span v-if="rightPane=='debug_code'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
-            <b>Debug code</b>
-            <pre style="overflow: scroll;height:95%">{{debugCodeToEval}}
-            </pre>
-        </span>
-
-
-        <span v-if="rightPane=='debugger' || rightPane=='running'" style="width:49%; margin-right: 20px;vertical-align: top;display: inline-block;height: 50%; ">
-            <b v-if="rightPane=='debugger'">Debugging</b>
-            <b v-if="rightPane=='running'">Running</b>
-            <div style="overflow: scroll;height:95%" id="vue_app_element">
-            </div>
-        </span>
-    </div>
 
     <div style="margin-top: 20px;">
         <button   v-on:click="runCode()"
@@ -281,7 +269,7 @@ nextLineToExecute:
                         programDebugSteps:          [  ],
                         lastDebugSteppedIndex:      -1,
                         runToDebugStepIndex:        null,
-                        rightPane:                  null,
+                        rightPane:                  "canvas",
                         codeToEvalAtBreakpoint:     null,
                         evalCodeAtBreakpoint:       null,
                         breakpointEvalResult:       null,
@@ -390,6 +378,12 @@ return {step: "Main app run"}`
                     let mm = this
                     await mm.setupAceEditor()
                     await mm.selectProgram()
+
+                    let c = document.getElementById("canvas");
+                    var ctx = c.getContext("2d");
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(200, 100);
+                    ctx.stroke();
                 },
                 methods:                        {
                     scrollEnd:                      function        (  )                        {
@@ -461,7 +455,7 @@ return {step: "Main app run"}`
                         let mm = this
                         this.htmlInput = this.defaultPrograms[this.selectedProgramIndex].code
                         timeline_editor.getSession().setValue(mm.htmlInput)
-                        mm.rightPane = null
+                        mm.rightPane = "canvas"
                     },
                     runCode:                        async function  (  )                        {
                         let mm = this
@@ -778,7 +772,7 @@ return {step: "Main app run"}`
                     },
                     stopDebugger:                   async function  (  )                        {
                         let mm = this
-                        mm.rightPane = null
+                        mm.rightPane = "canvas"
                         mm.programDebugSteps = [  ]
                         mm.lastDebugSteppedIndex = -1
 
