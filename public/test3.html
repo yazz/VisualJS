@@ -102,35 +102,12 @@
             })
             let ret = await promise
         }
-        function        createDebuggerUI                    (  )                                                {
+        function        createVueUI                    (  )                                                {
             vueApp = Vue.createApp({
                 template:                       `
 <div style="margin: 20px; font-size: 11px;">
     <div>
 
-        <span style="width:45%; margin-right: 20px; height: 80%;">
-            <!--  The CANNED PROGRAM HTML SELECTOR  -->
-            <select v-on:change='selectProgram()'  v-model="selectedProgramIndex">
-                <option v-for='(opt,index) in defaultPrograms'
-                        v-bind:selected='selectedProgramIndex == index'
-                        v-bind:value='index'>
-                    ({{index}}) {{opt.name}}
-                </option>
-            </select>
-            <br/>
-
-            <!--  The PROGRAM TEXT EDITOR  -->
-            <div id="timeline_editor_html_element"></div>
-            <div id="hint" class="hint">This is a hint!</div>
-        </span>
-
-        <span  v-if="!rightPane" style="width:45%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >No preview</span>
-
-        <span  v-if="rightPane=='AST'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
-            <b>AST</b>
-            <pre style="overflow: scroll;height:95%">{{codeAST}}
-            </pre>
-        </span>
 
         <span  v-if="rightPane=='canvas'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
             <b>Canvas</b>
@@ -138,245 +115,25 @@
 
             </canvas>
         </span>
-
+    </div>                         \`,
 
 
     <div style="margin-top: 20px;">
-        <button   v-on:click="runCode()"
+        <button   v-on:click="dummy()"
                   type="button"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
-            Run
+            Dummy
         </button>
-
-        <button   v-on:click="createAST()"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            Code -&gt; AST
-        </button>
-
-        <button   v-on:click="transformAST()"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            Transform AST
-        </button>
-
-        <button   v-on:click="createDebugCode()"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            AST -&gt; Code
-        </button>
-
-        <button   v-on:click="startDebugger()"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            Start Debugger
-        </button>
-
-
-
-        <!-- ----------------------------------
-                    RESUME DEBUGGER
-             ---------------------------------- -->
-        <button   v-on:click="resumeDebugger()"
-                  v-if="rightPane=='debugger'"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            Resume
-        </button>
-
-        <!-- ----------------------------------
-                    STEP BACK IN TIME - not implemented yet
-             ---------------------------------- -->
-        <button   v-on:click="stepBack()"
-                  v-if="rightPane=='debugger'"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            &lt;
-        </button>
-
-        <!-- ----------------------------------
-                    STEP OVER CODE
-             ---------------------------------- -->
-        <button   v-on:click="stepOver()"
-                  v-if="rightPane=='debugger'"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            &gt;
-        </button>
-
-
-
-        <!-- ----------------------------------
-                    STOP DEBUGGER
-             ---------------------------------- -->
-        <button   v-on:click="stopDebugger()"
-                  v-if="rightPane=='debugger'"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            Stop Debugger
-        </button>
-
-
     </div>
-
-
-    <div  style="padding:5px;margin-bottom:5px;"
-          v-if="rightPane=='debugger'">
-
-        <!-- ----------------------------------
-                 EVAL AT BREAKPOINT
-             ---------------------------------- -->
-
-
-        <input size=100 v-model="codeToEvalAtBreakpoint" style="margin-right:10px;"></input>
-
-        <button   v-on:click="evalAtBreakpoint()"
-                  style="margin-right: 10px;"
-                  class="btn btn-sm btn-info">
-            Eval
-        </button>
-
-        <span>Result: {{breakpointEvalResult}}</span>
-    </div>
-
-    <br/>
-    <div style="border: 3px solid red">{{error_msg}}</div>
-
-
-
-    <pre id=debug_steps style="height:250px; overflow-y:scroll">
-programDebugSteps:
-{{programDebugSteps}}
-    </pre>
-
-    <pre>
-lastDebugSteppedIndex:
-{{lastDebugSteppedIndex}}
-
-runToDebugStepIndex:
-{{runToDebugStepIndex}}
-
-listOfBreakpoints:
-{{listOfBreakpoints}}
-
-nextLineToExecute:
-{{nextLineToExecute}}
-    </pre>
 </div>                         `,
                 data:                           function        (  )                        {
                     return {
-                        programDebugSteps:          [  ],
-                        lastDebugSteppedIndex:      -1,
-                        runToDebugStepIndex:        null,
                         rightPane:                  "canvas",
-                        codeToEvalAtBreakpoint:     null,
-                        evalCodeAtBreakpoint:       null,
-                        breakpointEvalResult:       null,
-                        pauseAtNextLine:            false,
-                        listOfBreakpoints:          {  "1": true },
-                        listOfSyncAsyncLines:       {},
-                        listOfSyncCallbackLines:    {},
-                        nextLineToExecute:          null,
-                        error_msg:                  refErrorMsg,
-                        codeAST:                    null,
-                        transformedAST:             null,
-                        selectedProgramIndex:       3,//3 for Vue
-                        defaultPrograms:            [
-                            {
-                                name: "Console log",
-                                code:
-                                    `let a = 1
-console.log("out: " + a)
-a++
-console.log("out: " + a)
-a++
-console.log("out: " + a)
-a++
-console.log("out: " + a)
-a++
-console.log("out: " + a)
-let af = async function() {
-    console.log("out: 6" )
-    //return 7
-}
-let retres = await af()
-console.log("out: " + retres)
-console.log("out: 8")
-`
-                            }
-                            ,
-                            {
-                                name: "JS Function",
-                                code:
-                                    `function a() {
-    let re = 1+2+3
-    return re
-}
-
-console.log("val = " + a())`
-                            }
-                            ,
-                            {
-                                name: "Assignment",
-                                code:
-                                    `let a = 1
-                                    `
-                            }
-                            ,
-                            {
-                                name: "Vue",
-                                code:
-                            `console.log("out: " + new Date().getTime())
-let a = 1
-a++
-let b = a
-let c = 1
-let vueDebugApp = await Vue.createApp(
-    {
-        template:   \`
-                    <div style="margin: 20px;">
-                        Vue debug app: {{step}}
-                        <button type=btn v-on:click=doSomething>Increment</button>
-                        <div style="margin: 20px;">
-                            <input v-model=debug_message></input>
-                            <button type=btn v-on:click=changeMessage>Change</button>
-                            <div style="margin: 20px;">Debug: {{debug_message}}</div>
-                        </div>
-                    </div>
-                    \`
-                    ,
-        methods:    {
-            doSomething: async function() {
-                this.step = "* Button pressed " + c + " times"
-                c++
-            },
-            changeMessage: async function() {
-                this.step = this.debug_message
-            }
-        },
-        data:       function () {
-                        return {
-                            step: "RETURN data fn in Vue",
-                            debug_message: ""
-                        }
-                    }
-            })
-let app = await vueDebugApp.mount("#vue_app_element")
-app.step = "Changed message"
-return {step: "Main app run"}`
-                            }
-                        ],
-
-                        //DEFAULT CODE TO DEBUG
-                        htmlInput: "",
-                        debugCode: null,
-                        debugCodeToEval: null
                     }
                 },
                 mounted:                        async function  (  )                        {
                     let mm = this
-                    await mm.selectProgram()
 
                     let c = document.getElementById("canvas");
                     var ctx = c.getContext("2d");
@@ -391,31 +148,11 @@ return {step: "Main app run"}`
         function        mountDebuggerVueElement             (  )                                                {
             Vue.nextTick(function () {
                 setTimeout(async function () {
-                    //let vm = Vue.getCurrentInstance()
-                    //debugger
-                    //vueApp.refresh = 8
                     VueAppData = vueApp.mount("#vue_root_element")
                     console.log("main app mounted")
 
                 }, 1000)
             })
-        }
-        function        storeVariableDeclaratorInDebugMode  (  stepNumber  ,  varName  ,  expressionValue  )    {
-            dfdfd[stepNumber].varName = varName
-            dfdfd[stepNumber].expressionValue = expressionValue
-        }
-        function        storeExpressionValueInDebugMode     (  stepNumber  ,  expressionValue  )                {
-
-        }
-        function        getExpressionValueInDebugMode       (  stepNumber  )                                    {
-
-        }
-        function        storeLineCallbackStatus             (  lineNumber  )                                    {
-            const error = new Error();
-            const stack = error.stack.toString();
-            //debugger
-            let inCallBack = stack.includes('Proxy.') || stack.includes('setTimeout') || stack.includes('setInterval');
-            console.log("inCallBack: " +  lineNumber + " - " + inCallBack)
         }
         function        sleep                               (  ms  )                                            {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -423,32 +160,14 @@ return {step: "Main app run"}`
         async function  runAll                              (  )                                                {
             await init()
             await alaSqlStuff()
-            await createDebuggerUI();
+            await createVueUI();
             await mountDebuggerVueElement();
         }
-        function        getNthLine                          (  text  ,  n  )                                    {
-            // Split the string by line breaks (\n)
-            const lines = text.split('\n');
-
-            // Check if the desired line number is within the range
-            if (n >= 1 && n <= lines.length) {
-                // Return the nth line (1-based index, so we use n-1)
-                return lines[n - 1];
-            } else {
-                // Return null or an appropriate message if the line number is out of range
-                return null;
-            }
-        }
-
-        let timeline_editor     = null
         let globalWatchList     = {}
         let refData             = Vue.ref({a: 1})
-        let refDebugCode        = Vue.ref("")
-        let refOrigCode         = Vue.ref("")
-        let refErrorMsg         = Vue.ref("Error ... ")
         let vueApp              = null
         let VueAppData          = null
-        let unpauseDebugger     = null
+
 
         runAll();
 
