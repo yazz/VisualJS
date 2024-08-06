@@ -66,9 +66,6 @@
 
     <!-- Start of all code in the script tag-->
     <script>
-        async function  init                                (  )                                                {
-            await useIdeTools()
-        }
         function        alaSqlStuff                         (  )                                                {
             alasql("CREATE TABLE test (language INT, hello STRING)");
             alasql.fn.verify = function(r) {
@@ -87,20 +84,6 @@
             alasql('CREATE TRIGGER mytrigger AFTER update ON testview verify2');
             alasql("INSERT INTO test VALUES (4,'Velkommen!')");
             console.log( alasql("SELECT * FROM testview ") );
-        }
-        async function  useIdeTools                         (  )                                                {
-            let promise = new Promise(returnfn => {
-                let loadIdeToolsLibScript = document.createElement('script');
-                loadIdeToolsLibScript.src = "/js_libs/idetools.js";
-                document.head.appendChild(loadIdeToolsLibScript);
-                loadIdeToolsLibScript.onload = function () {
-                    try {
-                    } catch (error) {
-                    }
-                    returnfn()
-                };
-            })
-            let ret = await promise
         }
         function        createVueUI                    (  )                                                {
             vueApp = Vue.createApp({
@@ -181,7 +164,6 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
         async function  runAll                              (  )                                                {
-            await init()
             await alaSqlStuff()
             await createVueUI();
             await mountDebuggerVueElement();
