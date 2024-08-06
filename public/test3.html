@@ -109,18 +109,22 @@
     <div style="width:100%;height:50%">
 
 
-        <div   v-if="rightPane=='canvas'"
-                style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
-                >a
+        <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                    id="background_grid"
+                >
         </div>
 
+        <canvas     style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                    id="canvas_effects"
+                >
+        </canvas>
 
-        <div   v-if="rightPane=='canvas'"
-                style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
-                id="preview"
-                v-on:mouseover='mouseOver($event);console.log($event)'
-                v-on:mousemove='mouseOver($event)'
-                >b
+
+        <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                    id="capture_user_input"
+                    v-on:mouseover='mouseOver($event);console.log($event)'
+                    v-on:mousemove='mouseOver($event)'
+                >
         </div>
     </div>
 
@@ -141,7 +145,12 @@
                 },
                 mounted:                        async function  (  )                        {
                     let mm = this
-
+                    var c = document.getElementById("canvas_effects");
+                    var ctx = c.getContext("2d");
+                    ctx.moveTo(0, 0);
+                    ctx.strokeStyle = '#ff0000';
+                    ctx.lineTo(200, 100);
+                    ctx.stroke();
                 },
                 methods:                        {
                     mouseOver:   async function  (  e  ) {
