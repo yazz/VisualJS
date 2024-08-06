@@ -109,11 +109,12 @@
     <div>
 
 
-        <span  v-if="rightPane=='canvas'" style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;" id="preview" >
-            <b>Canvas</b>
-            <canvas id=canvas style="overflow: scroll;height:95%">
-
-            </canvas>
+        <span   v-if="rightPane=='canvas'"
+                style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                id="preview"
+                v-on:mouseover='mouseOver($event);console.log($event)'
+                v-on:mousemove='mouseOver($event)'
+                >
         </span>
     </div>                         \`,
 
@@ -135,13 +136,20 @@
                 mounted:                        async function  (  )                        {
                     let mm = this
 
-                    let c = document.getElementById("canvas");
-                    var ctx = c.getContext("2d");
-                    ctx.moveTo(0, 0);
-                    ctx.lineTo(200, 100);
-                    ctx.stroke();
                 },
                 methods:                        {
+                    mouseOver:   async function  (  e  ) {
+                        let mm = this
+                        const target = e.target;
+
+                        // Get the bounding rectangle of target
+                        const rect = target.getBoundingClientRect();
+
+                        // Mouse position
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        console.log("(" + x + "," + y + ")")
+                    }
                 }
             })
         }
