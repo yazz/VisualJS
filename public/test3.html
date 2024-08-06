@@ -106,17 +106,23 @@
             vueApp = Vue.createApp({
                 template:                       `
 <div style="margin: 20px; font-size: 11px;">
-    <div>
+    <div style="width:100%;height:50%">
 
 
-        <span   v-if="rightPane=='canvas'"
-                style="width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+        <div   v-if="rightPane=='canvas'"
+                style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                >a
+        </div>
+
+
+        <div   v-if="rightPane=='canvas'"
+                style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
                 id="preview"
                 v-on:mouseover='mouseOver($event);console.log($event)'
                 v-on:mousemove='mouseOver($event)'
-                >
-        </span>
-    </div>                         \`,
+                >b
+        </div>
+    </div>
 
 
     <div style="margin-top: 20px;">
