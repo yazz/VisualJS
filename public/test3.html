@@ -70,6 +70,7 @@
             vueApp.component("UserList",
                 {
                     name: "UserList",
+                    props: ["teleport_id", "portal_message"],
                     template:   `
                                         <div style="margin-top: 70px;"
                                         v-on:mousemove='console.log("over COMPONEENT **")'
@@ -77,6 +78,12 @@
                                             <br>
                                                 I am a component 5...
 
+                                            <teleport v-if="teleport_id"
+                                                            v-bind:to='teleport_id' >
+                                              <div class="notification">
+                                                {{portal_message}}
+                                              </div>
+                                            </teleport>
                                         </div>`
                 })
         }
@@ -99,7 +106,7 @@
             alasql("INSERT INTO test VALUES (4,'Velkommen!')");
             console.log( alasql("SELECT * FROM testview ") );
         }
-        function        createVueUI                    (  )                                                {
+        function        createVueUI                         (  )                                                {
             vueApp = Vue.createApp({
                 template:                       `
 <div style="margin: 20px; font-size: 11px;">
@@ -109,7 +116,10 @@
         <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
                     id="background_grid"
                 >
-                <component v-bind:refresh='refresh' :is='"UserList"' ></component>
+                <component  v-bind:refresh='refresh' :is='"UserList"'
+                            v-bind:teleport_id='portal_target'
+                            v-bind:portal_message='portal_message'
+                            ></component>
         </div>
 
         <canvas     style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
@@ -132,17 +142,21 @@
 
 
     <div style="margin-top: 20px;">
+    <input v-model="portal_message"></input>
         <button   v-on:click="dummy()"
                   type="button"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
             Dummy
         </button>
+         <div id="portal-target"></div>
     </div>
 </div>                         `,
                 data:                           function        (  )                        {
                     return {
                         rightPane:                  "canvas",
+                        portal_target:              null,
+                        portal_message:             ""
                     }
                 },
                 mounted:                        async function  (  )                        {
@@ -166,6 +180,11 @@
                         const x = e.clientX - rect.left;
                         const y = e.clientY - rect.top;
                         console.log("(" + x + "," + y + ")")
+                    },
+                    dummy: async function() {
+                        let mm = this
+                        mm.portal_target ="#portal-target"
+                        mm.portal_message ="#portal-target"
                     }
                 }
             })
@@ -188,11 +207,11 @@
             setupVueComponents()
             await mountDebuggerVueElement();
         }
+
         let globalWatchList     = {}
         let refData             = Vue.ref({a: 1})
         let vueApp              = null
         let VueAppData          = null
-
 
         runAll();
 
