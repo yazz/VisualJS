@@ -95,6 +95,14 @@
             alasql.fn.processNewCommand = async function(r) {
                 console.log("COMMAND: " + r.command)
                 if (r.command == "CREATE") {
+                    r.status = "DONE"
+
+                }
+                else if (r.command == "MOVE") {
+                    r.status = "DONE"
+
+                }
+                else if (r.command == "TEXT") {
 
                 }
                 return true;
@@ -104,6 +112,7 @@
             // add new commands
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["CREATE" , {x:10,y:10}]);
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["MOVE" , {}]);
+            alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["TEXT" , {}]);
 
             // select data
             console.log( "SELECT * FROM commands ");
@@ -204,6 +213,23 @@
                 }, 1000)
             })
         }
+        function        runEventLoop             (  )                                                {
+            Vue.nextTick(function () {
+                setInterval(async function () {
+                    console.log("tick")
+                    let commands =  alasql("SELECT * FROM commands where status IS NULL")
+                    if (commands.length > 0){
+                        for (command of commands) {
+                            //debugger
+                            alasql("update commands set status = 'DONE' where id = ?" , [command.id])
+                        }
+                        // select data
+                        console.log( "SELECT * FROM commands ");
+                        console.log( alasql("SELECT * FROM commands ") );
+                    }
+                }, 1000)
+            })
+        }
         function        sleep                               (  ms  )                                            {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -212,6 +238,7 @@
             await createVueUI();
             await setupVueComponents()
             await mountDebuggerVueElement();
+            await runEventLoop();
         }
 
         let globalWatchList     = {}
