@@ -88,39 +88,6 @@
                 })
         }
         function        alaSqlStuff                         (  )                                                {
-            //create a table
-            alasql("CREATE TABLE component_coords (language INT, hello STRING)");
-
-            // add a trigger on a table
-            alasql.fn.verify = function(r) {
-                console.log("trigger hit on table")
-                return true; // Do not insert on this number
-            };
-            alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON component_coords verify');
-
-
-            // insert data
-            alasql("INSERT INTO component_coords VALUES (1,'Hello!')");
-            alasql("INSERT INTO component_coords VALUES (2,'Aloha!')");
-            alasql("INSERT INTO component_coords VALUES (3,'Bonjour!')");
-            console.log( alasql("SELECT * FROM component_coords WHERE language > 1") );
-
-            // create a view
-            alasql("create view testview (name) as select * from component_coords ;")
-
-            // add a trigger on a view (DOESN'T WORK)
-            alasql.fn.verify2 = function(r) {
-                console.log("trigger hit on view")
-                return true; // Do not insert on this number
-            };
-            alasql('CREATE TRIGGER mytrigger AFTER update ON testview verify2');
-
-            // insert data
-            alasql("INSERT INTO component_coords VALUES (4,'Velkommen!')");
-
-            // select data
-            console.log( alasql("SELECT * FROM testview ") );
-
             //create a command interface
             alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, status STRING)");
 
