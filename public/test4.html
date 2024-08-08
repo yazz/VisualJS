@@ -73,7 +73,7 @@
                     props: ["teleport_id", "portal_message"],
                     template:   `
                                         <div style="margin-top: 70px;"
-                                        v-on:mousemove='console.log("over COMPONEENT **")'
+                                        v-on:mousemove='console.log("over COMPONENT **")'
                                         >
                                             <br>
                                                 I am a component 5...
@@ -87,21 +87,31 @@
                                         </div>`
                 })
         }
-        function        alaSqlStuff                         (  )                                                {
+        function        createCommandTable                         (  )                                                {
             //create a command interface
-            alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, status STRING)");
+            alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, arguments STRING, status STRING)");
 
             // add a trigger to process new commands
             alasql.fn.processNewCommand = function(r) {
+                console.log("COMMAND: " + r.command)
+                if (r.command == "CREATE") {
+
+                }
                 return true;
             };
-            alasql("INSERT INTO commands (command,status) VALUES (?,?)",["CREATE" , "null"]);
-            alasql("INSERT INTO commands (command,status) VALUES (?,?)",["MOVE" , "null"]);
+            alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON commands processNewCommand');
+
+            // add new commands
+            alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["CREATE" , {x:10,y:10}]);
+            alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["MOVE" , {}]);
 
             // select data
             console.log( "SELECT * FROM commands ");
             console.log( alasql("SELECT * FROM commands ") );
 
+        }
+        function        alaSqlStuff                         (  )                                                {
+            createCommandTable()
         }
         function        createVueUI                         (  )                                                {
             vueApp = Vue.createApp({
