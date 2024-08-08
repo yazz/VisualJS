@@ -87,12 +87,12 @@
                                         </div>`
                 })
         }
-        function        createCommandTable                         (  )                                                {
+        async function        createCommandTable                         (  )                                                {
             //create a command interface
             alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, arguments STRING, status STRING)");
 
             // add a trigger to process new commands
-            alasql.fn.processNewCommand = function(r) {
+            alasql.fn.processNewCommand = async function(r) {
                 console.log("COMMAND: " + r.command)
                 if (r.command == "CREATE") {
 
@@ -110,8 +110,8 @@
             console.log( alasql("SELECT * FROM commands ") );
 
         }
-        function        alaSqlStuff                         (  )                                                {
-            createCommandTable()
+        async function        alaSqlStuff                         (  )                                                {
+            await createCommandTable()
         }
         function        createVueUI                         (  )                                                {
             vueApp = Vue.createApp({
@@ -210,7 +210,7 @@
         async function  runAll                              (  )                                                {
             await alaSqlStuff()
             await createVueUI();
-            setupVueComponents()
+            await setupVueComponents()
             await mountDebuggerVueElement();
         }
 
