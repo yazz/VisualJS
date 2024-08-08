@@ -1,0 +1,215 @@
+<html>
+    <!-- HMTL Headers and iclude all external JS scripts and stuff -->
+    <head>
+        <meta http-equiv="X-UA-Compatible"  content="IE=edge" />
+        <meta name="viewport"    Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta charset="UTF-8" />
+
+
+        <!-- JS libraries and where they come from originally -->
+        <linkfrom       rel="stylesheet" href="https://cdn.usebootstrap.com/bootstrap/4.1.3/css/bootstrap.min.css"></linkfrom>
+        <scriptfrom     src="https://unpkg.com/vue@3.4.21/dist/vue.global.js">                                  </scriptfrom>
+        <scriptfrom     src="https://cdn.jsdelivr.net/npm/alasql@4">                                            </scriptfrom>
+        <scriptfrom     src="https://cdn.jsdelivr.net/npm/acorn@latest/dist/acorn.min.js">                      </scriptfrom>
+
+
+        <!-- Locally cached copies of the external JS libraries (so that we can do development offline) -->
+        <link       rel="stylesheet" href="/js_libs/bootstrap4.1.3.css">                                    </link>
+        <script     src="/js_libs/vue.global.js">                                                           </script>
+        <script     src="/js_libs/alasql4.js">                                                              </script>
+        <script     src="/js_libs/acorn.min.js">                                                            </script>
+
+
+        <!-- JS lib that only works Inline in the HTML -->
+
+        <style>
+        .ace_gutter-cell.ace_breakpoint{
+        border-radius: 20px 0px 0px 20px;
+        /* Change the color of the breakpoint if you want */
+        box-shadow: 0px 0px 1px 1px #248c46 inset;
+        }
+        </style>
+
+        <style>
+            .highlight {
+                background-color: yellow;
+            }
+            .hint {
+                display: none;
+                position: absolute;
+                background-color: #333;
+                color: white;
+                padding: 5px;
+                border-radius: 3px;
+                z-index: 1000;
+            }
+            .highlight-character {
+                background-color: gray;
+                position: absolute;
+                z-index: -2000;
+            }
+        </style>
+        <style>
+            /* Custom CSS to change the active line highlight color */
+            .ace_editor .ace_marker-layer .ace_active-line {
+                background: lightblue /* Yellow highlight with 30% opacity */
+            }
+        </style>
+    </head>
+
+    <!-- Start of the HTML to host the main Vue app -->
+    <body>
+        <div style="margin-top:20px">
+            <div id="vue_root_element"></div>
+        </div>
+    </body>
+
+    <!-- Start of all code in the script tag-->
+    <script>
+        function        setupVueComponents                  (  )                                                {
+            vueApp.component("UserList",
+                {
+                    name: "UserList",
+                    props: ["teleport_id", "portal_message"],
+                    template:   `
+                                        <div style="margin-top: 70px;"
+                                        v-on:mousemove='console.log("over COMPONEENT **")'
+                                        >
+                                            <br>
+                                                I am a component 5...
+
+                                            <teleport v-if="teleport_id"
+                                                            v-bind:to='teleport_id' >
+                                              <div class="notification">
+                                                {{portal_message}}
+                                              </div>
+                                            </teleport>
+                                        </div>`
+                })
+        }
+        function        alaSqlStuff                         (  )                                                {
+            //create a command interface
+            alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, status STRING)");
+
+            // add a trigger to process new commands
+            alasql.fn.processNewCommand = function(r) {
+                return true;
+            };
+            alasql("INSERT INTO commands (command,status) VALUES (?,?)",["CREATE" , "null"]);
+            alasql("INSERT INTO commands (command,status) VALUES (?,?)",["MOVE" , "null"]);
+
+            // select data
+            console.log( "SELECT * FROM commands ");
+            console.log( alasql("SELECT * FROM commands ") );
+
+        }
+        function        createVueUI                         (  )                                                {
+            vueApp = Vue.createApp({
+                template:                       `
+<div style="margin: 20px; font-size: 11px;">
+    <div style="width:100%;height:50%">
+
+
+        <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                    id="background_grid"
+                >
+                <component  v-bind:refresh='refresh' :is='"UserList"'
+                            v-bind:teleport_id='portal_target'
+                            v-bind:portal_message='portal_message'
+                            ></component>
+        </div>
+
+        <canvas     style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                    id="canvas_effects"
+                >
+        </canvas>
+
+
+        <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                    id="capture_user_input"
+                    v-on:mouseover='mouseOver($event);console.log($event)'
+                >
+                <div style='position:relative;left:50px;top:100px;' >
+                a
+                    <component v-bind:refresh='refresh' :is='"UserList"' ></component>
+                </div>
+        </div>
+    </div>
+
+
+    <div style="margin-top: 20px;">
+    <input v-model="portal_message"></input>
+        <button   v-on:click="dummy()"
+                  type="button"
+                  style="margin-right: 10px;"
+                  class="btn btn-sm btn-info">
+            Dummy
+        </button>
+         <div id="portal-target"></div>
+    </div>
+</div>                         `,
+                data:                           function        (  )                        {
+                    return {
+                        rightPane:                  "canvas",
+                        portal_target:              null,
+                        portal_message:             ""
+                    }
+                },
+                mounted:                        async function  (  )                        {
+                    let mm = this
+                    var c = document.getElementById("canvas_effects");
+                    var ctx = c.getContext("2d");
+                    ctx.moveTo(0, 0);
+                    ctx.strokeStyle = '#ff0000';
+                    ctx.lineTo(200, 100);
+                    ctx.stroke();
+                },
+                methods:                        {
+                    mouseOver:   async function  (  e  ) {
+                        let mm = this
+                        const target = e.target;
+
+                        // Get the bounding rectangle of target
+                        const rect = target.getBoundingClientRect();
+
+                        // Mouse position
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        console.log("(" + x + "," + y + ")")
+                    },
+                    dummy: async function() {
+                        let mm = this
+                        mm.portal_target ="#portal-target"
+                        mm.portal_message ="#portal-target"
+                    }
+                }
+            })
+        }
+        function        mountDebuggerVueElement             (  )                                                {
+            Vue.nextTick(function () {
+                setTimeout(async function () {
+                    VueAppData = vueApp.mount("#vue_root_element")
+                    console.log("main app mounted")
+
+                }, 1000)
+            })
+        }
+        function        sleep                               (  ms  )                                            {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        async function  runAll                              (  )                                                {
+            await alaSqlStuff()
+            await createVueUI();
+            setupVueComponents()
+            await mountDebuggerVueElement();
+        }
+
+        let globalWatchList     = {}
+        let refData             = Vue.ref({a: 1})
+        let vueApp              = null
+        let VueAppData          = null
+
+        runAll();
+
+    </script>
+</html>
