@@ -122,13 +122,14 @@
             console.log( alasql("SELECT * FROM testview ") );
 
             //create a command interface
-            alasql("CREATE TABLE commands (id INT , command STRING, status STRING)");
+            alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, status STRING)");
 
             // add a trigger to process new commands
             alasql.fn.processNewCommand = function(r) {
                 return true;
             };
-            alasql("INSERT INTO commands VALUES (?,?,?)",[1,"CREATE" , "null"]);
+            alasql("INSERT INTO commands (command,status) VALUES (?,?)",["CREATE" , "null"]);
+            alasql("INSERT INTO commands (command,status) VALUES (?,?)",["MOVE" , "null"]);
 
             // select data
             console.log( "SELECT * FROM commands ");
