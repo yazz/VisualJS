@@ -67,9 +67,9 @@
     <!-- Start of all code in the script tag-->
     <script>
         function        setupVueComponents                  (  )                                                {
-            vueApp.component("UserList",
+            vueApp.component("UserComponent",
                 {
-                    name: "UserList",
+                    name: "UserComponent",
                     props: ["teleport_id", "portal_message"],
                     template:   `
                                         <div style="margin-top: 70px;"
@@ -92,9 +92,13 @@
             alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, status STRING)");
 
             // add a trigger to process new commands
-            alasql.fn.processNewCommand = function(r) {
+            alasql.fn.verify = function(r) {
+                console.log("RUN " + r.command)
                 return true;
             };
+            alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON commands verify');
+
+            // add some commands
             alasql("INSERT INTO commands (command,status) VALUES (?,?)",["CREATE" , "null"]);
             alasql("INSERT INTO commands (command,status) VALUES (?,?)",["MOVE" , "null"]);
 
@@ -113,7 +117,7 @@
         <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
                     id="background_grid"
                 >
-                <component  v-bind:refresh='refresh' :is='"UserList"'
+                <component  v-bind:refresh='refresh' :is='"UserComponent"'
                             v-bind:teleport_id='portal_target'
                             v-bind:portal_message='portal_message'
                             ></component>
@@ -131,7 +135,7 @@
                 >
                 <div style='position:relative;left:50px;top:100px;' >
                 a
-                    <component v-bind:refresh='refresh' :is='"UserList"' ></component>
+                    <component v-bind:refresh='refresh' :is='"UserComponent"' ></component>
                 </div>
         </div>
     </div>
