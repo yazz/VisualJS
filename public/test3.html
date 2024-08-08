@@ -96,7 +96,7 @@
                 console.log("trigger hit on table")
                 return true; // Do not insert on this number
             };
-            alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON test verify');
+            alasql('CREATE TRIGGER mytrigger BEFORE INSERT ON component_coords verify');
 
 
             // insert data
@@ -108,7 +108,7 @@
             // create a view
             alasql("create view testview (name) as select * from component_coords ;")
 
-            // add a trigger on a view
+            // add a trigger on a view (DOESN'T WORK)
             alasql.fn.verify2 = function(r) {
                 console.log("trigger hit on view")
                 return true; // Do not insert on this number
@@ -120,6 +120,20 @@
 
             // select data
             console.log( alasql("SELECT * FROM testview ") );
+
+            //create a command interface
+            alasql("CREATE TABLE commands (id INT , command STRING, status STRING)");
+
+            // add a trigger to process new commands
+            alasql.fn.processNewCommand = function(r) {
+                return true;
+            };
+            alasql("INSERT INTO commands VALUES (?,?,?)",[1,"CREATE" , "null"]);
+
+            // select data
+            console.log( "SELECT * FROM commands ");
+            console.log( alasql("SELECT * FROM commands ") );
+
         }
         function        createVueUI                         (  )                                                {
             vueApp = Vue.createApp({
