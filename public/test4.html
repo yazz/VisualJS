@@ -176,6 +176,13 @@
                   class="btn btn-sm btn-info">
             Create
         </button>
+        <button   v-on:click="showUnrunCommands()"
+                  type="button"
+                  style="margin-right: 10px;"
+                  class="btn btn-sm btn-info">
+            Pending
+        </button>
+
          <div id="portal-target"></div>
     </div>
 </div>                         `,
@@ -184,12 +191,13 @@
                         rightPane:                  "canvas",
                         portal_target:              null,
                         portal_message:             "",
-                        new_x:                      10,
+                        new_x:                      1000,
                         new_y:                      10,
                         list_of_components:         [
                                                         {x: 0,y: 0},
                                                         {x: 10,y: 50},
-                                                        {x: 300,y: 60}
+                                                        {x: 300,y: 60},
+                                                        {x: 1000,y: 90}
                                                     ]
                     }
                 },
@@ -221,6 +229,9 @@
                         mm.portal_message ="#portal-target"
                         //zzz
                         mm.list_of_components.push({x: mm.new_x, y: mm.new_y})
+                    },
+                    showUnrunCommands: function() {
+                        showUnrunCommands()
                     }
                 }
             })
@@ -236,19 +247,24 @@
         }
         function        runEventLoop                        (  )                                                {
             setInterval(async function () {
-                console.log("tick")
                 let commands =  alasql("SELECT * FROM commands where status IS NULL")
                 //debugger
-                if (commands.length > 0){
-                    console.log("commands.length: "+commands.length)
+                if (commands.length > 0) {
+                    console.log("commands.length: " + commands.length)
                     for (command of commands) {
                         processCommand(command)
                     }
-                    // select data
-                    console.log( "SELECT * FROM commands ");
-                    console.log( alasql("SELECT * FROM commands ") );
                 }
             }, 1000)
+        }
+        function        showUnrunCommands                        (  )                                                {
+            let commands =  alasql("SELECT * FROM commands where status IS NULL")
+            //debugger
+            if (commands.length > 0){
+                console.log( commands );
+            } else {
+                console.log( "All commands run" );
+            }
         }
         function        sleep                               (  ms  )                                            {
             return new Promise(resolve => setTimeout(resolve, ms));
