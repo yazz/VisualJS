@@ -107,7 +107,9 @@
                 //r.status = "DONE"
             }
             else if (r.command == "CREATE_NEW_COMPONENT") {
-                VueAppData.list_of_components.push({x: r.x, y: r.y})
+                debugger
+                VueAppData.list_of_components.push({x: r.arguments.x, y: r.arguments.y})
+                //VueAppData.refresh ++
                 r.status = "DONE"
             }
         }
@@ -195,6 +197,7 @@
 </div>                         `,
                 data:                           function        (  )                        {
                     return {
+                        refresh:                    0,
                         rightPane:                  "canvas",
                         portal_target:              null,
                         portal_message:             "",
