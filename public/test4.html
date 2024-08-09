@@ -124,7 +124,7 @@
         }
         async function  createCommandTable                  (  )                                                {
             //create a command interface
-            alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, arguments STRING, status STRING, stack STRING, debug_code STRING)");
+            alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, arguments STRING, status STRING, debug_code STRING, stack STRING )");
 
             // add a trigger to process new commands
             alasql.fn.processNewCommand = async function(r) {
@@ -136,6 +136,16 @@
             // add new commands
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["CREATE" , {x:10,y:10}]);
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["MOVE" , {}]);
+        }
+        async function  createComponentGrid                  (  )                                                {
+            //create a command interface
+            alasql("CREATE TABLE component_grid (id INT PRIMARY KEY AUTOINCREMENT , component_id STRING, x INTEGER, y, INTEGER, width INTEGER, height INTEGER)");
+
+            // add a trigger to process new commands
+            alasql.fn.onInsertNewComponent = async function(r) {
+                return true;
+            };
+            alasql('CREATE TRIGGER onInsertNewComponent BEFORE INSERT ON commands onInsertNewComponent');
         }
         async function  alaSqlStuff                         (  )                                                {
             await createCommandTable()
