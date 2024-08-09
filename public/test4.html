@@ -113,7 +113,7 @@
                 r.status = "DONE"
             }
         }
-        function uuidv4() {
+        function        uuidv4                              (  )                                                {
             return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
                 (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
             );
@@ -149,7 +149,7 @@
 
             // add a trigger to create new component
             alasql.fn.onInsertNewComponent = async function(r) {
-                VueAppData.list_of_components.push({component_id: r.component_id, x: r.x, y: r.y})
+                VueAppData.list_of_components.push({component_id: r.component_id, x: r.x, y: r.y, width: r.width, height: r.height})
                 return true;
             };
             alasql('CREATE TRIGGER onInsertNewComponent BEFORE INSERT ON component_grid onInsertNewComponent');
@@ -199,6 +199,19 @@
         </canvas>
 
 
+
+        <div     style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
+                    id="dom_effects"
+                >
+                <template   style="position:relative;top:0px;left:0px;"
+                            v-for='(comp,index) in list_of_components'>
+                    <div    v-if='selected_components[comp.component_id]'
+                            v-bind:style='"border: 2px solid black;position:absolute;left:"+ comp.x +"px;top:"+ comp.y +"px;width:"+ comp.width +"px;height:"+ comp.height +"px;"' >
+                    </div>
+                </template>
+        </div>
+
+
         <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
                     id="capture_user_input"
                     v-on:mousemove='mouseOver($event);'
@@ -236,7 +249,8 @@
                         new_y:                      10,
                         list_of_components:         [
 
-                                                    ]
+                                                    ],
+                        selected_components:        {}
                     }
                 },
                 mounted:                        async function  (  )                        {
@@ -265,14 +279,18 @@
                                                     " and (y<?) and (? < y + height)",
                                                     [x,x,y,y])
                         console.log("(" + x + "," + y + ") componentsOver" + JSON.stringify(componentsOver))
-                        
+                        mm.selected_components={}
+                        for (component of componentsOver) {
+                            mm.selected_components[component.component_id] = true
+                        }
+
                     },
                     createNewComponent: async function() {
                         let mm = this
                         mm.portal_target ="#portal-target"
                         mm.portal_message ="#portal-target"
                         //zzz
-                        createCommand("CREATE_NEW_COMPONENT",{x: parseInt(mm.new_x), y: parseInt(mm.new_y)} ,"jhdfhjkdfshkjdsfhkjdfshfjkdshkj")
+                        createCommand("CREATE_NEW_COMPONENT",{x: parseInt(mm.new_x), y: parseInt(mm.new_y) ,width: 50, height: 50 },"jhdfhjkdfshkjdsfhkjdfshfjkdshkj")
                     },
                     showUnrunCommands: function() {
                         showUnrunCommands()
