@@ -141,8 +141,9 @@
         <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
                     id="background_grid"
                 >
-                <template    v-for='(comp,index) in list_of_components'>
-                    <div v-bind:style='"position:relative;left:"+ comp.x +"px;top:"+ comp.y +"px;"' >
+                <template   style="position:relative;top:0px;left:0px;"
+                            v-for='(comp,index) in list_of_components'>
+                    <div v-bind:style='"position:absolute;left:"+ comp.x +"px;top:"+ comp.y +"px;"' >
                         <component  v-bind:refresh='refresh'
                                     :is='"UserList"'
                                     v-bind:teleport_id='portal_target'
@@ -219,6 +220,7 @@
                         mm.portal_target ="#portal-target"
                         mm.portal_message ="#portal-target"
                         //zzz
+                        mm.list_of_components.push({x: mm.new_x, y: mm.new_y})
                     }
                 }
             })
