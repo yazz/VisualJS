@@ -118,13 +118,13 @@
         async function  textCommand                         (  )                                                {
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)", ["TEXT", {}]);
         }
-        async function  createCommand                         (  command, params, debugCode )                                                {
+        async function  createCommand                       (  command, params, debugCode )                     {
             let stackTrace = Error().stack;
-            alasql("INSERT INTO commands (command,arguments, stack, debug_code) VALUES (?,?,?,?)", [command, params, stackTrace, debugCode]);
+            alasql("INSERT INTO commands (created, command,arguments, stack, debug_code) VALUES (?,?,?,?,?)", [Date.now(), command, params, stackTrace, debugCode]);
         }
         async function  createCommandTable                  (  )                                                {
             //create a command interface
-            alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, arguments STRING, status STRING, debug_code STRING, stack STRING )");
+            alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , created INTEGER, command STRING, arguments STRING, status STRING, debug_code STRING, stack STRING )");
 
             // add a trigger to process new commands
             alasql.fn.processNewCommand = async function(r) {
@@ -137,7 +137,7 @@
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["CREATE" , {x:10,y:10}]);
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["MOVE" , {}]);
         }
-        async function  createComponentGrid                  (  )                                                {
+        async function  createComponentGrid                 (  )                                                {
             //create a command interface
             alasql("CREATE TABLE component_grid (id INT PRIMARY KEY AUTOINCREMENT , component_id STRING, x INTEGER, y, INTEGER, width INTEGER, height INTEGER)");
 
