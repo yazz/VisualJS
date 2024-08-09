@@ -104,13 +104,8 @@
 
             }
             else if (r.command == "TEXT") {
-                r.status = "DONE"
+                //r.status = "DONE"
             }
-
-            // select data
-            console.log( "SELECT * FROM commands ");
-            console.log( alasql("SELECT * FROM commands ") );
-
         }
         async function  commandDone                         (  command  )                                       {
             alasql("update commands set status = 'DONE' where id = ?", [command.id])
@@ -190,7 +185,7 @@
                         list_of_components:         [
                                                         {x: 0,y: 0},
                                                         {x: 10,y: 50},
-                                                        {x: 10,y: 100}
+                                                        {x: 300,y: 60}
                                                     ]
                     }
                 },
@@ -237,9 +232,10 @@
             setInterval(async function () {
                 console.log("tick")
                 let commands =  alasql("SELECT * FROM commands where status IS NULL")
+                //debugger
                 if (commands.length > 0){
+                    console.log("commands.length: "+commands.length)
                     for (command of commands) {
-                        //debugger
                         processCommand(command)
                     }
                     // select data
