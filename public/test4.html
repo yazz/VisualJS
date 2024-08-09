@@ -107,8 +107,6 @@
                 //r.status = "DONE"
             }
             else if (r.command == "CREATE_NEW_COMPONENT") {
-                VueAppData.list_of_components.push({x: r.arguments.x, y: r.arguments.y})
-                debugger
                 alasql("insert into component_grid (component_id, x, y, width , height) values (?,?,?,?,?)",
                         [uuidv4(),  r.arguments.x ,r.arguments.y ,50,50]);
                 //VueAppData.refresh ++
@@ -151,6 +149,7 @@
 
             // add a trigger to process new commands
             alasql.fn.onInsertNewComponent = async function(r) {
+                VueAppData.list_of_components.push({x: r.arguments.x, y: r.arguments.y})
                 return true;
             };
             alasql('CREATE TRIGGER onInsertNewComponent BEFORE INSERT ON commands onInsertNewComponent');
