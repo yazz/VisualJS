@@ -106,6 +106,11 @@
             else if (r.command == "TEXT") {
                 r.status = "DONE"
             }
+
+            // select data
+            console.log( "SELECT * FROM commands ");
+            console.log( alasql("SELECT * FROM commands ") );
+
         }
         async function  commandDone                         (  command  )                                       {
             alasql("update commands set status = 'DONE' where id = ?", [command.id])
@@ -127,11 +132,6 @@
             // add new commands
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["CREATE" , {x:10,y:10}]);
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["MOVE" , {}]);
-
-            // select data
-            console.log( "SELECT * FROM commands ");
-            console.log( alasql("SELECT * FROM commands ") );
-
         }
         async function  alaSqlStuff                         (  )                                                {
             await createCommandTable()
