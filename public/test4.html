@@ -106,12 +106,19 @@
             else if (r.command == "TEXT") {
                 //r.status = "DONE"
             }
+            else if (r.command == "CREATE_NEW_COMPONENT") {
+                VueAppData.list_of_components.push({x: r.x, y: r.y})
+                r.status = "DONE"
+            }
         }
         async function  commandDone                         (  command  )                                       {
             alasql("update commands set status = 'DONE' where id = ?", [command.id])
         }
         async function  textCommand                         (  )                                                {
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)", ["TEXT", {}]);
+        }
+        async function  createCommand                         (  command, params )                                                {
+            alasql("INSERT INTO commands (command,arguments) VALUES (?,?)", [command, params]);
         }
         async function  createCommandTable                  (  )                                                {
             //create a command interface
@@ -228,7 +235,7 @@
                         mm.portal_target ="#portal-target"
                         mm.portal_message ="#portal-target"
                         //zzz
-                        mm.list_of_components.push({x: mm.new_x, y: mm.new_y})
+                        createCommand("CREATE_NEW_COMPONENT",{x: mm.new_x, y: mm.new_y})
                     },
                     showUnrunCommands: function() {
                         showUnrunCommands()
