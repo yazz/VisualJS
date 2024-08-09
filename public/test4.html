@@ -167,12 +167,13 @@
 
 
     <div style="margin-top: 20px;">
-    <input v-model="portal_message"></input>
-        <button   v-on:click="dummy()"
+    <input v-model="new_x"></input>
+    <input v-model="new_y"></input>
+        <button   v-on:click="createNewComponent()"
                   type="button"
                   style="margin-right: 10px;"
                   class="btn btn-sm btn-info">
-            Dummy
+            Create
         </button>
          <div id="portal-target"></div>
     </div>
@@ -182,6 +183,8 @@
                         rightPane:                  "canvas",
                         portal_target:              null,
                         portal_message:             "",
+                        new_x:                      10,
+                        new_y:                      10,
                         list_of_components:         [
                                                         {x: 0,y: 0},
                                                         {x: 10,y: 50},
@@ -211,10 +214,11 @@
                         const y = e.clientY - rect.top;
                         //console.log("(" + x + "," + y + ")")
                     },
-                    dummy: async function() {
+                    createNewComponent: async function() {
                         let mm = this
                         mm.portal_target ="#portal-target"
                         mm.portal_message ="#portal-target"
+                        //zzz
                     }
                 }
             })
