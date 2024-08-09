@@ -147,12 +147,25 @@
             //create a command interface
             alasql("CREATE TABLE component_grid (id INT PRIMARY KEY AUTOINCREMENT , component_id STRING, x INTEGER, y INTEGER, width INTEGER, height INTEGER)");
 
-            // add a trigger to process new commands
+            // add a trigger to create new component
             alasql.fn.onInsertNewComponent = async function(r) {
-                VueAppData.list_of_components.push({x: r.arguments.x, y: r.arguments.y})
+                VueAppData.list_of_components.push({component_id: r.component_id, x: r.x, y: r.y})
                 return true;
             };
-            alasql('CREATE TRIGGER onInsertNewComponent BEFORE INSERT ON commands onInsertNewComponent');
+            alasql('CREATE TRIGGER onInsertNewComponent BEFORE INSERT ON component_grid onInsertNewComponent');
+
+
+            // add a trigger to update coordinates
+            alasql.fn.onUpdateComponent = async function(fromRecord,toRecord) {
+                for (comp of VueAppData.list_of_components) {
+                    if (comp.component_id == fromRecord.component_id) {
+                        comp.x = toRecord.x
+                        comp.y = toRecord.y
+                    }
+                }
+                return true;
+            };
+            alasql('CREATE TRIGGER onUpdateComponent BEFORE UPDATE ON component_grid onUpdateComponent');
         }
         async function  alaSqlStuff                         (  )                                                {
             await createCommandTable()
