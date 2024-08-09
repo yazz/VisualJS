@@ -72,8 +72,8 @@
                     name: "UserList",
                     props: ["teleport_id", "portal_message"],
                     template:   `
-                                        <div    style="margin-top: 70px;"
-                                                v-on:mousemove='console.log("over COMPONENT **")'
+                                        <div    style="margin:0px;padding:0px;border: 1px solid ;"
+                                                v-on:mousemove2='console.log("over COMPONENT **")'
                                                 v-on:click='textCommand()'
                                         >
                                             <br>
@@ -146,10 +146,15 @@
         <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
                     id="background_grid"
                 >
-                <component  v-bind:refresh='refresh' :is='"UserList"'
-                            v-bind:teleport_id='portal_target'
-                            v-bind:portal_message='portal_message'
-                            ></component>
+                <template    v-for='(comp,index) in list_of_components'>
+                    <div v-bind:style='"position:relative;left:"+ comp.x +"px;top:"+ comp.y +"px;"' >
+                        <component  v-bind:refresh='refresh'
+                                    :is='"UserList"'
+                                    v-bind:teleport_id='portal_target'
+                                    v-bind:portal_message='portal_message'
+                        ></component>
+                    </div>
+                </template>
         </div>
 
         <canvas     style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
@@ -160,12 +165,8 @@
 
         <div        style="position:absolute;width:49%;display: inline-block; border: 1px solid black; vertical-align: top;height: 50%;padding:30px;padding:0px;"
                     id="capture_user_input"
-                    v-on:mouseover='mouseOver($event);console.log($event)'
+                    v-on:mouseover='mouseOver($event);'
                 >
-                <div style='position:relative;left:50px;top:100px;' >
-                a
-                    <component v-bind:refresh='refresh' :is='"UserList"' ></component>
-                </div>
         </div>
     </div>
 
@@ -185,7 +186,12 @@
                     return {
                         rightPane:                  "canvas",
                         portal_target:              null,
-                        portal_message:             ""
+                        portal_message:             "",
+                        list_of_components:         [
+                                                        {x: 0,y: 0},
+                                                        {x: 10,y: 50},
+                                                        {x: 10,y: 100}
+                                                    ]
                     }
                 },
                 mounted:                        async function  (  )                        {
@@ -208,7 +214,7 @@
                         // Mouse position
                         const x = e.clientX - rect.left;
                         const y = e.clientY - rect.top;
-                        console.log("(" + x + "," + y + ")")
+                        //console.log("(" + x + "," + y + ")")
                     },
                     dummy: async function() {
                         let mm = this
@@ -228,21 +234,19 @@
             })
         }
         function        runEventLoop                        (  )                                                {
-            Vue.nextTick(function () {
-                setInterval(async function () {
-                    console.log("tick")
-                    let commands =  alasql("SELECT * FROM commands where status IS NULL")
-                    if (commands.length > 0){
-                        for (command of commands) {
-                            //debugger
-                            processCommand(command)
-                        }
-                        // select data
-                        console.log( "SELECT * FROM commands ");
-                        console.log( alasql("SELECT * FROM commands ") );
+            setInterval(async function () {
+                console.log("tick")
+                let commands =  alasql("SELECT * FROM commands where status IS NULL")
+                if (commands.length > 0){
+                    for (command of commands) {
+                        //debugger
+                        processCommand(command)
                     }
-                }, 1000)
-            })
+                    // select data
+                    console.log( "SELECT * FROM commands ");
+                    console.log( alasql("SELECT * FROM commands ") );
+                }
+            }, 1000)
         }
         function        sleep                               (  ms  )                                            {
             return new Promise(resolve => setTimeout(resolve, ms));
