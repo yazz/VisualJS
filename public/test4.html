@@ -72,8 +72,9 @@
                     name: "UserList",
                     props: ["teleport_id", "portal_message"],
                     template:   `
-                                        <div style="margin-top: 70px;"
-                                        v-on:mousemove='console.log("over COMPONENT **")'
+                                        <div    style="margin-top: 70px;"
+                                                v-on:mousemove='console.log("over COMPONENT **")'
+                                                v-on:click='textCommand()'
                                         >
                                             <br>
                                                 I am a component 5...
@@ -84,27 +85,41 @@
                                                 {{portal_message}}
                                               </div>
                                             </teleport>
-                                        </div>`
+                                        </div>`,
+                    methods: {
+                        textCommand: async function() {
+                            textCommand()
+                        }
+                    }
                 })
         }
-        async function        createCommandTable                         (  )                                                {
+        async function  processCommand                      (  r  )                                             {
+            console.log("COMMAND: " + r.command)
+            if (r.command == "CREATE") {
+                r.status = "DONE"
+
+            }
+            else if (r.command == "MOVE") {
+                r.status = "DONE"
+
+            }
+            else if (r.command == "TEXT") {
+                r.status = "DONE"
+            }
+        }
+        async function  commandDone                         (  command  )                                       {
+            alasql("update commands set status = 'DONE' where id = ?", [command.id])
+        }
+        async function  textCommand                         (  )                                                {
+            alasql("INSERT INTO commands (command,arguments) VALUES (?,?)", ["TEXT", {}]);
+        }
+        async function  createCommandTable                  (  )                                                {
             //create a command interface
             alasql("CREATE TABLE commands (id INT PRIMARY KEY AUTOINCREMENT , command STRING, arguments STRING, status STRING)");
 
             // add a trigger to process new commands
             alasql.fn.processNewCommand = async function(r) {
-                console.log("COMMAND: " + r.command)
-                if (r.command == "CREATE") {
-                    r.status = "DONE"
-
-                }
-                else if (r.command == "MOVE") {
-                    r.status = "DONE"
-
-                }
-                else if (r.command == "TEXT") {
-
-                }
+                processCommand(r)
                 return true;
             };
             alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON commands processNewCommand');
@@ -112,14 +127,13 @@
             // add new commands
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["CREATE" , {x:10,y:10}]);
             alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["MOVE" , {}]);
-            alasql("INSERT INTO commands (command,arguments) VALUES (?,?)",["TEXT" , {}]);
 
             // select data
             console.log( "SELECT * FROM commands ");
             console.log( alasql("SELECT * FROM commands ") );
 
         }
-        async function        alaSqlStuff                         (  )                                                {
+        async function  alaSqlStuff                         (  )                                                {
             await createCommandTable()
         }
         function        createVueUI                         (  )                                                {
@@ -213,7 +227,7 @@
                 }, 1000)
             })
         }
-        function        runEventLoop             (  )                                                {
+        function        runEventLoop                        (  )                                                {
             Vue.nextTick(function () {
                 setInterval(async function () {
                     console.log("tick")
@@ -221,7 +235,7 @@
                     if (commands.length > 0){
                         for (command of commands) {
                             //debugger
-                            alasql("update commands set status = 'DONE' where id = ?" , [command.id])
+                            processCommand(command)
                         }
                         // select data
                         console.log( "SELECT * FROM commands ");
