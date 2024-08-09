@@ -232,7 +232,7 @@
                         rightPane:                  "canvas",
                         portal_target:              null,
                         portal_message:             "",
-                        new_x:                      1000,
+                        new_x:                      100,
                         new_y:                      10,
                         list_of_components:         [
 
@@ -261,8 +261,11 @@
                         const y = e.clientY - rect.top;
                         //console.log("(" + x + "," + y + ")")
 
-                        let componentsOver = alasql("select * from component_grid where (x < ?) and ( ? <x+width)",[x,x])
+                        let componentsOver = alasql("select * from component_grid where (x < ?) and ( ? <x+width)" +
+                                                    " and (y<?) and (? < y + height)",
+                                                    [x,x,y,y])
                         console.log("(" + x + "," + y + ") componentsOver" + JSON.stringify(componentsOver))
+                        
                     },
                     createNewComponent: async function() {
                         let mm = this
