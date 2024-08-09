@@ -267,7 +267,7 @@
                 }
             }, 1000)
         }
-        function        showUnrunCommands                        (  )                                                {
+        function        showUnrunCommands                   (  )                                                {
             let commands =  alasql("SELECT * FROM commands where status IS NULL")
             //debugger
             if (commands.length > 0){
@@ -285,6 +285,16 @@
             await setupVueComponents()
             await mountDebuggerVueElement();
             await runEventLoop();
+        }
+        function        f                                   (  search  )                                        {
+            let commands =  alasql("SELECT * FROM commands where debug_code = ?",[search])
+            if (commands.length > 0) {
+                console.log("Found: " + commands.length)
+                for (command of commands) {
+                    console.log(command)
+                }
+            }
+
         }
 
         let globalWatchList     = {}
