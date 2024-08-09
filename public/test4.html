@@ -108,9 +108,17 @@
             }
             else if (r.command == "CREATE_NEW_COMPONENT") {
                 VueAppData.list_of_components.push({x: r.arguments.x, y: r.arguments.y})
+                debugger
+                alasql("insert into component_grid (component_id, x, y, width , height) values (?,?,?,?,?)",
+                        [uuidv4(),  r.arguments.x ,r.arguments.y ,50,50]);
                 //VueAppData.refresh ++
                 r.status = "DONE"
             }
+        }
+        function uuidv4() {
+            return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+            );
         }
         async function  commandDone                         (  command  )                                       {
             alasql("update commands set status = 'DONE' where id = ?", [command.id])
@@ -139,7 +147,7 @@
         }
         async function  createComponentGrid                 (  )                                                {
             //create a command interface
-            alasql("CREATE TABLE component_grid (id INT PRIMARY KEY AUTOINCREMENT , component_id STRING, x INTEGER, y, INTEGER, width INTEGER, height INTEGER)");
+            alasql("CREATE TABLE component_grid (id INT PRIMARY KEY AUTOINCREMENT , component_id STRING, x INTEGER, y INTEGER, width INTEGER, height INTEGER)");
 
             // add a trigger to process new commands
             alasql.fn.onInsertNewComponent = async function(r) {
@@ -149,6 +157,7 @@
         }
         async function  alaSqlStuff                         (  )                                                {
             await createCommandTable()
+            await createComponentGrid()
         }
         function        createVueUI                         (  )                                                {
             vueApp = Vue.createApp({
