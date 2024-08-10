@@ -194,6 +194,10 @@ ___________
 
                 <button type=button
                         v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
+                        v-on:click='openGlobalDebugger()'  >D</button>
+
+                <button type=button
+                        v-bind:class='"btn btn-sm " + ((mode == "edit" && sub_mode == "app")?"btn-secondary":"btn-light")'
                         v-on:click='chooseApp()'  >Preview</button>
 
                 <button type=button
@@ -1032,7 +1036,9 @@ ___________
        },
         methods:            {
             // editor actions
-
+            openGlobalDebugger:              async function  (  ) {
+                mainVueAppVm.globalDebuggerOn = true
+            },
             copyAppPressed:                  async function  (  ) {
                 let mm = this
                 setTimeout(function () {
