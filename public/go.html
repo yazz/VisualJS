@@ -10572,16 +10572,23 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                 <div    v-if="globalDebuggerOn"
                                         style="position:absolute;width:500px;height:500px;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white"
                                 >
-                                    <span
-                                        styledup='margin-left: 30px;'
-                                        v-on:click=' closeDebugV2()'
-                                        v-on:touchstart=' closeDebugV2()'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                    >
-                                        Close
-                                    </span>
+                                    <div style='height:40px; padding:4px;background-color:lightblue;'>
+                                        <span
+                                                style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
+                                        >
+                                            Debugger V2
+                                        </span>
 
-                                    jhkjhkjkh
+                                        <button
+                                                type="button"
+                                                v-on:click='closeDebugV2()'
+                                                class="btn btn-sm btn-info"
+                                                v-on:touchstart='closeDebugV2()'
+                                                style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div    v-if="show_loader"
