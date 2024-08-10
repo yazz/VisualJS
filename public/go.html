@@ -10178,6 +10178,9 @@
                                     })
 
                             },
+                            debugV2:                       async function(  ) {
+                                mainVueAppVm.globalDebuggerOn = true
+                            },
                             openInfo:                       async function(  useTab  ) {
                                 //debugger
                                 let mm = this
@@ -10352,6 +10355,18 @@
                                         Debug
 
                                     </span>
+
+
+                                    <span
+                                        styledup='margin-left: 30px;'
+                                        v-on:click=' debugV2("debug")'
+                                        v-on:touchstart=' debugV2("debug")'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                    >
+                                        Debug V2
+
+                                    </span>
+
 
 
                                     <span
@@ -10557,6 +10572,15 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                 <div    v-if="globalDebuggerOn"
                                         style="position:absolute;width:500px;height:500px;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white"
                                 >
+                                    <span
+                                        styledup='margin-left: 30px;'
+                                        v-on:click=' closeDebugV2()'
+                                        v-on:touchstart=' closeDebugV2()'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                    >
+                                        Close
+                                    </span>
+
                                     jhkjhkjkh
                                 </div>
 
@@ -10625,6 +10649,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             return injectedVars
                         },
                         mounted: async function(){
+                        },
+                        methods: {
+                            closeDebugV2: async function() {
+                                mainVueAppVm.globalDebuggerOn = false
+                            }
                         }
                     }
 
@@ -11045,6 +11074,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         {name: "prop_type",      fieldType: "STRING"},
                         {name: "prop_value",     fieldType: "STRING"}
                     ]})
+
 
             }
             async function  setupAlaSqlSync                     (  ) {
