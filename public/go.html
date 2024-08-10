@@ -10572,6 +10572,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                 <div    v-if="globalDebuggerOn"
                                         style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white"
                                 >
+                                    <!-- --------------------------------------------------------------------
+                                                                      DEBUG HEADER
+                                         -------------------------------------------------------------------- -->
                                     <div style='height:40px; padding:4px;background-color:lightblue;'>
                                         <span
                                                 style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
@@ -10589,6 +10592,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                             Close
                                         </button>
                                     </div>
+
+
+                                    <!-- --------------------------------------------------------------------
+                                                                      DEBUG BODY
+                                         -------------------------------------------------------------------- -->
+                                    //zzz
+
+
                                 </div>
 
                                 <div    v-if="show_loader"
@@ -11082,6 +11093,21 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         {name: "prop_value",     fieldType: "STRING"}
                     ]})
 
+                await createAlaSqlTable({
+                    tableName: "ui_commands",
+                    fields: [
+                        {name: "id",             fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                        {name: "debug_code",     fieldType: "STRING"},
+                        {name: "created",        fieldType: "INTEGER"},
+                        {name: "command",        fieldType: "STRING"},
+                    ]})
+
+                // add a trigger to process new commands
+                alasql.fn.processNewCommand = async function(r) {
+                    debugger
+                    return true;
+                };
+                alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_commands  processNewCommand');
 
             }
             async function  setupAlaSqlSync                     (  ) {
