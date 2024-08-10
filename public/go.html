@@ -10554,6 +10554,12 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     let vueAppStructure = {
                         template: `
                             <div>
+                                <div    v-if="globalDebuggerOn"
+                                        style="position:absolute;width:500px;height:500px;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white"
+                                >
+                                    jhkjhkjkh
+                                </div>
+
                                 <div    v-if="show_loader"
                                         v-bind:style='show_loader?"":"display:none;"'
                                         class="loader">
@@ -10610,7 +10616,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                 loadedAppMetaData:      null,
                                 show_loader:            false,
                                 is_static:              false,
-                                appCodeId:              "ZIO"
+                                appCodeId:              "ZIO",
+                                globalDebuggerOn:       false
                             }
                         }
                         ,
