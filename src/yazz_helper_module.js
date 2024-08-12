@@ -1380,6 +1380,8 @@ module.exports = {
 
 
 
+
+
                             //
                             // save the standalone app
                             //
@@ -1390,6 +1392,17 @@ module.exports = {
                                     sqliteCode +
                                     newStaticFileContent.substring(indexOfSqlite)
                                 newStaticFileContent = yz.helpers.replaceBetween(newStaticFileContent, "/*use_local_sqlite_start*/", "/*use_local_sqlite_end*/", "let localAppshareApp = true")
+
+
+
+
+
+                                let indexOfBootstrap = newStaticFileContent.indexOf("<!-- insert_bootstrap_css_to_static_page -->")
+                                let bootstrapCode =
+                                    "<!-- Zubair -->"
+                                newStaticFileContent = newStaticFileContent.substring(0, indexOfBootstrap) +
+                                    bootstrapCode +
+                                    newStaticFileContent.substring(indexOfBootstrap)
                             }
 
 
