@@ -1396,7 +1396,9 @@ module.exports = {
 
 
 
-
+                                //
+                                // if this is a static HTML page then inline the Bootstrap CSS
+                                //
                                 let indexOfBootstrap = newStaticFileContent.indexOf("<!-- insert_bootstrap_css_to_static_page -->")
                                 let bootstrapCode = fs.readFileSync(path.join(__dirname, '../public/js_libs/bootstrap.min.css'))
                                 newStaticFileContent = newStaticFileContent.substring(0, indexOfBootstrap) +
