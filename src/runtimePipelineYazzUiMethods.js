@@ -6016,7 +6016,7 @@ return {}
                 },400)
             }
 
-            //*** gen_end ***//
+            //*** pipeline_ui_methods_end ***//
         },
         mounted:
             //*** copy_mounted_start ***//
