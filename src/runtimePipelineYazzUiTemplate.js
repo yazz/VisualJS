@@ -1,7 +1,7 @@
 {
     
     templateDefinition:
-        //*** gen_start ***//
+        //*** pipeline_vue_html_template_start ***//
         `
 <div    v-bind:id='unique_app_dom_element_id'
         v-if='unique_app_dom_element_id != null'
@@ -2674,5 +2674,5 @@
     </div>
 </div>
 `
-        //*** gen_end ***//
+        //*** pipeline_vue_html_template_end ***//
 }
