@@ -1253,7 +1253,7 @@ module.exports = {
                             newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
                             newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
 
-                            let pipelineCode            = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzApp.js"})
+                            let pipelineCode            = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzAppSkeleton.js"})
                             let escapedPipelineCode     = escape( pipelineCode.toString() )
                             let pipelineCode2           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzUiMethods.js"})
                             let escapedPipelineCode2    = escape( pipelineCode2.toString() )
