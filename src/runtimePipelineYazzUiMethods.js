@@ -2,7 +2,7 @@
     pipelineCode: async function() {
         methods:
         {
-            //*** gen_start ***//
+            //*** pipeline_ui_methods_start ***//
 
             editComponent:                          async function  (  event  ) {
                 let mm = this
