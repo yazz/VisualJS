@@ -1,8 +1,8 @@
 {
 
     pipelineCode: async function () {
-        //*** gen_start ***//
+        //*** gen_test_start ***//
         alert('zed');
-        //*** gen_end ***//
+        //*** gen_test_end ***//
     }
 }
