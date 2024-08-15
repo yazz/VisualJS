@@ -1,6 +1,6 @@
 {
     pipelineCode: async function() {
-        //*** gen_start ***//
+        //*** pipeline_whole_app_skeleton_start ***//
         {
             let designMode  = false
             let runtimeMode = true
@@ -32,6 +32,6 @@
                 }
             })
         }
-        //*** gen_end ***//
+        //*** pipeline_whole_app_skeleton_end ***//
     }
 }
