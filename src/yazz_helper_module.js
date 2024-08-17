@@ -1255,7 +1255,7 @@ module.exports = {
 
                             let pipelineCode            = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzAppSkeleton.js"})
                             let escapedPipelineCode     = escape( pipelineCode.toString() )
-                            let pipelineCode2           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzAppMethods.js"})
+                            let pipelineCode2           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzAppVueMethods.js"})
                             let escapedPipelineCode2    = escape( pipelineCode2.toString() )
                             let pipelineCode3           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzAppHtmlVueTemplate.js"})
                             let escapedPipelineCode3    = escape( pipelineCode3.toString() )
