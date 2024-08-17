@@ -1,5 +1,4 @@
 {
-    
     templateDefinition:
         //*** pipeline_app_vue_html_template_start ***//
         `
@@ -7,51 +6,34 @@
         v-if='unique_app_dom_element_id != null'
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
-
     <div    v-bind:id='vb_editor_element_id'
             v-if='vb_editor_element_id != null'
             v-bind:style='"position:relative;display: flex;" + (editor_locked?"pointer-events: none;opacity: 0.4;":"")'
             >
 
-
         <div v-bind:style='"display: flex;width:100%;" + (design_mode?"background-color: darkgray;":"background-color: white;")'>
-
     
-            <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
-                    v-bind:style='(design_mode?"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + "margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) + "overflow:auto;"'>
-
+            <div    v-bind:style='(design_mode?"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + "margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) + "overflow:auto;"'>
     
                 <div  id="grid_container"
-                      drop-target=false
                       style='width:100%;background-color:white;height: 100%;position:relative;'>
-    
-    
+        
                     <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
-                                    v-on:drop="drop($event)"
                                     v-bind:refresh='refresh'
-                                    v-on:ondragover="$event.stopPropagation();allowDrop($event)"
-                                    v-bind:class='(design_mode?"dotted":"" )'
-                                    v-on:click='clickOnMainGrid($event)'
                                     v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
-    
-    
+ 
                         <div    v-bind:refresh='refresh'
                                 style='position:absolute;left:0px;top:0px;z-index:1000000;opacity:1;'>
         
-    
-    
-    
                             <div    v-bind:refresh='refresh'
                                     v-for='( formName,formindex ) in getFormNames( )'>
                                 <div    v-bind:refresh='refresh'
                                         v-for='(item,index) in getFormComponents({formName: formName})'
-                                        ondrop="return false;"
                                         v-on:click='if ( isVisible(formName,index)){ $event.stopPropagation();selectComponent(index,true); }'
                                         v-bind:style='(formName==active_form)?(((design_mode && isVisible(formName,index))?"border: 1px solid black;background: white;":"") +
                                                         "position: absolute;top: " + getTop(formName,index) + ";left:" + getLeft(formName,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;"):"display:none;"'>
     
-                                    <div ondrop="return false;"
-                                         v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;":"display:none;"'>
+                                    <div v-bind:style='(formName==active_form)?"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:hidden;":"display:none;"'>
                                         <component  v-bind:id='formName + "_" + model.forms[formName].components[index].name + (design_mode?"_design":"")'
                                                     v-bind:refresh='refresh'
                                                     v-bind:meta='{form: formName,name: item.name + (design_mode?"_design":""),getEditor: getEditor, lookupComponent: lookupComponent,lookupComponentOnForm: lookupComponentOnForm, children: getChildren(item.name)}'
@@ -101,9 +83,7 @@
                 </div>
             </div>
         </div>
-    
-    
-    
+   
     </div>
 </div>
 `
