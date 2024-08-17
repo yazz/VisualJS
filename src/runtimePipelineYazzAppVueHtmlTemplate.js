@@ -7,61 +7,19 @@
         v-if='unique_app_dom_element_id != null'
         v-bind:style='"width: 100%; height: 100%; " + (design_mode?"background: white;":"")'>
 
-    
-
-
-
 
     <div    v-bind:id='vb_editor_element_id'
             v-if='vb_editor_element_id != null'
             v-bind:style='"position:relative;display: flex;" + (editor_locked?"pointer-events: none;opacity: 0.4;":"")'
-            v-on:drop="$event.stopPropagation(); dropEditor($event)"
-            v-on:ondragover="$event.stopPropagation(); allowDropEditor($event)">
+            >
 
 
-
-
-
-
-
-        <!--
-                The main center section of the UI editor
-        -->
         <div v-bind:style='"display: flex;width:100%;" + (design_mode?"background-color: darkgray;":"background-color: white;")'>
 
-
-            <!--
-                    File path selector 
-            -->
-
-
-            
-                    
-    
-    
-    
-    
-    
-    
-    
-            <!--
-    
-            The drag drop UI editor.
-            
-            but...
-            
-            Also the main view of the App
-            
-            -->
     
             <div    v-if='(!design_mode) || (design_mode && (design_mode_pane.type=="drag_drop"))'
                     v-bind:style='(design_mode?"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + "margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) + "overflow:auto;"'>
-    
-                
-                
-                <div style=''></div>
-    
-    
+
     
                 <div  id="grid_container"
                       drop-target=false
@@ -146,11 +104,6 @@
     
     
     
-    
-    
-    
- 
-        
     </div>
 </div>
 `
