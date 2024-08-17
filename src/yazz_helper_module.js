@@ -1257,10 +1257,12 @@ module.exports = {
                             let escapedPipelineCode     = escape( pipelineCode.toString() )
                             let pipelineCode2           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzAppVueMethods.js"})
                             let escapedPipelineCode2    = escape( pipelineCode2.toString() )
-                            let pipelineCode3           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzAppHtmlVueTemplate.js"})
+                            let pipelineCode3           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzAppVueHtmlTemplate.js"})
                             let escapedPipelineCode3    = escape( pipelineCode3.toString() )
                             let pipelineCode4           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzEditorVueMethods.js"})
                             let escapedPipelineCode4    = escape( pipelineCode4.toString() )
+                            let pipelineCode5           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzEditorVueHtmlTemplate.js"})
+                            let escapedPipelineCode5    = escape( pipelineCode5.toString() )
 
                             let newCode =
                                 `
@@ -1273,11 +1275,14 @@ module.exports = {
                                 GLOBALS.runtimePipelines["APP_UI_METHODS"] = {}
                                 GLOBALS.runtimePipelines["APP_UI_METHODS"].code = unescape(\`${escapedPipelineCode2}\`)
                                 
+                                GLOBALS.runtimePipelines["APP_UI_TEMPLATE"] = {}
+                                GLOBALS.runtimePipelines["APP_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode3}\`)
+                                
                                 GLOBALS.runtimePipelines["EDITOR_UI_METHODS"] = {}
                                 GLOBALS.runtimePipelines["EDITOR_UI_METHODS"].code = unescape(\`${escapedPipelineCode4}\`)
                                 
-                                GLOBALS.runtimePipelines["APP_UI_TEMPLATE"] = {}
-                                GLOBALS.runtimePipelines["APP_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode3}\`)
+                                GLOBALS.runtimePipelines["EDITOR_UI_TEMPLATE"] = {}
+                                GLOBALS.runtimePipelines["EDITOR_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode5}\`)
                                 
                                 
                                 
