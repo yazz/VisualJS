@@ -1,7 +1,7 @@
 {
     
     templateDefinition:
-        //*** pipeline_vue_html_template_start ***//
+        //*** pipeline_app_vue_html_template_start ***//
         `
 <div    v-bind:id='unique_app_dom_element_id'
         v-if='unique_app_dom_element_id != null'
@@ -154,5 +154,5 @@
     </div>
 </div>
 `
-        //*** pipeline_vue_html_template_end ***//
+        //*** pipeline_app_vue_html_template_end ***//
 }
