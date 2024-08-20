@@ -8,14 +8,14 @@
 
     <div v-bind:style='"display: flex;width:100%;background-color: white;"'>
 
-        <div    v-bind:style='(design_mode?"box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;":"") + "margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;" + (design_mode?"border: 0px solid lightgray; padding:0px;margin: 0px;margin-left:15px;margin-top:15px;":"margin: 0px;" ) + "overflow:auto;"'>
+        <div    v-bind:style='"margin: 2px; display: inline-block; vertical-align: top;  width: 95%;height: 65vh ;margin: 0px;overflow:auto;"'>
 
             <div  id="grid_container"
                   style='width:100%;background-color:white;height: 100%;position:relative;'>
     
                 <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                 v-bind:refresh='refresh'
-                                v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;" + (design_mode?"left:15px;top:15px;border: 4px solid lightgray;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);":"border: 0px;" ) '>
+                                v-bind:style='"position:absolute;display: inline-block; vertical-align: top; width: " + model.forms[active_form].width +  ";height: " + model.forms[active_form].height +  " ;border: 0px;"  '>
 
                     <div    v-bind:refresh='refresh'
                             style='position:absolute;left:0px;top:0px;z-index:1000000;opacity:1;'>
