@@ -38,7 +38,7 @@
                                             v-bind:sql='sqlQuery'
                                             v-bind:app_helper_fns='{}'
                                             v-bind:form_helper_fns='form_helper_fns'
-                                            v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event",form_name: formName,control_name: item.name,sub_type: a.display,code: a.code, args: a.args})})'
+                                            v-bind:runEvent='(async function(a){await runEvent({type: "subcomponent_event"  ,  form_name: formName  ,  control_name: item.name  ,  sub_type: a.display  ,  code: a.code  ,  args: a.args})})'
                                             v-bind:form="formName"
                                             v-bind:design_mode='design_mode'
                                             
