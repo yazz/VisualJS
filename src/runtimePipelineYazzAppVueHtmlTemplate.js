@@ -23,12 +23,11 @@
 
 
                     <div    v-bind:refresh='refresh'
-                            v-for='( formName,formindex ) in getFormNames( )'>
+                            v-for='formName  in getFormNames( )'>
                             
                             
                         <div    v-bind:refresh='refresh'
                                 v-for='(item,index) in getFormComponents({formName: formName})'
-                                v-on:click='if ( isVisible(formName,index)){ $event.stopPropagation();selectComponent(index,true); }'
                                 v-bind:style='formName==active_form?"position: absolute;top: " + getTop(formName,index) + ";left:" + getLeft(formName,index) + ";height:" + item.height + "px;width:" + item.width + "px;;overflow:none;":"display:none;"'>
 
 
