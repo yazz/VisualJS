@@ -20,7 +20,7 @@
                 methods:    {
                     /* ** *** insert_common_ui_methods_start *** ** */
                     /* ** *** insert_common_ui_methods_end *** ** */
-                    
+                    ,
                     /* ** *** insert_ui_methods_start *** ** */
                     /* ** *** insert_ui_methods_end *** ** */
                 },

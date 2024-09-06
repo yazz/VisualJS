@@ -9026,6 +9026,17 @@
                                     );
                                     trcode2 = await enhanceCodeWithPipeline(
                                         {
+                                            copyPipelineName:   "COMMON_UI_METHODS",
+                                            copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
+                                            copyStartMarker:    "//*** pipeline_common_ui_methods_start ***//",
+                                            copyEndMarker:      "//*** pipeline_common_ui_methods_end ***//",
+                                            code:                trcode2,
+                                            pasteMarker:        "/* ** *** insert_common_ui_methods_start *** ** */",
+                                            mode:               "INSERT_AFTER"
+                                        }
+                                    );
+                                    trcode2 = await enhanceCodeWithPipeline(
+                                        {
                                             copyPipelineName:   "APP_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzAppVueMethods.js",
                                             copyStartMarker:    "//*** copy_mounted_start ***//",
@@ -9158,7 +9169,7 @@
                                 }
 
                                 if (baseComponentId.startsWith("COMP_")) {
-                                    //await saveDebugTextOnServer(trcode2, "z.js")
+                                    await saveDebugTextOnServer(trcode2, "z.js")
                                 }
                             }
                         }
