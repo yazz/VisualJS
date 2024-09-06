@@ -11128,13 +11128,18 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         {name: "status",            fieldType: "STRING"}
                     ]})
 
+
                 // add a trigger to process new commands
                 alasql.fn.processNewCommand = async function(r) {
-                    debugger
+                    //debugger
                     return true;
                 };
                 alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_commands  processNewCommand');
 
+            }
+            async function  createCommand                       (  command  ,  params  ,  debugCode  )                     {
+                let paramsString = JSON.stringify(params)
+                asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
             }
             async function  setupAlaSqlSync                     (  ) {
                 if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
