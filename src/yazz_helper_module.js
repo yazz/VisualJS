@@ -1263,6 +1263,8 @@ module.exports = {
                             let escapedPipelineCode4    = escape( pipelineCode4.toString() )
                             let pipelineCode5           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzEditorVueHtmlTemplate.js"})
                             let escapedPipelineCode5    = escape( pipelineCode5.toString() )
+                            let pipelineCode6           = await mm.getPipelineCode({pipelineFileName: "runtimePipelineYazzCommonVueMethods.js"})
+                            let escapedPipelineCode6    = escape( pipelineCode6.toString() )
 
                             let newCode =
                                 `
@@ -1283,6 +1285,9 @@ module.exports = {
                                 
                                 GLOBALS.runtimePipelines["EDITOR_UI_TEMPLATE"] = {}
                                 GLOBALS.runtimePipelines["EDITOR_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode5}\`)
+                                
+                                GLOBALS.runtimePipelines["COMMON_UI_METHODS"] = {}
+                                GLOBALS.runtimePipelines["COMMON_UI_METHODS"].code = unescape(\`${escapedPipelineCode6}\`)
                                 
                                 
                                 
