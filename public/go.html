@@ -11120,10 +11120,12 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 await createAlaSqlTable({
                     tableName: "ui_commands",
                     fields: [
-                        {name: "id",             fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                        {name: "debug_code",     fieldType: "STRING"},
-                        {name: "created",        fieldType: "INTEGER"},
-                        {name: "command",        fieldType: "STRING"},
+                        {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                        {name: "debug_code",        fieldType: "STRING"},
+                        {name: "created",           fieldType: "INTEGER"},
+                        {name: "command",           fieldType: "STRING"},
+                        {name: "arguments",         fieldType: "STRING"},
+                        {name: "status",            fieldType: "STRING"}
                     ]})
 
                 // add a trigger to process new commands
