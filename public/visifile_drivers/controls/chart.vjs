@@ -141,7 +141,7 @@ logo_url("/driver_icons/chart.png")
         },
         mounted:    async function(  ) {
             await registerComponent(this)
-            await useChartsJs()
+            await yz.useChartsJs()
 
             if (isValidObject(this.control_properties_and_events)) {
                 this.items = this.control_properties_and_events.items

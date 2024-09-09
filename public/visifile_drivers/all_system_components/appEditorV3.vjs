@@ -2327,13 +2327,13 @@ ___________
                 mm.msToTime                         = Vue.inject('msToTime')
             }
 
-            await useIdeTools()
-            //await useEstraverse()
-            //await useEsCodeGen()
-            await useVisJs()
-            await useVisCss()
-            await useDiffJs()
-            await useTabulatorJs()
+            await yz.useIdeTools()
+            //await yz.useEstraverse()
+            //await yz.useEsCodeGen()
+            await yz.useVisJs()
+            await yz.useVisCss()
+            await yz.useDiffJs()
+            await yz.useTabulatorJs()
 
             uiDebuggerOn = true
             if ($HIDEIMPORTBUTTONS == 'false') {
