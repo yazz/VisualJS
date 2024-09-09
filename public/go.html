@@ -8130,19 +8130,6 @@
                     }
                 },
 
-                //
-                // If this app is loaded as a HTML page and possibly without a Yazz server running
-                // "DO NOT" change this line as it is dynamically replaced by code
-                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
-                //
-                isStaticHtmlPageApp: false
-            }
-            window.yz = yz
-
-
-
-            var GLOBALS                         = {
-
                 getTypeDisplayName:             function        (   args   ) {
                     let codeId = null
                     if ((args.codeId == null) || (args.codeId == "")) {
@@ -8842,21 +8829,21 @@
                                     await this.addRuntimePipelinesAndRunCode({codeId: componentCodeId,   code: compCode,   codeArgs: argsToPassToUiComponents })
                                 }
 
-                            //
-                            // if we have haven't cached the component (given the code ID) then put it on the list of things to load
-                            //
+                                //
+                                // if we have haven't cached the component (given the code ID) then put it on the list of things to load
+                                //
                             } else if (componentCodeId && !this.getCodeForComponent({codeId: componentCodeId})) {
                                 componentsItemsToLoad.push(componentTuple)
 
-                            //
-                            // if we have haven't cached the component (given the Type) then put it on the list of things to load
-                            //
+                                //
+                                // if we have haven't cached the component (given the Type) then put it on the list of things to load
+                                //
                             } else if (componentType && (!this.isComponentTypeCached(componentType))) {
                                 componentsItemsToLoad.push(componentTuple)
 
-                            //
-                            // Otherwise just put it on the list of things to load
-                            //
+                                //
+                                // Otherwise just put it on the list of things to load
+                                //
                             } else {
                                 //Causes a crash as editor is reloaded
                                 //componentsItemsToLoad.push(componentTuple)
@@ -9115,7 +9102,7 @@
                                     }
 
 
-                                // If the component is an EDITOR PLUG IN then
+                                    // If the component is an EDITOR PLUG IN then
 
                                 } else if (pipelineItem == "EDITOR_PLUG_IN") {
                                     trcode2 = await enhanceCodeWithPipeline(
@@ -9240,9 +9227,9 @@
                         yz.componentsAPI.vue.setVueComponentInfo({
                             codeId:     codeId,
                             vueInfo:    {
-                                            component_type:     component_type,
-                                            base_component_id:  baseComponentId
-                                        }
+                                component_type:     component_type,
+                                base_component_id:  baseComponentId
+                            }
                         })
 
                     } catch (runtimeError) {
@@ -9252,6 +9239,20 @@
                         hideProgressBar()
                     }
                 },
+
+                //
+                // If this app is loaded as a HTML page and possibly without a Yazz server running
+                // "DO NOT" change this line as it is dynamically replaced by code
+                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
+                //
+                isStaticHtmlPageApp: false
+            }
+            window.yz = yz
+
+
+
+            var GLOBALS                         = {
+
             }
 
 
@@ -9935,7 +9936,7 @@
                     if (args && args.name) {
                         let cccname = args.name
 
-                        for (let oneProperty of GLOBALS.getControlPropertyDefns({baseComponentId: args.base_component_id})) {
+                        for (let oneProperty of yz.getControlPropertyDefns({baseComponentId: args.base_component_id})) {
                             let propNamee = oneProperty.id
                             let propType = oneProperty.type
                             if (propNamee) {
@@ -11036,7 +11037,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     mode = args.mode
                 }
 
-                let editorCodeToCopy = await GLOBALS.getPipelineCodeToCopy(
+                let editorCodeToCopy = await yz.getPipelineCodeToCopy(
                     {
                         pipelineName:   copyPipelineName,
                         fileName:       copyFileName,
@@ -11056,14 +11057,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 return trcode2;
             }
             async function  universalSaveStaticUIControl        (  {  sha1sum  ,  unescapedCode  ,  baseComponentId  ,  loadMethod  }  ) {
-                GLOBALS.cacheThisComponentCode(
+                yz.cacheThisComponentCode(
                     {
                         codeId:             sha1sum,
                         code:               unescapedCode
                     })
                 yz.componentsAPI.vue.setComponentLoadedMethod({codeId: sha1sum, loadMethod: loadMethod})
 
-                GLOBALS.pointBaseComponentIdAtCode(
+                yz.pointBaseComponentIdAtCode(
                 {
                     baseComponentId:    baseComponentId,
                     codeId:             sha1sum
@@ -11322,7 +11323,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //
                 // loadAppIntoElement
                 //
-                await GLOBALS.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
+                await yz.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
                 if (mainVueAppVm.loadedAppMetaData.base_component_id == base_component_id_of_loaded_app) {
 
                     let codeIdOfComponent = yz.baseComponentIdReturnsCommitId[base_component_id_of_loaded_app]

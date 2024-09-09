@@ -936,7 +936,7 @@ logo_url("/driver_icons/data_control.png")
                 //--------------------------------------------------------------------------/
                 let mm = this
                 let typeName = event.target.value
-                await GLOBALS.makeSureUiComponentLoadedV6([typeName])
+                await yz.makeSureUiComponentLoadedV6([typeName])
                 mm.control_properties_and_events.sourceControlName = typeName + "_" + this.meta.getEditor().getNextComponentid()
                 mm.control_properties_and_events.sourceComponentType = typeName
                 await this.meta.getEditor().addControl(

@@ -34,7 +34,7 @@
             </div>
             
             <pre style="height:80%;width:100%;overflow:scroll;padding: 5px;background-color:lightgray;">
-                {{debug_component_code_id?GLOBALS.getCodeForComponent({codeId: debug_component_code_id}):""}}
+                {{debug_component_code_id?yz.getCodeForComponent({codeId: debug_component_code_id}):""}}
             </pre>
               
         </div>
@@ -2024,7 +2024,7 @@
                                                             
                                                       // if only a BCI
                                                       } else {
-                                                            debug_component_code_id=GLOBALS.getCommitIdForBaseComponentId( model.forms[active_form].components[active_component_index].base_component_id);
+                                                            debug_component_code_id=yz.getCommitIdForBaseComponentId( model.forms[active_form].components[active_component_index].base_component_id);
                                                       }'
                                                       > ..
                                     </div>
@@ -2151,7 +2151,7 @@
                                                 style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
                                                 class='col-md-12 small'>
     
-                                            {{GLOBALS.getTypeDisplayName(
+                                            {{yz.getTypeDisplayName(
                                                 {
                                                     baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
                                                     codeId:             model.forms[active_form].components[active_component_index].code_id
@@ -2163,7 +2163,7 @@
                                                     style='padding:0px;font-family:verdana,helvetica;font-size: 13px;'
                                                     class='col-md-12 small'>
     
-                                            <img    v-bind:src='GLOBALS.getTypeDisplayIcon(
+                                            <img    v-bind:src='yz.getTypeDisplayIcon(
                                                                     {
                                                                         baseComponentId:    model.forms[active_form].components[active_component_index].base_component_id, 
                                                                         codeId:             model.forms[active_form].components[active_component_index].code_id

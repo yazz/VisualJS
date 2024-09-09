@@ -1291,7 +1291,7 @@ module.exports = {
                                 
                                 
                                 
-                                GLOBALS.cacheThisComponentCode(
+                                yz.cacheThisComponentCode(
                                 {   
                                     codeId:             "${sha1sum}",
                                     code:               /*APP_START*/unescape(\`${escapedCode}\`)/*APP_END*/
@@ -1299,7 +1299,7 @@ module.exports = {
                                 yz.componentsAPI.vue.setComponentLoadedMethod({codeId: "${sha1sum}", loadMethod: "STATIC"})
 
                                 
-                                GLOBALS.pointBaseComponentIdAtCode(
+                                yz.pointBaseComponentIdAtCode(
                                 {   
                                     baseComponentId:    "${baseComponentId}",
                                     codeId:             "${sha1sum}"

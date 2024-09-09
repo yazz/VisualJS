@@ -1617,16 +1617,16 @@ ___________
                                 code        = results[0].code
                                 codeId      = results[0].id
                                 mm.code_id  = codeId
-                                GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                yz.cacheThisComponentCode({codeId: codeId,    code: code})
                                 yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
-                                GLOBALS.pointBaseComponentIdAtCode(
+                                yz.pointBaseComponentIdAtCode(
                                     {
                                         baseComponentId:    mm.base_component_id,
                                         codeId:             codeId
                                     })
 
                                 this.component_display_name = yz.helpers.getValueOfCodeString(code.toString(),"display_name")
-                                await GLOBALS.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
+                                await yz.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
                             }
                         }
 
@@ -1641,14 +1641,14 @@ ___________
                     } else if (code) {
                         let bci = yz.helpers.getValueOfCodeString(code.toString(),"base_component_id")
 
-                        GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                        yz.cacheThisComponentCode({codeId: codeId,    code: code})
                         yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
-                        GLOBALS.pointBaseComponentIdAtCode(
+                        yz.pointBaseComponentIdAtCode(
                             {
                                 baseComponentId:    bci,
                                 codeId:             codeId
                             })
-                        await GLOBALS.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
+                        await yz.makeSureUiComponentLoadedV6( {codeId: mm.code_id }, {} )
 
 
 
@@ -1696,9 +1696,9 @@ ___________
                                 codeId                      = results[0].id
                                 mm.code_id                  = codeId
                                 this.component_display_name = yz.helpers.getValueOfCodeString(code.toString(),"display_name")
-                                GLOBALS.cacheThisComponentCode({codeId: codeId,    code: code})
+                                yz.cacheThisComponentCode({codeId: codeId,    code: code})
                                 yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "DYNAMIC"})
-                                GLOBALS.pointBaseComponentIdAtCode(
+                                yz.pointBaseComponentIdAtCode(
                                     {
                                         baseComponentId:    baseComponentId,
                                         codeId:             codeId
@@ -1733,7 +1733,7 @@ ___________
                             editorName = newEditor
                         }
 
-                        await GLOBALS.makeSureUiComponentLoadedV6( editorName )
+                        await yz.makeSureUiComponentLoadedV6( editorName )
                         mm.refresh++
 
                         mm.editor_loaded    = true
@@ -1845,7 +1845,7 @@ ___________
                     }
 
                     if (!allowAppToWorkOffline) {
-                        this.editor_text = GLOBALS.enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
+                        this.editor_text = yz.enhanceCodeBeforeSaving(this.editor_text, {parentHash: code_id, baseComponentId: base_component_id})
                     }
                     let baseCompIdFromSrcCode = yz.helpers.getValueOfCodeString(this.editor_text,"base_component_id")
                     await yz.savingCode.saveCodeViaWebWorker(
@@ -1865,9 +1865,9 @@ ___________
                     }
 
                     mm.code_id  = await getYazzContentHash(mm.editor_text)
-                    GLOBALS.cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
+                    yz.cacheThisComponentCode({codeId: mm.code_id,    code: mm.editor_text})
                     yz.componentsAPI.vue.setComponentLoadedMethod({codeId: codeId, loadMethod: "SOURCE"})
-                    GLOBALS.pointBaseComponentIdAtCode(
+                    yz.pointBaseComponentIdAtCode(
                         {
                             baseComponentId:    baseCompIdFromSrcCode,
                             codeId:             mm.code_id
@@ -2376,8 +2376,8 @@ ___________
             //
             // Load miscalaneous components
             //
-            await GLOBALS.makeSureUiComponentLoadedV6(["yazz_blank"])
-            await GLOBALS.makeSureUiComponentLoadedV6(["control_preview_container_app"])
+            await yz.makeSureUiComponentLoadedV6(["yazz_blank"])
+            await yz.makeSureUiComponentLoadedV6(["control_preview_container_app"])
 
 
 

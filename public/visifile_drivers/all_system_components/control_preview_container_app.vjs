@@ -43,7 +43,7 @@ formEditor({
                           code_id:              mm.args.control_code_id
             })
 
-            let propertyDefnsOfComponent =   GLOBALS.getControlPropertyDefns({baseComponentId: mm.args.control_type})
+            let propertyDefnsOfComponent =   yz.getControlPropertyDefns({baseComponentId: mm.args.control_type})
 
             let lastY = newa.height + 20 + newa.topY
             let controlIndex = 1

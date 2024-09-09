@@ -1613,13 +1613,13 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                     globalEventBus.emit('hide_settings', {});
 
-                    await GLOBALS.makeSureUiComponentLoadedV6([{baseComponentId: "app_editor_3"}])
+                    await yz.makeSureUiComponentLoadedV6([{baseComponentId: "app_editor_3"}])
 
                     if (codeId) {
-                        await GLOBALS.makeSureUiComponentLoadedV6([{codeId: codeId}])
+                        await yz.makeSureUiComponentLoadedV6([{codeId: codeId}])
                     } else if (baseComponentId) {
-                        if (!GLOBALS.isComponentTypeCached(baseComponentId)) {
-                            await GLOBALS.makeSureUiComponentLoadedV6([{baseComponentId: baseComponentId}])
+                        if (!yz.isComponentTypeCached(baseComponentId)) {
+                            await yz.makeSureUiComponentLoadedV6([{baseComponentId: baseComponentId}])
                         }
                     }
 

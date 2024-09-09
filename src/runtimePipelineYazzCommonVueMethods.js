@@ -65,7 +65,7 @@
                     //console.log("Component: " + JSON.stringify(cbase))
                     itemsToLoad.push({baseComponentId: cbase, codeId: codeId })
                 }
-                await GLOBALS.makeSureUiComponentLoadedV6(itemsToLoad)
+                await yz.makeSureUiComponentLoadedV6(itemsToLoad)
                 //console.log("Time " + (ttq++) + ": " + (new Date().getTime()- startTime))
             },
 
@@ -87,7 +87,7 @@
 
                         let componentId = mm.model.forms[formName].components[compenentInFormIndex].base_component_id
 
-                        if (GLOBALS.isComponentTypeCached(componentId)) {
+                        if (yz.isComponentTypeCached(componentId)) {
                             let cachedComponentPropertiesDefinition = mm.getControlProperties(mm.model.forms[formName].components[compenentInFormIndex].base_component_id)
                             if (isValidObject(cachedComponentPropertiesDefinition)) {
                                 for (let cpp = 0 ; cpp< cachedComponentPropertiesDefinition.length; cpp ++) {
@@ -454,21 +454,21 @@
                     */
                     mm.refresh++
                     if (newItem.code_id) {
-                        await GLOBALS.makeSureUiComponentLoadedV6([{codeId: newItem.code_id}])
+                        await yz.makeSureUiComponentLoadedV6([{codeId: newItem.code_id}])
                     } else {
-                        await GLOBALS.makeSureUiComponentLoadedV6([newItem.base_component_id])
-                        newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
+                        await yz.makeSureUiComponentLoadedV6([newItem.base_component_id])
+                        newItem.code_id = yz.getCommitIdForBaseComponentId( newItem.base_component_id )
                     }
 
                     //qqqDONE
-                    //if (GLOBALS.isComponentTypeCached(newItem.base_component_id)) {
-                    //    newItem.code_id = GLOBALS.getCommitIdForBaseComponentId( newItem.base_component_id )
+                    //if (yz.isComponentTypeCached(newItem.base_component_id)) {
+                    //    newItem.code_id = yz.getCommitIdForBaseComponentId( newItem.base_component_id )
 
-                    //    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
+                    //    let compEvaled = yz.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                     //if (isValidObject(compEvaled1)) {
                     //newItem.code_id = compEvaled1.code_id
                     //let compEvaled = compEvaled1.properties
-                    let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
+                    let compEvaled = yz.getControlPropertyDefns({baseComponentId: newItem.base_component_id})
                     if (isValidObject(compEvaled)) {
                         for (let cpp = 0 ; cpp < compEvaled.length; cpp ++){
                             let prop = compEvaled[cpp].id
@@ -527,7 +527,7 @@
                     mm.active_component_index = mm.model.forms[mm.active_form].components.length - 1
 
 
-                    let compCode = GLOBALS.getCodeForComponent({baseComponentId: newItem.base_component_id})
+                    let compCode = yz.getCodeForComponent({baseComponentId: newItem.base_component_id})
                     let childrenCode  = yz.helpers.getValueOfCodeString(compCode, "children",")//children")
                     if (isValidObject(childrenCode)) {
                         for (  let ee = 0  ;  ee < childrenCode.length ;  ee++  ) {
@@ -1697,7 +1697,7 @@
 
                 // find out if the method call should be asynchronous
                 if (!isValidObject(methodFn)) {
-                    let allProps = GLOBALS.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
+                    let allProps = yz.getControlPropertyDefns({baseComponentId: componentDetails.base_component_id})
                     if (allProps) {
                         for (  let i = 0  ;  i < allProps.length  ;  i++  ) {
                             let thisProp = allProps[i]
@@ -3491,7 +3491,7 @@ ${code}
     |     -------------
     |________________________________________________________________________ */
 //qqq
-                let compEvaled = GLOBALS.getControlPropertyDefns({baseComponentId: componentType})
+                let compEvaled = yz.getControlPropertyDefns({baseComponentId: componentType})
                 if (isValidObject(compEvaled)) {
                     return compEvaled
                 }
@@ -6115,7 +6115,7 @@ return {}
                         // this form
                         for (let newItem of mm.model.forms[formName].components) {
 
-                            await GLOBALS.makeSureUiComponentLoadedV6(
+                            await yz.makeSureUiComponentLoadedV6(
                                 {
                                     baseComponentId:    newItem.base_component_id,
                                     codeId:             newItem.code_id
