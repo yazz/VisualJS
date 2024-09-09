@@ -154,7 +154,7 @@ ___________
 |
 |________________________________________________________________________ */
     // Hack city!!! Turn off the component cache so that we can enable hot reloading of components
-    GLOBALS.isStaticHtmlPageApp = false
+    yz.isStaticHtmlPageApp = false
     let yazzCompStruct =
     {
         props:              ['arg_edit_base_component_id', 'arg_edit_code_id'],

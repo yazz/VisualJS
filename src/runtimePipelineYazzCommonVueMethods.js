@@ -6327,7 +6327,7 @@ return {}
                     //
 
                     setTimeout(async function () {
-                        if (GLOBALS.isStaticHtmlPageApp) {
+                        if (yz.isStaticHtmlPageApp) {
                             mm.editor_locked = false
                         }
                         await mm.loadControlPalette()

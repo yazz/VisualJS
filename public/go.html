@@ -8128,7 +8128,14 @@
                             return yz.componentsImplementation.codeIdToComponentLoadedMethods
                         },
                     }
-                }
+                },
+
+                //
+                // If this app is loaded as a HTML page and possibly without a Yazz server running
+                // "DO NOT" change this line as it is dynamically replaced by code
+                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
+                //
+                isStaticHtmlPageApp: false
             }
             window.yz = yz
 
@@ -8786,10 +8793,10 @@
                     // then load the components from the global componenet cache which
                     // contains all the UI control definitions
                     let loadedStatic = false
-                    if (mm.isStaticHtmlPageApp) {
+                    if (yz.isStaticHtmlPageApp) {
                         for (let tt=0; tt < whichComponentsToLoadAsTuples.length; tt++) {
                             let componentType = whichComponentsToLoadAsTuples[tt].baseComponentId
-                            if (this.isStaticHtmlPageApp  &&  this.getCommitIdForBaseComponentId(componentType)  && !this.isComponentLoaded({baseComponentId: componentType})) {
+                            if (yz.isStaticHtmlPageApp  &&  this.getCommitIdForBaseComponentId(componentType)  && !this.isComponentLoaded({baseComponentId: componentType})) {
 
                                 let newDataCodeId
                                 if (whichComponentsToLoadAsTuples[tt].codeId && (whichComponentsToLoadAsTuples[tt].codeId != "")) {
@@ -9245,13 +9252,6 @@
                         hideProgressBar()
                     }
                 },
-
-                //
-                // If this app is loaded as a HTML page and possibly without a Yazz server running
-                // "DO NOT" change this line as it is dynamically replaced by code
-                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
-                //
-                isStaticHtmlPageApp: false
             }
 
 
@@ -10049,7 +10049,7 @@
                 yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
             }
             async function  initSystem                          (  ) {
-                if (GLOBALS.isStaticHtmlPageApp) {
+                if (yz.isStaticHtmlPageApp) {
                     useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
                     usePort = /*static_port_start*/ -1/*static_port_end*/
                 } else {
@@ -10720,7 +10720,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-                    if (GLOBALS.isStaticHtmlPageApp) {
+                    if (yz.isStaticHtmlPageApp) {
                         let nid = yz.mainVars.nextGlobalAppId++;
                         let ccy = document.getElementById('wrapper').scrollTop
                         mainVueAppVm.loadedAppMetaData =
@@ -10762,11 +10762,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
                         yz.mainVars.autoScroll = false;
                         mainVueAppVm.show_loader = true
-                    } else if (!GLOBALS.isStaticHtmlPageApp) {
+                    } else if (!yz.isStaticHtmlPageApp) {
                         setTimeout(async function() {
                             await select_card(1)
                         },200)
-                    } else if (GLOBALS.isStaticHtmlPageApp) {
+                    } else if (yz.isStaticHtmlPageApp) {
                         mainVueAppVm.is_static = true
                     }
 
@@ -11345,7 +11345,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 if (id != -1) {
                     let elmnt = document.querySelector('#card_' + id);
                     if (elmnt) {
-                        if (GLOBALS.isStaticHtmlPageApp) {
+                        if (yz.isStaticHtmlPageApp) {
                             mainVueAppVm.selected_card = id;
                             setTimeout(async function() {
                                 let thisApp = mainVueAppVm.loadedAppMetaData
