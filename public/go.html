@@ -7871,18 +7871,6 @@
         </script>
 
         <script>
-            function        isValidObject                       (   variable   ){
-                if ((typeof variable !== 'undefined') && (variable != null)) {
-                    return true
-                }
-                return false
-            }
-            function        showProgressBar                     (   ) {
-                mainVueAppVm.show_loader = true
-            }
-            function        hideProgressBar                     (   ) {
-                mainVueAppVm.show_loader = false
-            }
             var mainVueAppVm
             var yz =
             {
@@ -10861,6 +10849,102 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             },
 
+                isValidObject:                  function        (   variable   )                                {
+                if ((typeof variable !== 'undefined') && (variable != null)) {
+                    return true
+                }
+                return false
+            },
+                showProgressBar:                function        (   )                                           {
+                mainVueAppVm.show_loader = true
+            },
+                hideProgressBar:                function        (   )                                           {
+                mainVueAppVm.show_loader = false
+            },
+                msToTime:                       function        (  duration  ,  options  )                      {
+                if (!duration) {
+                    return ""
+                }
+                let ret = new Date(duration).toUTCString()
+
+                let ret2 = ""
+
+                let currentTime = new Date().getTime()
+
+                let timeDiffSecs = (currentTime - duration) / 1000
+                let timeDiffMins = timeDiffSecs / 60
+                let timeDiffHours = timeDiffMins / 60
+                let timeDiffDays = timeDiffHours / 24
+                if (timeDiffSecs < 60) {
+                    ret2 = ret2 + "a few seconds ago"
+                } else if (timeDiffMins < 10) {
+                    ret2 = ret2 + "a few minutes ago"
+                } else if (timeDiffMins < 30) {
+                    ret2 = ret2 + "less than half an hour ago"
+                } else if (timeDiffMins < 60) {
+                    ret2 = ret2 + "under an hour ago"
+                } else if (timeDiffHours < 10) {
+                    ret2 = ret2 + "a few hours ago"
+                } else if (timeDiffDays < 2) {
+                    ret2 = ret2 + "yesterday"
+                } else if (timeDiffDays < 10) {
+                    ret2 = ret2 + "a few days ago"
+                }
+
+                if (options && options.timeOnly) {
+                } else if (options && options.shortOnly) {
+                    ret = ret2
+                } else {
+                    ret =  ret2 +  " (" + ret + ")"
+                }
+
+                return ret
+            },
+                capitalizeFirstLetter:          function        (  string  )                                    {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            },
+                timeDiffLater:                  function        (  time1  ,  time2  )                           {
+                //debugger
+                if (!time1) {
+                    return ""
+                }
+                if (!time2) {
+                    return ""
+                }
+                let duration = time2 - time1
+                let ret2 = ""
+
+                let timeDiffSecs = duration / 1000
+                let timeDiffMins = timeDiffSecs / 60
+                let timeDiffHours = timeDiffMins / 60
+                let timeDiffDays = timeDiffHours / 24
+                if (duration < 100) {
+                    ret2 = ret2 + "a few milliseconds"
+                } else if (duration < 600) {
+                    ret2 = ret2 + "half a second"
+                } else if (duration < 1000) {
+                    ret2 = ret2 + "under a second"
+                } else if (duration < 1400) {
+                    ret2 = ret2 + "about a second"
+                } else if (timeDiffSecs < 60) {
+                    ret2 = ret2 + "a few seconds"
+                } else if (timeDiffMins < 10) {
+                    ret2 = ret2 + "a few minutes"
+                } else if (timeDiffMins < 60) {
+                    ret2 = ret2 + "little under an half an hour"
+                } else if (timeDiffMins < 60) {
+                    ret2 = ret2 + "little under an hour"
+                } else if (timeDiffHours < 10) {
+                    ret2 = ret2 + "a few hours"
+                } else if (timeDiffDays < 10) {
+                    ret2 = ret2 + "a few days"
+                }
+
+
+                let ret = "after " + ret2
+
+                return ret
+            },
 
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
@@ -10869,9 +10953,15 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //
                 isStaticHtmlPageApp: false
             }
-            window.yz = yz
-            var registerComponent   = yz.registerComponent
-            var callComponent       = yz.callComponent
+            window.yz                   = yz
+            var registerComponent       = yz.registerComponent
+            var callComponent           = yz.callComponent
+            var isValidObject           = yz.isValidObject
+            var showProgressBar         = yz.showProgressBar
+            var hideProgressBar         = yz.hideProgressBar
+            var msToTime                = yz.msToTime
+            var capitalizeFirstLetter   = yz.capitalizeFirstLetter
+            var timeDiffLater           = yz.timeDiffLater
 
 
 
@@ -11027,91 +11117,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             '1666600000': 'harmony',
             '11297108109': 'palm',
             '836542336838601': 'curio'
-            }
-
-            function        msToTime                            (  duration  ,  options  ) {
-                if (!duration) {
-                    return ""
-                }
-                let ret = new Date(duration).toUTCString()
-
-                let ret2 = ""
-
-                let currentTime = new Date().getTime()
-
-                let timeDiffSecs = (currentTime - duration) / 1000
-                let timeDiffMins = timeDiffSecs / 60
-                let timeDiffHours = timeDiffMins / 60
-                let timeDiffDays = timeDiffHours / 24
-                if (timeDiffSecs < 60) {
-                    ret2 = ret2 + "a few seconds ago"
-                } else if (timeDiffMins < 10) {
-                    ret2 = ret2 + "a few minutes ago"
-                } else if (timeDiffMins < 30) {
-                    ret2 = ret2 + "less than half an hour ago"
-                } else if (timeDiffMins < 60) {
-                    ret2 = ret2 + "under an hour ago"
-                } else if (timeDiffHours < 10) {
-                    ret2 = ret2 + "a few hours ago"
-                } else if (timeDiffDays < 2) {
-                    ret2 = ret2 + "yesterday"
-                } else if (timeDiffDays < 10) {
-                    ret2 = ret2 + "a few days ago"
-                }
-
-                if (options && options.timeOnly) {
-                } else if (options && options.shortOnly) {
-                    ret = ret2
-                } else {
-                    ret =  ret2 +  " (" + ret + ")"
-                }
-
-                return ret
-            }
-            function        capitalizeFirstLetter               (  string  ) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
-            }
-            function        timeDiffLater                       (  time1  ,  time2  ) {
-                //debugger
-                if (!time1) {
-                    return ""
-                }
-                if (!time2) {
-                    return ""
-                }
-                let duration = time2 - time1
-                let ret2 = ""
-
-                let timeDiffSecs = duration / 1000
-                let timeDiffMins = timeDiffSecs / 60
-                let timeDiffHours = timeDiffMins / 60
-                let timeDiffDays = timeDiffHours / 24
-                if (duration < 100) {
-                    ret2 = ret2 + "a few milliseconds"
-                } else if (duration < 600) {
-                    ret2 = ret2 + "half a second"
-                } else if (duration < 1000) {
-                    ret2 = ret2 + "under a second"
-                } else if (duration < 1400) {
-                    ret2 = ret2 + "about a second"
-                } else if (timeDiffSecs < 60) {
-                    ret2 = ret2 + "a few seconds"
-                } else if (timeDiffMins < 10) {
-                    ret2 = ret2 + "a few minutes"
-                } else if (timeDiffMins < 60) {
-                    ret2 = ret2 + "little under an half an hour"
-                } else if (timeDiffMins < 60) {
-                    ret2 = ret2 + "little under an hour"
-                } else if (timeDiffHours < 10) {
-                    ret2 = ret2 + "a few hours"
-                } else if (timeDiffDays < 10) {
-                    ret2 = ret2 + "a few days"
-                }
-
-
-                let ret = "after " + ret2
-
-                return ret
             }
 
             var injectedVars = {
