@@ -7896,6 +7896,21 @@
             var mainVueAppVm
             var yz =
             {
+
+                //
+                // This contains the engines that allows components to be decorated at
+                // run time, which means that their source code can be minimal. Originally
+                // this allowed us to take the large .vjs Application files which were
+                // often 300-400k in size, and shrink them to a few k. This is possible
+                // because most of that code was Javascript engine code. By taking this
+                // engine code out of the components also allows us to more easily swap
+                // out Vue.js for something else in the future as well, if needed. Right
+                // now (as of March 2023) we have to move things to an engine model
+                // because otherwise we end up with duplication of edits in the engine
+                // and the example apps
+                //
+                runtimePipelines:                               new Object(),
+
                 refs:                       {},
                 refTest:                    Vue.ref({a: 1}),
                 mainVars:                   {
@@ -8100,20 +8115,6 @@
             var GLOBALS                         = {
 
                 //
-                // This contains the engines that allows components to be decorated at
-                // run time, which means that their source code can be minimal. Originally
-                // this allowed us to take the large .vjs Application files which were
-                // often 300-400k in size, and shrink them to a few k. This is possible
-                // because most of that code was Javascript engine code. By taking this
-                // engine code out of the components also allows us to more easily swap
-                // out Vue.js for something else in the future as well, if needed. Right
-                // now (as of March 2023) we have to move things to an engine model
-                // because otherwise we end up with duplication of edits in the engine
-                // and the example apps
-                //
-                runtimePipelines:                               new Object(),
-
-                //
                 // This contains the source code for a particular commit ID
                 //
                 // eg:    value: {
@@ -8194,13 +8195,13 @@
                     |           }
                     |________________________________________________________________________ */
                     let codeToCopy = null
-                    if (this.runtimePipelines[args.pipelineName]) {
-                        codeToCopy = this.runtimePipelines[args.pipelineName].code
+                    if (yz.runtimePipelines[args.pipelineName]) {
+                        codeToCopy = yz.runtimePipelines[args.pipelineName].code
                     } else {
-                        this.runtimePipelines[args.pipelineName] = {}
-                        this.runtimePipelines[args.pipelineName].code = await this.getPipelineCodeFromServer(args.fileName)
+                        yz.runtimePipelines[args.pipelineName] = {}
+                        yz.runtimePipelines[args.pipelineName].code = await this.getPipelineCodeFromServer(args.fileName)
 
-                        codeToCopy = this.runtimePipelines[args.pipelineName].code
+                        codeToCopy = yz.runtimePipelines[args.pipelineName].code
                     }
 
                     let stt = args.fromMarker

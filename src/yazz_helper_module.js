@@ -1271,23 +1271,23 @@ module.exports = {
                                 //
                                 // Add the pipelines to the HTML output
                                 //
-                                GLOBALS.runtimePipelines["APP"] = {}
-                                GLOBALS.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
+                                yz.runtimePipelines["APP"] = {}
+                                yz.runtimePipelines["APP"].code = unescape(\`${escapedPipelineCode}\`)
                                 
-                                GLOBALS.runtimePipelines["APP_UI_METHODS"] = {}
-                                GLOBALS.runtimePipelines["APP_UI_METHODS"].code = unescape(\`${escapedPipelineCode2}\`)
+                                yz.runtimePipelines["APP_UI_METHODS"] = {}
+                                yz.runtimePipelines["APP_UI_METHODS"].code = unescape(\`${escapedPipelineCode2}\`)
                                 
-                                GLOBALS.runtimePipelines["APP_UI_TEMPLATE"] = {}
-                                GLOBALS.runtimePipelines["APP_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode3}\`)
+                                yz.runtimePipelines["APP_UI_TEMPLATE"] = {}
+                                yz.runtimePipelines["APP_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode3}\`)
                                 
-                                GLOBALS.runtimePipelines["EDITOR_UI_METHODS"] = {}
-                                GLOBALS.runtimePipelines["EDITOR_UI_METHODS"].code = unescape(\`${escapedPipelineCode4}\`)
+                                yz.runtimePipelines["EDITOR_UI_METHODS"] = {}
+                                yz.runtimePipelines["EDITOR_UI_METHODS"].code = unescape(\`${escapedPipelineCode4}\`)
                                 
-                                GLOBALS.runtimePipelines["EDITOR_UI_TEMPLATE"] = {}
-                                GLOBALS.runtimePipelines["EDITOR_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode5}\`)
+                                yz.runtimePipelines["EDITOR_UI_TEMPLATE"] = {}
+                                yz.runtimePipelines["EDITOR_UI_TEMPLATE"].code = unescape(\`${escapedPipelineCode5}\`)
                                 
-                                GLOBALS.runtimePipelines["COMMON_UI_METHODS"] = {}
-                                GLOBALS.runtimePipelines["COMMON_UI_METHODS"].code = unescape(\`${escapedPipelineCode6}\`)
+                                yz.runtimePipelines["COMMON_UI_METHODS"] = {}
+                                yz.runtimePipelines["COMMON_UI_METHODS"].code = unescape(\`${escapedPipelineCode6}\`)
                                 
                                 
                                 
