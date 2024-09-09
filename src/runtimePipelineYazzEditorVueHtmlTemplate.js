@@ -325,7 +325,7 @@
     
                                     v-bind:form="active_form"
                                     
-                                    v-bind:is='model.forms[active_form].components[active_component_detail_index].code_id?model.forms[active_form].components[active_component_detail_index].code_id:GLOBALS.baseComponentIdReturnsCommitId[model.forms[active_form].components[active_component_detail_index].base_component_id]'
+                                    v-bind:is='model.forms[active_form].components[active_component_detail_index].code_id?model.forms[active_form].components[active_component_detail_index].code_id:yz.baseComponentIdReturnsCommitId[model.forms[active_form].components[active_component_detail_index].base_component_id]'
                                     v-bind:name='model.forms[active_form].components[active_component_detail_index].name + "_design_mode_" + design_mode'
                                     v-bind:control_properties_and_events='model.forms[active_form].components[active_component_detail_index]'
                                     v-if='model.forms[active_form].components[active_component_detail_index]'>
@@ -347,7 +347,7 @@
                                             v-bind:style='"z-index:100000;position: relative; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;"'
                                             v-bind:id='active_form + "_" + model.forms[active_form].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                             
-                                            v-bind:is='child_item.code_id?child_item.code_id:GLOBALS.baseComponentIdReturnsCommitId[child_item.base_component_id]'
+                                            v-bind:is='child_item.code_id?child_item.code_id:yz.baseComponentIdReturnsCommitId[child_item.base_component_id]'
                                             v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                             v-if='model.forms[active_form].components[child_item.index_in_parent_array]'
                                             v-bind:control_properties_and_events='model.forms[active_form].components[child_item.index_in_parent_array]'>
@@ -1822,7 +1822,7 @@
                                                     v-bind:form="formName"
                                                     v-bind:design_mode='design_mode'
                                                     
-                                                    v-bind:is='item.code_id?item.code_id:GLOBALS.baseComponentIdReturnsCommitId[item.base_component_id]'
+                                                    v-bind:is='item.code_id?item.code_id:yz.baseComponentIdReturnsCommitId[item.base_component_id]'
                                                     v-if='!item.parent && model.forms[formName].components[index]'
                                                     v-bind:name='item.name + "_design_mode_" + design_mode'
                                                     v-bind:control_properties_and_events='model.forms[formName].components[index]'
@@ -1845,7 +1845,7 @@
                                                                 v-bind:style='(formName==active_form)?"z-index:100000;position: absolute; top: " + child_item.topY + "px; left: " + child_item.leftX + "px;height:" + child_item.height + "px;width:" + child_item.width + "px;overflow:auto;":"display:none;"'
                                                                 v-bind:id='formName + "_" + model.forms[formName].components[child_item.index_in_parent_array].name + (design_mode?"_design":"")'
                                                                 
-                                                                v-bind:is='child_item.code_id?child_item.code_id:GLOBALS.baseComponentIdReturnsCommitId[child_item.base_component_id]'
+                                                                v-bind:is='child_item.code_id?child_item.code_id:yz.baseComponentIdReturnsCommitId[child_item.base_component_id]'
                                                                 v-bind:name='child_item.name + "_design_mode_" + design_mode'
                                                                 v-if='model.forms[formName].components[child_item.index_in_parent_array]'
                                                                 v-bind:control_properties_and_events='model.forms[formName].components[child_item.index_in_parent_array]'>

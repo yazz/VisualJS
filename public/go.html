@@ -7897,6 +7897,12 @@
             var yz =
             {
                 //
+                // maps the base component ID to the commit ID
+                // "Qm0x43FFE338..2F1" < - points to a commit ID
+                //
+                baseComponentIdReturnsCommitId:                 new Object(),
+
+                //
                 // This contains the source code for a particular commit ID
                 //
                 // eg:    value: {
@@ -8129,11 +8135,6 @@
 
 
             var GLOBALS                         = {
-                //
-                // maps the base component ID to the commit ID
-                // "Qm0x43FFE338..2F1" < - points to a commit ID
-                //
-                baseComponentIdReturnsCommitId:                 new Object(),
 
                 getTypeDisplayName:             function        (   args   ) {
                     let codeId = null
@@ -8215,14 +8216,14 @@
                 },
                 getCommitIdForBaseComponentId:  function        (   baseComponentId   ) {
                     if (baseComponentId) {
-                        return this.baseComponentIdReturnsCommitId[ baseComponentId ]
+                        return yz.baseComponentIdReturnsCommitId[ baseComponentId ]
                     }
                 },
                 getCodeForComponent:            function        (   args   ) {
                     let codeId = args.codeId
                     if (!codeId) {
                         if (args.baseComponentId) {
-                            codeId = this.baseComponentIdReturnsCommitId[args.baseComponentId]
+                            codeId = yz.baseComponentIdReturnsCommitId[args.baseComponentId]
                         }
                     }
 
@@ -8254,7 +8255,7 @@
                     if (args.codeId) {
                         codeId = args.codeId
                     } else if (args.baseComponentId) {
-                        codeId = this.baseComponentIdReturnsCommitId[args.baseComponentId]
+                        codeId = yz.baseComponentIdReturnsCommitId[args.baseComponentId]
                     }
                     if (codeId) {
                         if (yz.codeCache[codeId]) {
@@ -8274,7 +8275,7 @@
                     if (args.codeId) {
                         codeId = args.codeId
                     } else if (args.baseComponentId) {
-                        codeId = this.baseComponentIdReturnsCommitId[args.baseComponentId]
+                        codeId = yz.baseComponentIdReturnsCommitId[args.baseComponentId]
                     }
 
                     if (codeId) {
@@ -8282,7 +8283,7 @@
                         if (previousCachedCode) {
                             previousBaseComponentId = yz.codeCache[  codeId  ].base_component_id
                             if (previousBaseComponentId) {
-                                previousCodeId = this.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
+                                previousCodeId = yz.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
                                 if (previousCodeId) {
                                     if (yz.codeCache[previousCodeId]) {
                                         yz.codeCache[previousCodeId].uiComponentLoaded = false
@@ -8350,7 +8351,7 @@
                     return false
                 },
                 getAllLoadedControlTypeNames:   function        (   ) {
-                    let listOfAllComponents = Object.keys(this.baseComponentIdReturnsCommitId)
+                    let listOfAllComponents = Object.keys(yz.baseComponentIdReturnsCommitId)
                     let listOfControls = []
                     for (let aComponentType of listOfAllComponents) {
                         if (this.isControl({baseComponentId: aComponentType})) {
@@ -8381,7 +8382,7 @@
                     }
                 },
                 pointBaseComponentIdAtCode:     function        (   args   ) {
-                    this.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
+                    yz.baseComponentIdReturnsCommitId[  args.baseComponentId  ] = args.codeId
 
                     if (this.isControl({baseComponentId: args.baseComponentId})) {
                         this.indexComponent( args.baseComponentId  )
@@ -11324,7 +11325,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 await GLOBALS.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
                 if (mainVueAppVm.loadedAppMetaData.base_component_id == base_component_id_of_loaded_app) {
 
-                    let codeIdOfComponent = GLOBALS.baseComponentIdReturnsCommitId[base_component_id_of_loaded_app]
+                    let codeIdOfComponent = yz.baseComponentIdReturnsCommitId[base_component_id_of_loaded_app]
                     code_id_of_loaded_app = codeIdOfComponent
 
                     mainVueAppVm.appCodeId = codeIdOfComponent

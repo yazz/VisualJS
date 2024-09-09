@@ -331,7 +331,7 @@ ___________
         <div    id=editor_id
                 v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
                 
-            <component  v-bind:is='GLOBALS.baseComponentIdReturnsCommitId[editor_component]'
+            <component  v-bind:is='yz.baseComponentIdReturnsCommitId[editor_component]'
                         v-if="editor_loaded"
                         v-bind:editor_fns='{pending: pendingFn,saved: savedFn , switch_editor: switch_editorFn  , force_raw_load: force_raw_loadFn}'
                         ref="editor_component_ref">
@@ -702,7 +702,7 @@ ___________
                               ref="control_preview_component"
                               v-if='app_loaded  &&  (preview_type=="control")'
                               style='background-color: white;height:92%;'
-                              v-bind:is='GLOBALS.baseComponentIdReturnsCommitId["control_preview_container_app"]'
+                              v-bind:is='yz.baseComponentIdReturnsCommitId["control_preview_container_app"]'
                               v-bind:args="{control_type: base_component_id  ,  control_code_id: code_id}"
                               >
                 </component>

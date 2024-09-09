@@ -185,7 +185,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
             
                 <component  id="editor_component2"
                             v-if='isValidObject(item)'
-                            :is='GLOBALS.baseComponentIdReturnsCommitId["app_editor_3"]'
+                            :is='yz.baseComponentIdReturnsCommitId["app_editor_3"]'
                             v-bind:arg_edit_base_component_id='item.base_component_id'
                             v-bind:arg_edit_code_id='item.code_id'>
                 </component>
@@ -883,7 +883,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 let bci = text.base_component_id
                                 let cid = text.code_id
                                 if (!isValidObject(cid)) {
-                                    cid = GLOBALS.baseComponentIdReturnsCommitId[bci]
+                                    cid = yz.baseComponentIdReturnsCommitId[bci]
                                 }
                                 let fid = text.form_id
                                 let cni = text.control_name
@@ -956,7 +956,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                 let bci = text.base_component_id
                                 let cid = text.code_id
                                 if ((!isValidObject(cid)) || (cid == "")) {
-                                    cid = GLOBALS.baseComponentIdReturnsCommitId[bci]
+                                    cid = yz.baseComponentIdReturnsCommitId[bci]
                                 }
                                 let fid = text.form_id
                                 let cni = text.control_name
