@@ -555,10 +555,10 @@ ___________
                
                     <div  style='display: inline-block;'>
                         <a   style='text-decoration:underline;cursor: pointer;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
-                             v-on:click='let win = window.open(location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
+                             v-on:click='let win = window.open(location.protocol + "//" + yz.getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html", "_blank"); win.focus();'
                              v-if="code_shown && (!app_shown)">
 
-                            {{location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"}}
+                            {{location.protocol + "//" + yz.getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"}}
                         </a>
 
                         <div>
@@ -619,7 +619,7 @@ ___________
                     v-if='preview_type=="app"'
                     style='text-decoration: underline;flex:1;font-family:verdana,helvetica;font-size: 13px;margin-left:10px;'
                     v-on:click='previewUrlPressed()'
-                    v-bind:value='location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"' />
+                    v-bind:value='location.protocol + "//" + yz.getNetworkHostName() + ":" + location.port + "/app/" + base_component_id + ".html"' />
 
                 <span
                     v-if='preview_type!="app"'
@@ -1071,7 +1071,7 @@ ___________
             previewUrlPressed:                  async function  (  ) {
                 let mm = this
                 //debugger
-                let locToUse = location.protocol + "//" + getNetworkHostName() + ":" + location.port + "/app/" +
+                let locToUse = location.protocol + "//" + yz.getNetworkHostName() + ":" + location.port + "/app/" +
                                 mm.base_component_id + ".html"
 
                 let win = window.open(locToUse, "_blank");
@@ -2301,7 +2301,6 @@ ___________
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.getNetworkHostName               = getNetworkHostName
                 mm.executionCode                    = executionCode
                 mm.currentTimelineLogPoint          = currentTimelineLogPoint
                 mm.maxTimelineLogPoint              = maxTimelineLogPoint
@@ -2317,7 +2316,6 @@ ___________
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
-                mm.getNetworkHostName               = Vue.inject('getNetworkHostName')
                 mm.executionCode                    = Vue.inject('executionCode')
                 mm.currentTimelineLogPoint          = Vue.inject('currentTimelineLogPoint')
                 mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')

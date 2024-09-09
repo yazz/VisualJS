@@ -559,7 +559,6 @@ pane_release_description:               {{pane_release_description}}
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.getNetworkHostName               = getNetworkHostName
                 mm.executionCode                    = executionCode
                 mm.currentTimelineLogPoint          = currentTimelineLogPoint
                 mm.maxTimelineLogPoint              = maxTimelineLogPoint
@@ -575,7 +574,6 @@ pane_release_description:               {{pane_release_description}}
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
-                mm.getNetworkHostName               = Vue.inject('getNetworkHostName')
                 mm.executionCode                    = Vue.inject('executionCode')
                 mm.currentTimelineLogPoint          = Vue.inject('currentTimelineLogPoint')
                 mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')

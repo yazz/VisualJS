@@ -7877,16 +7877,6 @@
                 }
                 return false
             }
-            function        getNetworkHostName                  (   ) {
-                let networkHostName = location.hostname
-                if (networkHostName == "127.0.0.1") {
-                    networkHostName = networkIntranetIpAddress
-                }
-                if (networkHostName == "0.0.0.0") {
-                    networkHostName = networkIntranetIpAddress
-                }
-                return networkHostName
-            }
             function        showProgressBar                     (   ) {
                 mainVueAppVm.show_loader = true
             }
@@ -7896,6 +7886,17 @@
             var mainVueAppVm
             var yz =
             {
+                getNetworkHostName:         function                          (   ) {
+                    let networkHostName = location.hostname
+                    if (networkHostName == "127.0.0.1") {
+                        networkHostName = networkIntranetIpAddress
+                    }
+                    if (networkHostName == "0.0.0.0") {
+                        networkHostName = networkIntranetIpAddress
+                    }
+                    return networkHostName
+                },
+
                 //
                 // maps the base component ID to the commit ID
                 // "Qm0x43FFE338..2F1" < - points to a commit ID
@@ -9496,7 +9497,6 @@
                 showProgressBar:                showProgressBar,
                 hideProgressBar:                hideProgressBar,
                 location:                       location,
-                getNetworkHostName:             getNetworkHostName,
                 executionCode:                  executionCode,
                 currentTimelineLogPoint:        currentTimelineLogPoint,
                 maxTimelineLogPoint:            maxTimelineLogPoint,
@@ -10085,7 +10085,6 @@
                                 mm.showProgressBar                  = showProgressBar
                                 mm.hideProgressBar                  = hideProgressBar
                                 mm.location                         = location
-                                mm.getNetworkHostName               = getNetworkHostName
                                 mm.executionCode                    = executionCode
                                 mm.currentTimelineLogPoint          = currentTimelineLogPoint
                                 mm.maxTimelineLogPoint              = maxTimelineLogPoint
@@ -10103,7 +10102,6 @@
                                 mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
                                 mm.timeDiffLater                    = Vue.inject('timeDiffLater')
                                 mm.location                         = Vue.inject('location')
-                                mm.getNetworkHostName               = Vue.inject('getNetworkHostName')
                                 mm.executionCode                    = Vue.inject('executionCode')
                                 mm.currentTimelineLogPoint          = Vue.inject('currentTimelineLogPoint')
                                 mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')
@@ -10130,7 +10128,7 @@
                             },
                             updateComments:                 async function(  ) {
                                 let mm                           = this
-                                let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+                                let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
                                     location.port + "/http_post_load_comments_for_component" + "/" +
                                     "?"
 
@@ -10166,7 +10164,7 @@
                                 }
 
 
-                                let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+                                let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
                                     location.port + "/http_post_submit_comment" + "/" +
                                     "?"
 
@@ -11189,7 +11187,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             async function  querySqlite                         (  args  ) {
                 let promise = new Promise(async function (returnfn) {
-                    let newrestUrl = location.protocol + "//" + getNetworkHostName() + ":" +
+                    let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
                         location.port + "/http_post_query_sqlite" + "/" +
                         "?"
 
