@@ -7896,6 +7896,22 @@
             var mainVueAppVm
             var yz =
             {
+                //
+                // This contains the source code for a particular commit ID
+                //
+                // eg:    value: {
+                //                    "async fn {... code here ... }"
+                //                    }
+                //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
+                //  {
+                //      code:               mm.editor_text,
+                //      component_type:     "SYSTEM",
+                //      libs:               [],
+                //      code_id:            mm.code_id,
+                //      base_component_id:  baseCompIdFromSrcCode
+                //  }
+                //
+                codeCache:                                      new Object(),
 
                 //
                 // This contains the engines that allows components to be decorated at
@@ -8113,24 +8129,6 @@
 
 
             var GLOBALS                         = {
-
-                //
-                // This contains the source code for a particular commit ID
-                //
-                // eg:    value: {
-                //                    "async fn {... code here ... }"
-                //                    }
-                //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
-                //  {
-                //      code:               mm.editor_text,
-                //      component_type:     "SYSTEM",
-                //      libs:               [],
-                //      code_id:            mm.code_id,
-                //      base_component_id:  baseCompIdFromSrcCode
-                //  }
-                //
-                codeCache:                                      new Object(),
-
                 //
                 // maps the base component ID to the commit ID
                 // "Qm0x43FFE338..2F1" < - points to a commit ID
@@ -8230,8 +8228,8 @@
 
 
                     if (codeId) {
-                        if (this.codeCache[codeId]) {
-                            return this.codeCache[codeId].code
+                        if (yz.codeCache[codeId]) {
+                            return yz.codeCache[codeId].code
                         }
                     }
                     //debugger
@@ -8240,7 +8238,7 @@
                 },
                 getControlPropertyDefns:        function        (   args   ) {
                     if (args.baseComponentId) {
-                        return this.codeCache[this.getCommitIdForBaseComponentId(args.baseComponentId)].properties
+                        return yz.codeCache[this.getCommitIdForBaseComponentId(args.baseComponentId)].properties
                     }
                 },
                 isComponentTypeCached:          function        (   baseComponentId   ) {
@@ -8259,8 +8257,8 @@
                         codeId = this.baseComponentIdReturnsCommitId[args.baseComponentId]
                     }
                     if (codeId) {
-                        if (this.codeCache[codeId]) {
-                            if (this.codeCache[codeId].uiComponentLoaded) {
+                        if (yz.codeCache[codeId]) {
+                            if (yz.codeCache[codeId].uiComponentLoaded) {
                                 return true
                             }
                         }
@@ -8280,14 +8278,14 @@
                     }
 
                     if (codeId) {
-                        previousCachedCode = this.codeCache[  codeId  ]
+                        previousCachedCode = yz.codeCache[  codeId  ]
                         if (previousCachedCode) {
-                            previousBaseComponentId = this.codeCache[  codeId  ].base_component_id
+                            previousBaseComponentId = yz.codeCache[  codeId  ].base_component_id
                             if (previousBaseComponentId) {
                                 previousCodeId = this.baseComponentIdReturnsCommitId[  previousBaseComponentId  ]
                                 if (previousCodeId) {
-                                    if (this.codeCache[previousCodeId]) {
-                                        this.codeCache[previousCodeId].uiComponentLoaded = false
+                                    if (yz.codeCache[previousCodeId]) {
+                                        yz.codeCache[previousCodeId].uiComponentLoaded = false
                                     }
                                 }
                             }
@@ -8296,8 +8294,8 @@
 
 
                     if (codeId) {
-                        if (this.codeCache[codeId]) {
-                            if (this.codeCache[codeId].uiComponentLoaded) {
+                        if (yz.codeCache[codeId]) {
+                            if (yz.codeCache[codeId].uiComponentLoaded) {
                                 return true
                             }
                         }
@@ -8305,7 +8303,7 @@
                     return false
                 },
                 getTypeForCommitId:             function        (   codeId   ) {
-                    return this.codeCache[codeId].base_component_id
+                    return yz.codeCache[codeId].base_component_id
                 },
                 getDbToUse:                     function        (   args   ) {
                     let useDb =  null
@@ -8319,12 +8317,12 @@
 
                     if (codeId)
                     {
-                        if (!this.codeCache[codeId]) {
+                        if (!yz.codeCache[codeId]) {
                             return useDb
                         }
 
-                        if (this.codeCache[codeId].use_db) {
-                            useDb =  this.codeCache[codeId].use_db
+                        if (yz.codeCache[codeId].use_db) {
+                            useDb =  yz.codeCache[codeId].use_db
                         } else {
                             useDb = this.getTypeForCommitId(args.codeId)
                             let codeFor = this.getCodeForComponent({codeId: args.codeId})
@@ -8332,7 +8330,7 @@
                             if (useOtherDb) {
                                 useDb = useOtherDb
                             }
-                            this.codeCache[codeId].use_db = useDb
+                            yz.codeCache[codeId].use_db = useDb
                         }
                     }
                     return useDb
@@ -8343,8 +8341,8 @@
                         codeId = this.getCommitIdForBaseComponentId(args.baseComponentId)
                     }
                     if (codeId) {
-                        if (this.codeCache[codeId]) {
-                            if (this.codeCache[codeId].component_type == "VB") {
+                        if (yz.codeCache[codeId]) {
+                            if (yz.codeCache[codeId].component_type == "VB") {
                                 return true
                             }
                         }
@@ -8368,7 +8366,7 @@
                     //
                     // Add the components code
                     //
-                    this.codeCache[   args.codeId  ] = {
+                    yz.codeCache[   args.codeId  ] = {
                         code:               args.code,
                         code_id:            args.codeId,
                         component_type:     componentType,
@@ -8377,9 +8375,9 @@
 
                     let properties = yz.helpers.getValueOfCodeString(args.code, "properties",")//properties")
                     if (isValidObject(properties)) {
-                        this.codeCache[   args.codeId  ].properties   = properties
+                        yz.codeCache[   args.codeId  ].properties   = properties
                     } else {
-                        this.codeCache[   args.codeId  ].properties   = []
+                        yz.codeCache[   args.codeId  ].properties   = []
                     }
                 },
                 pointBaseComponentIdAtCode:     function        (   args   ) {
