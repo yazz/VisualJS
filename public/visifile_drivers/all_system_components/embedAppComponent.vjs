@@ -95,7 +95,7 @@ load_once_from_file(true)
                 let sql =   "select  component_name as name from  level_2_released_components  where " +
                             "        base_component_id = '" + yz.editor.editingAppBaseComponentId + "'"
 
-                let results = await callComponent(
+                let results = await yz.callComponent(
                     {
                         base_component_id:    "readFromInternalSqliteDatabase"
                     }

@@ -140,7 +140,7 @@ logo_url("/driver_icons/rhamq.png")
 
             testAMQ: async function() {
                 var mm = this
-                var result = await callComponent(
+                var result = await yz.callComponent(
                     {
                         base_component_id: "activemq_service"
                     }

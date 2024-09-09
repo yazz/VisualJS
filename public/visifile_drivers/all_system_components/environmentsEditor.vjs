@@ -425,7 +425,7 @@ pane_environments_last_env_is_live:     {{pane_environments_last_env_is_live}}
                 // ----------------------------------------------------------------------
                 let mm     = this
                 let retVal = null
-                retval     = await getYazzContentHash( mm.text )
+                retval     = await yz.getYazzContentHash( mm.text )
                 return retval
             },
 

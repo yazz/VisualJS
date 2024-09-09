@@ -253,7 +253,7 @@ logo_url("/driver_icons/rhdm.png")
 
             testDecisionManager: async function() {
                 var mm = this
-                var result = await callComponent(
+                var result = await yz.callComponent(
                 {
                     base_component_id: "rest_call_service_v2"
                 }
@@ -277,7 +277,7 @@ logo_url("/driver_icons/rhdm.png")
 
                     var mm = this
                     mm.properties.error = ""
-                    var result = await callComponent(
+                    var result = await yz.callComponent(
                     {
                         base_component_id: "rest_call_service_v2"
                     }
@@ -315,7 +315,7 @@ logo_url("/driver_icons/rhdm.png")
             ,
             getServices: async function() {
                 var mm = this
-                var result = await callComponent(
+                var result = await yz.callComponent(
                 {
                     base_component_id: "rest_call_service_v2"
                 }

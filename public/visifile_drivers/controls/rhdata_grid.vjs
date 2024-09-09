@@ -123,7 +123,7 @@ logo_url("/driver_icons/rhdata_grid.png")
 
         methods: {
             readFromDocker: async function() {
-                var result = await callComponent(
+                var result = await yz.callComponent(
                 {
                     base_component_id: "serverDockerStuff"
                 }

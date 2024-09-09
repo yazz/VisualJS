@@ -243,7 +243,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
     mounted: async function() {
         let mm = this
 
-        await onPageInitialized( async function() {
+        await yz.onPageInitialized( async function() {
             //debugger
             if ((typeof($RUNNING_IN_ELECTRON) !== 'undefined')  && $RUNNING_IN_ELECTRON) {
                 mm.electron = true
@@ -266,7 +266,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 //        and
 //        visibility = 'PUBLIC'
 
-            let results2 = await callComponent(
+            let results2 = await yz.callComponent(
                 {
                     base_component_id:    "readFromInternalSqliteDatabase"
                 }
@@ -377,7 +377,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               //alert(1)
              //document.getElementById("openfilefromhomepage").click();
              this.showFilePicker = true
-             let result = await callComponent(
+             let result = await yz.callComponent(
                                  {
                                      base_component_id: "serverGetHomeDir"
                                  }
@@ -385,7 +385,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             if (result) {
                 this.open_file_path = result.value
             }
-            let result2 = await callComponent(
+            let result2 = await yz.callComponent(
                                 {
                                     base_component_id: "serverFolderContents"
                                 }
@@ -439,7 +439,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                   "    base_component_id = '" + appId + "'  "
 
 
-              let results2 = await callComponent(
+              let results2 = await yz.callComponent(
                  {
                       base_component_id:    "readFromInternalSqliteDatabase"
                  }

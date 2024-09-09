@@ -361,7 +361,7 @@ logo_url("https://images.unsplash.com/photo-1526773357673-2d4e8116d497?ixlib=rb-
             <div v-if="showAsCode">
 <pre style="padding:10px; background-color: lightgray;">
 
-var result = await callComponent(
+var result = await yz.callComponent(
 {
     base_component_id: "rest_call_service_v2"
 }
@@ -481,7 +481,7 @@ var result = await callComponent(
                     if (mm.args.headerName3 && (mm.args.headerName3 != "")) {
                         headers[mm.args.headerName3] = mm.args.headerValue3
                     }
-                    var result = await callComponent(
+                    var result = await yz.callComponent(
                     {
                         base_component_id: "rest_call_service_v2"
                     }
@@ -535,7 +535,7 @@ var result = await callComponent(
                     if (mm.args.headerName3 && (mm.args.headerName3 != "")) {
                         headers[mm.args.headerName3] = mm.args.headerValue3
                     }
-                    var result = await callComponent(
+                    var result = await yz.callComponent(
                     {
                         base_component_id: "rest_call_service_v2"
                     }
@@ -585,7 +585,7 @@ var result = await callComponent(
             getListOfResponsePathsForJson: async function(input) {
                 var mm = this
 
-                var result = await callComponent(
+                var result = await yz.callComponent(
                 {
                     base_component_id: "json_traverse_service"
                 }
@@ -619,7 +619,7 @@ var result = await callComponent(
             getJsonFiltered: async function(input) {
                 var mm = this
 
-                var result = await callComponent(
+                var result = await yz.callComponent(
                 {
                     base_component_id: "json_filter_service"
                 }

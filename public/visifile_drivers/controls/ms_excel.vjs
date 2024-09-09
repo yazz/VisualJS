@@ -404,7 +404,7 @@ logo_url("/driver_icons/excel.png")
                 console.log("In getColumns")
 
                 if (this.design_mode) {
-                    var result = await callComponent(
+                    var result = await yz.callComponent(
                                         {
                                             base_component_id: "excel_server"
                                         }
@@ -439,7 +439,7 @@ logo_url("/driver_icons/excel.png")
             connect: async function() {
                 let mm = this
                 try {
-                    var result = await callComponent(
+                    var result = await yz.callComponent(
                                         {
                                             base_component_id: "excel_server"
                                         }
@@ -471,7 +471,7 @@ logo_url("/driver_icons/excel.png")
 
                 if (mm.properties.isExcelAvailable == "True") {
                   try {
-                      var result = await callComponent(
+                      var result = await yz.callComponent(
                                           {
                                               base_component_id: "excel_server"
                                           }
@@ -511,7 +511,7 @@ logo_url("/driver_icons/excel.png")
 
             runQuery: async function() {
                 if (!this.design_mode) {
-                    var result = await callComponent(
+                    var result = await yz.callComponent(
                                         {
                                             base_component_id: "excel_server"
                                         }
@@ -562,7 +562,7 @@ logo_url("/driver_icons/excel.png")
             ,
 
             getSheet: async function() {
-                var result = await callComponent(
+                var result = await yz.callComponent(
                                     {
                                         base_component_id: "excel_server"
                                     }

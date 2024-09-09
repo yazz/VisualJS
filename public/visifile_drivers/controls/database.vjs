@@ -855,7 +855,7 @@ logo_url("/driver_icons/data_control.png")
             if (mm.design_mode == "detail_editor") {
                 mm.switchTab( mm.control_properties_and_events.designDetailTab )
             }
-            //let listLL = await findComponentsImplementing(["runQuery","connect"])
+            //let listLL = await yz.findComponentsImplementing(["runQuery","connect"])
             let listLL  =
             {
                 values:

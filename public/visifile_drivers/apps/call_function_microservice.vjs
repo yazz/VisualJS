@@ -11,7 +11,7 @@ logo_url("/driver_icons/rest.png")
 
 let result = {}
 if(args && args.params) {
-    result = await callComponent(
+    result = await yz.callComponent(
     eval( "(" + args.params.find + ")" )
     ,
     eval( "(" + args.params.args + ")" )

@@ -97,7 +97,7 @@ logo_url("/driver_icons/osquery.png")
             readFromTerminal: async function(cmdString) {
                 var osQueryString = `osqueryi --json "${cmdString}"`
 
-                var result = await callComponent(
+                var result = await yz.callComponent(
                 {
                     base_component_id: "serverTerminalStuff"
                 }

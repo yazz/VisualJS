@@ -783,7 +783,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                          | default
                                          |__________________________________ */
 
-                await onPageInitialized( async function() {
+                await yz.onPageInitialized( async function() {
                     if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
                         if ($HIDEIMPORTBUTTONS == 'true') {
                             mm.hideImportButtons = true
@@ -1072,14 +1072,14 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     //alert(1)
                     //document.getElementById("openfilefromhomepage").click();
                     this.showFilePicker = true
-                    let result = await callComponent(
+                    let result = await yz.callComponent(
                         {
                             base_component_id: "serverGetHomeDir" }
                         ,{ })
                     if (result) {
                         this.open_file_path = result.value
                     }
-                    let result2 = await callComponent(
+                    let result2 = await yz.callComponent(
                         {
                             base_component_id: "serverFolderContents"  }
                         ,{
@@ -1134,7 +1134,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         } else {
                             this.open_file_path += "/" + fileOrFolder.name
                         }
-                        let result2 = await callComponent(
+                        let result2 = await yz.callComponent(
                             {
                                 base_component_id: "serverFolderContents"}
                             ,{
@@ -1211,7 +1211,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     }
 
 
-                    let result2 = await callComponent(
+                    let result2 = await yz.callComponent(
                         {
                             base_component_id: "serverFolderContents"}
                         ,{

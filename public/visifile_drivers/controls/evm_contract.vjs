@@ -350,7 +350,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               //debugger
               this.infoMessage = ""
 
-              var result = await callComponent(
+              var result = await yz.callComponent(
               {
                   base_component_id: "compile_solidity"
               }

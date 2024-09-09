@@ -101,7 +101,7 @@ logo_url("/driver_icons/terminal.png")
 
         methods: {
             readFromTerminal: async function(cmdString) {
-                var result = await callComponent(
+                var result = await yz.callComponent(
                 {
                     base_component_id: "serverTerminalStuff"
                 }

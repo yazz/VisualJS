@@ -95,7 +95,7 @@ logo_url("/driver_icons/folder_list.png")
 
           this.load()
 
-          var result = await callComponent(
+          var result = await yz.callComponent(
                               {
                                   base_component_id: "serverGetHomeDir"
                               }
@@ -136,7 +136,7 @@ logo_url("/driver_icons/folder_list.png")
                  load: async function() {
                  var mm = this
                  if (!this.design_mode) {
-                     var result = await callComponent(
+                     var result = await yz.callComponent(
                                          {
                                              base_component_id: "serverFolderHierarchyList"
                                          }

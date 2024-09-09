@@ -53,7 +53,7 @@
                     where 
                         component_type = 'component'`
 
-                mm.available_components  = await callComponent(
+                mm.available_components  = await yz.callComponent(
                     { base_component_id:    "readFromInternalSqliteDatabase"}
                     ,
                     {   sql: sql  })
@@ -1410,7 +1410,7 @@
                 let thisCode = mm.text
                 //debugger
                 //let thisCode = thisCode
-                //let codeId = await getYazzContentHash( thisCode )
+                //let codeId = await yz.getYazzContentHash( thisCode )
                 let codeId = mm.codeId
                 let baseComponentId = yz.helpers.getValueOfCodeString(thisCode,"base_component_id")
                 //let baseComponentId =  window.base_component_id_of_loaded_app
@@ -4838,14 +4838,14 @@ return {}
                 |__________________________________________________ */
                 //document.getElementById("openfilefromhomepage").click();
                 this.showFilePicker = true
-                let result = await callComponent(
+                let result = await yz.callComponent(
                     {
                         base_component_id: "serverGetHomeDir"}
                     ,{ })
                 if (result) {
                     this.open_file_path = result.value
                 }
-                let result2 = await callComponent(
+                let result2 = await yz.callComponent(
                     {
                         base_component_id: "serverFolderContents"}
                     ,{
@@ -4869,7 +4869,7 @@ return {}
                     } else {
                         mm.open_file_path += "/" + fileorFolder.name
                     }
-                    let result2 = await callComponent(
+                    let result2 = await yz.callComponent(
                         {
                             base_component_id:          "serverFolderContentsV2"
                         }
@@ -4947,7 +4947,7 @@ return {}
                 }
 
 
-                let result2 = await callComponent(
+                let result2 = await yz.callComponent(
                     {
                         base_component_id: "serverFolderContents"}
                     ,{

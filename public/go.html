@@ -8866,7 +8866,7 @@
                                     var sdf     = eval("(" + data.record + ")")
 
                                     for (var i=0; i< sdf.length; i++) {
-                                        let codeId = await getYazzContentHash(  sdf[i].code  )
+                                        let codeId = await yz.getYazzContentHash(  sdf[i].code  )
                                         if (isValidObject(yz.componentsAPI.vue.getVueComponentInfo({codeId: codeId})))
                                         {
                                             returnfn({})
@@ -8997,7 +8997,7 @@
                                 // If the component is a standard Yazz App
 
                                 if (pipelineItem == "APP") {
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "APP",
                                             copyFileName:       "runtimePipelineYazzAppVueSkeleton.js",
@@ -9008,7 +9008,7 @@
                                             pasteEndMarker:     "/* ** *** insert_code_here_end *** ** */"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "APP_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzAppVueMethods.js",
@@ -9019,7 +9019,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "COMMON_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
@@ -9030,7 +9030,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "COMMON_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
@@ -9041,7 +9041,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "COMMON_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
@@ -9052,7 +9052,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "COMMON_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
@@ -9064,7 +9064,7 @@
                                         }
                                     );
 
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "APP_UI_TEMPLATE",
                                             copyFileName:       "runtimePipelineYazzAppVueHtmlTemplate.js",
@@ -9106,7 +9106,7 @@
                                     // If the component is an EDITOR PLUG IN then
 
                                 } else if (pipelineItem == "EDITOR_PLUG_IN") {
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "EDITOR_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzEditorVueMethods.js",
@@ -9117,7 +9117,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "COMMON_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
@@ -9128,7 +9128,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "COMMON_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
@@ -9139,7 +9139,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "COMMON_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
@@ -9150,7 +9150,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "COMMON_UI_METHODS",
                                             copyFileName:       "runtimePipelineYazzCommonVueMethods.js",
@@ -9161,7 +9161,7 @@
                                             mode:               "INSERT_AFTER"
                                         }
                                     );
-                                    trcode2 = await enhanceCodeWithPipeline(
+                                    trcode2 = await yz.enhanceCodeWithPipeline(
                                         {
                                             copyPipelineName:   "EDITOR_UI_TEMPLATE",
                                             copyFileName:       "runtimePipelineYazzEditorVueHtmlTemplate.js",
@@ -9507,6 +9507,1361 @@
 
                 },
 
+
+                // Yazz system fns
+                onPageInitialized:              async function  (  doCode  )                                    {
+                    yz.mainVars.executeOnPageLoad = doCode
+                    if (yz.mainVars.pageInitialised) {
+                        await yz.mainVars.executeOnPageLoad()
+                        yz.mainVars.executeOnPageLoad = null
+                    }
+
+                    //debugger
+                    let blob = new Blob([
+                        document.querySelector('#web_worker_1').textContent
+                    ], { type: "text/javascript" })
+
+                    // Note: window.webkitURL.createObjectURL() in Chrome 10+.
+                    yz.savingCode.yazzWebWorker = new Worker(window.URL.createObjectURL(blob));
+                    yz.savingCode.yazzWebWorker.onmessage = function(e) {
+                        console.log("Received: " + e.data);
+                    }
+
+
+                    yz.savingCode.saveCodeViaWebWorker = async function(code, options) {
+                        yz.savingCode.yazzWebWorker.postMessage(
+                            {
+                                hostPort:       $HOSTPORT,
+                                host:           $HOST,
+                                code:           code,
+                                options:        options
+                            }
+                        );
+                    }
+                },
+                addToIpfs:                      async function  (  sometext  )                                  {
+                    let ret = await yz.mainVars.ipfs.add(sometext)
+                    return ret
+                },
+                getYazzContentHash:             async function  (  sometext  )                                  {
+                    let hashingAlgorithm = "IPFS"
+                    let overrideHashingAlgorithm = yz.helpers.getValueOfCodeString(sometext, "hash_algorithm")
+                    if (overrideHashingAlgorithm) {
+                        hashingAlgorithm = overrideHashingAlgorithm
+                    }
+                    if (hashingAlgorithm == "IPFS") {
+                        if (yz.mainVars.ipfs) {
+                            let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
+                            return "IPFSx" + ret.path
+                        } else {
+                            let resulthash = await postToYazzReturnJson(
+                                "/http_post_extract_commit_hash_id_from_code",
+                                {text: sometext}
+                            )
+                            return resulthash.contentHash
+                        }
+                    } else if (hashingAlgorithm == "SHA256") {
+                        if (typeof crypto.subtle !== 'undefined') {
+                            let ret = await yz.sha256(sometext)
+                            //debugger
+                            return "SHA256x" + ret
+                        } else {
+                            let resulthash = await postToYazzReturnJson(
+                                "/http_post_extract_commit_hash_id_from_code",
+                                {text: sometext}
+                            )
+                            return resulthash.contentHash
+                        }
+                    }
+                },
+                sha256:                         async function  (  message  )                                   {
+                    // encode as UTF-8
+                    const msgBuffer = new TextEncoder('utf-8').encode(message);
+
+                    // hash the message
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+                    // convert ArrayBuffer to Array
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+                    // convert bytes to hex string
+                    const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+                    //console.log(hashHex);
+                    return hashHex;
+                },
+                registerComponent:              async function  (  vueComponentObject  )                        {
+                    /*
+                    ________________________________________
+                    |                                      |
+                    |         registerComponent            |
+                    |                                      |
+                    |______________________________________|
+                    Every UI component in a GUI app must register itself here
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     vueComponentObject    The Vue object. From the component that
+                    |     ------------------    is registering itself, it calls register(this)
+                    |                           from it's mount: method
+                    |________________________________________________________________________ */
+
+                    if (vueComponentObject) {
+                        let args        = vueComponentObject.args
+                        let argsPrefix  = "args"
+                        if (vueComponentObject.properties) {
+                            args = vueComponentObject.properties
+                            argsPrefix = "properties"
+                        }
+                        if (vueComponentObject.control_properties_and_events) {
+                            args = vueComponentObject.control_properties_and_events
+                            argsPrefix = "control_properties_and_events"
+                        }
+                        if (args && args.name) {
+                            let cccname = args.name
+
+                            for (let oneProperty of yz.getControlPropertyDefns({baseComponentId: args.base_component_id})) {
+                                let propNamee = oneProperty.id
+                                let propType = oneProperty.type
+                                if (propNamee) {
+                                    vueComponentObject.$watch(
+                                        argsPrefix + '.' + propNamee
+                                        ,
+                                        function(newValue, oldValue) {
+
+                                            if (propType != "Action") {
+                                                console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
+                                            } else {
+                                                //debugger
+                                            }
+                                            let designTimeOnlyEvents = false
+
+                                            if (oneProperty.design_time_only_events) {
+                                                designTimeOnlyEvents = true
+                                            }
+
+                                            if (vueComponentObject && vueComponentObject.meta) {
+                                                if (vueComponentObject.design_mode) {
+                                                    if (vueComponentObject.meta.getEditor) {
+                                                        vueComponentObject.meta.getEditor().processControlEvent(
+                                                            {
+                                                                type:                       "subcomponent_event",
+                                                                form_name:                  vueComponentObject.meta.getEditor().active_form,
+                                                                control_name:               vueComponentObject[argsPrefix].name,
+                                                                sub_type:                   "on_property_changed",
+                                                                code:                       vueComponentObject[argsPrefix].on_property_changed,
+                                                                design_time_only_events:    designTimeOnlyEvents,
+                                                                args:
+                                                                    {
+                                                                        form:       vueComponentObject.meta.getEditor().active_form,
+                                                                        component:  vueComponentObject[argsPrefix].name,
+                                                                        property:   propNamee,
+                                                                        value:      newValue,
+                                                                        old_value:  oldValue,
+                                                                        new_value:  newValue
+                                                                    }
+                                                            })
+                                                    }
+
+                                                }
+                                            }
+                                        });
+                                }
+                            }
+                        }
+
+                    }
+
+
+
+
+                    /*
+                    ____________________________________________________________
+                    |    registerComponent
+                    |_________________________
+                                             | part
+                                             |
+                                             | longer description
+                                             |__________________________________ */
+                    if (isValidObject(vueComponentObject)) {
+                        let  usePropVar = vueComponentObject.args
+                        if (!isValidObject(usePropVar)) {
+                            usePropVar = vueComponentObject.properties
+                        }
+                        if (!isValidObject(usePropVar)) {
+                            usePropVar = vueComponentObject.props
+                        }
+                        if (!isValidObject(usePropVar)) {
+                            usePropVar = vueComponentObject.control_properties_and_events
+                        }
+
+
+
+                        if (isValidObject(usePropVar)) {
+                            if (isValidObject(usePropVar.name)) {
+                                if (vueComponentObject.design_mode) {
+                                    yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: usePropVar.name, vueInstance: vueComponentObject})
+                                } else {
+                                    yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance( {controlName: usePropVar.name, vueInstance: vueComponentObject})
+                                }
+                            }
+
+                            if (isValidObject(usePropVar.load) && isValidObject(vueComponentObject.meta) ) {
+
+                                setTimeout(function() {
+                                    if (vueComponentObject && vueComponentObject.meta) {
+                                        if (!vueComponentObject.design_mode) {
+                                            if (vueComponentObject.meta.getEditor) {
+                                                vueComponentObject.meta.getEditor().processControlEvent(
+                                                    {
+                                                        type: "subcomponent_event",
+                                                        form_name: vueComponentObject.meta.form,
+                                                        control_name: vueComponentObject.meta.name,
+                                                        sub_type: "load",
+                                                        code: usePropVar.load
+                                                    })
+                                            }
+                                        }
+                                    }
+                                },350)
+
+                            }
+                        }
+                    }
+                },
+                unregisterComponent:            async function  (  componentName  )                             {
+                    yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
+                    yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
+                },
+                initSystem:                     async function  (  )                                            {
+                    if (yz.isStaticHtmlPageApp) {
+                        useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
+                        usePort = /*static_port_start*/ -1/*static_port_end*/
+                    } else {
+                        useHostname = location.hostname
+                        usePort = location.port
+                    }
+                    yz.setupWebSocket(useHostname, usePort);
+                    if (localAppshareApp) {
+                        await yz.initYazzApplication()
+                    }
+                    //alert(useHostname + ":" +  usePort)
+                },
+                initYazzApplication:            async function  (  )                                            {
+                    //----------------------------------------------------------------------------------
+                    //
+                    //                    /-------------------------------------/
+                    //                   /         initYazzApplication         /
+                    //                  /-------------------------------------/
+                    //
+                    //----------------------------------------------------------------------------
+                    // Once the system is set up than this is called to set up the
+                    // application
+                    //--------------------------------------------------------------------
+
+                    console.log("Called initYazzApplication()")
+                    setTimeout(async function(){
+
+                        await yz.setupAlaSqlDatabase()
+
+
+
+                        let cardComponentStructure = {
+                            props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
+                            mounted:    async function() {
+                                let mm = this
+                                if (Vue.version.startsWith("2")) {
+                                    mm.isValidObject                    = isValidObject
+                                    mm.yz                               = yz
+                                    mm.showProgressBar                  = showProgressBar
+                                    mm.hideProgressBar                  = hideProgressBar
+                                    mm.location                         = location
+                                    mm.executionCode                    = executionCode
+                                    mm.currentTimelineLogPoint          = currentTimelineLogPoint
+                                    mm.maxTimelineLogPoint              = maxTimelineLogPoint
+                                    mm.startTimelineTop                 = startTimelineTop
+                                    mm.executionTimeline                = executionTimeline
+                                    mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
+                                    mm.globalWatchList                  = globalWatchList
+                                    mm.saveCodeToFile                   = saveCodeToFile
+                                } else if (Vue.version.startsWith("3")) {
+                                    mm.isValidObject                    = Vue.inject('isValidObject')
+                                    mm.yz                               = Vue.inject('yz')
+                                    mm.showProgressBar                  = Vue.inject('showProgressBar')
+                                    mm.hideProgressBar                  = Vue.inject('hideProgressBar')
+                                    mm.msToTime                         = Vue.inject('msToTime')
+                                    mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
+                                    mm.timeDiffLater                    = Vue.inject('timeDiffLater')
+                                    mm.location                         = Vue.inject('location')
+                                    mm.executionCode                    = Vue.inject('executionCode')
+                                    mm.currentTimelineLogPoint          = Vue.inject('currentTimelineLogPoint')
+                                    mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')
+                                    mm.startTimelineTop                 = Vue.inject('startTimelineTop')
+                                    mm.executionTimeline                = Vue.inject('executionTimeline')
+                                    mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
+                                    mm.globalWatchList                  = Vue.inject('globalWatchList')
+                                    mm.saveCodeToFile                   = Vue.inject('saveCodeToFile')
+                                }
+
+                                globalEventBus.on('hide_settings',
+                                    async function() {
+                                        mm.showSettings = false
+                                    });
+                                globalEventBus.on('show_settings',
+                                    async function() {
+                                        mm.showSettings = true
+                                    });
+                            },
+                            methods:    {
+                                click_card:                     async function(  id  ) {
+                                    yz.mainVars.autoScroll = false;
+                                    await select_card(id)
+                                },
+                                updateComments:                 async function(  ) {
+                                    let mm                           = this
+                                    let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
+                                        location.port + "/http_post_load_comments_for_component" + "/" +
+                                        "?"
+
+                                    callAjaxPost(
+                                        newrestUrl
+                                        ,
+                                        {
+                                            base_component_id:          base_component_id_of_loaded_app,
+                                            base_component_id_version:  null
+                                        }
+                                        ,
+                                        function(response) {
+                                            let resp        = JSON.parse(response)
+                                            mm.new_comment  = ""
+                                            mm.new_rating   = 0
+
+                                            if (resp.status == "ok")
+                                                mm.comments = resp.level_2_comments_and_ratings
+                                        })
+                                },
+                                submitComment:                  async function(  ) {
+                                    let mm                           = this
+
+                                    mm.submit_error_message = ""
+                                    if (mm.new_comment.length < 5) {
+                                        mm.submit_error_message = "You must enter a comment to rate this"
+                                        return
+                                    }
+
+                                    if (mm.new_rating == 0 ) {
+                                        mm.submit_error_message = "You must enter a rating"
+                                        return
+                                    }
+
+
+                                    let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
+                                        location.port + "/http_post_submit_comment" + "/" +
+                                        "?"
+
+                                    callAjaxPost(newrestUrl
+                                        ,
+                                        {
+                                            base_component_id:          base_component_id_of_loaded_app,
+                                            code_id:                    code_id_of_loaded_app,
+                                            base_component_id_version:  null,
+                                            comment:                    mm.new_comment,
+                                            rating:                     mm.new_rating
+                                        }
+                                        ,
+                                        function(response) {
+                                            //debugger
+                                            let resp        = JSON.parse(response)
+                                            mm.new_comment  = ""
+                                            mm.new_rating   = 0
+
+                                            if (resp.status == "ok")
+                                            {
+                                                mm.comments             = resp.level_2_comments_and_ratings
+                                                mm.submit_info_message  = "Comment submitted"
+                                            }
+                                        })
+
+                                },
+                                debugV2:                       async function(  ) {
+                                    mainVueAppVm.globalDebuggerOn = true
+                                },
+                                openInfo:                       async function(  useTab  ) {
+                                    //debugger
+                                    let mm = this
+                                    if (mm.tab == useTab) {
+                                        mm.tab = ""
+                                        mm.show_page_info=false;
+                                    } else {
+                                        mm.tab = useTab
+                                        mm.show_page_info = true
+                                        await mm.updateComments()
+                                    }
+                                },
+                                logInWithMetamask:              async function(  ) {
+                                    let mm = this
+                                    //debugger
+                                    if (window.ethereum) {
+                                        await yz.useWeb3()
+                                        setTimeout(async function() {
+                                            let accs        = await web3.eth.getAccounts()
+                                            let accNo       = accs[0]
+                                            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_login_with_metamask?" +
+                                                new URLSearchParams({
+                                                    metamask_account_id: accNo
+                                                })
+                                            fetch(openfileurl, {
+                                                method: 'get',
+                                                credentials: "include"
+                                            })
+                                                .then((response) => response.json())
+                                                .then(async function(responseJson)
+                                                {
+                                                    let seed = responseJson.seed
+                                                    let signMessage =   signMessageTemplate + seed
+                                                    let signedTx = await mm.signTransactionV2(signMessage)
+
+                                                    let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
+                                                        new URLSearchParams({
+                                                            metamask_account_id: accNo
+                                                            ,
+                                                            signedTx: signedTx
+                                                            ,
+                                                            sign_message: signMessage
+                                                            ,
+                                                            random_seed: seed
+                                                        })
+
+                                                    fetch(checkSeedurl, {
+                                                        method: 'get',
+                                                        credentials: "include"
+                                                    })
+                                                        .then((response2) => response2.json())
+                                                        .then(async function(responseJson2)
+                                                        {
+                                                            if (responseJson2.error) {
+                                                                mm.login_error_message =  responseJson2.error
+                                                            } else {
+                                                                mm.accountNumber = accs[0]
+                                                                mm.show_page_info   = false;
+                                                                mm.tab              = ""
+
+                                                            }
+
+                                                        })
+                                                        .catch(err => {
+                                                            //error block
+                                                        })
+                                                    mm.accountNumber = accs[0]
+
+                                                })
+                                                .catch(err => {
+                                                    //error block
+                                                })
+
+                                        },100)
+                                    }
+                                },
+                                signTransactionV2:              async function(  test_transaction_text  ) {
+                                    let currentETHACC = (await web3.eth.getAccounts())[0]
+                                    let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                                        await ethereum.request({
+                                            method: 'personal_sign',
+                                            params: [test_transaction_text   //message
+                                                ,
+                                                currentETHACC
+                                                // account
+                                                //,
+                                                //test_transaction_text   //password?
+                                            ],
+                                        });
+                                    return signedTx
+                                },
+                                signMetamaskLoginTransaction:   async function(  ) {
+                                    let mm                          = this
+                                    let test_transaction_text_el    = document.getElementById("test_transaction_text")
+                                    let test_transaction_text       = test_transaction_text_el.value
+                                    let currentETHACC               = (await web3.eth.getAccounts())[0]
+
+                                    mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                                        await ethereum.request({
+                                            method: 'personal_sign',
+                                            params: [
+                                                test_transaction_text   //message
+                                                ,
+                                                currentETHACC
+                                                // account
+                                                //,
+                                                //test_transaction_text   //password?
+                                            ],
+                                        });
+                                }
+
+                            },
+                            data:       function () {
+                                return {
+                                    show_page_info:         false,
+                                    accountNumber:          null,
+                                    comments:               [],
+                                    rating:                 0,
+                                    new_rating:             0,
+                                    numRatings:             0,
+                                    new_comment:            "",
+                                    submit_error_message:   "",
+                                    login_error_message:    "",
+                                    submit_info_message:    "",
+                                    tab:                    "",
+                                    debug_sign_tx_out:      "",
+                                    showSettings:           true,
+                                    debugView:              null
+
+                                }
+                            },
+                            template:   `
+<span   v-bind:id='element_id'
+                                     v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+                                     v-on:click='click_card(item.id)'
+                                     v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
+
+                                <div
+                                    v-if="showSettings"
+                                    style='background-color:navy;height:5vh;width: 100vw;color:white;'>
+
+
+
+                                    <!-- ------------------------------------------------
+                                    The top menu items for the info pane
+                                    ------------------------------------------------ -->
+                                    <span
+                                        v-on:click=' openInfo("login")'
+                                        v-on:touchstart=' openInfo("login")'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                        >
+                                        {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
+                                    </span>
+
+
+                                    <span
+                                        styledup='margin-left: 30px;'
+                                        v-on:click=' openInfo("comments")'
+                                        v-on:touchstart=' openInfo("comments")'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                        >
+                                        Comments
+                                    </span>
+
+
+                                    <span
+                                        styledup='margin-left: 30px;'
+                                        v-on:click=' openInfo("debug")'
+                                        v-on:touchstart=' openInfo("debug")'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                    >
+                                        Debug
+
+                                    </span>
+
+
+                                    <span
+                                        styledup='margin-left: 30px;'
+                                        v-on:click=' debugV2("debug")'
+                                        v-on:touchstart=' debugV2("debug")'
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                    >
+                                        Debug V2
+
+                                    </span>
+
+
+
+                                    <span
+                                        style='height:100%;margin-left:20px;vertical-align:middle;'
+                                        v-if='show_page_info'
+                                        v-on:click='show_page_info=false;tab=""'
+                                        v-on:touchstart='show_page_info=false;'
+                                    >
+                                        Close
+                                    </span>
+                                </div>
+
+
+
+                                <div    v-if='show_page_info'
+                                        style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
+
+                                    <!-- ------------------------------------------------
+                                    LOGIN pane
+                                    ------------------------------------------------ -->
+                                    <div v-if='tab=="login"'>
+
+                                    <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
+                                    <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
+                                    requested to authorise the login</div>
+
+                                    <div style='color:red' id='login_error'>{{login_error_message}}</div>
+
+                                    <button type=button
+                                        class='btn btn-primary'
+                                        style='margin-left: 10px;width:40vw;height:15vh;'
+                                        v-on:click='logInWithMetamask()'>
+
+                                        <img    src="/driver_icons/metamaskfox.svg"
+                                                style="height:100%;width:100%"
+                                        />
+                                    </button>
+
+                                </div>
+
+
+
+                                <!-- ------------------------------------------------
+
+                                Comments pane
+
+                                ------------------------------------------------ -->
+
+                                <div v-if='tab=="comments"'>
+
+                                    <div style=";height:40vh">
+
+                                        Add comment
+                                        <br>
+                                        <textarea   style='display: inline-block;'
+                                                    id='new_comment'
+                                                    v-model='new_comment'>
+                                        </textarea>
+                                        <br><br>
+
+                                        Rating (1-5, 5 is best):<br>
+                                        <input  id="new_rating"
+                                        v-model="new_rating"
+                                        type="range"
+                                        min="0"
+                                        max="5" />
+                                        {{new_rating}}
+                                        <br />
+                                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
+                                        Submit comment
+                                        </button>
+                                        <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
+                                        <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
+
+                                    </div>
+
+
+
+                                    <div style="overflow: scroll;height:40vh">
+                                        <b>Previous comments:</b>
+                                        <li v-for='comment in comments'
+                                        style='color:white;background-color:navy;'>
+                                        {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+
+                                        </li>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+                                <!-- -------------------------------------------------
+                                 |                                                   |
+                                 |                    DEBUG pane                     |
+                                 |                                                   |
+                                 -------------------------------------------------- -->
+
+                                <div v-if='tab=="debug"'>
+
+
+                        <button style="margin: 20px;"
+                              class='btn btn-lg btn-danger'
+                              v-on:click='debugView="debug_view_vue"'>
+                              Show Loaded Vue objects
+                        </button>
+
+                        <button style="margin: 20px;"
+                              class='btn btn-lg btn-danger'
+                              v-on:click='debugView = "debug_view_ui_control_uuids"'>
+                                  Runtime UI control UUIDs
+                        </button>
+
+
+
+                        <button style="margin: 20px;"
+                              class='btn btn-lg info'
+                              v-on:click='debugView="debug_view_metamask"'>
+                              Metamask
+                        </button>
+
+
+                        <div v-if="debugView=='debug_view_vue'">
+                            <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
+                          <pre style="color: white; overflow: scroll; height: 50%;">
+
+
+Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
+<div v-for="loadedComponentCodeId  in  Object.keys(yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())">
+{{loadedComponentCodeId}}
+-------------------------------------------------------
+{{ yz.componentsAPI.vue.getVueComponentInfo({codeId: loadedComponentCodeId}) }}
+Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedComponentCodeId}) }}
+...
+</div>
+
+                          </pre>
+                        </div>
+
+                        <div v-if="debugView=='debug_view_metamask'">
+
+                                    <div v-if='!accountNumber'>
+                                        You are not signed into Metamask. Please login first
+                                    </div>
+
+                                    <textarea id="test_transaction_text"
+                                              value="">
+                                    </textarea>
+
+                                    <button type=button
+                                            class='btn btn-primary'
+                                            v-bind:disabled='accountNumber?false:true'
+                                            style='margin-left: 10px;width:40vw;height:15vh;'
+                                            v-on:click='signMetamaskTransaction()'>
+
+                                        Sign transaction
+                                    </button>
+
+
+                                    <div>
+                                        {{debug_sign_tx_out}}
+                                    </div>
+                                </div>
+
+                        <div v-if='debugView=="debug_view_ui_control_uuids"' style="color: white;">
+    <div style="font-size:60px;font-weight: bold;color: white;">UI Control UUIDs</div>
+                          <pre style="color: white;">
+(runtimeComponentsInfo)
+{{ runtimeComponentsInfo }}
+                  </pre>
+                        </div>
+
+
+
+
+
+
+                                </div>
+                            </div>
+
+
+
+                              <div
+                                  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
+
+                                        <div    v-if='full_screen && (item.type == "app")'>
+                                            <component      v-bind:is='appCodeId'></component>
+                                        </div>
+                                        <div style='height: 2em;'></div>
+
+                                </div>
+                            </span>`
+                        }
+
+
+
+
+                        let vueAppStructure = {
+                            template: `
+                            <div>
+                                <div    v-if="globalDebuggerOn"
+                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white"
+                                >
+                                    <!-- --------------------------------------------------------------------
+                                                                      DEBUG HEADER
+                                         -------------------------------------------------------------------- -->
+                                    <div style='height:40px; padding:4px;background-color:lightblue;'>
+                                        <span
+                                                style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
+                                        >
+                                            Debugger V2
+                                        </span>
+
+                                        <button
+                                                type="button"
+                                                v-on:click='closeDebugV2()'
+                                                class="btn btn-sm btn-info"
+                                                v-on:touchstart='closeDebugV2()'
+                                                style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+
+
+                                    <!-- --------------------------------------------------------------------
+                                                                      DEBUG BODY
+                                         -------------------------------------------------------------------- -->
+                                    //zzz
+
+
+                                </div>
+
+                                <div    v-if="show_loader"
+                                        v-bind:style='show_loader?"":"display:none;"'
+                                        class="loader">
+                                </div>
+
+                                <div v-if="loadedAppMetaData">
+                                    <template   v-for="item  in  [loadedAppMetaData]" >
+
+                                        <div    v-if="item.id == selected_card"
+                                                style="left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
+
+                                            <card_component :item='item'
+                                                            :visible='true'
+                                                            :element_id='"current_card"'
+                                                            :full_screen='true'
+                                                            :is_static='is_static'
+                                                            :appCodeId='appCodeId'
+                                                            :card_selected='true'>
+                                            </card_component>
+
+                                        </div>
+                                    </template>
+                                </div>
+
+
+                                <div v-if="loadedAppMetaData">
+                                    <template   v-for="item  in  [loadedAppMetaData]">
+
+                                        <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
+
+                                            <card_component :item='item'
+                                                            :visible='true'
+                                                            :element_id='"card_" + item.id'
+                                                            :full_screen='false'
+                                                            :is_static='is_static'
+                                                            :appCodeId='appCodeId'
+                                                            :card_selected='(item.id == selected_card)'>
+                                            </card_component>
+
+                                        </div>
+                                    </template>
+                                </div>
+
+
+                                <div style="height: 200px;">
+                                </div>
+                            </div>
+                        `
+                            ,
+                            data: function() {
+                                return {
+                                    count:                  1,
+                                    selected_card:          -1,
+                                    loadedAppMetaData:      null,
+                                    show_loader:            false,
+                                    is_static:              false,
+                                    appCodeId:              "ZIO",
+                                    globalDebuggerOn:       false
+                                }
+                            }
+                            ,
+                            provide: function() {
+                                return injectedVars
+                            },
+                            mounted: async function(){
+                            },
+                            methods: {
+                                closeDebugV2: async function() {
+                                    mainVueAppVm.globalDebuggerOn = false
+                                }
+                            }
+                        }
+
+                        if (Vue.version.startsWith("2")) {
+                            vueAppStructure.el = "#infinite-list"
+                            yz.mainVars.mainVueApp = new Vue(vueAppStructure);
+                            Vue.component('card_component', cardComponentStructure);
+                            mainVueAppVm = yz.mainVars.mainVueApp
+
+                        } else if (Vue.version.startsWith("3")) {
+                            yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
+                            yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
+                            yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
+                            mainVueAppVm = yz.mainVars.mainVueApp.mount("#infinite-list")
+                        }
+
+
+
+
+
+
+
+
+
+                        if (yz.isStaticHtmlPageApp) {
+                            let nid = yz.mainVars.nextGlobalAppId++;
+                            let ccy = document.getElementById('wrapper').scrollTop
+                            mainVueAppVm.loadedAppMetaData =
+                                {
+                                    id:                 nid,
+                                    name:               "***STATIC_NAME***",
+                                    base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
+                                    code_id:            "***STATIC_BASE_COMPONENT_ID***",
+                                    display_name:       "***STATIC_NAME***",
+                                    type:               "app"
+                                }
+                            setTimeout(function() {
+                                document.getElementById('wrapper').scrollTop = ccy
+                            },100)
+
+                            mainVueAppVm.show_loader = false
+                            yz.mainVars.autoScroll = false
+                            setTimeout(async function() {
+                                await select_card(nid)
+                            },20)
+                            refresh();
+                        }
+
+
+
+
+                        let regex = /[?&]([^=#]+)=([^&#]*)/g,
+                            url = window.location.href,
+                            match;
+                        while(match = regex.exec(url)) {
+                            yz.mainVars.webpageParams[match[1]] = match[2];
+                        }
+
+                        if (yz.mainVars.webpageParams.goto) {
+                            yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.goto.replaceAll("%20"," ").toLowerCase()
+                            yz.mainVars.autoScroll = false;
+                            mainVueAppVm.show_loader = true
+                        } else if (yz.mainVars.webpageParams.embed) {
+                            yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
+                            yz.mainVars.autoScroll = false;
+                            mainVueAppVm.show_loader = true
+                        } else if (!yz.isStaticHtmlPageApp) {
+                            setTimeout(async function() {
+                                await select_card(1)
+                            },200)
+                        } else if (yz.isStaticHtmlPageApp) {
+                            mainVueAppVm.is_static = true
+                        }
+
+
+
+                        // set up the dropzone so that apps can be dragged
+                        // into yazz by dragging the source code into the
+                        // webapp
+
+                        Dropzone.autoDiscover = false;
+                        Dropzone.options.mydropzone = {
+                            init: function() {
+                                this.on("addedfile", function(file) {
+                                });
+                            }
+                        };
+                        var myDropzone = new Dropzone("body#mydropzone", {
+                            url:                    "/http_post_file_upload",
+                            createImageThumbnails:  false,
+                            sending:                function(file, xhr, formData)
+                            {
+                                showProgressBar()
+                                file_upload_uuid = uuidv4()
+                                formData.append('client_file_upload_id', file_upload_uuid);
+                            }
+                        });
+                        myDropzone.on("complete", function(file) {
+                            myDropzone.removeFile(file);
+                        })
+
+
+                    },100)
+                },
+                populateStaticCodeCache:        async function  (  )                                            {
+                    //***ADD_STATIC_CODE
+                },
+                sendToServerViaWebSocket:       async function  (  msg  )                                       {
+                    let isThisAppOnline = true
+                    if (localAppshareApp) {
+                        isThisAppOnline = false
+                    }
+                    if (isThisAppOnline) {
+                        msg.cookie = yz.getYazzCookie()
+                        socket.send(JSON.stringify(msg));
+                    } else {
+                        console.log("Yazz web app running in local mode: Yazz will not call websocket fns")
+                    }
+                    //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
+                },
+                setupWebSocket:                 function        (  host  ,  port  )                             {
+
+                //console.log('opening web socketio');
+                socket = io();
+                //console.log('opening web socketio');
+                socket.on('ws_socket_connected',function(data){
+                    yz.mainVars.online = true
+                    console.log("Websocket connected: " + JSON.stringify(data,null,2));
+                });
+
+
+
+
+
+
+
+                socket.on('uploaded_app_as_file_from_server',async function(data) {
+                    if (data.client_file_upload_id == file_upload_uuid) {
+                        globalEventBus.emit('new-appshare-app-uploaded',
+                            {
+                                baseComponentId:    data.base_component_id,
+                                displayName:        data.display_name,
+                                codeId:             data.code_id,
+                                logoUrl:            data.logo_url
+                            }
+                        );
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+                send_is_win:                        isWin
+                // ----------------------------------------------------------------------------------------------
+                //
+                //                  Share the container environment variables with the front end
+                //
+                // ----------------------------------------------------------------------------------------------
+                socket.on('server_init_data',async function(data) {
+                    console.log("Server init data received from server socket: " + JSON.stringify(data,null,2));
+
+                    networkIntranetIpAddress = data.network_ip_address_intranet
+                    isWin                    = data.send_is_win
+                    console.log("networkIntranetIpAddress: " + networkIntranetIpAddress);
+                    console.log("isWin:                    " + isWin);
+
+                    var allEnvVarNames = Object.keys(data.env_vars)
+                    for (var i=0; i< allEnvVarNames.length;i++) {
+                        try
+                        {
+                            let envName = allEnvVarNames[i].replace(/[^a-zA-Z0-9]/g,'_')
+                            //console.log(envName)
+                            var valueEnvVar = data.env_vars[envName]
+                            var cmddd = '($' + envName + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
+
+                            eval(cmddd)
+
+                        } catch (errr) {
+                            console.log(errr)
+                        }
+                    }
+                    yz.mainVars.pageInitialised = true
+                    await yz.initYazzApplication()
+
+
+
+                    if (($USEHTTPS == "true") || (location.hostname == "localhost")) {
+                        //debugger
+                        //await yz.useIpfsServerInBrowser()
+                        try {
+                            //yz.mainVars.ipfs = await Ipfs.create({offline: true, start: false})
+                            //console.log('IPFS server loaded:')
+                            console.log('IPFS server NOT loaded anymore in browser (see go.html):')
+                        } catch (ipfsError) {
+                            console.log('IPFS server error: ' + ipfsError)
+                        }
+                    }
+
+
+                    if (yz.mainVars.executeOnPageLoad) {
+                        await yz.mainVars.executeOnPageLoad()
+                        yz.mainVars.executeOnPageLoad = null
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                socket.on('ws_to_browser_call_component_results',async function(data) {
+                    var callbackFn = queuedResponses[data.seq_num]
+                    callbackFn(data.value)
+                    queuedResponses[data.seq_num] = null
+                });
+
+            },
+                findComponentsImplementing:     async function  (  listOfProperties  )                          {
+                //aaa
+                let results = await yz.callComponent(
+                    {
+                        base_component_id: "findComponentsImplementing"
+                    }
+                    ,{
+                        properties: listOfProperties
+                    })
+                return results
+            },
+                runn:                           async function  (  )                                            {
+                fullCode(thecode)
+            },
+                getYazzCookie:                  function        (  )                                            {
+                return getCookie("yazz")
+            },
+                callComponent:                  async function  (  componentSearchDetails  ,  fnCallArgs  )     {
+                /*
+                ________________________________________
+                |                                      |
+                |       callComponent                  |
+                |                                      |
+                |______________________________________|
+                Calls a server side component and returns the results
+                __________
+                | PARAMS |______________________________________________________________
+                |
+                |     componentSearchDetails
+                |     ----------------------    Some text
+                |                               can go here
+                |
+                |     fnCallArgs
+                |     ----------    Some text
+                |                   can go here
+                |
+                |________________________________________________________________________ */
+                var promise = new Promise(async function(returnfn) {
+                    let seqNum                          = queuedBrowserResponseSeqNum ++;
+                    queuedResponses[seqNum]             = function(result) {returnfn(result)};
+                    componentCallsListArgsSent[seqNum]  = fnCallArgs
+
+                    await yz.sendToServerViaWebSocket({
+                        message_type:   "ws_browser_calls_component_via_web_socket",
+                        find_component: componentSearchDetails,
+                        args:           fnCallArgs,
+                        seqNum:         seqNum
+                    });
+                })
+
+                var ret = await promise
+                if (ret) {
+                    if (ret.value) {
+                        return ret.value
+                    } else if (ret.error) {
+                        throw ret.error
+                    }
+                }
+
+                return ret
+            },
+                enhanceCodeWithPipeline:        async function  (  args   )                                     {
+                /*
+                ________________________________________
+                |                                      |
+                |        enhanceCodeWithPipeline       |
+                |                                      |
+                |______________________________________|
+                Function description
+                __________
+                | PARAMS |______________________________________________________________
+                |
+                |     args      {
+                |     ----          copyPipelineName
+                |                   copyFileName
+                |                   copyStartMarker
+                |                   copyEndMarker
+                |                   code
+                |                   pasteStartMarker
+                |                   pasteEndMarker
+                |                   pasteMarker
+                |                   mode            // REPLACE,  INSERT_AFTER,  or INSERT_BEFORE
+                |               }
+                |________________________________________________________________________ */
+                let copyPipelineName    = args.copyPipelineName
+                let copyFileName        = args.copyFileName
+                let copyStartMarker     = args.copyStartMarker
+                let copyEndMarker       = args.copyEndMarker
+                let trcode2             = args.code
+                let pasteStartMarker    = args.pasteStartMarker
+                let pasteEndMarker      = args.pasteEndMarker
+                let pasteMarker         = args.pasteMarker
+                let mode                = "REPLACE"
+
+                if (args.mode) {
+                    mode = args.mode
+                }
+
+                let editorCodeToCopy = await yz.getPipelineCodeToCopy(
+                    {
+                        pipelineName:   copyPipelineName,
+                        fileName:       copyFileName,
+                        fromMarker:     copyStartMarker,
+                        toMarker:       copyEndMarker
+                    })
+
+                if (mode == "INSERT_AFTER") {
+                    trcode2 = yz.helpers.addAfter(trcode2, pasteMarker, editorCodeToCopy)
+                } else if (mode == "REPLACE") {
+                    trcode2 = yz.helpers.replaceBetween(trcode2, pasteStartMarker, pasteEndMarker, editorCodeToCopy)
+                } else if (mode == "INSERT_BEFORE") {
+                    trcode2 = yz.helpers.addBefore(trcode2, pasteMarker, editorCodeToCopy)
+                } else {
+                    throw "No such mode in 'enhanceCodeWithPipeline' called '" + mode + "'"
+                }
+                return trcode2;
+            },
+                universalSaveStaticUIControl:   async function  (  {  sha1sum  ,  unescapedCode  ,  baseComponentId  ,  loadMethod  }  ) {
+                yz.cacheThisComponentCode(
+                    {
+                        codeId:             sha1sum,
+                        code:               unescapedCode
+                    })
+                yz.componentsAPI.vue.setComponentLoadedMethod({codeId: sha1sum, loadMethod: loadMethod})
+
+                yz.pointBaseComponentIdAtCode(
+                    {
+                        baseComponentId:    baseComponentId,
+                        codeId:             sha1sum
+                    })
+            },
+                asql:                           function        (  sql  ,  params  )                            {
+                let ret = alasql(sql  ,  params)
+                if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                    let startOfSql = sql.toLowerCase()
+                    if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
+                        ((async function () {
+                            let oursql = sql
+                            let ourparams = params
+                            let resultsCode = await postToYazzReturnJson(
+                                "/http_post_browser_sql_write_operation",
+                                {
+                                    browser_write_sql: oursql,
+                                    sql_params: ourparams
+                                })
+
+                        })())
+                    }
+                }
+                return ret
+            },
+                setupAlaSqlDatabase:            async function  (  )                                            {
+                alasql("CREATE TABLE ui_tables (table_name STRING)");
+                alasql("CREATE TABLE ui_fields (table_name STRING, field_name STRING, field_type STRING)");
+                    yz.asql("select * from ui_tables")
+                await yz.createAlaSqlTable({
+                    tableName: "ui_components",
+                    fields: [
+                        {name: "id",        fieldType: "INT"},
+                        {name: "comp_name", fieldType: "STRING"}
+                    ]})
+
+                await yz.createAlaSqlTable({
+                    tableName: "ui_test",
+                    fields: [
+                        {name: "id",        fieldType: "INT"},
+                        {name: "comp_name", fieldType: "STRING"},
+                        {name: "another",   fieldType: "STRING"}
+                    ]})
+
+
+                await yz.createAlaSqlTable({
+                    tableName: "ui_system_properties",
+                    fields: [
+                        {name: "prop_id",        fieldType: "STRING"},
+                        {name: "prop_type",      fieldType: "STRING"},
+                        {name: "prop_value",     fieldType: "STRING"}
+                    ]})
+
+                await yz.createAlaSqlTable({
+                    tableName: "ui_commands",
+                    fields: [
+                        {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                        {name: "debug_code",        fieldType: "STRING"},
+                        {name: "created",           fieldType: "INTEGER"},
+                        {name: "command",           fieldType: "STRING"},
+                        {name: "arguments",         fieldType: "STRING"},
+                        {name: "status",            fieldType: "STRING"}
+                    ]})
+
+
+                // add a trigger to process new commands
+                alasql.fn.processNewCommand = async function(r) {
+                    //debugger
+                    return true;
+                };
+                alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_commands  processNewCommand');
+
+            },
+                createCommand:                  async function  (  command  ,  params  ,  debugCode  )          {
+                let paramsString = JSON.stringify(params)
+                    yz.asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
+            },
+                setupAlaSqlSync:                async function  (  )                                            {
+                if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                    let tables = alasql("select * from ui_tables")
+                    for (table of tables) {
+                        let fields = alasql("select * from ui_fields where table_name = ?", table.table_name)
+                        let fieldList  = []
+                        for (field of fields) {
+                            fieldList.push({name: field.field_name, type: field.field_type})
+                        }
+
+
+                        let resultsCode = await postToYazzReturnJson(
+                            "/http_post_create_browser_table",
+                            {
+                                table_name: table.table_name,
+                                fields:     fieldList
+                            })
+                    }
+                }
+            },
+                createAlaSqlTable:              async function  (  {  tableName  ,  fields  }  )                {
+                let alaSqlCreateString = "create table " + tableName + "("
+
+                let alaSqlInsertString = "insert into ui_tables (table_name) values (?)"
+                alasql(alaSqlInsertString, tableName);
+                for (let fieldIndex = 0;  fieldIndex < fields.length ; fieldIndex++) {
+                    let field = fields[fieldIndex]
+                    let alaSqlCreateFieldsString = "insert into ui_fields (table_name, field_name, field_type) values (?,?,?)"
+                    alasql(alaSqlCreateFieldsString, [tableName, field.name, field.fieldType]);
+
+                    alaSqlCreateString = alaSqlCreateString + field.name + " " + field.fieldType
+                    if (fieldIndex < ( fields.length - 1)) {
+                        alaSqlCreateString = alaSqlCreateString + ","
+                    }
+                }
+                alaSqlCreateString = alaSqlCreateString + ")"
+                alasql(alaSqlCreateString);
+
+            },
+
+
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
                 // "DO NOT" change this line as it is dynamically replaced by code
@@ -9515,6 +10870,7 @@
                 isStaticHtmlPageApp: false
             }
             window.yz = yz
+            var registerComponent = yz.registerComponent
 
 
 
@@ -9820,1359 +11176,6 @@
         <script>
 
 
-            // Yazz system fns
-            async function  onPageInitialized                   (  doCode  ) {
-                yz.mainVars.executeOnPageLoad = doCode
-                if (yz.mainVars.pageInitialised) {
-                    await yz.mainVars.executeOnPageLoad()
-                    yz.mainVars.executeOnPageLoad = null
-                }
-
-                //debugger
-                let blob = new Blob([
-                    document.querySelector('#web_worker_1').textContent
-                ], { type: "text/javascript" })
-
-                // Note: window.webkitURL.createObjectURL() in Chrome 10+.
-                yz.savingCode.yazzWebWorker = new Worker(window.URL.createObjectURL(blob));
-                yz.savingCode.yazzWebWorker.onmessage = function(e) {
-                    console.log("Received: " + e.data);
-                }
-
-
-                yz.savingCode.saveCodeViaWebWorker = async function(code, options) {
-                    yz.savingCode.yazzWebWorker.postMessage(
-                        {
-                            hostPort:       $HOSTPORT,
-                            host:           $HOST,
-                            code:           code,
-                            options:        options
-                        }
-                    );
-                }
-            }
-            async function  addToIpfs                           (  sometext  ) {
-                let ret = await yz.mainVars.ipfs.add(sometext)
-                return ret
-            }
-            async function  getYazzContentHash                  (  sometext  ) {
-                let hashingAlgorithm = "IPFS"
-                let overrideHashingAlgorithm = yz.helpers.getValueOfCodeString(sometext, "hash_algorithm")
-                if (overrideHashingAlgorithm) {
-                    hashingAlgorithm = overrideHashingAlgorithm
-                }
-                if (hashingAlgorithm == "IPFS") {
-                    if (yz.mainVars.ipfs) {
-                        let ret = await yz.mainVars.ipfs.add(sometext, {onlyHash: true})
-                        return "IPFSx" + ret.path
-                    } else {
-                        let resulthash = await postToYazzReturnJson(
-                            "/http_post_extract_commit_hash_id_from_code",
-                            {text: sometext}
-                        )
-                        return resulthash.contentHash
-                    }
-                } else if (hashingAlgorithm == "SHA256") {
-                    if (typeof crypto.subtle !== 'undefined') {
-                        let ret = await sha256(sometext)
-                        //debugger
-                        return "SHA256x" + ret
-                    } else {
-                        let resulthash = await postToYazzReturnJson(
-                            "/http_post_extract_commit_hash_id_from_code",
-                            {text: sometext}
-                        )
-                        return resulthash.contentHash
-                    }
-                }
-            }
-            async function  sha256                              (  message  ) {
-                // encode as UTF-8
-                const msgBuffer = new TextEncoder('utf-8').encode(message);
-
-                // hash the message
-                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-
-                // convert ArrayBuffer to Array
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-                // convert bytes to hex string
-                const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
-                //console.log(hashHex);
-                return hashHex;
-            }
-            async function  registerComponent                   (  vueComponentObject  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |         registerComponent            |
-                |                                      |
-                |______________________________________|
-                Every UI component in a GUI app must register itself here
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     vueComponentObject    The Vue object. From the component that
-                |     ------------------    is registering itself, it calls register(this)
-                |                           from it's mount: method
-                |________________________________________________________________________ */
-
-                if (vueComponentObject) {
-                    let args        = vueComponentObject.args
-                    let argsPrefix  = "args"
-                    if (vueComponentObject.properties) {
-                        args = vueComponentObject.properties
-                        argsPrefix = "properties"
-                    }
-                    if (vueComponentObject.control_properties_and_events) {
-                        args = vueComponentObject.control_properties_and_events
-                        argsPrefix = "control_properties_and_events"
-                    }
-                    if (args && args.name) {
-                        let cccname = args.name
-
-                        for (let oneProperty of yz.getControlPropertyDefns({baseComponentId: args.base_component_id})) {
-                            let propNamee = oneProperty.id
-                            let propType = oneProperty.type
-                            if (propNamee) {
-                                vueComponentObject.$watch(
-                                    argsPrefix + '.' + propNamee
-                                    ,
-                                    function(newValue, oldValue) {
-
-                                        if (propType != "Action") {
-                                            console.log(cccname + '.' + propNamee + ' = ' + oldValue + ' to ' + newValue );
-                                        } else {
-                                            //debugger
-                                        }
-                                        let designTimeOnlyEvents = false
-
-                                        if (oneProperty.design_time_only_events) {
-                                            designTimeOnlyEvents = true
-                                        }
-
-                                        if (vueComponentObject && vueComponentObject.meta) {
-                                            if (vueComponentObject.design_mode) {
-                                                if (vueComponentObject.meta.getEditor) {
-                                                    vueComponentObject.meta.getEditor().processControlEvent(
-                                                        {
-                                                            type:                       "subcomponent_event",
-                                                            form_name:                  vueComponentObject.meta.getEditor().active_form,
-                                                            control_name:               vueComponentObject[argsPrefix].name,
-                                                            sub_type:                   "on_property_changed",
-                                                            code:                       vueComponentObject[argsPrefix].on_property_changed,
-                                                            design_time_only_events:    designTimeOnlyEvents,
-                                                            args:
-                                                                                        {
-                                                                                            form:       vueComponentObject.meta.getEditor().active_form,
-                                                                                            component:  vueComponentObject[argsPrefix].name,
-                                                                                            property:   propNamee,
-                                                                                            value:      newValue,
-                                                                                            old_value:  oldValue,
-                                                                                            new_value:  newValue
-                                                                                        }
-                                                        })
-                                                }
-
-                                            }
-                                        }
-                                });
-                            }
-                        }
-                    }
-
-                }
-
-
-
-
-                /*
-                ____________________________________________________________
-                |    registerComponent
-                |_________________________
-                                         | part
-                                         |
-                                         | longer description
-                                         |__________________________________ */
-                if (isValidObject(vueComponentObject)) {
-                    let  usePropVar = vueComponentObject.args
-                    if (!isValidObject(usePropVar)) {
-                        usePropVar = vueComponentObject.properties
-                    }
-                    if (!isValidObject(usePropVar)) {
-                        usePropVar = vueComponentObject.props
-                    }
-                    if (!isValidObject(usePropVar)) {
-                        usePropVar = vueComponentObject.control_properties_and_events
-                    }
-
-
-
-                    if (isValidObject(usePropVar)) {
-                        if (isValidObject(usePropVar.name)) {
-                            if (vueComponentObject.design_mode) {
-                                yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: usePropVar.name, vueInstance: vueComponentObject})
-                            } else {
-                                yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance( {controlName: usePropVar.name, vueInstance: vueComponentObject})
-                            }
-                        }
-
-                        if (isValidObject(usePropVar.load) && isValidObject(vueComponentObject.meta) ) {
-
-                            setTimeout(function() {
-                                if (vueComponentObject && vueComponentObject.meta) {
-                                    if (!vueComponentObject.design_mode) {
-                                        if (vueComponentObject.meta.getEditor) {
-                                            vueComponentObject.meta.getEditor().processControlEvent(
-                                                {
-                                                    type: "subcomponent_event",
-                                                    form_name: vueComponentObject.meta.form,
-                                                    control_name: vueComponentObject.meta.name,
-                                                    sub_type: "load",
-                                                    code: usePropVar.load
-                                                })
-                                        }
-                                    }
-                                }
-                            },350)
-
-                        }
-                    }
-                }
-            }
-            async function  unregisterComponent                 (  componentName  ) {
-                yz.componentsAPI.vue.mapDesignTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
-                yz.componentsAPI.vue.mapRuntimeTimeControlNameToVueInstance(  {controlName: componentName, vueInstance: null})
-            }
-            async function  initSystem                          (  ) {
-                if (yz.isStaticHtmlPageApp) {
-                    useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
-                    usePort = /*static_port_start*/ -1/*static_port_end*/
-                } else {
-                    useHostname = location.hostname
-                    usePort = location.port
-                }
-                setupWebSocket(useHostname, usePort);
-                if (localAppshareApp) {
-                    await initYazzApplication()
-                }
-                //alert(useHostname + ":" +  usePort)
-            }
-            async function  initYazzApplication                 (  ) {
-                //----------------------------------------------------------------------------------
-                //
-                //                    /-------------------------------------/
-                //                   /         initYazzApplication         /
-                //                  /-------------------------------------/
-                //
-                //----------------------------------------------------------------------------
-                // Once the system is set up than this is called to set up the
-                // application
-                //--------------------------------------------------------------------
-
-                console.log("Called initYazzApplication()")
-                setTimeout(async function(){
-
-                    await setupAlaSqlDatabase()
-
-
-
-                    let cardComponentStructure = {
-                        props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
-                        mounted:    async function() {
-                            let mm = this
-                            if (Vue.version.startsWith("2")) {
-                                mm.isValidObject                    = isValidObject
-                                mm.yz                               = yz
-                                mm.showProgressBar                  = showProgressBar
-                                mm.hideProgressBar                  = hideProgressBar
-                                mm.location                         = location
-                                mm.executionCode                    = executionCode
-                                mm.currentTimelineLogPoint          = currentTimelineLogPoint
-                                mm.maxTimelineLogPoint              = maxTimelineLogPoint
-                                mm.startTimelineTop                 = startTimelineTop
-                                mm.executionTimeline                = executionTimeline
-                                mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
-                                mm.globalWatchList                  = globalWatchList
-                                mm.saveCodeToFile                   = saveCodeToFile
-                            } else if (Vue.version.startsWith("3")) {
-                                mm.isValidObject                    = Vue.inject('isValidObject')
-                                mm.yz                               = Vue.inject('yz')
-                                mm.showProgressBar                  = Vue.inject('showProgressBar')
-                                mm.hideProgressBar                  = Vue.inject('hideProgressBar')
-                                mm.msToTime                         = Vue.inject('msToTime')
-                                mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
-                                mm.timeDiffLater                    = Vue.inject('timeDiffLater')
-                                mm.location                         = Vue.inject('location')
-                                mm.executionCode                    = Vue.inject('executionCode')
-                                mm.currentTimelineLogPoint          = Vue.inject('currentTimelineLogPoint')
-                                mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')
-                                mm.startTimelineTop                 = Vue.inject('startTimelineTop')
-                                mm.executionTimeline                = Vue.inject('executionTimeline')
-                                mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
-                                mm.globalWatchList                  = Vue.inject('globalWatchList')
-                                mm.saveCodeToFile                   = Vue.inject('saveCodeToFile')
-                            }
-
-                            globalEventBus.on('hide_settings',
-                                async function() {
-                                    mm.showSettings = false
-                                });
-                            globalEventBus.on('show_settings',
-                                async function() {
-                                    mm.showSettings = true
-                                });
-                        },
-                        methods:    {
-                            click_card:                     async function(  id  ) {
-                                yz.mainVars.autoScroll = false;
-                                await select_card(id)
-                            },
-                            updateComments:                 async function(  ) {
-                                let mm                           = this
-                                let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
-                                    location.port + "/http_post_load_comments_for_component" + "/" +
-                                    "?"
-
-                                callAjaxPost(
-                                    newrestUrl
-                                    ,
-                                    {
-                                        base_component_id:          base_component_id_of_loaded_app,
-                                        base_component_id_version:  null
-                                    }
-                                    ,
-                                    function(response) {
-                                        let resp        = JSON.parse(response)
-                                        mm.new_comment  = ""
-                                        mm.new_rating   = 0
-
-                                        if (resp.status == "ok")
-                                            mm.comments = resp.level_2_comments_and_ratings
-                                    })
-                            },
-                            submitComment:                  async function(  ) {
-                                let mm                           = this
-
-                                mm.submit_error_message = ""
-                                if (mm.new_comment.length < 5) {
-                                    mm.submit_error_message = "You must enter a comment to rate this"
-                                    return
-                                }
-
-                                if (mm.new_rating == 0 ) {
-                                    mm.submit_error_message = "You must enter a rating"
-                                    return
-                                }
-
-
-                                let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
-                                    location.port + "/http_post_submit_comment" + "/" +
-                                    "?"
-
-                                callAjaxPost(newrestUrl
-                                    ,
-                                    {
-                                        base_component_id:          base_component_id_of_loaded_app,
-                                        code_id:                    code_id_of_loaded_app,
-                                        base_component_id_version:  null,
-                                        comment:                    mm.new_comment,
-                                        rating:                     mm.new_rating
-                                    }
-                                    ,
-                                    function(response) {
-                                        //debugger
-                                        let resp        = JSON.parse(response)
-                                        mm.new_comment  = ""
-                                        mm.new_rating   = 0
-
-                                        if (resp.status == "ok")
-                                        {
-                                            mm.comments             = resp.level_2_comments_and_ratings
-                                            mm.submit_info_message  = "Comment submitted"
-                                        }
-                                    })
-
-                            },
-                            debugV2:                       async function(  ) {
-                                mainVueAppVm.globalDebuggerOn = true
-                            },
-                            openInfo:                       async function(  useTab  ) {
-                                //debugger
-                                let mm = this
-                                if (mm.tab == useTab) {
-                                    mm.tab = ""
-                                    mm.show_page_info=false;
-                                } else {
-                                    mm.tab = useTab
-                                    mm.show_page_info = true
-                                    await mm.updateComments()
-                                }
-                            },
-                            logInWithMetamask:              async function(  ) {
-                                let mm = this
-                                //debugger
-                                if (window.ethereum) {
-                                    await yz.useWeb3()
-                                    setTimeout(async function() {
-                                        let accs        = await web3.eth.getAccounts()
-                                        let accNo       = accs[0]
-                                        let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_login_with_metamask?" +
-                                            new URLSearchParams({
-                                                metamask_account_id: accNo
-                                            })
-                                        fetch(openfileurl, {
-                                            method: 'get',
-                                            credentials: "include"
-                                        })
-                                            .then((response) => response.json())
-                                            .then(async function(responseJson)
-                                            {
-                                                let seed = responseJson.seed
-                                                let signMessage =   signMessageTemplate + seed
-                                                let signedTx = await mm.signTransactionV2(signMessage)
-
-                                                let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
-                                                    new URLSearchParams({
-                                                        metamask_account_id: accNo
-                                                        ,
-                                                        signedTx: signedTx
-                                                        ,
-                                                        sign_message: signMessage
-                                                        ,
-                                                        random_seed: seed
-                                                    })
-
-                                                fetch(checkSeedurl, {
-                                                    method: 'get',
-                                                    credentials: "include"
-                                                })
-                                                    .then((response2) => response2.json())
-                                                    .then(async function(responseJson2)
-                                                    {
-                                                        if (responseJson2.error) {
-                                                            mm.login_error_message =  responseJson2.error
-                                                        } else {
-                                                            mm.accountNumber = accs[0]
-                                                            mm.show_page_info   = false;
-                                                            mm.tab              = ""
-
-                                                        }
-
-                                                    })
-                                                    .catch(err => {
-                                                        //error block
-                                                    })
-                                                mm.accountNumber = accs[0]
-
-                                            })
-                                            .catch(err => {
-                                                //error block
-                                            })
-
-                                    },100)
-                                }
-                            },
-                            signTransactionV2:              async function(  test_transaction_text  ) {
-                                let currentETHACC = (await web3.eth.getAccounts())[0]
-                                let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-                                    await ethereum.request({
-                                        method: 'personal_sign',
-                                        params: [test_transaction_text   //message
-                                            ,
-                                            currentETHACC
-                                            // account
-                                            //,
-                                            //test_transaction_text   //password?
-                                        ],
-                                    });
-                                return signedTx
-                            },
-                            signMetamaskLoginTransaction:   async function(  ) {
-                                let mm                          = this
-                                let test_transaction_text_el    = document.getElementById("test_transaction_text")
-                                let test_transaction_text       = test_transaction_text_el.value
-                                let currentETHACC               = (await web3.eth.getAccounts())[0]
-
-                                mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-                                    await ethereum.request({
-                                        method: 'personal_sign',
-                                        params: [
-                                            test_transaction_text   //message
-                                            ,
-                                            currentETHACC
-                                            // account
-                                            //,
-                                            //test_transaction_text   //password?
-                                        ],
-                                    });
-                            }
-
-                        },
-                        data:       function () {
-                            return {
-                                show_page_info:         false,
-                                accountNumber:          null,
-                                comments:               [],
-                                rating:                 0,
-                                new_rating:             0,
-                                numRatings:             0,
-                                new_comment:            "",
-                                submit_error_message:   "",
-                                login_error_message:    "",
-                                submit_info_message:    "",
-                                tab:                    "",
-                                debug_sign_tx_out:      "",
-                                showSettings:           true,
-                                debugView:              null
-
-                            }
-                        },
-                        template:   `
-<span   v-bind:id='element_id'
-                                     v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                                     v-on:click='click_card(item.id)'
-                                     v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
-
-                                <div
-                                    v-if="showSettings"
-                                    style='background-color:navy;height:5vh;width: 100vw;color:white;'>
-
-
-
-                                    <!-- ------------------------------------------------
-                                    The top menu items for the info pane
-                                    ------------------------------------------------ -->
-                                    <span
-                                        v-on:click=' openInfo("login")'
-                                        v-on:touchstart=' openInfo("login")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        >
-                                        {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
-                                    </span>
-
-
-                                    <span
-                                        styledup='margin-left: 30px;'
-                                        v-on:click=' openInfo("comments")'
-                                        v-on:touchstart=' openInfo("comments")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        >
-                                        Comments
-                                    </span>
-
-
-                                    <span
-                                        styledup='margin-left: 30px;'
-                                        v-on:click=' openInfo("debug")'
-                                        v-on:touchstart=' openInfo("debug")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                    >
-                                        Debug
-
-                                    </span>
-
-
-                                    <span
-                                        styledup='margin-left: 30px;'
-                                        v-on:click=' debugV2("debug")'
-                                        v-on:touchstart=' debugV2("debug")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                    >
-                                        Debug V2
-
-                                    </span>
-
-
-
-                                    <span
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        v-if='show_page_info'
-                                        v-on:click='show_page_info=false;tab=""'
-                                        v-on:touchstart='show_page_info=false;'
-                                    >
-                                        Close
-                                    </span>
-                                </div>
-
-
-
-                                <div    v-if='show_page_info'
-                                        style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
-
-                                    <!-- ------------------------------------------------
-                                    LOGIN pane
-                                    ------------------------------------------------ -->
-                                    <div v-if='tab=="login"'>
-
-                                    <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
-                                    <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
-                                    requested to authorise the login</div>
-
-                                    <div style='color:red' id='login_error'>{{login_error_message}}</div>
-
-                                    <button type=button
-                                        class='btn btn-primary'
-                                        style='margin-left: 10px;width:40vw;height:15vh;'
-                                        v-on:click='logInWithMetamask()'>
-
-                                        <img    src="/driver_icons/metamaskfox.svg"
-                                                style="height:100%;width:100%"
-                                        />
-                                    </button>
-
-                                </div>
-
-
-
-                                <!-- ------------------------------------------------
-
-                                Comments pane
-
-                                ------------------------------------------------ -->
-
-                                <div v-if='tab=="comments"'>
-
-                                    <div style=";height:40vh">
-
-                                        Add comment
-                                        <br>
-                                        <textarea   style='display: inline-block;'
-                                                    id='new_comment'
-                                                    v-model='new_comment'>
-                                        </textarea>
-                                        <br><br>
-
-                                        Rating (1-5, 5 is best):<br>
-                                        <input  id="new_rating"
-                                        v-model="new_rating"
-                                        type="range"
-                                        min="0"
-                                        max="5" />
-                                        {{new_rating}}
-                                        <br />
-                                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
-                                        Submit comment
-                                        </button>
-                                        <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
-                                        <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
-
-                                    </div>
-
-
-
-                                    <div style="overflow: scroll;height:40vh">
-                                        <b>Previous comments:</b>
-                                        <li v-for='comment in comments'
-                                        style='color:white;background-color:navy;'>
-                                        {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
-
-                                        </li>
-                                    </div>
-
-                                </div>
-
-
-
-
-
-
-                                <!-- -------------------------------------------------
-                                 |                                                   |
-                                 |                    DEBUG pane                     |
-                                 |                                                   |
-                                 -------------------------------------------------- -->
-
-                                <div v-if='tab=="debug"'>
-
-
-                        <button style="margin: 20px;"
-                              class='btn btn-lg btn-danger'
-                              v-on:click='debugView="debug_view_vue"'>
-                              Show Loaded Vue objects
-                        </button>
-
-                        <button style="margin: 20px;"
-                              class='btn btn-lg btn-danger'
-                              v-on:click='debugView = "debug_view_ui_control_uuids"'>
-                                  Runtime UI control UUIDs
-                        </button>
-
-
-
-                        <button style="margin: 20px;"
-                              class='btn btn-lg info'
-                              v-on:click='debugView="debug_view_metamask"'>
-                              Metamask
-                        </button>
-
-
-                        <div v-if="debugView=='debug_view_vue'">
-                            <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
-                          <pre style="color: white; overflow: scroll; height: 50%;">
-
-
-Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
-<div v-for="loadedComponentCodeId  in  Object.keys(yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())">
-{{loadedComponentCodeId}}
--------------------------------------------------------
-{{ yz.componentsAPI.vue.getVueComponentInfo({codeId: loadedComponentCodeId}) }}
-Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedComponentCodeId}) }}
-...
-</div>
-
-                          </pre>
-                        </div>
-
-                        <div v-if="debugView=='debug_view_metamask'">
-
-                                    <div v-if='!accountNumber'>
-                                        You are not signed into Metamask. Please login first
-                                    </div>
-
-                                    <textarea id="test_transaction_text"
-                                              value="">
-                                    </textarea>
-
-                                    <button type=button
-                                            class='btn btn-primary'
-                                            v-bind:disabled='accountNumber?false:true'
-                                            style='margin-left: 10px;width:40vw;height:15vh;'
-                                            v-on:click='signMetamaskTransaction()'>
-
-                                        Sign transaction
-                                    </button>
-
-
-                                    <div>
-                                        {{debug_sign_tx_out}}
-                                    </div>
-                                </div>
-
-                        <div v-if='debugView=="debug_view_ui_control_uuids"' style="color: white;">
-    <div style="font-size:60px;font-weight: bold;color: white;">UI Control UUIDs</div>
-                          <pre style="color: white;">
-(runtimeComponentsInfo)
-{{ runtimeComponentsInfo }}
-                  </pre>
-                        </div>
-
-
-
-
-
-
-                                </div>
-                            </div>
-
-
-
-                              <div
-                                  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
-
-                                        <div    v-if='full_screen && (item.type == "app")'>
-                                            <component      v-bind:is='appCodeId'></component>
-                                        </div>
-                                        <div style='height: 2em;'></div>
-
-                                </div>
-                            </span>`
-                    }
-
-
-
-
-                    let vueAppStructure = {
-                        template: `
-                            <div>
-                                <div    v-if="globalDebuggerOn"
-                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white"
-                                >
-                                    <!-- --------------------------------------------------------------------
-                                                                      DEBUG HEADER
-                                         -------------------------------------------------------------------- -->
-                                    <div style='height:40px; padding:4px;background-color:lightblue;'>
-                                        <span
-                                                style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
-                                        >
-                                            Debugger V2
-                                        </span>
-
-                                        <button
-                                                type="button"
-                                                v-on:click='closeDebugV2()'
-                                                class="btn btn-sm btn-info"
-                                                v-on:touchstart='closeDebugV2()'
-                                                style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
-                                        >
-                                            Close
-                                        </button>
-                                    </div>
-
-
-                                    <!-- --------------------------------------------------------------------
-                                                                      DEBUG BODY
-                                         -------------------------------------------------------------------- -->
-                                    //zzz
-
-
-                                </div>
-
-                                <div    v-if="show_loader"
-                                        v-bind:style='show_loader?"":"display:none;"'
-                                        class="loader">
-                                </div>
-
-                                <div v-if="loadedAppMetaData">
-                                    <template   v-for="item  in  [loadedAppMetaData]" >
-
-                                        <div    v-if="item.id == selected_card"
-                                                style="left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;">
-
-                                            <card_component :item='item'
-                                                            :visible='true'
-                                                            :element_id='"current_card"'
-                                                            :full_screen='true'
-                                                            :is_static='is_static'
-                                                            :appCodeId='appCodeId'
-                                                            :card_selected='true'>
-                                            </card_component>
-
-                                        </div>
-                                    </template>
-                                </div>
-
-
-                                <div v-if="loadedAppMetaData">
-                                    <template   v-for="item  in  [loadedAppMetaData]">
-
-                                        <div v-bind:style='"width: 100%; display:" + (is_static?"none;":"") + ";"'>
-
-                                            <card_component :item='item'
-                                                            :visible='true'
-                                                            :element_id='"card_" + item.id'
-                                                            :full_screen='false'
-                                                            :is_static='is_static'
-                                                            :appCodeId='appCodeId'
-                                                            :card_selected='(item.id == selected_card)'>
-                                            </card_component>
-
-                                        </div>
-                                    </template>
-                                </div>
-
-
-                                <div style="height: 200px;">
-                                </div>
-                            </div>
-                        `
-                        ,
-                        data: function() {
-                            return {
-                                count:                  1,
-                                selected_card:          -1,
-                                loadedAppMetaData:      null,
-                                show_loader:            false,
-                                is_static:              false,
-                                appCodeId:              "ZIO",
-                                globalDebuggerOn:       false
-                            }
-                        }
-                        ,
-                        provide: function() {
-                            return injectedVars
-                        },
-                        mounted: async function(){
-                        },
-                        methods: {
-                            closeDebugV2: async function() {
-                                mainVueAppVm.globalDebuggerOn = false
-                            }
-                        }
-                    }
-
-                    if (Vue.version.startsWith("2")) {
-                        vueAppStructure.el = "#infinite-list"
-                        yz.mainVars.mainVueApp = new Vue(vueAppStructure);
-                        Vue.component('card_component', cardComponentStructure);
-                        mainVueAppVm = yz.mainVars.mainVueApp
-
-                    } else if (Vue.version.startsWith("3")) {
-                        yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
-                        yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
-                        yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
-                        mainVueAppVm = yz.mainVars.mainVueApp.mount("#infinite-list")
-                    }
-
-
-
-
-
-
-
-
-
-                    if (yz.isStaticHtmlPageApp) {
-                        let nid = yz.mainVars.nextGlobalAppId++;
-                        let ccy = document.getElementById('wrapper').scrollTop
-                        mainVueAppVm.loadedAppMetaData =
-                            {
-                                id:                 nid,
-                                name:               "***STATIC_NAME***",
-                                base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
-                                code_id:            "***STATIC_BASE_COMPONENT_ID***",
-                                display_name:       "***STATIC_NAME***",
-                                type:               "app"
-                            }
-                        setTimeout(function() {
-                            document.getElementById('wrapper').scrollTop = ccy
-                        },100)
-
-                        mainVueAppVm.show_loader = false
-                        yz.mainVars.autoScroll = false
-                        setTimeout(async function() {
-                            await select_card(nid)
-                        },20)
-                        refresh();
-                    }
-
-
-
-
-                    let regex = /[?&]([^=#]+)=([^&#]*)/g,
-                        url = window.location.href,
-                        match;
-                    while(match = regex.exec(url)) {
-                        yz.mainVars.webpageParams[match[1]] = match[2];
-                    }
-
-                    if (yz.mainVars.webpageParams.goto) {
-                        yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.goto.replaceAll("%20"," ").toLowerCase()
-                        yz.mainVars.autoScroll = false;
-                        mainVueAppVm.show_loader = true
-                    } else if (yz.mainVars.webpageParams.embed) {
-                        yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
-                        yz.mainVars.autoScroll = false;
-                        mainVueAppVm.show_loader = true
-                    } else if (!yz.isStaticHtmlPageApp) {
-                        setTimeout(async function() {
-                            await select_card(1)
-                        },200)
-                    } else if (yz.isStaticHtmlPageApp) {
-                        mainVueAppVm.is_static = true
-                    }
-
-
-
-                    // set up the dropzone so that apps can be dragged
-                    // into yazz by dragging the source code into the
-                    // webapp
-
-                    Dropzone.autoDiscover = false;
-                    Dropzone.options.mydropzone = {
-                        init: function() {
-                            this.on("addedfile", function(file) {
-                            });
-                        }
-                    };
-                    var myDropzone = new Dropzone("body#mydropzone", {
-                        url:                    "/http_post_file_upload",
-                        createImageThumbnails:  false,
-                        sending:                function(file, xhr, formData)
-                                                {
-                                                    showProgressBar()
-                                                    file_upload_uuid = uuidv4()
-                                                    formData.append('client_file_upload_id', file_upload_uuid);
-                                                }
-                    });
-                    myDropzone.on("complete", function(file) {
-                        myDropzone.removeFile(file);
-                    })
-
-
-                },100)
-            };
-            async function  populateStaticCodeCache             (  ) {
-                //***ADD_STATIC_CODE
-            }
-            async function  sendToServerViaWebSocket            (  msg  ) {
-                let isThisAppOnline = true
-                if (localAppshareApp) {
-                    isThisAppOnline = false
-                }
-                if (isThisAppOnline) {
-                    msg.cookie = getYazzCookie()
-                    socket.send(JSON.stringify(msg));
-                } else {
-                    console.log("Yazz web app running in local mode: Yazz will not call websocket fns")
-                }
-                //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
-            }
-            function        setupWebSocket                      (  host  ,  port  ) {
-
-                //console.log('opening web socketio');
-                socket = io();
-                //console.log('opening web socketio');
-                socket.on('ws_socket_connected',function(data){
-                    yz.mainVars.online = true
-                    console.log("Websocket connected: " + JSON.stringify(data,null,2));
-                });
-
-
-
-
-
-
-
-                socket.on('uploaded_app_as_file_from_server',async function(data) {
-                    if (data.client_file_upload_id == file_upload_uuid) {
-                        globalEventBus.emit('new-appshare-app-uploaded',
-                            {
-                                baseComponentId:    data.base_component_id,
-                                displayName:        data.display_name,
-                                codeId:             data.code_id,
-                                logoUrl:            data.logo_url
-                            }
-                        );
-                    }
-                });
-
-
-
-
-
-
-
-
-
-
-                    send_is_win:                        isWin
-                // ----------------------------------------------------------------------------------------------
-                //
-                //                  Share the container environment variables with the front end
-                //
-                // ----------------------------------------------------------------------------------------------
-                socket.on('server_init_data',async function(data) {
-                    console.log("Server init data received from server socket: " + JSON.stringify(data,null,2));
-
-                    networkIntranetIpAddress = data.network_ip_address_intranet
-                    isWin                    = data.send_is_win
-                    console.log("networkIntranetIpAddress: " + networkIntranetIpAddress);
-                    console.log("isWin:                    " + isWin);
-
-                    var allEnvVarNames = Object.keys(data.env_vars)
-                    for (var i=0; i< allEnvVarNames.length;i++) {
-                        try
-                        {
-                            let envName = allEnvVarNames[i].replace(/[^a-zA-Z0-9]/g,'_')
-                            //console.log(envName)
-                            var valueEnvVar = data.env_vars[envName]
-                            var cmddd = '($' + envName + " =  String.raw`" +  String.raw`${valueEnvVar}` +"`)"
-
-                            eval(cmddd)
-
-                        } catch (errr) {
-                            console.log(errr)
-                        }
-                    }
-                    yz.mainVars.pageInitialised = true
-                    await initYazzApplication()
-
-
-
-                    if (($USEHTTPS == "true") || (location.hostname == "localhost")) {
-                        //debugger
-                        //await yz.useIpfsServerInBrowser()
-                        try {
-                            //yz.mainVars.ipfs = await Ipfs.create({offline: true, start: false})
-                            //console.log('IPFS server loaded:')
-                            console.log('IPFS server NOT loaded anymore in browser (see go.html):')
-                        } catch (ipfsError) {
-                            console.log('IPFS server error: ' + ipfsError)
-                        }
-                    }
-
-
-                    if (yz.mainVars.executeOnPageLoad) {
-                        await yz.mainVars.executeOnPageLoad()
-                        yz.mainVars.executeOnPageLoad = null
-                    }
-                });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                socket.on('ws_to_browser_call_component_results',async function(data) {
-                    var callbackFn = queuedResponses[data.seq_num]
-                    callbackFn(data.value)
-                    queuedResponses[data.seq_num] = null
-                });
-
-            }
-            async function  findComponentsImplementing          (  listOfProperties  ){
-                //aaa
-                let results = await callComponent(
-                    {
-                        base_component_id: "findComponentsImplementing"
-                    }
-                    ,{
-                        properties: listOfProperties
-                    })
-                return results
-            }
-            async function  runn                                (  ) {
-                fullCode(thecode)
-            }
-            function        getYazzCookie                       (  ) {
-                return getCookie("yazz")
-            }
-            async function  callComponent                       (  componentSearchDetails  ,  fnCallArgs  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |       callComponent                  |
-                |                                      |
-                |______________________________________|
-                Calls a server side component and returns the results
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     componentSearchDetails
-                |     ----------------------    Some text
-                |                               can go here
-                |
-                |     fnCallArgs
-                |     ----------    Some text
-                |                   can go here
-                |
-                |________________________________________________________________________ */
-                var promise = new Promise(async function(returnfn) {
-                    let seqNum                          = queuedBrowserResponseSeqNum ++;
-                    queuedResponses[seqNum]             = function(result) {returnfn(result)};
-                    componentCallsListArgsSent[seqNum]  = fnCallArgs
-
-                    await sendToServerViaWebSocket({
-                        message_type:   "ws_browser_calls_component_via_web_socket",
-                        find_component: componentSearchDetails,
-                        args:           fnCallArgs,
-                        seqNum:         seqNum
-                    });
-                })
-
-                var ret = await promise
-                if (ret) {
-                    if (ret.value) {
-                        return ret.value
-                    } else if (ret.error) {
-                        throw ret.error
-                    }
-                }
-
-                return ret
-            }
-            async function  enhanceCodeWithPipeline             (  args   ) {
-                /*
-                ________________________________________
-                |                                      |
-                |        enhanceCodeWithPipeline       |
-                |                                      |
-                |______________________________________|
-                Function description
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     args      {
-                |     ----          copyPipelineName
-                |                   copyFileName
-                |                   copyStartMarker
-                |                   copyEndMarker
-                |                   code
-                |                   pasteStartMarker
-                |                   pasteEndMarker
-                |                   pasteMarker
-                |                   mode            // REPLACE,  INSERT_AFTER,  or INSERT_BEFORE
-                |               }
-                |________________________________________________________________________ */
-                let copyPipelineName    = args.copyPipelineName
-                let copyFileName        = args.copyFileName
-                let copyStartMarker     = args.copyStartMarker
-                let copyEndMarker       = args.copyEndMarker
-                let trcode2             = args.code
-                let pasteStartMarker    = args.pasteStartMarker
-                let pasteEndMarker      = args.pasteEndMarker
-                let pasteMarker         = args.pasteMarker
-                let mode                = "REPLACE"
-
-                if (args.mode) {
-                    mode = args.mode
-                }
-
-                let editorCodeToCopy = await yz.getPipelineCodeToCopy(
-                    {
-                        pipelineName:   copyPipelineName,
-                        fileName:       copyFileName,
-                        fromMarker:     copyStartMarker,
-                        toMarker:       copyEndMarker
-                    })
-
-                if (mode == "INSERT_AFTER") {
-                    trcode2 = yz.helpers.addAfter(trcode2, pasteMarker, editorCodeToCopy)
-                } else if (mode == "REPLACE") {
-                    trcode2 = yz.helpers.replaceBetween(trcode2, pasteStartMarker, pasteEndMarker, editorCodeToCopy)
-                } else if (mode == "INSERT_BEFORE") {
-                    trcode2 = yz.helpers.addBefore(trcode2, pasteMarker, editorCodeToCopy)
-                } else {
-                    throw "No such mode in 'enhanceCodeWithPipeline' called '" + mode + "'"
-                }
-                return trcode2;
-            }
-            async function  universalSaveStaticUIControl        (  {  sha1sum  ,  unescapedCode  ,  baseComponentId  ,  loadMethod  }  ) {
-                yz.cacheThisComponentCode(
-                    {
-                        codeId:             sha1sum,
-                        code:               unescapedCode
-                    })
-                yz.componentsAPI.vue.setComponentLoadedMethod({codeId: sha1sum, loadMethod: loadMethod})
-
-                yz.pointBaseComponentIdAtCode(
-                {
-                    baseComponentId:    baseComponentId,
-                    codeId:             sha1sum
-                })
-            }
-            function        asql                                (  sql  ,  params  ) {
-                let ret = alasql(sql  ,  params)
-                if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
-                    let startOfSql = sql.toLowerCase()
-                    if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                        ((async function () {
-                            let oursql = sql
-                            let ourparams = params
-                            let resultsCode = await postToYazzReturnJson(
-                                "/http_post_browser_sql_write_operation",
-                                {
-                                    browser_write_sql: oursql,
-                                    sql_params: ourparams
-                                })
-
-                        })())
-                    }
-                }
-                return ret
-            }
-            async function  setupAlaSqlDatabase                 (  ) {
-                alasql("CREATE TABLE ui_tables (table_name STRING)");
-                alasql("CREATE TABLE ui_fields (table_name STRING, field_name STRING, field_type STRING)");
-                asql("select * from ui_tables")
-                await createAlaSqlTable({
-                    tableName: "ui_components",
-                    fields: [
-                        {name: "id",        fieldType: "INT"},
-                        {name: "comp_name", fieldType: "STRING"}
-                    ]})
-
-                await createAlaSqlTable({
-                    tableName: "ui_test",
-                    fields: [
-                        {name: "id",        fieldType: "INT"},
-                        {name: "comp_name", fieldType: "STRING"},
-                        {name: "another",   fieldType: "STRING"}
-                    ]})
-
-
-                await createAlaSqlTable({
-                    tableName: "ui_system_properties",
-                    fields: [
-                        {name: "prop_id",        fieldType: "STRING"},
-                        {name: "prop_type",      fieldType: "STRING"},
-                        {name: "prop_value",     fieldType: "STRING"}
-                    ]})
-
-                await createAlaSqlTable({
-                    tableName: "ui_commands",
-                    fields: [
-                        {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                        {name: "debug_code",        fieldType: "STRING"},
-                        {name: "created",           fieldType: "INTEGER"},
-                        {name: "command",           fieldType: "STRING"},
-                        {name: "arguments",         fieldType: "STRING"},
-                        {name: "status",            fieldType: "STRING"}
-                    ]})
-
-
-                // add a trigger to process new commands
-                alasql.fn.processNewCommand = async function(r) {
-                    //debugger
-                    return true;
-                };
-                alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_commands  processNewCommand');
-
-            }
-            async function  createCommand                       (  command  ,  params  ,  debugCode  )                     {
-                let paramsString = JSON.stringify(params)
-                asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
-            }
-            async function  setupAlaSqlSync                     (  ) {
-                if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
-                    let tables = alasql("select * from ui_tables")
-                    for (table of tables) {
-                        let fields = alasql("select * from ui_fields where table_name = ?", table.table_name)
-                        let fieldList  = []
-                        for (field of fields) {
-                            fieldList.push({name: field.field_name, type: field.field_type})
-                        }
-
-
-                        let resultsCode = await postToYazzReturnJson(
-                            "/http_post_create_browser_table",
-                            {
-                                table_name: table.table_name,
-                                fields:     fieldList
-                            })
-                    }
-                }
-            }
-            async function  createAlaSqlTable                   (  {  tableName  ,  fields  }  ) {
-                let alaSqlCreateString = "create table " + tableName + "("
-
-                let alaSqlInsertString = "insert into ui_tables (table_name) values (?)"
-                alasql(alaSqlInsertString, tableName);
-                for (let fieldIndex = 0;  fieldIndex < fields.length ; fieldIndex++) {
-                    let field = fields[fieldIndex]
-                    let alaSqlCreateFieldsString = "insert into ui_fields (table_name, field_name, field_type) values (?,?,?)"
-                    alasql(alaSqlCreateFieldsString, [tableName, field.name, field.fieldType]);
-
-                    alaSqlCreateString = alaSqlCreateString + field.name + " " + field.fieldType
-                    if (fieldIndex < ( fields.length - 1)) {
-                        alaSqlCreateString = alaSqlCreateString + ","
-                    }
-                }
-                alaSqlCreateString = alaSqlCreateString + ")"
-                alasql(alaSqlCreateString);
-
-            }
-
 
             // app helpers
             function        appSetInterval                      (  fnn  ,  interval  ) {
@@ -11238,7 +11241,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
             }
             async function  sqliteQuery                         (  sql  ) {
-                let results = await callComponent(
+                let results = await yz.callComponent(
                     {
                         base_component_id:    "readFromInternalSqliteDatabase"
                     }
@@ -11253,7 +11256,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     let results = localSql(sqlcode,params)
                     return results
                 } else {
-                    let results = await callComponent(
+                    let results = await yz.callComponent(
                         {
                             base_component_id:    "systemFunctionAppSql"
                         }
@@ -12128,7 +12131,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             */
 
             (async function() {
-                await populateStaticCodeCache()
+                await yz.populateStaticCodeCache()
 
 
                 console.log("Start debugger")
@@ -12136,9 +12139,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     eval(cc)
                 }
                 setTimeout(
-                    setupAlaSqlSync, 1000 )
+                    yz.setupAlaSqlSync, 1000 )
 
-                //runn() // only used for debugging
+                //yz.runn() // only used for debugging
                 //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
                 //console.log(JSON.stringify(rt,null,2))
 
@@ -12179,7 +12182,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
         </script> <!-- main code and functions -->
 
     </head>
-    <body onload='initSystem()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
+    <body onload='yz.initSystem()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
         <div    id='popup'
                 style='display: none;position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
                 onclick='document.getElementById("popup").style.zIndex = "-1";document.getElementById("popup").style.display = "none";document.getElementById("popup_content").innerHTML =""'>

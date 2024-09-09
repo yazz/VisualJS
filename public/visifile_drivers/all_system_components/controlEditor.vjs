@@ -336,7 +336,7 @@ load_once_from_file(true)
              //debugger
              let mm = this
              let retVal = null
-             retval = await getYazzContentHash( mm.text )
+             retval = await yz.getYazzContentHash( mm.text )
              return retval
          }
          ,
