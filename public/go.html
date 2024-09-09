@@ -9251,12 +9251,6 @@
 
 
 
-            var GLOBALS                         = {
-
-            }
-
-
-            window.GLOBALS = GLOBALS
             var networkIntranetIpAddress        = null
             var file_upload_uuid                = null
             var base_component_id_of_loaded_app = null
@@ -9497,7 +9491,6 @@
             }
 
             var injectedVars = {
-                GLOBALS:                        GLOBALS,
                 isValidObject:                  isValidObject,
                 yz:                             yz,
                 showProgressBar:                showProgressBar,
@@ -10087,7 +10080,6 @@
                         mounted:    async function() {
                             let mm = this
                             if (Vue.version.startsWith("2")) {
-                                mm.GLOBALS                          = GLOBALS
                                 mm.isValidObject                    = isValidObject
                                 mm.yz                               = yz
                                 mm.showProgressBar                  = showProgressBar
@@ -10103,7 +10095,6 @@
                                 mm.globalWatchList                  = globalWatchList
                                 mm.saveCodeToFile                   = saveCodeToFile
                             } else if (Vue.version.startsWith("3")) {
-                                mm.GLOBALS                          = Vue.inject('GLOBALS')
                                 mm.isValidObject                    = Vue.inject('isValidObject')
                                 mm.yz                               = Vue.inject('yz')
                                 mm.showProgressBar                  = Vue.inject('showProgressBar')

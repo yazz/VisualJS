@@ -976,7 +976,6 @@ ___________
 `,
         data:               function() {
            return {
-               GLOBALS:                         null,
                isValidObject:                   null,
                yz:                              null,
                showProgressBar:                 null,
@@ -2297,7 +2296,6 @@ ___________
         mounted:            async function () {
             let mm = this
             if (Vue.version.startsWith("2")) {
-                mm.GLOBALS                          = GLOBALS
                 mm.isValidObject                    = isValidObject
                 mm.yz                               = yz
                 mm.showProgressBar                  = showProgressBar
@@ -2314,7 +2312,6 @@ ___________
                 mm.saveCodeToFile                   = saveCodeToFile
 
             } else if (Vue.version.startsWith("3")) {
-                mm.GLOBALS                          = Vue.inject('GLOBALS')
                 mm.isValidObject                    = Vue.inject('isValidObject')
                 mm.yz                               = Vue.inject('yz')
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
