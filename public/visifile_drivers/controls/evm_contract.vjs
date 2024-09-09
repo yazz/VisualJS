@@ -536,7 +536,7 @@ return sdf
               let mm = this
               setTimeout(
                 async function() {
-                  let switchChain = await switchBlockchainNetwork(mm.properties.blockchainId)   //eth rinkby
+                  let switchChain = await yz.switchBlockchainNetwork(mm.properties.blockchainId)   //eth rinkby
                     if (switchChain) {
                         mm.lastSelectedBlockchain = mm.properties.blockchainId
                         mm.faucet = window.blockchainIds[mm.properties.blockchainId].faucet

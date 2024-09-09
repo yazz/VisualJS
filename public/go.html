@@ -9307,7 +9307,7 @@
                                     //await switchBlockchainNetwork('1')   //eth mainnet
                                     //await switchBlockchainNetwork('97')   //binance testnet
                                     //await switchBlockchainNetwork('80001')   //polygon testnet
-                                    await switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
+                                    await yz.switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
                                 })()
                             } catch (error) {
 
@@ -9454,6 +9454,57 @@
                         let ret = await promise
 
                     }
+                },
+
+                // blockchain helpers
+                filterBlockchainParams:         async function  (  blockchainDetails  ) {
+                    return {
+                        chainId: blockchainDetails.chainId,
+                        chainName: blockchainDetails.chainName,
+                        rpcUrls: blockchainDetails.rpcUrls,
+                        blockExplorerUrls: blockchainDetails.blockExplorerUrls,
+                        nativeCurrency: blockchainDetails.nativeCurrency
+                    }
+                },
+                switchBlockchainNetwork:        async function  (  blockchainId  )      {
+
+                    const provider = window.ethereum;
+                    if(!provider){
+                        console.log("Metamask is not installed, please install!");
+                    }
+                    let chainId = await provider.request({ method: "eth_chainId" });
+                    if (chainId === window.blockchainIds[blockchainId].chainId) {
+                        console.log("Bravo!, you are on the correct network");
+                    } else {
+                        console.log("oulalal, switch to the correct network")
+                    }
+
+                    try {
+                        await provider.request({
+                            method: "wallet_switchEthereumChain",
+                            params: [{ chainId: window.blockchainIds[blockchainId].chainId}],
+                        });
+                        console.log("You have succefully switched to Binance Test network")
+                    } catch (switchError) {
+                        // This error code indicates that the chain has not been added to MetaMask.
+                        if (switchError.code === 4902) {
+                            console.log("This network is not available in your metamask, please add it")
+                        }
+                        console.log("Failed to switch to the network")
+                        try {
+                            await provider.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [
+                                    (await yz.filterBlockchainParams(window.blockchainIds[blockchainId]))
+                                ]
+                            });
+                        } catch (addError) {
+                            console.log(addError);
+                            return false
+                        }
+                    }
+                    return true
+
                 },
 
                 //
@@ -9768,56 +9819,6 @@
         </script> <!-- jsDelivr -->
         <script>
 
-            // blockchain helpers
-            async function  filterBlockchainParams              (  blockchainDetails  ) {
-                return {
-                    chainId: blockchainDetails.chainId,
-                    chainName: blockchainDetails.chainName,
-                    rpcUrls: blockchainDetails.rpcUrls,
-                    blockExplorerUrls: blockchainDetails.blockExplorerUrls,
-                    nativeCurrency: blockchainDetails.nativeCurrency
-                }
-            }
-            async function  switchBlockchainNetwork             (  blockchainId  ) {
-
-                const provider = window.ethereum;
-                if(!provider){
-                    console.log("Metamask is not installed, please install!");
-                }
-                let chainId = await provider.request({ method: "eth_chainId" });
-                if (chainId === window.blockchainIds[blockchainId].chainId) {
-                    console.log("Bravo!, you are on the correct network");
-                } else {
-                    console.log("oulalal, switch to the correct network")
-                }
-
-                try {
-                    await provider.request({
-                        method: "wallet_switchEthereumChain",
-                        params: [{ chainId: window.blockchainIds[blockchainId].chainId}],
-                    });
-                    console.log("You have succefully switched to Binance Test network")
-                } catch (switchError) {
-                    // This error code indicates that the chain has not been added to MetaMask.
-                    if (switchError.code === 4902) {
-                        console.log("This network is not available in your metamask, please add it")
-                    }
-                    console.log("Failed to switch to the network")
-                    try {
-                        await provider.request({
-                            method: 'wallet_addEthereumChain',
-                            params: [
-                                (await filterBlockchainParams(window.blockchainIds[blockchainId]))
-                            ]
-                        });
-                    } catch (addError) {
-                        console.log(addError);
-                        return false
-                    }
-                }
-                return true
-
-            }
 
             // Yazz system fns
             async function  onPageInitialized                   (  doCode  ) {
