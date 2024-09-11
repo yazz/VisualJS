@@ -10953,6 +10953,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 queuedResponses:                    new Object(),
                 queuedBrowserResponseSeqNum:        0,
                 componentCallsListArgsSent:         new Object(),
+                uiDebuggerOn:                       false,
 
 
                 //
@@ -10974,7 +10975,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var uiDebuggerOn                    = false
             var saveCodeToFile                  = null
             var isWin                           = null
             var executionCode                   = new Object()
@@ -11503,7 +11503,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 }
 
-                if (uiDebuggerOn) {
+                if (yz.uiDebuggerOn) {
                     estraverse.traverse(_b, {
                         enter: function (node, parent) {
                             //
@@ -11687,7 +11687,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-                if (uiDebuggerOn) {
+                if (yz.uiDebuggerOn) {
                     executionCode[blockName] = {}
                     executionCode[blockName].debug_code = debugCode
                     if (numLinesToSkip > 0) {
