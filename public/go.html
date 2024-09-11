@@ -10461,7 +10461,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                     if (isThisAppOnline) {
                         msg.cookie = yz.getYazzCookie()
-                        socket.send(JSON.stringify(msg));
+                        yz.webPageToServerWebSocket.send(JSON.stringify(msg));
                     } else {
                         console.log("Yazz web app running in local mode: Yazz will not call websocket fns")
                     }
@@ -10470,9 +10470,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 setupWebSocket:                 function        (  host  ,  port  )                             {
 
                 //console.log('opening web socketio');
-                socket = io();
+                yz.webPageToServerWebSocket = io();
                 //console.log('opening web socketio');
-                socket.on('ws_socket_connected',function(data){
+                yz.webPageToServerWebSocket.on('ws_socket_connected',function(data){
                     yz.mainVars.online = true
                     console.log("Websocket connected: " + JSON.stringify(data,null,2));
                 });
@@ -10483,7 +10483,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-                socket.on('uploaded_app_as_file_from_server',async function(data) {
+                yz.webPageToServerWebSocket.on('uploaded_app_as_file_from_server',async function(data) {
                     if (data.client_file_upload_id == yz.file_upload_uuid) {
                         yz.globalEventBus.emit('new-appshare-app-uploaded',
                             {
@@ -10511,7 +10511,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //                  Share the container environment variables with the front end
                 //
                 // ----------------------------------------------------------------------------------------------
-                socket.on('server_init_data',async function(data) {
+                yz.webPageToServerWebSocket.on('server_init_data',async function(data) {
                     console.log("Server init data received from server socket: " + JSON.stringify(data,null,2));
 
                     yz.networkIntranetIpAddress = data.network_ip_address_intranet
@@ -10582,7 +10582,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-                socket.on('ws_to_browser_call_component_results',async function(data) {
+                yz.webPageToServerWebSocket.on('ws_to_browser_call_component_results',async function(data) {
                     var callbackFn = yz.queuedResponses[data.seq_num]
                     callbackFn(data.value)
                     yz.queuedResponses[data.seq_num] = null
@@ -10951,6 +10951,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 usePort:                            null,
                 globalEventBus:                     mitt(),
                 newAppArgs:                         [],
+                webPageToServerWebSocket:           null,
 
 
                 //
@@ -10972,7 +10973,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var socket                          = null;
             var staticAppSocket
             var appIntervalTimers               = []
             var indexingComponentInProgress     = false
