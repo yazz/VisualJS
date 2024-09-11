@@ -9814,7 +9814,7 @@
                                         newrestUrl
                                         ,
                                         {
-                                            base_component_id:          base_component_id_of_loaded_app,
+                                            base_component_id:          yz.base_component_id_of_loaded_app,
                                             base_component_id_version:  null
                                         }
                                         ,
@@ -9849,8 +9849,8 @@
                                     callAjaxPost(newrestUrl
                                         ,
                                         {
-                                            base_component_id:          base_component_id_of_loaded_app,
-                                            code_id:                    code_id_of_loaded_app,
+                                            base_component_id:          yz.base_component_id_of_loaded_app,
+                                            code_id:                    yz.code_id_of_loaded_app,
                                             base_component_id_version:  null,
                                             comment:                    mm.new_comment,
                                             rating:                     mm.new_rating
@@ -10946,8 +10946,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 return ret
             },
 
-                networkIntranetIpAddress:       null,
-                file_upload_uuid:               null,
+                networkIntranetIpAddress:           null,
+                file_upload_uuid:                   null,
+                base_component_id_of_loaded_app:    null,
+                code_id_of_loaded_app:              null,
 
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
@@ -10968,8 +10970,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var base_component_id_of_loaded_app = null
-            var code_id_of_loaded_app           = null
             var queuedResponses                 = new Object()
             var queuedBrowserResponseSeqNum     = 0
             var componentCallsListArgsSent      = new Object()
@@ -11313,9 +11313,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             // Load app into UI fns
             async function  prepareApp                          (  id  ,  bbase_component_id  ,  args  ) {
                 console.log("****prepareApp")
-                base_component_id_of_loaded_app = bbase_component_id
+                yz.base_component_id_of_loaded_app = bbase_component_id
 
-                if ((mainVueAppVm.loadedAppMetaData.base_component_id != base_component_id_of_loaded_app) ||
+                if ((mainVueAppVm.loadedAppMetaData.base_component_id != yz.base_component_id_of_loaded_app) ||
                     (!newAppArgs[id]))
                 {
                     newAppArgs[id] = args
@@ -11324,11 +11324,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //
                 // loadAppIntoElement
                 //
-                await yz.makeSureUiComponentLoadedV6(base_component_id_of_loaded_app)
-                if (mainVueAppVm.loadedAppMetaData.base_component_id == base_component_id_of_loaded_app) {
+                await yz.makeSureUiComponentLoadedV6(yz.base_component_id_of_loaded_app)
+                if (mainVueAppVm.loadedAppMetaData.base_component_id == yz.base_component_id_of_loaded_app) {
 
-                    let codeIdOfComponent = yz.baseComponentIdReturnsCommitId[base_component_id_of_loaded_app]
-                    code_id_of_loaded_app = codeIdOfComponent
+                    let codeIdOfComponent = yz.baseComponentIdReturnsCommitId[yz.base_component_id_of_loaded_app]
+                    yz.code_id_of_loaded_app = codeIdOfComponent
 
                     mainVueAppVm.appCodeId = codeIdOfComponent
                 }

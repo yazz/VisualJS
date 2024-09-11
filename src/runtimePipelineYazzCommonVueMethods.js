@@ -1405,7 +1405,7 @@
             sqlQuery:                               async function  (  sql  ,  params  ) {
                 let mm = this
                 console.log("Called sqlQuery:")
-                //let codeId = window.code_id_of_loaded_app
+                //let codeId = window.yz.code_id_of_loaded_app
                 //let thisCode = await mm.getText()
                 let thisCode = mm.text
                 //debugger
@@ -1413,7 +1413,7 @@
                 //let codeId = await yz.getYazzContentHash( thisCode )
                 let codeId = mm.codeId
                 let baseComponentId = yz.helpers.getValueOfCodeString(thisCode,"base_component_id")
-                //let baseComponentId =  window.base_component_id_of_loaded_app
+                //let baseComponentId =  window.yz.base_component_id_of_loaded_app
 
                 let rowsReturned = await sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
                 return rowsReturned
