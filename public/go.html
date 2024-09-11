@@ -8385,11 +8385,10 @@
                     |     typeName
                     |     --------
                     |________________________________________________________________________ */
-                    if (indexingComponentInProgress) {
-                        debugger
+                    if (yz.indexingComponentInProgress) {
                         return
                     }
-                    indexingComponentInProgress = true
+                    yz.indexingComponentInProgress = true
                     try {
 
                         /*
@@ -8613,7 +8612,7 @@
 
                         console.log(err)
                     }
-                    indexingComponentInProgress = false
+                    yz.indexingComponentInProgress = false
                 },
                 enhanceCodeBeforeSaving:        function        (   code   ,   options   ) {
                     let mm                  = this
@@ -10953,6 +10952,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 newAppArgs:                         [],
                 webPageToServerWebSocket:           null,
                 appIntervalTimers:                  [],
+                indexingComponentInProgress:        false,
 
 
                 //
@@ -10974,7 +10974,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var indexingComponentInProgress     = false
             var keycloak                        = null
             var keycloakJsonInUse               = null
             var username                        = "";
