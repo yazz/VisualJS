@@ -10953,6 +10953,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 webPageToServerWebSocket:           null,
                 appIntervalTimers:                  [],
                 indexingComponentInProgress:        false,
+                keycloak:                           null,
 
 
                 //
@@ -10974,7 +10975,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var keycloak                        = null
             var keycloakJsonInUse               = null
             var username                        = "";
             var thecode                         = `
@@ -11974,9 +11974,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
                 var script = document.createElement('script');
                 script.onload = function () {
-                    keycloak = Keycloak(keycloakJson);
+                    yz.keycloak = Keycloak(keycloakJson);
                     keycloakJsonInUse = JSON.parse(JSON.stringify(keycloakJson))
-                    keycloak.init(
+                    yz.keycloak.init(
                         {
                             onLoad: 'login-required' ,
                             checkLoginIframe: false
@@ -11985,11 +11985,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         //alert(authenticated ? 'authenticated' : 'not authenticated');
 
                         if (authenticated) {
-                            console.log("keycloak.subject:" + keycloak.subject)
+                            console.log("keycloak.subject:" + yz.keycloak.subject)
                             console.log("Loading profile 1")
-                            keycloak.loadUserProfile(function() {
+                            yz.keycloak.loadUserProfile(function() {
                                 console.log("Loading profile 2")
-                                username = keycloak.profile.username;
+                                username = yz.keycloak.profile.username;
                                 console.log("keycloak username:" + username)
                             })
                         }
@@ -12003,9 +12003,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 document.head.appendChild(script);
             }
             function        logoutKeycloak                      (  ) {
-                if (keycloak) {
+                if (yz.keycloak) {
                     keycloakJsonInUse = null
-                    keycloak.logout()
+                    yz.keycloak.logout()
                 }
             }
 
