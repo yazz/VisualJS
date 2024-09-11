@@ -9763,7 +9763,7 @@
                                     mm.showProgressBar                  = showProgressBar
                                     mm.hideProgressBar                  = hideProgressBar
                                     mm.location                         = location
-                                    mm.executionCode                    = executionCode
+                                    mm.executionCode                    = yz.executionCode
                                     mm.currentTimelineLogPoint          = currentTimelineLogPoint
                                     mm.maxTimelineLogPoint              = maxTimelineLogPoint
                                     mm.startTimelineTop                 = startTimelineTop
@@ -10954,6 +10954,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 uiDebuggerOn:                       false,
                 saveCodeToFile:                     null,
                 isWin:                              null,
+                executionCode:                      new Object(),
 
 
                 //
@@ -10975,7 +10976,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var executionCode                   = new Object()
             var currentTimelineLogPoint         = 0
             var maxTimelineLogPoint             = 0
             var startTimelineTop                = 0
@@ -11125,7 +11125,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 showProgressBar:                showProgressBar,
                 hideProgressBar:                hideProgressBar,
                 location:                       location,
-                executionCode:                  executionCode,
+                executionCode:                  yz.executionCode,
                 currentTimelineLogPoint:        currentTimelineLogPoint,
                 maxTimelineLogPoint:            maxTimelineLogPoint,
                 startTimelineTop:               startTimelineTop,
@@ -11472,7 +11472,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  ) {
                 //console.log("logExecutionPoint(" + codeBlockName + "," + line)
 
-                if (executionCode[codeBlockName]) {
+                if (yz.executionCode[codeBlockName]) {
                     currentTimelineLogPoint = maxTimelineLogPoint ++
 
                     var recor = { code_block_name:    codeBlockName,
@@ -11685,8 +11685,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
                 if (yz.uiDebuggerOn) {
-                    executionCode[blockName] = {}
-                    executionCode[blockName].debug_code = debugCode
+                    yz.executionCode[blockName] = {}
+                    yz.executionCode[blockName].debug_code = debugCode
                     if (numLinesToSkip > 0) {
                         let indexOfFirst = trcode2.indexOf("\n")
                         if (indexOfFirst != -1) {
@@ -11704,8 +11704,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol[(][^,]*,[^,]*,", "sqlFirstCol(")
                     trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol1[(][^,]*,[^,]*,", "sqlFirstCol1(")
 
-                    executionCode[blockName].code = trcode2
-                    executionCode[blockName].start = startTimelineTop
+                    yz.executionCode[blockName].code = trcode2
+                    yz.executionCode[blockName].start = startTimelineTop
                     startTimelineTop += trcode2.length
                 }
 
@@ -11940,7 +11940,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 (document.body || head).appendChild(s);
             }
             function        logVarBefore                        (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
-                if (executionCode[codeBlockName]) {
+                if (yz.executionCode[codeBlockName]) {
 
                     if (yz.executionTimeline[currentTimelineLogPoint]) {
                         if (!yz.executionTimeline[currentTimelineLogPoint].vars[varName]) {
@@ -11954,7 +11954,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             }
             function        logVarAfter                         (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
-                if (executionCode[codeBlockName]) {
+                if (yz.executionCode[codeBlockName]) {
 
                     if (yz.executionTimeline[currentTimelineLogPoint]) {
                         if (!yz.executionTimeline[currentTimelineLogPoint].vars[varName]) {

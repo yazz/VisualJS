@@ -844,7 +844,7 @@ ___________
 
                                 v-bind:style='  "z-index: " + ((current_execution_step == exePoint.time)?"100":"0" ) + "; color: darkgray; " +
                                                 "position: absolute; pointer-events: none;" +
-                                                "top:" + ((exePoint.line + executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
+                                                "top:" + ((exePoint.line + yz.executionCode[exePoint.code_block_name].start) * execution_horiz_scale) + "px;" +
                                                 "left:" +  (exePoint.time * execution_horiz_scale) + "px;" +
                                                 "border: 1px solid " + ((current_execution_step >= exePoint.time)?"black":"darkgray" ) + ";" +
                                                 "width:" + ((current_execution_step == exePoint.time)?"10":"7") + "px;" +
@@ -1582,7 +1582,7 @@ ___________
 
                 mm.component_display_name   = null
                 mm.app_loaded               = true
-                mm.execution_code           = executionCode
+                mm.execution_code           = yz.executionCode
                 mm.execution_block_list     = Object.keys(this.execution_code)
 
 
@@ -2074,11 +2074,11 @@ ___________
                 let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
                 if (x) {
                     this.highlighted_line           = x.line
-                    this.highlighted_block          = executionCode[x.code_block_name].code
+                    this.highlighted_block          = yz.executionCode[x.code_block_name].code
                     this.highlighted_block_name     = x.code_block_name
 
                     if (this.timeline_editor && this.timeline_editor.getSession()) {
-                        this.timeline_editor.getSession().setValue(executionCode[x.code_block_name].code);
+                        this.timeline_editor.getSession().setValue(yz.executionCode[x.code_block_name].code);
 
                         this.timeline_editor.scrollToLine(x.line , true, true, function () {});
                         this.timeline_editor.gotoLine(x.line , 10, true);
@@ -2098,7 +2098,7 @@ ___________
                     if (elementTimeline) {
                         this.y_step = Math.floor(elementTimeline.offsetHeight / this.execution_horiz_scale ) - 10
 
-                        elementTimeline.scrollTop = (executionCode[x.code_block_name].start + (Math.floor(x.line/this.y_step)*this.y_step)) * this.execution_horiz_scale
+                        elementTimeline.scrollTop = (yz.executionCode[x.code_block_name].start + (Math.floor(x.line/this.y_step)*this.y_step)) * this.execution_horiz_scale
 
                         this.timeline_x_cursor = (this.execution_horiz_scale * this.current_execution_step) - elementTimeline.scrollLeft
                         this.timeline_y_cursor = (this.execution_horiz_scale *
@@ -2301,7 +2301,7 @@ ___________
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.executionCode                    = executionCode
+                mm.executionCode                    = yz.executionCode
                 mm.currentTimelineLogPoint          = currentTimelineLogPoint
                 mm.maxTimelineLogPoint              = maxTimelineLogPoint
                 mm.startTimelineTop                 = startTimelineTop
@@ -2340,7 +2340,7 @@ ___________
             mm.override_app_editor  = null
             mm.show_download_save   = true
             mm.show_filename_save   = false
-            mm.execution_code       = executionCode
+            mm.execution_code       = yz.executionCode
             mm.execution_block_list = Object.keys(this.execution_code)
 
 
