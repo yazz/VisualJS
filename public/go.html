@@ -10599,9 +10599,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     })
                 return results
             },
-                runn:                           async function  (  )                                            {
-                fullCode(thecode)
-            },
                 getYazzCookie:                  function        (  )                                            {
                 return getCookie("yazz")
             },
@@ -10977,22 +10974,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var thecode                         = `
-            (function xx() {
-            var a=10
-            if(runLine == 1) {return}
-            a=a+1
-            console.log(a)
-            if(runLine == 2) {return}
-            a=a+1
-            console.log(a)
-            if(runLine == 3) {return}
-            a=a+1
-            console.log(a)
-
-            })()
-            `
-            var runLine                         = 2;
             let globalStartTimer                = new Date().getTime()
             let globalEndTimer                  = new Date().getTime()
             let globalTimerCounter              = 0
@@ -12115,16 +12096,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
                 console.log("Start debugger")
-                fullCode = async function(cc) {
-                    eval(cc)
-                }
                 setTimeout(
                     yz.setupAlaSqlSync, 1000 )
-
-                //yz.runn() // only used for debugging
-                //var rt=esprima.parse(thecode,{tolerant: true , loc:true, range: true, attachComment: false})
-                //console.log(JSON.stringify(rt,null,2))
-
 
                 /*
                  Here are what is used to execute code:
