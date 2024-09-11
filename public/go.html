@@ -10954,6 +10954,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 appIntervalTimers:                  [],
                 indexingComponentInProgress:        false,
                 keycloak:                           null,
+                keycloakJsonInUse:                  null,
 
 
                 //
@@ -10975,7 +10976,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var keycloakJsonInUse               = null
             var username                        = "";
             var thecode                         = `
             (function xx() {
@@ -11966,16 +11966,16 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             )
             */
 
-                if (keycloakJsonInUse) {
+                if (yz.keycloakJsonInUse) {
                     //debugger
-                    if (compareValues(keycloakJsonInUse, keycloakJson)) {
+                    if (compareValues(yz.keycloakJsonInUse, keycloakJson)) {
                         return
                     }
                 }
                 var script = document.createElement('script');
                 script.onload = function () {
                     yz.keycloak = Keycloak(keycloakJson);
-                    keycloakJsonInUse = JSON.parse(JSON.stringify(keycloakJson))
+                    yz.keycloakJsonInUse = JSON.parse(JSON.stringify(keycloakJson))
                     yz.keycloak.init(
                         {
                             onLoad: 'login-required' ,
@@ -12004,7 +12004,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             function        logoutKeycloak                      (  ) {
                 if (yz.keycloak) {
-                    keycloakJsonInUse = null
+                    yz.keycloakJsonInUse = null
                     yz.keycloak.logout()
                 }
             }
