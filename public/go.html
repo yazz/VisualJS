@@ -10600,9 +10600,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
                 socket.on('ws_to_browser_call_component_results',async function(data) {
-                    var callbackFn = queuedResponses[data.seq_num]
+                    var callbackFn = yz.queuedResponses[data.seq_num]
                     callbackFn(data.value)
-                    queuedResponses[data.seq_num] = null
+                    yz.queuedResponses[data.seq_num] = null
                 });
 
             },
@@ -10644,9 +10644,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 |
                 |________________________________________________________________________ */
                 var promise = new Promise(async function(returnfn) {
-                    let seqNum                          = queuedBrowserResponseSeqNum ++;
-                    queuedResponses[seqNum]             = function(result) {returnfn(result)};
-                    componentCallsListArgsSent[seqNum]  = fnCallArgs
+                    let seqNum                          = yz.queuedBrowserResponseSeqNum ++;
+                    yz.queuedResponses[seqNum]             = function(result) {returnfn(result)};
+                    yz.componentCallsListArgsSent[seqNum]  = fnCallArgs
 
                     await yz.sendToServerViaWebSocket({
                         message_type:   "ws_browser_calls_component_via_web_socket",
@@ -10950,6 +10950,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 file_upload_uuid:                   null,
                 base_component_id_of_loaded_app:    null,
                 code_id_of_loaded_app:              null,
+                queuedResponses:                    new Object(),
+                queuedBrowserResponseSeqNum:        0,
+                componentCallsListArgsSent:         new Object(),
+
 
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
@@ -10970,9 +10974,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var queuedResponses                 = new Object()
-            var queuedBrowserResponseSeqNum     = 0
-            var componentCallsListArgsSent      = new Object()
             var uiDebuggerOn                    = false
             var saveCodeToFile                  = null
             var isWin                           = null
@@ -12155,12 +12156,12 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 /*
                  Here are what is used to execute code:
-                    queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
-                    queuedResponses[seqNum]         = callbackFn; // called when the websocket fn returns
-                    componentCallsListArgsSent[seqNum]    = args..  // arguents send to the server
-                    queuedResponses                 = new Object()
-                    queuedBrowserResponseSeqNum     = 0
-                    componentCallsListArgsSent            = new Object()
+                    yz.queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
+                    yz.queuedResponses[seqNum]         = callbackFn; // called when the websocket fn returns
+                    yz.componentCallsListArgsSent[seqNum]    = args..  // arguents send to the server
+                    yz.queuedResponses                 = new Object()
+                    yz.queuedBrowserResponseSeqNum     = 0
+                    yz.componentCallsListArgsSent            = new Object()
 
 
 
