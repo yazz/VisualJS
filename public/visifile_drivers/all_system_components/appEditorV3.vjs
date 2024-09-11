@@ -2007,7 +2007,7 @@ ___________
                 // ---------------------------------------------------------------
 
                 yz.executionTimeline   = []
-               executionTimelineMapTimeToLine   = {}
+               yz.executionTimelineMapTimeToLine   = {}
                yz.maxTimelineLogPoint = 0
                globalWatchList = {}
 
@@ -2023,7 +2023,7 @@ ___________
                 // ---------------------------------------------------------------
                if (this.current_execution_step < (yz.executionTimeline.length - 1)) {
                    this.current_execution_step ++
-                   let x = executionTimelineMapTimeToLine[ this.current_execution_step ]
+                   let x = yz.executionTimelineMapTimeToLine[ this.current_execution_step ]
                    if (x) {
                        this.current_execution_step_y_line = x.line
                    }
@@ -2038,7 +2038,7 @@ ___________
                 // ---------------------------------------------------------------
                if (this.current_execution_step > 0) {
                    this.current_execution_step --
-                   let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
+                   let x = yz.executionTimelineMapTimeToLine[  this.current_execution_step  ]
                    if (x) {
                        this.current_execution_step_y_line = x.line
                    }
@@ -2071,7 +2071,7 @@ ___________
                 // Update the debug timeline
                 // ---------------------------------------------------------------
                 let mm = this
-                let x = executionTimelineMapTimeToLine[  this.current_execution_step  ]
+                let x = yz.executionTimelineMapTimeToLine[  this.current_execution_step  ]
                 if (x) {
                     this.highlighted_line           = x.line
                     this.highlighted_block          = yz.executionCode[x.code_block_name].code
@@ -2168,7 +2168,7 @@ ___________
                     if ((left > -1) && elementTimeline) {
                         //console.log( "("+ left + "," + top + ")" )
 
-                        let x=executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
+                        let x=yz.executionTimelineMapTimeToLine[ Math.floor(left / this.execution_horiz_scale)]
                         if (x) {
                             this.current_execution_step = x.time
                             this.current_execution_step_y_line = x.line
@@ -2247,7 +2247,7 @@ ___________
 
 
                 this.current_execution_step = 0
-                let x = executionTimelineMapTimeToLine[ this.current_execution_step ]
+                let x = yz.executionTimelineMapTimeToLine[ this.current_execution_step ]
                 if (x) {
                     this.current_execution_step_y_line = x.line
                 }
@@ -2301,7 +2301,6 @@ ___________
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
                 mm.globalWatchList                  = globalWatchList
 
             } else if (Vue.version.startsWith("3")) {
@@ -2310,7 +2309,6 @@ ___________
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
-                mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                 mm.globalWatchList                  = Vue.inject('globalWatchList')
                 mm.msToTime                         = Vue.inject('msToTime')
             }
