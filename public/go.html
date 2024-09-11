@@ -9721,17 +9721,17 @@
                 },
                 initSystem:                     async function  (  )                                            {
                     if (yz.isStaticHtmlPageApp) {
-                        useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
+                        yz.useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
                         usePort = /*static_port_start*/ -1/*static_port_end*/
                     } else {
-                        useHostname = location.hostname
+                        yz.useHostname = location.hostname
                         usePort = location.port
                     }
-                    yz.setupWebSocket(useHostname, usePort);
+                    yz.setupWebSocket(yz.useHostname, usePort);
                     if (localAppshareApp) {
                         await yz.initYazzApplication()
                     }
-                    //alert(useHostname + ":" +  usePort)
+                    //alert(yz.useHostname + ":" +  usePort)
                 },
                 initYazzApplication:            async function  (  )                                            {
                     //----------------------------------------------------------------------------------
@@ -10947,6 +10947,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 executionTimelineMapTimeToLine:     {},
                 globalWatchList:                    {},
                 useProtocol:                        location.protocol,
+                useHostname:                        null,
 
 
                 //
@@ -10968,7 +10969,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var useHostname                     = null
             var usePort                         = null
             var globalEventBus                  = mitt()
             window.globalEventBus               = globalEventBus
