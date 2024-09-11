@@ -803,7 +803,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                              | Add some events which update the
                                              | apps on the homepage
                                              |__________________________________ */
-                    window.globalEventBus.on('message', async function(text) {
+                    yz.globalEventBus.on('message', async function(text) {
                         if (text.type == "insert_editable_component_on_homepage") {
                             await mm.addEditableComponentToHomepage(
                                 text.base_component_id,
@@ -852,7 +852,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name               = ""
                             mm.open_file_path               = "/"
                             yz.saveCodeToFile                  = null
-                            globalEventBus.emit('show_settings', {});
+                            yz.globalEventBus.emit('show_settings', {});
                             mm.refresh++
                         }
 
@@ -875,7 +875,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name                   = ""
                             mm.open_file_path                   = "/"
                             yz.saveCodeToFile                      = null
-                            globalEventBus.emit('show_settings', {});
+                            yz.globalEventBus.emit('show_settings', {});
 
                             setTimeout(async function() {
                                 let bci = text.base_component_id
@@ -909,7 +909,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
                             yz.saveCodeToFile              = null
-                            globalEventBus.emit('show_settings', {});
+                            yz.globalEventBus.emit('show_settings', {});
 
                             setTimeout(function() {
                                 let bci = text.base_component_id
@@ -948,7 +948,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name               = ""
                             mm.open_file_path               = "/"
                             yz.saveCodeToFile                  = null
-                            globalEventBus.emit('show_settings', {});
+                            yz.globalEventBus.emit('show_settings', {});
 
                             setTimeout(async function() {
                                 let bci = text.base_component_id
@@ -981,7 +981,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
                             yz.saveCodeToFile              = null
-                            globalEventBus.emit('show_settings', {});
+                            yz.globalEventBus.emit('show_settings', {});
 
                             setTimeout(function() {
                                 let bci = text.base_component_id
@@ -1009,7 +1009,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                              | When we try to drag drop an app
                                              | into the Yazz editor
                                              |__________________________________ */
-                    globalEventBus.on('new-appshare-app-uploaded',
+                    yz.globalEventBus.on('new-appshare-app-uploaded',
                         async function({baseComponentId, codeId, logoUrl, displayName}) {
 
                             await mm.addEditableComponentToHomepage(
@@ -1491,7 +1491,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     let baseComponentId   = compInfo.base_component_id
                     let codeId            = compInfo.code_id
 
-                    globalEventBus.emit('hide_settings', {});
+                    yz.globalEventBus.emit('hide_settings', {});
 
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
@@ -1609,7 +1609,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     //--------------------------------------------------------------------
                     let mm = this
 
-                    globalEventBus.emit('hide_settings', {});
+                    yz.globalEventBus.emit('hide_settings', {});
 
                     await yz.makeSureUiComponentLoadedV6([{baseComponentId: "app_editor_3"}])
 

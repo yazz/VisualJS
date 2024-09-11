@@ -9773,11 +9773,11 @@
                                     mm.location                         = Vue.inject('location')
                                 }
 
-                                globalEventBus.on('hide_settings',
+                                yz.globalEventBus.on('hide_settings',
                                     async function() {
                                         mm.showSettings = false
                                     });
-                                globalEventBus.on('show_settings',
+                                yz.globalEventBus.on('show_settings',
                                     async function() {
                                         mm.showSettings = true
                                     });
@@ -10485,7 +10485,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 socket.on('uploaded_app_as_file_from_server',async function(data) {
                     if (data.client_file_upload_id == yz.file_upload_uuid) {
-                        globalEventBus.emit('new-appshare-app-uploaded',
+                        yz.globalEventBus.emit('new-appshare-app-uploaded',
                             {
                                 baseComponentId:    data.base_component_id,
                                 displayName:        data.display_name,
@@ -10949,6 +10949,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 useProtocol:                        location.protocol,
                 useHostname:                        null,
                 usePort:                            null,
+                globalEventBus:                     mitt(),
 
 
                 //
@@ -10970,8 +10971,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var globalEventBus                  = mitt()
-            window.globalEventBus               = globalEventBus
             let newAppArgs                      = []
             var socket                          = null;
             var staticAppSocket

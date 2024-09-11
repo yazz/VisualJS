@@ -11,7 +11,7 @@
                 yz.editor.lastEditingAppBaseComponentId = yz.editor.editingAppBaseComponentId;
                 yz.editor.lastEditingAppCodeId = yz.editor.editingAppCodeId;
                 event.stopPropagation();
-                window.globalEventBus.emit("message", {
+                yz.globalEventBus.emit("message", {
                     type:               "edit_component",
                     base_component_id:  mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id,
                     code_id:            mm.model.forms[mm.active_form].components[mm.active_component_index].code_id,
@@ -26,7 +26,7 @@
                 yz.editor.lastEditingAppBaseComponentId = yz.editor.editingAppBaseComponentId;
                 yz.editor.lastEditingAppCodeId          = yz.editor.editingAppCodeId;
                 event.stopPropagation();
-                window.globalEventBus.emit("message", {
+                yz.globalEventBus.emit("message", {
                     type: "fork_component",
                     base_component_id:      mm.model.forms[mm.active_form].components[mm.active_component_index].base_component_id,
                     code_id:                mm.model.forms[mm.active_form].components[mm.active_component_index].code_id,

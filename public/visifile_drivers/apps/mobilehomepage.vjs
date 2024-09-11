@@ -289,7 +289,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-            window.globalEventBus.on('message', async function(text) {
+            yz.globalEventBus.on('message', async function(text) {
                 if (text.type == "insert_editable_component_on_homepage") {
                     //debugger
                     await mm.addLogoForApp(text.base_component_id)
@@ -312,7 +312,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             })
 
 
-            globalEventBus.on('new-appshare-app-uploaded',
+            yz.globalEventBus.on('new-appshare-app-uploaded',
                 async function(data) {
                     await mm.addLogoForApp(data)
                     await mm.addApp(data)
