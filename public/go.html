@@ -7877,10 +7877,10 @@
                 getNetworkHostName:         function                          (   ) {
                     let networkHostName = location.hostname
                     if (networkHostName == "127.0.0.1") {
-                        networkHostName = networkIntranetIpAddress
+                        networkHostName = yz.networkIntranetIpAddress
                     }
                     if (networkHostName == "0.0.0.0") {
-                        networkHostName = networkIntranetIpAddress
+                        networkHostName = yz.networkIntranetIpAddress
                     }
                     return networkHostName
                 },
@@ -10531,9 +10531,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 socket.on('server_init_data',async function(data) {
                     console.log("Server init data received from server socket: " + JSON.stringify(data,null,2));
 
-                    networkIntranetIpAddress = data.network_ip_address_intranet
+                    yz.networkIntranetIpAddress = data.network_ip_address_intranet
                     isWin                    = data.send_is_win
-                    console.log("networkIntranetIpAddress: " + networkIntranetIpAddress);
+                    console.log("yz.networkIntranetIpAddress: " + yz.networkIntranetIpAddress);
                     console.log("isWin:                    " + isWin);
 
                     var allEnvVarNames = Object.keys(data.env_vars)
@@ -10946,6 +10946,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 return ret
             },
 
+                networkIntranetIpAddress:       null,
+
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
                 // "DO NOT" change this line as it is dynamically replaced by code
@@ -10965,7 +10967,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var networkIntranetIpAddress        = null
             var file_upload_uuid                = null
             var base_component_id_of_loaded_app = null
             var code_id_of_loaded_app           = null
