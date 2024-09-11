@@ -10520,7 +10520,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-                send_is_win:                        isWin
+                send_is_win:                        yz.isWin
                 // ----------------------------------------------------------------------------------------------
                 //
                 //                  Share the container environment variables with the front end
@@ -10530,9 +10530,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     console.log("Server init data received from server socket: " + JSON.stringify(data,null,2));
 
                     yz.networkIntranetIpAddress = data.network_ip_address_intranet
-                    isWin                    = data.send_is_win
+                    yz.isWin                    = data.send_is_win
                     console.log("yz.networkIntranetIpAddress: " + yz.networkIntranetIpAddress);
-                    console.log("isWin:                    " + isWin);
+                    console.log("yz.isWin:                    " + yz.isWin);
 
                     var allEnvVarNames = Object.keys(data.env_vars)
                     for (var i=0; i< allEnvVarNames.length;i++) {
@@ -10953,6 +10953,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 componentCallsListArgsSent:         new Object(),
                 uiDebuggerOn:                       false,
                 saveCodeToFile:                     null,
+                isWin:                              null,
 
 
                 //
@@ -10974,7 +10975,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var isWin                           = null
             var executionCode                   = new Object()
             var currentTimelineLogPoint         = 0
             var maxTimelineLogPoint             = 0

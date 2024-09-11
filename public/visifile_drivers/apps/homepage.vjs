@@ -1129,7 +1129,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     // if this is a folder
                     //
                     if (fileOrFolder.type == "folder") {
-                        if (isWin) {
+                        if (yz.isWin) {
                             this.open_file_path += "\\" + fileOrFolder.name
                         } else {
                             this.open_file_path += "/" + fileOrFolder.name
@@ -1187,7 +1187,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     let lastFolderIndex = null
                     //debugger
 
-                    if (isWin) {
+                    if (yz.isWin) {
                         lastFolderIndex = this.open_file_path.lastIndexOf("\\")
                         if (lastFolderIndex == (this.open_file_path.length - 1)) {
                             this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)

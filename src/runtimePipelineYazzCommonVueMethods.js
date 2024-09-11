@@ -4864,7 +4864,7 @@ return {}
                 // if this is a folder
 
                 if (fileorFolder.type == "folder") {
-                    if (isWin) {
+                    if (yz.isWin) {
                         mm.open_file_path += "\\" + fileorFolder.name
                     } else {
                         mm.open_file_path += "/" + fileorFolder.name
@@ -4923,7 +4923,7 @@ return {}
                 let lastFolderIndex = null
                 //debugger
 
-                if (isWin) {
+                if (yz.isWin) {
                     lastFolderIndex = this.open_file_path.lastIndexOf("\\")
                     if (lastFolderIndex == (this.open_file_path.length - 1)) {
                         this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
