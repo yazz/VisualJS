@@ -882,11 +882,11 @@ ___________
                                         <div v-for="varWatchName in execution_watch_list">
 
                                             <div style='border: 0px solid blue; padding: 4px; min-height:50px;'
-                                                 v-if='globalWatchList && globalWatchList[varWatchName] && globalWatchList[varWatchName][current_execution_step]'>
+                                                 v-if='yz.globalWatchList && yz.globalWatchList[varWatchName] && yz.globalWatchList[varWatchName][current_execution_step]'>
 
                                                 <b>{{varWatchName}}:</b>
 
-                                                <div v-html='getVarAsHtml(globalWatchList[varWatchName].viewer,varWatchName)'></div>
+                                                <div v-html='getVarAsHtml(yz.globalWatchList[varWatchName].viewer,varWatchName)'></div>
 
                                                 <div>
                                                     <button type=button class='btn btn-danger' style='margin: 0px;padding:0px; '
@@ -901,9 +901,9 @@ ___________
                                                         Keep
                                                     </button>
 
-                                                    <div v-if='globalWatchList[varWatchName].type == "ListOfNumbers"'>
+                                                    <div v-if='yz.globalWatchList[varWatchName].type == "ListOfNumbers"'>
 
-                                                        <select v-model="globalWatchList[varWatchName].viewer">
+                                                        <select v-model="yz.globalWatchList[varWatchName].viewer">
                                                             <option value="text">View as text</option>
                                                             <option value="graph">Graph</option>
                                                         </select>
@@ -1371,7 +1371,7 @@ ___________
 
                 setTimeout(function() {
                         mm.setupTimelineEditor()
-                        let allWatches = Object.keys(globalWatchList)
+                        let allWatches = Object.keys(yz.globalWatchList)
                         for (let rt = 0 ; rt < allWatches.length; rt++) {
                             fillInMissingWatchTimelineValues(allWatches[rt],0)
                         }
@@ -1960,10 +1960,10 @@ ___________
                //
                // This views program variables in the debugger
                // ---------------------------------------------------------------
-               let value = globalWatchList[varName][this.current_execution_step].value
+               let value = yz.globalWatchList[varName][this.current_execution_step].value
                let returnVal = null
                if ((viewer == null) || (viewer.length=="")) {
-                    if (globalWatchList[varName].type == "ListOfNumbers") {
+                    if (yz.globalWatchList[varName].type == "ListOfNumbers") {
                         viewer="graph"
                     }
                }
@@ -2009,7 +2009,7 @@ ___________
                 yz.executionTimeline   = []
                yz.executionTimelineMapTimeToLine   = {}
                yz.maxTimelineLogPoint = 0
-               globalWatchList = {}
+               yz.globalWatchList = {}
 
                this.current_execution_step = 0
                this.current_execution_step_y_line = -1
@@ -2121,7 +2121,7 @@ ___________
                 }
                 if (yz.executionTimeline[this.current_execution_step]){
                     this.execution_var_list = Object.keys(yz.executionTimeline[this.current_execution_step].vars)
-                    this.execution_watch_list = Object.keys(globalWatchList)
+                    this.execution_watch_list = Object.keys(yz.globalWatchList)
                     this.execution_watch_list.sort()
                 }
 
@@ -2183,9 +2183,9 @@ ___________
                 //
                 // Add a debug watch var
                 // ---------------------------------------------------------------
-                globalWatchList[varN]={}
+                yz.globalWatchList[varN]={}
                 await this.loadComponentIntoEditor({codeId:  this.code_id })
-                let allWatches = Object.keys(globalWatchList)
+                let allWatches = Object.keys(yz.globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
                     fillInMissingWatchTimelineValues(allWatches[rt],0)
                 }
@@ -2196,7 +2196,7 @@ ___________
                 //
                 // Delete a debug watch var
                 // ---------------------------------------------------------------
-                delete globalWatchList[varN]
+                delete yz.globalWatchList[varN]
             },
             keepWatch:                      async function  (  varN  ){
                 // ---------------------------------------------------------------
@@ -2204,10 +2204,10 @@ ___________
                 //
                 // Keep a debug watch var
                 // ---------------------------------------------------------------
-                let allWatches = Object.keys(globalWatchList)
+                let allWatches = Object.keys(yz.globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
                     if (allWatches[rt] != varN) {
-                        delete globalWatchList[allWatches[rt]]
+                        delete yz.globalWatchList[allWatches[rt]]
                     }
                 }
             },
@@ -2301,7 +2301,6 @@ ___________
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.globalWatchList                  = globalWatchList
 
             } else if (Vue.version.startsWith("3")) {
                 mm.isValidObject                    = Vue.inject('isValidObject')
@@ -2309,7 +2308,6 @@ ___________
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
-                mm.globalWatchList                  = Vue.inject('globalWatchList')
                 mm.msToTime                         = Vue.inject('msToTime')
             }
 

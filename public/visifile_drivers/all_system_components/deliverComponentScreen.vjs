@@ -559,7 +559,6 @@ pane_release_description:               {{pane_release_description}}
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.globalWatchList                  = globalWatchList
 
             } else if (Vue.version.startsWith("3")) {
                 mm.isValidObject                    = Vue.inject('isValidObject')
@@ -567,7 +566,6 @@ pane_release_description:               {{pane_release_description}}
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
-                mm.globalWatchList                  = Vue.inject('globalWatchList')
                 mm.msToTime                         = Vue.inject('msToTime')
 
 

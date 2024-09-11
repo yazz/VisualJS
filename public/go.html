@@ -9762,7 +9762,6 @@
                                     mm.showProgressBar                  = showProgressBar
                                     mm.hideProgressBar                  = hideProgressBar
                                     mm.location                         = location
-                                    mm.globalWatchList                  = globalWatchList
                                 } else if (Vue.version.startsWith("3")) {
                                     mm.isValidObject                    = Vue.inject('isValidObject')
                                     mm.yz                               = Vue.inject('yz')
@@ -9772,7 +9771,6 @@
                                     mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
                                     mm.timeDiffLater                    = Vue.inject('timeDiffLater')
                                     mm.location                         = Vue.inject('location')
-                                    mm.globalWatchList                  = Vue.inject('globalWatchList')
                                 }
 
                                 globalEventBus.on('hide_settings',
@@ -10947,6 +10945,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 startTimelineTop:                   0,
                 executionTimeline:                  [],
                 executionTimelineMapTimeToLine:     {},
+                globalWatchList:                    {},
 
 
                 //
@@ -10968,7 +10967,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var globalWatchList                 = {}
             var useProtocol                     = location.protocol
             var useHostname                     = null
             var usePort                         = null
@@ -11113,7 +11111,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 hideProgressBar:                hideProgressBar,
                 location:                       location,
                 executionCode:                  yz.executionCode,
-                globalWatchList:                globalWatchList,
                 msToTime:                       msToTime,
                 capitalizeFirstLetter:          capitalizeFirstLetter,
                 timeDiffLater:                  timeDiffLater,
@@ -11412,40 +11409,40 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             }
             function        fillInMissingWatchTimelineValues    (  vName  ,  executionStepNo  ) {
-                if (!globalWatchList[vName]) {
-                    globalWatchList[vName] = {
+                if (!yz.globalWatchList[vName]) {
+                    yz.globalWatchList[vName] = {
                         viewer: ""
                     }
                 }
-                if (!globalWatchList[vName][executionStepNo]) {
-                    globalWatchList[vName][executionStepNo] = {}
+                if (!yz.globalWatchList[vName][executionStepNo]) {
+                    yz.globalWatchList[vName][executionStepNo] = {}
                 }
 
                 if (executionStepNo == yz.executionTimeline.length) {
                     return
 
-                } else if (!globalWatchList[vName][executionStepNo].isSet) {
+                } else if (!yz.globalWatchList[vName][executionStepNo].isSet) {
                     if (executionStepNo == 0) {
-                        globalWatchList[vName][executionStepNo].value = null
+                        yz.globalWatchList[vName][executionStepNo].value = null
                     } else {
-                        globalWatchList[vName][executionStepNo].value = globalWatchList[vName][executionStepNo - 1].value
+                        yz.globalWatchList[vName][executionStepNo].value = yz.globalWatchList[vName][executionStepNo - 1].value
                     }
                 }
                 fillInMissingWatchTimelineValues(vName, executionStepNo + 1)
             }
             function        addWatchPoint                       (  vName  ,  value  ) {
-                globalWatchList[vName][yz.currentTimelineLogPoint] = {}
-                globalWatchList[vName][yz.currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
-                globalWatchList[vName][yz.currentTimelineLogPoint].isSet = true
+                yz.globalWatchList[vName][yz.currentTimelineLogPoint] = {}
+                yz.globalWatchList[vName][yz.currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
+                yz.globalWatchList[vName][yz.currentTimelineLogPoint].isSet = true
                 if (value){
-                    globalWatchList[vName].type = typeof(value)
-                    globalWatchList[vName].viewer = "text"
+                    yz.globalWatchList[vName].type = typeof(value)
+                    yz.globalWatchList[vName].viewer = "text"
 
                     if (typeof(value) == "object") {
                         if (value[0]) {
                             if (typeof(value[0]) == "number") {
-                                globalWatchList[vName].type = "ListOfNumbers"
-                                globalWatchList[vName].viewer = "graph"
+                                yz.globalWatchList[vName].type = "ListOfNumbers"
+                                yz.globalWatchList[vName].viewer = "graph"
                             }
                         }
                     }
@@ -11534,7 +11531,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                         varNameToUse + "'," + varNameToUse + ");"
                                                     let newNodeAfter = esprima.parse(newLineAfter)
 
-                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                                     let logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
                                                     for (let rr = 0; rr < parent.body.length; rr++) {
@@ -11552,7 +11549,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                                             if ((node.type == "ExpressionStatement") && node.expression) {
                                                 if (node.expression.type == "CallExpression") {
-                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                                     let logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
                                                     for (let rr=0; rr<parent.body.length; rr++){
@@ -11591,7 +11588,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                             varName + "', " + varName + ");"
                                                         let newNodeAfter = esprima.parse(newLineAfter)
 
-                                                        let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(globalWatchList).length; _uu++){try { let _vName = Object.keys(globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                        let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                                         let logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
                                                         for (let rr = 0; rr < parent.body.length; rr++) {
@@ -11632,7 +11629,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                     for ( let fds = 0 ; fds < Object.keys(varsToAdd).length ; fds ++ ) {
                         let nnn = Object.keys(varsToAdd)[fds]
-                        globalWatchList[nnn]={
+                        yz.globalWatchList[nnn]={
                             viewer: ""
                         }
                     }
