@@ -2301,7 +2301,6 @@ ___________
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.executionCode                    = yz.executionCode
                 mm.currentTimelineLogPoint          = currentTimelineLogPoint
                 mm.maxTimelineLogPoint              = maxTimelineLogPoint
                 mm.startTimelineTop                 = startTimelineTop
@@ -2315,7 +2314,6 @@ ___________
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
-                mm.executionCode                    = Vue.inject('executionCode')
                 mm.currentTimelineLogPoint          = Vue.inject('currentTimelineLogPoint')
                 mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')
                 mm.startTimelineTop                 = Vue.inject('startTimelineTop')
