@@ -1363,7 +1363,7 @@ module.exports = {
                                     let newcodeEs   = escape(results[i].code.toString())
                                     let newCode2    =
                                         `
-                                        await universalSaveStaticUIControl
+                                        await yz.universalSaveStaticUIControl
                                         (   
                                             { 
                                                 sha1sum:            "${results[i].sha1}", 
