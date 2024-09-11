@@ -400,7 +400,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
          },
          openFileElectron() {
 
-                //let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(file_upload_uuid)
+                //let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(yz.file_upload_uuid)
                 let openfileurl = "/electron_file_open"
 
                 //console.log("openfileurl:= " + openfileurl)
