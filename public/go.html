@@ -9762,7 +9762,6 @@
                                     mm.showProgressBar                  = showProgressBar
                                     mm.hideProgressBar                  = hideProgressBar
                                     mm.location                         = location
-                                    mm.executionTimeline                = executionTimeline
                                     mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
                                     mm.globalWatchList                  = globalWatchList
                                 } else if (Vue.version.startsWith("3")) {
@@ -9774,7 +9773,6 @@
                                     mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
                                     mm.timeDiffLater                    = Vue.inject('timeDiffLater')
                                     mm.location                         = Vue.inject('location')
-                                    mm.executionTimeline                = Vue.inject('executionTimeline')
                                     mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                                     mm.globalWatchList                  = Vue.inject('globalWatchList')
                                 }
@@ -10949,6 +10947,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 currentTimelineLogPoint:            0,
                 maxTimelineLogPoint:                0,
                 startTimelineTop:                   0,
+                executionTimeline:                  [],
 
 
                 //
@@ -10970,7 +10969,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var executionTimeline               = []
             var executionTimelineMapTimeToLine  = {}
             var globalWatchList                 = {}
             var useProtocol                     = location.protocol
@@ -11117,7 +11115,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 hideProgressBar:                hideProgressBar,
                 location:                       location,
                 executionCode:                  yz.executionCode,
-                executionTimeline:              executionTimeline,
                 executionTimelineMapTimeToLine: executionTimelineMapTimeToLine,
                 globalWatchList:                globalWatchList,
                 msToTime:                       msToTime,

@@ -2301,7 +2301,6 @@ ___________
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.executionTimeline                = executionTimeline
                 mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
                 mm.globalWatchList                  = globalWatchList
 
@@ -2311,7 +2310,6 @@ ___________
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
-                mm.executionTimeline                = Vue.inject('executionTimeline')
                 mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                 mm.globalWatchList                  = Vue.inject('globalWatchList')
                 mm.msToTime                         = Vue.inject('msToTime')
