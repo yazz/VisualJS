@@ -9887,7 +9887,7 @@
                                                 .then(async function(responseJson)
                                                 {
                                                     let seed = responseJson.seed
-                                                    let signMessage =   signMessageTemplate + seed
+                                                    let signMessage =  yz.signMessageTemplate + seed
                                                     let signedTx = await mm.signTransactionV2(signMessage)
 
                                                     let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
@@ -10953,6 +10953,16 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 keycloak:                           null,
                 keycloakJsonInUse:                  null,
                 username:                           "",
+                globalStartTimer:                   new Date().getTime(),
+                globalEndTimer:                     new Date().getTime(),
+                globalTimerCounter:                 0,
+                signMessageTemplate:                "Hi there from Yazz. Sign this message " +
+                                                    "to prove you have access to this wallet " +
+                                                    "and we'll log you in. This won't cost " +
+                                                    "you any Ether." +
+                                                    "\n\n" +
+                                                    "To stop hackers using your wallet, here's " +
+                                                    "a unique message ID they can't guess: ",
 
 
                 //
@@ -10974,16 +10984,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            let globalStartTimer                = new Date().getTime()
-            let globalEndTimer                  = new Date().getTime()
-            let globalTimerCounter              = 0
-            let signMessageTemplate             =   "Hi there from Yazz. Sign this message " +
-                                                    "to prove you have access to this wallet " +
-                                                    "and we'll log you in. This won't cost " +
-                                                    "you any Ether." +
-                                                    "\n\n" +
-                                                    "To stop hackers using your wallet, here's " +
-                                                    "a unique message ID they can't guess: "
 
             window.currentBlockchain    = "1"
             window.blockchainIds        = {
@@ -11728,17 +11728,17 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
             function        resetTimer                          (  messageToStart  ) {
                 console.log("Starting timer for: " + messageToStart)
-                globalStartTimer = new Date().getTime()
-                globalTimerCounter = 0
+                yz.globalStartTimer = new Date().getTime()
+                yz.globalTimerCounter = 0
             }
             function        showTimer                           (  optionalMessage  ) {
-                globalEndTimer = new Date().getTime()
-                globalTimerCounter ++
+                yz.globalEndTimer = new Date().getTime()
+                yz.globalTimerCounter ++
                 let theTimerText = optionalMessage
                 if (!theTimerText) {
-                    theTimerText = "" + globalTimerCounter
+                    theTimerText = "" + yz.globalTimerCounter
                 }
-                console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (globalEndTimer - globalStartTimer))
+                console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (yz.globalEndTimer - yz.globalStartTimer))
             }
             function        getUrlParam                         (  paramName  ) {
 
