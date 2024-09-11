@@ -9722,16 +9722,16 @@
                 initSystem:                     async function  (  )                                            {
                     if (yz.isStaticHtmlPageApp) {
                         yz.useHostname = /*static_hostname_start*/"***location.hostname***"/*static_hostname_end*/
-                        usePort = /*static_port_start*/ -1/*static_port_end*/
+                        yz.usePort = /*static_port_start*/ -1/*static_port_end*/
                     } else {
                         yz.useHostname = location.hostname
-                        usePort = location.port
+                        yz.usePort = location.port
                     }
-                    yz.setupWebSocket(yz.useHostname, usePort);
+                    yz.setupWebSocket(yz.useHostname, yz.usePort);
                     if (localAppshareApp) {
                         await yz.initYazzApplication()
                     }
-                    //alert(yz.useHostname + ":" +  usePort)
+                    //alert(yz.useHostname + ":" +  yz.usePort)
                 },
                 initYazzApplication:            async function  (  )                                            {
                     //----------------------------------------------------------------------------------
@@ -10948,6 +10948,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 globalWatchList:                    {},
                 useProtocol:                        location.protocol,
                 useHostname:                        null,
+                usePort:                            null,
 
 
                 //
@@ -10969,7 +10970,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var usePort                         = null
             var globalEventBus                  = mitt()
             window.globalEventBus               = globalEventBus
             let newAppArgs                      = []
