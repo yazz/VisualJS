@@ -9763,7 +9763,6 @@
                                     mm.showProgressBar                  = showProgressBar
                                     mm.hideProgressBar                  = hideProgressBar
                                     mm.location                         = location
-                                    mm.startTimelineTop                 = startTimelineTop
                                     mm.executionTimeline                = executionTimeline
                                     mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
                                     mm.globalWatchList                  = globalWatchList
@@ -9776,7 +9775,6 @@
                                     mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
                                     mm.timeDiffLater                    = Vue.inject('timeDiffLater')
                                     mm.location                         = Vue.inject('location')
-                                    mm.startTimelineTop                 = Vue.inject('startTimelineTop')
                                     mm.executionTimeline                = Vue.inject('executionTimeline')
                                     mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                                     mm.globalWatchList                  = Vue.inject('globalWatchList')
@@ -10951,6 +10949,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 executionCode:                      new Object(),
                 currentTimelineLogPoint:            0,
                 maxTimelineLogPoint:                0,
+                startTimelineTop:                   0,
 
 
                 //
@@ -10972,7 +10971,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var startTimelineTop                = 0
             var executionTimeline               = []
             var executionTimelineMapTimeToLine  = {}
             var globalWatchList                 = {}
@@ -11120,7 +11118,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 hideProgressBar:                hideProgressBar,
                 location:                       location,
                 executionCode:                  yz.executionCode,
-                startTimelineTop:               startTimelineTop,
                 executionTimeline:              executionTimeline,
                 executionTimelineMapTimeToLine: executionTimelineMapTimeToLine,
                 globalWatchList:                globalWatchList,
@@ -11697,8 +11694,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     trcode2 = trcode2.toString().replaceAll("await sqlRxFirstCol1[(][^,]*,[^,]*,", "sqlFirstCol1(")
 
                     yz.executionCode[blockName].code = trcode2
-                    yz.executionCode[blockName].start = startTimelineTop
-                    startTimelineTop += trcode2.length
+                    yz.executionCode[blockName].start = yz.startTimelineTop
+                    yz.startTimelineTop += trcode2.length
                 }
 
                 return debugCode
