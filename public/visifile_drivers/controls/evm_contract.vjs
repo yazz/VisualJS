@@ -200,11 +200,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
 
                   <select v-model="properties.blockchainId" @change="changeBlockchainNetwork();" id=changeBlockchain>
                     <option disabled value="">Please select one</option>
-                    <option  v-for="blockchainId in Object.keys(window.blockchainIds)"
-                            v-if="window.blockchainIds[blockchainId].chainName"
+                    <option  v-for="blockchainId in Object.keys(yz.blockchainIds)"
+                            v-if="yz.blockchainIds[blockchainId].chainName"
                              v-bind:selected="properties.blockchainId === blockchainId"
                              v-bind:value="blockchainId"
-                              >{{window.blockchainIds[blockchainId].chainName}}</option>
+                              >{{yz.blockchainIds[blockchainId].chainName}}</option>
                   </select>
 
                   <a v-if="faucet" v-bind:href="faucet" target="_blank">
@@ -292,7 +292,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
             await registerComponent(this)
             await yz.useWeb3()
             this.lastSelectedBlockchain = this.properties.blockchainId
-            this.faucet = window.blockchainIds[this.properties.blockchainId].faucet
+            this.faucet = yz.blockchainIds[this.properties.blockchainId].faucet
 
             if (isValidObject(this.args.text)) {
             }
@@ -399,7 +399,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA1
               }).then((instance) => {
 //debugger
                   console.log("Contract mined at " + instance.options.address);
-                  mm.properties.infoMessage = "<a href='" + window.blockchainIds[mm.properties.blockchainId].preMinedUrl + instance.options.address + window.blockchainIds[mm.properties.blockchainId].postMinedUrl + "' target=mined>Contract mined at " + instance.options.address + "</a>";
+                  mm.properties.infoMessage = "<a href='" + yz.blockchainIds[mm.properties.blockchainId].preMinedUrl + instance.options.address + yz.blockchainIds[mm.properties.blockchainId].postMinedUrl + "' target=mined>Contract mined at " + instance.options.address + "</a>";
                   mm.properties.infoColor = "black"
 
                       mm.contractInstance = instance;
@@ -539,7 +539,7 @@ return sdf
                   let switchChain = await yz.switchBlockchainNetwork(mm.properties.blockchainId)   //eth rinkby
                     if (switchChain) {
                         mm.lastSelectedBlockchain = mm.properties.blockchainId
-                        mm.faucet = window.blockchainIds[mm.properties.blockchainId].faucet
+                        mm.faucet = yz.blockchainIds[mm.properties.blockchainId].faucet
                     } else {
                         mm.properties.blockchainId = mm.lastSelectedBlockchain
                     }

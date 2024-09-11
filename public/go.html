@@ -9293,7 +9293,7 @@
                                     //await switchBlockchainNetwork('1')   //eth mainnet
                                     //await switchBlockchainNetwork('97')   //binance testnet
                                     //await switchBlockchainNetwork('80001')   //polygon testnet
-                                    await yz.switchBlockchainNetwork(window.currentBlockchain)   //polygon testnet
+                                    await yz.switchBlockchainNetwork(yz.currentBlockchain)   //polygon testnet
                                 })()
                             } catch (error) {
 
@@ -9459,7 +9459,7 @@
                         console.log("Metamask is not installed, please install!");
                     }
                     let chainId = await provider.request({ method: "eth_chainId" });
-                    if (chainId === window.blockchainIds[blockchainId].chainId) {
+                    if (chainId === yz.blockchainIds[blockchainId].chainId) {
                         console.log("Bravo!, you are on the correct network");
                     } else {
                         console.log("oulalal, switch to the correct network")
@@ -9468,7 +9468,7 @@
                     try {
                         await provider.request({
                             method: "wallet_switchEthereumChain",
-                            params: [{ chainId: window.blockchainIds[blockchainId].chainId}],
+                            params: [{ chainId: yz.blockchainIds[blockchainId].chainId}],
                         });
                         console.log("You have succefully switched to Binance Test network")
                     } catch (switchError) {
@@ -9481,7 +9481,7 @@
                             await provider.request({
                                 method: 'wallet_addEthereumChain',
                                 params: [
-                                    (await yz.filterBlockchainParams(window.blockchainIds[blockchainId]))
+                                    (await yz.filterBlockchainParams(yz.blockchainIds[blockchainId]))
                                 ]
                             });
                         } catch (addError) {
@@ -10963,7 +10963,102 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                     "\n\n" +
                                                     "To stop hackers using your wallet, here's " +
                                                     "a unique message ID they can't guess: ",
-
+                currentBlockchain:                  "1",
+                blockchainIds:                      {
+                    '0': 'kardia',
+                    '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
+                    '4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
+                    '8': 'ubiq',
+                    '10': 'optimism',
+                    '19': 'songbird',
+                    '20': 'elastos',
+                    '25': 'cronos',
+                    '30': {
+                        chainId: '0x1e',
+                        chainName:'rsk - mainnet',
+                        rpcUrls:["https://public-node.rsk.co"],
+                        blockExplorerUrls:['https://explorer.rsk.co'],
+                        nativeCurrency: {symbol:'RBTC',decimals: 18}
+                    },
+                    '31': {
+                        chainId: '0x1f',
+                        chainName:'rsk - testnet',
+                        rpcUrls:["https://public-node.testnet.rsk.co"],
+                        blockExplorerUrls:['https://explorer.testnet.rsk.co'],
+                        nativeCurrency: {symbol:'RBTC',decimals: 18},
+                        faucet: "https://faucet.rsk.co",
+                        preMinedUrl: "https://explorer.testnet.rsk.co/address/",
+                        postMinedUrl: ""
+                    },
+                    '40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
+                        faucet: "https://app.telos.net/testnet/developers"},
+                    '41': {
+                        chainId: '0x29',
+                        chainName:'telos - testnet',
+                        rpcUrls:["https://testnet.telos.net/evm"],
+                        blockExplorerUrls:['https://testnet.teloscan.io'],
+                        nativeCurrency: {symbol:'TLOS',decimals: 18},
+                        faucet: "https://app.telos.net/testnet/developers"
+                    },
+                    '52': 'csc',
+                    '55': 'zyx',
+                    '56': 'binance',
+                    '57': 'syscoin',
+                    '60': 'gochain',
+                    '61': 'ethclassic',
+                    '66': 'okexchain',
+                    '70': 'hoo',
+                    '82': 'meter',
+                    '88': 'tomochain',
+                    '97': {chainId: '0x61',chainName:'Binance Smart Chain - Testnet',rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545'],blockExplorerUrls:['https://testnet.bscscan.com'],nativeCurrency: {symbol:'BNB',decimals: 18}},
+                    '100': 'xdai',
+                    '106': 'velas',
+                    '108': 'thundercore',
+                    '122': 'fuse',
+                    '128': 'heco',
+                    '137': 'polygon',
+                    '200': 'xdaiarb',
+                    '246': 'energyweb',
+                    '250': {chainId: '0xFA',chainName: 'Fantom Opera Mainnet',rpcUrls:['https://rpc.ftm.tools/'],blockExplorerUrls:['https://ftmscan.com'],nativeCurrency: {symbol:'FTM',decimals: 18}},
+                    '269': 'hpb',
+                    '288': 'boba',
+                    '321': 'kucoin',
+                    '336': 'shiden',
+                    '361': 'theta',
+                    '592': 'astar',
+                    '820': 'callisto',
+                    '888': 'wanchain',
+                    '1088': 'metis',
+                    '1284': 'moonbeam',
+                    '1285': 'moonriver',
+                    '2020': 'ronin',
+                    '4689': 'iotex',
+                    '5050': 'xlc',
+                    '5551': 'nahmii',
+                    '8217': 'klaytn',
+                    '10000': 'smartbch',
+                    '32659': 'fusion',
+                    '42161': 'arbitrum',
+                    '421611': {
+                        chainId: '0x66EEB',
+                        chainName:'arbitrum - testnet',
+                        rpcUrls:["https://rinkeby.arbitrum.io/rpc"],
+                        blockExplorerUrls:['https://rinkeby-explorer.arbitrum.io/#/'],
+                        nativeCurrency: {symbol:'ETH',decimals: 18},
+                        faucet: "https://docs.theanthill.io/how-to/getting-bnb-on-binance-smart-chain-bsc-testnet"
+                    },
+                    '42220': 'celo',
+                    '42262': 'oasis',
+                    '43114': 'avalanche',
+                    '71394': 'godwoken',
+                    '80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
+                        faucet: "https://faucet.polygon.technology"},
+                    '333999': 'polis',
+                    '1313161554': 'aurora',
+                    '1666600000': 'harmony',
+                    '11297108109': 'palm',
+                    '836542336838601': 'curio'
+                },
 
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
@@ -10983,104 +11078,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             var timeDiffLater           = yz.timeDiffLater
 
 
-
-
-            window.currentBlockchain    = "1"
-            window.blockchainIds        = {
-            '0': 'kardia',
-            '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
-            '4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
-            '8': 'ubiq',
-            '10': 'optimism',
-            '19': 'songbird',
-            '20': 'elastos',
-            '25': 'cronos',
-            '30': {
-            chainId: '0x1e',
-            chainName:'rsk - mainnet',
-            rpcUrls:["https://public-node.rsk.co"],
-            blockExplorerUrls:['https://explorer.rsk.co'],
-            nativeCurrency: {symbol:'RBTC',decimals: 18}
-            },
-            '31': {
-            chainId: '0x1f',
-            chainName:'rsk - testnet',
-            rpcUrls:["https://public-node.testnet.rsk.co"],
-            blockExplorerUrls:['https://explorer.testnet.rsk.co'],
-            nativeCurrency: {symbol:'RBTC',decimals: 18},
-            faucet: "https://faucet.rsk.co",
-            preMinedUrl: "https://explorer.testnet.rsk.co/address/",
-            postMinedUrl: ""
-            },
-            '40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
-            faucet: "https://app.telos.net/testnet/developers"},
-            '41': {
-            chainId: '0x29',
-            chainName:'telos - testnet',
-            rpcUrls:["https://testnet.telos.net/evm"],
-            blockExplorerUrls:['https://testnet.teloscan.io'],
-            nativeCurrency: {symbol:'TLOS',decimals: 18},
-            faucet: "https://app.telos.net/testnet/developers"
-            },
-            '52': 'csc',
-            '55': 'zyx',
-            '56': 'binance',
-            '57': 'syscoin',
-            '60': 'gochain',
-            '61': 'ethclassic',
-            '66': 'okexchain',
-            '70': 'hoo',
-            '82': 'meter',
-            '88': 'tomochain',
-            '97': {chainId: '0x61',chainName:'Binance Smart Chain - Testnet',rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545'],blockExplorerUrls:['https://testnet.bscscan.com'],nativeCurrency: {symbol:'BNB',decimals: 18}},
-            '100': 'xdai',
-            '106': 'velas',
-            '108': 'thundercore',
-            '122': 'fuse',
-            '128': 'heco',
-            '137': 'polygon',
-            '200': 'xdaiarb',
-            '246': 'energyweb',
-            '250': {chainId: '0xFA',chainName: 'Fantom Opera Mainnet',rpcUrls:['https://rpc.ftm.tools/'],blockExplorerUrls:['https://ftmscan.com'],nativeCurrency: {symbol:'FTM',decimals: 18}},
-            '269': 'hpb',
-            '288': 'boba',
-            '321': 'kucoin',
-            '336': 'shiden',
-            '361': 'theta',
-            '592': 'astar',
-            '820': 'callisto',
-            '888': 'wanchain',
-            '1088': 'metis',
-            '1284': 'moonbeam',
-            '1285': 'moonriver',
-            '2020': 'ronin',
-            '4689': 'iotex',
-            '5050': 'xlc',
-            '5551': 'nahmii',
-            '8217': 'klaytn',
-            '10000': 'smartbch',
-            '32659': 'fusion',
-            '42161': 'arbitrum',
-            '421611': {
-            chainId: '0x66EEB',
-            chainName:'arbitrum - testnet',
-            rpcUrls:["https://rinkeby.arbitrum.io/rpc"],
-            blockExplorerUrls:['https://rinkeby-explorer.arbitrum.io/#/'],
-            nativeCurrency: {symbol:'ETH',decimals: 18},
-            faucet: "https://docs.theanthill.io/how-to/getting-bnb-on-binance-smart-chain-bsc-testnet"
-            },
-            '42220': 'celo',
-            '42262': 'oasis',
-            '43114': 'avalanche',
-            '71394': 'godwoken',
-            '80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
-            faucet: "https://faucet.polygon.technology"},
-            '333999': 'polis',
-            '1313161554': 'aurora',
-            '1666600000': 'harmony',
-            '11297108109': 'palm',
-            '836542336838601': 'curio'
-            }
 
             var injectedVars = {
                 isValidObject:                  isValidObject,
