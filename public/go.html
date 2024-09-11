@@ -9763,7 +9763,6 @@
                                     mm.showProgressBar                  = showProgressBar
                                     mm.hideProgressBar                  = hideProgressBar
                                     mm.location                         = location
-                                    mm.maxTimelineLogPoint              = maxTimelineLogPoint
                                     mm.startTimelineTop                 = startTimelineTop
                                     mm.executionTimeline                = executionTimeline
                                     mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
@@ -9777,7 +9776,6 @@
                                     mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
                                     mm.timeDiffLater                    = Vue.inject('timeDiffLater')
                                     mm.location                         = Vue.inject('location')
-                                    mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')
                                     mm.startTimelineTop                 = Vue.inject('startTimelineTop')
                                     mm.executionTimeline                = Vue.inject('executionTimeline')
                                     mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
@@ -10952,6 +10950,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 isWin:                              null,
                 executionCode:                      new Object(),
                 currentTimelineLogPoint:            0,
+                maxTimelineLogPoint:                0,
 
 
                 //
@@ -10973,7 +10972,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var maxTimelineLogPoint             = 0
             var startTimelineTop                = 0
             var executionTimeline               = []
             var executionTimelineMapTimeToLine  = {}
@@ -11122,7 +11120,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 hideProgressBar:                hideProgressBar,
                 location:                       location,
                 executionCode:                  yz.executionCode,
-                maxTimelineLogPoint:            maxTimelineLogPoint,
                 startTimelineTop:               startTimelineTop,
                 executionTimeline:              executionTimeline,
                 executionTimelineMapTimeToLine: executionTimelineMapTimeToLine,
@@ -11468,7 +11465,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 //console.log("logExecutionPoint(" + codeBlockName + "," + line)
 
                 if (yz.executionCode[codeBlockName]) {
-                    yz.currentTimelineLogPoint = maxTimelineLogPoint ++
+                    yz.currentTimelineLogPoint = yz.maxTimelineLogPoint ++
 
                     var recor = { code_block_name:    codeBlockName,
                         line:               line,

@@ -2008,7 +2008,7 @@ ___________
 
                 yz.executionTimeline   = []
                executionTimelineMapTimeToLine   = {}
-               maxTimelineLogPoint = 0
+               yz.maxTimelineLogPoint = 0
                globalWatchList = {}
 
                this.current_execution_step = 0
@@ -2301,7 +2301,6 @@ ___________
                 mm.showProgressBar                  = showProgressBar
                 mm.hideProgressBar                  = hideProgressBar
                 mm.location                         = location
-                mm.maxTimelineLogPoint              = maxTimelineLogPoint
                 mm.startTimelineTop                 = startTimelineTop
                 mm.executionTimeline                = executionTimeline
                 mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
@@ -2313,7 +2312,6 @@ ___________
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
-                mm.maxTimelineLogPoint              = Vue.inject('maxTimelineLogPoint')
                 mm.startTimelineTop                 = Vue.inject('startTimelineTop')
                 mm.executionTimeline                = Vue.inject('executionTimeline')
                 mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
