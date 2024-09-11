@@ -9770,7 +9770,6 @@
                                     mm.executionTimeline                = executionTimeline
                                     mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
                                     mm.globalWatchList                  = globalWatchList
-                                    mm.saveCodeToFile                   = saveCodeToFile
                                 } else if (Vue.version.startsWith("3")) {
                                     mm.isValidObject                    = Vue.inject('isValidObject')
                                     mm.yz                               = Vue.inject('yz')
@@ -9787,7 +9786,6 @@
                                     mm.executionTimeline                = Vue.inject('executionTimeline')
                                     mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                                     mm.globalWatchList                  = Vue.inject('globalWatchList')
-                                    mm.saveCodeToFile                   = Vue.inject('saveCodeToFile')
                                 }
 
                                 globalEventBus.on('hide_settings',
@@ -10954,6 +10952,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 queuedBrowserResponseSeqNum:        0,
                 componentCallsListArgsSent:         new Object(),
                 uiDebuggerOn:                       false,
+                saveCodeToFile:                     null,
 
 
                 //
@@ -10975,7 +10974,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            var saveCodeToFile                  = null
             var isWin                           = null
             var executionCode                   = new Object()
             var currentTimelineLogPoint         = 0
@@ -11134,7 +11132,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 executionTimeline:              executionTimeline,
                 executionTimelineMapTimeToLine: executionTimelineMapTimeToLine,
                 globalWatchList:                globalWatchList,
-                saveCodeToFile:                 saveCodeToFile,
                 msToTime:                       msToTime,
                 capitalizeFirstLetter:          capitalizeFirstLetter,
                 timeDiffLater:                  timeDiffLater,
@@ -12266,7 +12263,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         code:       code,
                         options:    {
                                         save_html:              true,
-                                        save_code_to_file:      options.saveCodeToFile,
+                                        save_code_to_file:      options.saveCodeToFileOption,
                                         allowAppToWorkOffline:  options.allowAppToWorkOffline,
                                         allowChanges:           false
                                     }

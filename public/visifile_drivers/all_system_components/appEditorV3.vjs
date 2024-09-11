@@ -521,7 +521,7 @@ ___________
                                   style='height:35px; margin-right: 0px;'
                                   class='img-fluid' />
                                   
-                        {{saveCodeToFile?"Save":"Save"}}
+                        {{yz.saveCodeToFile?"Save":"Save"}}
                     </button>
 
 
@@ -541,7 +541,7 @@ ___________
                             v-bind:disabled='read_only?"":"false"'
                             v-bind:style="'padding:10px;;display: inline-block;width: 200px;margin-left:200px;margin-right: 6px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);visibility: ' + (code_shown?'':'hidden') + ';' + (read_only?'opacity:.3;':'')"
                     >
-                        {{saveCodeToFile?"Save":"App preview up to date"}}
+                        {{yz.saveCodeToFile?"Save":"App preview up to date"}}
                     </div>
 
                     <div    v-if="!read_only && (save_state == 'saving')"
@@ -982,7 +982,7 @@ ___________
                hideProgressBar:                 null,
                undo_list:                       [],
                sqlite_data_saved_in_html:       false,
-               file_save_state:                 (saveCodeToFile?saveCodeToFile:""),
+               file_save_state:                 (yz.saveCodeToFile?yz.saveCodeToFile:""),
                editor_shell_locked:             true,
                debug_pane_name:                 null,
                info_text:                       "",
@@ -1440,10 +1440,10 @@ ___________
                 // This is called to check the save status of the code
                 // ---------------------------------------------------------------
                 let mm = this
-                if (saveCodeToFile) {
-                    this.file_save_state = "Saved " + saveCodeToFile
+                if (yz.saveCodeToFile) {
+                    this.file_save_state = "Saved " + yz.saveCodeToFile
                     setTimeout(function(){
-                        mm.file_save_state = saveCodeToFile
+                        mm.file_save_state = yz.saveCodeToFile
                     },1000)
                 } else {
                     this.file_save_state = ""
@@ -1852,7 +1852,7 @@ ___________
                         ,
                         {
                             save_html:              true,
-                            save_code_to_file:      saveCodeToFile,
+                            save_code_to_file:      yz.saveCodeToFile,
                             allowAppToWorkOffline:  allowAppToWorkOffline,
                             allowChanges:           false
                         })
@@ -1874,7 +1874,7 @@ ___________
 
                     if (mm.app_shown) {
                         // if the app has been changed during the save then don't reload the app
-                        if (!saveCodeToFile) {
+                        if (!yz.saveCodeToFile) {
                             await mm.loadComponentIntoEditor({code: mm.editor_text, runThisApp: true})
 
                         } else {
@@ -2256,7 +2256,7 @@ ___________
             pendingFn:                      function        (  ) {
                 let mm = this
                 mm.save_state = "pending"
-                mm.file_save_state = (saveCodeToFile?saveCodeToFile:"")
+                mm.file_save_state = (yz.saveCodeToFile?yz.saveCodeToFile:"")
             },
             savedFn:                        function        (  ) {
                 let mm = this
@@ -2308,7 +2308,6 @@ ___________
                 mm.executionTimeline                = executionTimeline
                 mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
                 mm.globalWatchList                  = globalWatchList
-                mm.saveCodeToFile                   = saveCodeToFile
 
             } else if (Vue.version.startsWith("3")) {
                 mm.isValidObject                    = Vue.inject('isValidObject')
@@ -2323,7 +2322,6 @@ ___________
                 mm.executionTimeline                = Vue.inject('executionTimeline')
                 mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                 mm.globalWatchList                  = Vue.inject('globalWatchList')
-                mm.saveCodeToFile                   = Vue.inject('saveCodeToFile')
                 mm.msToTime                         = Vue.inject('msToTime')
             }
 

@@ -566,7 +566,6 @@ pane_release_description:               {{pane_release_description}}
                 mm.executionTimeline                = executionTimeline
                 mm.executionTimelineMapTimeToLine   = executionTimelineMapTimeToLine
                 mm.globalWatchList                  = globalWatchList
-                mm.saveCodeToFile                   = saveCodeToFile
 
             } else if (Vue.version.startsWith("3")) {
                 mm.isValidObject                    = Vue.inject('isValidObject')
@@ -581,7 +580,6 @@ pane_release_description:               {{pane_release_description}}
                 mm.executionTimeline                = Vue.inject('executionTimeline')
                 mm.executionTimelineMapTimeToLine   = Vue.inject('executionTimelineMapTimeToLine')
                 mm.globalWatchList                  = Vue.inject('globalWatchList')
-                mm.saveCodeToFile                   = Vue.inject('saveCodeToFile')
                 mm.msToTime                         = Vue.inject('msToTime')
 
 

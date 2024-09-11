@@ -851,7 +851,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.editingCodeId                = null
                             mm.open_file_name               = ""
                             mm.open_file_path               = "/"
-                            saveCodeToFile                  = null
+                            yz.saveCodeToFile                  = null
                             globalEventBus.emit('show_settings', {});
                             mm.refresh++
                         }
@@ -874,7 +874,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.editingCodeId                    = null
                             mm.open_file_name                   = ""
                             mm.open_file_path                   = "/"
-                            saveCodeToFile                      = null
+                            yz.saveCodeToFile                      = null
                             globalEventBus.emit('show_settings', {});
 
                             setTimeout(async function() {
@@ -908,7 +908,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.editingCodeId            = null
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
-                            saveCodeToFile              = null
+                            yz.saveCodeToFile              = null
                             globalEventBus.emit('show_settings', {});
 
                             setTimeout(function() {
@@ -947,7 +947,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.editingCodeId                = null
                             mm.open_file_name               = ""
                             mm.open_file_path               = "/"
-                            saveCodeToFile                  = null
+                            yz.saveCodeToFile                  = null
                             globalEventBus.emit('show_settings', {});
 
                             setTimeout(async function() {
@@ -980,7 +980,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             mm.editingCodeId            = null
                             mm.open_file_name           = ""
                             mm.open_file_path           = "/"
-                            saveCodeToFile              = null
+                            yz.saveCodeToFile              = null
                             globalEventBus.emit('show_settings', {});
 
                             setTimeout(function() {
@@ -1154,10 +1154,10 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
 
                         //alert(this.open_file_name)
-                        saveCodeToFile = this.open_file_name
+                        yz.saveCodeToFile = this.open_file_name
 
                         yz.file_upload_uuid = uuidv4()
-                        let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(saveCodeToFile) + "&client_file_upload_id=" + encodeURI(yz.file_upload_uuid)
+                        let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(yz.saveCodeToFile) + "&client_file_upload_id=" + encodeURI(yz.file_upload_uuid)
                         //console.log("openfileurl:= " + openfileurl)
                         callAjax( openfileurl,
                             function(res) {
@@ -1238,7 +1238,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     |
                     |     NONE
                     |________________________________________________________________________ */
-                    saveCodeToFile = null
+                    yz.saveCodeToFile = null
                     document.getElementById("uploadfilefromhomepage").click();
                 },
                 submitFormAjax:                     function        ( ) {
@@ -1444,7 +1444,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     let mm                = this
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
-                    saveCodeToFile        = null
+                    yz.saveCodeToFile        = null
 
                     let result = (await sqliteQuery(
                         `select  
@@ -1495,7 +1495,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
-                    saveCodeToFile        = null
+                    yz.saveCodeToFile        = null
 
                     let result = await getFromYazzReturnJson("/http_get_copy_component",
                         {
@@ -1559,7 +1559,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     let mm                = this
                     this.open_file_name   = ""
                     this.open_file_path   = "/"
-                    saveCodeToFile        = null
+                    yz.saveCodeToFile        = null
 
                     let result = (await sqliteQuery(
                         `select  
