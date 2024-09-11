@@ -10950,6 +10950,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 useHostname:                        null,
                 usePort:                            null,
                 globalEventBus:                     mitt(),
+                newAppArgs:                         [],
 
 
                 //
@@ -10971,7 +10972,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            let newAppArgs                      = []
             var socket                          = null;
             var staticAppSocket
             var appIntervalTimers               = []
@@ -11291,9 +11291,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 yz.base_component_id_of_loaded_app = bbase_component_id
 
                 if ((mainVueAppVm.loadedAppMetaData.base_component_id != yz.base_component_id_of_loaded_app) ||
-                    (!newAppArgs[id]))
+                    (!yz.newAppArgs[id]))
                 {
-                    newAppArgs[id] = args
+                    yz.newAppArgs[id] = args
                 }
 
                 //
