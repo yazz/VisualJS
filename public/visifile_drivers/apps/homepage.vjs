@@ -1156,7 +1156,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         //alert(this.open_file_name)
                         yz.saveCodeToFile = this.open_file_name
 
-                        yz.file_upload_uuid = uuidv4()
+                        yz.file_upload_uuid = yz.uuidv4()
                         let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(yz.saveCodeToFile) + "&client_file_upload_id=" + encodeURI(yz.file_upload_uuid)
                         //console.log("openfileurl:= " + openfileurl)
                         yz.callAjax( openfileurl,

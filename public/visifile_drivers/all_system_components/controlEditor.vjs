@@ -6,7 +6,7 @@ hash_algorithm("SHA256")
 load_once_from_file(true)
 */
 
-    let editorDomId     = uuidv4()
+    let editorDomId     = yz.uuidv4()
     let editor          = null
 
 

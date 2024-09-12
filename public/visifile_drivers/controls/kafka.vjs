@@ -310,7 +310,7 @@ logo_url("/driver_icons/kafka.png")
             changedFn: function() {
                 let mm = this
                 if (isValidObject(mm.args)) {
-                    mm.args.changed = uuidv4()
+                    mm.args.changed = yz.uuidv4()
                 }
             }
 

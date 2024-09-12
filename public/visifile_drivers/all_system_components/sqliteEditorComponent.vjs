@@ -6,7 +6,7 @@ hash_algorithm("SHA256")
 load_once_from_file(true)
 */
 
-    let newEditorDomId     = uuidv4()
+    let newEditorDomId     = yz.uuidv4()
 
     Yazz.component( {
         data:       function () {

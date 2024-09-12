@@ -462,7 +462,7 @@ return sdf
                   mm.properties.previous_version_content_hash =  mm.properties.ipfs_hash_id
                   //let  newComponentType = mm.compiledContractName + "_component"
                   //let  newComponentType = "sc_" + instance.options.address
-                  let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
+                  let  newComponentType = "sc_" + ("" + yz.uuidv4()).replaceAll("-","_")
                   debugger
                   //debugger
                   yz.callAjaxPost("/http_post_generate_component",

@@ -169,7 +169,7 @@
                         mm.runtimeFormsInfo[formName].component_lookup_by_name[cc.name] = cc
                     }
                     if (!cc.uuid) {
-                        cc.uuid = uuidv4()
+                        cc.uuid = yz.uuidv4()
                         mm.refresh ++
                     }
                     mm.runtimeComponentsInfo.UiControlsByUuidPointingToAppModel[cc.uuid] = cc
@@ -6060,9 +6060,9 @@ return {}
                             delete_design_time_component:     mm.delete_design_time_component,
                             select_design_time_component:     mm.select_design_time_component
                         }
-                    mm.unique_app_dom_element_id    = uuidv4()
-                    mm.vb_grid_element_id           = "vb_grid_" + uuidv4()
-                    mm.vb_editor_element_id         = "vb_editor_" + uuidv4()
+                    mm.unique_app_dom_element_id    = yz.uuidv4()
+                    mm.vb_grid_element_id           = "vb_grid_" + yz.uuidv4()
+                    mm.vb_editor_element_id         = "vb_editor_" + yz.uuidv4()
                     mm.in_change_model              = true
 
 

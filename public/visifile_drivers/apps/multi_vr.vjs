@@ -87,7 +87,7 @@ template: `<div style='width:100%;height:100%;padding:20px;background-color:whit
 data: function() {
     return {
         items: [],
-        session_id: uuidv4(),
+        session_id: yz.uuidv4(),
         new_item: "",
         your_name: "",
         maxid: -1,

@@ -10439,7 +10439,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             sending:                function(file, xhr, formData)
                             {
                                 showProgressBar()
-                                yz.file_upload_uuid = uuidv4()
+                                yz.file_upload_uuid = yz.uuidv4()
                                 formData.append('client_file_upload_id', yz.file_upload_uuid);
                             }
                         });
@@ -11760,6 +11760,12 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 })
                 xhr.send(payload);
             },
+                uuidv4:                             function                    (  ) {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            },
 
 
 
@@ -11786,12 +11792,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            function        uuidv4                              (  ) {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                    return v.toString(16);
-                });
-            }
 
             async function  scriptTag                           (  src  ,  callback  ) {
 

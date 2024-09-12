@@ -125,7 +125,7 @@ logo_url("/driver_icons/chart.png")
                  items:             [],
                  new_value:         "",
                  new_text:          "",
-                 canvasId:           uuidv4(),
+                 canvasId:           yz.uuidv4(),
                  myChart:           null,
             }
         },
