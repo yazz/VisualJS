@@ -343,7 +343,7 @@ logo_url("/driver_icons/threedee_item.png")
                     mm.keyboardEnabled = false
                    })
 
-                appSetInterval(function(){
+                yz.appSetInterval(function(){
                     if (AFRAME.utils.device.checkHeadsetConnected()) {
                         mm.headsetConnected = true
                     } else {

@@ -116,7 +116,7 @@ mounted: async function() {
     //alert(JSON.stringify(this.items,null,2))
     let mm= this
     sql("insert into level_4_sessions (session_id) values (?)",[this.session_id])
-    appSetInterval(async function(){
+    yz.appSetInterval(async function(){
         console.log(1)
         let ret1 = sql("select max(id) as max from events")
         if (mm.maxid != ret1[0].max) {
