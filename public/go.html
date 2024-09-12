@@ -11559,6 +11559,35 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
+                getFromYazzReturnJson:              async function              (  urlToget  ,  urlParams  ) {
+                    let urlParamsWithoutNulls = {}
+                    for (let paramItemKey of Object.keys(urlParams)) {
+                        if (isValidObject(urlParams[paramItemKey])) {
+                            urlParamsWithoutNulls[  paramItemKey  ] = urlParams[paramItemKey]
+                        }
+                    }
+                    let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget + "?" +
+                        new URLSearchParams(urlParamsWithoutNulls)
+
+                    let promise = new Promise(async function (returnfn) {
+                        fetch(openfileurl, {
+                            method: 'get',
+                            credentials: "include"
+                        })
+                            .then((response) => response.json())
+                            .then(async function (responseJson) {
+                                returnfn(responseJson)
+                            })
+                            .catch(err => {
+                                //error block
+                                returnfn()
+                            })
+                    })
+                    retval = await promise
+                    return retval
+                },
+
+
                 //simple helpers
                 compareValues:                      function                    (  a  ,  b  ) {
 
@@ -11669,33 +11698,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            async function  getFromYazzReturnJson               (  urlToget  ,  urlParams  ) {
-                let urlParamsWithoutNulls = {}
-                for (let paramItemKey of Object.keys(urlParams)) {
-                    if (isValidObject(urlParams[paramItemKey])) {
-                        urlParamsWithoutNulls[  paramItemKey  ] = urlParams[paramItemKey]
-                    }
-                }
-                let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget + "?" +
-                    new URLSearchParams(urlParamsWithoutNulls)
-
-                let promise = new Promise(async function (returnfn) {
-                    fetch(openfileurl, {
-                        method: 'get',
-                        credentials: "include"
-                    })
-                        .then((response) => response.json())
-                        .then(async function (responseJson) {
-                            returnfn(responseJson)
-                        })
-                        .catch(err => {
-                            //error block
-                            returnfn()
-                        })
-                })
-                retval = await promise
-                return retval
-            }
             async function  postToYazzReturnJson                (  urlToget  ,  postParams  ) {
                 let openfileurl = "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST + urlToget
 

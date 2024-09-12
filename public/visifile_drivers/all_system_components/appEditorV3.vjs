@@ -1491,7 +1491,7 @@ ___________
                     copyArgs.code_id = codeId
                 }
 
-                let result = await getFromYazzReturnJson("/http_get_copy_component",copyArgs)
+                let result = await yz.getFromYazzReturnJson("/http_get_copy_component",copyArgs)
                 if (isValidObject(result)) {
                     yz.globalEventBus.emit('message', {
                         type:               "insert_editable_component_on_homepage",

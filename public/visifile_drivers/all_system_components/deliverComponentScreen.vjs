@@ -1025,7 +1025,7 @@ pane_release_description:               {{pane_release_description}}
                 let mm = this
                 mm.showCode='commit'
 
-                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.selectedCommitId})
+                let responseJson = await yz.getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.selectedCommitId})
                 mm.commitCode = responseJson.code
             },
             pane_history_showDetails:                       async function (  ) {
@@ -1048,9 +1048,9 @@ pane_release_description:               {{pane_release_description}}
                 if (!parentid) {
                     return
                 }
-                let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: commitId})
+                let responseJson = await yz.getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: commitId})
                 mm.commitCode = responseJson.code
-                let responseJson2 = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: parentid})
+                let responseJson2 = await yz.getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: parentid})
                 mm.parentCommitCode = responseJson2.code
 
 
@@ -1259,7 +1259,7 @@ pane_release_description:               {{pane_release_description}}
             },
             pane_history_calculateBranchStrength:           async function (  ) {
                 let mm = this
-                let responseJson = await getFromYazzReturnJson(
+                let responseJson = await yz.getFromYazzReturnJson(
                     "/http_get_bulk_calculate_branch_strength_for_component",
                     {
                         commit_id:          mm.selectedCommitId,
@@ -1268,7 +1268,7 @@ pane_release_description:               {{pane_release_description}}
             },
             pane_history_checkoutCode:                      async function (  ) {
                 let mm              = this
-                let responseJson    = await getFromYazzReturnJson(
+                let responseJson    = await yz.getFromYazzReturnJson(
                     "/http_get_load_code_commit",
                     {
                         commit_id: mm.selectedCommitId
@@ -1282,7 +1282,7 @@ pane_release_description:               {{pane_release_description}}
 
                 await mm.editor_fns.force_raw_load({commitId:  mm.selectedCommitId  })
 
-                let responseJson2 = await getFromYazzReturnJson(
+                let responseJson2 = await yz.getFromYazzReturnJson(
                     "/http_get_point_edit_marker_at_commit"
                     ,
                     {

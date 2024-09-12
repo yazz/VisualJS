@@ -797,7 +797,7 @@ load_once_from_file(true)
             let mm = this
             mm.showCode='commit'
 
-            let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
+            let responseJson = await yz.getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.previewedCommitId})
             mm.commitCode = responseJson.code
         }
         ,
@@ -816,7 +816,7 @@ load_once_from_file(true)
              //debugger
              let mm = this
              //alert("Checking out commit: " + mm.lockedSelectedCommit)
-             let responseJson = await getFromYazzReturnJson(
+             let responseJson = await yz.getFromYazzReturnJson(
                                         "/http_get_bulk_calculate_branch_strength_for_component",
                                         {
                                             commit_id:          mm.lockedSelectedCommit,
@@ -844,12 +844,12 @@ load_once_from_file(true)
 
              let mm = this
 
-             let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
+             let responseJson = await yz.getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: mm.lockedSelectedCommit})
              mm.text = responseJson.code
 
              await mm.meta.getEditor().force_raw_loadFn({commitId: mm.lockedSelectedCommit})
 
-             let responseJson2 = await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
+             let responseJson2 = await yz.getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
                 {
                     sha1sum:            mm.lockedSelectedCommit,
                     baseComponentId:    mm.baseComponentId
@@ -875,9 +875,9 @@ load_once_from_file(true)
             if (!parentid) {
                 return
             }
-            let responseJson = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: commitId})
+            let responseJson = await yz.getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: commitId})
             mm.commitCode = responseJson.code
-            let responseJson2 = await getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: parentid})
+            let responseJson2 = await yz.getFromYazzReturnJson("/http_get_load_code_commit", {commit_id: parentid})
             mm.parentCommitCode = responseJson2.code
 
 

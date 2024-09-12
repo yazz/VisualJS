@@ -1455,7 +1455,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             id = '${contentHash}'`))[0]
 
 
-                    await getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
+                    await yz.getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
                         {
                             sha1sum:            contentHash,
                             baseComponentId:    result.base_component_id
@@ -1497,7 +1497,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     this.open_file_path   = "/"
                     yz.saveCodeToFile        = null
 
-                    let result = await getFromYazzReturnJson("/http_get_copy_component",
+                    let result = await yz.getFromYazzReturnJson("/http_get_copy_component",
                         {
                             base_component_id:  baseComponentId,
                             code_id:            codeId?codeId:""
