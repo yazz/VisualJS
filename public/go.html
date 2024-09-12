@@ -11253,6 +11253,24 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 },
 
+                // Simple web UI helpers
+                onscrolled:                         function          (  ) {
+                    if (yz.mainVars.mousedown) {
+                    yz.mainVars.autoScroll = false;
+                    }
+                },
+                onemousedown:                       function  (  ) {
+                    //console.log("onmousedown")
+                    yz.mainVars.mousedown = true
+                },
+                onemouseup:                         function          (  ) {
+                    //console.log("onmouseup")
+                    yz.mainVars.mousedown = false
+                },
+                refresh:                            function            (  ) {
+                    mainVueAppVm.count += 1;
+                },
+
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
                 // "DO NOT" change this line as it is dynamically replaced by code
@@ -11269,6 +11287,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             var msToTime                = yz.msToTime
             var capitalizeFirstLetter   = yz.capitalizeFirstLetter
             var timeDiffLater           = yz.timeDiffLater
+            var refresh                 = yz.refresh
 
 
 
@@ -11277,23 +11296,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            // Simple web UI helpers
-            function        onscrolled                          (  ) {
-                if (yz.mainVars.mousedown) {
-                    yz.mainVars.autoScroll = false;
-                }
-            };
-            function        onemousedown                        (  ) {
-                //console.log("onmousedown")
-                yz.mainVars.mousedown = true
-            };
-            function        onemouseup                          (  ) {
-                //console.log("onmouseup")
-                yz.mainVars.mousedown = false
-            };
-            function        refresh                             (  ) {
-                mainVueAppVm.count += 1;
-            }
 
 
             //debug helpers
@@ -12121,10 +12123,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
         <div    id='wrapper'
-                onscroll='onscrolled()'
-                onmousedown='onemousedown()'
-                onmouseup='onemouseup()'
-                onwheel='onemousedown()'     >
+                onscroll='yz.onscrolled()'
+                onmousedown='yz.onemousedown()'
+                onmouseup='yz.onemouseup()'
+                onwheel='yz.onemousedown()'     >
 
             <div    id='infinite-list'
                     style='overflow-y: none;' >
