@@ -8925,7 +8925,7 @@
                         let addP = "'" + codeId + "', '" + useDb + "', "
                         if (localAppshareApp && ((component_type == "APP") || (component_type == "SYSTEM"))) {
                             if (sqlitedata) {
-                                let b = base64ToUint8Array(sqlitedata)
+                                let b = yz.base64ToUint8Array(sqlitedata)
                                 yz.mainVars.localSqliteDb = new SQL.Database(b);
                             } else {
                                 let eds = yz.helpers.getValueOfCodeString(code, "sqlite",")//sqlite")
@@ -11786,6 +11786,15 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     // use body if available. more safe in IE
                     (document.body || head).appendChild(s);
                 },
+                base64ToUint8Array:                 function                    (  string  ) {
+                let raw = atob(string);
+                let rawLength = raw.length;
+                let array = new Uint8Array(new ArrayBuffer(rawLength));
+                for (let i = 0; i < rawLength; i += 1) {
+                    array[i] = raw.charCodeAt(i);
+                }
+                return array;
+            },
 
 
 
@@ -11837,15 +11846,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName].after = varValue
                     }
                 }
-            }
-            function        base64ToUint8Array                  (  string  ) {
-                let raw = atob(string);
-                let rawLength = raw.length;
-                let array = new Uint8Array(new ArrayBuffer(rawLength));
-                for (let i = 0; i < rawLength; i += 1) {
-                    array[i] = raw.charCodeAt(i);
-                }
-                return array;
             }
 
             //login helpers
