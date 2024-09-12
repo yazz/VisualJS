@@ -11928,9 +11928,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 yz.mainVars.localSqliteDb = new window.SQL.Database()
             }
             String.prototype.replaceAll = function(search, replacement) {
-            let target = this;
-            return target.replace(new RegExp(search, 'g'), replacement);
-        };
+                let target = this;
+                return target.replace(new RegExp(search, 'g'), replacement);
+            };
         </script> <!-- variable declarations -->
         <script>
         //SQLITE
@@ -11961,6 +11961,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
         });
 
         </script> <!-- jsDelivr -->
+        <script>
+            (async function() {
+                await yz.populateStaticCodeCache()
+                setTimeout(
+                    yz.setupAlaSqlSync, 1000 )
+            })()
+
+        </script> <!-- Startup code -->
         <script>
             /*
             creates the following:
@@ -12063,14 +12071,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
             */
 
-            (async function() {
-                await yz.populateStaticCodeCache()
-
-
-                console.log("Start debugger")
-                setTimeout(
-                    yz.setupAlaSqlSync, 1000 )
-
                 /*
                  Here are what is used to execute code:
                     yz.queuedBrowserResponseSeqNum     - ascending counter used to identify requests send via web sockets to the server
@@ -12101,10 +12101,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                  */
 
-
-            })()
-
-        </script> <!-- main code and functions -->
+        </script> <!-- Comments on how VisualJS works -->
 
     </head>
     <body onload='yz.initSystem()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
