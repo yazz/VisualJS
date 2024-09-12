@@ -11902,13 +11902,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             var timeDiffLater           = yz.timeDiffLater
             var refresh                 = yz.refresh
 
-
-
-
-
-
-
-
             var injectedVars = {
                 isValidObject:                  isValidObject,
                 yz:                             yz,
@@ -11922,15 +11915,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
             }
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
-
-
-            if (window.SQL) {
-                yz.mainVars.localSqliteDb = new window.SQL.Database()
-            }
             String.prototype.replaceAll = function(search, replacement) {
                 let target = this;
                 return target.replace(new RegExp(search, 'g'), replacement);
             };
+
         </script> <!-- variable declarations -->
         <script>
         //SQLITE
@@ -11962,6 +11951,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
         </script> <!-- jsDelivr -->
         <script>
+            if (window.SQL) {
+                yz.mainVars.localSqliteDb = new window.SQL.Database()
+            }
             (async function() {
                 await yz.populateStaticCodeCache()
                 setTimeout(
