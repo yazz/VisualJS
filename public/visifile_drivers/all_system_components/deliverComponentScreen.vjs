@@ -729,7 +729,7 @@ pane_release_description:               {{pane_release_description}}
                 showProgressBar()
 
                 let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_commit_code"
-                callAjaxPost(postAppUrl,
+                yz.callAjaxPost(postAppUrl,
                     {
                         code_id:                mm.codeId,
                         user_id:                "xyz",
@@ -1309,7 +1309,7 @@ pane_release_description:               {{pane_release_description}}
                 showProgressBar()
 
                 let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_promote_to_environment"
-                callAjaxPost(postAppUrl,
+                yz.callAjaxPost(postAppUrl,
                     {
                         code_id:                mm.codeId,
                         user_id:                "xyz",
@@ -1350,7 +1350,7 @@ pane_release_description:               {{pane_release_description}}
                     showProgressBar()
 
                     let postAppUrl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_release_commit"
-                    callAjaxPost(postAppUrl,
+                    yz.callAjaxPost(postAppUrl,
                         {
                             code_id:                  mm.codeId
                             ,

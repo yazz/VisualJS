@@ -465,7 +465,7 @@ return sdf
                   let  newComponentType = "sc_" + ("" + uuidv4()).replaceAll("-","_")
                   debugger
                   //debugger
-                  callAjaxPost("/http_post_generate_component",
+                  yz.callAjaxPost("/http_post_generate_component",
                   {
                        relative_filename_to_copy:    "controls/evm_contract.js"
                        ,
