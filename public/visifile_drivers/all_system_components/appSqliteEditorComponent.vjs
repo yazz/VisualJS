@@ -993,9 +993,9 @@ use_db("todo")
                 let mm = this
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                await sqlRx(codeId, baseComponentId,
+                await yz.sqlRx(codeId, baseComponentId,
                     "insert into " + mm.pane_home_selectedTable + " DEFAULT VALUES")
-                mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                mm.pane_home_data_rows = await yz.sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                 //mm.pane_home_data_rows = sql("select id,name from items")
                 if (mm.pane_home_tabulator) {
                     mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
@@ -1009,9 +1009,9 @@ use_db("todo")
                     let rowId = selectedData[0].id
                     let codeId = await mm.getCurrentCommitId()
                     let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                    await sqlRx(codeId, baseComponentId,
+                    await yz.sqlRx(codeId, baseComponentId,
                         "delete from " + mm.pane_home_selectedTable + " where  id = " + rowId)
-                    mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                    mm.pane_home_data_rows = await yz.sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                     //mm.pane_home_data_rows = sql("select id,name from items")
                     if (mm.pane_home_tabulator) {
                         mm.pane_home_tabulator.setData(mm.pane_home_data_rows)
@@ -1212,7 +1212,7 @@ use_db("todo")
                                 let updateSql = "update " + mm.pane_home_selectedTable + " set " + fieldName + " = ? " +
                                                 " where id = ?"
 
-                                let ret = await sqlRx(codeId, baseComponentId, updateSql, [ newValue , rowData.id ])
+                                let ret = await yz.sqlRx(codeId, baseComponentId, updateSql, [ newValue , rowData.id ])
                             });
                             window.dbEditorWindow = mm
                             returnfn()
@@ -1246,7 +1246,7 @@ use_db("todo")
                 setTimeout(async function ( ) {
                     let codeId = await mm.getCurrentCommitId()
                     let baseComponentId = yz.helpers.getValueOfCodeString(mm.text, "base_component_id")
-                    mm.pane_home_data_rows = await sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
+                    mm.pane_home_data_rows = await yz.sqlRx(codeId, baseComponentId, "select * from " + mm.pane_home_selectedTable)
                     //mm.pane_home_data_rows      = sql("select id,name from items")
 
                     if (mm.pane_home_tabulator) {
@@ -1442,7 +1442,7 @@ use_db("todo")
                 mm.pane_sql_message = null
                 let codeId = await mm.getCurrentCommitId()
                 let baseComponentId = yz.helpers.getValueOfCodeString(mm.text,"base_component_id")
-                let results = await sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
+                let results = await yz.sqlRx(  codeId  ,  baseComponentId  ,  mm.pane_sql_query  )
                 if (mm.pane_sql_tabulator != null) {
                     mm.pane_sql_tabulator = null
                     let parentEl = document.getElementById("pane_sql_db_editor_grid_view_parent")

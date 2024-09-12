@@ -1415,7 +1415,7 @@
                 let baseComponentId = yz.helpers.getValueOfCodeString(thisCode,"base_component_id")
                 //let baseComponentId =  window.yz.base_component_id_of_loaded_app
 
-                let rowsReturned = await sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
+                let rowsReturned = await yz.sqlRx(  codeId  ,  baseComponentId  ,  sql  ,  params  )
                 return rowsReturned
             },
             runEvent:                               async function  (  args  ) {
