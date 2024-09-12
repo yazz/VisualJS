@@ -11121,6 +11121,17 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     return resOut
                 }
             },
+                sqliteQuery:                        async function              (  sql  ) {
+                    let results = await yz.callComponent(
+                        {
+                            base_component_id:    "readFromInternalSqliteDatabase"
+                        }
+                        ,
+                        {
+                            sql: sql
+                        })
+                    return results
+                },
 
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
@@ -11143,17 +11154,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            async function  sqliteQuery                         (  sql  ) {
-                let results = await yz.callComponent(
-                    {
-                        base_component_id:    "readFromInternalSqliteDatabase"
-                    }
-                    ,
-                    {
-                        sql: sql
-                    })
-                return results
-            }
             async function  sqlRx                               (  code_id  ,  base_component_id  ,  sqlcode  ,  params  ) {
                 if (localAppshareApp) {
                     let results = yz.localSql(sqlcode,params)

@@ -1347,7 +1347,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     |________________________________________________________________________ */
                     let mm = this
 
-                    let results2 = await sqliteQuery(
+                    let results2 = await yz.sqliteQuery(
                         `select  
                             base_component_id,  
                             logo_url   
@@ -1446,7 +1446,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     this.open_file_path   = "/"
                     yz.saveCodeToFile        = null
 
-                    let result = (await sqliteQuery(
+                    let result = (await yz.sqliteQuery(
                         `select  
                             base_component_id  
                         from  
@@ -1561,7 +1561,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     this.open_file_path   = "/"
                     yz.saveCodeToFile        = null
 
-                    let result = (await sqliteQuery(
+                    let result = (await yz.sqliteQuery(
                         `select  
                             id,
                             base_component_id,  

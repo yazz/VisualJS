@@ -1589,7 +1589,7 @@ ___________
                 try {
                     // ******** load app from commit ID  **************
                     if (codeId) {
-                        results = await sqliteQuery(
+                        results = await yz.sqliteQuery(
                             `select
                                 id, 
                                 cast(code as text)  as  code, 
@@ -1660,7 +1660,7 @@ ___________
                     } else {
                         mm.base_component_id     = baseComponentId
                         // ******  read the code for the component that we are editing ********
-                        results = await sqliteQuery(
+                        results = await yz.sqliteQuery(
                             `select
                                     level_2_system_code.id, cast(level_2_system_code.code as text)  as  code, level_2_system_code.editors
                                  from
@@ -1670,7 +1670,7 @@ ___________
                                            and
                                         level_2_system_code.id = level_2_released_components.content_hash `)
                         if (!results || results.length == 0) {
-                            results = await sqliteQuery(
+                            results = await yz.sqliteQuery(
                                 `select
                                     id, cast(code as text)  as  code, editors
                                  from
